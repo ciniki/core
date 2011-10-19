@@ -11,10 +11,10 @@
 //
 // Arguments
 // ---------
-// moss:				
+// ciniki:				
 // user_agent:			The user_agent string to search for.
 // 
-function moss_core_userAgentAdd($moss, $device) {
+function ciniki_core_userAgentAdd($ciniki, $device) {
 	//
 	// Check device is setup properly
 	//
@@ -42,22 +42,22 @@ function moss_core_userAgentAdd($moss, $device) {
 		. "browser, browser_version, "
 		. "device, device_version, device_manufacturer, "
 		. "date_added, last_updated) VALUES ( "
-		. "'" . moss_core_dbQuote($moss, $device['user_agent']) . "', "
-		. "'" . moss_core_dbQuote($moss, $device['type_status']) . "', "
-		. "'" . moss_core_dbQuote($moss, $device['size']) . "', "
-		. "'" . moss_core_dbQuote($moss, $device['flags']) . "', ";
-	require_once($moss['config']['core']['modules_dir'] . '/core/private/dbQuote.php');
-	require_once($moss['config']['core']['modules_dir'] . '/core/private/dbInsert.php');
+		. "'" . ciniki_core_dbQuote($ciniki, $device['user_agent']) . "', "
+		. "'" . ciniki_core_dbQuote($ciniki, $device['type_status']) . "', "
+		. "'" . ciniki_core_dbQuote($ciniki, $device['size']) . "', "
+		. "'" . ciniki_core_dbQuote($ciniki, $device['flags']) . "', ";
+	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbQuote.php');
+	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbInsert.php');
 	foreach(array('engine', 'engine_version', 'os', 'os_version', 
 		'browser', 'browser_version', 'device', 'device_version', 'device_manufacturer') 
 		as $field) {
 		if( isset($device[$field]) && $device[$field] != '' ) {
-			$strsql .= "'" . moss_core_dbQuote($moss, $device[$field]) . "',";
+			$strsql .= "'" . ciniki_core_dbQuote($ciniki, $device[$field]) . "',";
 		} else {
 			$strsql .= "'',";
 		}
 	}
 	$strsql .= "UTC_TIMESTAMP(), UTC_TIMESTAMP())";
-	return moss_core_dbInsert($moss, $strsql, 'core');
+	return ciniki_core_dbInsert($ciniki, $strsql, 'core');
 }
 ?>

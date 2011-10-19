@@ -13,21 +13,21 @@
 // ---------
 // api_key:			
 //
-function moss_core_checkAPIKey($moss) {
+function ciniki_core_checkAPIKey($ciniki) {
 	//
 	// Required functions
 	//
-	require($moss['config']['core']['root_dir'] . '/moss-modules/core/private/dbQuote.php');
-	require($moss['config']['core']['root_dir'] . '/moss-modules/core/private/dbRspQuery.php');
+	require($ciniki['config']['core']['root_dir'] . '/ciniki-modules/core/private/dbQuote.php');
+	require($ciniki['config']['core']['root_dir'] . '/ciniki-modules/core/private/dbRspQuery.php');
 
-	if( !isset($moss['request']['api_key']) ) {
-		return array('stat'=>'fail', 'err'=>array('code'=>'17', 'msg'=>'Internal Error', 'pmsg'=>"moss_core_checkAPIKey called before moss_core_init."));
+	if( !isset($ciniki['request']['api_key']) ) {
+		return array('stat'=>'fail', 'err'=>array('code'=>'17', 'msg'=>'Internal Error', 'pmsg'=>"ciniki_core_checkAPIKey called before ciniki_core_init."));
 	}
 
 	$strsql = "SELECT api_key, status, perms FROM core_api_keys "
-		. "WHERE api_key = '" . moss_core_dbQuote($moss, $moss['request']['api_key']) . "' "
+		. "WHERE api_key = '" . ciniki_core_dbQuote($ciniki, $ciniki['request']['api_key']) . "' "
 		. "AND status = 1 AND (expiry_date = 0 OR UTC_TIMESTAMP() < expiry_date)";
 
-	return moss_core_dbRspQuery($moss, $strsql, 'core', 'api_key', '', array('stat'=>'fail', 'err'=>array('code'=>'7', 'msg'=>'Invalid API Key')));
+	return ciniki_core_dbRspQuery($ciniki, $strsql, 'core', 'api_key', '', array('stat'=>'fail', 'err'=>array('code'=>'7', 'msg'=>'Invalid API Key')));
 }
 ?>

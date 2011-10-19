@@ -14,11 +14,11 @@
 // ---------
 // user_id: 		The user making the request
 //
-function moss_core_dbQuoteList($moss, $arr) {
+function ciniki_core_dbQuoteList($ciniki, $arr) {
 
-	require_once($moss['config']['core']['modules_dir'] . '/core/private/dbConnect.php');
+	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbConnect.php');
 
-	$rc = moss_core_dbConnect($moss, 'core');
+	$rc = ciniki_core_dbConnect($ciniki, 'core');
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
 	}

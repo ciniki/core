@@ -13,7 +13,7 @@
 // 
 //
 //
-function moss_core_getModuleList($moss) {
+function ciniki_core_getModuleList($ciniki) {
 
 	return array(
 		array('label'=>'Customers', 'name'=>'customers',			'installed'=>'Yes', 'active'=>'No', 'bits'=>0x0001),

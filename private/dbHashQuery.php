@@ -10,19 +10,19 @@
 //
 // Arguments
 // ---------
-// moss:			The moss data structure.
+// ciniki:			The ciniki data structure.
 // strsql: 			The SQL string to query the database.
 // module:			The module name the query is acting on.
 // container_name:	The name of the xml/hash tag to return the data under, 
 //					when there is only one row returned.
 //
-function moss_core_dbHashQuery($moss, $strsql, $module, $container_name) {
+function ciniki_core_dbHashQuery($ciniki, $strsql, $module, $container_name) {
 	//
 	// Open a connection to the database if one doesn't exist.  The
 	// dbConnect function will return an open connection if one 
 	// exists, otherwise open a new one
 	//
-	$rc = moss_core_dbConnect($moss, $module);
+	$rc = ciniki_core_dbConnect($ciniki, $module);
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
 	}

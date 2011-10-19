@@ -11,7 +11,7 @@
 // Arguments
 // ---------
 //
-function moss_core_dbGetMOSSTables($moss) {
+function ciniki_core_dbGetCinikiTables($ciniki) {
 	//
 	// The following array is used but the upgrade process to tell what
 	// tables are required, and their current versions

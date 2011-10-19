@@ -13,17 +13,17 @@
 //
 // Arguments
 // ---------
-// moss:			The moss data structure.
+// ciniki:			The ciniki data structure.
 // strsql: 			The SQL string to query the database.
 // module:			The module name the query is acting on.
 //
-function moss_core_dbDetailsQueryHash($moss, $table, $key, $key_value, $detail_key, $module) {
+function ciniki_core_dbDetailsQueryHash($ciniki, $table, $key, $key_value, $detail_key, $module) {
 	//
 	// Open a connection to the database if one doesn't exist.  The
 	// dbConnect function will return an open connection if one 
 	// exists, otherwise open a new one
 	//
-	$rc = moss_core_dbConnect($moss, $module);
+	$rc = ciniki_core_dbConnect($ciniki, $module);
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
 	}
@@ -33,10 +33,10 @@ function moss_core_dbDetailsQueryHash($moss, $table, $key, $key_value, $detail_k
 	//
 	// Prepare and Execute Query
 	//
-	$strsql = "SELECT detail_key, detail_value FROM " . moss_core_dbQuote($moss, $table) . " "
-		. "WHERE " . moss_core_dbQuote($moss, $key) . " = '" . moss_core_dbQuote($moss, $key_value) . "' ";
+	$strsql = "SELECT detail_key, detail_value FROM " . ciniki_core_dbQuote($ciniki, $table) . " "
+		. "WHERE " . ciniki_core_dbQuote($ciniki, $key) . " = '" . ciniki_core_dbQuote($ciniki, $key_value) . "' ";
 	if( $detail_key != '' ) {
-		$strsql .= " AND detail_key LIKE '" . moss_core_dbQuote($moss, $detail_key) . ".%'";
+		$strsql .= " AND detail_key LIKE '" . ciniki_core_dbQuote($ciniki, $detail_key) . ".%'";
 	}
 	$result = mysql_query($strsql, $dh);
 	if( $result == false ) {

@@ -19,7 +19,7 @@
 //
 // template:		The template text to search and replace within.
 //
-function moss_core_processTemplateTags($moss, $args) {
+function ciniki_core_processTemplateTags($ciniki, $args) {
 
 	if( !isset($args['template']) || $args['template'] == '') {
 		return '';

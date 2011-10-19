@@ -20,32 +20,32 @@
 //		<session id='' date="2011/02/03 00:03:00" value="Value field set to" user_id="1" display_name="" />
 //	</sessions>
 //
-function moss_core_monitorSessions($moss) {
+function ciniki_core_monitorSessions($ciniki) {
 	//
 	// Check access restrictions to monitorChangeLogs
 	//
-	require_once($moss['config']['core']['modules_dir'] . '/core/private/checkAccess.php');
-	$rc = moss_core_checkAccess($moss, 0, 'moss.core.monitorSessions');
+	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/checkAccess.php');
+	$rc = ciniki_core_checkAccess($ciniki, 0, 'ciniki.core.monitorSessions');
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
 	}
 	
-	require_once($moss['config']['core']['modules_dir'] . '/users/private/datetimeFormat.php');
-	require_once($moss['config']['core']['modules_dir'] . '/core/private/dbQuote.php');
-	require_once($moss['config']['core']['modules_dir'] . '/core/private/dbRspQueryPlusUsers.php');
+	require_once($ciniki['config']['core']['modules_dir'] . '/users/private/datetimeFormat.php');
+	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbQuote.php');
+	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbRspQueryPlusUsers.php');
 
-	$date_format = moss_users_datetimeFormat($moss);
+	$date_format = ciniki_users_datetimeFormat($ciniki);
 
 	//
-	// Sort the list ASC by date, so the oldest is at the bottom, and therefore will get insert at the top of the list in MOSSi
+	// Sort the list ASC by date, so the oldest is at the bottom, and therefore will get insert at the top of the list in ciniki-manage
 	//
 	$strsql = "SELECT core_session_data.api_key, core_api_keys.appname, core_session_data.user_id,  "
-		. "DATE_FORMAT(core_session_data.date_added, '" . moss_core_dbQuote($moss, $date_format) . "') as date_added, "
-		. "DATE_FORMAT(core_session_data.last_saved, '" . moss_core_dbQuote($moss, $date_format) . "') as last_saved, "
+		. "DATE_FORMAT(core_session_data.date_added, '" . ciniki_core_dbQuote($ciniki, $date_format) . "') as date_added, "
+		. "DATE_FORMAT(core_session_data.last_saved, '" . ciniki_core_dbQuote($ciniki, $date_format) . "') as last_saved, "
 		. "CAST(UNIX_TIMESTAMP(UTC_TIMESTAMP())-UNIX_TIMESTAMP(core_session_data.date_added) as DECIMAL(12,0)) as age "
 		. "FROM core_session_data "
 		. "LEFT JOIN core_api_keys ON (core_session_data.api_key = core_api_keys.api_key) ";
-	$rsp = moss_core_dbRspQueryPlusUsers($moss, $strsql, 'core', 'sessions', 'session', array('stat'=>'ok', 'sessions'=>array()));
+	$rsp = ciniki_core_dbRspQueryPlusUsers($ciniki, $strsql, 'core', 'sessions', 'session', array('stat'=>'ok', 'sessions'=>array()));
 	return $rsp;
 }
 ?>

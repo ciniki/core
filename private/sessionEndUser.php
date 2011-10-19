@@ -14,16 +14,16 @@
 // ---------
 //
 //
-function moss_core_sessionEndUser($moss, $user_id) {
+function ciniki_core_sessionEndUser($ciniki, $user_id) {
 
 	//
 	// Remove the session from the database
 	//
-	require_once($moss['config']['core']['modules_dir'] . '/core/private/dbQuote.php');
-	require_once($moss['config']['core']['modules_dir'] . '/core/private/dbDelete.php');
+	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbQuote.php');
+	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbDelete.php');
 
-	$strsql = "DELETE FROM core_session_data WHERE user_id = '" . moss_core_dbQuote($moss, $user_id) . "'";
-	$rc = moss_core_dbDelete($moss, $strsql, 'core');
+	$strsql = "DELETE FROM core_session_data WHERE user_id = '" . ciniki_core_dbQuote($ciniki, $user_id) . "'";
+	$rc = ciniki_core_dbDelete($ciniki, $strsql, 'core');
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
 	}

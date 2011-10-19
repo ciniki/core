@@ -11,16 +11,16 @@
 //
 // Arguments
 // ---------
-// moss: 			The standard moss data structure, the arguments will be parsed into it.
+// ciniki: 			The standard ciniki data structure, the arguments will be parsed into it.
 //
-function moss_core_parseRestArguments(&$moss) {
+function ciniki_core_parseRestArguments(&$ciniki) {
 	
 	//
 	// Check that request variable has been setup, otherwise this function has
 	// been called in the wrong order
 	//
-	if( !is_array($moss) || !is_array($moss['request']) || !is_array($moss['request']['args']) ) {
-		return array('stat'=>'fail', 'err'=>array('code'=>'12', 'msg'=>'Internal Error', 'pmsg'=>'moss_core_parseRestArguments called before moss_core_init.'));
+	if( !is_array($ciniki) || !is_array($ciniki['request']) || !is_array($ciniki['request']['args']) ) {
+		return array('stat'=>'fail', 'err'=>array('code'=>'12', 'msg'=>'Internal Error', 'pmsg'=>'ciniki_core_parseRestArguments called before ciniki_core_init.'));
 	}
 
 	//
@@ -32,11 +32,11 @@ function moss_core_parseRestArguments(&$moss) {
 		foreach($_GET as $arg_key => $arg_value) {
 			// Check for the required keys
 			if( in_array($arg_key, $request_keys) ) {
-				$moss['request'][$arg_key] = $arg_value;
+				$ciniki['request'][$arg_key] = $arg_value;
 			} elseif( in_array($arg_key, $response_keys) ) {
-				$moss['response'][$arg_key] = $arg_value;
+				$ciniki['response'][$arg_key] = $arg_value;
 			} else {
-				$moss['request']['args'][$arg_key] = $arg_value;
+				$ciniki['request']['args'][$arg_key] = $arg_value;
 			}
 		}
 	}
@@ -57,11 +57,11 @@ function moss_core_parseRestArguments(&$moss) {
 				$arg_key = urldecode($nv[0]);
 				$arg_value = urldecode($nv[1]);
 				if( in_array($arg_key, $request_keys) ) {
-					$moss['request'][$arg_key] = $arg_value;
+					$ciniki['request'][$arg_key] = $arg_value;
 				} elseif( in_array($arg_key, $response_keys) ) {
-					$moss['response'][$arg_key] = $arg_value;
+					$ciniki['response'][$arg_key] = $arg_value;
 				} elseif( $arg_key != '' ) {
-					$moss['request']['args'][$arg_key] = $arg_value;
+					$ciniki['request']['args'][$arg_key] = $arg_value;
 				}
 			}
 		}
@@ -76,11 +76,11 @@ function moss_core_parseRestArguments(&$moss) {
 			if( $arg = preg_split('/=/', $keyvalue) ) {
 				// Check for the required keys
 				if( in_array($arg[0], $request_keys) ) {
-					$moss['request'][$arg[0]] = $arg[1];
+					$ciniki['request'][$arg[0]] = $arg[1];
 				} elseif( in_array($arg[0], $response_keys) ) {
-					$moss['response'][$arg[0]] = $arg[1];
+					$ciniki['response'][$arg[0]] = $arg[1];
 				} else {
-					$moss['request']['args'][$arg[0]] = $arg[1];
+					$ciniki['request']['args'][$arg[0]] = $arg[1];
 				}
 				
 			}
@@ -94,10 +94,10 @@ function moss_core_parseRestArguments(&$moss) {
 		$headers = apache_request_headers();
 		foreach($headers as $key => $val) {
 			if( $key == 'If-Modified-Since' ) {
-				$moss['request'][$key] = $val;
+				$ciniki['request'][$key] = $val;
 			}
 			elseif( $key == 'Cache-Control' ) {
-				$moss['request'][$key] = $val;
+				$ciniki['request'][$key] = $val;
 			}
 		}
 	}

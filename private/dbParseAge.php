@@ -14,7 +14,7 @@
 // 
 //
 //
-function moss_core_dbParseAge($moss, $age) {
+function ciniki_core_dbParseAge($ciniki, $age) {
 	if( $age < 60 ) { 					return '< 1 min';
 	} elseif( $age < 120 ) { 			return '1 min';
 	} elseif( $age < 3600 ) { 			return (int)($age/60) . ' minutes';

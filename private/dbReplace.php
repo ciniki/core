@@ -14,13 +14,13 @@
 // ---------
 // 
 //
-function moss_core_dbReplace($moss, $strsql, $module) {
+function ciniki_core_dbReplace($ciniki, $strsql, $module) {
 	//
 	// Open a connection to the database if one doesn't exist.  The
 	// dbConnect function will return an open connection if one 
 	// exists, otherwise open a new one
 	//
-	$rc = moss_core_dbConnect($moss, $module);
+	$rc = ciniki_core_dbConnect($ciniki, $module);
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
 	}

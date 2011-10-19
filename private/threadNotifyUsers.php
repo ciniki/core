@@ -22,7 +22,7 @@
 // <xml return>
 //
 //
-function moss_core_threadNotifyUsers($moss, $module, $table) {
+function ciniki_core_threadNotifyUsers($ciniki, $module, $table) {
 
 }
 ?>

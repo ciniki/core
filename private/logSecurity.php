@@ -14,7 +14,7 @@
 // Returns
 // -------
 //
-function moss_core_logSecurity($moss, $strsql, $error_code, $method, $table, $data_id) {
+function ciniki_core_logSecurity($ciniki, $strsql, $error_code, $method, $table, $data_id) {
 	
 	error_log("SECURITY: $error_code - $method - $table - $data_id");
 	error_log("SQLINFO: $strsql");

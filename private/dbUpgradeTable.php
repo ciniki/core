@@ -3,7 +3,7 @@
 // Description
 // -----------
 // This function will upgrade the tables to the current versions in 
-// the moss-modules directory.
+// the ciniki-modules directory.
 //
 // Info
 // ----
@@ -14,11 +14,11 @@
 // 
 //
 //
-function moss_core_dbUpgradeTable($moss, $module, $table, $old_version, $new_version) {
+function ciniki_core_dbUpgradeTable($ciniki, $module, $table, $old_version, $new_version) {
 
-	require_once($moss['config']['core']['modules_dir'] . '/core/private/dbConnect.php');
-	require_once($moss['config']['core']['modules_dir'] . '/core/private/dbUpdate.php');
-	$rc = moss_core_dbConnect($moss, $module);
+	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbConnect.php');
+	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbUpdate.php');
+	$rc = ciniki_core_dbConnect($ciniki, $module);
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
 	}
@@ -27,8 +27,8 @@ function moss_core_dbUpgradeTable($moss, $module, $table, $old_version, $new_ver
 	// Check if the table exists
 	//
 	if( $old_version == '-' ) {
-		$schema = file_get_contents($moss['config']['core']['modules_dir'] . "/" . $module . "/db/$table.schema");
-		$rc = moss_core_dbUpdate($moss, $schema, $module);
+		$schema = file_get_contents($ciniki['config']['core']['modules_dir'] . "/" . $module . "/db/$table.schema");
+		$rc = ciniki_core_dbUpdate($ciniki, $schema, $module);
 		return $rc;
 	}
 
@@ -71,7 +71,7 @@ function moss_core_dbUpgradeTable($moss, $module, $table, $old_version, $new_ver
 
 		error_log("Upgrading table from: $i.$start_minor to $i.$end_minor");
 		for($j=$start_minor+1;$j<=$end_minor;$j++) {
-			$filename = $moss['config']['core']['modules_dir'] . sprintf("/$module/db/$table.$i.%02d.upgrade", $j);
+			$filename = $ciniki['config']['core']['modules_dir'] . sprintf("/$module/db/$table.$i.%02d.upgrade", $j);
 			if( file_exists($filename) ) {
 				$schema = file_get_contents($filename);
 				$sqls = preg_split('/;\s*$/m', $schema);
@@ -81,7 +81,7 @@ function moss_core_dbUpgradeTable($moss, $module, $table, $old_version, $new_ver
 						|| preg_match('/CREATE INDEX/', $strsql)
 						|| preg_match('/UPDATE /', $strsql)
 						) {
-						$rc = moss_core_dbUpdate($moss, $strsql, $module);
+						$rc = ciniki_core_dbUpdate($ciniki, $strsql, $module);
 						if( $rc['stat'] != 'ok' ) {
 							return $rc;
 						}
@@ -103,10 +103,10 @@ function moss_core_dbUpgradeTable($moss, $module, $table, $old_version, $new_ver
 	//
 //	elseif( $old_major == $new_major ) {
 //		for($j=$old_minor;$j<$new_minor;$j++) {
-//			$filename = $moss['config']['core']['modules_dir'] . sprintf("/$module/db/$table.$new_major.%02d.upgrade", $j);
+//			$filename = $ciniki['config']['core']['modules_dir'] . sprintf("/$module/db/$table.$new_major.%02d.upgrade", $j);
 //			if( file_exists($filename) ) {
 //				$schema = file_get_contents($filename);
-//				$rc = moss_core_dbUpdate($moss, $schema, $module);
+//				$rc = ciniki_core_dbUpdate($ciniki, $schema, $module);
 //				if( $rc['stat'] != 'ok' ) {
 //					return $rc;
 //				}

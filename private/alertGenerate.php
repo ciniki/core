@@ -4,7 +4,7 @@
 // -----------
 // The alertGenerate function will add an alert to the database, and 
 // send an email to alerts.notify from the config file.  These
-// alerts are for system administrators of the MOSS system, not
+// alerts are for system administrators of the Ciniki system, not
 // business owners.
 //
 // Info
@@ -16,10 +16,10 @@
 // alert:			The array of alert information.
 // rc:				The return code from the last function call.
 //
-function moss_core_alertGenerate($moss, $alert, $rc) {
+function ciniki_core_alertGenerate($ciniki, $alert, $rc) {
 
-	if( !isset($moss['config']['core']['alerts.notify'])
-		|| $moss['config']['core']['alerts.notify'] == '' 
+	if( !isset($ciniki['config']['core']['alerts.notify'])
+		|| $ciniki['config']['core']['alerts.notify'] == '' 
 		|| !is_array($alert) 
 		|| !isset($alert['alert']) || !isset($alert['msg'])) {
 		return;
@@ -31,31 +31,31 @@ function moss_core_alertGenerate($moss, $alert, $rc) {
 	if( $rc != null ) {
 		$var_rc = print_r($rc, true);
 	}
-	$var_moss = print_r($moss, true);
+	$var_ciniki = print_r($ciniki, true);
 
 	// 
-	// Strip passwords from the moss variable
+	// Strip passwords from the ciniki variable
 	//
-	$var_moss = preg_replace('/password\] =\> (.*)/', 'password] => scrambled', $var_moss);
+	$var_ciniki = preg_replace('/password\] =\> (.*)/', 'password] => scrambled', $var_ciniki);
 	
 	//
 	// First send the email messages
 	//
-	mail($moss['config']['core']['alerts.notify'], $subject, "alert:\n$var_alert\n\nrc:\n$var_rc\n\nmoss:\n$var_moss\n");
+	mail($ciniki['config']['core']['alerts.notify'], $subject, "alert:\n$var_alert\n\nrc:\n$var_rc\n\nciniki:\n$var_ciniki\n");
 
 	//
 	// Insert the alert details into the database
 	//
-	require_once($moss['config']['core']['modules_dir'] . '/core/private/dbQuote.php');
-	$strsql = "INSERT INTO core_alerts (code, msg, var_alert, var_moss, var_rc, date_added) "
-		. "VALUES ('" . moss_core_dbQuote($moss, $alert['alert']) . "', "
-		. "'" . moss_core_dbQuote($moss, $alert['msg']) . "', "
-		. "'" . moss_core_dbQuote($moss, $var_alert) . "', "
-		. "'" . moss_core_dbQuote($moss, $var_rc) . "', "
-		. "'" . moss_core_dbQuote($moss, $var_moss) . "', "
+	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbQuote.php');
+	$strsql = "INSERT INTO core_alerts (code, msg, var_alert, var_ciniki, var_rc, date_added) "
+		. "VALUES ('" . ciniki_core_dbQuote($ciniki, $alert['alert']) . "', "
+		. "'" . ciniki_core_dbQuote($ciniki, $alert['msg']) . "', "
+		. "'" . ciniki_core_dbQuote($ciniki, $var_alert) . "', "
+		. "'" . ciniki_core_dbQuote($ciniki, $var_rc) . "', "
+		. "'" . ciniki_core_dbQuote($ciniki, $var_ciniki) . "', "
 		. "UTC_TIMESTAMP()); ";
 
-	require_once($moss['config']['core']['modules_dir'] . '/core/private/dbInsert.php');
-	return moss_core_dbInsert($moss, $strsql, 'core');
+	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbInsert.php');
+	return ciniki_core_dbInsert($ciniki, $strsql, 'core');
 }
 ?>

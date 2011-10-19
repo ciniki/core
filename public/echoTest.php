@@ -16,20 +16,20 @@
 //
 // Returns
 // -------
-// <request api_key='0123456789abcdef0123456789abcdef' auth_token='' method='moss.core.echoTest'>
+// <request api_key='0123456789abcdef0123456789abcdef' auth_token='' method='ciniki.core.echoTest'>
 // 	<args args1="test" />
 // </reqeust>
 //
-function moss_core_echoTest($moss) {
+function ciniki_core_echoTest($ciniki) {
 	//
 	// Check access restrictions to checkAPIKey
 	//
-	require_once($moss['config']['core']['modules_dir'] . '/core/private/checkAccess.php');
-	$rc = moss_core_checkAccess($moss, 0, 'moss.core.echoTest');
+	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/checkAccess.php');
+	$rc = ciniki_core_checkAccess($ciniki, 0, 'ciniki.core.echoTest');
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
 	}
 
-	return array('stat'=>'ok', 'request'=>$moss['request']);
+	return array('stat'=>'ok', 'request'=>$ciniki['request']);
 }
 ?>

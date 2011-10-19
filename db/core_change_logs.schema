@@ -68,7 +68,7 @@
 #
 #					Examples: (table_name, table_key, table_field)
 #
-#					_ 'businesses', '1', 'name', 'MOSS'
+#					_ 'businesses', '1', 'name', 'Ciniki'
 #					_ 'business_details', '1', 'detail_key'
 #
 # table_field:		The changed field.

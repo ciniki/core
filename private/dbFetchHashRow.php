@@ -10,10 +10,10 @@
 //
 // Arguments
 // ---------
-// moss:			The moss data structure.
+// ciniki:			The ciniki data structure.
 // handle:			The mysql resource handle to fetch the next row from.
 //
-function moss_core_dbFetchHashRow($moss, $handle) {
+function ciniki_core_dbFetchHashRow($ciniki, $handle) {
 	//
 	// Prepare and Execute Query
 	//

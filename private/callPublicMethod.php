@@ -24,20 +24,20 @@
 //				xml, html, tmpl or hash.  If the request would like json, 
 //				xml-rpc, rest or php_serial, then the format
 //
-function moss_core_callPublicMethod(&$moss) {
+function ciniki_core_callPublicMethod(&$ciniki) {
 	//
 	// Check if the api_key is specified
 	//
-	if( !isset($moss['request']['api_key']) || $moss['request']['api_key'] == '' ) {
+	if( !isset($ciniki['request']['api_key']) || $ciniki['request']['api_key'] == '' ) {
 		return array('stat'=>'fail', 'err'=>array('code'=>'2', 'msg'=>'No api_key supplied'));
 	}
 
 	//
 	// Check the API Key 
 	//
-	require_once($moss['config']['core']['modules_dir']. '/core/private/checkAPIKey.php');
-	$rc = moss_core_checkAPIKey($moss);
-	if( $rc['stat'] != 'ok' || $moss['request']['method'] == 'moss.core.checkAPIKey' ) { 
+	require_once($ciniki['config']['core']['modules_dir']. '/core/private/checkAPIKey.php');
+	$rc = ciniki_core_checkAPIKey($ciniki);
+	if( $rc['stat'] != 'ok' || $ciniki['request']['method'] == 'ciniki.core.checkAPIKey' ) { 
 		return $rc;
 	}
 
@@ -50,41 +50,41 @@ function moss_core_callPublicMethod(&$moss) {
 	//
 	// Check if method has been specified
 	//
-	if( !isset($moss['request']['method']) || $moss['request']['method'] == '' ) {
+	if( !isset($ciniki['request']['method']) || $ciniki['request']['method'] == '' ) {
 		return array('stat'=>'fail', 'err'=>array('code'=>'3', 'msg'=>'No method supplied'));
 	}
 
 	//
 	// Parse the method, and the function name
 	//
-	$method_filename = $moss['config']['core']['modules_dir'] . '/' 
-		. preg_replace('/moss\.(.*)\./', '\1/public/', $moss['request']['method']) . '.php';
+	$method_filename = $ciniki['config']['core']['modules_dir'] . '/' 
+		. preg_replace('/ciniki\.(.*)\./', '\1/public/', $ciniki['request']['method']) . '.php';
 
-	$method_function = preg_replace('/\./', '_', $moss['request']['method']);
+	$method_function = preg_replace('/\./', '_', $ciniki['request']['method']);
 
 	//
 	// FIXME: Log the request in the Action Log, update with output
 	// at the end of this function if successful
 	//
-	// require_once($moss['config']['core']['modules_dir']. '/core/private/actionLogEntry.php');
-	// moss_core_actionLogEntry($moss);
+	// require_once($ciniki['config']['core']['modules_dir']. '/core/private/actionLogEntry.php');
+	// ciniki_core_actionLogEntry($ciniki);
 
 	//
 	// If the user has not authenticated, then only a small number of 
 	// methods are available, and they must be listed here.
 	//
 	$no_auth_methods = array(
-		'moss.users.auth', 
-		'moss.core.echoTest', 
-		'moss.core.getAddressCountryCodes'
+		'ciniki.users.auth', 
+		'ciniki.core.echoTest', 
+		'ciniki.core.getAddressCountryCodes'
 		);
 
 	//
 	// Load the session if an auth_token was passed
 	//
-	if( isset($moss['request']['auth_token']) && $moss['request']['auth_token'] != '' ) {
-		require_once($moss['config']['core']['modules_dir']. '/core/private/sessionOpen.php');
-		$rc = moss_core_sessionOpen($moss);
+	if( isset($ciniki['request']['auth_token']) && $ciniki['request']['auth_token'] != '' ) {
+		require_once($ciniki['config']['core']['modules_dir']. '/core/private/sessionOpen.php');
+		$rc = ciniki_core_sessionOpen($ciniki);
 		if( $rc['stat'] != 'ok' ) {
 			return $rc;
 		}
@@ -93,10 +93,10 @@ function moss_core_callPublicMethod(&$moss) {
 	//
 	// Check if the user needs to be authenticated for this
 	//
-	if( !in_array($moss['request']['method'], $no_auth_methods) 
-		&& (!isset($moss['session']) || !is_array($moss['session']) 
-		|| !is_array($moss['session']['user']) || !isset($moss['session']['user']['id'])
-		|| $moss['session']['user']['id'] <= 0)
+	if( !in_array($ciniki['request']['method'], $no_auth_methods) 
+		&& (!isset($ciniki['session']) || !is_array($ciniki['session']) 
+		|| !is_array($ciniki['session']['user']) || !isset($ciniki['session']['user']['id'])
+		|| $ciniki['session']['user']['id'] <= 0)
 		) {
 		return array('stat'=>'fail', 'err'=>array('code'=>'5', 'msg'=>'Not authenticated'));
 	}
@@ -119,14 +119,14 @@ function moss_core_callPublicMethod(&$moss) {
 		return array('stat'=>'fail', 'err'=>array('code'=>'1', 'msg'=>'Method does not exist'));
 	}
 
-	$method_rc = $method_function($moss);
+	$method_rc = $method_function($ciniki);
 
 	//
 	// Save the session if successful transaction
 	//
-	if( isset($moss['session']['auth_token']) && $moss['session']['auth_token'] != '' ) {
-		require_once($moss['config']['core']['modules_dir']. '/core/private/sessionSave.php');
-		$rc = moss_core_sessionSave($moss);
+	if( isset($ciniki['session']['auth_token']) && $ciniki['session']['auth_token'] != '' ) {
+		require_once($ciniki['config']['core']['modules_dir']. '/core/private/sessionSave.php');
+		$rc = ciniki_core_sessionSave($ciniki);
 		if( $rc['stat'] != 'ok' ) {
 			return $rc;
 		}
@@ -135,8 +135,8 @@ function moss_core_callPublicMethod(&$moss) {
 	//
 	// FIXME: Update the action log with the results from the request
 	//
-	// require_once($moss['config']['core']['modules_dir']. '/core/private/actionLogResult.php');
-	// moss_core_actionLogResult($moss, );
+	// require_once($ciniki['config']['core']['modules_dir']. '/core/private/actionLogResult.php');
+	// ciniki_core_actionLogResult($ciniki, );
 
 	return $method_rc;
 }

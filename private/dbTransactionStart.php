@@ -20,16 +20,16 @@
 // ---------
 // module:			The module to start the transaction for.
 //
-function moss_core_dbTransactionStart($moss, $module) {
+function ciniki_core_dbTransactionStart($ciniki, $module) {
 
-	require_once($moss['config']['core']['modules_dir'] . '/core/private/dbConnect.php');
-	require_once($moss['config']['core']['modules_dir'] . '/core/private/dbQuery.php');
+	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbConnect.php');
+	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbQuery.php');
 
-	$rc = moss_core_dbConnect($moss, $module);
+	$rc = ciniki_core_dbConnect($ciniki, $module);
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
 	}
 
-	return moss_core_dbQuery($moss, "START TRANSACTION", $module);
+	return ciniki_core_dbQuery($ciniki, "START TRANSACTION", $module);
 }
 ?>

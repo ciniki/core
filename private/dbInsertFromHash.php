@@ -14,16 +14,16 @@
 // 
 //
 //
-function moss_core_dbInsertFromHash($moss, $fields, $record, $prefix, $middle, $suffix) {
+function ciniki_core_dbInsertFromHash($ciniki, $fields, $record, $prefix, $middle, $suffix) {
 
-	require_once($moss['config']['core']['modules_dir'] . '/core/private/dbHashToSQL.php');
-	require_once($moss['config']['core']['modules_dir'] . '/core/private/dbQuote.php');
-	require_once($moss['config']['core']['modules_dir'] . '/core/private/dbInsert.php');
+	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbHashToSQL.php');
+	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbQuote.php');
+	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbInsert.php');
 
 	//
 	// Build the SQL string using the provide information
 	//
-	$rc = moss_core_dbHashToSQL($moss, $fields, $record, $prefix, $middle, $suffix);
+	$rc = ciniki_core_dbHashToSQL($ciniki, $fields, $record, $prefix, $middle, $suffix);
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
 	}
@@ -32,7 +32,7 @@ function moss_core_dbInsertFromHash($moss, $fields, $record, $prefix, $middle, $
 	// If an SQL string was built, then try to run it
 	//
 	if( isset($rc['strsql']) && $rc['strsql'] != '') {
-		$new_db_record = moss_core_dbInsert($moss, $rc['strsql'], 'customers');
+		$new_db_record = ciniki_core_dbInsert($ciniki, $rc['strsql'], 'customers');
 		return $new_db_record;
 	} 
 

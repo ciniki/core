@@ -12,7 +12,7 @@
 // user_id: 		The user making the request
 //
 //
-function moss_core_dbGetChangeLogFkId($moss, $business_id, $table_name, $table_key, $table_field, $module, 
+function ciniki_core_dbGetChangeLogFkId($ciniki, $business_id, $table_name, $table_key, $table_field, $module, 
 	$fk_table, $fk_id_field, $fk_value_field
 	) {
 	//
@@ -20,7 +20,7 @@ function moss_core_dbGetChangeLogFkId($moss, $business_id, $table_name, $table_k
 	// dbConnect function will return an open connection if one 
 	// exists, otherwise open a new one
 	//
-	$rc = moss_core_dbConnect($moss, 'core');
+	$rc = ciniki_core_dbConnect($ciniki, 'core');
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
 	}
@@ -30,25 +30,25 @@ function moss_core_dbGetChangeLogFkId($moss, $business_id, $table_name, $table_k
 	//
 	// Get the history log from core_change_logs table.
 	//
-	require_once($moss['config']['core']['modules_dir'] . '/users/private/datetimeFormat.php');
-	require_once($moss['config']['core']['modules_dir'] . '/users/private/dateFormat.php');
-	require_once($moss['config']['core']['modules_dir'] . '/core/private/dbQuote.php');
-	require_once($moss['config']['core']['modules_dir'] . '/core/private/dbParseAge.php');
+	require_once($ciniki['config']['core']['modules_dir'] . '/users/private/datetimeFormat.php');
+	require_once($ciniki['config']['core']['modules_dir'] . '/users/private/dateFormat.php');
+	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbQuote.php');
+	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbParseAge.php');
 
-	$datetime_format = moss_users_datetimeFormat($moss);
-	$date_format = moss_users_dateFormat($moss);
-	$strsql = "SELECT user_id, DATE_FORMAT(log_date, '" . moss_core_dbQuote($moss, $datetime_format) . "') as date, "
+	$datetime_format = ciniki_users_datetimeFormat($ciniki);
+	$date_format = ciniki_users_dateFormat($ciniki);
+	$strsql = "SELECT user_id, DATE_FORMAT(log_date, '" . ciniki_core_dbQuote($ciniki, $datetime_format) . "') as date, "
 		. "CAST(UNIX_TIMESTAMP(UTC_TIMESTAMP())-UNIX_TIMESTAMP(log_date) as DECIMAL(12,0)) as age, "
 		. "new_value as value, "
 		. $fk_value_field . " AS fkidstr_value "
 		. " ";
 	$strsql .= " FROM core_change_logs "
-		. "LEFT JOIN " . moss_core_dbQuote($moss, $fk_table) . " ON (core_change_logs.new_value = " . moss_core_dbQuote($moss, $fk_table) . "." . moss_core_dbQuote($moss, $fk_id_field) . " "
-			. " AND " . moss_core_dbQuote($moss, $fk_table) . ".business_id ='" . moss_core_dbQuote($moss, $business_id) . "') "
-		. " WHERE core_change_logs.business_id ='" . moss_core_dbQuote($moss, $business_id) . "' "
-		. " AND table_name = '" . moss_core_dbQuote($moss, $table_name) . "' "
-		. " AND table_key = '" . moss_core_dbQuote($moss, $table_key) . "' "
-		. " AND table_field = '" . moss_core_dbQuote($moss, $table_field) . "' "
+		. "LEFT JOIN " . ciniki_core_dbQuote($ciniki, $fk_table) . " ON (core_change_logs.new_value = " . ciniki_core_dbQuote($ciniki, $fk_table) . "." . ciniki_core_dbQuote($ciniki, $fk_id_field) . " "
+			. " AND " . ciniki_core_dbQuote($ciniki, $fk_table) . ".business_id ='" . ciniki_core_dbQuote($ciniki, $business_id) . "') "
+		. " WHERE core_change_logs.business_id ='" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+		. " AND table_name = '" . ciniki_core_dbQuote($ciniki, $table_name) . "' "
+		. " AND table_key = '" . ciniki_core_dbQuote($ciniki, $table_key) . "' "
+		. " AND table_field = '" . ciniki_core_dbQuote($ciniki, $table_field) . "' "
 		. " ORDER BY log_date DESC "
 		. " ";
 	$result = mysql_query($strsql, $dh);
@@ -70,14 +70,14 @@ function moss_core_dbGetChangeLogFkId($moss, $business_id, $table_name, $table_k
 		$rsp['history'][$num_history] = array('action'=>array('user_id'=>$row['user_id'], 'date'=>$row['date'], 'value'=>$row['value']));
 		$rsp['history'][$num_history]['action']['fkidstr_value'] = $row['fkidstr_value'];
 		$users[$row['user_id']] = 1;
-		$rsp['history'][$num_history]['action']['age'] = moss_core_dbParseAge($moss, $row['age']);
+		$rsp['history'][$num_history]['action']['age'] = ciniki_core_dbParseAge($ciniki, $row['age']);
 		$num_history++;
 	}
 
 	//
 	// Get the users who contributed to the actions
 	//
-	$rc = moss_core_dbConnect($moss, 'users');
+	$rc = ciniki_core_dbConnect($ciniki, 'users');
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
 	}
@@ -87,7 +87,7 @@ function moss_core_dbGetChangeLogFkId($moss, $business_id, $table_name, $table_k
 	//
 	$strsql = "SELECT id, display_name "
 		. "FROM users "
-		. "WHERE id IN (" . moss_core_dbQuote($moss, implode(',', array_keys($users))) . ") ";
+		. "WHERE id IN (" . ciniki_core_dbQuote($ciniki, implode(',', array_keys($users))) . ") ";
 	$result = mysql_query($strsql, $dh);
 	if( $result == false ) {
 		return array('stat'=>'fail', 'err'=>array('code'=>'190', 'msg'=>'Database Error', 'pmsg'=>mysql_error($dh)));

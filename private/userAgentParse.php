@@ -19,7 +19,7 @@
 // Returns
 // -------
 //
-function moss_core_userAgentParse($moss, $user_agent) {
+function ciniki_core_userAgentParse($ciniki, $user_agent) {
 	//
 	// Setup the default device
 	//

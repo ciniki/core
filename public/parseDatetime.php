@@ -18,12 +18,12 @@
 // -------
 // <rsp stat='ok' 'date'='2011-06-09 20:26' />
 //
-function moss_core_parseDatetime($moss) {
+function ciniki_core_parseDatetime($ciniki) {
     //  
     // Find all the required and optional arguments
     //  
-    require_once($moss['config']['core']['modules_dir'] . '/core/private/prepareArgs.php');
-    $rc = moss_core_prepareArgs($moss, 'no', array(
+    require_once($ciniki['config']['core']['modules_dir'] . '/core/private/prepareArgs.php');
+    $rc = ciniki_core_prepareArgs($ciniki, 'no', array(
         'datetime'=>array('required'=>'no', 'default'=>'', 'blank'=>'no', 'type'=>'datetime', 'errmsg'=>'No date specified'), 
 		));
     $args = $rc['args'];
@@ -31,8 +31,8 @@ function moss_core_parseDatetime($moss) {
 	//
 	// Check access restrictions to checkAPIKey
 	//
-	require_once($moss['config']['core']['modules_dir'] . '/core/private/checkAccess.php');
-	$rc = moss_core_checkAccess($moss, 0, 'moss.core.parseDatetime');
+	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/checkAccess.php');
+	$rc = ciniki_core_checkAccess($ciniki, 0, 'ciniki.core.parseDatetime');
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
 	}

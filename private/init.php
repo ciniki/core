@@ -2,8 +2,8 @@
 //
 // Description
 // -----------
-// This function will initialize the $moss variable which
-// must be passed to all moss function.  This function
+// This function will initialize the $ciniki variable which
+// must be passed to all ciniki function.  This function
 // must be called before any others.
 //
 // This function will also:
@@ -18,43 +18,43 @@
 // ---------
 // config_file:			The path to the config file must be passed.
 //
-function moss_core_init($moss_root, $output_format) {
+function ciniki_core_init($ciniki_root, $output_format) {
 
 	//
-	// Initialize the moss structure, and setup the return value
+	// Initialize the ciniki structure, and setup the return value
 	// to include the stat.
 	//
-	$moss = array();
+	$ciniki = array();
 
 	//
 	// Load the config
 	//
-	require_once($moss_root . '/moss-modules/core/private/loadMossConfig.php');
-	if( moss_core_loadMossConfig($moss, $moss_root) == false ) {
+	require_once($ciniki_root . '/ciniki-api/core/private/loadCinikiConfig.php');
+	if( ciniki_core_loadCinikiConfig($ciniki, $ciniki_root) == false ) {
 		return array('stat'=>'fail', 'err'=>array('code'=>'9', 'msg'=>'Internal configuration error'));
 	}
 
 	//
 	// Initialize the request variables
 	//
-	$moss['request'] = array();
-	$moss['request']['api_key'] = '';
-	$moss['request']['auth_token'] = '';
-	$moss['request']['method'] = '';
-	$moss['request']['args'] = array();
+	$ciniki['request'] = array();
+	$ciniki['request']['api_key'] = '';
+	$ciniki['request']['auth_token'] = '';
+	$ciniki['request']['method'] = '';
+	$ciniki['request']['args'] = array();
 
 	//
 	// Initialize the response variables, 
 	// default to respond with xml.
 	//
-	$moss['response'] = array();
-	$moss['response']['format'] = $output_format;
+	$ciniki['response'] = array();
+	$ciniki['response']['format'] = $output_format;
 
 	//
 	// Initialize Database
 	//
-	require_once($moss['config']['core']['modules_dir'] . '/core/private/dbInit.php');
-	$rc = moss_core_dbInit($moss);
+	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbInit.php');
+	$rc = ciniki_core_dbInit($ciniki);
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
 	}
@@ -62,12 +62,12 @@ function moss_core_init($moss_root, $output_format) {
 	//
 	// Initialize Session
 	//
-	require_once($moss['config']['core']['modules_dir'] . '/core/private/sessionInit.php');
-	$rc = moss_core_sessionInit($moss);
+	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/sessionInit.php');
+	$rc = ciniki_core_sessionInit($ciniki);
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
 	}
 
-	return array('stat'=>'ok', 'moss'=>$moss);
+	return array('stat'=>'ok', 'ciniki'=>$ciniki);
 }
 ?>

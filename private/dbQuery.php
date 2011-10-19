@@ -10,17 +10,17 @@
 //
 // Arguments
 // ---------
-// moss:			The moss data structure.
+// ciniki:			The ciniki data structure.
 // strsql: 			The SQL string to query the database.
 // module:			The module name the query is acting on.
 //
-function moss_core_dbQuery($moss, $strsql, $module) {
+function ciniki_core_dbQuery($ciniki, $strsql, $module) {
 	//
 	// Open a connection to the database if one doesn't exist.  The
 	// dbConnect function will return an open connection if one 
 	// exists, otherwise open a new one
 	//
-	$rc = moss_core_dbConnect($moss, $module);
+	$rc = ciniki_core_dbConnect($ciniki, $module);
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
 	}

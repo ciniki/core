@@ -14,13 +14,13 @@
 // user_id: 		The user making the request
 //
 //
-function moss_core_dbGetChangeLogReformat($moss, $business_id, $table_name, $table_key, $table_field, $module, $format) {
+function ciniki_core_dbGetChangeLogReformat($ciniki, $business_id, $table_name, $table_key, $table_field, $module, $format) {
 	//
 	// Open a connection to the database if one doesn't exist.  The
 	// dbConnect function will return an open connection if one 
 	// exists, otherwise open a new one
 	//
-	$rc = moss_core_dbConnect($moss, 'core');
+	$rc = ciniki_core_dbConnect($ciniki, 'core');
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
 	}
@@ -30,26 +30,26 @@ function moss_core_dbGetChangeLogReformat($moss, $business_id, $table_name, $tab
 	//
 	// Get the history log from core_change_logs table.
 	//
-	require_once($moss['config']['core']['modules_dir'] . '/users/private/datetimeFormat.php');
-	require_once($moss['config']['core']['modules_dir'] . '/users/private/dateFormat.php');
-	require_once($moss['config']['core']['modules_dir'] . '/core/private/dbQuote.php');
-	require_once($moss['config']['core']['modules_dir'] . '/core/private/dbParseAge.php');
+	require_once($ciniki['config']['core']['modules_dir'] . '/users/private/datetimeFormat.php');
+	require_once($ciniki['config']['core']['modules_dir'] . '/users/private/dateFormat.php');
+	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbQuote.php');
+	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbParseAge.php');
 
-	$datetime_format = moss_users_datetimeFormat($moss);
-	$date_format = moss_users_dateFormat($moss);
-	$strsql = "SELECT user_id, DATE_FORMAT(log_date, '" . moss_core_dbQuote($moss, $datetime_format) . "') as date, "
+	$datetime_format = ciniki_users_datetimeFormat($ciniki);
+	$date_format = ciniki_users_dateFormat($ciniki);
+	$strsql = "SELECT user_id, DATE_FORMAT(log_date, '" . ciniki_core_dbQuote($ciniki, $datetime_format) . "') as date, "
 		. "CAST(UNIX_TIMESTAMP(UTC_TIMESTAMP())-UNIX_TIMESTAMP(log_date) as DECIMAL(12,0)) as age, "
 		. "new_value as value ";
 	if( $format == 'date' ) {
-		$strsql .= ", DATE_FORMAT(new_value, '" . moss_core_dbQuote($moss, $date_format) . "') as formatted_value ";
+		$strsql .= ", DATE_FORMAT(new_value, '" . ciniki_core_dbQuote($ciniki, $date_format) . "') as formatted_value ";
 	} elseif( $format == 'datetime' ) {
-		$strsql .= ", DATE_FORMAT(new_value, '" . moss_core_dbQuote($moss, $datetime_format) . "') as formatted_value ";
+		$strsql .= ", DATE_FORMAT(new_value, '" . ciniki_core_dbQuote($ciniki, $datetime_format) . "') as formatted_value ";
 	}
 	$strsql .= " FROM core_change_logs "
-		. " WHERE business_id ='" . moss_core_dbQuote($moss, $business_id) . "' "
-		. " AND table_name = '" . moss_core_dbQuote($moss, $table_name) . "' "
-		. " AND table_key = '" . moss_core_dbQuote($moss, $table_key) . "' "
-		. " AND table_field = '" . moss_core_dbQuote($moss, $table_field) . "' "
+		. " WHERE business_id ='" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+		. " AND table_name = '" . ciniki_core_dbQuote($ciniki, $table_name) . "' "
+		. " AND table_key = '" . ciniki_core_dbQuote($ciniki, $table_key) . "' "
+		. " AND table_field = '" . ciniki_core_dbQuote($ciniki, $table_field) . "' "
 		. " ORDER BY log_date DESC "
 		. "";
 	$result = mysql_query($strsql, $dh);
@@ -73,14 +73,14 @@ function moss_core_dbGetChangeLogReformat($moss, $business_id, $table_name, $tab
 			$rsp['history'][$num_history]['action']['formatted_value'] = $row['formatted_value'];
 		}
 		$users[$row['user_id']] = 1;
-		$rsp['history'][$num_history]['action']['age'] = moss_core_dbParseAge($moss, $row['age']);
+		$rsp['history'][$num_history]['action']['age'] = ciniki_core_dbParseAge($ciniki, $row['age']);
 		$num_history++;
 	}
 
 	//
 	// Get the users who contributed to the actions
 	//
-	$rc = moss_core_dbConnect($moss, 'users');
+	$rc = ciniki_core_dbConnect($ciniki, 'users');
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
 	}
@@ -90,7 +90,7 @@ function moss_core_dbGetChangeLogReformat($moss, $business_id, $table_name, $tab
 	//
 	$strsql = "SELECT id, display_name "
 		. "FROM users "
-		. "WHERE id IN (" . moss_core_dbQuote($moss, implode(',', array_keys($users))) . ") ";
+		. "WHERE id IN (" . ciniki_core_dbQuote($ciniki, implode(',', array_keys($users))) . ") ";
 	$result = mysql_query($strsql, $dh);
 	if( $result == false ) {
 		return array('stat'=>'fail', 'err'=>array('code'=>'188', 'msg'=>'Database Error', 'pmsg'=>mysql_error($dh)));

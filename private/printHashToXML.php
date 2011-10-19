@@ -16,7 +16,7 @@
 // hash:			The array of array's to turn into xml.
 //
 //
-function moss_core_printHashToXML($name, $indent, $hash) {
+function ciniki_core_printHashToXML($name, $indent, $hash) {
 
 	$subitems = false;
 	$subxml = '';
@@ -55,13 +55,13 @@ function moss_core_printHashToXML($name, $indent, $hash) {
 					foreach($hash_item as $subkey => $subitem) {
 						if( is_array($subitem) ) {
 							foreach($subitem as $sskey => $ssitem) {
-								moss_core_printHashToXML($sskey, $indent . "        ", $ssitem);
+								ciniki_core_printHashToXML($sskey, $indent . "        ", $ssitem);
 							}
 						}
 					}
 					print $indent . "    </$hash_key>\n";
 				} elseif( is_array($hash_item) ) {
-					moss_core_printHashToXML($hash_key, $indent . "    ", $hash_item);
+					ciniki_core_printHashToXML($hash_key, $indent . "    ", $hash_item);
 					$subitems = true;
 				}
 			}

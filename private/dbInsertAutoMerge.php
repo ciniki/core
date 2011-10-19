@@ -16,11 +16,11 @@
 // 
 //
 //
-function moss_core_dbInsertAutoMerge($moss, $fields, $record, $prefix, $middle, $suffix, $row) {
+function ciniki_core_dbInsertAutoMerge($ciniki, $fields, $record, $prefix, $middle, $suffix, $row) {
 
-	require_once($moss['config']['core']['modules_dir'] . '/core/private/dbHashToSQL.php');
-	require_once($moss['config']['core']['modules_dir'] . '/core/private/dbQuote.php');
-	require_once($moss['config']['core']['modules_dir'] . '/core/private/dbInsert.php');
+	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbHashToSQL.php');
+	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbQuote.php');
+	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbInsert.php');
 
 	//
 	// Loop through the fields given, and add them if there is
@@ -31,8 +31,8 @@ function moss_core_dbInsertAutoMerge($moss, $fields, $record, $prefix, $middle, 
 		if( isset($record[$field]) && isset($record[$field]['data']) ) {
 			if( $record[$field]['data'] != '' ) {
 				// Setup for inserting if any
-				$prefix .= moss_core_dbQuote($moss, $field) . ", ";
-				$middle .= "'" . moss_core_dbQuote($moss, $record[$field]['data']) . "', ";
+				$prefix .= ciniki_core_dbQuote($ciniki, $field) . ", ";
+				$middle .= "'" . ciniki_core_dbQuote($ciniki, $record[$field]['data']) . "', ";
 				if( isset($record[$field]['col']) && $record[$field]['col'] > 0 ) {
 					$row[$record[$field]['col']]['new_status'] = 2;
 					$row[$record[$field]['col']]['new_import_status'] = 10;
@@ -48,7 +48,7 @@ function moss_core_dbInsertAutoMerge($moss, $fields, $record, $prefix, $middle, 
 
 	$strsql = $prefix . $middle . $suffix;
 
-	$new_db_record = moss_core_dbInsert($moss, $strsql, 'customers');
+	$new_db_record = ciniki_core_dbInsert($ciniki, $strsql, 'customers');
 	//if( $new_db_record['stat'] != 'ok' ) {
 		return $new_db_record;
 	//}

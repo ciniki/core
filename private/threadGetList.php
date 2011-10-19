@@ -24,27 +24,27 @@
 // 	<THREAD id="1" subject="The thread subject"
 // </THREADs>
 //
-function moss_core_threadGetList($moss, $module, $table, $container_name, $row_name, $args) {
+function ciniki_core_threadGetList($ciniki, $module, $table, $container_name, $row_name, $args) {
 	//
 	// All arguments are assumed to be un-escaped, and will be passed through dbQuote to
 	// ensure they are safe to insert.
 	//
 
 	// Required functions
-	require_once($moss['config']['core']['modules_dir'] . '/core/private/dbQuote.php');
-	require_once($moss['config']['core']['modules_dir'] . '/core/private/dbRspQueryPlusUsers.php');
+	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbQuote.php');
+	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbRspQueryPlusUsers.php');
 
 	// 
 	// Setup the SQL statement to insert the new thread
 	//
 	$strsql = "SELECT id, business_id, user_id, subject, state, "
 		. "source, source_link, date_added, last_updated "
-		. "FROM " . moss_core_dbQuote($moss, $table) . " "
-		. "WHERE business_id = '" . moss_core_dbQuote($moss, $args['business_id']) . "' ";
+		. "FROM " . ciniki_core_dbQuote($ciniki, $table) . " "
+		. "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $args['business_id']) . "' ";
 	
 	// state - optional
 	if( isset($args['state']) ) {
-		$strsql .= "AND state = '" . moss_core_dbQuote($moss, $args['state']) . "' ";
+		$strsql .= "AND state = '" . ciniki_core_dbQuote($ciniki, $args['state']) . "' ";
 	} else {
 		//
 		// Default to a blank state, which should be none for any threads using states,
@@ -56,26 +56,26 @@ function moss_core_threadGetList($moss, $module, $table, $container_name, $row_n
 
 	// user_id
 	if( isset($args['user_id']) && $args['user_id'] > 0 ) {
-		$strsql .= "AND user_id = '" . moss_core_dbQuote($moss, $args['user_id']) . "' ";
+		$strsql .= "AND user_id = '" . ciniki_core_dbQuote($ciniki, $args['user_id']) . "' ";
 	}
 
 	// subject
 	if( isset($args['subject']) ) {
-		$strsql .= "AND subject = '" . moss_core_dbQuote($moss, $args['subject']) . "', ";
+		$strsql .= "AND subject = '" . ciniki_core_dbQuote($ciniki, $args['subject']) . "', ";
 	}
 
 	// source - optional
 	if( isset($args['source']) ) {
-		$strsql .= "AND source = '" . moss_core_dbQuote($moss, $args['source']) . "' ";
+		$strsql .= "AND source = '" . ciniki_core_dbQuote($ciniki, $args['source']) . "' ";
 	}
 
 	// source_link - optional
 	if( isset($args['source_link']) ) {
-		$strsql .= "AND source_link = '" . moss_core_dbQuote($moss, $args['source_link']) . "' ";
+		$strsql .= "AND source_link = '" . ciniki_core_dbQuote($ciniki, $args['source_link']) . "' ";
 	}
 
 	$strsql .= "ORDER BY id ";
 
-	return moss_core_dbRspQueryPlusUsers($moss, $strsql, $module, $container_name, $row_name, array('stat'=>'ok', $container_name=>array()));
+	return ciniki_core_dbRspQueryPlusUsers($ciniki, $strsql, $module, $container_name, $row_name, array('stat'=>'ok', $container_name=>array()));
 }
 ?>

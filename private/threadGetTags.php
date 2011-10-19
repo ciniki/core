@@ -10,7 +10,7 @@
 //
 // Arguments
 // ---------
-// moss:
+// ciniki:
 // business_id:			The id of the business to get the tags for.
 // module:				The module the tags are in.
 // prefix:				The table prefix used in the query.
@@ -28,32 +28,32 @@
 //		<$row_name field=value ... />
 // </$container_name>
 //
-function moss_core_threadGetTags($moss, $business_id, $module, $prefix, $container, $row_name, $no_row_err, $options) {
+function ciniki_core_threadGetTags($ciniki, $business_id, $module, $prefix, $container, $row_name, $no_row_err, $options) {
 
-	$strsql = "SELECT DISTINCT tag FROM " . moss_core_dbQuote($moss, "{$prefix}s") . ", " . moss_core_dbQuote($moss, "{$prefix}_tags") . " "
-		. "WHERE " . moss_core_dbQuote($moss, "{$prefix}s.business_id") . " = '" . moss_core_dbQuote($moss, $business_id) . "' ";
+	$strsql = "SELECT DISTINCT tag FROM " . ciniki_core_dbQuote($ciniki, "{$prefix}s") . ", " . ciniki_core_dbQuote($ciniki, "{$prefix}_tags") . " "
+		. "WHERE " . ciniki_core_dbQuote($ciniki, "{$prefix}s.business_id") . " = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' ";
 
 	//
 	// Check if there was state specified
 	//
 	if( is_array($options) && isset($options['state']) && $options['state'] != '' ) {
-		$strsql .= "AND " . moss_core_dbQuote($moss, "{$prefix}s.state") . " = '" . moss_core_dbQuote($moss, $options['state']) . "' ";
+		$strsql .= "AND " . ciniki_core_dbQuote($ciniki, "{$prefix}s.state") . " = '" . ciniki_core_dbQuote($ciniki, $options['state']) . "' ";
 	} 
 
 	//
 	// Check if there was source specified
 	//
 	if( is_array($options) && isset($options['source']) && $options['source'] != '' ) {
-		$strsql .= "AND " . moss_core_dbQuote($moss, "{$prefix}s.state") . " = '" . moss_core_dbQuote($moss, $options['source']) . "' ";
+		$strsql .= "AND " . ciniki_core_dbQuote($ciniki, "{$prefix}s.state") . " = '" . ciniki_core_dbQuote($ciniki, $options['source']) . "' ";
 	}
 
 	// 
 	// Connect the main to the tags table
 	// eg: AND bugs.id = bug_tags.bug_id
 	//
-	$strsql .= "AND " . moss_core_dbQuote($moss, "{$prefix}s.id") . " = " . moss_core_dbQuote($moss, "{$prefix}_tags") . "." . moss_core_dbQuote($moss, "{$prefix}_id") . " ";
+	$strsql .= "AND " . ciniki_core_dbQuote($ciniki, "{$prefix}s.id") . " = " . ciniki_core_dbQuote($ciniki, "{$prefix}_tags") . "." . ciniki_core_dbQuote($ciniki, "{$prefix}_id") . " ";
 
-	require_once($moss['config']['core']['modules_dir'] . '/core/private/dbRspQuery.php');
-	return moss_core_dbRspQuery($moss, $strsql, $module, $container, $row_name, $no_row_err);
+	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbRspQuery.php');
+	return ciniki_core_dbRspQuery($ciniki, $strsql, $module, $container, $row_name, $no_row_err);
 }
 ?>

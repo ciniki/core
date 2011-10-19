@@ -32,19 +32,19 @@
 //     ...
 // </countries>
 //
-function moss_core_getAddressCountryCodes($moss) {
+function ciniki_core_getAddressCountryCodes($ciniki) {
 	//
 	// Check access restrictions to checkAPIKey
 	//
-	require_once($moss['config']['core']['modules_dir'] . '/core/private/checkAccess.php');
-	$rc = moss_core_checkAccess($moss, 0, 'moss.core.getAddressCountryCodes');
+	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/checkAccess.php');
+	$rc = ciniki_core_checkAccess($ciniki, 0, 'ciniki.core.getAddressCountryCodes');
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
 	}
 
-	if( $moss['response']['format'] != 'tmpl' 
-		&& $moss['response']['format'] != 'php_serial' 
-		&& $moss['response']['format'] != 'rest' 
+	if( $ciniki['response']['format'] != 'tmpl' 
+		&& $ciniki['response']['format'] != 'php_serial' 
+		&& $ciniki['response']['format'] != 'rest' 
 		) {
 		return array('stat'=>'fail', 'err'=>array('code'=>'6', 'msg'=>'Invalid arguments', 'pmsg'=>'Response format must be specified.'));
 	}
@@ -309,7 +309,7 @@ function moss_core_getAddressCountryCodes($moss) {
 
 	$rsp = array();
 	$rsp['stat'] = 'ok';
-	if( $moss['response']['format'] == 'php_serial' ) {
+	if( $ciniki['response']['format'] == 'php_serial' ) {
 		$rsp['countries'] = array();
 		$rsp['countries']['count'] = 0;
 		$rsp['countries']['data'] = array();
@@ -331,10 +331,10 @@ function moss_core_getAddressCountryCodes($moss) {
 		// a xml template.
 		//
 		$template = '<country id="{$cc}" name="{$name}" />';
-		if( $moss['response']['format'] == 'html' ) {
+		if( $ciniki['response']['format'] == 'html' ) {
 			$template = '<li id="{$cc}">{$name}</li>';
-		} elseif( $moss['response']['format'] == 'tmpl' && isset($moss['response']['template']) ) {
-			$template = $moss['response']['template'];
+		} elseif( $ciniki['response']['format'] == 'tmpl' && isset($ciniki['response']['template']) ) {
+			$template = $ciniki['response']['template'];
 		}
 
 		foreach($data as $country) {

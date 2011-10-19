@@ -14,7 +14,7 @@
 // ---------
 // user_id: 		The user making the request
 //
-function moss_core_loadBusinessConfig($moss, $args) {
+function ciniki_core_loadBusinessConfig($ciniki, $args) {
 
 }
 ?>

@@ -15,7 +15,7 @@
 // hash:			The array of array's to turn into xml.
 //
 //
-function moss_core_printHashToJSON($hash) {
+function ciniki_core_printHashToJSON($hash) {
 	print json_encode($hash);	
 }
 ?>

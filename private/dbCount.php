@@ -11,18 +11,18 @@
 //
 // Arguments
 // ---------
-// moss: 				The moss data structure with current session.
+// ciniki: 				The ciniki data structure with current session.
 // strsql:				The SQL string to query the database with.
 // module:				The name of the module to pull the data from.
 //						The module name is used for database connection cache.
 // container_name:		The container name to attach the data when only one row returned.
 // no_row_error:		The error code and msg to return when no rows were returned from the query.
 //
-function moss_core_dbCount($moss, $strsql, $module, $container_name) {
+function ciniki_core_dbCount($ciniki, $strsql, $module, $container_name) {
 	//
 	// Check connection to database, and open if necessary
 	//
-	$rc = moss_core_dbConnect($moss, $module);
+	$rc = ciniki_core_dbConnect($ciniki, $module);
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
 	}

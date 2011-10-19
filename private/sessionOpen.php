@@ -12,20 +12,20 @@
 // ---------
 //
 //
-function moss_core_sessionOpen(&$moss) {
+function ciniki_core_sessionOpen(&$ciniki) {
 
-	if( !isset($moss['session']) || !is_array($moss['session']) ) {
-		return array('stat'=>'fail', 'err'=>array('code'=>'21', 'msg'=>'Internal configuration error', 'pmsg'=>'$moss["session"] not set'));
+	if( !isset($ciniki['session']) || !is_array($ciniki['session']) ) {
+		return array('stat'=>'fail', 'err'=>array('code'=>'21', 'msg'=>'Internal configuration error', 'pmsg'=>'$ciniki["session"] not set'));
 	}
 
-	if( !isset($moss['request']['auth_token']) 
-		|| !isset($moss['request']['api_key']) 
-		|| $moss['request']['api_key'] == ''
+	if( !isset($ciniki['request']['auth_token']) 
+		|| !isset($ciniki['request']['api_key']) 
+		|| $ciniki['request']['api_key'] == ''
 		) {
 		return array('stat'=>'fail', 'err'=>array('code'=>'22', 'msg'=>'Internal configuration error', 'pmsg'=>'auth_token and/or api_key empty'));
 	}
 
-	if( $moss['request']['auth_token'] == '' ) {
+	if( $ciniki['request']['auth_token'] == '' ) {
 		return array('stat'=>'fail', 'err'=>array('code'=>'23', 'msg'=>'No auth_token specified'));
 	}
 
@@ -39,17 +39,17 @@ function moss_core_sessionOpen(&$moss) {
 	// extra layer of security for session.
 	//
 
-	require_once($moss['config']['core']['modules_dir'] . '/core/private/dbQuote.php');
+	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbQuote.php');
 	$strsql = "SELECT auth_token, api_key, user_id, date_added, "
 		. "(UNIX_TIMESTAMP(UTC_TIMESTAMP()) - UNIX_TIMESTAMP(last_saved)) as session_length, timeout, "
 		. "session_data "
 		. "FROM core_session_data "
-		. "WHERE auth_token = '" . moss_core_dbQuote($moss, $moss['request']['auth_token']) . "' "
-		. "AND api_key = '" . moss_core_dbQuote($moss, $moss['request']['api_key']) . "' "
+		. "WHERE auth_token = '" . ciniki_core_dbQuote($ciniki, $ciniki['request']['auth_token']) . "' "
+		. "AND api_key = '" . ciniki_core_dbQuote($ciniki, $ciniki['request']['api_key']) . "' "
 		. "";
 
-	require_once($moss['config']['core']['modules_dir'] . '/core/private/dbHashQuery.php');
-	$rc = moss_core_dbHashQuery($moss, $strsql, 'core', 'auth');
+	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbHashQuery.php');
+	$rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'core', 'auth');
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
 	}
@@ -62,15 +62,15 @@ function moss_core_sessionOpen(&$moss) {
 	// Check expiry
 	//
 	if( $rc['auth']['session_length'] > $rc['auth']['timeout'] ) {
-		require_once($moss['config']['core']['modules_dir'] . '/core/private/sessionEnd.php');
-		moss_core_sessionEnd($moss);
+		require_once($ciniki['config']['core']['modules_dir'] . '/core/private/sessionEnd.php');
+		ciniki_core_sessionEnd($ciniki);
 		return array('stat'=>'fail', 'err'=>array('code'=>'27', 'msg'=>'Session expired'));
 	}
 
 	//
 	// Unserialize the session data
 	//
-	$moss['session'] = unserialize($rc['auth']['session_data']);
+	$ciniki['session'] = unserialize($rc['auth']['session_data']);
 	
 	//
 	// Check session variables for security.  If the values in the session
@@ -78,16 +78,16 @@ function moss_core_sessionOpen(&$moss) {
 	// security problem.
 	// Reset the session variable before returning.
 	//
-	if( $moss['session']['api_key'] != $moss['request']['api_key'] ) {
-		$moss['session'] = array();
+	if( $ciniki['session']['api_key'] != $ciniki['request']['api_key'] ) {
+		$ciniki['session'] = array();
 		return array('stat'=>'fail', 'err'=>array('code'=>'24', 'msg'=>'Access Denied', 'pmsg'=>'Security Problem: Request and session api_key do not match, possible security problem.'));
 	} 
-	elseif( $moss['session']['auth_token'] != $moss['request']['auth_token'] ) {
-		$moss['session'] = array();
+	elseif( $ciniki['session']['auth_token'] != $ciniki['request']['auth_token'] ) {
+		$ciniki['session'] = array();
 		return array('stat'=>'fail', 'err'=>array('code'=>'25', 'msg'=>'Access Denied', 'pmsg'=>'Security Problem: Request and session auth_token do not match, possible security problem.'));
 	} 
-	elseif( $moss['session']['user']['id'] != $rc['auth']['user_id'] ) {
-		$moss['session'] = array();
+	elseif( $ciniki['session']['user']['id'] != $rc['auth']['user_id'] ) {
+		$ciniki['session'] = array();
 		return array('stat'=>'fail', 'err'=>array('code'=>'26', 'msg'=>'Access Denied', 'pmsg'=>'Security Problem: The user_id in the session data does not match the user_id assigned to session in the database.'));
 	}
 

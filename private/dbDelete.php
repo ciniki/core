@@ -13,8 +13,8 @@
 // ---------
 // 
 //
-function moss_core_dbDelete($moss, $strsql, $module) {
-	require_once($moss['config']['core']['modules_dir'] . '/core/private/dbUpdate.php');
-	return moss_core_dbUpdate($moss, $strsql, $module);
+function ciniki_core_dbDelete($ciniki, $strsql, $module) {
+	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbUpdate.php');
+	return ciniki_core_dbUpdate($ciniki, $strsql, $module);
 }
 ?>

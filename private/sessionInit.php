@@ -13,20 +13,20 @@
 // ---------
 //
 //
-function moss_core_sessionInit(&$moss) {
+function ciniki_core_sessionInit(&$ciniki) {
 
-	$moss['session'] = array();
+	$ciniki['session'] = array();
 
 	//
 	// Set default session variables
 	//
-	$moss['session']['api_key'] = '';
-	$moss['session']['auth_token'] = '';
+	$ciniki['session']['api_key'] = '';
+	$ciniki['session']['auth_token'] = '';
 
 	//
 	// Create a structure to store the user information
 	//
-	$moss['session']['user'] = array('id'=>0, 'perms'=>0);
+	$ciniki['session']['user'] = array('id'=>0, 'perms'=>0);
 
 	return array('stat'=>'ok');
 }

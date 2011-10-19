@@ -21,26 +21,26 @@
 //		<table_name name='users' />
 //	</tables>
 //
-function moss_core_upgradeDb($moss) {
+function ciniki_core_upgradeDb($ciniki) {
 	//
 	// Check access restrictions to monitorChangeLogs
 	//
-	require_once($moss['config']['core']['modules_dir'] . '/core/private/checkAccess.php');
-	$rc = moss_core_checkAccess($moss, 0, 'moss.core.upgradeDb');
+	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/checkAccess.php');
+	$rc = ciniki_core_checkAccess($ciniki, 0, 'ciniki.core.upgradeDb');
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
 	}
 	
-	require_once($moss['config']['core']['modules_dir'] . '/core/private/dbGetMOSSTables.php');
-	require_once($moss['config']['core']['modules_dir'] . '/core/private/dbHashIDQuery.php');
-	require_once($moss['config']['core']['modules_dir'] . '/core/private/dbUpgradeTable.php');
+	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbGetCinikiTables.php');
+	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbHashIDQuery.php');
+	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbUpgradeTable.php');
 
-	$tables = moss_core_dbGetMOSSTables($moss);
+	$tables = ciniki_core_dbGetCinikiTables($ciniki);
 
 	// FIXME: If in multiple databases, this script will need to be updated.
 
 	$strsql = "SHOW TABLE STATUS";
-	$rc = moss_core_dbHashIDQuery($moss, $strsql, 'core', 'tables', 'Name');
+	$rc = ciniki_core_dbHashIDQuery($ciniki, $strsql, 'core', 'tables', 'Name');
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
 	}
@@ -54,11 +54,11 @@ function moss_core_upgradeDb($moss) {
 	}
 	
 	foreach($tables as $table_name => $table) {
-		$schema = file_get_contents($moss['config']['core']['modules_dir'] . "/" . $table['module']	. "/db/$table_name.schema");
+		$schema = file_get_contents($ciniki['config']['core']['modules_dir'] . "/" . $table['module']	. "/db/$table_name.schema");
 		if( preg_match('/comment=\'(v[0-9]+\.[0-9]+)\'/i', $schema, &$matches) ) {
 			$new_version = $matches[1];
 			if( $new_version != $tables[$table_name]['database_version'] ) {
-				$rc = moss_core_dbUpgradeTable($moss, $tables[$table_name]['module'], $table_name, 
+				$rc = ciniki_core_dbUpgradeTable($ciniki, $tables[$table_name]['module'], $table_name, 
 					$tables[$table_name]['database_version'], $new_version);
 				if( $rc['stat'] != 'ok' ) {
 					return $rc;

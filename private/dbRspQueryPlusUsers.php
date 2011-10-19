@@ -11,7 +11,7 @@
 //
 // Arguments
 // ---------
-// moss: 				The moss data structure with current session.
+// ciniki: 				The ciniki data structure with current session.
 // strsql:				The SQL string to query the database with.
 // module:				The name of the module to pull the data from.
 //						The module name is used for database connection cache.
@@ -19,11 +19,11 @@
 // row_name:			The row name to attached each row to.
 // no_row_error:		The error code and msg to return when no rows were returned from the query.
 //
-function moss_core_dbRspQueryPlusUsers($moss, $strsql, $module, $container_name, $row_name, $no_row_error) {
+function ciniki_core_dbRspQueryPlusUsers($ciniki, $strsql, $module, $container_name, $row_name, $no_row_error) {
 	//
 	// Check connection to database, and open if necessary
 	//
-	$rc = moss_core_dbConnect($moss, $module);
+	$rc = ciniki_core_dbConnect($ciniki, $module);
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
 	}
@@ -56,12 +56,12 @@ function moss_core_dbRspQueryPlusUsers($moss, $strsql, $module, $container_name,
 	//
 	$rsp[$container_name] = array();
 	$users = array();
-	require_once($moss['config']['core']['modules_dir'] . '/core/private/dbParseAge.php');
+	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbParseAge.php');
 	while( $row = mysql_fetch_assoc($result) ) {
 		$rsp[$container_name][$rsp['num_rows']] = array($row_name=>$row);
 		$users[$row['user_id']] = 1;
 		if( isset($row['age']) ) {
-			$rsp[$container_name][$rsp['num_rows']][$row_name]['age'] = moss_core_dbParseAge($moss, $row['age']);
+			$rsp[$container_name][$rsp['num_rows']][$row_name]['age'] = ciniki_core_dbParseAge($ciniki, $row['age']);
 		}
 		$rsp['num_rows']++;
 	}
@@ -69,7 +69,7 @@ function moss_core_dbRspQueryPlusUsers($moss, $strsql, $module, $container_name,
 	//
 	// Get the users who contributed to the actions
 	//
-	$rc = moss_core_dbConnect($moss, 'users');
+	$rc = ciniki_core_dbConnect($ciniki, 'users');
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
 	}
@@ -79,7 +79,7 @@ function moss_core_dbRspQueryPlusUsers($moss, $strsql, $module, $container_name,
 	//
 	$strsql = "SELECT id, display_name "
 		. "FROM users "
-		. "WHERE id IN (" . moss_core_dbQuote($moss, implode(',', array_keys($users))) . ") ";
+		. "WHERE id IN (" . ciniki_core_dbQuote($ciniki, implode(',', array_keys($users))) . ") ";
 	$result = mysql_query($strsql, $dh);
 	if( $result == false ) {
 		return array('stat'=>'fail', 'err'=>array('code'=>'149', 'msg'=>'Database Error', 'pmsg'=>mysql_error($dh)));

@@ -2,7 +2,7 @@
 //
 // Description
 // -----------
-// The moss.core.dbRspQuery method will format a query response which
+// The ciniki.core.dbRspQuery method will format a query response which
 // can be directly handed back through the API if necessary.
 //
 // Info
@@ -11,19 +11,19 @@
 //
 // Arguments
 // ---------
-// moss: 				The moss data structure with current session.
+// ciniki: 				The ciniki data structure with current session.
 // strsql:				The SQL string to query the database with.
 // module:				The name of the module to pull the data from.
 //						The module name is used for database connection cache.
 // container_name:		The container name to attach the data when only one row returned.
 // no_row_error:		The error code and msg to return when no rows were returned from the query.
 //
-function moss_core_dbRspQuery($moss, $strsql, $module, $container_name, $row_name, $no_row_error) {
+function ciniki_core_dbRspQuery($ciniki, $strsql, $module, $container_name, $row_name, $no_row_error) {
 	//
 	// Check connection to database, and open if necessary
 	//
-	require_once($moss['config']['core']['modules_dir'] . '/core/private/dbParseAge.php');
-	$rc = moss_core_dbConnect($moss, $module);
+	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbParseAge.php');
+	$rc = ciniki_core_dbConnect($ciniki, $module);
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
 	}
@@ -59,7 +59,7 @@ function moss_core_dbRspQuery($moss, $strsql, $module, $container_name, $row_nam
 	while( $row = mysql_fetch_assoc($result) ) {
 		$rsp[$container_name][$rsp['num_rows']] = array($row_name=>$row);
 		if( isset($row['age']) ) {
-			$rsp[$container_name][$rsp['num_rows']][$row_name]['age'] = moss_core_dbParseAge($moss, $row['age']);
+			$rsp[$container_name][$rsp['num_rows']][$row_name]['age'] = ciniki_core_dbParseAge($ciniki, $row['age']);
 		}
 		$rsp['num_rows']++;
 	}

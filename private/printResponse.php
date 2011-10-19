@@ -11,10 +11,10 @@
 //
 // Arguments
 // ---------
-// moss:		The moss internal variable.
+// ciniki:		The ciniki internal variable.
 // hash:		The hash structure to return as a response.
 //
-function moss_core_printResponse($moss, $hash) {
+function ciniki_core_printResponse($ciniki, $hash) {
 
 	if( !is_array($hash) ) {
 		$rsp_hash = array('stat'=>'fail', 'err'=>array('code'=>'38', 'msg'=>'Internal configuration error'));
@@ -23,27 +23,27 @@ function moss_core_printResponse($moss, $hash) {
 	}
 
 	//
-	// If nothing is specified, or there's an error with the $moss data structure,
+	// If nothing is specified, or there's an error with the $ciniki data structure,
 	// then default to response in XML rest format.
 	//
-	if( !is_array($moss) || !is_array($moss['response']) || !isset($moss['response']['format']) ) {
+	if( !is_array($ciniki) || !is_array($ciniki['response']) || !isset($ciniki['response']['format']) ) {
 		header("Content-Type: text/xml; charset=utf-8");
 		print "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n";
-		require_once($moss['config']['core']['modules_dir'] . '/core/private/printHashToXML.php');
-		moss_core_printHashToXML('rsp', '', $hash);	
+		require_once($ciniki['config']['core']['modules_dir'] . '/core/private/printHashToXML.php');
+		ciniki_core_printHashToXML('rsp', '', $hash);	
 	} 
 
-	elseif( $moss['response']['format'] == 'php_serial' ) {
+	elseif( $ciniki['response']['format'] == 'php_serial' ) {
 		header("Content-Type: text/plain; charset=utf-8");
-		require_once($moss['config']['core']['modules_dir'] . '/core/private/printHashToPHP.php');
-		moss_core_printHashToPHP($hash);
+		require_once($ciniki['config']['core']['modules_dir'] . '/core/private/printHashToPHP.php');
+		ciniki_core_printHashToPHP($hash);
 	} 
 
-	elseif( $moss['response']['format'] == 'json' ) {
+	elseif( $ciniki['response']['format'] == 'json' ) {
 		header("Content-Type: text/plain; charset=utf-8");
 		header("Cache-Control: no-cache, must-revalidate");
-		require_once($moss['config']['core']['modules_dir'] . '/core/private/printHashToJSON.php');
-		moss_core_printHashToJSON($hash);
+		require_once($ciniki['config']['core']['modules_dir'] . '/core/private/printHashToJSON.php');
+		ciniki_core_printHashToJSON($hash);
 	}
 
 	//
@@ -52,8 +52,8 @@ function moss_core_printResponse($moss, $hash) {
 	else {
 		header("Content-Type: text/xml; charset=utf-8");
 		print "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n";
-		require_once($moss['config']['core']['modules_dir'] . '/core/private/printHashToXML.php');
-		moss_core_printHashToXML('rsp', '', $hash);	
+		require_once($ciniki['config']['core']['modules_dir'] . '/core/private/printHashToXML.php');
+		ciniki_core_printHashToXML('rsp', '', $hash);	
 	}
 
 }

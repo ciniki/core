@@ -22,7 +22,7 @@
 // user_agent:		The USER_AGENT string passed from the browser.
 //
 //
-function moss_core_detectDeviceByUserAgent($moss, $user_agent) {
+function ciniki_core_detectDeviceByUserAgent($ciniki, $user_agent) {
 
 	//
 	// Setup the default device
@@ -42,12 +42,12 @@ function moss_core_detectDeviceByUserAgent($moss, $user_agent) {
 	//
 	// Check the USER_AGENT against the database
 	//
-	require_once($moss['config']['core']['modules_dir'] . '/core/private/dbQuote.php');
-	require_once($moss['config']['core']['modules_dir'] . '/core/private/dbHashQuery.php');
+	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbQuote.php');
+	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbHashQuery.php');
 	$strsql = "SELECT viewport, make, model, browser, browser_version "
 		. "FROM core_user_agents "
-		. "WHERE user_agent = '" . moss_core_dbQuote($moss, $user_agent) . "'";
-	$rc = moss_core_dbHashQuery($moss, $strsql, 'core', 'device');
+		. "WHERE user_agent = '" . ciniki_core_dbQuote($ciniki, $user_agent) . "'";
+	$rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'core', 'device');
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
 	}
@@ -66,8 +66,8 @@ function moss_core_detectDeviceByUserAgent($moss, $user_agent) {
 	// a guess should be made to try and determine the level of browser
 	//
 	if( $rc['num_rows'] == 0 ) {
-		require_once($moss['config']['core']['modules_dir'] . '/core/private/alertGenerate.php');
-		moss_core_alertGenerate($moss, 
+		require_once($ciniki['config']['core']['modules_dir'] . '/core/private/alertGenerate.php');
+		ciniki_core_alertGenerate($ciniki, 
 			array('alert'=>'1', 'msg'=>'USER_AGENT string not found'), $rc);
 
 		if( preg_match('/Mozilla\/[0-9].* Firefox\/[0-9]/', $user_agent) ) {

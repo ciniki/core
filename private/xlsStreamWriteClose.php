@@ -16,7 +16,7 @@
 // Returns
 // -------
 //
-function moss__getMethod($moss) {
+function ciniki__getMethod($ciniki) {
 
 }
 ?>

@@ -14,7 +14,7 @@
 // 
 //
 //
-function moss_core_checkSecureConnection(&$moss) {
+function ciniki_core_checkSecureConnection(&$ciniki) {
 
 	//
 	// The HTTP_CLUSTER_HTTPS setting is used by rackspace to let the script know it's running
@@ -39,7 +39,7 @@ function moss_core_checkSecureConnection(&$moss) {
 	// If the override has been set in the config, then don't worry about the check.
 	// *note* This is good for testing, but should never be used in production
 	//
-	if( isset($moss['config']['core']['ssl']) && $moss['config']['core']['ssl'] == 'off' ) {
+	if( isset($ciniki['config']['core']['ssl']) && $ciniki['config']['core']['ssl'] == 'off' ) {
 		return array('stat'=>'ok');
 	}
 

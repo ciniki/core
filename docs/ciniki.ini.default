@@ -1,0 +1,92 @@
+#
+# This config file will store the common information for the system.
+#
+# This will also contain the included modules for the install
+#
+
+[core]
+root_dir=site
+modules_dir=site/ciniki-api
+lib_dir=site/ciniki-lib
+session_timeout = 600
+
+# Test without the following line 
+database=ciniki
+
+;
+; The databases available to Ciniki.  This
+; allows the database to be separated in the future
+; for load balancing or performance tuning
+;
+database.names=ciniki,ciniki2
+database.ciniki.hostname = 'localhost';
+database.ciniki.username = 'root';
+database.ciniki.password = '';
+database.ciniki.database = 'ciniki';
+
+;
+; Any alerts generated should be forwarded to the following emails
+;
+alerts.notify=anybody@nobody.com
+system.email=instance@ciniki.ca
+system.email.name='Ciniki Robot'
+
+;
+; When doing development work, the following settings are good for 
+; running on machine that do not have SSL turned on.  
+; DO NOT USE IN PRODUCTION!
+;
+;ssl='off'
+
+;
+; The master business must be specified, so things like ciniki-manage help work
+;
+master_business_id=1
+
+[manage]
+;
+; Send an email anytime somebody asks a question in Help
+;
+help.notify=anybody@nobody.com
+
+[users]
+
+[businesses]
+
+
+[locations]
+
+[websites]
+;
+; The default website to display when none are specified
+;
+default=ciniki.localhost
+
+;
+; Website delivery settings, which API KEY to use
+; for web traffic and which user.  These settings
+; are for the web hosting portion, through index.php
+;
+api_key=ffff0001
+url=http://ciniki.localhost/rest.php
+username=www
+password=password
+
+;
+; When the password needs to be changed for security reasons, then
+; this file should be changed first by moving password to old_password,
+; and adding the new password.
+; eg:
+; Step 1 - existing config.ini
+; password=einstein
+;
+; Step 2 - update for new password 
+; password=galileo
+; old_password=einstein
+;
+; Step 3 - update ciniki database
+; UPDATE users SET password = SHA1('galileo') WHERE username = 'www';
+;
+; Step 4 - Update config.ini to remove old password
+; password=galileo
+;

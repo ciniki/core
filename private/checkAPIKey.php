@@ -17,8 +17,8 @@ function ciniki_core_checkAPIKey($ciniki) {
 	//
 	// Required functions
 	//
-	require($ciniki['config']['core']['root_dir'] . '/ciniki-modules/core/private/dbQuote.php');
-	require($ciniki['config']['core']['root_dir'] . '/ciniki-modules/core/private/dbRspQuery.php');
+	require($ciniki['config']['core']['modules_dir'] . '/core/private/dbQuote.php');
+	require($ciniki['config']['core']['modules_dir'] . '/core/private/dbRspQuery.php');
 
 	if( !isset($ciniki['request']['api_key']) ) {
 		return array('stat'=>'fail', 'err'=>array('code'=>'17', 'msg'=>'Internal Error', 'pmsg'=>"ciniki_core_checkAPIKey called before ciniki_core_init."));

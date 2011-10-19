@@ -1,7 +1,6 @@
 The core module is a set of base API functions both public and private to
 support the ciniki framework.
 
-
 The Core module can return information requests which don't rely on a database,
 such as a list of all country codes for use in addresses.  These requests may
 generate lists or information which is common across multiple modules.

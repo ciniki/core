@@ -1,0 +1,94 @@
+#
+# Description
+# -----------
+# The core_change_log table stores all changes for 
+# database fields in the database.
+#
+# This change log can be used to roll back a database.
+#
+# The change log can be displayed to users for undo purposes.
+#
+# The user would be able to undo specific items in a history.
+#
+# Undo security must be tight.  Only the person who made the change
+# or the business owner can undo.  Undo's must be blockable by
+# ciniki admin so business owner can't undo.  This is done but status.
+#
+# Many functions will do adds to the database, but very few
+# will make changes to the data.  
+#
+# Log entries can be selective as well.  A customer changing
+# the quantity of an item from 6 to 3, should not be logged.
+# If a different user than the person who created the cart goes
+# to change a the same value, it will be logged. 
+#
+# All changes to product information, business information, or website content
+# must be logged, so there is a change history.
+#
+# This table could be used in conjunction with the web_pages table
+# to product change history on web content, which would enable revision control.
+#
+# Fields
+# ------
+# id: 			The id of the log entry.
+# user_id:		The user who made the change.
+#
+# session:			The id of the current session for the user.  A login starts a 
+#					session, a logout or timeout ends a session.
+#					 
+#					The session and transaction fields are also a system 
+#					that group changes together.
+#
+# transaction:		The current transaction within the current session.
+#
+#					*note* For future use.
+#
+# status:			The current status of the transaction.	
+#
+#					*note* For future use only, everything is status 'done' to start.
+#
+#					0 - unknown
+#					1 - done
+#					2 - undone
+#					3 - pending (needs approval before being changed)
+#					4 - locked (by ciniki admin, no undo.  Business can't undo ciniki admin changes).
+#
+# business_id:		The ID of the business the change happened on.  Every change
+#					must be tied to a business for security reasons.
+#
+# table_name:		The table where the change was made.
+#
+# table_key:		The key to the row changed.  This may be composed
+#					of several values from different fields in the
+#					changed table.  And example of a key might be 12221-8849-1229393.
+#
+#					If necessary, the primary key can be retrieved from the 
+#					the remote table description, and then used to 
+#					execute a query to undo the action based on the table_key being split.
+#
+#					Examples: (table_name, table_key, table_field)
+#
+#					_ 'businesses', '1', 'name', 'MOSS'
+#					_ 'business_details', '1', 'detail_key'
+#
+# table_field:		The changed field.
+# new_value:		The new value of the field.
+# log_date: 		The date and time the change happened.
+#
+create table core_change_logs (
+	id bigint not null auto_increment,
+	user_id	int not null,
+	session varchar(50) not null,
+	transaction varchar(50) not null,
+	status tinyint unsigned not null,
+	business_id int not null,
+	table_name varchar(50) not null,
+	table_key varchar(50) not null,
+	table_field varchar(50) not null,
+	new_value varchar(255) not null,
+	log_date datetime not null,
+	primary key (id),
+	index (user_id), 
+	index (business_id, table_name, table_key, table_field),
+	index (log_date)
+) ENGINE=InnoDB, COMMENT='v1.02';

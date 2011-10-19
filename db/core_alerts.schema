@@ -1,0 +1,37 @@
+#
+# Description
+# -----------
+# The core_alerts table store any alerts which are generated from within the core
+# code that need to be examined by a system administrator.  An email will
+# also be sent to the address specified in the config file.
+#
+# Fields
+# ------
+# id:				The unique identifier for the alert.
+# code:				The code assigned within the code to each alert type.
+# msg:				The message describing the alert, will be used as subject line.
+# status:			The current status of the message.  * not implemented
+#					
+#					0 - unknown
+#					1 - 
+#					
+# calling_function:	The function the alert was generated from.
+# var_moss:			The contents of the $moss variable.
+# var_rc:			The contents of any return code of the function called before the alert generated.
+# date_added:		The date and time the record was added.
+# last_updated:		The date and time the record was last updated.
+#
+create table core_alerts (
+	id int not null auto_increment,
+	code int not null,
+	msg varchar(255) not null,
+	status tinyint unsigned not null,
+	var_alert text,
+	var_moss text,
+	var_rc text,
+	date_added datetime not null,
+	last_updated datetime not null,
+	primary key (id),
+	index (status),
+	index (code, msg)
+) ENGINE=InnoDB, COMMENT='v1.01';

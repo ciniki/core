@@ -1,0 +1,7 @@
+delete from core_api_keys;
+insert into core_api_keys values ('001', 1, 0, 1, 'Test Key', '', 0, 0, now(), now());
+insert into core_api_keys values ('002', 2, 0, 1, 'Test Key deleted', '', 0, 0, now(), now());
+insert into core_api_keys values ('003', 1, 0, 1, 'Test Key expired', '', 0, '2010-01-01 04:20:00', now(), now());
+insert into core_api_keys values ('004', 1, 0, 1, 'Test Key expiring', '', 0, '2012-12-21 04:20:00', now(), now());
+insert into core_api_keys values ('ffff0001', 1, 0, 1, 'WWW User', 'Access from website', 0, 0, now(), now());
+insert into core_api_keys values ('0123456789abcdef0123456789abcdef', 2, 0, 1, 'Example Key', 'not to be used', 0, 0, now(), now());

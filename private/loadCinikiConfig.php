@@ -18,7 +18,7 @@
 //
 function ciniki_core_loadCinikiConfig(&$ciniki, $ciniki_root) {
 	
-	$config_file = $ciniki_root . "/ciniki.ini";
+	$config_file = $ciniki_root . "/ciniki-api.ini";
 
 	if( is_file($config_file) ) {
 		$ciniki['config'] = parse_ini_file($config_file, true);

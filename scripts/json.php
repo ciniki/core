@@ -9,7 +9,7 @@
 // Initialize Ciniki by including the ciniki_api.php
 //
 global $ciniki_root;
-$ciniki_root = dirname(__FILE__);
+$ciniki_root = dirname(dirname(dirname(dirname(__FILE__))));
 require_once($ciniki_root . '/ciniki-api/core/private/init.php');
 require_once($ciniki_root . '/ciniki-api/core/private/checkSecureConnection.php');
 require_once($ciniki_root . '/ciniki-api/core/private/callPublicMethod.php');

@@ -1,0 +1,46 @@
+# Block evil spam bots
+# List found on : http://perishablepress.com/press/2006/01/10/stupid-htaccess-tricks/#sec1
+RewriteBase /
+RewriteCond %{HTTP_USER_AGENT} ^Anarchie [OR]
+RewriteCond %{HTTP_USER_AGENT} ^ASPSeek [OR]
+RewriteCond %{HTTP_USER_AGENT} ^attach [OR]
+RewriteCond %{HTTP_USER_AGENT} ^autoemailspider [OR]
+RewriteCond %{HTTP_USER_AGENT} ^Xaldon\ WebSpider [OR]
+RewriteCond %{HTTP_USER_AGENT} ^Xenu [OR]
+RewriteCond %{HTTP_USER_AGENT} ^Zeus.*Webster [OR]
+RewriteCond %{HTTP_USER_AGENT} ^Zeus
+RewriteRule ^.* - [F,L]
+
+# Block access to internal code
+
+Options All -Indexes
+RewriteEngine On
+RewriteBase /
+
+#
+# Remove www. from all domains, and redirect
+#
+#RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+#RewriteRule ^(.*)$ http://%1/$1 [R=301,L]
+
+#uploaded files
+#RewriteRule ^(.*/)?files/$ index.php [L]
+#RewriteCond %{REQUEST_URI} !.*wp-content/plugins.*
+#RewriteRule ^(.*/)?files/(.*) wp-includes/ms-files.php?file=$2 [L]
+
+AddType text/cache-manifest .manifest
+RewriteRule ^mossi$ manage/ [R,L]								# add the trailing slash so img references work
+#RewriteRule ^theme/(.*)$ www-themes/$1 [L]						# redirect to theme directory
+#RewriteRule ^content/(.*)$ www-cache/%{HTTP_HOST}/$1 [L]		# redirect to cache directory
+
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+#RewriteRule ^(www-themes/.*)$ $1 [L]									# Allow theme content
+#RewriteRule ^(www-cache/.*)$ $1 [L]									# Allow cache content
+RewriteRule ^(manage/)$ ciniki-manage.php [L]							# allow all moss-admin
+RewriteRule ^(manage)$ ciniki-manage.php [L]							# allow all moss-admin
+RewriteRule ^(ciniki-manage/.*)$ $1 [L]									# Allow manage content
+RewriteRule ^(ciniki-manage-themes/.*)$ $1 [L]							# Allow manage-theme content
+RewriteRule ^(ciniki-login|ciniki-json|ciniki-rest|index|ciniki-manage).php$ $1.php [L]		# allow entrance php files
+RewriteRule  ^([_0-9a-zA-Z-]+/)(.*\.php)$ index.php [L]					# Redirect all other php requests to index
+RewriteRule . index.php [L]												# Redirect all other requests to index

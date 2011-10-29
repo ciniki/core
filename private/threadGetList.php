@@ -37,8 +37,8 @@ function ciniki_core_threadGetList($ciniki, $module, $table, $container_name, $r
 	//
 	// FIXME: Add timezone information from business settings
 	//
-	date_default_timezone_set('America/Toronto');
-	$todays_date = strftime("%Y-%m-%d");
+	require_once($ciniki['config']['core']['modules_dir'] . '/users/private/timezoneOffset.php');
+	$utc_offset = ciniki_users_timezoneOffset($ciniki);
 
 	require_once($ciniki['config']['core']['modules_dir'] . '/users/private/datetimeFormat.php');
 	$datetime_format = ciniki_users_datetimeFormat($ciniki);
@@ -48,11 +48,11 @@ function ciniki_core_threadGetList($ciniki, $module, $table, $container_name, $r
 	//
 	$strsql = "SELECT id, business_id, user_id, subject, state, "
 		. "source, source_link, "
-		. "DATE_FORMAT(date_added, '" . ciniki_core_dbQuote($ciniki, $datetime_format) . "') AS date_added, "
-		. "DATE_FORMAT(last_updated, '" . ciniki_core_dbQuote($ciniki, $datetime_format) . "') AS last_updated "
+		. "DATE_FORMAT(CONVERT_TZ(date_added, '+00:00', '" . ciniki_core_dbQuote($ciniki, $utc_offset) . "'), '" . ciniki_core_dbQuote($ciniki, $datetime_format) . "') AS date_added, "
+		. "DATE_FORMAT(CONVERT_TZ(last_updated, '+00:00', '" . ciniki_core_dbQuote($ciniki, $utc_offset) . "'), '" . ciniki_core_dbQuote($ciniki, $datetime_format) . "') AS last_updated "
 		. "FROM " . ciniki_core_dbQuote($ciniki, $table) . " "
 		. "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $args['business_id']) . "' ";
-	
+
 	// state - optional
 	if( isset($args['state']) ) {
 		$strsql .= "AND state = '" . ciniki_core_dbQuote($ciniki, $args['state']) . "' ";

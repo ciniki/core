@@ -62,15 +62,8 @@ function ciniki_core_threadAddFollowup($ciniki, $module, $table, $prefix, $id, $
 		return array('stat'=>'fail', 'err'=>array('code'=>'209', 'msg'=>'Unable to add followup', 'err'=>$rc['err']));
 	}
 
-	//
-	// Update the thread last_updated field
-	//
-	$strsql = "UPDATE " . ciniki_core_dbQuote($ciniki, $table) . " SET last_updated = UTC_TIMESTAMP() "
-		. "WHERE " . ciniki_core_dbQuote($ciniki, "{$prefix}_id") . " = '" . ciniki_core_dbQuote($ciniki, $id) . "'";
-	$rc = ciniki_core_dbUpdate($ciniki, $strsql, $module);
-	if( $rc['stat'] != 'ok' ) {
-		return array('stat'=>'fail', 'err'=>array('code'=>'208', 'msg'=>'Unable to add followup', 'err'=>$rc['err']));
-	}
+	// Updates to the main thread last_updated field should be done by the calling function,
+	// incase there are instances where we don't want to update that field.
 
 	return array('stat'=>'ok');
 }

@@ -34,11 +34,22 @@ function ciniki_core_threadGetList($ciniki, $module, $table, $container_name, $r
 	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbQuote.php');
 	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbRspQueryPlusUsers.php');
 
+	//
+	// FIXME: Add timezone information from business settings
+	//
+	date_default_timezone_set('America/Toronto');
+	$todays_date = strftime("%Y-%m-%d");
+
+	require_once($ciniki['config']['core']['modules_dir'] . '/users/private/datetimeFormat.php');
+	$datetime_format = ciniki_users_datetimeFormat($ciniki);
+
 	// 
 	// Setup the SQL statement to insert the new thread
 	//
 	$strsql = "SELECT id, business_id, user_id, subject, state, "
-		. "source, source_link, date_added, last_updated "
+		. "source, source_link, "
+		. "DATE_FORMAT(date_added, '" . ciniki_core_dbQuote($ciniki, $datetime_format) . "') AS date_added, "
+		. "DATE_FORMAT(last_updated, '" . ciniki_core_dbQuote($ciniki, $datetime_format) . "') AS last_updated "
 		. "FROM " . ciniki_core_dbQuote($ciniki, $table) . " "
 		. "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $args['business_id']) . "' ";
 	

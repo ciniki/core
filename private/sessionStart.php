@@ -45,7 +45,7 @@ function ciniki_core_sessionStart(&$ciniki, $username, $password) {
 	// Check the username and password in the database.
 	// Make sure only select active users (status = 2)
 	//
-	$strsql = "SELECT id, email, username, avatar_id, perms, status, timeout, login_attempts "
+	$strsql = "SELECT id, email, username, avatar_id, perms, status, timeout, login_attempts, display_name "
 		. "FROM users "
 		. "WHERE (email = '" . ciniki_core_dbQuote($ciniki, $username) . "' "
 			. "OR username = '" . ciniki_core_dbQuote($ciniki, $username) . "') "

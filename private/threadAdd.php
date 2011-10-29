@@ -29,6 +29,10 @@ function ciniki_core_threadAdd($ciniki, $module, $table, $args) {
 	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbQuote.php');
 	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbInsert.php');
 
+	//
+	// Don't worry about autocommit here, it's taken care of in the calling function
+	//
+
 	// 
 	// Setup the SQL statement to insert the new thread
 	//

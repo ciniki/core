@@ -58,10 +58,12 @@ function ciniki_core_dbGetCinikiTables($ciniki) {
 		'features'=>array('module'=>'features', 'database_version'=>'-', 'schema_version'=>'-'),
 		'feature_followups'=>array('module'=>'features', 'database_version'=>'-', 'schema_version'=>'-'),
 		'feature_users'=>array('module'=>'features', 'database_version'=>'-', 'schema_version'=>'-'),
+		'feature_settings'=>array('module'=>'features', 'database_version'=>'-', 'schema_version'=>'-'),
 
 		'questions'=>array('module'=>'questions', 'database_version'=>'-', 'schema_version'=>'-'),
 		'question_followups'=>array('module'=>'questions', 'database_version'=>'-', 'schema_version'=>'-'),
 		'question_users'=>array('module'=>'questions', 'database_version'=>'-', 'schema_version'=>'-'),
+		'question_settings'=>array('module'=>'questions', 'database_version'=>'-', 'schema_version'=>'-'),
 
 		// website tables
 		'web_sites'=>array('module'=>'websites', 'database_version'=>'-', 'schema_version'=>'-'),

@@ -38,7 +38,9 @@ function ciniki_core_threadGetFollowups($ciniki, $module, $table, $prefix, $id, 
 		. "DATE_FORMAT(date_added, '" . ciniki_core_dbQuote($ciniki, $date_format) . "') as date_added, "
 		. "CAST(UNIX_TIMESTAMP(UTC_TIMESTAMP())-UNIX_TIMESTAMP(date_added) as DECIMAL(12,0)) as age, content "
 		. "FROM " . ciniki_core_dbQuote($ciniki, $table) . " "
-		. "WHERE " . ciniki_core_dbQuote($ciniki, "{$prefix}_id") . " = '" . ciniki_core_dbQuote($ciniki, $id) . "' ";
+		. "WHERE " . ciniki_core_dbQuote($ciniki, "{$prefix}_id") . " = '" . ciniki_core_dbQuote($ciniki, $id) . "' "
+		. "ORDER BY " . ciniki_core_dbQuote($ciniki, $table) . ".date_added ASC "
+		. "";
 	
 	return ciniki_core_dbRspQueryPlusUsers($ciniki, $strsql, $module, 'followups', 'followup', array('stat'=>'ok', 'followups'=>array()));
 }

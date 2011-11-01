@@ -55,11 +55,10 @@ function ciniki_core_callPublicMethod(&$ciniki) {
 	}
 
 	//
-	// Parse the method, and the function name
+	// Parse the method, and the function name.  
 	//
-	$method_filename = $ciniki['config']['core']['modules_dir'] . '/' 
-		. preg_replace('/ciniki\.(.*)\./', '\1/public/', $ciniki['request']['method']) . '.php';
-
+	$method_filename = $ciniki['config']['core']['root_dir'] . '/'
+		. preg_replace('/([a-z]+)\.([a-z0-9]+)\./', '\1-api/\2/public/', $ciniki['request']['method']) . '.php';
 	$method_function = preg_replace('/\./', '_', $ciniki['request']['method']);
 
 	//

@@ -36,7 +36,7 @@ function ciniki_core_dbQueryList($ciniki, $strsql, $module, $container_name, $co
 	$result = mysql_query($strsql, $dh);
 	if( $result == false ) {
 		error_log("SQLERR: " . mysql_error($dh) . " -- '$strsql'");
-		return array('stat'=>'fail', 'err'=>array('code'=>'998', 'msg'=>'Database Error', 'pmsg'=>mysql_error($dh)));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'998', 'msg'=>'Database Error', 'pmsg'=>mysql_error($dh)));
 	}
 
 	//

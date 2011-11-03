@@ -39,14 +39,14 @@ function ciniki_core_threadAddFollower($ciniki, $module, $table, $prefix, $id, $
 	if( $id != null && $id > 0 ) {
 		$strsql .= "'" . ciniki_core_dbQuote($ciniki, $id) . "', ";
 	} else {
-		return array('stat'=>'fail', 'err'=>array('code'=>'218', 'msg'=>'Required argument missing', 'pmsg'=>"No {$prefix}_id"));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'218', 'msg'=>'Required argument missing', 'pmsg'=>"No {$prefix}_id"));
 	}
 
 	// user_id
 	if( isset($args['user_id']) && $args['user_id'] != '' && $args['user_id'] > 0 ) {
 		$strsql .= "'" . ciniki_core_dbQuote($ciniki, $args['user_id']) . "', ";
 	} else {
-		return array('stat'=>'fail', 'err'=>array('code'=>'219', 'msg'=>'Required argument missing', 'pmsg'=>'No user_id'));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'219', 'msg'=>'Required argument missing', 'pmsg'=>'No user_id'));
 	}
 
 	$strsql .= "0x01, UTC_TIMESTAMP(), UTC_TIMESTAMP())";

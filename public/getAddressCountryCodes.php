@@ -46,7 +46,7 @@ function ciniki_core_getAddressCountryCodes($ciniki) {
 		&& $ciniki['response']['format'] != 'php_serial' 
 		&& $ciniki['response']['format'] != 'rest' 
 		) {
-		return array('stat'=>'fail', 'err'=>array('code'=>'6', 'msg'=>'Invalid arguments', 'pmsg'=>'Response format must be specified.'));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'6', 'msg'=>'Invalid arguments', 'pmsg'=>'Response format must be specified.'));
 	}
 
 	//

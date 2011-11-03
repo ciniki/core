@@ -35,7 +35,7 @@ function ciniki_core_dbRspQueryPlusUsers($ciniki, $strsql, $module, $container_n
 	//
 	$result = mysql_query($strsql, $dh);
 	if( $result == false ) {
-		return array('stat'=>'fail', 'err'=>array('code'=>'148', 'msg'=>'Database Error', 'pmsg'=>mysql_error($dh)));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'148', 'msg'=>'Database Error', 'pmsg'=>mysql_error($dh)));
 	}
 
 	//
@@ -82,7 +82,7 @@ function ciniki_core_dbRspQueryPlusUsers($ciniki, $strsql, $module, $container_n
 		. "WHERE id IN (" . ciniki_core_dbQuote($ciniki, implode(',', array_keys($users))) . ") ";
 	$result = mysql_query($strsql, $dh);
 	if( $result == false ) {
-		return array('stat'=>'fail', 'err'=>array('code'=>'149', 'msg'=>'Database Error', 'pmsg'=>mysql_error($dh)));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'149', 'msg'=>'Database Error', 'pmsg'=>mysql_error($dh)));
 	}
 
 	//

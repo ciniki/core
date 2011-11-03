@@ -40,7 +40,7 @@ function ciniki_core_dbDetailsQueryHash($ciniki, $table, $key, $key_value, $deta
 	}
 	$result = mysql_query($strsql, $dh);
 	if( $result == false ) {
-		return array('stat'=>'fail', 'err'=>array('code'=>'125', 'msg'=>'Database Error', 'pmsg'=>mysql_error($dh)));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'125', 'msg'=>'Database Error', 'pmsg'=>mysql_error($dh)));
 	}
 
 	//

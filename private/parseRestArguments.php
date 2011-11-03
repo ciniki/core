@@ -20,7 +20,7 @@ function ciniki_core_parseRestArguments(&$ciniki) {
 	// been called in the wrong order
 	//
 	if( !is_array($ciniki) || !is_array($ciniki['request']) || !is_array($ciniki['request']['args']) ) {
-		return array('stat'=>'fail', 'err'=>array('code'=>'12', 'msg'=>'Internal Error', 'pmsg'=>'ciniki_core_parseRestArguments called before ciniki_core_init.'));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'12', 'msg'=>'Internal Error', 'pmsg'=>'ciniki_core_parseRestArguments called before ciniki_core_init.'));
 	}
 
 	//

@@ -41,7 +41,7 @@ function ciniki_core_dbUpgradeTable($ciniki, $module, $table, $old_version, $new
 		$old_major = $matches[1];
 		$old_minor = $matches[2];
 	} else {
-		return array('stat'=>'fail', 'err'=>array('code'=>'191', 'msg'=>"Unrecognized old table version: $old_version"));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'191', 'msg'=>"Unrecognized old table version: $old_version"));
 	}
 
 	$new_major = '';
@@ -50,7 +50,7 @@ function ciniki_core_dbUpgradeTable($ciniki, $module, $table, $old_version, $new
 		$new_major = $matches[1];
 		$new_minor = $matches[2];
 	} else {
-		return array('stat'=>'fail', 'err'=>array('code'=>'192', 'msg'=>"Unrecognized new table version: $new_version"));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'192', 'msg'=>"Unrecognized new table version: $new_version"));
 	}
 
 	for($i=$old_major;$i<=$new_major;$i++) {
@@ -114,7 +114,7 @@ function ciniki_core_dbUpgradeTable($ciniki, $module, $table, $old_version, $new
 //		}
 //	}	
 //	else {	
-//		return array('stat'=>'fail', 'err'=>array('code'=>'193', 'msg'=>"Old $table version $old_version is newer than $new_version, unable to upgrade"));
+//		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'193', 'msg'=>"Old $table version $old_version is newer than $new_version, unable to upgrade"));
 //	}
 
 	return $rc;

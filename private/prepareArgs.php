@@ -51,7 +51,7 @@ function ciniki_core_prepareArgs($ciniki, $quote_flag, $arg_info) {
 			// Check for a blank argument, and if it's allowed
 			//
 			if( $ciniki['request']['args'][$arg] == '' && isset($options['blank']) && $options['blank'] != 'yes' ) {
-				return array('stat'=>'fail', 'err'=>array('code'=>'239', 'msg'=>"$msg", 'pmsg'=>"Argument: $arg missing"));
+				return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'239', 'msg'=>"$msg", 'pmsg'=>"Argument: $arg missing"));
 			}
 
 			if( isset($options['type']) && $options['type'] == 'idlist' ) {
@@ -74,7 +74,7 @@ function ciniki_core_prepareArgs($ciniki, $quote_flag, $arg_info) {
 				} else {
 					$ts = strtotime($ciniki['request']['args'][$arg]);
 					if( $ts === FALSE || $ts < 1 ) {
-						return array('stat'=>'fail', 'err'=>array('code'=>'234', 'msg'=>"$msg", 'pmsg'=>"Argument: $arg invalid date format"));
+						return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'234', 'msg'=>"$msg", 'pmsg'=>"Argument: $arg invalid date format"));
 					} else {
 						$args[$arg] = strftime("%Y-%m-%d", $ts);
 					}
@@ -86,7 +86,7 @@ function ciniki_core_prepareArgs($ciniki, $quote_flag, $arg_info) {
 				} else {
 					$ts = strtotime($ciniki['request']['args'][$arg]);
 					if( $ts === FALSE || $ts < 1 ) {
-						return array('stat'=>'fail', 'err'=>array('code'=>'235', 'msg'=>"$msg", 'pmsg'=>"Argument: $arg invalid datetime format"));
+						return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'235', 'msg'=>"$msg", 'pmsg'=>"Argument: $arg invalid datetime format"));
 					} else {
 						$args[$arg] = strftime("%Y-%m-%d %H:%M", $ts);
 					}
@@ -113,7 +113,7 @@ function ciniki_core_prepareArgs($ciniki, $quote_flag, $arg_info) {
 			// Return an error if this argument is required
 			//
 			if( $options['required'] == 'yes' ) {
-				return array('stat'=>'fail', 'err'=>array('code'=>'226', 'msg'=>"$msg", 'pmsg'=>"Argument: $arg missing."));
+				return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'226', 'msg'=>"$msg", 'pmsg'=>"Argument: $arg missing."));
 			} 
 		
 			//

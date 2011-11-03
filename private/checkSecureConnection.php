@@ -44,6 +44,6 @@ function ciniki_core_checkSecureConnection(&$ciniki) {
 	}
 
 
-	return array('stat'=>'fail', 'err'=>array('code'=>'119', 'msg'=>'Unsecure connection'));
+	return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'119', 'msg'=>'Unsecure connection'));
 }
 ?>

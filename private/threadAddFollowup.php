@@ -38,28 +38,28 @@ function ciniki_core_threadAddFollowup($ciniki, $module, $table, $prefix, $id, $
 	if( $id != null && $id > 0 ) {
 		$strsql .= "'" . ciniki_core_dbQuote($ciniki, $id) . "', ";
 	} else {
-		return array('stat'=>'fail', 'err'=>array('code'=>'233', 'msg'=>'Required argument missing', 'pmsg'=>"No {$prefix}_id"));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'233', 'msg'=>'Required argument missing', 'pmsg'=>"No {$prefix}_id"));
 	}
 
 	// user_id
 	if( isset($args['user_id']) && $args['user_id'] != '' && $args['user_id'] > 0 ) {
 		$strsql .= "'" . ciniki_core_dbQuote($ciniki, $args['user_id']) . "', ";
 	} else {
-		return array('stat'=>'fail', 'err'=>array('code'=>'216', 'msg'=>'Required argument missing', 'pmsg'=>'No user_id'));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'216', 'msg'=>'Required argument missing', 'pmsg'=>'No user_id'));
 	}
 
 	// content
 	if( isset($args['content']) && $args['content'] != '' ) {
 		$strsql .= "'" . ciniki_core_dbQuote($ciniki, $args['content']) . "', ";
 	} else {
-		return array('stat'=>'fail', 'err'=>array('code'=>'217', 'msg'=>'Required argument missing', 'pmsg'=>'No content'));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'217', 'msg'=>'Required argument missing', 'pmsg'=>'No content'));
 	}
 
 	$strsql .= "UTC_TIMESTAMP(), UTC_TIMESTAMP())";
 
 	$rc = ciniki_core_dbInsert($ciniki, $strsql, $module);
 	if( $rc['stat'] != 'ok' ) {
-		return array('stat'=>'fail', 'err'=>array('code'=>'209', 'msg'=>'Unable to add followup', 'err'=>$rc['err']));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'209', 'msg'=>'Unable to add followup', 'err'=>$rc['err']));
 	}
 
 	// Updates to the main thread last_updated field should be done by the calling function,

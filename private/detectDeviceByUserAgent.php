@@ -35,7 +35,7 @@ function ciniki_core_detectDeviceByUserAgent($ciniki, $user_agent) {
 	// If the USER_AGENT string is empty, return
 	//
 	if( !is_string($user_agent) || $user_agent == '' ) {
-		return array('stat'=>'fail', 'err'=>array('code'=>'41', 'msg'=>'No USER_AGENT string'),
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'41', 'msg'=>'No USER_AGENT string'),
 			'device'=>$device);
 	}
 	
@@ -87,6 +87,6 @@ function ciniki_core_detectDeviceByUserAgent($ciniki, $user_agent) {
 	// determine if it's important enough to fail, or ignore the error.
 	//
 	return array('stat'=>'fail', 'device'=>$device, 
-		'err'=>array('code'=>'42', 'msg'=>'Unable to identify remote device.'));
+		'err'=>array('pkg'=>'ciniki', 'code'=>'42', 'msg'=>'Unable to identify remote device.'));
 }
 ?>

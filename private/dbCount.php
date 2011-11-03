@@ -34,7 +34,7 @@ function ciniki_core_dbCount($ciniki, $strsql, $module, $container_name) {
 	//
 	$result = mysql_query($strsql, $dh);
 	if( $result == false ) {
-		return array('stat'=>'fail', 'err'=>array('code'=>'145', 'msg'=>'Database Error', 'pmsg'=>mysql_error($dh)));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'145', 'msg'=>'Database Error', 'pmsg'=>mysql_error($dh)));
 	}
 
 	//

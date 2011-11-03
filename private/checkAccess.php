@@ -35,7 +35,7 @@ function ciniki_core_checkAccess($ciniki, $business_id, $method) {
 		|| !isset($ciniki['session']['user'])
 		|| !isset($ciniki['session']['user']['id'])
 		|| $ciniki['session']['user']['id'] < 1 ) {
-		return array('stat'=>'fail', 'err'=>array('code'=>'98', 'msg'=>'User not authenticated'));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'98', 'msg'=>'User not authenticated'));
 	}
 
 	//
@@ -60,6 +60,6 @@ function ciniki_core_checkAccess($ciniki, $business_id, $method) {
 	//
 	// By default fail
 	//
-	return array('stat'=>'fail', 'err'=>array('code'=>'100', 'msg'=>'Access denied'));
+	return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'100', 'msg'=>'Access denied'));
 }
 ?>

@@ -52,7 +52,7 @@ function ciniki_core_dbGetChangeLog($ciniki, $business_id, $table_name, $table_k
 		. "";
 	$result = mysql_query($strsql, $dh);
 	if( $result == false ) {
-		return array('stat'=>'fail', 'err'=>array('code'=>'133', 'msg'=>'Database Error', 'pmsg'=>mysql_error($dh)));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'133', 'msg'=>'Database Error', 'pmsg'=>mysql_error($dh)));
 	}
 
 	//
@@ -91,7 +91,7 @@ function ciniki_core_dbGetChangeLog($ciniki, $business_id, $table_name, $table_k
 		. "WHERE id IN (" . ciniki_core_dbQuote($ciniki, implode(',', array_keys($users))) . ") ";
 	$result = mysql_query($strsql, $dh);
 	if( $result == false ) {
-		return array('stat'=>'fail', 'err'=>array('code'=>'135', 'msg'=>'Database Error', 'pmsg'=>mysql_error($dh)));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'135', 'msg'=>'Database Error', 'pmsg'=>mysql_error($dh)));
 	}
 
 	//

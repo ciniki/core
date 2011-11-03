@@ -15,18 +15,18 @@
 function ciniki_core_sessionOpen(&$ciniki) {
 
 	if( !isset($ciniki['session']) || !is_array($ciniki['session']) ) {
-		return array('stat'=>'fail', 'err'=>array('code'=>'21', 'msg'=>'Internal configuration error', 'pmsg'=>'$ciniki["session"] not set'));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'21', 'msg'=>'Internal configuration error', 'pmsg'=>'$ciniki["session"] not set'));
 	}
 
 	if( !isset($ciniki['request']['auth_token']) 
 		|| !isset($ciniki['request']['api_key']) 
 		|| $ciniki['request']['api_key'] == ''
 		) {
-		return array('stat'=>'fail', 'err'=>array('code'=>'22', 'msg'=>'Internal configuration error', 'pmsg'=>'auth_token and/or api_key empty'));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'22', 'msg'=>'Internal configuration error', 'pmsg'=>'auth_token and/or api_key empty'));
 	}
 
 	if( $ciniki['request']['auth_token'] == '' ) {
-		return array('stat'=>'fail', 'err'=>array('code'=>'23', 'msg'=>'No auth_token specified'));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'23', 'msg'=>'No auth_token specified'));
 	}
 
 	//
@@ -55,7 +55,7 @@ function ciniki_core_sessionOpen(&$ciniki) {
 	}
 
 	if( $rc['num_rows'] != 1 ) {
-		return array('stat'=>'fail', 'err'=>array('code'=>'37', 'msg'=>'Session expired'));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'37', 'msg'=>'Session expired'));
 	}
 
 	//
@@ -64,7 +64,7 @@ function ciniki_core_sessionOpen(&$ciniki) {
 	if( $rc['auth']['session_length'] > $rc['auth']['timeout'] ) {
 		require_once($ciniki['config']['core']['modules_dir'] . '/core/private/sessionEnd.php');
 		ciniki_core_sessionEnd($ciniki);
-		return array('stat'=>'fail', 'err'=>array('code'=>'27', 'msg'=>'Session expired'));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'27', 'msg'=>'Session expired'));
 	}
 
 	//
@@ -80,15 +80,15 @@ function ciniki_core_sessionOpen(&$ciniki) {
 	//
 	if( $ciniki['session']['api_key'] != $ciniki['request']['api_key'] ) {
 		$ciniki['session'] = array();
-		return array('stat'=>'fail', 'err'=>array('code'=>'24', 'msg'=>'Access Denied', 'pmsg'=>'Security Problem: Request and session api_key do not match, possible security problem.'));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'24', 'msg'=>'Access Denied', 'pmsg'=>'Security Problem: Request and session api_key do not match, possible security problem.'));
 	} 
 	elseif( $ciniki['session']['auth_token'] != $ciniki['request']['auth_token'] ) {
 		$ciniki['session'] = array();
-		return array('stat'=>'fail', 'err'=>array('code'=>'25', 'msg'=>'Access Denied', 'pmsg'=>'Security Problem: Request and session auth_token do not match, possible security problem.'));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'25', 'msg'=>'Access Denied', 'pmsg'=>'Security Problem: Request and session auth_token do not match, possible security problem.'));
 	} 
 	elseif( $ciniki['session']['user']['id'] != $rc['auth']['user_id'] ) {
 		$ciniki['session'] = array();
-		return array('stat'=>'fail', 'err'=>array('code'=>'26', 'msg'=>'Access Denied', 'pmsg'=>'Security Problem: The user_id in the session data does not match the user_id assigned to session in the database.'));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'26', 'msg'=>'Access Denied', 'pmsg'=>'Security Problem: The user_id in the session data does not match the user_id assigned to session in the database.'));
 	}
 
 	//

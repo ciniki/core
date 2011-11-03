@@ -29,6 +29,8 @@ function ciniki_core_printHashToXML($name, $indent, $hash) {
 			print " $hash_key=\"$hash_item\"";
 		} elseif( is_string($hash_item) && strlen($hash_item) > 5 && $hash_item[0] == '<' ) {
 			$subxml .= $hash_item;
+		} elseif( is_string($hash_item) && (strpos($hash_item, "\n") > 0 || strlen($hash_item) >= 100) ) {
+			$subitems = true;
 		} elseif( is_string($hash_item) ) {
 			print " $hash_key=\"$hash_item\"";
 		} elseif( is_array($hash_item) && array_key_exists('0', $hash_item) ) {
@@ -46,13 +48,16 @@ function ciniki_core_printHashToXML($name, $indent, $hash) {
 					print $indent . "    <$hash_key";
 					// First get any items which should be part of the hash_key
 					foreach($hash_item as $subkey => $subitem) {
-						if( is_string($subitem) || is_numeric($subitem) ) {
+						if( (is_string($subitem) && strpos($subitem, "\n") === FALSE && strlen($subitem) < 100) || is_numeric($subitem) ) {
 							print " $subkey='$subitem'";
 						}
 					}
 					print ">\n";
 					//  Then look for any subitems
 					foreach($hash_item as $subkey => $subitem) {
+						if( is_string($subitem) && (strlen($subitem) >= 100 || strpos($subitem, "\n") > 0) ) {
+							print $indent . "		<$subkey>$subitem</$subkey>\n";
+						}
 						if( is_array($subitem) ) {
 							foreach($subitem as $sskey => $ssitem) {
 								ciniki_core_printHashToXML($sskey, $indent . "        ", $ssitem);
@@ -63,6 +68,8 @@ function ciniki_core_printHashToXML($name, $indent, $hash) {
 				} elseif( is_array($hash_item) ) {
 					ciniki_core_printHashToXML($hash_key, $indent . "    ", $hash_item);
 					$subitems = true;
+				} elseif( is_string($hash_item) && (strlen($hash_item) >= 100 || strpos($hash_item, "\n") > 0) ) {
+					print $indent . "    <$hash_key>$hash_item</$hash_key>\n";
 				}
 			}
 		}

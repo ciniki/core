@@ -18,7 +18,7 @@ function ciniki_core_dbFetchHashRow($ciniki, $handle) {
 	// Prepare and Execute Query
 	//
 	if( $handle == 'false' ) {
-		return array('stat'=>'fail', 'err'=>array('code'=>'86', 'msg'=>'Database error'));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'86', 'msg'=>'Database error'));
 	}
 	if( $row = mysql_fetch_assoc($handle) ) {
 		return array('stat'=>'ok', 'row'=>$row);

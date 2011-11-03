@@ -32,7 +32,7 @@ function ciniki_core_dbQuery($ciniki, $strsql, $module) {
 	//
 	$result = mysql_query($strsql, $dh);
 	if( $result == false ) {
-		return array('stat'=>'fail', 'err'=>array('code'=>'93', 'msg'=>'Database Error', 'pmsg'=>mysql_error($dh)));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'93', 'msg'=>'Database Error', 'pmsg'=>mysql_error($dh)));
 	}
 
 	return array('stat'=>'ok', 'handle'=>$result);

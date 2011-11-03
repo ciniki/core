@@ -33,7 +33,7 @@ function ciniki_core_dbReplace($ciniki, $strsql, $module) {
 	$result = mysql_query($strsql, $dh);
 	if( $result == false ) {
 		error_log("SQLERR: " . mysql_error($dh) . " -- '$strsql'");
-		return array('stat'=>'fail', 'err'=>array('code'=>'337', 'msg'=>'Database Error', 'pmsg'=>mysql_error($dh), 'dberrno'=>mysql_errno($dh), 'sql'=>$strsql));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'337', 'msg'=>'Database Error', 'pmsg'=>mysql_error($dh), 'dberrno'=>mysql_errno($dh), 'sql'=>$strsql));
 	}
 
 	//

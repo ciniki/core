@@ -43,6 +43,10 @@ system.email.name='Ciniki Robot'
 ;
 master_business_id=1
 
+[users]
+password.forgot.notify = anybody@nobody.com
+password.forgot.url = https://ciniki.localhost/manage
+
 [manage]
 ;
 ; Send an email anytime somebody asks a question in Help

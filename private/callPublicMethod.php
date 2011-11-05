@@ -74,6 +74,8 @@ function ciniki_core_callPublicMethod(&$ciniki) {
 	//
 	$no_auth_methods = array(
 		'ciniki.users.auth', 
+		'ciniki.users.passwordRequestReset',
+		'ciniki.users.changeTempPassword',
 		'ciniki.core.echoTest', 
 		'ciniki.core.getAddressCountryCodes'
 		);

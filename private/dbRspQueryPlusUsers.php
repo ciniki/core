@@ -59,12 +59,29 @@ function ciniki_core_dbRspQueryPlusUsers($ciniki, $strsql, $module, $container_n
 	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbParseAge.php');
 	while( $row = mysql_fetch_assoc($result) ) {
 		$rsp[$container_name][$rsp['num_rows']] = array($row_name=>$row);
-		$users[$row['user_id']] = 1;
+		// $users[$row['user_id']] = 1;
+		array_push($users, $row['user_id']);
 		if( isset($row['age']) ) {
 			$rsp[$container_name][$rsp['num_rows']][$row_name]['age'] = ciniki_core_dbParseAge($ciniki, $row['age']);
 		}
 		$rsp['num_rows']++;
 	}
+
+	//
+	// FIXME: Get the list of users
+	//
+//	require_once($ciniki['config']['core']['modules_dir'] . '/users/private/userDisplayNames.php');
+//	$rc = ciniki_users_userDisplayNames($ciniki, 'users', $users);
+//	if( $rc['stat'] != 'ok' ) {
+//		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'150', 'msg'=>'Unable to link users', 'err'=>$rc['err']));
+//	}
+//	if( !isset($rc['users']) ) {
+//		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'151', 'msg'=>'Unable to link users', 'err'=>$rc['err']));
+//	}
+//	$rsp['users'] = $rc['users'];
+//
+//	return $rsp;
+//
 
 	//
 	// Get the users who contributed to the actions

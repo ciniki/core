@@ -65,48 +65,45 @@ function ciniki_core_dbGetChangeLogReformat($ciniki, $business_id, $table_name, 
 	}
 
 	$rsp = array('stat'=>'ok', 'history'=>array(), 'users'=>array());
-	$users = array();
+	$user_ids = array();
 	$num_history = 0;
 	while( $row = mysql_fetch_assoc($result) ) {
 		$rsp['history'][$num_history] = array('action'=>array('user_id'=>$row['user_id'], 'date'=>$row['date'], 'value'=>$row['value']));
 		if( $format == 'date' || $format == 'datetime' ) {
 			$rsp['history'][$num_history]['action']['formatted_value'] = $row['formatted_value'];
 		}
-		$users[$row['user_id']] = 1;
+		if( $row['user_id'] > 0 ) {
+			array_push($user_ids, $row['user_id']);
+		}
 		$rsp['history'][$num_history]['action']['age'] = ciniki_core_dbParseAge($ciniki, $row['age']);
 		$num_history++;
 	}
 
 	//
-	// Get the users who contributed to the actions
+	// If there was no history, or user ids, then skip the user lookup and return
 	//
-	$rc = ciniki_core_dbConnect($ciniki, 'users');
+	if( $num_history < 1 || count($user_ids) < 1 ) {
+		return $rsp;
+	}
+
+	//
+	// Get the list of users
+	//
+	require_once($ciniki['config']['core']['modules_dir'] . '/users/private/userListByID.php');
+	$rc = ciniki_users_userListByID($ciniki, 'users', array_unique($user_ids), 'display_name');
 	if( $rc['stat'] != 'ok' ) {
-		return $rc;
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'143', 'msg'=>'Unable to merge user information', 'err'=>$rc['err']));
 	}
-
-	$dh = $rc['dh'];
+	$users = $rc['users'];
 
 	//
-	$strsql = "SELECT id, display_name "
-		. "FROM users "
-		. "WHERE id IN (" . ciniki_core_dbQuote($ciniki, implode(',', array_keys($users))) . ") ";
-	$result = mysql_query($strsql, $dh);
-	if( $result == false ) {
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'188', 'msg'=>'Database Error', 'pmsg'=>mysql_error($dh)));
-	}
-
+	// Merge user list information into array
 	//
-	// Check if any rows returned from the query
-	//
-	if( mysql_num_rows($result) <= 0 ) {
-		return array('stat'=>'ok', 'history'=>array(), 'users'=>array());
-	}
-
-	$num_users = 0;
-	while( $row = mysql_fetch_assoc($result) ) {
-		$num_users++;
-		$rsp['users'][$row['id']] = array('user'=>$row);
+	foreach($rsp['history'] as $k => $v) {
+		if( isset($v['action']) && isset($v['action']['user_id']) && $v['action']['user_id'] > 0 
+			&& isset($users[$v['action']['user_id']]) && isset($users[$v['action']['user_id']]['display_name']) ) {
+			$rsp['history'][$k]['action']['user_display_name'] = $users[$v['action']['user_id']]['display_name'];
+		}
 	}
 
 	return $rsp;

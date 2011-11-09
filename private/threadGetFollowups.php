@@ -27,7 +27,7 @@ function ciniki_core_threadGetFollowups($ciniki, $module, $table, $prefix, $id, 
 	// Required functions
 	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbQuote.php');
 	require_once($ciniki['config']['core']['modules_dir'] . '/users/private/datetimeFormat.php');
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbRspQueryPlusUsers.php');
+	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbRspQueryPlusDisplayNames.php');
 
 	// 
 	// Setup the SQL statement to insert the new thread
@@ -42,6 +42,6 @@ function ciniki_core_threadGetFollowups($ciniki, $module, $table, $prefix, $id, 
 		. "ORDER BY " . ciniki_core_dbQuote($ciniki, $table) . ".date_added ASC "
 		. "";
 	
-	return ciniki_core_dbRspQueryPlusUsers($ciniki, $strsql, $module, 'followups', 'followup', array('stat'=>'ok', 'followups'=>array()));
+	return ciniki_core_dbRspQueryPlusDisplayNames($ciniki, $strsql, $module, 'followups', 'followup', array('stat'=>'ok', 'followups'=>array()));
 }
 ?>

@@ -29,6 +29,9 @@ function ciniki_core_dbQuoteIDs($ciniki, $arr) {
 		if( is_int($i) ) {
 			$str .= $comma . mysql_real_escape_string($i);
 			$comma = ',';
+		} else if( is_numeric($i) ) {
+			$str .= $comma . mysql_real_escape_string(intval($i));
+			$comma = ',';
 		}
 	}
 

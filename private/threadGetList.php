@@ -32,7 +32,7 @@ function ciniki_core_threadGetList($ciniki, $module, $table, $container_name, $r
 
 	// Required functions
 	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbQuote.php');
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbRspQueryPlusUsers.php');
+	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbRspQueryPlusDisplayNames.php');
 
 	//
 	// FIXME: Add timezone information from business settings
@@ -87,6 +87,6 @@ function ciniki_core_threadGetList($ciniki, $module, $table, $container_name, $r
 
 	$strsql .= "ORDER BY id ";
 
-	return ciniki_core_dbRspQueryPlusUsers($ciniki, $strsql, $module, $container_name, $row_name, array('stat'=>'ok', $container_name=>array()));
+	return ciniki_core_dbRspQueryPlusDisplayNames($ciniki, $strsql, $module, $container_name, $row_name, array('stat'=>'ok', $container_name=>array()));
 }
 ?>

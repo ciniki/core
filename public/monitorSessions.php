@@ -32,7 +32,7 @@ function ciniki_core_monitorSessions($ciniki) {
 	
 	require_once($ciniki['config']['core']['modules_dir'] . '/users/private/datetimeFormat.php');
 	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbQuote.php');
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbRspQueryPlusUsers.php');
+	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbRspQueryPlusDisplayNames.php');
 
 	$date_format = ciniki_users_datetimeFormat($ciniki);
 
@@ -45,7 +45,7 @@ function ciniki_core_monitorSessions($ciniki) {
 		. "CAST(UNIX_TIMESTAMP(UTC_TIMESTAMP())-UNIX_TIMESTAMP(core_session_data.date_added) as DECIMAL(12,0)) as age "
 		. "FROM core_session_data "
 		. "LEFT JOIN core_api_keys ON (core_session_data.api_key = core_api_keys.api_key) ";
-	$rsp = ciniki_core_dbRspQueryPlusUsers($ciniki, $strsql, 'core', 'sessions', 'session', array('stat'=>'ok', 'sessions'=>array()));
+	$rsp = ciniki_core_dbRspQueryPlusDisplayNames($ciniki, $strsql, 'core', 'sessions', 'session', array('stat'=>'ok', 'sessions'=>array()));
 	return $rsp;
 }
 ?>

@@ -68,7 +68,7 @@ function ciniki_core_dbRspQueryPlusDisplayNames($ciniki, $strsql, $module, $cont
 	//
 	// If there was no history, or user ids, then skip the user lookup and return
 	//
-	if( $rsp[num_rows] < 1 || count($user_ids) < 1 ) {
+	if( $rsp['num_rows'] < 1 || count($user_ids) < 1 ) {
 		return $rsp;
 	}
 

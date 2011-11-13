@@ -89,7 +89,7 @@ function ciniki_core_dbGetChangeLogFkId($ciniki, $business_id, $table_name, $tab
 	require_once($ciniki['config']['core']['modules_dir'] . '/users/private/userListByID.php');
 	$rc = ciniki_users_userListByID($ciniki, 'users', array_unique($user_ids), 'display_name');
 	if( $rc['stat'] != 'ok' ) {
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'143', 'msg'=>'Unable to merge user information', 'err'=>$rc['err']));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'142', 'msg'=>'Unable to merge user information', 'err'=>$rc['err']));
 	}
 	$users = $rc['users'];
 

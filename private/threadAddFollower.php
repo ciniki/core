@@ -17,7 +17,7 @@
 // Returns
 // -------
 //
-function ciniki_core_threadAddFollower($ciniki, $module, $table, $prefix, $id, $args) {
+function ciniki_core_threadAddFollower($ciniki, $module, $table, $prefix, $id, $user_id) {
 	//
 	// All arguments are assumed to be un-escaped, and will be passed through dbQuote to
 	// ensure they are safe to insert.
@@ -43,8 +43,8 @@ function ciniki_core_threadAddFollower($ciniki, $module, $table, $prefix, $id, $
 	}
 
 	// user_id
-	if( isset($args['user_id']) && $args['user_id'] != '' && $args['user_id'] > 0 ) {
-		$strsql .= "'" . ciniki_core_dbQuote($ciniki, $args['user_id']) . "', ";
+	if( $user_id != '' && $user_id > 0 ) {
+		$strsql .= "'" . ciniki_core_dbQuote($ciniki, $user_id) . "', ";
 	} else {
 		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'219', 'msg'=>'Required argument missing', 'pmsg'=>'No user_id'));
 	}

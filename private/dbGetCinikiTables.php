@@ -29,6 +29,7 @@ function ciniki_core_dbGetCinikiTables($ciniki) {
 		'business_details'=>array('module'=>'businesses', 'database_version'=>'-', 'schema_version'=>'-'),
 		'business_users'=>array('module'=>'businesses', 'database_version'=>'-', 'schema_version'=>'-'),
 		'business_permissions'=>array('module'=>'businesses', 'database_version'=>'-', 'schema_version'=>'-'),
+		'business_modules'=>array('module'=>'businesses', 'database_version'=>'-', 'schema_version'=>'-'),
 
 		'customers'=>array('module'=>'customers', 'database_version'=>'-', 'schema_version'=>'-'),
 		'customer_addresses'=>array('module'=>'customers', 'database_version'=>'-', 'schema_version'=>'-'),

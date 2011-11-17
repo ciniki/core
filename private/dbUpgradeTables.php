@@ -17,7 +17,7 @@
 //		<table_name name='users' />
 //	</tables>
 //
-function ciniki_core_dbUpdateTables($ciniki) {
+function ciniki_core_dbUpgradeTables($ciniki) {
 	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbGetCinikiTables.php');
 	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbHashIDQuery.php');
 	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbUpgradeTable.php');

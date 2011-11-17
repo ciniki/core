@@ -36,6 +36,10 @@ function ciniki_core_dbInit(&$ciniki) {
 
 	require_once($ciniki['config']['core']['modules_dir'] . "/core/private/dbConnect.php");
 
+	//
+	// Connect to the core, we ALWAYS need this connection, might as well open it now
+	// and verify it's working before going further in code
+	//
 	$rc = ciniki_core_dbConnect($ciniki, 'core');
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;

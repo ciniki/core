@@ -15,6 +15,62 @@
 //
 function ciniki_core_getModuleList($ciniki) {
 
+	//
+	// This list has to be built from the directory structure
+	//
+	if( isset($ciniki['config']['core']['packages']) && $ciniki['config']['core']['packages'] != '' ) {
+		$packages = preg_split('/,/', $ciniki['config']['core']['packages']);
+	} else {
+		$packages = 'ciniki';				// Default to ciniki
+	}
+
+	//
+	// Build the list of modules from package directories, unless 
+	// otherwise specified in the config
+	//
+	foreach($packages as $package) {
+		//
+		// Check if there is a list of modules overriding in the config file for this package
+		//
+		if( isset($ciniki['config']['core'][$package . '.modules']) 
+			&& $ciniki['config']['core'][$package . '.modules'] != ''
+			&& $ciniki['config']['core'][$package . '.modules'] != '*' ) {
+			$modules = preg_split('/,/', $ciniki['config']['core'][$package . '.modules']);
+		} 
+	
+		//
+		// If nothing set in config, build from directory, ignoring core
+		//
+		else {
+			$modules = array();
+			$dir = $ciniki['config']['core']['root_dir'] . '/' . $package . '-api/';
+			$dh = opendir($dir);
+			while( false !== ($filename = readdir($dh))) {
+				// Skip all files starting with ., and core
+				// and other reserved named modules which should be always available
+				if( $filename[0] == '.' 
+					|| $filename == 'core' 
+					|| $filename == 'businesses' 
+					|| $filename == 'users' 
+					|| $filename == 'images' 
+					) {
+					continue;
+				}
+				if( is_dir($dir . $filename) ) {
+					array_push($modules, $filename);
+				}
+			}
+		}
+
+		$rsp = array();
+		foreach($modules as $module) {
+			array_push($rsp, array('label'=>$module, 'name'=>$module, 'installed'=>'Yes', 'active'=>'Yes'));	
+		}
+	}
+
+	return $rsp;
+
+
 	return array(
 		array('label'=>'Customers', 'name'=>'customers',			'installed'=>'Yes', 'active'=>'No', 'bits'=>0x0001),
 		array('label'=>'Products', 'name'=>'products',				'installed'=>'Yes', 'active'=>'No', 'bits'=>0x0002),

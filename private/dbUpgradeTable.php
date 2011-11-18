@@ -43,6 +43,7 @@ function ciniki_core_dbUpgradeTable($ciniki, $package, $module, $table, $old_ver
 	} else {
 		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'191', 'msg'=>"Unrecognized old table version: $old_version"));
 	}
+	error_log("upgrading: $table, $old_verions -> $new_version");
 
 	$new_major = '';
 	$new_minor = '';

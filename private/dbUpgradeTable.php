@@ -16,8 +16,8 @@
 //
 function ciniki_core_dbUpgradeTable($ciniki, $package, $module, $table, $old_version, $new_version) {
 
-	ciniki_core_loadMethod('ciniki', 'core', 'private', 'dbConnect');
-	ciniki_core_loadMethod('ciniki', 'core', 'private', 'dbUpdate');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbConnect');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbUpdate');
 	$rc = ciniki_core_dbConnect($ciniki, $module);
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;

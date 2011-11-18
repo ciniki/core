@@ -49,10 +49,6 @@ function ciniki_core_getModuleList($ciniki) {
 				// Skip all files starting with ., and core
 				// and other reserved named modules which should be always available
 				if( $filename[0] == '.' 
-					|| $filename == 'core' 
-					|| $filename == 'businesses' 
-					|| $filename == 'users' 
-					|| $filename == 'images' 
 					) {
 					continue;
 				}

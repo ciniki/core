@@ -46,7 +46,7 @@ function ciniki_core_checkDbTableVersions($ciniki) {
 	//
 
 	$strsql = "SHOW TABLE STATUS";
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbHashIDQuery.php');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashIDQuery');
 	$rc = ciniki_core_dbHashIDQuery($ciniki, $strsql, 'core', 'tables', 'Name');
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;

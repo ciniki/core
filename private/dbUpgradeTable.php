@@ -72,7 +72,7 @@ function ciniki_core_dbUpgradeTable($ciniki, $package, $module, $table, $old_ver
 
 		error_log("Upgrading table from: $i.$start_minor to $i.$end_minor");
 		for($j=$start_minor+1;$j<=$end_minor;$j++) {
-			$filename = $ciniki['config']['core']['root_dir'] . sprintf("/$package/$module/db/$table.$i.%02d.upgrade", $j);
+			$filename = $ciniki['config']['core']['root_dir'] . sprintf("/$package-api/$module/db/$table.$i.%02d.upgrade", $j);
 			if( file_exists($filename) ) {
 				$schema = file_get_contents($filename);
 				$sqls = preg_split('/;\s*$/m', $schema);
@@ -91,32 +91,6 @@ function ciniki_core_dbUpgradeTable($ciniki, $package, $module, $table, $old_ver
 			}
 		}
 	}
-
-
-	//
-	// If old and new majors are different
-	//
-//	if( $old_major < $new_major ) {
-//	}
-
-	//
-	// old and new major numbers the same
-	//
-//	elseif( $old_major == $new_major ) {
-//		for($j=$old_minor;$j<$new_minor;$j++) {
-//			$filename = $ciniki['config']['core']['modules_dir'] . sprintf("/$module/db/$table.$new_major.%02d.upgrade", $j);
-//			if( file_exists($filename) ) {
-//				$schema = file_get_contents($filename);
-//				$rc = ciniki_core_dbUpdate($ciniki, $schema, $module);
-//				if( $rc['stat'] != 'ok' ) {
-//					return $rc;
-//				}
-//			}
-//		}
-//	}	
-//	else {	
-//		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'193', 'msg'=>"Old $table version $old_version is newer than $new_version, unable to upgrade"));
-//	}
 
 	return $rc;
 }

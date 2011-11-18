@@ -32,7 +32,7 @@ function ciniki_core_userAgentFind($ciniki, $user_agent) {
 	$strsql = "SELECT type_status, size, flags, "
 		. "engine, engine_version, os, os_version, "
 		. "browser, browser_version, device, device_version, device_manufacturer "
-		. "FROM core_user_agents "
+		. "FROM ciniki_core_user_agents "
 		. "WHERE user_agent = '" . ciniki_core_dbQuote($ciniki, $user_agent) . "' "
 		. "";
 	

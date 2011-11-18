@@ -18,6 +18,8 @@ require_once($ciniki_root . '/ciniki-api/core/private/checkSecureConnection.php'
 require_once($ciniki_root . '/ciniki-api/core/private/callPublicMethod.php');
 require_once($ciniki_root . '/ciniki-api/core/private/printHashToJSON.php');
 require_once($ciniki_root . '/ciniki-api/core/private/printResponse.php');
+// loadMethod is required by all function to ensure the functions are dynamically loaded
+require_once($ciniki_root . '/ciniki-api/core/private/loadMethod.php');
 
 $rc = ciniki_core_init($ciniki_root, 'rest');
 if( $rc['stat'] != 'ok' ) {

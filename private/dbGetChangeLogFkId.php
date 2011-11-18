@@ -28,7 +28,7 @@ function ciniki_core_dbGetChangeLogFkId($ciniki, $business_id, $table_name, $tab
 	$dh = $rc['dh'];
 
 	//
-	// Get the history log from core_change_logs table.
+	// Get the history log from ciniki_core_change_logs table.
 	//
 	require_once($ciniki['config']['core']['modules_dir'] . '/users/private/datetimeFormat.php');
 	require_once($ciniki['config']['core']['modules_dir'] . '/users/private/dateFormat.php');
@@ -42,10 +42,10 @@ function ciniki_core_dbGetChangeLogFkId($ciniki, $business_id, $table_name, $tab
 		. "new_value as value, "
 		. $fk_value_field . " AS fkidstr_value "
 		. " ";
-	$strsql .= " FROM core_change_logs "
-		. "LEFT JOIN " . ciniki_core_dbQuote($ciniki, $fk_table) . " ON (core_change_logs.new_value = " . ciniki_core_dbQuote($ciniki, $fk_table) . "." . ciniki_core_dbQuote($ciniki, $fk_id_field) . " "
+	$strsql .= " FROM ciniki_core_change_logs "
+		. "LEFT JOIN " . ciniki_core_dbQuote($ciniki, $fk_table) . " ON (ciniki_core_change_logs.new_value = " . ciniki_core_dbQuote($ciniki, $fk_table) . "." . ciniki_core_dbQuote($ciniki, $fk_id_field) . " "
 			. " AND " . ciniki_core_dbQuote($ciniki, $fk_table) . ".business_id ='" . ciniki_core_dbQuote($ciniki, $business_id) . "') "
-		. " WHERE core_change_logs.business_id ='" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+		. " WHERE ciniki_core_change_logs.business_id ='" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
 		. " AND table_name = '" . ciniki_core_dbQuote($ciniki, $table_name) . "' "
 		. " AND table_key = '" . ciniki_core_dbQuote($ciniki, $table_key) . "' "
 		. " AND table_field = '" . ciniki_core_dbQuote($ciniki, $table_field) . "' "

@@ -13,7 +13,7 @@
 // Arguments
 // ---------
 // api_key:		The key assigned to the client application.  This
-//				will be verified in the core_api_keys module
+//				will be verified in the ciniki_core_api_keys module
 //
 // auth_token:	The auth_token is assigned after authentication.  If
 //				auth_token is blank, then only certain method calls are allowed.

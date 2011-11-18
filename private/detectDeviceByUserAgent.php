@@ -45,7 +45,7 @@ function ciniki_core_detectDeviceByUserAgent($ciniki, $user_agent) {
 	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbQuote.php');
 	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbHashQuery.php');
 	$strsql = "SELECT viewport, make, model, browser, browser_version "
-		. "FROM core_user_agents "
+		. "FROM ciniki_core_user_agents "
 		. "WHERE user_agent = '" . ciniki_core_dbQuote($ciniki, $user_agent) . "'";
 	$rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'core', 'device');
 	if( $rc['stat'] != 'ok' ) {

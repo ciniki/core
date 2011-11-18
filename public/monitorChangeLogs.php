@@ -2,7 +2,7 @@
 //
 // Description
 // -----------
-// This function will get the history of a field from the core_change_logs table.
+// This function will get the history of a field from the ciniki_core_change_logs table.
 // This allows the user to view what has happened to a data element, and if they
 // choose, revert to a previous version.
 //
@@ -69,10 +69,10 @@ function ciniki_core_monitorChangeLogs($ciniki) {
 	$strsql = "SELECT DATE_FORMAT(log_date, '" . ciniki_core_dbQuote($ciniki, $date_format) . "') as log_date"
 		. ", CAST(UNIX_TIMESTAMP(UTC_TIMESTAMP())-UNIX_TIMESTAMP(log_date) as DECIMAL(12,0)) as age "
 		. ", UNIX_TIMESTAMP(log_date) as TS"
-		. ", core_change_logs.id, user_id, users.display_name, session, table_name, table_key, table_field, new_value "
-		. "FROM core_change_logs, users  "
-		. "WHERE UNIX_TIMESTAMP(core_change_logs.log_date) > '" . ciniki_core_dbQuote($ciniki, $req_last_timestamp) . "' "
-		. "AND core_change_logs.user_id = users.id "
+		. ", ciniki_core_change_logs.id, user_id, ciniki_users.display_name, session, table_name, table_key, table_field, new_value "
+		. "FROM ciniki_core_change_logs, ciniki_users  "
+		. "WHERE UNIX_TIMESTAMP(ciniki_core_change_logs.log_date) > '" . ciniki_core_dbQuote($ciniki, $req_last_timestamp) . "' "
+		. "AND ciniki_core_change_logs.user_id = ciniki_users.id "
 		. "ORDER BY TS DESC ";
 	$rsp = ciniki_core_dbRspQuery($ciniki, $strsql, 'core', 'logs', 'log', array('stat'=>'ok', 'logs'=>array()));
 	if( $rsp['stat'] == 'ok' ) {

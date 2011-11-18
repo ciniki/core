@@ -95,7 +95,7 @@ function ciniki_core_dbRspQueryPlusUsers($ciniki, $strsql, $module, $container_n
 
 	//
 	$strsql = "SELECT id, display_name "
-		. "FROM users "
+		. "FROM ciniki_users "
 		. "WHERE id IN (" . ciniki_core_dbQuote($ciniki, implode(',', array_keys($users))) . ") ";
 	$result = mysql_query($strsql, $dh);
 	if( $result == false ) {

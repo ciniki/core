@@ -23,7 +23,7 @@
 # log_date:		The date and time the request was made.
 # result_code:	The result of the function call.
 #
-create table core_action_logs (
+create table ciniki_core_action_logs (
 	id int not null auto_increment,
 	api_key varchar(32) not null,
 	user_id int not null,

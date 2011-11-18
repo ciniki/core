@@ -34,8 +34,12 @@ function ciniki_core_checkDbTableVersions($ciniki) {
 		return $rc;
 	}
 
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbGetCinikiTables.php');
-	$tables = ciniki_core_dbGetCinikiTables($ciniki);
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbGetTables');
+	$rc = ciniki_core_dbGetTables($ciniki);
+	if( $rc['stat'] != 'ok' ) {
+		return $rc;
+	}
+	$tables = $rc['tables'];
 
 	//
 	// FIXME: If in multiple databases, this script will need to be updated.
@@ -57,7 +61,7 @@ function ciniki_core_checkDbTableVersions($ciniki) {
 	}
 	
 	foreach($tables as $table_name => $table) {
-		$schema = file_get_contents($ciniki['config']['core']['modules_dir'] . "/" . $table['module']	. "/db/$table_name.schema");
+		$schema = file_get_contents($ciniki['config']['core']['root_dir'] . '/' . $table['package'] . '-api/' . $table['module']	. "/db/$table_name.schema");
 		if( preg_match('/comment=\'(v[0-9]+\.[0-9]+)\'/i', $schema, &$matches) ) {
 			$tables[$table_name]['schema_version'] = $matches[1];
 		}

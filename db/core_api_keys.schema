@@ -43,7 +43,7 @@
 # date_added:		The date and time the record was added.
 # last_updated:		The date and time the record was last updated.
 #
-create table core_api_keys (
+create table ciniki_core_api_keys (
 	api_key varchar(32) not null,
 	status tinyint unsigned not null,
 	perms tinyint unsigned not null,

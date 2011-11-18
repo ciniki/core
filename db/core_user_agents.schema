@@ -59,7 +59,7 @@
 # date_added:		The date and time the record was added.
 # last_updated:		The date and time anything but user_agent was changed.  This record
 #					can be used to fetch updates from a central server. 
-create table core_user_agents (
+create table ciniki_core_user_agents (
 	user_agent varchar(255) not null,
 	type_status tinyint unsigned not null,
 	size tinyint unsigned not null,

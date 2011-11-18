@@ -2,7 +2,7 @@
 //
 // Description
 // -----------
-// This function will fetch the list of changes for a field from the core_change_logs, and
+// This function will fetch the list of changes for a field from the ciniki_core_change_logs, and
 // reformat the output for the specified format.
 //
 // Info
@@ -28,7 +28,7 @@ function ciniki_core_dbGetChangeLogReformat($ciniki, $business_id, $table_name, 
 	$dh = $rc['dh'];
 
 	//
-	// Get the history log from core_change_logs table.
+	// Get the history log from ciniki_core_change_logs table.
 	//
 	require_once($ciniki['config']['core']['modules_dir'] . '/users/private/datetimeFormat.php');
 	require_once($ciniki['config']['core']['modules_dir'] . '/users/private/dateFormat.php');
@@ -45,7 +45,7 @@ function ciniki_core_dbGetChangeLogReformat($ciniki, $business_id, $table_name, 
 	} elseif( $format == 'datetime' ) {
 		$strsql .= ", DATE_FORMAT(new_value, '" . ciniki_core_dbQuote($ciniki, $datetime_format) . "') as formatted_value ";
 	}
-	$strsql .= " FROM core_change_logs "
+	$strsql .= " FROM ciniki_core_change_logs "
 		. " WHERE business_id ='" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
 		. " AND table_name = '" . ciniki_core_dbQuote($ciniki, $table_name) . "' "
 		. " AND table_key = '" . ciniki_core_dbQuote($ciniki, $table_key) . "' "

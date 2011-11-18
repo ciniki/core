@@ -3,7 +3,7 @@
 // Description
 // -----------
 // This function will add a change log entry for a changed field. This will
-// be entered in the core_change_logs table.
+// be entered in the ciniki_core_change_logs table.
 //
 // Info
 // ----
@@ -33,7 +33,7 @@ function ciniki_core_dbAddChangeLog($ciniki, $module, $business_id, $table_name,
 
 	$dh = $rc['dh'];
 
-	$strsql = "INSERT INTO core_change_logs (user_id, session, transaction, status, "
+	$strsql = "INSERT INTO ciniki_core_change_logs (user_id, session, transaction, status, "
 		. "business_id, table_name, table_key, table_field, new_value, log_date) VALUES ("
 		. "'" . ciniki_core_dbQuote($ciniki, $ciniki['session']['user']['id']) . "', "
 		. "'" . ciniki_core_dbQuote($ciniki, $ciniki['session']['change_log_id']) . "', "

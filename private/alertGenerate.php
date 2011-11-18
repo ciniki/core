@@ -47,7 +47,7 @@ function ciniki_core_alertGenerate($ciniki, $alert, $rc) {
 	// Insert the alert details into the database
 	//
 	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbQuote.php');
-	$strsql = "INSERT INTO core_alerts (code, msg, var_alert, var_ciniki, var_rc, date_added) "
+	$strsql = "INSERT INTO ciniki_core_alerts (code, msg, var_alert, var_ciniki, var_rc, date_added) "
 		. "VALUES ('" . ciniki_core_dbQuote($ciniki, $alert['alert']) . "', "
 		. "'" . ciniki_core_dbQuote($ciniki, $alert['msg']) . "', "
 		. "'" . ciniki_core_dbQuote($ciniki, $var_alert) . "', "

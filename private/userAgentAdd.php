@@ -36,7 +36,7 @@ function ciniki_core_userAgentAdd($ciniki, $device) {
 	//
 	// Create SQL string to insert the user_agent
 	//
-	$strsql = "INSERT INTO core_user_agents (user_agent, type_status, size, flags, "
+	$strsql = "INSERT INTO ciniki_core_user_agents (user_agent, type_status, size, flags, "
 		. "engine, engine_version, "
 		. "os, os_version, "
 		. "browser, browser_version, "

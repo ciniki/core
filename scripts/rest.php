@@ -6,7 +6,7 @@
 //
 
 //
-// Initialize Moss by including the ciniki_api.php
+// Initialize Ciniki by including the ciniki_api.php
 //
 global $ciniki_root;
 $ciniki_root = dirname(__FILE__);
@@ -18,6 +18,8 @@ require_once($ciniki_root . '/ciniki-api/core/private/checkSecureConnection.php'
 require_once($ciniki_root . '/ciniki-api/core/private/callPublicMethod.php');
 require_once($ciniki_root . '/ciniki-api/core/private/printHashToXML.php');
 require_once($ciniki_root . '/ciniki-api/core/private/printResponse.php');
+// loadMethod is required by all function to ensure the functions are dynamically loaded
+require_once($ciniki_root . '/ciniki-api/core/private/loadMethod.php');
 
 $rc = ciniki_core_init($ciniki_root, 'rest');
 if( $rc['stat'] != 'ok' ) {

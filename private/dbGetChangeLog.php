@@ -24,7 +24,7 @@ function ciniki_core_dbGetChangeLog($ciniki, $business_id, $table_name, $table_k
 	$dh = $rc['dh'];
 
 	//
-	// Get the history log from core_change_logs table.
+	// Get the history log from ciniki_core_change_logs table.
 	//
 	require_once($ciniki['config']['core']['modules_dir'] . '/users/private/datetimeFormat.php');
 	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbQuote.php');
@@ -36,7 +36,7 @@ function ciniki_core_dbGetChangeLog($ciniki, $business_id, $table_name, $table_k
 		. "CAST(UNIX_TIMESTAMP(UTC_TIMESTAMP())-UNIX_TIMESTAMP(log_date) as DECIMAL(12,0)) as age, "
 		. "table_key, "
 		. "new_value as value "
-		. " FROM core_change_logs "
+		. " FROM ciniki_core_change_logs "
 		. " WHERE business_id ='" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
 		. " AND table_name = '" . ciniki_core_dbQuote($ciniki, $table_name) . "' ";
 	if( is_array($table_key) ) {

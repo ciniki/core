@@ -22,7 +22,7 @@ function ciniki_core_dbUpgradeTables($ciniki) {
 	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbHashIDQuery.php');
 	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbUpgradeTable.php');
 
-	$tables = ciniki_core_dbGetCinikiTables($ciniki);
+	$tables = ciniki_core_dbGetTables($ciniki);
 
 	// FIXME: If in multiple databases, this script will need to be updated.
 
@@ -45,7 +45,7 @@ function ciniki_core_dbUpgradeTables($ciniki) {
 		if( preg_match('/comment=\'(v[0-9]+\.[0-9]+)\'/i', $schema, &$matches) ) {
 			$new_version = $matches[1];
 			if( $new_version != $tables[$table_name]['database_version'] ) {
-				$rc = ciniki_core_dbUpgradeTable($ciniki, $tables[$table_name]['module'], $table_name, 
+				$rc = ciniki_core_dbUpgradeTable($ciniki, $tables[$table_name]['package'], $tables[$table_name]['module'], $table_name, 
 					$tables[$table_name]['database_version'], $new_version);
 				if( $rc['stat'] != 'ok' ) {
 					return $rc;

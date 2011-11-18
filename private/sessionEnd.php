@@ -22,7 +22,7 @@ function ciniki_core_sessionEnd($ciniki) {
 	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbDelete.php');
 
 	if( isset($ciniki['session']['auth_token']) && $ciniki['session']['auth_token'] != '' ) {
-		$strsql = "DELETE FROM core_session_data "
+		$strsql = "DELETE FROM ciniki_core_session_data "
 			. "WHERE auth_token = '" . ciniki_core_dbQuote($ciniki, $ciniki['session']['auth_token']) . "' ";
 		$rc = ciniki_core_dbDelete($ciniki, $strsql, 'core');
 		if( $rc['stat'] == 'ok' && $rc['num_affected_rows'] == 1 ) {
@@ -31,7 +31,7 @@ function ciniki_core_sessionEnd($ciniki) {
 	}
 
 	elseif( isset($ciniki['request']['auth_token']) && $ciniki['request']['auth_token'] != '' ) {
-		$strsql = "DELETE FROM core_session_data "
+		$strsql = "DELETE FROM ciniki_core_session_data "
 			. "WHERE auth_token = '" . ciniki_core_dbQuote($ciniki, $ciniki['request']['auth_token']) . "' ";
 		$rc = ciniki_core_dbDelete($ciniki, $strsql, 'core');
 		if( $rc['stat'] == 'ok' && $rc['num_affected_rows'] == 1 ) {
@@ -43,7 +43,7 @@ function ciniki_core_sessionEnd($ciniki) {
 	// Take the opportunity to clear old sessions, don't care about return code
 	// FIXME: This maybe should be moved to a cronjob
 	//
-	$strsql = "DELETE FROM core_session_data WHERE UTC_TIMESTAMP()-TIMESTAMP(last_saved) > timeout";
+	$strsql = "DELETE FROM ciniki_core_session_data WHERE UTC_TIMESTAMP()-TIMESTAMP(last_saved) > timeout";
 	ciniki_core_dbDelete($ciniki, $strsql, 'core');
 
 	return array('stat'=>'ok');

@@ -43,7 +43,7 @@ function ciniki_core_sessionOpen(&$ciniki) {
 	$strsql = "SELECT auth_token, api_key, user_id, date_added, "
 		. "(UNIX_TIMESTAMP(UTC_TIMESTAMP()) - UNIX_TIMESTAMP(last_saved)) as session_length, timeout, "
 		. "session_data "
-		. "FROM core_session_data "
+		. "FROM ciniki_core_session_data "
 		. "WHERE auth_token = '" . ciniki_core_dbQuote($ciniki, $ciniki['request']['auth_token']) . "' "
 		. "AND api_key = '" . ciniki_core_dbQuote($ciniki, $ciniki['request']['api_key']) . "' "
 		. "";

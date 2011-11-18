@@ -27,7 +27,7 @@
 #
 # last_saved:		The date the time the session was last saved.
 #
-create table core_session_data (
+create table ciniki_core_session_data (
 	auth_token varchar(32) not null,
 	api_key varchar(32) not null,
 	user_id int not null,

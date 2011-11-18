@@ -75,7 +75,7 @@
 # new_value:		The new value of the field.
 # log_date: 		The date and time the change happened.
 #
-create table core_change_logs (
+create table ciniki_core_change_logs (
 	id bigint not null auto_increment,
 	user_id	int not null,
 	session varchar(50) not null,

@@ -14,10 +14,10 @@
 // 
 //
 //
-function ciniki_core_dbUpgradeTable($ciniki, $module, $table, $old_version, $new_version) {
+function ciniki_core_dbUpgradeTable($ciniki, $package, $module, $table, $old_version, $new_version) {
 
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbConnect.php');
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbUpdate.php');
+	ciniki_core_loadMethod('ciniki', 'core', 'private', 'dbConnect');
+	ciniki_core_loadMethod('ciniki', 'core', 'private', 'dbUpdate');
 	$rc = ciniki_core_dbConnect($ciniki, $module);
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
@@ -27,7 +27,7 @@ function ciniki_core_dbUpgradeTable($ciniki, $module, $table, $old_version, $new
 	// Check if the table exists
 	//
 	if( $old_version == '-' ) {
-		$schema = file_get_contents($ciniki['config']['core']['modules_dir'] . "/" . $module . "/db/$table.schema");
+		$schema = file_get_contents($ciniki['config']['core']['root_dir'] . '/' . $package . '-api/' . $module . "/db/$table.schema");
 		$rc = ciniki_core_dbUpdate($ciniki, $schema, $module);
 		return $rc;
 	}
@@ -71,7 +71,7 @@ function ciniki_core_dbUpgradeTable($ciniki, $module, $table, $old_version, $new
 
 		error_log("Upgrading table from: $i.$start_minor to $i.$end_minor");
 		for($j=$start_minor+1;$j<=$end_minor;$j++) {
-			$filename = $ciniki['config']['core']['modules_dir'] . sprintf("/$module/db/$table.$i.%02d.upgrade", $j);
+			$filename = $ciniki['config']['core']['root_dir'] . sprintf("/$package/$module/db/$table.$i.%02d.upgrade", $j);
 			if( file_exists($filename) ) {
 				$schema = file_get_contents($filename);
 				$sqls = preg_split('/;\s*$/m', $schema);

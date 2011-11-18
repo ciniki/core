@@ -41,7 +41,7 @@ function ciniki_core_sessionSave($ciniki) {
 	// Sessions are only open as long as it takes to run a method.
 	// 
 	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbQuote.php');
-	$strsql = "UPDATE core_session_data SET "
+	$strsql = "UPDATE ciniki_core_session_data SET "
 		. "session_data = '" . ciniki_core_dbQuote($ciniki, serialize($ciniki['session'])) . "' "
 		. ", last_saved = UTC_TIMESTAMP() "
 		. "WHERE auth_token = '" . ciniki_core_dbQuote($ciniki, $ciniki['session']['auth_token']) . "' "

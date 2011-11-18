@@ -24,7 +24,7 @@ function ciniki_core_checkAPIKey($ciniki) {
 		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'17', 'msg'=>'Internal Error', 'pmsg'=>"ciniki_core_checkAPIKey called before ciniki_core_init."));
 	}
 
-	$strsql = "SELECT api_key, status, perms FROM core_api_keys "
+	$strsql = "SELECT api_key, status, perms FROM ciniki_core_api_keys "
 		. "WHERE api_key = '" . ciniki_core_dbQuote($ciniki, $ciniki['request']['api_key']) . "' "
 		. "AND status = 1 AND (expiry_date = 0 OR UTC_TIMESTAMP() < expiry_date)";
 

@@ -29,6 +29,7 @@ function ciniki_core_getModuleList($ciniki) {
 	// otherwise specified in the config
 	//
 	foreach($packages as $package) {
+		$dir = $ciniki['config']['core']['root_dir'] . '/' . $package . '-api/';
 		//
 		// Check if there is a list of modules overriding in the config file for this package
 		//
@@ -43,7 +44,6 @@ function ciniki_core_getModuleList($ciniki) {
 		//
 		else {
 			$modules = array();
-			$dir = $ciniki['config']['core']['root_dir'] . '/' . $package . '-api/';
 			$dh = opendir($dir);
 			while( false !== ($filename = readdir($dh))) {
 				// Skip all files starting with ., and core
@@ -56,47 +56,25 @@ function ciniki_core_getModuleList($ciniki) {
 					) {
 					continue;
 				}
-				if( is_dir($dir . $filename) ) {
+				if( is_dir($dir . $filename) && file_exists($dir . $filename . '/_info.ini')) {
 					array_push($modules, $filename);
 				}
 			}
+			closedir($dh);
 		}
 
 		$rsp = array();
 		foreach($modules as $module) {
-			array_push($rsp, array('label'=>$module, 'name'=>$module, 'installed'=>'Yes', 'active'=>'Yes'));	
+			if( file_exists($dir . $module . '/_info.ini') ) {
+				$info = parse_ini_file($dir . $module . '/_info.ini');
+				if( isset($info['name']) && $info['name'] != '' ) {
+					// Assume active is No, this function just returns what is installed
+					array_push($rsp, array('label'=>$info['name'], 'package'=>$package, 'name'=>$module, 'installed'=>'Yes', 'active'=>'No'));
+				}
+			}
 		}
 	}
 
-	return $rsp;
-
-
-	return array(
-		array('label'=>'Customers', 'name'=>'customers',			'installed'=>'Yes', 'active'=>'No', 'bits'=>0x0001),
-		array('label'=>'Products', 'name'=>'products',				'installed'=>'Yes', 'active'=>'No', 'bits'=>0x0002),
-		array('label'=>'Inventory', 'name'=>'inventory',			'installed'=>'No', 'active'=>'No', 'bits'=>0x0004),
-		array('label'=>'Website', 'name'=>'website',				'installed'=>'No', 'active'=>'No', 'bits'=>0x0008),
-		array('label'=>'POS', 'name'=>'pos', 						'installed'=>'No', 'active'=>'No', 'bits'=>0x0010),
-		array('label'=>'Manufacturing', 'name'=>'manufacturing',	'installed'=>'No', 'active'=>'No', 'bits'=>0x0020),
-		array('label'=>'Newsletters', 'name'=>'newsletters',		'installed'=>'No', 'active'=>'No', 'bits'=>0x0040),
-		array('label'=>'Security Cameras', 'name'=>'cameras',	 	'installed'=>'No', 'active'=>'No', 'bits'=>0x0080),
-		array('label'=>'Scheduling', 'name'=>'scheduling',	 		'installed'=>'No', 'active'=>'No', 'bits'=>0x0100),
-		array('label'=>'Online Surveys', 'name'=>'surveys',		 	'installed'=>'No', 'active'=>'No', 'bits'=>0x0200),
-		array('label'=>'Event Management', 'name'=>'events',		'installed'=>'No', 'active'=>'No', 'bits'=>0x0400),
-		array('label'=>'Bug Tracking', 'name'=>'bugs',		 		'installed'=>'Yes', 'active'=>'No', 'bits'=>0x0800),
-		array('label'=>'Feature Requests','name'=>'features',		'installed'=>'Yes', 'active'=>'No', 'bits'=>0x1000),
-		array('label'=>'Questions', 'name'=>'questions',			'installed'=>'Yes', 'active'=>'No', 'bits'=>0x2000),
-		array('label'=>'FAQ', 'name'=>'faq',		 				'installed'=>'No', 'active'=>'No', 'bits'=>0x4000),
-		array('label'=>'Customer Service', 'name'=>'cserve',	 	'installed'=>'No', 'active'=>'No', 'bits'=>0x8000),
-		array('label'=>'Toolbox', 'name'=>'toolbox',	 			'installed'=>'Yes', 'active'=>'No', 'bits'=>0x00010000),
-		array('label'=>'Friends', 'name'=>'friends',	 			'installed'=>'Yes', 'active'=>'No', 'bits'=>0x00020000),
-		array('label'=>'Media', 'name'=>'media',	 				'installed'=>'Yes', 'active'=>'No', 'bits'=>0x00040000),
-		array('label'=>'Documents', 'name'=>'documents',	 		'installed'=>'No', 'active'=>'No', 'bits'=>0x00080000),
-		array('label'=>'Appearances', 'name'=>'appearances',	 	'installed'=>'No', 'active'=>'No', 'bits'=>0x00100000),
-		array('label'=>'Wine Production', 'name'=>'wineproduction',	'installed'=>'Yes', 'active'=>'No', 'bits'=>0x00200000),
-		array('label'=>'Subscriptions', 'name'=>'subscriptions',	'installed'=>'Yes', 'active'=>'No', 'bits'=>0x00400000),
-		array('label'=>'Tasks', 'name'=>'tasks',					'installed'=>'No', 'active'=>'No', 'bits'=>0x00800000),
-		array('label'=>'Cron', 'name'=>'cron',						'installed'=>'Yes', 'active'=>'No', 'bits'=>0x01000000),
-		);
+	return array('stat'=>'ok', 'modules'=>$rsp);
 }
 ?>

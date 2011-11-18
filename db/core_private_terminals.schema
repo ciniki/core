@@ -20,7 +20,7 @@
 # last_updated:	The date and time the record was last updated.
 # last_access:	The last time anybody logged in from that terminal
 #
-create table core_private_terminals (
+create table ciniki_core_private_terminals (
 	id int not null auto_increment,
 	terminal_uid varchar(100) not null,	
 	date_added datetime not null,

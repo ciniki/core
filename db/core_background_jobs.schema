@@ -35,7 +35,7 @@
 # date_added:		The date and time the record was added.
 # last_updated:		The date and time the record was last updated.
 #
-create table core_background_jobs (
+create table ciniki_core_background_jobs (
 	id int not null auto_increment,
 	business_id int not null,
 	user_id int not null,

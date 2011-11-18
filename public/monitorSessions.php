@@ -2,7 +2,7 @@
 //
 // Description
 // -----------
-// This function will return the active sessions from the core_session_data table.
+// This function will return the active sessions from the ciniki_core_session_data table.
 //
 // Info
 // ----
@@ -39,12 +39,12 @@ function ciniki_core_monitorSessions($ciniki) {
 	//
 	// Sort the list ASC by date, so the oldest is at the bottom, and therefore will get insert at the top of the list in ciniki-manage
 	//
-	$strsql = "SELECT core_session_data.api_key, core_api_keys.appname, core_session_data.user_id,  "
-		. "DATE_FORMAT(core_session_data.date_added, '" . ciniki_core_dbQuote($ciniki, $date_format) . "') as date_added, "
-		. "DATE_FORMAT(core_session_data.last_saved, '" . ciniki_core_dbQuote($ciniki, $date_format) . "') as last_saved, "
-		. "CAST(UNIX_TIMESTAMP(UTC_TIMESTAMP())-UNIX_TIMESTAMP(core_session_data.date_added) as DECIMAL(12,0)) as age "
-		. "FROM core_session_data "
-		. "LEFT JOIN core_api_keys ON (core_session_data.api_key = core_api_keys.api_key) ";
+	$strsql = "SELECT ciniki_core_session_data.api_key, ciniki_core_api_keys.appname, ciniki_core_session_data.user_id,  "
+		. "DATE_FORMAT(ciniki_core_session_data.date_added, '" . ciniki_core_dbQuote($ciniki, $date_format) . "') as date_added, "
+		. "DATE_FORMAT(ciniki_core_session_data.last_saved, '" . ciniki_core_dbQuote($ciniki, $date_format) . "') as last_saved, "
+		. "CAST(UNIX_TIMESTAMP(UTC_TIMESTAMP())-UNIX_TIMESTAMP(ciniki_core_session_data.date_added) as DECIMAL(12,0)) as age "
+		. "FROM ciniki_core_session_data "
+		. "LEFT JOIN ciniki_core_api_keys ON (ciniki_core_session_data.api_key = ciniki_core_api_keys.api_key) ";
 	$rsp = ciniki_core_dbRspQueryPlusDisplayNames($ciniki, $strsql, 'core', 'sessions', 'session', array('stat'=>'ok', 'sessions'=>array()));
 	return $rsp;
 }

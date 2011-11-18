@@ -65,7 +65,11 @@ function ciniki_core_getModuleList($ciniki) {
 				$info = parse_ini_file($dir . $module . '/_info.ini');
 				if( isset($info['name']) && $info['name'] != '' ) {
 					// Assume active is No, this function just returns what is installed
-					array_push($rsp, array('label'=>$info['name'], 'package'=>$package, 'name'=>$module, 'installed'=>'Yes', 'active'=>'No'));
+					$mod = array('label'=>$info['name'], 'package'=>$package, 'name'=>$module, 'installed'=>'Yes', 'active'=>'No');
+					if( isset($info['optional']) ) {
+						$mod['optional'] = $info['optional'];
+					}
+					array_push($rsp, $mod);
 				}
 			}
 		}

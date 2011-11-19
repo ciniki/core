@@ -21,15 +21,17 @@ function ciniki_core_getModuleList($ciniki) {
 	if( isset($ciniki['config']['core']['packages']) && $ciniki['config']['core']['packages'] != '' ) {
 		$packages = preg_split('/,/', $ciniki['config']['core']['packages']);
 	} else {
-		$packages = 'ciniki';				// Default to ciniki
+		$packages = array('ciniki');				// Default to ciniki
 	}
 
 	//
 	// Build the list of modules from package directories, unless 
 	// otherwise specified in the config
 	//
+	$rsp = array();
 	foreach($packages as $package) {
 		$dir = $ciniki['config']['core']['root_dir'] . '/' . $package . '-api/';
+
 		//
 		// Check if there is a list of modules overriding in the config file for this package
 		//
@@ -59,7 +61,6 @@ function ciniki_core_getModuleList($ciniki) {
 			closedir($dh);
 		}
 
-		$rsp = array();
 		foreach($modules as $module) {
 			if( file_exists($dir . $module . '/_info.ini') ) {
 				$info = parse_ini_file($dir . $module . '/_info.ini');

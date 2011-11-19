@@ -36,10 +36,12 @@ function ciniki_core_dbUpgradeTables($ciniki) {
 		return $rc;
 	}
 
-	foreach($rc['tables'] as $table_name => $table) {
-		if( isset($tables[$table_name]) ) {
-			if( preg_match('/(v[0-9]+\.[0-9]+)([^0-9]|$)/i', $table['Comment'], &$matches) ) {
-				$tables[$table_name]['database_version'] = $matches[1];
+	if( isset($rc['tables']) ) {
+		foreach($rc['tables'] as $table_name => $table) {
+			if( isset($tables[$table_name]) ) {
+				if( preg_match('/(v[0-9]+\.[0-9]+)([^0-9]|$)/i', $table['Comment'], &$matches) ) {
+					$tables[$table_name]['database_version'] = $matches[1];
+				}
 			}
 		}
 	}

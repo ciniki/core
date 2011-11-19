@@ -31,6 +31,9 @@ function ciniki_core_getModuleList($ciniki) {
 	$rsp = array();
 	foreach($packages as $package) {
 		$dir = $ciniki['config']['core']['root_dir'] . '/' . $package . '-api/';
+		if( !is_dir($dir) ) {
+			continue;
+		}
 
 		//
 		// Check if there is a list of modules overriding in the config file for this package

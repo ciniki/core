@@ -5,10 +5,6 @@
 // This function is optimized for queries which do a count of rows.
 // The query should be in the form of SELECT hash_id, count(*) as count_number FROM ...
 //
-// Info
-// ----
-// status:				beta
-//
 // Arguments
 // ---------
 // ciniki: 				The ciniki data structure with current session.
@@ -34,6 +30,7 @@ function ciniki_core_dbCount($ciniki, $strsql, $module, $container_name) {
 	//
 	$result = mysql_query($strsql, $dh);
 	if( $result == false ) {
+		error_log("SQLERR: " . mysql_error($dh) . " -- '$strsql'");
 		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'145', 'msg'=>'Database Error', 'pmsg'=>mysql_error($dh)));
 	}
 

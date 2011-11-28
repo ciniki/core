@@ -70,6 +70,7 @@ function ciniki_core_dbHashQueryTree($ciniki, $strsql, $module, $tree) {
 				// Reset all num_element this depth and below
 				for($j=$i+1;$j<count($tree);$j++) {
 					$num_elements[$j] = 0;
+					$prev[$j] = null;
 				}
 				// Check if container exists
 				if( !isset($data[$tree[$i]['container']]) ) {

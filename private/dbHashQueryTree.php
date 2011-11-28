@@ -51,12 +51,11 @@ function ciniki_core_dbHashQueryTree($ciniki, $strsql, $module, $tree) {
 	//
 	// Build array of rows
 	//
-	$rsp = array();
 	$prev = array();
 	$num_elements = array();
 	for($i=0;$i<count($tree);$i++) {
-		$prev[i] = null;
-		$num_elements[i] = 0;
+		$prev[$i] = null;
+		$num_elements[$i] = 0;
 	}
 	while( $row = mysql_fetch_assoc($result) ) {
 		// 
@@ -68,8 +67,12 @@ function ciniki_core_dbHashQueryTree($ciniki, $strsql, $module, $tree) {
 				// $data = $data[$tree[$i]['container'];
 			}
 			if( $prev[$i] != $row[$tree[$i]['fname']] ) {
+				// Reset all num_element this depth and below
+				for($j=$i+1;$j<count($tree);$j++) {
+					$num_elements[$j] = 0;
+				}
 				// Check if container exists
-				if( $data[$tree[$i]['container']] == null ) {
+				if( !isset($data[$tree[$i]['container']]) ) {
 					$data[$tree[$i]['container']] = array();
 				}
 				$data[$tree[$i]['container']][$num_elements[$i]] = array($tree[$i]['name']=>array());
@@ -77,14 +80,15 @@ function ciniki_core_dbHashQueryTree($ciniki, $strsql, $module, $tree) {
 				foreach($tree[$i]['fields'] as $field) {
 					$data[$tree[$i]['container']][$num_elements[$i]][$tree[$i]['name']][$field] = $row[$field];
 				}
+				$data = &$data[$tree[$i]['container']][$num_elements[$i]][$tree[$i]['name']];
 				$num_elements[$i]++;
 			}
-			$prev[$i] = $row[$tree[$i]['fname'];
-			$data = $data[$tree[$i]['container']][$num_elements[$i]][$tree[$i]['name']];
+			else {
+				$data = &$data[$tree[$i]['container']][$num_elements[$i]-1][$tree[$i]['name']];
+			}
+			$prev[$i] = $row[$tree[$i]['fname']];
 		}
 	}
-
-	$rsp['num_rows'] = $num_col_x;
 
 	return $rsp;
 }

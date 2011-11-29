@@ -66,6 +66,10 @@ function ciniki_core_dbHashQueryTree($ciniki, $strsql, $module, $tree) {
 			if( $i > 0 ) {
 				// $data = $data[$tree[$i]['container'];
 			}
+			// error_log($tree[$i]['fname'] . ' = ' . $row[$tree[$i]['fname']]);
+			if( is_null($row[$tree[$i]['fname']]) ) {
+				continue;
+			}
 			if( $prev[$i] != $row[$tree[$i]['fname']] ) {
 				// Reset all num_element this depth and below
 				for($j=$i+1;$j<count($tree);$j++) {

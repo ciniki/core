@@ -25,7 +25,7 @@ function ciniki_core_dbParseAge($ciniki, $age) {
 	} elseif( $age < 5356800 ) { 		return '1 month';
 	} elseif( $age < 31536000 ) { 		return (int)($age/2678400) . ' months';
 	} elseif( $age < 63072000 ) { 		return '1 year';
-	} else { 							return (int)($age/2678400) . ' years';
+	} else { 							return (int)($age/31536000) . ' years';
 	}   
 }
 ?>

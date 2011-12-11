@@ -52,6 +52,7 @@ function ciniki_core_dbHashQueryTree($ciniki, $strsql, $module, $tree) {
 	// Build array of rows
 	//
 	$prev = array();
+	$prev_row = null;
 	$num_elements = array();
 	for($i=0;$i<count($tree);$i++) {
 		$prev[$i] = null;
@@ -89,10 +90,51 @@ function ciniki_core_dbHashQueryTree($ciniki, $strsql, $module, $tree) {
 				$num_elements[$i]++;
 			}
 			else {
+				foreach($tree[$i]['fields'] as $field) {
+					//
+					// Provide the ability to count items
+					//
+					if( isset($tree[$i]['countlists']) && in_array($field, $tree[$i]['countlists']) ) {
+						if( $prev_row != null && $prev_row[$field] == $row[$field] ) {
+							if( preg_match('/ \(([0-9]+)\)$/', $data[$tree[$i]['container']][$num_elements[$i]-1][$tree[$i]['name']][$field], $matches) ) {
+								$data[$tree[$i]['container']][$num_elements[$i]-1][$tree[$i]['name']][$field] = preg_replace('/ \([0-9]+\)$/', ' (' . (intval($matches[1])+1) . ')', $data[$tree[$i]['container']][$num_elements[$i]-1][$tree[$i]['name']][$field]);
+							} else {
+								$data[$tree[$i]['container']][$num_elements[$i]-1][$tree[$i]['name']][$field] .= ' (2)';
+							}
+						} else {
+							$data[$tree[$i]['container']][$num_elements[$i]-1][$tree[$i]['name']][$field] .= ',' . $row[$field];
+						}
+					}
+
+					if( isset($tree[$i]['lists']) && in_array($field, $tree[$i]['lists']) ) {
+						//
+						// Check if field was declared in fields array, if not it can be added now
+						//
+						if( isset($data[$tree[$i]['container']][$num_elements[$i]-1][$tree[$i]['name']][$field]) ) {
+							$data[$tree[$i]['container']][$num_elements[$i]-1][$tree[$i]['name']][$field] .= ',' . $row[$field];
+						} else {
+							$data[$tree[$i]['container']][$num_elements[$i]-1][$tree[$i]['name']][$field] = $row[$field];
+						}
+					}
+					// 
+					// Items can be in lists and summed at the same time
+					//
+					if( isset($tree[$i]['sums']) && in_array($field, $tree[$i]['sums']) ) {
+						//
+						// Check if field was declared in fields array, if not it can be added now
+						//
+						if( isset($data[$tree[$i]['container']][$num_elements[$i]-1][$tree[$i]['name']][$field]) ) {
+							$data[$tree[$i]['container']][$num_elements[$i]-1][$tree[$i]['name']][$field] += $row[$field];
+						} else {
+							$data[$tree[$i]['container']][$num_elements[$i]-1][$tree[$i]['name']][$field] = $row[$field];
+						}
+					}
+				}
 				$data = &$data[$tree[$i]['container']][$num_elements[$i]-1][$tree[$i]['name']];
 			}
 			$prev[$i] = $row[$tree[$i]['fname']];
 		}
+		$prev_row = $row;
 	}
 
 	return $rsp;

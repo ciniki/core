@@ -24,7 +24,7 @@ function ciniki_core_parseDate($ciniki) {
     //  
     require_once($ciniki['config']['core']['modules_dir'] . '/core/private/prepareArgs.php');
     $rc = ciniki_core_prepareArgs($ciniki, 'no', array(
-        'date'=>array('required'=>'no', 'default'=>'', 'blank'=>'no', 'type'=>'date', 'errmsg'=>'No date specified'), 
+        'date'=>array('required'=>'no', 'default'=>'', 'blank'=>'no', 'type'=>'datetime', 'errmsg'=>'No date specified'), 
 		));
     $args = $rc['args'];
 
@@ -40,10 +40,13 @@ function ciniki_core_parseDate($ciniki) {
 	$rsp = array('stat'=>'ok', 'date'=>$args['date']);
 
 	if( $args['date'] != '' ) {
+		error_log($args['date']);
 		$dt = strtotime($args['date']);
+		error_log(print_r($dt, true));
 		$rsp['year'] = date('Y', $dt);
 		$rsp['month'] = date('m', $dt);
 		$rsp['day'] = date('d', $dt);
+		$rsp['time'] = date('h:i A', $dt);
 	}
 
 	return $rsp;

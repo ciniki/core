@@ -71,6 +71,8 @@ function ciniki_core_prepareArgs($ciniki, $quote_flag, $arg_info) {
 				date_default_timezone_set('America/Toronto');
 				if( $ciniki['request']['args'][$arg] == 'now' || $ciniki['request']['args'][$arg] == 'today' ) {
 					$args[$arg] = strftime("%Y-%m-%d");
+				} elseif( $ciniki['request']['args'][$arg] == 'tomorrow' ) {
+					$args[$arg] = strftime("%Y-%m-%d", time()+86400);
 				} else {
 					$ts = strtotime($ciniki['request']['args'][$arg]);
 					if( $ts === FALSE || $ts < 1 ) {

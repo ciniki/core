@@ -40,9 +40,7 @@ function ciniki_core_parseDate($ciniki) {
 	$rsp = array('stat'=>'ok', 'date'=>$args['date']);
 
 	if( $args['date'] != '' ) {
-		error_log($args['date']);
 		$dt = strtotime($args['date']);
-		error_log(print_r($dt, true));
 		$rsp['year'] = date('Y', $dt);
 		$rsp['month'] = date('m', $dt);
 		$rsp['day'] = date('d', $dt);

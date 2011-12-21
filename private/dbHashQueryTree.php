@@ -71,6 +71,10 @@ function ciniki_core_dbHashQueryTree($ciniki, $strsql, $module, $tree) {
 			if( is_null($row[$tree[$i]['fname']]) ) {
 				continue;
 			}
+			// Are we at the limit, then stop save any other SQL processing
+			if( isset($tree[$i]['limit']) && $tree[$i]['limit'] > 0 && $num_elements[$i] >= $tree[$i]['limit'] ) {
+				break;
+			}
 			if( $prev[$i] != $row[$tree[$i]['fname']] ) {
 				// Reset all num_element this depth and below
 				for($j=$i+1;$j<count($tree);$j++) {

@@ -78,6 +78,7 @@ function ciniki_core_dbUpgradeTable($ciniki, $package, $module, $table, $old_ver
 				foreach($sqls as $strsql) {
 					if( preg_match('/ALTER TABLE/', $strsql) 
 						|| preg_match('/DROP INDEX/', $strsql)
+						|| preg_match('/CREATE UNIQUE INDEX/', $strsql)
 						|| preg_match('/CREATE INDEX/', $strsql)
 						|| preg_match('/UPDATE /', $strsql)
 						) {

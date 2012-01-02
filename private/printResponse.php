@@ -33,7 +33,7 @@ function ciniki_core_printResponse($ciniki, $hash) {
 		ciniki_core_printHashToXML('rsp', '', $hash);	
 	} 
 
-	elseif( $ciniki['response']['format'] == 'php_serial' ) {
+	elseif( $ciniki['response']['format'] == 'php' ) {
 		header("Content-Type: text/plain; charset=utf-8");
 		require_once($ciniki['config']['core']['modules_dir'] . '/core/private/printHashToPHP.php');
 		ciniki_core_printHashToPHP($hash);

@@ -31,6 +31,9 @@
 # Fields
 # ------
 # id: 			The id of the log entry.
+#
+# uuid:			The uuid of the log entry.  This is used for replication purposes.
+#
 # user_id:		The user who made the change.
 #
 # session:			The id of the current session for the user.  A login starts a 
@@ -77,6 +80,7 @@
 #
 create table ciniki_core_change_logs (
 	id bigint not null auto_increment,
+	uuid binary(16) not null,
 	user_id	int not null,
 	session varchar(50) not null,
 	transaction varchar(50) not null,
@@ -85,10 +89,10 @@ create table ciniki_core_change_logs (
 	table_name varchar(50) not null,
 	table_key varchar(50) not null,
 	table_field varchar(50) not null,
-	new_value varchar(255) not null,
+	new_value varchar(65000) not null,
 	log_date datetime not null,
 	primary key (id),
 	index (user_id), 
 	index (business_id, table_name, table_key, table_field),
 	index (log_date)
-) ENGINE=InnoDB, COMMENT='v1.02';
+) ENGINE=InnoDB, COMMENT='v1.03';

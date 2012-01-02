@@ -33,8 +33,9 @@ function ciniki_core_dbAddChangeLog($ciniki, $module, $business_id, $table_name,
 
 	$dh = $rc['dh'];
 
-	$strsql = "INSERT INTO ciniki_core_change_logs (user_id, session, transaction, status, "
+	$strsql = "INSERT INTO ciniki_core_change_logs (uuid, user_id, session, transaction, status, "
 		. "business_id, table_name, table_key, table_field, new_value, log_date) VALUES ("
+		. "uuid(), "
 		. "'" . ciniki_core_dbQuote($ciniki, $ciniki['session']['user']['id']) . "', "
 		. "'" . ciniki_core_dbQuote($ciniki, $ciniki['session']['change_log_id']) . "', "
 		. "'', 0, "

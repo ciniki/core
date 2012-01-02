@@ -3,7 +3,7 @@
 #
 # There was a problem where the schema file wasn't updated properly in 1.02, so the modify column still exists.
 #
-ALTER TABLE ciniki_core_change_logs ADD COLUMN uuid binary(16) not null AFTER id;
+ALTER TABLE ciniki_core_change_logs ADD COLUMN uuid char(36) not null AFTER id;
 UPDATE ciniki_core_change_logs SET uuid = uuid();
 CREATE UNIQUE INDEX idx_uuid ON ciniki_core_change_logs (business_id, uuid);
 ALTER TABLE ciniki_core_change_logs MODIFY COLUMN new_value varchar(65000) not null;

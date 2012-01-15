@@ -99,7 +99,7 @@ function ciniki_core_syncInit($ciniki_root) {
 		//
 		if( !isset($ciniki['request']['ts']) 
 			|| $ciniki['request']['ts'] <= 0 
-			|| (gmmktime() - $ciniki['request']['ts']) > 60 ) {
+			|| abs(gmmktime() - $ciniki['request']['ts']) > 60 ) {
 			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'54', 'msg'=>'Internal configuration error'));
 		}
 		if( !isset($ciniki['request']['action']) 

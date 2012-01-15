@@ -17,7 +17,7 @@ $ciniki_root = dirname(__FILE__);
 if( !file_exists($ciniki_root . '/ciniki-api.ini') ) {
 	$ciniki_root = dirname(dirname(dirname(dirname(__FILE__))));
 }
-require_once($ciniki_root . '/ciniki-api/core/sync/syncInit.php');
+require_once($ciniki_root . '/ciniki-api/core/private/syncInit.php');
 require_once($ciniki_root . '/ciniki-api/core/private/checkSecureConnection.php');
 require_once($ciniki_root . '/ciniki-api/core/private/printHashToPHP.php');
 require_once($ciniki_root . '/ciniki-api/core/private/syncResponse.php');

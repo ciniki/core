@@ -52,6 +52,6 @@ function ciniki_core_cinikiAPIPost($ciniki, $api, $method, $remote_args, $conten
 		return $rc;
 	}
 
-	return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'539', 'msg'=>'Unable to understand the response'));
+	return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'548', 'msg'=>'Unable to understand the response'));
 }	
 ?>

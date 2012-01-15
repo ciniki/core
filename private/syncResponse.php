@@ -29,7 +29,7 @@ function ciniki_core_syncResponse($ciniki, $hash) {
 	// Encrypt the response, using the remote public key
 	//
 	if( !openssl_public_encrypt($unencrypted_response, $encrypted_response, $ciniki['sync']['remote_public_key']) ) {
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'999', 'msg'=>'Invalid request'));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'550', 'msg'=>'Invalid request'));
 	}
 
 	header("Content-Type: text/plain; charset=utf-8");

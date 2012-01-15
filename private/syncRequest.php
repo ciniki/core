@@ -21,7 +21,7 @@ function ciniki_core_syncRequest($ciniki, $sync, $request) {
 	curl_setopt($ch, CURLOPT_URL, $request_url);
 
 	if( !is_array($request) ) {
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'542', 'msg'=>'Invalid request'));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'549', 'msg'=>'Invalid request'));
 	}
 
 	if( !isset($request['action']) || $request['action'] == '' ) {

@@ -27,7 +27,6 @@ require_once($ciniki_root . '/ciniki-api/core/private/loadMethod.php');
 $rc = ciniki_core_syncInit($ciniki_root);
 if( $rc['stat'] != 'ok' ) {
 	header("Content-Type: text/plain; charset=utf-8");
-	error_log(print_r($rc, true));
 	ciniki_core_printHashToPHP($rc);
 	exit;
 }

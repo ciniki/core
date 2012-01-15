@@ -5,8 +5,6 @@
 // This function will execute a remote API call
 //
 function ciniki_core_cinikiAPIPost($ciniki, $api, $method, $remote_args, $content) {
-
-	error_log(print_r($api, true));	
 	$request_url = $api['url'] . "?method=" . urlencode($method) . "&api_key=" . urlencode($api['key']);
 	if( $api['token'] != '' ) {
 		$request_url .= "&auth_token=" . $api['token'];

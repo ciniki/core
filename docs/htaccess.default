@@ -41,6 +41,6 @@ RewriteRule ^(manage/)$ ciniki-manage.php [L]							# allow all moss-admin
 RewriteRule ^(manage)$ ciniki-manage.php [L]							# allow all moss-admin
 RewriteRule ^(ciniki-manage/.*)$ $1 [L]									# Allow manage content
 RewriteRule ^(ciniki-manage-themes/.*)$ $1 [L]							# Allow manage-theme content
-RewriteRule ^(ciniki-login|ciniki-json|ciniki-rest|index|ciniki-manage).php$ $1.php [L]		# allow entrance php files
+RewriteRule ^(ciniki-login|ciniki-sync|ciniki-json|ciniki-rest|index|ciniki-manage).php$ $1.php [L]		# allow entrance php files
 RewriteRule  ^([_0-9a-zA-Z-]+/)(.*\.php)$ index.php [L]					# Redirect all other php requests to index
 RewriteRule . index.php [L]												# Redirect all other requests to index

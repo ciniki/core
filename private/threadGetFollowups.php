@@ -32,10 +32,10 @@ function ciniki_core_threadGetFollowups($ciniki, $module, $table, $prefix, $id, 
 	// 
 	// Setup the SQL statement to insert the new thread
 	//
-	$date_format = ciniki_users_datetimeFormat($ciniki);
+	$datetime_format = ciniki_users_datetimeFormat($ciniki);
 	$strsql = "SELECT id, " . ciniki_core_dbQuote($ciniki, "{$prefix}_id") . ", "
 		. "user_id, "
-		. "DATE_FORMAT(date_added, '" . ciniki_core_dbQuote($ciniki, $date_format) . "') as date_added, "
+		. "DATE_FORMAT(date_added, '" . ciniki_core_dbQuote($ciniki, $datetime_format) . "') as date_added, "
 		. "CAST(UNIX_TIMESTAMP(UTC_TIMESTAMP())-UNIX_TIMESTAMP(date_added) as DECIMAL(12,0)) as age, content "
 		. "FROM " . ciniki_core_dbQuote($ciniki, $table) . " "
 		. "WHERE " . ciniki_core_dbQuote($ciniki, "{$prefix}_id") . " = '" . ciniki_core_dbQuote($ciniki, $id) . "' "

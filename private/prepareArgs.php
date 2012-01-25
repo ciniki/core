@@ -55,11 +55,13 @@ function ciniki_core_prepareArgs($ciniki, $quote_flag, $arg_info) {
 			}
 
 			if( isset($options['type']) && $options['type'] == 'idlist' ) {
-				$list = explode(',', $ciniki['request']['args'][$arg]);
-				// Typecast all entries as (int) so they are dealt with as ID's
 				$args[$arg] = array();
-				foreach($list as $i) {
-					$args[$arg][] = (int)$i;
+				if( $ciniki['request']['args'][$arg] != '' ) {
+					$list = explode(',', $ciniki['request']['args'][$arg]);
+					// Typecast all entries as (int) so they are dealt with as ID's
+					foreach($list as $i) {
+						$args[$arg][] = (int)$i;
+					}
 				}
 			} elseif( isset($options['type']) && $options['type'] == 'list' ) {
 				$list = explode(',', $ciniki['request']['args'][$arg]);

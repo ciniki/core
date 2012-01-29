@@ -39,7 +39,7 @@ function ciniki_core_threadAddUserPerms($ciniki, $module, $table, $prefix, $id, 
 	if( $id != null && $id > 0 ) {
 		$strsql .= "'" . ciniki_core_dbQuote($ciniki, $id) . "', ";
 	} else {
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'218', 'msg'=>'Required argument missing', 'pmsg'=>"No {$prefix}_id"));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'221', 'msg'=>'Required argument missing', 'pmsg'=>"No {$prefix}_id"));
 	}
 
 	// user_id

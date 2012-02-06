@@ -88,7 +88,28 @@ function ciniki_core_dbHashQueryTree($ciniki, $strsql, $module, $tree) {
 				$data[$tree[$i]['container']][$num_elements[$i]] = array($tree[$i]['name']=>array());
 				// Copy Data
 				foreach($tree[$i]['fields'] as $field) {
-					$data[$tree[$i]['container']][$num_elements[$i]][$tree[$i]['name']][$field] = $row[$field];
+					//
+					// Items that are mapped to another value
+					//
+					if( isset($tree[$i]['maps']) && isset($tree[$i]['maps'][$field]) ) {
+						//
+						// Check if the value is specified in the mapped array for this field
+						// If no mapped value specified, check for blank index
+						// Last resort, set it to current value
+						//
+						if( isset($tree[$i]['maps'][$field][$row[$field]]) ) {
+							$data[$tree[$i]['container']][$num_elements[$i]][$tree[$i]['name']][$field] = $tree[$i]['maps'][$field][$row[$field]];
+						} elseif( isset($tree[$i]['maps'][$field]['']) ) {
+							$data[$tree[$i]['container']][$num_elements[$i]][$tree[$i]['name']][$field] = $tree[$i]['maps'][$field][''];
+						} else {
+							$data[$tree[$i]['container']][$num_elements[$i]][$tree[$i]['name']][$field] = $row[$field];
+						}
+					} 
+					
+					// Normal item
+					else {
+						$data[$tree[$i]['container']][$num_elements[$i]][$tree[$i]['name']][$field] = $row[$field];
+					}
 				}
 				$data = &$data[$tree[$i]['container']][$num_elements[$i]][$tree[$i]['name']];
 				$num_elements[$i]++;

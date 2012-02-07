@@ -131,12 +131,23 @@ function ciniki_core_dbHashQueryTree($ciniki, $strsql, $module, $tree) {
 						}
 					}
 
-					if( isset($tree[$i]['lists']) && in_array($field, $tree[$i]['lists']) ) {
+					if( isset($tree[$i]['idlists']) && in_array($field, $tree[$i]['idlists']) ) {
 						//
 						// Check if field was declared in fields array, if not it can be added now
 						//
 						if( isset($data[$tree[$i]['container']][$num_elements[$i]-1][$tree[$i]['name']][$field]) ) {
 							$data[$tree[$i]['container']][$num_elements[$i]-1][$tree[$i]['name']][$field] .= ',' . $row[$field];
+						} else {
+							$data[$tree[$i]['container']][$num_elements[$i]-1][$tree[$i]['name']][$field] = $row[$field];
+						}
+					}
+
+					if( isset($tree[$i]['lists']) && in_array($field, $tree[$i]['lists']) ) {
+						//
+						// Check if field was declared in fields array, if not it can be added now
+						//
+						if( isset($data[$tree[$i]['container']][$num_elements[$i]-1][$tree[$i]['name']][$field]) ) {
+							$data[$tree[$i]['container']][$num_elements[$i]-1][$tree[$i]['name']][$field] .= ', ' . $row[$field];
 						} else {
 							$data[$tree[$i]['container']][$num_elements[$i]-1][$tree[$i]['name']][$field] = $row[$field];
 						}

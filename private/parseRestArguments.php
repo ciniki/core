@@ -36,7 +36,7 @@ function ciniki_core_parseRestArguments(&$ciniki) {
 			} elseif( in_array($arg_key, $response_keys) ) {
 				$ciniki['response'][$arg_key] = $arg_value;
 			} else {
-				$ciniki['request']['args'][$arg_key] = $arg_value;
+				$ciniki['request']['args'][urldecode($arg_key)] = urldecode($arg_value);
 			}
 		}
 	}
@@ -80,7 +80,7 @@ function ciniki_core_parseRestArguments(&$ciniki) {
 				} elseif( in_array($arg[0], $response_keys) ) {
 					$ciniki['response'][$arg[0]] = $arg[1];
 				} else {
-					$ciniki['request']['args'][$arg[0]] = $arg[1];
+					$ciniki['request']['args'][urldecode($arg[0])] = urldecode($arg[1]);
 				}
 				
 			}

@@ -29,7 +29,7 @@ function ciniki_core_threadRemoveUserPerms($ciniki, $module, $table, $prefix, $i
 	//
 	// If the insert failed, then try to update an existing row
 	//
-	$strsql = "UPDATE " . ciniki_core_dbQuote($ciniki, $table) . " SET perms = (perms ^ '" . ciniki_core_dbQuote($ciniki, $perms) . "') "
+	$strsql = "UPDATE " . ciniki_core_dbQuote($ciniki, $table) . " SET perms = (perms &~ '" . ciniki_core_dbQuote($ciniki, $perms) . "') "
 		. "WHERE " . ciniki_core_dbQuote($ciniki, "{$prefix}_id") . " = '" . ciniki_core_dbQuote($ciniki, $id) . "' "
 		. "AND user_id = '" . ciniki_core_dbQuote($ciniki, $user_id) . "'";
 		

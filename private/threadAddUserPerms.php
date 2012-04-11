@@ -62,6 +62,7 @@ function ciniki_core_threadAddUserPerms($ciniki, $module, $table, $prefix, $id, 
 		$strsql = "UPDATE " . ciniki_core_dbQuote($ciniki, $table) . " SET perms = (perms | '" . ciniki_core_dbQuote($ciniki, $perms) . "') "
 			. "WHERE " . ciniki_core_dbQuote($ciniki, "{$prefix}_id") . " = '" . ciniki_core_dbQuote($ciniki, $id) . "' "
 			. "AND user_id = '" . ciniki_core_dbQuote($ciniki, $user_id) . "'";
+		error_log($strsql);
 		return ciniki_core_dbUpdate($ciniki, $strsql, $module);
 	}
 

@@ -47,10 +47,19 @@ function ciniki_core_parseRestArguments(&$ciniki) {
 			// Do nothing, this is image upload data
 			//
 			// file_put_contents('/tmp/up6.txt', file_get_contents("php://input"));
+			foreach($_POST as $arg_key => $arg_value) {
+				if( in_array($arg_key, $request_keys) ) {
+					$ciniki['request'][$arg_key] = $arg_value;
+				} elseif( in_array($arg_key, $response_keys) ) {
+					$ciniki['response'][$arg_key] = $arg_value;
+				} elseif( $arg_key != '' ) {
+					$ciniki['request']['args'][$arg_key] = $arg_value;
+				}
+			}
 		
 		} else {
 			$pairs = explode("&", file_get_contents("php://input"));
-			$vars = array();
+			// $vars = array();
 			foreach ($pairs as $pair) {
 				if( $pair == '' ) { continue; }
 				$nv = explode("=", $pair);

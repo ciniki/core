@@ -78,7 +78,6 @@ function ciniki_core_prepareArgs($ciniki, $quote_flag, $arg_info) {
 				} else {
 					$ts = strtotime($ciniki['request']['args'][$arg]);
 					if( $ts === FALSE || $ts < 1 ) {	
-						error_log($ciniki['request']['args'][$arg]);
 						return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'234', 'msg'=>"$msg", 'pmsg'=>"Argument: $arg invalid date format"));
 						
 					} else {

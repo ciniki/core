@@ -48,6 +48,8 @@ function ciniki_core_parseRestArguments(&$ciniki) {
 			//
 			// file_put_contents('/tmp/up6.txt', file_get_contents("php://input"));
 			foreach($_POST as $arg_key => $arg_value) {
+				$arg_key = urldecode($arg_key);
+				$arg_value = urldecode($arg_value);
 				if( in_array($arg_key, $request_keys) ) {
 					$ciniki['request'][$arg_key] = $arg_value;
 				} elseif( in_array($arg_key, $response_keys) ) {

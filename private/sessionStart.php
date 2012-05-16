@@ -175,6 +175,6 @@ function ciniki_core_sessionStart(&$ciniki, $username, $password) {
 	
 	ciniki_users_logAuthSuccess($ciniki);
 
-	return array('stat'=>'ok', 'auth'=>array('token'=>$ciniki['session']['auth_token']), 'id'=>$user['id'], 'perms'=>$user['perms'], 'avatar_id'=>$user['avatar_id']);
+	return array('stat'=>'ok', 'auth'=>array('token'=>$ciniki['session']['auth_token'], 'id'=>$user['id'], 'perms'=>$user['perms'], 'avatar_id'=>$user['avatar_id']));
 }
 ?>

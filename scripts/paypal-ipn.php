@@ -21,8 +21,6 @@ require_once($ciniki_root . '/ciniki-api/core/private/printResponse.php');
 // loadMethod is required by all function to ensure the functions are dynamically loaded
 require_once($ciniki_root . '/ciniki-api/core/private/loadMethod.php');
 
-error_log('IPN Request');
-
 $rc = ciniki_core_init($ciniki_root, 'rest');
 if( $rc['stat'] != 'ok' ) {
 	header("Content-Type: text/xml; charset=utf-8");
@@ -58,10 +56,11 @@ if( $rc['stat'] != 'ok' ) {
 error_log(print_r($ciniki['request']['args'], true));
 
 //
-// Once the REST specific stuff is done, pass the control to
-// ciniki.core.callPublicMethod()
+// Handle transaction types
 //
-
+require_once($ciniki_root . '/ciniki-api/businesses/private/processPaypalIPN.php');
+$rc = ciniki_businesses_processPaypalIPN($ciniki);
+ciniki_core_printResponse($ciniki, $rc);
 
 exit;
 

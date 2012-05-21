@@ -36,7 +36,8 @@ function ciniki_core_parseRestArguments(&$ciniki) {
 			} elseif( in_array($arg_key, $response_keys) ) {
 				$ciniki['response'][$arg_key] = $arg_value;
 			} else {
-				$ciniki['request']['args'][urldecode($arg_key)] = urldecode($arg_value);
+				// _GET is already decoded, doesn't need to be again.
+				$ciniki['request']['args'][$arg_key] = $arg_value;
 			}
 		}
 	}

@@ -53,8 +53,6 @@ if( $rc['stat'] != 'ok' ) {
 	exit;
 }
 
-error_log(print_r($ciniki['request']['args'], true));
-
 //
 // Handle transaction types
 //

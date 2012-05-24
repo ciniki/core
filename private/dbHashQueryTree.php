@@ -87,7 +87,13 @@ function ciniki_core_dbHashQueryTree($ciniki, $strsql, $module, $tree) {
 				}
 				$data[$tree[$i]['container']][$num_elements[$i]] = array($tree[$i]['name']=>array());
 				// Copy Data
-				foreach($tree[$i]['fields'] as $field) {
+				foreach($tree[$i]['fields'] as $field_id => $field) {
+					// Check if the field name from the SQL should be translated to another name in the array
+					// This is used when business_id should become id in the data structure.
+					if( !is_string($field_id) && is_int($field_id) ) {
+						// Field is in integer and should not be mapped
+						$field_id = $field;
+					}
 					//
 					// Items that are mapped to another value
 					//
@@ -98,17 +104,17 @@ function ciniki_core_dbHashQueryTree($ciniki, $strsql, $module, $tree) {
 						// Last resort, set it to current value
 						//
 						if( isset($tree[$i]['maps'][$field][$row[$field]]) ) {
-							$data[$tree[$i]['container']][$num_elements[$i]][$tree[$i]['name']][$field] = $tree[$i]['maps'][$field][$row[$field]];
+							$data[$tree[$i]['container']][$num_elements[$i]][$tree[$i]['name']][$field_id] = $tree[$i]['maps'][$field][$row[$field]];
 						} elseif( isset($tree[$i]['maps'][$field]['']) ) {
-							$data[$tree[$i]['container']][$num_elements[$i]][$tree[$i]['name']][$field] = $tree[$i]['maps'][$field][''];
+							$data[$tree[$i]['container']][$num_elements[$i]][$tree[$i]['name']][$field_id] = $tree[$i]['maps'][$field][''];
 						} else {
-							$data[$tree[$i]['container']][$num_elements[$i]][$tree[$i]['name']][$field] = $row[$field];
+							$data[$tree[$i]['container']][$num_elements[$i]][$tree[$i]['name']][$field_id] = $row[$field];
 						}
 					} 
 					
 					// Normal item
 					else {
-						$data[$tree[$i]['container']][$num_elements[$i]][$tree[$i]['name']][$field] = $row[$field];
+						$data[$tree[$i]['container']][$num_elements[$i]][$tree[$i]['name']][$field_id] = $row[$field];
 					}
 				}
 				$data = &$data[$tree[$i]['container']][$num_elements[$i]][$tree[$i]['name']];

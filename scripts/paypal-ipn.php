@@ -54,6 +54,11 @@ if( $rc['stat'] != 'ok' ) {
 }
 
 //
+// Log all connections
+//
+error_log(print_r($ciniki['request']['args'], true));
+
+//
 // Handle transaction types
 //
 require_once($ciniki_root . '/ciniki-api/businesses/private/processPaypalIPN.php');

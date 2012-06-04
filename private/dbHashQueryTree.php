@@ -33,6 +33,8 @@ function ciniki_core_dbHashQueryTree($ciniki, $strsql, $module, $tree) {
 
 	$dh = $rc['dh'];
 
+	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbParseAge.php');
+
 	//
 	// Prepare and Execute Query
 	//
@@ -111,6 +113,10 @@ function ciniki_core_dbHashQueryTree($ciniki, $strsql, $module, $tree) {
 							$data[$tree[$i]['container']][$num_elements[$i]][$tree[$i]['name']][$field_id] = $row[$field];
 						}
 					} 
+
+					elseif( $field == 'age' || substr($field, 0, 4) == 'age_' ) {
+						$data[$tree[$i]['container']][$num_elements[$i]][$tree[$i]['name']][$field_id] = ciniki_core_dbParseAge($ciniki, $row[$field]);
+					}
 					
 					// Normal item
 					else {
@@ -137,7 +143,8 @@ function ciniki_core_dbHashQueryTree($ciniki, $strsql, $module, $tree) {
 						}
 					}
 
-					if( isset($tree[$i]['idlists']) && in_array($field, $tree[$i]['idlists']) ) {
+					if( isset($tree[$i]['idlists']) && in_array($field, $tree[$i]['idlists']) 
+						&& $prev_row != null && $prev_row[$field] != $row[$field] ) {
 						//
 						// Check if field was declared in fields array, if not it can be added now
 						//
@@ -148,7 +155,8 @@ function ciniki_core_dbHashQueryTree($ciniki, $strsql, $module, $tree) {
 						}
 					}
 
-					if( isset($tree[$i]['lists']) && in_array($field, $tree[$i]['lists']) ) {
+					if( isset($tree[$i]['lists']) && in_array($field, $tree[$i]['lists']) 
+						&& $prev_row != null && $prev_row[$field] != $row[$field] ) {
 						//
 						// Check if field was declared in fields array, if not it can be added now
 						//

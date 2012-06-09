@@ -1,0 +1,5 @@
+#
+# This file will upgrade the database table businesses to version 1.02.
+#
+ALTER TABLE ciniki_core_session_data ADD COLUMN session_key varchar(50) not null AFTER user_id;
+ALTER TABLE ciniki_core_session_data COMMENT='v1.02';

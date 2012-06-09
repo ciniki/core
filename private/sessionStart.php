@@ -143,13 +143,15 @@ function ciniki_core_sessionStart(&$ciniki, $username, $password) {
 	$serialized_session_data = serialize($ciniki['session']);
 
 	$strsql = "INSERT INTO ciniki_core_session_data "
-		. "(auth_token, api_key, user_id, date_added, timeout, last_saved, session_data) "
+		. "(auth_token, api_key, user_id, date_added, timeout, last_saved, session_key, session_data) "
 		. " VALUES "
 		. "('" . ciniki_core_dbQuote($ciniki, $ciniki['session']['auth_token']) . "' "
 		. ", '" . ciniki_core_dbQuote($ciniki, $ciniki['session']['api_key']) . "' "
 		. ", '" . ciniki_core_dbQuote($ciniki, $user['id']) . "' "
 		. ", UTC_TIMESTAMP(), " . ciniki_core_dbQuote($ciniki, $session_timeout)
-		. ", UTC_TIMESTAMP(), '" . ciniki_core_dbQuote($ciniki, $serialized_session_data) . "')";
+		. ", UTC_TIMESTAMP(), "
+		. "'" . ciniki_core_dbQuote($ciniki, $ciniki['session']['change_log_id']) . "', "
+		. "'" . ciniki_core_dbQuote($ciniki, $serialized_session_data) . "')";
 
 	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbInsert.php');
 	$rc = ciniki_core_dbInsert($ciniki, $strsql, 'core');

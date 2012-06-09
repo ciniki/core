@@ -1,0 +1,41 @@
+#
+# Description
+# -----------
+# The ciniki_core_api_logs stores all requests to the API for monitoring and auditing purposes.
+#
+# Fields
+# ------
+# id: 				The id of the log entry.
+#
+# uuid:				The uuid of the log entry.  This is used for replication purposes.
+#
+# user_id:			The user who made the request.
+#
+# business_id:		The ID of the business the change happened on.  Every change
+#					must be tied to a business for security reasons.
+#
+# session_key:		The id of the current session for the user.  A login starts a 
+#					session, a logout or timeout ends a session.
+#					 
+# method:			The method requested
+#
+# action:			The action performed against what data.  This is a text string which will be visible to business owners.
+#
+# ip_address:		The IP Address the request was made from.
+#
+# log_date: 		The date and time the change happened.
+#
+create table ciniki_core_api_logs (
+	id bigint not null auto_increment,
+	uuid char(36) not null,
+	user_id	int not null,
+	business_id int not null,
+	session_key varchar(50) not null,
+	method varchar(150) not null,
+	action varchar(250) not null,
+	ip_address varchar(32) not null,
+	log_date datetime not null,
+	primary key (id),
+	index (user_id, business_id, method), 
+	index (log_date)
+) ENGINE=InnoDB, COMMENT='v1.01';

@@ -120,7 +120,18 @@ function ciniki_core_callPublicMethod(&$ciniki) {
 		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1', 'msg'=>'Method does not exist'));
 	}
 
+	// FIXME: Add failed requests to log
+
 	$method_rc = $method_function($ciniki);
+
+	//
+	// Log the request
+	//
+	require_once($ciniki['config']['core']['modules_dir']. '/core/private/logAPIRequest.php');
+	$rc = ciniki_core_logAPIRequest($ciniki);
+	if( $rc['stat'] != 'ok' ) {
+		error_log('Failed to log API Request');
+	}
 
 	//
 	// Save the session if successful transaction

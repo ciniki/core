@@ -134,6 +134,13 @@ function ciniki_core_callPublicMethod(&$ciniki) {
 	}
 
 	//
+	// Check if the method returned binary data, and we should just exit
+	//
+	if( $method_rc['stat'] == 'binary' ) {
+		exit;
+	}
+
+	//
 	// Save the session if successful transaction
 	//
 	if( isset($ciniki['session']['auth_token']) && $ciniki['session']['auth_token'] != '' ) {

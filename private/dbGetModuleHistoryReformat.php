@@ -14,7 +14,7 @@
 // user_id: 		The user making the request
 //
 //
-function ciniki_core_dbGetModuleHistoryReformat($ciniki, $module, $history_table, $business_id, $table_name, $table_key, $table_field, $module, $format) {
+function ciniki_core_dbGetModuleHistoryReformat($ciniki, $module, $history_table, $business_id, $table_name, $table_key, $table_field, $format) {
 	//
 	// Open a connection to the database if one doesn't exist.  The
 	// dbConnect function will return an open connection if one 

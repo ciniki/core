@@ -58,6 +58,12 @@ if( $rc['stat'] != 'ok' ) {
 //
 error_log(print_r($ciniki['request']['args'], true));
 
+//'';
+// Setup paypal session info
+//
+$ciniki['session']['user']['id'] = -1;
+$ciniki['session']['change_log_id'] = date('ymd.His');
+
 //
 // Handle transaction types
 //

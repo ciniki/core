@@ -22,6 +22,7 @@ function ciniki_core_sessionInit(&$ciniki) {
 	//
 	$ciniki['session']['api_key'] = '';
 	$ciniki['session']['auth_token'] = '';
+	$ciniki['session']['change_log_id'] = '';
 
 	//
 	// Create a structure to store the user information

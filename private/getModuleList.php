@@ -64,6 +64,8 @@ function ciniki_core_getModuleList($ciniki) {
 			closedir($dh);
 		}
 
+		sort($modules);
+
 		foreach($modules as $module) {
 			if( file_exists($dir . $module . '/_info.ini') ) {
 				$info = parse_ini_file($dir . $module . '/_info.ini');
@@ -78,6 +80,7 @@ function ciniki_core_getModuleList($ciniki) {
 			}
 		}
 	}
+
 
 	return array('stat'=>'ok', 'modules'=>$rsp);
 }

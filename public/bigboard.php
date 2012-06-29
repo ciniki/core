@@ -34,6 +34,9 @@ function ciniki_core_bigboard($ciniki) {
 	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbQuote.php');
 	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbRspQuery.php');
 
+	require_once($ciniki['config']['core']['modules_dir'] . '/users/private/timezoneOffset.php');
+	$utc_offset = ciniki_users_timezoneOffset($ciniki);
+
 	$date_format = ciniki_users_datetimeFormat($ciniki);
 
 	//
@@ -41,8 +44,10 @@ function ciniki_core_bigboard($ciniki) {
 	//
 	$strsql = "SELECT ciniki_users.display_name, "
 		. "ciniki_core_session_data.api_key, ciniki_core_api_keys.appname, ciniki_core_session_data.user_id,  "
-		. "DATE_FORMAT(ciniki_core_session_data.date_added, '" . ciniki_core_dbQuote($ciniki, $date_format) . "') as date_added, "
-		. "DATE_FORMAT(ciniki_core_session_data.last_saved, '" . ciniki_core_dbQuote($ciniki, $date_format) . "') as last_saved, "
+//		. "DATE_FORMAT(ciniki_core_session_data.date_added, '" . ciniki_core_dbQuote($ciniki, $date_format) . "') as date_added, "
+//		. "DATE_FORMAT(ciniki_core_session_data.last_saved, '" . ciniki_core_dbQuote($ciniki, $date_format) . "') as last_saved, "
+		. "DATE_FORMAT(CONVERT_TZ(ciniki_core_session_data.date_added, '+00:00', '" . ciniki_core_dbQuote($ciniki, $utc_offset) . "'), '" . ciniki_core_dbQuote($ciniki, $date_format) . "') AS date_added, "
+		. "DATE_FORMAT(CONVERT_TZ(ciniki_core_session_data.last_saved, '+00:00', '" . ciniki_core_dbQuote($ciniki, $utc_offset) . "'), '" . ciniki_core_dbQuote($ciniki, $date_format) . "') AS last_saved, "
 		. "CAST(UNIX_TIMESTAMP(UTC_TIMESTAMP())-UNIX_TIMESTAMP(ciniki_core_session_data.date_added) as DECIMAL(12,0)) as age "
 		. "FROM ciniki_core_session_data "
 		. "LEFT JOIN ciniki_core_api_keys ON (ciniki_core_session_data.api_key = ciniki_core_api_keys.api_key) "
@@ -52,7 +57,9 @@ function ciniki_core_bigboard($ciniki) {
 	$sessions = ciniki_core_dbRspQuery($ciniki, $strsql, 'core', 'sessions', 'session', array('stat'=>'ok', 'sessions'=>array()));
 
 	// Sort the list ASC by date, so the oldest is at the bottom, and therefore will get insert at the top of the list in ciniki-manage
-	$strsql = "SELECT DATE_FORMAT(log_date, '" . ciniki_core_dbQuote($ciniki, $date_format) . "') as log_date"
+	$strsql = "SELECT "
+	// DATE_FORMAT(log_date, '" . ciniki_core_dbQuote($ciniki, $date_format) . "') as log_date"
+		. "DATE_FORMAT(CONVERT_TZ(log_date, '+00:00', '" . ciniki_core_dbQuote($ciniki, $utc_offset) . "'), '" . ciniki_core_dbQuote($ciniki, $date_format) . "') AS log_date "
 		. ", CAST(UNIX_TIMESTAMP(UTC_TIMESTAMP())-UNIX_TIMESTAMP(log_date) as DECIMAL(12,0)) as age "
 		. ", UNIX_TIMESTAMP(log_date) as TS"
 		. ", ciniki_core_api_logs.id, user_id, ciniki_users.display_name, "

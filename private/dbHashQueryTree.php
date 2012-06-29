@@ -89,40 +89,50 @@ function ciniki_core_dbHashQueryTree($ciniki, $strsql, $module, $tree) {
 				}
 				$data[$tree[$i]['container']][$num_elements[$i]] = array($tree[$i]['name']=>array());
 				// Copy Data
-				foreach($tree[$i]['fields'] as $field_id => $field) {
-					// Check if the field name from the SQL should be translated to another name in the array
-					// This is used when business_id should become id in the data structure.
-					if( !is_string($field_id) && is_int($field_id) ) {
-						// Field is in integer and should not be mapped
-						$field_id = $field;
-					}
-					//
-					// Items that are mapped to another value
-					//
-					if( isset($tree[$i]['maps']) && isset($tree[$i]['maps'][$field]) ) {
+				if( isset($tree[$i]['fields']) ) {
+					foreach($tree[$i]['fields'] as $field_id => $field) {
+						// Check if the field name from the SQL should be translated to another name in the array
+						// This is used when business_id should become id in the data structure.
+						if( !is_string($field_id) && is_int($field_id) ) {
+							// Field is in integer and should not be mapped
+							$field_id = $field;
+						}
 						//
-						// Check if the value is specified in the mapped array for this field
-						// If no mapped value specified, check for blank index
-						// Last resort, set it to current value
+						// Items that are mapped to another value
 						//
-						if( isset($tree[$i]['maps'][$field][$row[$field]]) ) {
-							$data[$tree[$i]['container']][$num_elements[$i]][$tree[$i]['name']][$field_id] = $tree[$i]['maps'][$field][$row[$field]];
-						} elseif( isset($tree[$i]['maps'][$field]['']) ) {
-							$data[$tree[$i]['container']][$num_elements[$i]][$tree[$i]['name']][$field_id] = $tree[$i]['maps'][$field][''];
-						} else {
+						if( isset($tree[$i]['maps']) && isset($tree[$i]['maps'][$field]) ) {
+							//
+							// Check if the value is specified in the mapped array for this field
+							// If no mapped value specified, check for blank index
+							// Last resort, set it to current value
+							//
+							if( isset($tree[$i]['maps'][$field][$row[$field]]) ) {
+								$data[$tree[$i]['container']][$num_elements[$i]][$tree[$i]['name']][$field_id] = $tree[$i]['maps'][$field][$row[$field]];
+							} elseif( isset($tree[$i]['maps'][$field]['']) ) {
+								$data[$tree[$i]['container']][$num_elements[$i]][$tree[$i]['name']][$field_id] = $tree[$i]['maps'][$field][''];
+							} else {
+								$data[$tree[$i]['container']][$num_elements[$i]][$tree[$i]['name']][$field_id] = $row[$field];
+							}
+						} 
+						elseif( $field == 'age' || substr($field, 0, 4) == 'age_' ) {
+							$data[$tree[$i]['container']][$num_elements[$i]][$tree[$i]['name']][$field_id] = ciniki_core_dbParseAge($ciniki, $row[$field]);
+						}
+						
+						// Normal item
+						else {
 							$data[$tree[$i]['container']][$num_elements[$i]][$tree[$i]['name']][$field_id] = $row[$field];
 						}
-					} 
-
-					elseif( $field == 'age' || substr($field, 0, 4) == 'age_' ) {
-						$data[$tree[$i]['container']][$num_elements[$i]][$tree[$i]['name']][$field_id] = ciniki_core_dbParseAge($ciniki, $row[$field]);
-					}
-					
-					// Normal item
-					else {
-						$data[$tree[$i]['container']][$num_elements[$i]][$tree[$i]['name']][$field_id] = $row[$field];
 					}
 				}
+				//
+				// Check for fields to be flattened out into a single item from multirow results
+				//
+				if( isset($tree[$i]['details']) ) {
+					foreach($tree[$i]['details'] as $key_name => $key_value) {
+						$data[$tree[$i]['container']][$num_elements[$i]][$tree[$i]['name']][$row[$key_name]] = $row[$key_value];
+					}
+				}
+
 				$data = &$data[$tree[$i]['container']][$num_elements[$i]][$tree[$i]['name']];
 				$num_elements[$i]++;
 			}
@@ -180,6 +190,15 @@ function ciniki_core_dbHashQueryTree($ciniki, $strsql, $module, $tree) {
 						}
 					}
 				}
+				//
+				// Check for fields to be flattened out into a single item from multirow results
+				//
+				if( isset($tree[$i]['details']) ) {
+					foreach($tree[$i]['details'] as $key_name => $key_value) {
+						$data[$tree[$i]['container']][$num_elements[$i]-1][$tree[$i]['name']][$row[$key_name]] = $row[$key_value];
+					}
+				}
+
 				$data = &$data[$tree[$i]['container']][$num_elements[$i]-1][$tree[$i]['name']];
 			}
 			$prev[$i] = $row[$tree[$i]['fname']];

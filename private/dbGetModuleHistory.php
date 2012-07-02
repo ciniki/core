@@ -68,7 +68,7 @@ function ciniki_core_dbGetModuleHistory($ciniki, $module, $history_table, $busin
 		if( is_array($table_key) ) {
 			$rsp['history'][$num_history]['action']['key'] = $row['table_key'];
 		}
-		if( $row['user_id'] > 0 ) {
+		if( $row['user_id'] != 0 ) {
 			array_push($user_ids, $row['user_id']);
 		}
 		$rsp['history'][$num_history]['action']['age'] = ciniki_core_dbParseAge($ciniki, $row['age']);
@@ -91,12 +91,18 @@ function ciniki_core_dbGetModuleHistory($ciniki, $module, $history_table, $busin
 		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'135', 'msg'=>'Unable to merge user information', 'err'=>$rc['err']));
 	}
 	$users = $rc['users'];
+	error_log(print_r($user_ids, true));
+	if( in_array('-2', $user_ids) ) {
+		error_log('test');
+		$users['-2'] = array('display_name'=>'website');
+	}
+	error_log(print_r($users, true));
 
 	//
 	// Merge user list information into array
 	//
 	foreach($rsp['history'] as $k => $v) {
-		if( isset($v['action']) && isset($v['action']['user_id']) && $v['action']['user_id'] > 0 
+		if( isset($v['action']) && isset($v['action']['user_id']) && $v['action']['user_id'] != 0 
 			&& isset($users[$v['action']['user_id']]) && isset($users[$v['action']['user_id']]['display_name']) ) {
 			$rsp['history'][$k]['action']['user_display_name'] = $users[$v['action']['user_id']]['display_name'];
 		}

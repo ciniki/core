@@ -91,12 +91,9 @@ function ciniki_core_dbGetModuleHistory($ciniki, $module, $history_table, $busin
 		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'135', 'msg'=>'Unable to merge user information', 'err'=>$rc['err']));
 	}
 	$users = $rc['users'];
-	error_log(print_r($user_ids, true));
 	if( in_array('-2', $user_ids) ) {
-		error_log('test');
 		$users['-2'] = array('display_name'=>'website');
 	}
-	error_log(print_r($users, true));
 
 	//
 	// Merge user list information into array

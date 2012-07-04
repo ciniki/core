@@ -49,10 +49,6 @@ function ciniki_core_dbCount($ciniki, $strsql, $module, $container_name) {
 		$rsp['num_rows']++;
 	}
 
-	// 
-	// FIXME: If tmpl, then  apply template to each row 
-	//
-
 	return $rsp;
 }
 ?>

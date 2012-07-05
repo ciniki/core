@@ -58,7 +58,7 @@ if( $rc['stat'] != 'ok' ) {
 //
 error_log(print_r($ciniki['request']['args'], true));
 
-//'';
+//
 // Setup paypal session info
 //
 $ciniki['session']['user']['id'] = -1;

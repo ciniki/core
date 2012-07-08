@@ -12,9 +12,7 @@
 // user_id: 		The user making the request
 //
 //
-function ciniki_core_dbGetModuleHistoryFkId($ciniki, $module, $history_table, $business_id, $table_name, $table_key, $table_field, 
-	$fk_table, $fk_id_field, $fk_value_field
-	) {
+function ciniki_core_dbGetModuleHistoryFkId($ciniki, $module, $history_table, $business_id, $table_name, $table_key, $table_field, $fk_table, $fk_id_field, $fk_value_field) {
 	//
 	// Open a connection to the database if one doesn't exist.  The
 	// dbConnect function will return an open connection if one 

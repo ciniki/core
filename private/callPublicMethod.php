@@ -66,7 +66,7 @@ function ciniki_core_callPublicMethod(&$ciniki) {
 	// at the end of this function if successful
 	//
 	// require_once($ciniki['config']['core']['modules_dir']. '/core/private/actionLogEntry.php');
-	// ciniki_core_actionLogEntry($ciniki);
+	// ciniki-core-actionLogEntry($ciniki);
 
 	//
 	// If the user has not authenticated, then only a small number of 
@@ -155,7 +155,7 @@ function ciniki_core_callPublicMethod(&$ciniki) {
 	// FIXME: Update the action log with the results from the request
 	//
 	// require_once($ciniki['config']['core']['modules_dir']. '/core/private/actionLogResult.php');
-	// ciniki_core_actionLogResult($ciniki, );
+	// ciniki-core-actionLogResult($ciniki, );
 
 	return $method_rc;
 }

@@ -35,8 +35,7 @@ function ciniki_core_detectDeviceByUserAgent($ciniki, $user_agent) {
 	// If the USER_AGENT string is empty, return
 	//
 	if( !is_string($user_agent) || $user_agent == '' ) {
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'41', 'msg'=>'No USER_AGENT string'),
-			'device'=>$device);
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'41', 'msg'=>'No USER_AGENT string'), 'device'=>$device);
 	}
 	
 	//

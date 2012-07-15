@@ -69,10 +69,10 @@
 #					the remote table description, and then used to 
 #					execute a query to undo the action based on the table_key being split.
 #
-#					Examples: (table_name, table_key, table_field)
+#					Examples (table_name, table_key, table_field)
 #
-#					_ 'businesses', '1', 'name', 'Ciniki'
-#					_ 'business_details', '1', 'detail_key'
+#					- 'businesses', '1', 'name', 'Ciniki'
+#					- 'business_details', '1', 'detail_key'
 #
 # table_field:		The changed field.
 # new_value:		The new value of the field.

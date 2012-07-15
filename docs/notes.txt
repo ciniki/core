@@ -1,0 +1,3 @@
+Future private functions:
+- threadAddFollowupVote.php
+- threadAddTags.php

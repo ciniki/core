@@ -5,13 +5,9 @@
 // This function will initialize the session variable, but will not
 // open an existing or start a new session.
 //
-// Info
-// ----
-// Status: 			beta
-//
 // Arguments
 // ---------
-//
+// ciniki:
 //
 function ciniki_core_sessionInit(&$ciniki) {
 

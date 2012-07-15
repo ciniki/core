@@ -8,10 +8,6 @@
 // 
 // FIXME: add documentation
 //
-// Info
-// ----
-// status:			beta
-//
 // Arguments
 // ---------
 // ciniki:			The ciniki data structure.

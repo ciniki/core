@@ -2,19 +2,12 @@
 //
 // Description
 // -----------
-// This function will 
-//
-// Info
-// ----
-// Status: beta
+// This function will parse a user agent string into the components.
 //
 // Arguments
 // ---------
-// business_id:			The business to attach the thread to.
-// state:				The opening state of the thread.
-// subject:				The subject for the thread.
-// source:				The source of the thread.
-// source_link:			The link back to the source object.
+// ciniki:
+// user_agent:			The user agent string passed from the browser.
 // 
 // Returns
 // -------

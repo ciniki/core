@@ -5,14 +5,10 @@
 // This function will look for a user_agent string in the database.  If one is found,
 // it will be returned, otherwise nothing.
 //
-// Info
-// ----
-// Status: 				alpha
-//
 // Arguments
 // ---------
 // ciniki:				
-// user_agent:			The user_agent string to search for.
+// device:			The device string to search for a user agent string.
 // 
 function ciniki_core_userAgentAdd($ciniki, $device) {
 	//

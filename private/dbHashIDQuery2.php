@@ -11,10 +11,6 @@
 //
 // This function was developed to support ciniki_imports_autoMerge.
 //
-// Info
-// ----
-// status:			beta
-//
 // Arguments
 // ---------
 // ciniki:			The ciniki data structure.

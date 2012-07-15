@@ -5,13 +5,9 @@
 // This function will start a new session, destroying the old
 // one if it exists.
 //
-// Info
-// ----
-// Status: 			beta
-//
 // Arguments
 // ---------
-//
+// ciniki:
 //
 function ciniki_core_sessionEnd($ciniki) {
 

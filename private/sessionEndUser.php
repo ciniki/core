@@ -6,13 +6,10 @@
 // or other user is removed from the database, this function should
 // be called to remove any open sessions for the deleted user.
 //
-// Info
-// ----
-// Status: 			beta
-//
 // Arguments
 // ---------
-//
+// ciniki:
+// user_id:			The user to end the session for.
 //
 function ciniki_core_sessionEndUser($ciniki, $user_id) {
 

@@ -5,13 +5,11 @@
 // This function will start a new session, destroying the old
 // one if it exists.
 //
-// Info
-// ----
-// Status: 			beta
-//
 // Arguments
 // ---------
-//
+// ciniki:
+// username:		The username to authenticate with the password.
+// password:		The password submitted to be used for authentication.
 //
 function ciniki_core_sessionStart(&$ciniki, $username, $password) {
 

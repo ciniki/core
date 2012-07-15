@@ -4,13 +4,9 @@
 // -----------
 // This function will open an existing session.
 //
-// Info
-// ----
-// Status: 			beta
-//
 // Arguments
 // ---------
-//
+// ciniki: 
 //
 function ciniki_core_sessionOpen(&$ciniki) {
 

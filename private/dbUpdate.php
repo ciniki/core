@@ -2,16 +2,14 @@
 //
 // Description
 // -----------
-// This function will run an update query against the database.  The
-// difference is this function will not look for result rows.
-//
-// Info
-// ----
-// status:			beta
+// This function will run an update query against the database.
+// This function will not look for result rows.
 //
 // Arguments
 // ---------
-// user_id: 		The user making the request
+// ciniki:
+// strsql:			The SQL update string.
+// module:			The module to apply the SQL string against.
 // 
 //
 function ciniki_core_dbUpdate($ciniki, $strsql, $module) {

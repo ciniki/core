@@ -17,6 +17,10 @@
 #
 # user_id:			The user who started the session.
 #
+# session_key:		The session key created when the session is created.  The format is date formatted as YYMMDD.HHMMSS. 
+#					The session_key can be used to track what changes were made during a session, and also
+#					can be used to roll back the changes.
+#
 # session_data:		The serialized session data from $ciniki['session'] variable.
 #
 # date_added:		The date and time the record was added.

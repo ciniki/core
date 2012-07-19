@@ -24,10 +24,10 @@
 //
 function ciniki_core_monitorActionLogs($ciniki) {
 	//
-	// Check access restrictions to monitorChangeLogs
+	// Check access restrictions to monitorActionLogs
 	//
 	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/checkAccess.php');
-	$rc = ciniki_core_checkAccess($ciniki, 0, 'ciniki.core.monitorChangeLogs');
+	$rc = ciniki_core_checkAccess($ciniki, 0, 'ciniki.core.monitorActionLogs');
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
 	}

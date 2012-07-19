@@ -25,7 +25,7 @@ function ciniki_core_bigboard($ciniki) {
 	// Check access restrictions to monitorChangeLogs
 	//
 	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/checkAccess.php');
-	$rc = ciniki_core_checkAccess($ciniki, 0, 'ciniki.core.monitorSessions');
+	$rc = ciniki_core_checkAccess($ciniki, 0, 'ciniki.core.bigboard');
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
 	}

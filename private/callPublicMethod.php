@@ -3,26 +3,25 @@
 // Description
 // -----------
 // This function is a generic wrapper that can call any method.
-// It takes an array as an argument, and withing that must
-// contain api_key, and method.
+// It takes an array as an argument, and that array must
+// contain api_key, and method.  The format is optional, but 
+// auth_token is required for most methods.
 //
-// Info
-// ----
-// status:		beta
+// api_key -	The key assigned to the client application.  This
+//				will be verified in the ciniki_core_api_keys module
+//
+// auth_token -	The auth_token is assigned after authentication.  If
+//				auth_token is blank, then only certain method calls are allowed.
+//
+// method -		The method to call.  This is a decimal notated
+//
+// format -		(optional) What is the requested format of the response.  This can be
+//				xml, html, tmpl or hash.  If the request would like json, 
+//				xml-rpc, rest or php_serial, then the format
 //
 // Arguments
 // ---------
-// api_key:		The key assigned to the client application.  This
-//				will be verified in the ciniki_core_api_keys module
-//
-// auth_token:	The auth_token is assigned after authentication.  If
-//				auth_token is blank, then only certain method calls are allowed.
-//
-// method:		The method to call.  This is a decimal notated
-//
-// format:		What is the requested format of the response.  This can be
-//				xml, html, tmpl or hash.  If the request would like json, 
-//				xml-rpc, rest or php_serial, then the format
+// ciniki:
 //
 function ciniki_core_callPublicMethod(&$ciniki) {
 	//
@@ -44,8 +43,6 @@ function ciniki_core_callPublicMethod(&$ciniki) {
 	//
 	// FIXME: Log the last_access for the API key
 	//
-	
-
 
 	//
 	// Check if method has been specified

@@ -10,7 +10,7 @@
 //
 // Arguments
 // ---------
-// ciniki:			The ciniki data structure.
+// ciniki:			
 // handle:			The mysql resource handle to fetch the next row from.
 //
 function ciniki_core_dbFetchHashRow($ciniki, $handle) {

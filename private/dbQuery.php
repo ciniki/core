@@ -12,7 +12,8 @@
 // ---------
 // ciniki:			The ciniki data structure.
 // strsql: 			The SQL string to query the database.
-// module:			The module name the query is acting on.
+// module:			The name of the module for the transaction, which should include the 
+//					package in dot notation.  Example: ciniki.artcatalog
 //
 function ciniki_core_dbQuery($ciniki, $strsql, $module) {
 	//

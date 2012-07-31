@@ -10,9 +10,7 @@
 //
 // Arguments
 // ---------
-// user_id: 		The user making the request
-// 
-//
+// ciniki:
 //
 function ciniki_core_dbInsertFromHash($ciniki, $fields, $record, $prefix, $middle, $suffix) {
 

@@ -10,9 +10,8 @@
 //
 // Arguments
 // ---------
-// arg: 		The user making the request
-// 
-//
+// ciniki:
+// arg: 		The argument passed in the request to the API.
 //
 function ciniki_core_dbQuoteRequestArg($ciniki, $arg) {
 

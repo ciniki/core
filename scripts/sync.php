@@ -24,6 +24,10 @@ require_once($ciniki_root . '/ciniki-api/core/private/syncResponse.php');
 // loadMethod is required by all function to ensure the functions are dynamically loaded
 require_once($ciniki_root . '/ciniki-api/core/private/loadMethod.php');
 
+//
+// The syncInit function will initialize the ciniki structure, and check
+// the security for the request to the business
+//
 $rc = ciniki_core_syncInit($ciniki_root);
 if( $rc['stat'] != 'ok' ) {
 	header("Content-Type: text/plain; charset=utf-8");
@@ -45,11 +49,22 @@ if( $rc['stat'] != 'ok' ) {
 	exit;
 }
 
+file_put_contents('/Users/andrew/tmp.sync', print_r($ciniki, true));
+
 //
 // Find out the command being requested
 //
 if( $ciniki['request']['action'] == 'ping' ) {
 	$response = array('stat'=>'ok');
+} elseif( $ciniki['request']['action'] == 'info' ) {
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncInfo');
+	$response = ciniki_core_syncInfo($ciniki);
+} elseif( $ciniki['request']['action'] == 'list' ) {
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncList');
+	$response = ciniki_core_syncList($ciniki);
+} elseif( $ciniki['request']['action'] == 'get' ) {
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncGet');
+	$response = ciniki_core_syncGet($ciniki);
 } else {
 	$response = array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'547', 'msg'=>'Invalid action'));
 }

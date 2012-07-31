@@ -12,7 +12,8 @@
 //
 // Arguments
 // ---------
-// user_id: 		The user making the request
+// ciniki:
+// arr:			The array of ID's which need to be escaped.
 //
 function ciniki_core_dbQuoteIDs($ciniki, $arr) {
 

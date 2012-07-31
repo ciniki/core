@@ -39,6 +39,7 @@ function ciniki_core_syncInit($ciniki_root) {
 	if( !isset($_GET) || !is_array($_GET)  ) {
 		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'47', 'msg'=>'Internal configuration error'));
 	}
+
 	//
 	// Check the request, make sure it's valid
 	// We only allow the sync type of business right now.
@@ -73,6 +74,7 @@ function ciniki_core_syncInit($ciniki_root) {
 	}
 	$local_private_key = $rc['sync']['local_private_key'];
 	$ciniki['sync']['remote_public_key'] = $rc['sync']['remote_public_key'];
+	$ciniki['sync']['business_id'] = $rc['sync']['id'];
 
 	//
 	// unserialize the POST content

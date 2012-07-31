@@ -10,7 +10,8 @@
 //
 // Arguments
 // ---------
-// user_id: 		The user making the request
+// ciniki:
+// str:				The string to escape.
 //
 function ciniki_core_dbQuote(&$ciniki, $str) {
 

@@ -13,9 +13,10 @@
 //
 // Arguments
 // ---------
-// ciniki:			The ciniki data structure.
+// ciniki:			
 // strsql: 			The SQL string to query the database.
-// module:			The module name the query is acting on.
+// module:			The name of the module for the transaction, which should include the 
+//					package in dot notation.  Example: ciniki.artcatalog
 //
 function ciniki_core_dbDetailsQueryHash($ciniki, $table, $key, $key_value, $detail_key, $module) {
 	//

@@ -10,9 +10,8 @@
 //
 // Arguments
 // ---------
-// user_id: 		The user making the request
-// 
-//
+// ciniki:
+// age:			The age in seconds.
 //
 function ciniki_core_dbParseAge($ciniki, $age) {
 	if( $age < 60 ) { 					return '< 1 min';

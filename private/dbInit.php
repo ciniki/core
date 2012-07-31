@@ -10,7 +10,7 @@
 //
 // Arguments
 // ---------
-// 
+// ciniki:
 //
 //
 function ciniki_core_dbInit(&$ciniki) {

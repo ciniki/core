@@ -12,9 +12,7 @@
 //
 // Arguments
 // ---------
-// user_id: 		The user making the request
-// 
-//
+// ciniki:
 //
 function ciniki_core_dbInsertAutoMerge($ciniki, $fields, $record, $prefix, $middle, $suffix, $row) {
 

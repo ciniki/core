@@ -8,8 +8,7 @@
 //
 // Arguments
 // ---------
-// api_key:
-// auth_token:
+// ciniki:
 //
 // Returns
 // -------

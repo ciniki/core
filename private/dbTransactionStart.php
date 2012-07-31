@@ -12,13 +12,11 @@
 // for one module, it will commit for all.  The $module variable
 // is for the future.
 //
-// Info
-// ----
-// Status: 			beta
-//
 // Arguments
 // ---------
-// module:			The module to start the transaction for.
+// ciniki:
+// module:			The name of the module for the transaction, which should include the 
+//					package in dot notation.  Example: ciniki.artcatalog
 //
 function ciniki_core_dbTransactionStart($ciniki, $module) {
 

@@ -11,6 +11,7 @@
 //
 // Arguments
 // ---------
+// module:				The package.module the thread is located in.
 // business_id:			The business to get the threads for.
 // state:				(optional) Find threads with the matching state.
 // user_id:				(optional) Find threads that were opened by this user.

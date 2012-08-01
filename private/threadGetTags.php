@@ -12,7 +12,7 @@
 // ---------
 // ciniki:
 // business_id:			The id of the business to get the tags for.
-// module:				The module the tags are in.
+// module:				The package.module the thread is located in.
 // prefix:				The table prefix used in the query.
 // container:			The name of the xml container to hold the return values.
 // row_name:			The name for the xml item inside the container, one for each row.

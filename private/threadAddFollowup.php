@@ -10,6 +10,7 @@
 //
 // Arguments
 // ---------
+// module:				The package.module the thread is located in.
 // user_id:				The user who submitted the followup.
 // content:				The content of the followup.
 // 

@@ -20,7 +20,7 @@ function ciniki_core_sessionEnd($ciniki) {
 	if( isset($ciniki['session']['auth_token']) && $ciniki['session']['auth_token'] != '' ) {
 		$strsql = "DELETE FROM ciniki_core_session_data "
 			. "WHERE auth_token = '" . ciniki_core_dbQuote($ciniki, $ciniki['session']['auth_token']) . "' ";
-		$rc = ciniki_core_dbDelete($ciniki, $strsql, 'core');
+		$rc = ciniki_core_dbDelete($ciniki, $strsql, 'ciniki.core');
 		if( $rc['stat'] == 'ok' && $rc['num_affected_rows'] == 1 ) {
 			// FIXME: Add code to track number of active sessions in users table, limit to X sessions.
 		}
@@ -29,7 +29,7 @@ function ciniki_core_sessionEnd($ciniki) {
 	elseif( isset($ciniki['request']['auth_token']) && $ciniki['request']['auth_token'] != '' ) {
 		$strsql = "DELETE FROM ciniki_core_session_data "
 			. "WHERE auth_token = '" . ciniki_core_dbQuote($ciniki, $ciniki['request']['auth_token']) . "' ";
-		$rc = ciniki_core_dbDelete($ciniki, $strsql, 'core');
+		$rc = ciniki_core_dbDelete($ciniki, $strsql, 'ciniki.core');
 		if( $rc['stat'] == 'ok' && $rc['num_affected_rows'] == 1 ) {
 			// FIXME: Add code to track number of active sessions in users table, limit to X sessions.
 		}
@@ -40,7 +40,7 @@ function ciniki_core_sessionEnd($ciniki) {
 	// FIXME: This maybe should be moved to a cronjob
 	//
 	$strsql = "DELETE FROM ciniki_core_session_data WHERE UTC_TIMESTAMP()-TIMESTAMP(last_saved) > timeout";
-	ciniki_core_dbDelete($ciniki, $strsql, 'core');
+	ciniki_core_dbDelete($ciniki, $strsql, 'ciniki.core');
 
 	return array('stat'=>'ok');
 }

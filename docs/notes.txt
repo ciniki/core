@@ -1,3 +1,6 @@
 Future private functions:
 - threadAddFollowupVote.php
 - threadAddTags.php
+
+None of the database tables in the core need to be sync'd to remote servers.
+This information only pertains to this local server.

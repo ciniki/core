@@ -46,7 +46,7 @@ function ciniki_core_sessionSave($ciniki) {
 		. "";
 
 	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbUpdate.php');
-	$rc = ciniki_core_dbUpdate($ciniki, $strsql, 'core');
+	$rc = ciniki_core_dbUpdate($ciniki, $strsql, 'ciniki.core');
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
 	}

@@ -30,7 +30,7 @@ function ciniki_core_dbUpgradeTables($ciniki) {
 	// FIXME: If in multiple databases, this script will need to be updated.
 
 	$strsql = "SHOW TABLE STATUS";
-	$rc = ciniki_core_dbHashIDQuery($ciniki, $strsql, 'core', 'tables', 'Name');
+	$rc = ciniki_core_dbHashIDQuery($ciniki, $strsql, 'ciniki.core', 'tables', 'Name');
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
 	}

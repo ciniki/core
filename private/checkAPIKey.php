@@ -28,6 +28,6 @@ function ciniki_core_checkAPIKey($ciniki) {
 		. "WHERE api_key = '" . ciniki_core_dbQuote($ciniki, $ciniki['request']['api_key']) . "' "
 		. "AND status = 1 AND (expiry_date = 0 OR UTC_TIMESTAMP() < expiry_date)";
 
-	return ciniki_core_dbRspQuery($ciniki, $strsql, 'core', 'api_key', '', array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'7', 'msg'=>'Invalid API Key')));
+	return ciniki_core_dbRspQuery($ciniki, $strsql, 'ciniki.core', 'api_key', '', array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'7', 'msg'=>'Invalid API Key')));
 }
 ?>

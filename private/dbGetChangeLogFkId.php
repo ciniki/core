@@ -20,7 +20,7 @@ function ciniki_core_dbGetChangeLogFkId($ciniki, $business_id, $table_name, $tab
 	// dbConnect function will return an open connection if one 
 	// exists, otherwise open a new one
 	//
-	$rc = ciniki_core_dbConnect($ciniki, 'core');
+	$rc = ciniki_core_dbConnect($ciniki, 'ciniki.core');
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
 	}

@@ -45,7 +45,7 @@ function ciniki_core_sessionOpen(&$ciniki) {
 		. "";
 
 	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbHashQuery.php');
-	$rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'core', 'auth');
+	$rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.core', 'auth');
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
 	}

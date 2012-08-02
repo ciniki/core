@@ -86,7 +86,7 @@ function ciniki_core_dbRspQueryPlusUsers($ciniki, $strsql, $module, $container_n
 	//
 	// Get the users who contributed to the actions
 	//
-	$rc = ciniki_core_dbConnect($ciniki, 'users');
+	$rc = ciniki_core_dbConnect($ciniki, 'ciniki.users');
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
 	}

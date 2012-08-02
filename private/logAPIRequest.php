@@ -41,6 +41,6 @@ function ciniki_core_logAPIRequest($ciniki) {
 	$strsql .= "UTC_TIMESTAMP())";
 
 	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbInsert.php');
-	return ciniki_core_dbInsert($ciniki, $strsql, 'core');
+	return ciniki_core_dbInsert($ciniki, $strsql, 'ciniki.core');
 }
 ?>

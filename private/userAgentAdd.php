@@ -54,6 +54,6 @@ function ciniki_core_userAgentAdd($ciniki, $device) {
 		}
 	}
 	$strsql .= "UTC_TIMESTAMP(), UTC_TIMESTAMP())";
-	return ciniki_core_dbInsert($ciniki, $strsql, 'core');
+	return ciniki_core_dbInsert($ciniki, $strsql, 'ciniki.core');
 }
 ?>

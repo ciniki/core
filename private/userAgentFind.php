@@ -30,6 +30,6 @@ function ciniki_core_userAgentFind($ciniki, $user_agent) {
 		. "WHERE user_agent = '" . ciniki_core_dbQuote($ciniki, $user_agent) . "' "
 		. "";
 	
-	return ciniki_core_dbHashQuery($ciniki, $strsql, 'core', 'device');
+	return ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.core', 'device');
 }
 ?>

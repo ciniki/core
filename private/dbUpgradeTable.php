@@ -42,7 +42,7 @@ function ciniki_core_dbUpgradeTable($ciniki, $package, $module, $table, $old_ver
 	//
 	$old_major = '';
 	$old_minor = '';
-	if( preg_match('/v([0-9]+)\.([0-9]+)$/', $old_version, &$matches) ) {
+	if( preg_match('/v([0-9]+)\.([0-9]+)$/', $old_version, $matches) ) {
 		$old_major = $matches[1];
 		$old_minor = $matches[2];
 	} else {
@@ -51,7 +51,7 @@ function ciniki_core_dbUpgradeTable($ciniki, $package, $module, $table, $old_ver
 
 	$new_major = '';
 	$new_minor = '';
-	if( preg_match('/v([0-9])+\.([0-9]+)$/', $new_version, &$matches) ) {
+	if( preg_match('/v([0-9])+\.([0-9]+)$/', $new_version, $matches) ) {
 		$new_major = $matches[1];
 		$new_minor = $matches[2];
 	} else {

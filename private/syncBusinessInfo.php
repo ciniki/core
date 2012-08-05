@@ -86,7 +86,7 @@ function ciniki_core_syncBusinessInfo($ciniki, $business_id) {
 			if( preg_match('/^(.*)\.schema$/', $filename, $matches) ) {
 				$table = $matches[1];
 				if( isset($db_tables[$table]) && preg_match('/(v[0-9]+\.[0-9]+)([^0-9]|$)/i', $db_tables[$table]['Comment'], $matches) ) {
-					array_push($modules[$mnum]['module']['tables'], array('table'=>array('name'=>$table version=$matches[1])));
+					array_push($modules[$mnum]['module']['tables'], array('table'=>array('name'=>$table, 'version'=>$matches[1])));
 				}
 			}
 		}

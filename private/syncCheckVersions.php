@@ -48,7 +48,7 @@ function ciniki_core_syncCheckVersions($ciniki, $business_id, $sync_id) {
 	// Get the local business information
 	//
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncInfo');
-	$rc = ciniki_core_syncInfo($ciniki, $business_id);
+	$rc = ciniki_core_syncBusinessInfo($ciniki, $business_id);
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
 	}

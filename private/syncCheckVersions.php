@@ -43,6 +43,7 @@ function ciniki_core_syncCheckVersions($ciniki, $business_id, $sync_id) {
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
 	}
+	$remote_modules = $rc['modules'];
 
 	// 
 	// Get the local business information
@@ -52,11 +53,52 @@ function ciniki_core_syncCheckVersions($ciniki, $business_id, $sync_id) {
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
 	}
+	if( !isset($rc['modules']) ) {
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'570', 'msg'=>'No modules enabled'));
+	}
+
+	// 
+	// Re-index for fast lookup
+	//
+	$local_modules = array();
+	foreach($rc['modules'] as $mnum => $module) {
+		$tables = array();
+		if( isset($module['module']['tables'] as $tnum => $table) {
+			
+			$tables[$table['table']['name']] = array('name'=>$table['table']['name'], 'version'=>$table['table']['version']);
+		}
+		$local_modules[$module['module']['package'] . '.' . $module['module']['name']] = 
+			array('package'=>$module['module']['package'], 'name'=>$module['module']['name'], 'tables'=>$tables);
+	}
 
 	//
 	// Compare local and remote business information
 	//
+	$errors = '';
+	$comma = '';
+	foreach($remote_modules as $mnum => $module) {
+		$name = $module['module']['package'] . '.' . $module['module']['name'];
+		if( !isset($local_modules[$name]) ) {
+			$module_errors .= $comma . "missing module $name";
+			$comma = ', ';
+		}
+		foreach($module['module']['tables'] as $tnum => $table) {
+			$tname = $table['table']['name'];
+			if( !isset($local_modules[$name]['tables'][$tname]) ) {
+				$table_errors .= $comma . "missing table $tname";
+				$comma = ', ';
+			}
+			elseif( $table['table']['version'] != $local_modules[$name]['tables'][$tname]['version'] ) {
+				$table_errors .= $comma . "incorrect table version $tname (" . $local_modules[$name]['tables'][$tname]['version'] . " should be " . $table['table']['version'] . ")";
+				$comma = ', ';
+			}
+		}
+	}
 
-	return array('stat'=>'ok', 'sync'=>$sync);
+	if( $errors != '' ) {
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'572', 'msg'=>'System code must be updated before synchronization.', 'pmsg'=>"$errors."));
+	}
+
+	return array('stat'=>'ok', 'sync'=>$sync, 'modules'=>$local_modules);
 }
 ?>

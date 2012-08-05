@@ -10,11 +10,16 @@
 //
 // Arguments
 // ---------
-// business_id:			The business to attach the thread to.
-// state:				The opening state of the thread.
-// subject:				The subject for the thread.
-// source:				The source of the thread.
-// source_link:			The link back to the source object.
+// ciniki:
+// module:				The package.module the thread is located in.
+// table:				The database table that stores the thread information.
+// args:				Additional arguments provided function.
+//
+// 						business_id - The business to attach the thread to.
+// 						state - The opening state of the thread.
+// 						subject - The subject for the thread.
+// 						source - The source of the thread.
+// 						source_link - The link back to the source object.
 // 
 // Returns
 // -------

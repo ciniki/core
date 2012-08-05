@@ -11,7 +11,10 @@
 //
 // Arguments
 // ---------
-// 
+// ciniki:
+// strsql:				The SQL string that will delete row(s) from a table.
+// module:				The name of the module for the transaction, which should include the 
+//						package in dot notation.  Example: ciniki.artcatalog
 //
 function ciniki_core_dbDelete($ciniki, $strsql, $module) {
 	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbUpdate.php');

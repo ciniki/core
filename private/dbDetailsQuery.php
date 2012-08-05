@@ -11,9 +11,9 @@
 //
 // Arguments
 // ---------
-// ciniki:			The ciniki data structure.
-// strsql: 			The SQL string to query the database.
-// module:			The module name the query is acting on.
+// ciniki:			
+// module:			The name of the module for the transaction, which should include the 
+//					package in dot notation.  Example: ciniki.artcatalog
 // container_name:	The name of the xml/hash tag to return the data under, 
 //					when there is only one row returned.
 //

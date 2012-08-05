@@ -46,7 +46,7 @@ function ciniki_core_detectDeviceByUserAgent($ciniki, $user_agent) {
 	$strsql = "SELECT viewport, make, model, browser, browser_version "
 		. "FROM ciniki_core_user_agents "
 		. "WHERE user_agent = '" . ciniki_core_dbQuote($ciniki, $user_agent) . "'";
-	$rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'core', 'device');
+	$rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.core', 'device');
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
 	}

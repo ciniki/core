@@ -11,6 +11,7 @@
 //
 // Arguments
 // ---------
+// module:				The package.module the thread is located in.
 //
 // Returns
 // -------

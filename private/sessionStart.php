@@ -51,7 +51,7 @@ function ciniki_core_sessionStart(&$ciniki, $username, $password) {
 
 	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbHashQuery.php');
 	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbUpdate.php');
-	$rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'users', 'user');
+	$rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.users', 'user');
 	if( $rc['stat'] != 'ok' ) {
 		ciniki_users_logAuthFailure($ciniki, $username, $rc['err']['code']);
 		return $rc;
@@ -80,7 +80,7 @@ function ciniki_core_sessionStart(&$ciniki, $username, $password) {
 		$strsql = "UPDATE ciniki_users SET status = 10 WHERE status = 1 AND id = '" . ciniki_core_dbQuote($ciniki, $rc['user']['id']) . "'";
 		ciniki_core_alertGenerate($ciniki, 
 			array('alert'=>'2', 'msg'=>'The account ' . $rc['user']['email'] . ' was locked.'));
-		ciniki_core_dbUpdate($ciniki, $strsql, 'users');
+		ciniki_core_dbUpdate($ciniki, $strsql, 'ciniki.users');
 		$user['status'] = 10;
 	}
 	// Check if the account is locked
@@ -104,7 +104,7 @@ function ciniki_core_sessionStart(&$ciniki, $username, $password) {
 	unset($user['login_attempts']);
 
 	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbDetailsQueryHash.php');
-	$rc = ciniki_core_dbDetailsQueryHash($ciniki, 'ciniki_user_details', 'user_id', $user['id'], 'settings', 'users');
+	$rc = ciniki_core_dbDetailsQueryHash($ciniki, 'ciniki_user_details', 'user_id', $user['id'], 'settings', 'ciniki.users');
 	if( $rc['stat'] != 'ok' ) {
 		ciniki_users_logAuthFailure($ciniki, $username, $rc['err']['code']);
 		return $rc;
@@ -152,7 +152,7 @@ function ciniki_core_sessionStart(&$ciniki, $username, $password) {
 		. "'" . ciniki_core_dbQuote($ciniki, $serialized_session_data) . "')";
 
 	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbInsert.php');
-	$rc = ciniki_core_dbInsert($ciniki, $strsql, 'core');
+	$rc = ciniki_core_dbInsert($ciniki, $strsql, 'ciniki.core');
 	if( $rc['stat'] != 'ok' ) {
 		ciniki_users_logAuthFailure($ciniki, $username, $rc['err']['code']);
 		return $rc;
@@ -163,7 +163,7 @@ function ciniki_core_sessionStart(&$ciniki, $username, $password) {
 	//
 	$strsql = "UPDATE ciniki_users SET login_attempts = 0, last_login = UTC_TIMESTAMP() WHERE id = '" . ciniki_core_dbQuote($ciniki, $user['id']) . "'";
 	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbUpdate.php');
-	$rc = ciniki_core_dbUpdate($ciniki, $strsql, 'users');
+	$rc = ciniki_core_dbUpdate($ciniki, $strsql, 'ciniki.users');
 	if( $rc['stat'] != 'ok' ) {
 		ciniki_users_logAuthFailure($ciniki, $username, $rc['err']['code']);
 		return $rc;

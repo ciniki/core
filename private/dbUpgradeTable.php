@@ -11,14 +11,19 @@
 //
 // Arguments
 // ---------
-// 
-//
+// ciniki:
+// package:				The name of the package the table is contained within.
+// module:				The name of the module the table is contained within.
+//						**note** Unlike other db calls, this should not contain the package name.
+// table:				The full name of the table to be upgraded.
+// old_version:			The current version of the table within the database.
+// new_version:			The new version of the table to be upgraded to.
 //
 function ciniki_core_dbUpgradeTable($ciniki, $package, $module, $table, $old_version, $new_version) {
 
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbConnect');
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbUpdate');
-	$rc = ciniki_core_dbConnect($ciniki, $module);
+	$rc = ciniki_core_dbConnect($ciniki, "$package.$module");
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
 	}
@@ -28,7 +33,7 @@ function ciniki_core_dbUpgradeTable($ciniki, $package, $module, $table, $old_ver
 	//
 	if( $old_version == '-' ) {
 		$schema = file_get_contents($ciniki['config']['core']['root_dir'] . '/' . $package . '-api/' . $module . "/db/$table.schema");
-		$rc = ciniki_core_dbUpdate($ciniki, $schema, $module);
+		$rc = ciniki_core_dbUpdate($ciniki, $schema, "$package.$module");
 		return $rc;
 	}
 
@@ -37,7 +42,7 @@ function ciniki_core_dbUpgradeTable($ciniki, $package, $module, $table, $old_ver
 	//
 	$old_major = '';
 	$old_minor = '';
-	if( preg_match('/v([0-9]+)\.([0-9]+)$/', $old_version, &$matches) ) {
+	if( preg_match('/v([0-9]+)\.([0-9]+)$/', $old_version, $matches) ) {
 		$old_major = $matches[1];
 		$old_minor = $matches[2];
 	} else {
@@ -46,7 +51,7 @@ function ciniki_core_dbUpgradeTable($ciniki, $package, $module, $table, $old_ver
 
 	$new_major = '';
 	$new_minor = '';
-	if( preg_match('/v([0-9])+\.([0-9]+)$/', $new_version, &$matches) ) {
+	if( preg_match('/v([0-9])+\.([0-9]+)$/', $new_version, $matches) ) {
 		$new_major = $matches[1];
 		$new_minor = $matches[2];
 	} else {
@@ -82,7 +87,7 @@ function ciniki_core_dbUpgradeTable($ciniki, $package, $module, $table, $old_ver
 						|| preg_match('/CREATE INDEX/', $strsql)
 						|| preg_match('/UPDATE /', $strsql)
 						) {
-						$rc = ciniki_core_dbUpdate($ciniki, $strsql, $module);
+						$rc = ciniki_core_dbUpdate($ciniki, $strsql, "$package.$module");
 						if( $rc['stat'] != 'ok' ) {
 							return $rc;
 						}

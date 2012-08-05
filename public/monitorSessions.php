@@ -49,6 +49,6 @@ function ciniki_core_monitorSessions($ciniki) {
 		. "LEFT JOIN ciniki_users ON (ciniki_core_session_data.user_id = ciniki_users.id) "
 		. "ORDER BY age "
 		. "";
-	return ciniki_core_dbRspQuery($ciniki, $strsql, 'core', 'sessions', 'session', array('stat'=>'ok', 'sessions'=>array()));
+	return ciniki_core_dbRspQuery($ciniki, $strsql, 'ciniki.core', 'sessions', 'session', array('stat'=>'ok', 'sessions'=>array()));
 }
 ?>

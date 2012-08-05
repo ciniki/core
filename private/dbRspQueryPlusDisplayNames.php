@@ -8,10 +8,10 @@
 //
 // Arguments
 // ---------
-// ciniki: 				The ciniki data structure with current session.
+// ciniki: 				
 // strsql:				The SQL string to query the database with.
-// module:				The name of the module to pull the data from.
-//						The module name is used for database connection cache.
+// module:				The name of the module for the transaction, which should include the 
+//						package in dot notation.  Example: ciniki.artcatalog
 // container_name:		The container name to attach the data when only one row returned.
 // row_name:			The row name to attached each row to.
 // no_row_error:		The error code and msg to return when no rows were returned from the query.

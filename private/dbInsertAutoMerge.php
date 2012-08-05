@@ -12,9 +12,7 @@
 //
 // Arguments
 // ---------
-// user_id: 		The user making the request
-// 
-//
+// ciniki:
 //
 function ciniki_core_dbInsertAutoMerge($ciniki, $fields, $record, $prefix, $middle, $suffix, $row) {
 
@@ -48,7 +46,7 @@ function ciniki_core_dbInsertAutoMerge($ciniki, $fields, $record, $prefix, $midd
 
 	$strsql = $prefix . $middle . $suffix;
 
-	$new_db_record = ciniki_core_dbInsert($ciniki, $strsql, 'customers');
+	$new_db_record = ciniki_core_dbInsert($ciniki, $strsql, 'ciniki.customers');
 	//if( $new_db_record['stat'] != 'ok' ) {
 		return $new_db_record;
 	//}

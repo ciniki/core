@@ -11,7 +11,8 @@
 //
 // Arguments
 // ---------
-// module:			The module the table_name is in.
+// module:			The name of the module for the transaction, which should include the 
+//					package in dot notation.  Example: ciniki.artcatalog
 // user_id: 		The user making the request
 // business_id:
 // table_name:		The table name that the data was inserted/replaced in.

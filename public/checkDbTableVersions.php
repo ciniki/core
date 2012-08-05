@@ -47,14 +47,14 @@ function ciniki_core_checkDbTableVersions($ciniki) {
 
 	$strsql = "SHOW TABLE STATUS";
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashIDQuery');
-	$rc = ciniki_core_dbHashIDQuery($ciniki, $strsql, 'core', 'tables', 'Name');
+	$rc = ciniki_core_dbHashIDQuery($ciniki, $strsql, 'ciniki.core', 'tables', 'Name');
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
 	}
 
 	foreach($rc['tables'] as $table_name => $table) {
 		if( isset($tables[$table_name]) ) {
-			if( preg_match('/(v[0-9]+\.[0-9]+)([^0-9]|$)/i', $table['Comment'], &$matches) ) {
+			if( preg_match('/(v[0-9]+\.[0-9]+)([^0-9]|$)/i', $table['Comment'], $matches) ) {
 				$tables[$table_name]['database_version'] = $matches[1];
 			}
 		}
@@ -62,7 +62,7 @@ function ciniki_core_checkDbTableVersions($ciniki) {
 	
 	foreach($tables as $table_name => $table) {
 		$schema = file_get_contents($ciniki['config']['core']['root_dir'] . '/' . $table['package'] . '-api/' . $table['module']	. "/db/$table_name.schema");
-		if( preg_match('/comment=\'(v[0-9]+\.[0-9]+)\'/i', $schema, &$matches) ) {
+		if( preg_match('/comment=\'(v[0-9]+\.[0-9]+)\'/i', $schema, $matches) ) {
 			$tables[$table_name]['schema_version'] = $matches[1];
 		}
 	}

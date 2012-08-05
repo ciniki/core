@@ -54,7 +54,7 @@ function ciniki_core_bigboard($ciniki) {
 		. "LEFT JOIN ciniki_users ON (ciniki_core_session_data.user_id = ciniki_users.id) "
 		. "ORDER BY age "
 		. "";
-	$sessions = ciniki_core_dbRspQuery($ciniki, $strsql, 'core', 'sessions', 'session', array('stat'=>'ok', 'sessions'=>array()));
+	$sessions = ciniki_core_dbRspQuery($ciniki, $strsql, 'ciniki.core', 'sessions', 'session', array('stat'=>'ok', 'sessions'=>array()));
 
 	// Sort the list ASC by date, so the oldest is at the bottom, and therefore will get insert at the top of the list in ciniki-manage
 	$strsql = "SELECT "
@@ -71,7 +71,7 @@ function ciniki_core_bigboard($ciniki) {
 //		. "WHERE UNIX_TIMESTAMP(ciniki_core_api_logs.log_date) > '" . ciniki_core_dbQuote($ciniki, $req_last_timestamp) . "' "
 		. "ORDER BY TS DESC "
 		. "LIMIT 25 ";
-	$actions = ciniki_core_dbRspQuery($ciniki, $strsql, 'core', 'actions', 'log', array('stat'=>'ok', 'actions'=>array()));
+	$actions = ciniki_core_dbRspQuery($ciniki, $strsql, 'ciniki.core', 'actions', 'log', array('stat'=>'ok', 'actions'=>array()));
 //	if( $actions['stat'] == 'ok' ) {
 //		$actions['timestamp'] = $ts['timestamp']['cur'];
 //	}

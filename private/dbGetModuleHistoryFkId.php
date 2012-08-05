@@ -9,8 +9,9 @@
 //
 // Arguments
 // ---------
-// user_id: 		The user making the request
-//
+// ciniki:
+// module:			The name of the module for the transaction, which should include the 
+//					package in dot notation.  Example: ciniki.artcatalog
 //
 function ciniki_core_dbGetModuleHistoryFkId($ciniki, $module, $history_table, $business_id, $table_name, $table_key, $table_field, $fk_table, $fk_id_field, $fk_value_field) {
 	//
@@ -18,7 +19,7 @@ function ciniki_core_dbGetModuleHistoryFkId($ciniki, $module, $history_table, $b
 	// dbConnect function will return an open connection if one 
 	// exists, otherwise open a new one
 	//
-	$rc = ciniki_core_dbConnect($ciniki, 'core');
+	$rc = ciniki_core_dbConnect($ciniki, 'ciniki.core');
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
 	}

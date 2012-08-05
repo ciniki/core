@@ -12,13 +12,14 @@
 //
 // Arguments
 // ---------
-// user_id: 		The user making the request
+// ciniki:
+// arr:				The array of strings which need to be escaped.
 //
 function ciniki_core_dbQuoteList($ciniki, $arr) {
 
 	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbConnect.php');
 
-	$rc = ciniki_core_dbConnect($ciniki, 'core');
+	$rc = ciniki_core_dbConnect($ciniki, 'ciniki.core');
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
 	}

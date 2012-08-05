@@ -20,7 +20,7 @@ function ciniki_core_sessionEndUser($ciniki, $user_id) {
 	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbDelete.php');
 
 	$strsql = "DELETE FROM ciniki_core_session_data WHERE user_id = '" . ciniki_core_dbQuote($ciniki, $user_id) . "'";
-	$rc = ciniki_core_dbDelete($ciniki, $strsql, 'core');
+	$rc = ciniki_core_dbDelete($ciniki, $strsql, 'ciniki.core');
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
 	}

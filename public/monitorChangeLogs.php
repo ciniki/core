@@ -38,7 +38,7 @@ function ciniki_core_monitorChangeLogs($ciniki) {
 	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbHashQuery.php');
 
 	$strsql = "SELECT UNIX_TIMESTAMP(UTC_TIMESTAMP()) as cur";
-	$ts = ciniki_core_dbHashQuery($ciniki, $strsql, 'core', 'timestamp');
+	$ts = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.core', 'timestamp');
 	if( $ts['stat'] != 'ok' ) {
 		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'174', 'msg'=>'No timestamp available'));
 	}
@@ -74,7 +74,7 @@ function ciniki_core_monitorChangeLogs($ciniki) {
 		. "WHERE UNIX_TIMESTAMP(ciniki_core_change_logs.log_date) > '" . ciniki_core_dbQuote($ciniki, $req_last_timestamp) . "' "
 		. "AND ciniki_core_change_logs.user_id = ciniki_users.id "
 		. "ORDER BY TS DESC ";
-	$rsp = ciniki_core_dbRspQuery($ciniki, $strsql, 'core', 'logs', 'log', array('stat'=>'ok', 'logs'=>array()));
+	$rsp = ciniki_core_dbRspQuery($ciniki, $strsql, 'ciniki.core', 'logs', 'log', array('stat'=>'ok', 'logs'=>array()));
 	if( $rsp['stat'] == 'ok' ) {
 		$rsp['timestamp'] = $ts['timestamp']['cur'];
 	}

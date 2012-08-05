@@ -2,12 +2,20 @@
 //
 // Description
 // -----------
-// This method retrieves the history elements for a module field.  The users display_name is 
-// attached to each record as user_display_name.
+// This function copies the history for a module element from one element to another.  This
+// is used when two elements are combined into one.
 //
 // Arguments
 // ---------
-// user_id: 		The user making the request
+// ciniki:
+// module:			The name of the module for the transaction, which should include the 
+//					package in dot notation.  Example: ciniki.artcatalog
+// history_table:	The table name where the history for the module is kept.
+// business_id:		The ID of the business copy the history for.
+// table_name:		The table the history is for.
+// old_table_key:
+// new_table_key:
+// table_field:
 //
 //
 function ciniki_core_dbCopyModuleHistory($ciniki, $module, $history_table, $business_id, $table_name, $old_table_key, $new_table_key, $table_field) {

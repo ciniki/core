@@ -10,9 +10,7 @@
 //
 // Arguments
 // ---------
-// user_id: 		The user making the request
-// 
-//
+// ciniki:
 //
 function ciniki_core_dbInsertFromHash($ciniki, $fields, $record, $prefix, $middle, $suffix) {
 
@@ -32,7 +30,7 @@ function ciniki_core_dbInsertFromHash($ciniki, $fields, $record, $prefix, $middl
 	// If an SQL string was built, then try to run it
 	//
 	if( isset($rc['strsql']) && $rc['strsql'] != '') {
-		$new_db_record = ciniki_core_dbInsert($ciniki, $rc['strsql'], 'customers');
+		$new_db_record = ciniki_core_dbInsert($ciniki, $rc['strsql'], 'ciniki.customers');
 		return $new_db_record;
 	} 
 

@@ -12,7 +12,10 @@
 //
 // Arguments
 // ---------
-// 
+// ciniki:
+// strsql:			The SQL string to be executed.
+// module:			The name of the module for the transaction, which should include the 
+//					package in dot notation.  Example: ciniki.artcatalog
 //
 function ciniki_core_dbReplace($ciniki, $strsql, $module) {
 	//

@@ -3,15 +3,13 @@
 // Description
 // -----------
 // This function will run an insert query against the database. 
-// This function is a placeholder and just a passthrough to dbUpdate
-//
-// Info
-// ----
-// status:			beta
 //
 // Arguments
 // ---------
-// 
+// ciniki:
+// strsql:			The SQL statement to execute which will INSERT a row into the database.
+// module:			The name of the module for the transaction, which should include the 
+//					package in dot notation.  Example: ciniki.artcatalog
 //
 function ciniki_core_dbInsert(&$ciniki, $strsql, $module) {
 	//

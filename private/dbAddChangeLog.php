@@ -11,7 +11,8 @@
 //
 // Arguments
 // ---------
-// module:			The module the table_name is in.
+// module:			The name of the module for the transaction, which should include the 
+//					package in dot notation.  Example: ciniki.artcatalog
 // user_id: 		The user making the request
 // business_id:
 // table_name:		The table name that the data was inserted/replaced in.
@@ -26,7 +27,7 @@ function ciniki_core_dbAddChangeLog($ciniki, $module, $business_id, $table_name,
 	// dbConnect function will return an open connection if one 
 	// exists, otherwise open a new one
 	//
-	$rc = ciniki_core_dbConnect($ciniki, 'core');
+	$rc = ciniki_core_dbConnect($ciniki, 'ciniki.core');
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
 	}
@@ -50,6 +51,6 @@ function ciniki_core_dbAddChangeLog($ciniki, $module, $business_id, $table_name,
 	$strsql .= "'" . ciniki_core_dbQuote($ciniki, $value) . "', UTC_TIMESTAMP())";
 
 	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbInsert.php');
-	return ciniki_core_dbInsert($ciniki, $strsql, 'core');
+	return ciniki_core_dbInsert($ciniki, $strsql, 'ciniki.core');
 }
 ?>

@@ -9,10 +9,9 @@
 // ---------
 // ciniki: 				The ciniki data structure with current session.
 // strsql:				The SQL string to query the database with.
-// module:				The name of the module to pull the data from.
-//						The module name is used for database connection cache.
+// module:				The name of the module for the transaction, which should include the 
+//						package in dot notation.  Example: ciniki.artcatalog
 // container_name:		The container name to attach the data when only one row returned.
-// no_row_error:		The error code and msg to return when no rows were returned from the query.
 //
 function ciniki_core_dbCount($ciniki, $strsql, $module, $container_name) {
 	//

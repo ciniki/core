@@ -10,13 +10,14 @@
 //
 // Arguments
 // ---------
-// user_id: 		The user making the request
+// ciniki:
+// str:				The string to escape.
 //
 function ciniki_core_dbQuote(&$ciniki, $str) {
 
 	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbConnect.php');
 
-	$rc = ciniki_core_dbConnect($ciniki, 'core');
+	$rc = ciniki_core_dbConnect($ciniki, 'ciniki.core');
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
 	}

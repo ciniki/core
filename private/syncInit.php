@@ -6,7 +6,7 @@
 //
 // Arguments
 // ---------
-// config_file:			The path to the config file must be passed.
+// ciniki_root:			The root of the ciniki install, which must contain a ciniki-api.ini file.
 //
 function ciniki_core_syncInit($ciniki_root) {
 

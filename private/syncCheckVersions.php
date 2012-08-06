@@ -20,9 +20,9 @@ function ciniki_core_syncCheckVersions($ciniki, $business_id, $sync_id) {
 	$strsql = "SELECT ciniki_businesses.id, ciniki_businesses.uuid AS local_uuid, local_private_key, "
 		. "remote_name, remote_uuid, remote_url, remote_public_key "
 		. "FROM ciniki_businesses, ciniki_business_syncs "
-		. "WHERE ciniki_businesses.id = '" . ciniki_core_dbQuote($ciniki, $args['business_id']) . "' "
+		. "WHERE ciniki_businesses.id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
 		. "AND ciniki_businesses.id = ciniki_business_syncs.business_id "
-		. "AND ciniki_business_syncs.id = '" . ciniki_core_dbQuote($ciniki, $args['sync_id']) . "' "
+		. "AND ciniki_business_syncs.id = '" . ciniki_core_dbQuote($ciniki, $sync_id) . "' "
 		. "";
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashQuery');
 	$rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'businesses', 'sync');
@@ -48,7 +48,7 @@ function ciniki_core_syncCheckVersions($ciniki, $business_id, $sync_id) {
 	// 
 	// Get the local business information
 	//
-	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncInfo');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncBusinessInfo');
 	$rc = ciniki_core_syncBusinessInfo($ciniki, $business_id);
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
@@ -63,9 +63,10 @@ function ciniki_core_syncCheckVersions($ciniki, $business_id, $sync_id) {
 	$local_modules = array();
 	foreach($rc['modules'] as $mnum => $module) {
 		$tables = array();
-		if( isset($module['module']['tables'] as $tnum => $table) {
-			
-			$tables[$table['table']['name']] = array('name'=>$table['table']['name'], 'version'=>$table['table']['version']);
+		if( isset($module['module']['tables']) ) {
+			foreach($module['module']['tables'] as $tnum => $table) {
+				$tables[$table['table']['name']] = array('name'=>$table['table']['name'], 'version'=>$table['table']['version']);
+			}
 		}
 		$local_modules[$module['module']['package'] . '.' . $module['module']['name']] = 
 			array('package'=>$module['module']['package'], 'name'=>$module['module']['name'], 'tables'=>$tables);

@@ -71,14 +71,21 @@ function ciniki_core_syncBusinessInfo($ciniki, $business_id) {
 	if( !isset($rc['modules']) ) {
 		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'569', 'msg'=>'Unable to get active modules'));
 	}
+	$modules = $rc['modules'];
 
 	//
 	// Check each package/module for table.schema's and get version from database
 	//
 	foreach($modules as $mnum => $module) {
 		$modules[$mnum]['module']['tables'] = array();
-		$dir = $module['module']['package'] . '-api/' . $module['module']['name'] . '/db';
+		$dir = $ciniki['config']['core']['root_dir'] . '/' . $module['module']['package'] . '-api/' . $module['module']['name'] . '/db';
+		if( !is_dir($dir) ) {
+			continue;
+		}
 		$dh = opendir($dir);
+		if( $dh == false ) {
+			continue;
+		}
 		while( false !== ($filename = readdir($dh))) {
 			if( $filename[0] == '.' ) {
 				continue;
@@ -95,6 +102,6 @@ function ciniki_core_syncBusinessInfo($ciniki, $business_id) {
 	//
 	// Return information
 	//
-	array('stat'=>'ok', 'modules'=>$modules);
+	return array('stat'=>'ok', 'modules'=>$modules);
 }
 ?>

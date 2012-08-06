@@ -76,27 +76,36 @@ function ciniki_core_syncCheckVersions($ciniki, $business_id, $sync_id) {
 	// Compare local and remote business information
 	//
 	$errors = '';
+	$missing_modules = '';
 	$comma = '';
 	foreach($remote_modules as $mnum => $module) {
 		$name = $module['module']['package'] . '.' . $module['module']['name'];
 		if( !isset($local_modules[$name]) ) {
-			$module_errors .= $comma . "missing module $name";
+			$errors .= $comma . "missing module $name";
+			$missing_modules .= $comma . $name;
 			$comma = ', ';
-		}
-		foreach($module['module']['tables'] as $tnum => $table) {
-			$tname = $table['table']['name'];
-			if( !isset($local_modules[$name]['tables'][$tname]) ) {
-				$table_errors .= $comma . "missing table $tname";
-				$comma = ', ';
-			}
-			elseif( $table['table']['version'] != $local_modules[$name]['tables'][$tname]['version'] ) {
-				$table_errors .= $comma . "incorrect table version $tname (" . $local_modules[$name]['tables'][$tname]['version'] . " should be " . $table['table']['version'] . ")";
-				$comma = ', ';
+		} else {
+			foreach($module['module']['tables'] as $tnum => $table) {
+				$tname = $table['table']['name'];
+				if( !isset($local_modules[$name]['tables'][$tname]) ) {
+					$errors .= $comma . "missing table $tname";
+					$comma = ', ';
+				}
+				elseif( $table['table']['version'] != $local_modules[$name]['tables'][$tname]['version'] ) {
+					$errors .= $comma . "incorrect table version $tname (" . $local_modules[$name]['tables'][$tname]['version'] . " should be " . $table['table']['version'] . ")";
+					$comma = ', ';
+				}
 			}
 		}
 	}
 
+	if( $missing_modules != '' ) {
+		error_log($missing_modules);
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'570', 'msg'=>"The following modules must be enabled before syncronization: $missing_modules", 'pmsg'=>"$errors."));
+	}
+
 	if( $errors != '' ) {
+		error_log($errors);
 		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'572', 'msg'=>'System code must be updated before synchronization.', 'pmsg'=>"$errors."));
 	}
 

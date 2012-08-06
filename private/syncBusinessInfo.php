@@ -66,7 +66,7 @@ function ciniki_core_syncBusinessInfo($ciniki, $business_id) {
 			'fields'=>array('package', 'name', 'last_change')),
 		));
 	if( $rc['stat'] != 'ok' ) {
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'568', 'msg'=>'Unable to get active modules', 'err'=>$rc['err']));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'574', 'msg'=>'Unable to get active modules', 'err'=>$rc['err']));
 	}
 	if( !isset($rc['modules']) ) {
 		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'569', 'msg'=>'Unable to get active modules'));

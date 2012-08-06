@@ -57,8 +57,8 @@ file_put_contents('/Users/andrew/tmp.sync', print_r($ciniki, true));
 if( $ciniki['request']['action'] == 'ping' ) {
 	$response = array('stat'=>'ok');
 } elseif( $ciniki['request']['action'] == 'info' ) {
-	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncInfo');
-	$response = ciniki_core_syncInfo($ciniki);
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncBusinessInfo');
+	$response = ciniki_core_syncBusinessInfo($ciniki, $ciniki['sync']['business_id']);
 } elseif( $ciniki['request']['action'] == 'list' ) {
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncList');
 	$response = ciniki_core_syncList($ciniki);
@@ -72,7 +72,10 @@ if( $ciniki['request']['action'] == 'ping' ) {
 //
 // Output the result in requested format
 //
-ciniki_core_syncResponse($ciniki, $response);
+$rc = ciniki_core_syncResponse($ciniki, $response);
+if( $rc['stat'] != 'ok' ) {
+	print serialize($rc);
+}
 
 exit;
 

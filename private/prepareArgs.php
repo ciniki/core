@@ -64,7 +64,11 @@ function ciniki_core_prepareArgs($ciniki, $quote_flag, $arg_info) {
 					}
 				}
 			} elseif( isset($options['type']) && $options['type'] == 'list' ) {
-				$list = explode(',', $ciniki['request']['args'][$arg]);
+				if( isset($options['delimiter']) && $options['delimiter'] != '' ) {
+					$list = explode($options['delimiter'], $ciniki['request']['args'][$arg]);
+				} else {
+					$list = explode(',', $ciniki['request']['args'][$arg]);
+				}
 				$args[$arg] = array();
 				foreach($list as $i) {
 					$args[$arg][] = $i;

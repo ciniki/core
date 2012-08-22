@@ -172,7 +172,21 @@ function ciniki_core_dbHashQueryTree($ciniki, $strsql, $module, $tree) {
 						// Check if field was declared in fields array, if not it can be added now
 						//
 						if( isset($data[$tree[$i]['container']][$num_elements[$i]-1][$tree[$i]['name']][$field]) ) {
-							$data[$tree[$i]['container']][$num_elements[$i]-1][$tree[$i]['name']][$field] .= ', ' . $row[$field];
+							$data[$tree[$i]['container']][$num_elements[$i]-1][$tree[$i]['name']][$field] .= ',' . $row[$field];
+						} else {
+							$data[$tree[$i]['container']][$num_elements[$i]-1][$tree[$i]['name']][$field] = $row[$field];
+						}
+					}
+					//
+					// Lists which have delimiters specified
+					//
+					if( isset($tree[$i]['dlists']) && array_key_exists($field, $tree[$i]['dlists']) 
+						&& $prev_row != null && $prev_row[$field] != $row[$field] ) {
+						//
+						// Check if field was declared in fields array, if not it can be added now
+						//
+						if( isset($data[$tree[$i]['container']][$num_elements[$i]-1][$tree[$i]['name']][$field]) ) {
+							$data[$tree[$i]['container']][$num_elements[$i]-1][$tree[$i]['name']][$field] .= $tree[$i]['dlists'][$field] . $row[$field];
 						} else {
 							$data[$tree[$i]['container']][$num_elements[$i]-1][$tree[$i]['name']][$field] = $row[$field];
 						}

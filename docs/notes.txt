@@ -4,3 +4,7 @@ Future private functions:
 
 None of the database tables in the core need to be sync'd to remote servers.
 This information only pertains to this local server.
+
+The tag*.php files have the ability to add history to the module history table, but 
+have been removed as they are not needed for the artcatalog module.  If required
+in the future, the history can be added back.

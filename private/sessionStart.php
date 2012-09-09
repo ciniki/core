@@ -16,9 +16,9 @@ function ciniki_core_sessionStart(&$ciniki, $username, $password) {
 	//
 	// End any currently active sessions
 	//
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/sessionEnd.php');
-	require_once($ciniki['config']['core']['modules_dir'] . '/users/private/logAuthFailure.php');
-	require_once($ciniki['config']['core']['modules_dir'] . '/users/private/logAuthSuccess.php');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'sessionEnd');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'users', 'private', 'logAuthFailure');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'users', 'private', 'logAuthSuccess');
 	ciniki_core_sessionEnd($ciniki);
 
 	//
@@ -37,7 +37,7 @@ function ciniki_core_sessionStart(&$ciniki, $username, $password) {
 		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'31', 'msg'=>'Invalid password'));
 	}
 
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbQuote.php');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQuote');
 
 	//
 	// Check the username and password in the database.
@@ -49,8 +49,8 @@ function ciniki_core_sessionStart(&$ciniki, $username, $password) {
 			. "OR username = '" . ciniki_core_dbQuote($ciniki, $username) . "') "
 		. "AND password = SHA1('" . ciniki_core_dbQuote($ciniki, $password) . "') ";
 
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbHashQuery.php');
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbUpdate.php');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashQuery');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbUpdate');
 	$rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.users', 'user');
 	if( $rc['stat'] != 'ok' ) {
 		ciniki_users_logAuthFailure($ciniki, $username, $rc['err']['code']);
@@ -103,7 +103,7 @@ function ciniki_core_sessionStart(&$ciniki, $username, $password) {
 
 	unset($user['login_attempts']);
 
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbDetailsQueryHash.php');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbDetailsQueryHash');
 	$rc = ciniki_core_dbDetailsQueryHash($ciniki, 'ciniki_user_details', 'user_id', $user['id'], 'settings', 'ciniki.users');
 	if( $rc['stat'] != 'ok' ) {
 		ciniki_users_logAuthFailure($ciniki, $username, $rc['err']['code']);
@@ -151,7 +151,7 @@ function ciniki_core_sessionStart(&$ciniki, $username, $password) {
 		. "'" . ciniki_core_dbQuote($ciniki, $ciniki['session']['change_log_id']) . "', "
 		. "'" . ciniki_core_dbQuote($ciniki, $serialized_session_data) . "')";
 
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbInsert.php');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbInsert');
 	$rc = ciniki_core_dbInsert($ciniki, $strsql, 'ciniki.core');
 	if( $rc['stat'] != 'ok' ) {
 		ciniki_users_logAuthFailure($ciniki, $username, $rc['err']['code']);
@@ -162,7 +162,6 @@ function ciniki_core_sessionStart(&$ciniki, $username, $password) {
 	// Update the last_login field for the user, and reset the login_attempts field.
 	//
 	$strsql = "UPDATE ciniki_users SET login_attempts = 0, last_login = UTC_TIMESTAMP() WHERE id = '" . ciniki_core_dbQuote($ciniki, $user['id']) . "'";
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbUpdate.php');
 	$rc = ciniki_core_dbUpdate($ciniki, $strsql, 'ciniki.users');
 	if( $rc['stat'] != 'ok' ) {
 		ciniki_users_logAuthFailure($ciniki, $username, $rc['err']['code']);

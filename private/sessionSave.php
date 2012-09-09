@@ -36,7 +36,7 @@ function ciniki_core_sessionSave($ciniki) {
 	// even if over the timeout, because the session was opened before the timeout.
 	// Sessions are only open as long as it takes to run a method.
 	// 
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbQuote.php');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQuote');
 	$strsql = "UPDATE ciniki_core_session_data SET "
 		. "session_data = '" . ciniki_core_dbQuote($ciniki, serialize($ciniki['session'])) . "' "
 		. ", last_saved = UTC_TIMESTAMP() "
@@ -45,7 +45,7 @@ function ciniki_core_sessionSave($ciniki) {
 		. "AND user_id = '" . ciniki_core_dbQuote($ciniki, $ciniki['session']['user']['id']) . "' "
 		. "";
 
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbUpdate.php');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbUpdate');
 	$rc = ciniki_core_dbUpdate($ciniki, $strsql, 'ciniki.core');
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;

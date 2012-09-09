@@ -30,9 +30,11 @@ function ciniki_core_loadCinikiConfig(&$ciniki, $ciniki_root) {
 		return false;
 	}
 
-	if( !isset($ciniki['config']['core']) || !isset($ciniki['config']['core']['root_dir']) ) {
+	if( !isset($ciniki['config']['ciniki.core']) || !isset($ciniki['config']['ciniki.core']['root_dir']) ) {
 		return false;
 	}
+
+	$ciniki['config']['core'] = $ciniki['config']['ciniki.core'];
 
 	return true;
 }

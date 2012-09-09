@@ -20,7 +20,7 @@ function ciniki_core_dbConnect(&$ciniki, $module) {
 	// 
 	// Check for required $ciniki variables
 	//
-	if( !is_array($ciniki['config']['core']) ) {
+	if( !is_array($ciniki['config']['ciniki.core']) ) {
 		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'13', 'msg'=>'Internal Error', 'pmsg'=>'$ciniki variable not defined'));
 	}
 
@@ -32,8 +32,8 @@ function ciniki_core_dbConnect(&$ciniki, $module) {
 	$database_name = '';
 	if( isset($ciniki['config'][$module]['database']) ) {
 		$database_name = $ciniki['config'][$module]['database'];
-	} elseif( isset($ciniki['config']['core']['database']) ) {
-		$database_name = $ciniki['config']['core']['database'];
+	} elseif( isset($ciniki['config']['ciniki.core']['database']) ) {
+		$database_name = $ciniki['config']['ciniki.core']['database'];
 	} else {
 		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'14', 'msg'=>'Internal Error', 'pmsg'=>'database name not default for requested module'));
 	}
@@ -55,10 +55,10 @@ function ciniki_core_dbConnect(&$ciniki, $module) {
 	//
 	// Get connection information
 	//
-	if( !isset($ciniki['config']['core']['database.' . $database_name . '.hostname'])
-		|| !isset($ciniki['config']['core']['database.' . $database_name . '.username'])
-		|| !isset($ciniki['config']['core']['database.' . $database_name . '.password'])
-		|| !isset($ciniki['config']['core']['database.' . $database_name . '.database'])
+	if( !isset($ciniki['config']['ciniki.core']['database.' . $database_name . '.hostname'])
+		|| !isset($ciniki['config']['ciniki.core']['database.' . $database_name . '.username'])
+		|| !isset($ciniki['config']['ciniki.core']['database.' . $database_name . '.password'])
+		|| !isset($ciniki['config']['ciniki.core']['database.' . $database_name . '.database'])
 		) {
 		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'16', 'msg'=>'Internal configuration error', 'pmsg'=>"database credentials not specified for the module '$module'"));
 		
@@ -69,16 +69,16 @@ function ciniki_core_dbConnect(&$ciniki, $module) {
 	// and ensure a new connection is opened (TRUE).
 	//
 	$ciniki['databases'][$database_name]['connection'] = mysql_connect( 
-		$ciniki['config']['core']['database.' . $database_name . '.hostname'],
-		$ciniki['config']['core']['database.' . $database_name . '.username'],
-		$ciniki['config']['core']['database.' . $database_name . '.password'], 
+		$ciniki['config']['ciniki.core']['database.' . $database_name . '.hostname'],
+		$ciniki['config']['ciniki.core']['database.' . $database_name . '.username'],
+		$ciniki['config']['ciniki.core']['database.' . $database_name . '.password'], 
 		TRUE);
 
 	if( $ciniki['databases'][$database_name]['connection'] == false ) {
 		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'18', 'msg'=>'Database error', 'pmsg'=>"Unable to connect to database '$database_name' for '$module'"));
 	}
 
-	if( mysql_select_db($ciniki['config']['core']['database.' . $database_name . '.database'], $ciniki['databases'][$database_name]['connection']) == false ) {
+	if( mysql_select_db($ciniki['config']['ciniki.core']['database.' . $database_name . '.database'], $ciniki['databases'][$database_name]['connection']) == false ) {
 		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'20', 'msg'=>'Database error', 'pmsg'=>"Unable to connect to database '$database_name' for '$module'"));
 	}
 

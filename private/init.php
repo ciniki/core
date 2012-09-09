@@ -53,7 +53,7 @@ function ciniki_core_init($ciniki_root, $output_format) {
 	//
 	// Initialize Database
 	//
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbInit.php');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbInit');
 	$rc = ciniki_core_dbInit($ciniki);
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
@@ -62,7 +62,7 @@ function ciniki_core_init($ciniki_root, $output_format) {
 	//
 	// Initialize Session
 	//
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/sessionInit.php');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'sessionInit');
 	$rc = ciniki_core_sessionInit($ciniki);
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;

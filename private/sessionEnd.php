@@ -14,8 +14,8 @@ function ciniki_core_sessionEnd($ciniki) {
 	//
 	// Remove the session from the database
 	//
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbQuote.php');
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbDelete.php');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQuote');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbDelete');
 
 	if( isset($ciniki['session']['auth_token']) && $ciniki['session']['auth_token'] != '' ) {
 		$strsql = "DELETE FROM ciniki_core_session_data "

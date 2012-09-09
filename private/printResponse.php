@@ -29,20 +29,20 @@ function ciniki_core_printResponse($ciniki, $hash) {
 	if( !is_array($ciniki) || !is_array($ciniki['response']) || !isset($ciniki['response']['format']) ) {
 		header("Content-Type: text/xml; charset=utf-8");
 		print "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n";
-		require_once($ciniki['config']['core']['modules_dir'] . '/core/private/printHashToXML.php');
+		ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'printHashToXML');
 		ciniki_core_printHashToXML('rsp', '', $hash);	
 	} 
 
 	elseif( $ciniki['response']['format'] == 'php' ) {
 		header("Content-Type: text/plain; charset=utf-8");
-		require_once($ciniki['config']['core']['modules_dir'] . '/core/private/printHashToPHP.php');
+		ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'printHashToPHP');
 		ciniki_core_printHashToPHP($hash);
 	} 
 
 	elseif( $ciniki['response']['format'] == 'json' ) {
 		header("Content-Type: text/plain; charset=utf-8");
 		header("Cache-Control: no-cache, must-revalidate");
-		require_once($ciniki['config']['core']['modules_dir'] . '/core/private/printHashToJSON.php');
+		ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'printHashToJSON');
 		ciniki_core_printHashToJSON($hash);
 	}
 
@@ -52,7 +52,7 @@ function ciniki_core_printResponse($ciniki, $hash) {
 	else {
 		header("Content-Type: text/xml; charset=utf-8");
 		print "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n";
-		require_once($ciniki['config']['core']['modules_dir'] . '/core/private/printHashToXML.php');
+		ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'printHashToXML');
 		ciniki_core_printHashToXML('rsp', '', $hash);	
 	}
 

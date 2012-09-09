@@ -35,7 +35,7 @@ function ciniki_core_sessionOpen(&$ciniki) {
 	// extra layer of security for session.
 	//
 
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbQuote.php');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQuote');
 	$strsql = "SELECT auth_token, api_key, user_id, date_added, "
 		. "(UNIX_TIMESTAMP(UTC_TIMESTAMP()) - UNIX_TIMESTAMP(last_saved)) as session_length, timeout, "
 		. "session_data "
@@ -44,7 +44,7 @@ function ciniki_core_sessionOpen(&$ciniki) {
 		. "AND api_key = '" . ciniki_core_dbQuote($ciniki, $ciniki['request']['api_key']) . "' "
 		. "";
 
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbHashQuery.php');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashQuery');
 	$rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.core', 'auth');
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
@@ -58,7 +58,7 @@ function ciniki_core_sessionOpen(&$ciniki) {
 	// Check expiry
 	//
 	if( $rc['auth']['session_length'] > $rc['auth']['timeout'] ) {
-		require_once($ciniki['config']['core']['modules_dir'] . '/core/private/sessionEnd.php');
+		ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'sessionEnd');
 		ciniki_core_sessionEnd($ciniki);
 		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'27', 'msg'=>'Session expired'));
 	}

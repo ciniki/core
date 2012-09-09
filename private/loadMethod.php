@@ -13,6 +13,6 @@
 // name:		The name of the function.
 //
 function ciniki_core_loadMethod($ciniki, $package, $module, $type, $name) {
-	require_once($ciniki['config']['core']['root_dir'] . '/' . $package . '-api/' . $module . '/' . $type . '/' . $name . '.php');
+	require_once($ciniki['config']['ciniki.core']['root_dir'] . '/' . $package . '-api/' . $module . '/' . $type . '/' . $name . '.php');
 }
 ?>

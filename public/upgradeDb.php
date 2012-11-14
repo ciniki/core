@@ -25,13 +25,13 @@ function ciniki_core_upgradeDb($ciniki) {
 	//
 	// Check access restrictions to monitorChangeLogs
 	//
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/checkAccess.php');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'checkAccess');
 	$rc = ciniki_core_checkAccess($ciniki, 0, 'ciniki.core.upgradeDb');
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
 	}
 	
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbUpgradeTables.php');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbUpgradeTables');
 	return ciniki_core_dbUpgradeTables($ciniki);
 }
 ?>

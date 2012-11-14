@@ -26,16 +26,16 @@ function ciniki_core_monitorChangeLogs($ciniki) {
 	//
 	// Check access restrictions to monitorChangeLogs
 	//
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/checkAccess.php');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'checkAccess');
 	$rc = ciniki_core_checkAccess($ciniki, 0, 'ciniki.core.monitorChangeLogs');
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
 	}
 	
-	require_once($ciniki['config']['core']['modules_dir'] . '/users/private/datetimeFormat.php');
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbQuoteRequestArg.php');
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbRspQuery.php');
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbHashQuery.php');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'users', 'private', 'datetimeFormat');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQuoteRequestArg');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbRspQuery');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashQuery');
 
 	$strsql = "SELECT UNIX_TIMESTAMP(UTC_TIMESTAMP()) as cur";
 	$ts = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.core', 'timestamp');

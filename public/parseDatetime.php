@@ -22,7 +22,7 @@ function ciniki_core_parseDatetime($ciniki) {
     //  
     // Find all the required and optional arguments
     //  
-    require_once($ciniki['config']['core']['modules_dir'] . '/core/private/prepareArgs.php');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'prepareArgs');
     $rc = ciniki_core_prepareArgs($ciniki, 'no', array(
         'datetime'=>array('required'=>'no', 'default'=>'', 'blank'=>'no', 'type'=>'datetime', 'errmsg'=>'No date specified'), 
 		));
@@ -31,7 +31,7 @@ function ciniki_core_parseDatetime($ciniki) {
 	//
 	// Check access restrictions to checkAPIKey
 	//
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/checkAccess.php');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'checkAccess');
 	$rc = ciniki_core_checkAccess($ciniki, 0, 'ciniki.core.parseDatetime');
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;

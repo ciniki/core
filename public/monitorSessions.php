@@ -24,15 +24,15 @@ function ciniki_core_monitorSessions($ciniki) {
 	//
 	// Check access restrictions to monitorChangeLogs
 	//
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/checkAccess.php');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'checkAccess');
 	$rc = ciniki_core_checkAccess($ciniki, 0, 'ciniki.core.monitorSessions');
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
 	}
 	
-	require_once($ciniki['config']['core']['modules_dir'] . '/users/private/datetimeFormat.php');
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbQuote.php');
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbRspQuery.php');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'users', 'private', 'datetimeFormat');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQuote');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbRspQuery');
 
 	$date_format = ciniki_users_datetimeFormat($ciniki);
 

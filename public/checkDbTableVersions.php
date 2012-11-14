@@ -28,7 +28,7 @@ function ciniki_core_checkDbTableVersions($ciniki) {
 	//
 	// Check access restrictions to checkAPIKey
 	//
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/checkAccess.php');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'checkAccess');
 	$rc = ciniki_core_checkAccess($ciniki, 0, 'ciniki.core.checkDbTableVersions');
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;

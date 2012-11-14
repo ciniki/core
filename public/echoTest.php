@@ -24,7 +24,7 @@ function ciniki_core_echoTest($ciniki) {
 	//
 	// Check access restrictions to checkAPIKey
 	//
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/checkAccess.php');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'checkAccess');
 	$rc = ciniki_core_checkAccess($ciniki, 0, 'ciniki.core.echoTest');
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;

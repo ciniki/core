@@ -15,6 +15,7 @@
 // api_key:
 // auth_token:
 // last_timestamp:  		The last timestamp from the previous request.
+// session_key:				The session key to get only the action logs from.
 //
 // Returns
 // -------
@@ -24,18 +25,31 @@
 //
 function ciniki_core_monitorActionLogs($ciniki) {
 	//
+	// Get the args
+	//
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'prepareArgs');
+	$rc = ciniki_core_prepareArgs($ciniki, 'no', array(
+		'last_timestamp'=>array('required'=>'no', 'blank'=>'yes', 'errmsg'=>'No timestamp specified'),
+		'session_key'=>array('required'=>'no', 'blank'=>'no', 'errmsg'=>'No session specified'),
+		));
+	if( $rc['stat'] != 'ok' ) {
+		return $rc;
+	}
+	$args = $rc['args'];
+
+	//
 	// Check access restrictions to monitorActionLogs
 	//
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/checkAccess.php');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'checkAccess');
 	$rc = ciniki_core_checkAccess($ciniki, 0, 'ciniki.core.monitorActionLogs');
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
 	}
 	
-	require_once($ciniki['config']['core']['modules_dir'] . '/users/private/datetimeFormat.php');
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbQuoteRequestArg.php');
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbRspQuery.php');
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbHashQuery.php');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'users', 'private', 'datetimeFormat');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQuote');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbRspQuery');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashQuery');
 
 	$strsql = "SELECT UNIX_TIMESTAMP(UTC_TIMESTAMP()) as cur";
 	$ts = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.core', 'timestamp');
@@ -49,18 +63,12 @@ function ciniki_core_monitorActionLogs($ciniki) {
 	$last_timestamp = $ts['timestamp']['cur'] - 43200;		// Get anything that is from the last 12 hours by default.
 	$last_timestamp = $ts['timestamp']['cur'] - 86400;		// Get anything that is from the last 24 hours by default.
 	$req_last_timestamp = $last_timestamp;
-	if( isset($ciniki['request']['args']['last_timestamp']) && $ciniki['request']['args']['last_timestamp'] != '' ) {
-		$req_last_timestamp = ciniki_core_dbQuoteRequestArg($ciniki, 'last_timestamp');
+	if( isset($args['last_timestamp']) && $args['last_timestamp'] != '' ) {
+		$req_last_timestamp = $args['last_timestamp'];
 	}
 	// Force last_timestamp to be no older than 1 week
 	if( $req_last_timestamp < ($ts['timestamp']['cur'] - 604800) ) {
 		$req_last_timestamp = $ts['timestamp']['cur'] - 604800;
-	}
-
-	$session = '';
-	if( isset($ciniki['request']['args']['session']) ) {	
-		// FIXME: Use this in the query below
-		$session = ciniki_core_dbQuoteRequestArg($ciniki, 'session');
 	}
 
 	$date_format = ciniki_users_datetimeFormat($ciniki);
@@ -70,12 +78,17 @@ function ciniki_core_monitorActionLogs($ciniki) {
 		. ", CAST(UNIX_TIMESTAMP(UTC_TIMESTAMP())-UNIX_TIMESTAMP(log_date) as DECIMAL(12,0)) as age "
 		. ", UNIX_TIMESTAMP(log_date) as TS"
 		. ", ciniki_core_api_logs.id, user_id, ciniki_users.display_name, "
-		. "IFNULL(ciniki_businesses.name, '*') AS name, session_key, method, action "
+		. "IFNULL(ciniki_businesses.name, 'System Admin') AS name, session_key, method, action "
 		. "FROM ciniki_core_api_logs "
 		. "LEFT JOIN ciniki_users ON (ciniki_core_api_logs.user_id = ciniki_users.id) "
-		. "LEFT JOIN ciniki_businesses ON (ciniki_core_api_logs.business_id = ciniki_businesses.id) "
-		. "WHERE UNIX_TIMESTAMP(ciniki_core_api_logs.log_date) > '" . ciniki_core_dbQuote($ciniki, $req_last_timestamp) . "' "
+		. "LEFT JOIN ciniki_businesses ON (ciniki_core_api_logs.business_id = ciniki_businesses.id) ";
+	if( isset($args['session_key']) && $args['session_key'] != '' ) {
+		$strsql .= "WHERE session_key = '" . ciniki_core_dbQuote($ciniki, $args['session_key']) . "' ";
+	} else {
+		$strsql .= "WHERE UNIX_TIMESTAMP(ciniki_core_api_logs.log_date) > '" . ciniki_core_dbQuote($ciniki, $req_last_timestamp) . "' ";
+	}
 //		. "AND ciniki_core_api_logs.user_id = ciniki_users.id "
+	$strsql .= ""
 		. "ORDER BY TS DESC "
 		. "LIMIT 100 ";
 	$rsp = ciniki_core_dbRspQuery($ciniki, $strsql, 'ciniki.core', 'logs', 'log', array('stat'=>'ok', 'logs'=>array()));

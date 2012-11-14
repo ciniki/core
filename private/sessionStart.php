@@ -133,7 +133,8 @@ function ciniki_core_sessionStart(&$ciniki, $username, $password) {
 	// FIXME: Check to make sure this is a secure enough method for generating a session id.
 	// 
 	$ciniki['session']['auth_token'] = md5(date('Y-m-d-H-i-s') . rand());
-	$ciniki['session']['change_log_id'] = date('ymd.His');
+
+	$ciniki['session']['change_log_id'] = date('ymd.His') . '.' . substr($ciniki['session']['auth_token'], 0, 6);
 
 	//
 	// Serialize the data for storage

@@ -32,7 +32,7 @@ function ciniki_core_dbUpgradeTable($ciniki, $package, $module, $table, $old_ver
 	// Check if the table exists
 	//
 	if( $old_version == '-' ) {
-		$schema = file_get_contents($ciniki['config']['core']['root_dir'] . '/' . $package . '-api/' . $module . "/db/$table.schema");
+		$schema = file_get_contents($ciniki['config']['ciniki.core']['root_dir'] . '/' . $package . '-api/' . $module . "/db/$table.schema");
 		$rc = ciniki_core_dbUpdate($ciniki, $schema, "$package.$module");
 		return $rc;
 	}
@@ -76,7 +76,7 @@ function ciniki_core_dbUpgradeTable($ciniki, $package, $module, $table, $old_ver
 
 		error_log("Upgrading table from: $i.$start_minor to $i.$end_minor");
 		for($j=$start_minor+1;$j<=$end_minor;$j++) {
-			$filename = $ciniki['config']['core']['root_dir'] . sprintf("/$package-api/$module/db/$table.$i.%02d.upgrade", $j);
+			$filename = $ciniki['config']['ciniki.core']['root_dir'] . sprintf("/$package-api/$module/db/$table.$i.%02d.upgrade", $j);
 			if( file_exists($filename) ) {
 				$schema = file_get_contents($filename);
 				$sqls = preg_split('/;\s*$/m', $schema);

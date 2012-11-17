@@ -27,7 +27,7 @@ function ciniki_core_dbGetTables($ciniki) {
 	//
 	$rsp = array();
 	foreach($modules as $module) {
-		$dir = $ciniki['config']['core']['root_dir'] . '/' . $module['package'] . '-api/' . $module['name'] . '/db/';
+		$dir = $ciniki['config']['ciniki.core']['root_dir'] . '/' . $module['package'] . '-api/' . $module['name'] . '/db/';
 		if( !is_dir($dir) ) {
 			continue;  		// No tables
 		}

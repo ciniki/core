@@ -20,8 +20,8 @@
 //
 function ciniki_core_dbTransactionCommit($ciniki, $module) {
 
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbConnect.php');
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbQuery.php');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbConnect');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQuery');
 
 	$rc = ciniki_core_dbConnect($ciniki, $module);
 	if( $rc['stat'] != 'ok' ) {

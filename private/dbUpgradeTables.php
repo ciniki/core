@@ -17,9 +17,9 @@
 //	</tables>
 //
 function ciniki_core_dbUpgradeTables($ciniki) {
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbGetTables.php');
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbHashIDQuery.php');
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbUpgradeTable.php');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbGetTables');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashIDQuery');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbUpgradeTable');
 
 	$rc = ciniki_core_dbGetTables($ciniki);
 	if( $rc['stat'] != 'ok' ) {
@@ -46,7 +46,7 @@ function ciniki_core_dbUpgradeTables($ciniki) {
 	}
 
 	foreach($tables as $table_name => $table) {
-		$schema = file_get_contents($ciniki['config']['core']['root_dir'] . '/' . $table['package'] . '-api/' . $table['module'] . "/db/$table_name.schema");
+		$schema = file_get_contents($ciniki['config']['ciniki.core']['root_dir'] . '/' . $table['package'] . '-api/' . $table['module'] . "/db/$table_name.schema");
 		if( preg_match('/comment=\'(v[0-9]+\.[0-9]+)\'/i', $schema, $matches) ) {
 			$new_version = $matches[1];
 			if( $new_version != $tables[$table_name]['database_version'] ) {

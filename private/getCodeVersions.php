@@ -21,7 +21,7 @@ function ciniki_core_getCodeVersions($ciniki) {
 	unset($modules_ini['package']);
 	$modules = array();
 	foreach($modules_ini as $mod_name => $module) {
-		$modules = array('module'=>array('name'=>$mod_name, 'version'=>$module['version'], 'author'=>$module['author'], 'hash'=>$module['hash']));
+		$modules[] = array('module'=>array('name'=>$mod_name, 'version'=>$module['version'], 'author'=>$module['author'], 'hash'=>$module['hash']));
 	}
 
 	return array('stat'=>'ok', 'package'=>$package, 'modules'=>$modules);

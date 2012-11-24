@@ -12,11 +12,6 @@
 // Arguments
 // ---------
 // ciniki:			
-// strsql: 			The SQL string to query the database.
-// module:			The name of the module for the transaction, which should include the 
-//					package in dot notation.  Example: ciniki.artcatalog
-// container_name:	The name of the xml/hash tag to return the data under, 
-//					when there is only one row returned.
 //
 function ciniki_core_dbDetailsQueryDash($ciniki, $table, $key, $key_value, $module, $container_name, $detail_key) {
 	//

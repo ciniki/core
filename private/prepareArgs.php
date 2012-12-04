@@ -112,6 +112,11 @@ function ciniki_core_prepareArgs($ciniki, $quote_flag, $arg_info) {
 			if( isset($options['null']) && $args[$arg] == 'null' ) {
 				$args[$arg] = $options['null'];
 			}
+
+			// Check if there is a list of valid options to accept
+			if( isset($options['validlist']) && !in_array($args[$arg], $options['validlist']) ) {
+				return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'225', 'msg'=>"$msg", 'pmsg'=>"Argument: $arg not an acceptable input"));
+			}
 		} 
 		
 		//

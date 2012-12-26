@@ -15,7 +15,7 @@
 #					0 - unknown
 #					1 - 
 #					
-# calling_function:	The function the alert was generated from.
+# var_alert:		The contents of the alert message.
 # var_moss:			The contents of the $moss variable.
 # var_rc:			The contents of any return code of the function called before the alert generated.
 # date_added:		The date and time the record was added.

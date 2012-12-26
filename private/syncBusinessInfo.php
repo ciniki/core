@@ -43,11 +43,11 @@ function ciniki_core_syncBusinessInfo($ciniki, $business_id) {
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashIDQuery');
 	$rc = ciniki_core_dbHashIDQuery($ciniki, $strsql, 'ciniki.core', 'tables', 'Name');
 	if( $rc['stat'] != 'ok' ) {
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'559', 'msg'=>'Unable to get table versions', 'err'=>$rc['err']));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'404', 'msg'=>'Unable to get table versions', 'err'=>$rc['err']));
 	}
 
 	if( !isset($rc['tables']) ) {
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'567', 'msg'=>'Unable to get table versions'));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'295', 'msg'=>'Unable to get table versions'));
 	}
 	$db_tables = $rc['tables']; 
 

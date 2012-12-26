@@ -30,7 +30,7 @@ function ciniki_core_syncCheckVersions($ciniki, $business_id, $sync_id) {
 		return $rc;
 	}
 	if( !isset($rc['sync']) || !is_array($rc['sync']) ) {
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'559', 'msg'=>'Invalid sync'));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'392', 'msg'=>'Invalid sync'));
 	}
 	$sync = $rc['sync'];
 	$sync['type'] = 'business';
@@ -54,7 +54,7 @@ function ciniki_core_syncCheckVersions($ciniki, $business_id, $sync_id) {
 		return $rc;
 	}
 	if( !isset($rc['modules']) ) {
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'570', 'msg'=>'No modules enabled'));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'296', 'msg'=>'No modules enabled'));
 	}
 
 	// 

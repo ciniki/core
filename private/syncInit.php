@@ -19,7 +19,7 @@ function ciniki_core_syncInit($ciniki_root) {
 	//
 	// Load the config
 	//
-	ciniki_core_loadMethod($ciniki, 'ciniki', 'ciniki-api/core', 'private', 'loadCinikiConfig');
+	require_once($ciniki_root . '/ciniki-api/core/private/loadCinikiConfig.php');
 	if( ciniki_core_loadCinikiConfig($ciniki, $ciniki_root) == false ) {
 		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'40', 'msg'=>'Internal configuration error'));
 	}

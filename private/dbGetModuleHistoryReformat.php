@@ -31,10 +31,10 @@ function ciniki_core_dbGetModuleHistoryReformat($ciniki, $module, $history_table
 	//
 	// Get the history log from ciniki_core_change_logs table.
 	//
-	require_once($ciniki['config']['core']['modules_dir'] . '/users/private/datetimeFormat.php');
-	require_once($ciniki['config']['core']['modules_dir'] . '/users/private/dateFormat.php');
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbQuote.php');
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbParseAge.php');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'users', 'private', 'datetimeFormat');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'users', 'private', 'dateFormat');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQuote');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbParseAge');
 
 	$datetime_format = ciniki_users_datetimeFormat($ciniki);
 	$date_format = ciniki_users_dateFormat($ciniki);
@@ -53,22 +53,22 @@ function ciniki_core_dbGetModuleHistoryReformat($ciniki, $module, $history_table
 		. " AND table_field = '" . ciniki_core_dbQuote($ciniki, $table_field) . "' "
 		. " ORDER BY log_date DESC "
 		. "";
-	$result = mysql_query($strsql, $dh);
+	$result = mysqli_query($dh, $strsql);
 	if( $result == false ) {
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'196', 'msg'=>'Database Error', 'pmsg'=>mysql_error($dh)));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'196', 'msg'=>'Database Error', 'pmsg'=>mysqli_error($dh)));
 	}
 
 	//
 	// Check if any rows returned from the query
 	//
-	if( mysql_num_rows($result) <= 0 ) {
+	if( mysqli_num_rows($result) <= 0 ) {
 		return array('stat'=>'ok', 'history'=>array(), 'users'=>array());
 	}
 
 	$rsp = array('stat'=>'ok', 'history'=>array(), 'users'=>array());
 	$user_ids = array();
 	$num_history = 0;
-	while( $row = mysql_fetch_assoc($result) ) {
+	while( $row = mysqli_fetch_assoc($result) ) {
 		$rsp['history'][$num_history] = array('action'=>array('user_id'=>$row['user_id'], 'date'=>$row['date'], 'value'=>$row['value']));
 		if( $format == 'date' || $format == 'datetime' ) {
 			$rsp['history'][$num_history]['action']['formatted_value'] = $row['formatted_value'];
@@ -80,6 +80,8 @@ function ciniki_core_dbGetModuleHistoryReformat($ciniki, $module, $history_table
 		$num_history++;
 	}
 
+	mysqli_free_result($result);
+
 	//
 	// If there was no history, or user ids, then skip the user lookup and return
 	//
@@ -90,7 +92,7 @@ function ciniki_core_dbGetModuleHistoryReformat($ciniki, $module, $history_table
 	//
 	// Get the list of users
 	//
-	require_once($ciniki['config']['core']['modules_dir'] . '/users/private/userListByID.php');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'users', 'private', 'userListByID');
 	$rc = ciniki_users_userListByID($ciniki, 'users', array_unique($user_ids), 'display_name');
 	if( $rc['stat'] != 'ok' ) {
 		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'194', 'msg'=>'Unable to merge user information', 'err'=>$rc['err']));

@@ -33,17 +33,19 @@ function ciniki_core_dbReplace($ciniki, $strsql, $module) {
 	//
 	// Prepare and Execute Query
 	//
-	$result = mysql_query($strsql, $dh);
+	$result = mysqli_query($dh, $strsql);
 	if( $result == false ) {
-		error_log("SQLERR: " . mysql_error($dh) . " -- '$strsql'");
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'337', 'msg'=>'Database Error', 'pmsg'=>mysql_error($dh), 'dberrno'=>mysql_errno($dh), 'sql'=>$strsql));
+		error_log("SQLERR: " . mysqli_error($dh) . " -- '$strsql'");
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'337', 'msg'=>'Database Error', 'pmsg'=>mysqli_error($dh), 'dberrno'=>mysqli_errno($dh), 'sql'=>$strsql));
 	}
 
 	//
 	// Check if any rows returned from the query
 	//
 	$rsp = array('stat'=>'ok');
-	$rsp['num_affected_rows'] = mysql_affected_rows($dh);
+	$rsp['num_affected_rows'] = mysqli_affected_rows($dh);
+
+	mysqli_free_result($result);
 
 	return $rsp;
 }

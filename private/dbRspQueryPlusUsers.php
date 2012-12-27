@@ -33,15 +33,15 @@ function ciniki_core_dbRspQueryPlusUsers($ciniki, $strsql, $module, $container_n
 	//
 	// Prepare and Execute Query
 	//
-	$result = mysql_query($strsql, $dh);
+	$result = mysqli_query($dh, $strsql);
 	if( $result == false ) {
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'148', 'msg'=>'Database Error', 'pmsg'=>mysql_error($dh)));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'148', 'msg'=>'Database Error', 'pmsg'=>mysqli_error($dh)));
 	}
 
 	//
 	// Check if any rows returned from the query
 	//
-	if( mysql_num_rows($result) <= 0 ) {
+	if( mysqli_num_rows($result) <= 0 ) {
 		return $no_row_error;
 	}
 
@@ -56,8 +56,8 @@ function ciniki_core_dbRspQueryPlusUsers($ciniki, $strsql, $module, $container_n
 	//
 	$rsp[$container_name] = array();
 	$users = array();
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbParseAge.php');
-	while( $row = mysql_fetch_assoc($result) ) {
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbParseAge');
+	while( $row = mysqli_fetch_assoc($result) ) {
 		$rsp[$container_name][$rsp['num_rows']] = array($row_name=>$row);
 		// $users[$row['user_id']] = 1;
 		array_push($users, $row['user_id']);
@@ -67,10 +67,12 @@ function ciniki_core_dbRspQueryPlusUsers($ciniki, $strsql, $module, $container_n
 		$rsp['num_rows']++;
 	}
 
+	mysqli_free_result($result);
+
 	//
 	// FIXME: Get the list of users
 	//
-//	require_once($ciniki['config']['core']['modules_dir'] . '/users/private/userDisplayNames.php');
+//	ciniki_core_loadMethod($ciniki, 'ciniki', 'users', 'private', 'userDisplayNames');
 //	$rc = ciniki_users_userDisplayNames($ciniki, 'users', $users);
 //	if( $rc['stat'] != 'ok' ) {
 //		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'150', 'msg'=>'Unable to link users', 'err'=>$rc['err']));
@@ -97,23 +99,25 @@ function ciniki_core_dbRspQueryPlusUsers($ciniki, $strsql, $module, $container_n
 	$strsql = "SELECT id, display_name "
 		. "FROM ciniki_users "
 		. "WHERE id IN (" . ciniki_core_dbQuote($ciniki, implode(',', array_keys($users))) . ") ";
-	$result = mysql_query($strsql, $dh);
+	$result = mysqli_query($dh, $strsql);
 	if( $result == false ) {
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'149', 'msg'=>'Database Error', 'pmsg'=>mysql_error($dh)));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'149', 'msg'=>'Database Error', 'pmsg'=>mysqli_error($dh)));
 	}
 
 	//
 	// Check if any rows returned from the query
 	//
-	if( mysql_num_rows($result) <= 0 ) {
+	if( mysqli_num_rows($result) <= 0 ) {
 		return array('stat'=>'ok', 'history'=>array(), 'users'=>array());
 	}
 
 	$num_users = 0;
-	while( $row = mysql_fetch_assoc($result) ) {
+	while( $row = mysqli_fetch_assoc($result) ) {
 		$num_users++;
 		$rsp['users'][$row['id']] = array('user'=>$row);
 	}
+
+	mysqli_free_result($result);
 
 	return $rsp;
 }

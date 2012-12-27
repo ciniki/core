@@ -46,7 +46,7 @@ function ciniki_core_alertGenerate($ciniki, $alert, $rc) {
 	//
 	// Insert the alert details into the database
 	//
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbQuote.php');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQuote');
 	$strsql = "INSERT INTO ciniki_core_alerts (code, msg, var_alert, var_ciniki, var_rc, date_added) "
 		. "VALUES ('" . ciniki_core_dbQuote($ciniki, $alert['alert']) . "', "
 		. "'" . ciniki_core_dbQuote($ciniki, $alert['msg']) . "', "
@@ -55,7 +55,7 @@ function ciniki_core_alertGenerate($ciniki, $alert, $rc) {
 		. "'" . ciniki_core_dbQuote($ciniki, $var_ciniki) . "', "
 		. "UTC_TIMESTAMP()); ";
 
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbInsert.php');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbInsert');
 	return ciniki_core_dbInsert($ciniki, $strsql, 'ciniki.core');
 }
 ?>

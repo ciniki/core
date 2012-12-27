@@ -41,8 +41,8 @@ function ciniki_core_detectDeviceByUserAgent($ciniki, $user_agent) {
 	//
 	// Check the USER_AGENT against the database
 	//
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbQuote.php');
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbHashQuery.php');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQuote');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashQuery');
 	$strsql = "SELECT viewport, make, model, browser, browser_version "
 		. "FROM ciniki_core_user_agents "
 		. "WHERE user_agent = '" . ciniki_core_dbQuote($ciniki, $user_agent) . "'";
@@ -65,7 +65,7 @@ function ciniki_core_detectDeviceByUserAgent($ciniki, $user_agent) {
 	// a guess should be made to try and determine the level of browser
 	//
 	if( $rc['num_rows'] == 0 ) {
-		require_once($ciniki['config']['core']['modules_dir'] . '/core/private/alertGenerate.php');
+		ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'alertGenerate');
 		ciniki_core_alertGenerate($ciniki, 
 			array('alert'=>'1', 'msg'=>'USER_AGENT string not found'), $rc);
 

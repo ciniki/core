@@ -42,8 +42,8 @@ function ciniki_core_userAgentAdd($ciniki, $device) {
 		. "'" . ciniki_core_dbQuote($ciniki, $device['type_status']) . "', "
 		. "'" . ciniki_core_dbQuote($ciniki, $device['size']) . "', "
 		. "'" . ciniki_core_dbQuote($ciniki, $device['flags']) . "', ";
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbQuote.php');
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbInsert.php');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQuote');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbInsert');
 	foreach(array('engine', 'engine_version', 'os', 'os_version', 
 		'browser', 'browser_version', 'device', 'device_version', 'device_manufacturer') 
 		as $field) {

@@ -17,7 +17,7 @@
 //						package in dot notation.  Example: ciniki.artcatalog
 //
 function ciniki_core_dbDelete($ciniki, $strsql, $module) {
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbUpdate.php');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbUpdate');
 	return ciniki_core_dbUpdate($ciniki, $strsql, $module);
 }
 ?>

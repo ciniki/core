@@ -34,9 +34,9 @@ function ciniki_core_dbDetailsQueryDash($ciniki, $table, $key, $key_value, $modu
 	if( $detail_key != '' ) {
 		$strsql .= " AND detail_key like '" . ciniki_core_dbQuote($ciniki, $detail_key) . "-%'";
 	}
-	$result = mysql_query($strsql, $dh);
+	$result = mysqli_query($dh, $strsql);
 	if( $result == false ) {
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'39', 'msg'=>'Database Error', 'pmsg'=>mysql_error($dh)));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'39', 'msg'=>'Database Error', 'pmsg'=>mysqli_error($dh)));
 	}
 
 	//
@@ -47,9 +47,11 @@ function ciniki_core_dbDetailsQueryDash($ciniki, $table, $key, $key_value, $modu
 	//
 	// Build array of rows
 	//
-	while( $row = mysql_fetch_row($result) ) {
+	while( $row = mysqli_fetch_row($result) ) {
 		$rsp[$container_name][$row[0]] = $row[1];
 	}
+
+	mysqli_free_result($result);
 
 	return $rsp;
 }

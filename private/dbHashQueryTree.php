@@ -34,15 +34,15 @@ function ciniki_core_dbHashQueryTree($ciniki, $strsql, $module, $tree) {
 
 	$dh = $rc['dh'];
 
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbParseAge.php');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbParseAge');
 
 	//
 	// Prepare and Execute Query
 	//
-	$result = mysql_query($strsql, $dh);
+	$result = mysqli_query($dh, $strsql);
 	if( $result == false ) {
-		error_log("SQLERR: " . mysql_error($dh) . " -- '$strsql'");
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'184', 'msg'=>'Database Error', 'pmsg'=>mysql_error($dh)));
+		error_log("SQLERR: " . mysqli_error($dh) . " -- '$strsql'");
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'184', 'msg'=>'Database Error', 'pmsg'=>mysqli_error($dh)));
 	}
 
 	//
@@ -62,7 +62,7 @@ function ciniki_core_dbHashQueryTree($ciniki, $strsql, $module, $tree) {
 		$prev[$i] = null;
 		$num_elements[$i] = 0;
 	}
-	while( $row = mysql_fetch_assoc($result) ) {
+	while( $row = mysqli_fetch_assoc($result) ) {
 		// 
 		// Check if we have anything new at each depth
 		//
@@ -221,6 +221,8 @@ function ciniki_core_dbHashQueryTree($ciniki, $strsql, $module, $tree) {
 		}
 		$prev_row = $row;
 	}
+
+	mysqli_free_result($result);
 
 	return $rsp;
 }

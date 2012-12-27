@@ -41,10 +41,10 @@ function ciniki_core_dbHashIDQuery($ciniki, $strsql, $module, $container_name, $
 	//
 	// Prepare and Execute Query
 	//
-	$result = mysql_query($strsql, $dh);
+	$result = mysqli_query($dh, $strsql);
 	if( $result == false ) {
-		error_log("SQLERR: " . mysql_error($dh) . " -- '$strsql'");
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'19', 'msg'=>'Database Error', 'pmsg'=>mysql_error($dh)));
+		error_log("SQLERR: " . mysqli_error($dh) . " -- '$strsql'");
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'19', 'msg'=>'Database Error', 'pmsg'=>mysqli_error($dh)));
 	}
 
 	//
@@ -57,10 +57,12 @@ function ciniki_core_dbHashIDQuery($ciniki, $strsql, $module, $container_name, $
 	// Build array of rows
 	//
 	$rsp[$container_name] = array();
-	while( $row = mysql_fetch_assoc($result) ) {
+	while( $row = mysqli_fetch_assoc($result) ) {
 		$rsp[$container_name][$row[$col_name]] = $row;
 		$rsp['num_rows']++;
 	}
+
+	mysqli_free_result($result);
 
 	return $rsp;
 }

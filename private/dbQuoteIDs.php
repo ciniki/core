@@ -17,8 +17,7 @@
 //
 function ciniki_core_dbQuoteIDs($ciniki, $arr) {
 
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbConnect.php');
-
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbConnect');
 	$rc = ciniki_core_dbConnect($ciniki, 'ciniki.core');
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
@@ -28,10 +27,10 @@ function ciniki_core_dbQuoteIDs($ciniki, $arr) {
 	$comma = '';
 	foreach($arr as $i) {
 		if( is_int($i) ) {
-			$str .= $comma . mysql_real_escape_string($i);
+			$str .= $comma . mysqli_real_escape_string($rc['dh'], $i);
 			$comma = ',';
 		} else if( is_numeric($i) ) {
-			$str .= $comma . mysql_real_escape_string(intval($i));
+			$str .= $comma . mysqli_real_escape_string($rc['dh'], intval($i));
 			$comma = ',';
 		}
 	}

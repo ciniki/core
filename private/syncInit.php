@@ -19,7 +19,7 @@ function ciniki_core_syncInit($ciniki_root) {
 	//
 	// Load the config
 	//
-	require_once($ciniki_root . '/ciniki-api/core/private/loadCinikiConfig.php');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'ciniki-api/core', 'private', 'loadCinikiConfig');
 	if( ciniki_core_loadCinikiConfig($ciniki, $ciniki_root) == false ) {
 		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'40', 'msg'=>'Internal configuration error'));
 	}
@@ -27,7 +27,7 @@ function ciniki_core_syncInit($ciniki_root) {
 	//
 	// Initialize Database
 	//
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbInit.php');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbInit');
 	$rc = ciniki_core_dbInit($ciniki);
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
@@ -55,7 +55,7 @@ function ciniki_core_syncInit($ciniki_root) {
 	//
 	// Get the local_private_key to decode the request
 	//
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbQuote.php');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQuote');
 	$strsql = "SELECT ciniki_businesses.id, ciniki_businesses.uuid, ciniki_business_syncs.flags, "
 		. "local_private_key, remote_public_key "
 		. "FROM ciniki_businesses, ciniki_business_syncs "
@@ -64,7 +64,7 @@ function ciniki_core_syncInit($ciniki_root) {
 		. "AND ciniki_business_syncs.status = 10 "		// Make sure it is an active sync
 		. "AND ciniki_business_syncs.remote_uuid = '" . ciniki_core_dbQuote($ciniki, $ciniki['sync']['remote_uuid']) . "' "
 		. "";
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbHashQuery.php');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashQuery');
 	$rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.businesses', 'sync');
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;

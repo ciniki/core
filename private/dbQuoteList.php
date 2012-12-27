@@ -17,7 +17,7 @@
 //
 function ciniki_core_dbQuoteList($ciniki, $arr) {
 
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbConnect.php');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbConnect');
 
 	$rc = ciniki_core_dbConnect($ciniki, 'ciniki.core');
 	if( $rc['stat'] != 'ok' ) {
@@ -27,7 +27,7 @@ function ciniki_core_dbQuoteList($ciniki, $arr) {
 	$str = '';
 	$comma = '';
 	foreach($arr as $i) {
-		$str .= $comma . '\'' . mysql_real_escape_string($i) . '\'';
+		$str .= $comma . '\'' . mysqli_real_escape_string($rc['dh'], $i) . '\'';
 		$comma = ',';
 	}
 

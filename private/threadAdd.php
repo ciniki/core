@@ -31,8 +31,8 @@ function ciniki_core_threadAdd($ciniki, $module, $table, $args) {
 	//
 
 	// Required functions
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbQuote.php');
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbInsert.php');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQuote');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbInsert');
 
 	//
 	// Don't worry about autocommit here, it's taken care of in the calling function

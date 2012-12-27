@@ -33,15 +33,15 @@ function ciniki_core_dbRspQueryPlusUserIDs($ciniki, $strsql, $module, $container
 	//
 	// Prepare and Execute Query
 	//
-	$result = mysql_query($strsql, $dh);
+	$result = mysqli_query($dh, $strsql);
 	if( $result == false ) {
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'147', 'msg'=>'Database Error', 'pmsg'=>mysql_error($dh)));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'147', 'msg'=>'Database Error', 'pmsg'=>mysqli_error($dh)));
 	}
 
 	//
 	// Check if any rows returned from the query
 	//
-	if( mysql_num_rows($result) <= 0 ) {
+	if( mysqli_num_rows($result) <= 0 ) {
 		return $no_row_error;
 	}
 
@@ -56,8 +56,8 @@ function ciniki_core_dbRspQueryPlusUserIDs($ciniki, $strsql, $module, $container
 	//
 	$rsp[$container_name] = array();
 	$rsp['user_ids'] = array();
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbParseAge.php');
-	while( $row = mysql_fetch_assoc($result) ) {
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbParseAge');
+	while( $row = mysqli_fetch_assoc($result) ) {
 		$rsp[$container_name][$rsp['num_rows']] = array($row_name=>$row);
 		if( $row['user_id'] > 0 ) {
 			array_push($rsp['user_ids'], $row['user_id']);
@@ -67,6 +67,8 @@ function ciniki_core_dbRspQueryPlusUserIDs($ciniki, $strsql, $module, $container
 		}
 		$rsp['num_rows']++;
 	}
+
+	mysqli_free_result($result);
 
 	return $rsp;
 }

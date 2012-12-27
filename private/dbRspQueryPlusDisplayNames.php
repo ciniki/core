@@ -30,15 +30,15 @@ function ciniki_core_dbRspQueryPlusDisplayNames($ciniki, $strsql, $module, $cont
 	//
 	// Prepare and Execute Query
 	//
-	$result = mysql_query($strsql, $dh);
+	$result = mysqli_query($dh, $strsql);
 	if( $result == false ) {
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'146', 'msg'=>'Database Error', 'pmsg'=>mysql_error($dh)));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'146', 'msg'=>'Database Error', 'pmsg'=>mysqli_error($dh)));
 	}
 
 	//
 	// Check if any rows returned from the query
 	//
-	if( mysql_num_rows($result) <= 0 ) {
+	if( mysqli_num_rows($result) <= 0 ) {
 		return $no_row_error;
 	}
 
@@ -53,8 +53,8 @@ function ciniki_core_dbRspQueryPlusDisplayNames($ciniki, $strsql, $module, $cont
 	//
 	$rsp[$container_name] = array();
 	$user_ids = array();
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbParseAge.php');
-	while( $row = mysql_fetch_assoc($result) ) {
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbParseAge');
+	while( $row = mysqli_fetch_assoc($result) ) {
 		$rsp[$container_name][$rsp['num_rows']] = array($row_name=>$row);
 		if( $row['user_id'] > 0 ) {
 			array_push($user_ids, $row['user_id']);
@@ -64,6 +64,8 @@ function ciniki_core_dbRspQueryPlusDisplayNames($ciniki, $strsql, $module, $cont
 		}
 		$rsp['num_rows']++;
 	}
+
+	mysqli_free_result($result);
 
 	//
 	// If there was no history, or user ids, then skip the user lookup and return
@@ -75,7 +77,7 @@ function ciniki_core_dbRspQueryPlusDisplayNames($ciniki, $strsql, $module, $cont
 	//
 	// Get the list of users
 	//
-	require_once($ciniki['config']['core']['modules_dir'] . '/users/private/userListByID.php');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'users', 'private', 'userListByID');
 	$rc = ciniki_users_userListByID($ciniki, 'users', array_unique($user_ids), 'display_name');
 	if( $rc['stat'] != 'ok' ) {
 		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'144', 'msg'=>'Unable to merge user information', 'err'=>$rc['err']));

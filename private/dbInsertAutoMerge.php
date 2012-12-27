@@ -16,9 +16,9 @@
 //
 function ciniki_core_dbInsertAutoMerge($ciniki, $fields, $record, $prefix, $middle, $suffix, $row) {
 
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbHashToSQL.php');
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbQuote.php');
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbInsert.php');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashToSQL');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQuote');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbInsert');
 
 	//
 	// Loop through the fields given, and add them if there is

@@ -48,7 +48,7 @@ function ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $busin
 		. "'" . ciniki_core_dbQuote($ciniki, $value) . "', "
 		. "UTC_TIMESTAMP()"
 		. ")";
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbInsert.php');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbInsert');
 	return ciniki_core_dbInsert($ciniki, $strsql, $module);
 }
 ?>

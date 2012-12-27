@@ -15,13 +15,13 @@
 //
 function ciniki_core_dbQuote(&$ciniki, $str) {
 
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbConnect.php');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbConnect');
 
 	$rc = ciniki_core_dbConnect($ciniki, 'ciniki.core');
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
 	}
 
-	return mysql_real_escape_string($str, $rc['dh']);
+	return mysqli_real_escape_string($rc['dh'], $str);
 }
 ?>

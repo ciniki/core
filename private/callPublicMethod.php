@@ -34,7 +34,7 @@ function ciniki_core_callPublicMethod(&$ciniki) {
 	//
 	// Check the API Key 
 	//
-	require_once($ciniki['config']['core']['modules_dir']. '/core/private/checkAPIKey.php');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'checkAPIKey');
 	$rc = ciniki_core_checkAPIKey($ciniki);
 	if( $rc['stat'] != 'ok' || $ciniki['request']['method'] == 'ciniki.core.checkAPIKey' ) { 
 		return $rc;
@@ -62,7 +62,7 @@ function ciniki_core_callPublicMethod(&$ciniki) {
 	// FIXME: Log the request in the Action Log, update with output
 	// at the end of this function if successful
 	//
-	// require_once($ciniki['config']['core']['modules_dir']. '/core/private/actionLogEntry.php');
+	// ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'actionLogEntry');
 	// ciniki-core-actionLogEntry($ciniki);
 
 	//
@@ -81,7 +81,7 @@ function ciniki_core_callPublicMethod(&$ciniki) {
 	// Load the session if an auth_token was passed
 	//
 	if( isset($ciniki['request']['auth_token']) && $ciniki['request']['auth_token'] != '' ) {
-		require_once($ciniki['config']['core']['modules_dir']. '/core/private/sessionOpen.php');
+		ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'sessionOpen');
 		$rc = ciniki_core_sessionOpen($ciniki);
 		if( $rc['stat'] != 'ok' ) {
 			return $rc;
@@ -124,7 +124,7 @@ function ciniki_core_callPublicMethod(&$ciniki) {
 	//
 	// Log the request
 	//
-	require_once($ciniki['config']['core']['modules_dir']. '/core/private/logAPIRequest.php');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'logAPIRequest');
 	$rc = ciniki_core_logAPIRequest($ciniki);
 	if( $rc['stat'] != 'ok' ) {
 		error_log('Failed to log API Request');
@@ -141,7 +141,7 @@ function ciniki_core_callPublicMethod(&$ciniki) {
 	// Save the session if successful transaction
 	//
 	if( isset($ciniki['session']['auth_token']) && $ciniki['session']['auth_token'] != '' ) {
-		require_once($ciniki['config']['core']['modules_dir']. '/core/private/sessionSave.php');
+		ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'sessionSave');
 		$rc = ciniki_core_sessionSave($ciniki);
 		if( $rc['stat'] != 'ok' ) {
 			return $rc;
@@ -151,7 +151,7 @@ function ciniki_core_callPublicMethod(&$ciniki) {
 	//
 	// FIXME: Update the action log with the results from the request
 	//
-	// require_once($ciniki['config']['core']['modules_dir']. '/core/private/actionLogResult.php');
+	// ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'actionLogResult');
 	// ciniki-core-actionLogResult($ciniki, );
 
 	return $method_rc;

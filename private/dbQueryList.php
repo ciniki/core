@@ -34,10 +34,10 @@ function ciniki_core_dbQueryList($ciniki, $strsql, $module, $container_name, $co
 	//
 	// Prepare and Execute Query
 	//
-	$result = mysql_query($strsql, $dh);
+	$result = mysqli_query($dh, $strsql);
 	if( $result == false ) {
-		error_log("SQLERR: " . mysql_error($dh) . " -- '$strsql'");
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'200', 'msg'=>'Database Error', 'pmsg'=>mysql_error($dh)));
+		error_log("SQLERR: " . mysqli_error($dh) . " -- '$strsql'");
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'200', 'msg'=>'Database Error', 'pmsg'=>mysqli_error($dh)));
 	}
 
 	//
@@ -50,7 +50,7 @@ function ciniki_core_dbQueryList($ciniki, $strsql, $module, $container_name, $co
 	// Build array of rows
 	//
 	$rsp[$container_name] = array();
-	while( $row = mysql_fetch_assoc($result) ) {
+	while( $row = mysqli_fetch_assoc($result) ) {
 		array_push($rsp[$container_name], $row[$colname]);
 		$rsp['num_rows']++;
 	}

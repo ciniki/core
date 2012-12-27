@@ -39,9 +39,9 @@ function ciniki_core_dbDetailsQueryHash($ciniki, $table, $key, $key_value, $deta
 	if( $detail_key != '' ) {
 		$strsql .= " AND detail_key LIKE '" . ciniki_core_dbQuote($ciniki, $detail_key) . ".%'";
 	}
-	$result = mysql_query($strsql, $dh);
+	$result = mysqli_query($dh, $strsql);
 	if( $result == false ) {
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'125', 'msg'=>'Database Error', 'pmsg'=>mysql_error($dh)));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'125', 'msg'=>'Database Error', 'pmsg'=>mysqli_error($dh)));
 	}
 
 	//
@@ -52,7 +52,7 @@ function ciniki_core_dbDetailsQueryHash($ciniki, $table, $key, $key_value, $deta
 	//
 	// Build array of rows
 	//
-	while( $row = mysql_fetch_row($result) ) {
+	while( $row = mysqli_fetch_row($result) ) {
 		$split_key = preg_split('/\./', $row[0]);
 		$cur_key = &$rsp['details'];
 		for($i=0;$i<count($split_key)-1;$i++) {
@@ -63,6 +63,8 @@ function ciniki_core_dbDetailsQueryHash($ciniki, $table, $key, $key_value, $deta
 		}
 		$cur_key[$split_key[$i]] = $row[1];
 	}
+
+	mysqli_free_result($result);
 	
 	return $rsp;
 }

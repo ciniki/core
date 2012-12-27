@@ -24,8 +24,8 @@ function ciniki_core_threadRemoveUserPerms($ciniki, $module, $table, $prefix, $i
 	//
 
 	// Required functions
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbQuote.php');
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbUpdate.php');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQuote');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbUpdate');
 
 	//
 	// If the insert failed, then try to update an existing row

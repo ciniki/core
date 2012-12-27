@@ -39,9 +39,9 @@ function ciniki_core_dbHashQueryIDTree($ciniki, $strsql, $module, $tree) {
 	//
 	// Prepare and Execute Query
 	//
-	$result = mysql_query($strsql, $dh);
+	$result = mysqli_query($dh, $strsql);
 	if( $result == false ) {
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'183', 'msg'=>'Database Error', 'pmsg'=>mysql_error($dh)));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'183', 'msg'=>'Database Error', 'pmsg'=>mysqli_error($dh)));
 	}
 
 	//
@@ -58,7 +58,7 @@ function ciniki_core_dbHashQueryIDTree($ciniki, $strsql, $module, $tree) {
 	for($i=0;$i<count($tree);$i++) {
 		$prev[$i] = null;
 	}
-	while( $row = mysql_fetch_assoc($result) ) {
+	while( $row = mysqli_fetch_assoc($result) ) {
 		// 
 		// Check if we have anything new at each depth
 		//
@@ -101,6 +101,8 @@ function ciniki_core_dbHashQueryIDTree($ciniki, $strsql, $module, $tree) {
 			$prev[$i] = $row[$tree[$i]['fname']];
 		}
 	}
+
+	mysqli_free_result($result);
 
 	return $rsp;
 }

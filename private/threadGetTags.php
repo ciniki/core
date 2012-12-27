@@ -53,7 +53,7 @@ function ciniki_core_threadGetTags($ciniki, $business_id, $module, $prefix, $con
 	//
 	$strsql .= "AND " . ciniki_core_dbQuote($ciniki, "{$prefix}s.id") . " = " . ciniki_core_dbQuote($ciniki, "{$prefix}_tags") . "." . ciniki_core_dbQuote($ciniki, "{$prefix}_id") . " ";
 
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbRspQuery.php');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbRspQuery');
 	return ciniki_core_dbRspQuery($ciniki, $strsql, $module, $container, $row_name, $no_row_err);
 }
 ?>

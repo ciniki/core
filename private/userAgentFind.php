@@ -20,8 +20,8 @@ function ciniki_core_userAgentFind($ciniki, $user_agent) {
 	//
 
 	// Required functions
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbQuote.php');
-	require_once($ciniki['config']['core']['modules_dir'] . '/core/private/dbHashQuery.php');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQuote');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashQuery');
 
 	$strsql = "SELECT type_status, size, flags, "
 		. "engine, engine_version, os, os_version, "

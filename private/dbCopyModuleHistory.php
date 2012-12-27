@@ -47,9 +47,9 @@ function ciniki_core_dbCopyModuleHistory($ciniki, $module, $history_table, $busi
 		. " AND table_key = '" . ciniki_core_dbQuote($ciniki, $old_table_key) . "' "
 		. " AND table_field = '" . ciniki_core_dbQuote($ciniki, $table_field) . "' "
 		. "";
-	$result = mysql_query($strsql, $dh);
+	$result = mysqli_query($dh, $strsql);
 	if( $result == false ) {
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'767', 'msg'=>'Database Error', 'pmsg'=>mysql_error($dh)));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'767', 'msg'=>'Database Error', 'pmsg'=>mysqli_error($dh)));
 	}
 	
 	return array('stat'=>'ok');

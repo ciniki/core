@@ -27,10 +27,10 @@ function ciniki_core_dbCount($ciniki, $strsql, $module, $container_name) {
 	//
 	// Prepare and Execute Query
 	//
-	$result = mysql_query($strsql, $dh);
+	$result = mysqli_query($dh, $strsql);
 	if( $result == false ) {
-		error_log("SQLERR: " . mysql_error($dh) . " -- '$strsql'");
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'145', 'msg'=>'Database Error', 'pmsg'=>mysql_error($dh)));
+		error_log("SQLERR: " . mysqli_error($dh) . " -- '$strsql'");
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'145', 'msg'=>'Database Error', 'pmsg'=>mysqli_error($dh)));
 	}
 
 	//
@@ -43,10 +43,12 @@ function ciniki_core_dbCount($ciniki, $strsql, $module, $container_name) {
 	// Build array of rows
 	//
 	$rsp[$container_name] = array();
-	while( $row = mysql_fetch_row($result) ) {
+	while( $row = mysqli_fetch_row($result) ) {
 		$rsp[$container_name][$row[0]] = $row[1];
 		$rsp['num_rows']++;
 	}
+
+	mysqli_free_result($result);
 
 	return $rsp;
 }

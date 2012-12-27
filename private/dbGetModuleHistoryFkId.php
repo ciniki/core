@@ -50,7 +50,7 @@ function ciniki_core_dbGetModuleHistoryFkId($ciniki, $module, $history_table, $b
 		. " AND table_field = '" . ciniki_core_dbQuote($ciniki, $table_field) . "' "
 		. " ORDER BY log_date DESC "
 		. " ";
-	$result = mysql_query($dh, $strsql);
+	$result = mysqli_query($dh, $strsql);
 	if( $result == false ) {
 		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'190', 'msg'=>'Database Error', 'pmsg'=>mysqli_error($dh)));
 	}

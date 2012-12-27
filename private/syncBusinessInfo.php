@@ -14,7 +14,7 @@
 // Returns
 // -------
 // <modules>
-//		<module name="ciniki.artcatalog" permissions="">
+//		<module name="ciniki.artcatalog" permissions="" version="20121226.2232">
 //			<tables>
 //				<table name="ciniki_artcatalog" version="v1.01" />
 //				<table name="ciniki_artcatalog_history" version="v1.01" />
@@ -30,6 +30,14 @@ function ciniki_core_syncBusinessInfo($ciniki, $business_id) {
 	if( $business_id < 1 ) {
 		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'557', 'msg'=>'No business specified'));
 	}
+
+	//
+	// Grab the _versions.ini info
+	//
+	if( !file_exists($ciniki['config']['ciniki.core']['root_dir'] . "/_versions.ini") ) {
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'290', 'msg'=>'Unable to get module version information'));
+	}
+	$modules_ini = parse_ini_file($ciniki['config']['ciniki.core']['root_dir'] . "/_versions.ini", true);
 
 	//
 	// Result array
@@ -77,6 +85,11 @@ function ciniki_core_syncBusinessInfo($ciniki, $business_id) {
 	// Check each package/module for table.schema's and get version from database
 	//
 	foreach($modules as $mnum => $module) {
+		//
+		// Setup module version
+		//
+		$modules[$mnum]['module']['version'] = $modules_ini[$module['module']['package'] .'.api.' . $module['module']['name']]['version'];
+		$modules[$mnum]['module']['hash'] = $modules_ini[$module['module']['package'] .'.api.' . $module['module']['name']]['hash'];
 		$modules[$mnum]['module']['tables'] = array();
 		$dir = $ciniki['config']['core']['root_dir'] . '/' . $module['module']['package'] . '-api/' . $module['module']['name'] . '/db';
 		if( !is_dir($dir) ) {

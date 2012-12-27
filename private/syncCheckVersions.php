@@ -4,7 +4,11 @@
 // -----------
 // This function will check the local and remote business information
 // for compatibility.  The tables must all be at the same version on
-// either side of the sync, and the modules must be enabled.
+// either side of the sync, and the modules must be enabled and the 
+// same version.  
+//
+// The version information for modules is stores in the _versions.ini file
+// and should be generated whenever the code is updated.
 //
 // Arguments
 // ---------
@@ -69,7 +73,10 @@ function ciniki_core_syncCheckVersions($ciniki, $business_id, $sync_id) {
 			}
 		}
 		$local_modules[$module['module']['package'] . '.' . $module['module']['name']] = 
-			array('package'=>$module['module']['package'], 'name'=>$module['module']['name'], 'tables'=>$tables);
+			array('package'=>$module['module']['package'], 'name'=>$module['module']['name'], 
+				'version'=>$module['module']['version'],
+				'hash'=>$module['module']['hash'],
+				'tables'=>$tables);
 	}
 
 	//
@@ -77,12 +84,17 @@ function ciniki_core_syncCheckVersions($ciniki, $business_id, $sync_id) {
 	//
 	$errors = '';
 	$missing_modules = '';
+	$incompatible_versions = '';
 	$comma = '';
 	foreach($remote_modules as $mnum => $module) {
 		$name = $module['module']['package'] . '.' . $module['module']['name'];
 		if( !isset($local_modules[$name]) ) {
 			$errors .= $comma . "missing module $name";
 			$missing_modules .= $comma . $name;
+			$comma = ', ';
+		} elseif( $module['module']['version'] != $local_modules[$name]['version'] ) {
+			$errors .= $comma . "module $name incorrect version";
+			$incompatible_versions .= $comma . $name;
 			$comma = ', ';
 		} else {
 			foreach($module['module']['tables'] as $tnum => $table) {
@@ -100,8 +112,11 @@ function ciniki_core_syncCheckVersions($ciniki, $business_id, $sync_id) {
 	}
 
 	if( $missing_modules != '' ) {
-		error_log($missing_modules);
 		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'570', 'msg'=>"The following modules must be enabled before syncronization: $missing_modules", 'pmsg'=>"$errors."));
+	}
+
+	if( $incompatible_versions != '' ) {
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'287', 'msg'=>"The following modules must be updated before syncronization: $incompatible_versions", 'pmsg'=>"$errors."));
 	}
 
 	if( $errors != '' ) {

@@ -60,10 +60,28 @@ if( $rc['stat'] != 'ok' ) {
 $rc = ciniki_core_callPublicMethod($ciniki);
 
 //
-// Output the result in requested format
+// Check if there is a sync queue to process
 //
-ciniki_core_printResponse($ciniki, $rc);
+if( isset($ciniki['syncqueue']) && count($ciniki['syncqueue']) > 0 ) {
+	ob_start();
+	ciniki_core_printResponse($ciniki, $rc);
+	$contentlength = ob_get_length();
+	header("Content-Length: $contentlength");
+	header("Connection: Close");
+	ob_end_flush();
+	ob_flush();
+	flush();
+	session_write_close();
 
+	// Run queue
+	ciniki_core_syncQueueProcess($ciniki);
+
+} else {
+	//
+	// Output the result in requested format
+	//
+	ciniki_core_printResponse($ciniki, $rc);
+}
 
 exit;
 

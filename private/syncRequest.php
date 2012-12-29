@@ -24,7 +24,7 @@ function ciniki_core_syncRequest($ciniki, $sync, $request) {
 		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'549', 'msg'=>'Invalid request'));
 	}
 
-	if( !isset($request['action']) || $request['action'] == '' ) {
+	if( !isset($request['method']) || $request['method'] == '' ) {
 		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'541', 'msg'=>'Invalid request'));
 	}
 
@@ -38,12 +38,13 @@ function ciniki_core_syncRequest($ciniki, $sync, $request) {
 	// 
 	// Encrypt the request
 	//
-	if( !openssl_public_encrypt($post_content, $encrypted_content, $sync['remote_public_key']) ) {
+//	if( !openssl_public_encrypt($post_content, $encrypted_content, $sync['remote_public_key']) ) {
+	if( !openssl_seal($post_content, $encrypted_content, $keys, array($sync['remote_public_key'])) ) {
 		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'542', 'msg'=>'Invalid request'));
 	}
 
 	curl_setopt($ch, CURLOPT_POST, false);
-	curl_setopt($ch, CURLOPT_POSTFIELDS, $encrypted_content);
+	curl_setopt($ch, CURLOPT_POSTFIELDS, base64_encode($keys[0]) . ':::' . base64_encode($encrypted_content));
 
 	//
 	// Make the request

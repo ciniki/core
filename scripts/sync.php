@@ -49,24 +49,35 @@ if( $rc['stat'] != 'ok' ) {
 	exit;
 }
 
-file_put_contents('/Users/andrew/tmp.sync', print_r($ciniki, true));
+// file_put_contents('/Users/andrew/tmp.sync', print_r($ciniki, true));
 
 //
 // Find out the command being requested
 //
-if( $ciniki['request']['action'] == 'ping' ) {
+if( $ciniki['request']['method'] == 'ciniki.core.ping' ) {
 	$response = array('stat'=>'ok');
-} elseif( $ciniki['request']['action'] == 'info' ) {
+} elseif( $ciniki['request']['method'] == 'ciniki.core.info' ) {
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncBusinessInfo');
 	$response = ciniki_core_syncBusinessInfo($ciniki, $ciniki['sync']['business_id']);
-} elseif( $ciniki['request']['action'] == 'list' ) {
-	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncList');
-	$response = ciniki_core_syncList($ciniki);
-} elseif( $ciniki['request']['action'] == 'get' ) {
-	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncGet');
-	$response = ciniki_core_syncGet($ciniki);
+} elseif( preg_match('/.*\..*\.(.*List|.*Get|.*Update|.*Add)$/', $ciniki['request']['method']) ) {
+	//
+	// Parse the method, and the function name.  
+	//
+	$filename = preg_replace('/^(.*)\.(.*)\.(.*)$/', '/\1-api/\2/sync/\3.php', $ciniki['request']['method']);
+	$method_function = preg_replace('/^(.*)\.(.*)\.(.*)$/', '\1_\2_sync_\3', $ciniki['request']['method']);
+	if( file_exists($ciniki['config']['ciniki.core']['root_dir'] . $filename) ) {
+		require_once($ciniki['config']['ciniki.core']['root_dir'] . $filename);
+		error_log($method_function);
+		if( is_callable($method_function) ) {
+			$response = $method_function($ciniki, $ciniki['sync'], $ciniki['sync']['business_id'], $ciniki['request']);
+		} else {
+			$response = array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'50', 'msg'=>'Method does not exist'));
+		}
+	} else {
+		$response = array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'56', 'msg'=>'Method does not exist'));
+	}
 } else {
-	$response = array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'547', 'msg'=>'Invalid action'));
+	$response = array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'547', 'msg'=>'Invalid method'));
 }
 
 //

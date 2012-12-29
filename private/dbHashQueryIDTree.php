@@ -89,8 +89,12 @@ function ciniki_core_dbHashQueryIDTree($ciniki, $strsql, $module, $tree) {
 					$data[$tree[$i]['container']][$row[$tree[$i]['fname']]] = array();
 						
 					// Copy Data
-					foreach($tree[$i]['fields'] as $field) {
-						$data[$tree[$i]['container']][$row[$tree[$i]['fname']]][$field] = $row[$field];
+					foreach($tree[$i]['fields'] as $field_id => $field) {
+						if( !is_string($field_id) && is_int($field_id) ) {
+							// Field is in integer and should not be mapped
+							$field_id = $field;
+						}
+						$data[$tree[$i]['container']][$row[$tree[$i]['fname']]][$field_id] = $row[$field];
 					}
 					$data = &$data[$tree[$i]['container']][$row[$tree[$i]['fname']]];
 				}

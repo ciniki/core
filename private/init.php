@@ -50,6 +50,8 @@ function ciniki_core_init($ciniki_root, $output_format) {
 	$ciniki['response'] = array();
 	$ciniki['response']['format'] = $output_format;
 
+	$ciniki['syncqueue'] = array();
+
 	//
 	// Initialize Database
 	//

@@ -1,3 +1,24 @@
+Dec 27, 2012
+============
+
+Files required in the sync directory:
+
+list.php (pkg_module_sync_list) - This will return a list of the UUID's and last_updated to remote server.
+get.php (pkg_module_sync_get) - This will return an object to the remote server.
+
+update.php (pkg_module_sync_update) - This function will update the local server from the remote server.
+
+
+
+update types can be 
+full - Compare every field of each object at either location.
+partial - Compare the full list objects last_updated timestamp.
+incremental - Compare list of last_updated timestamps from objects since last_utc.
+
+
+2011 Notes
+==========
+
 Have backup key stored in each database.
 organize request vars in order, hash with key, send as last arg
 remote end does the same process, if hash is the same, command accepted

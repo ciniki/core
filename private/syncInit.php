@@ -73,8 +73,10 @@ function ciniki_core_syncInit($ciniki_root) {
 		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'51', 'msg'=>'Internal configuration error'));
 	}
 	$local_private_key = $rc['sync']['local_private_key'];
+	$ciniki['sync']['local_private_key'] = $rc['sync']['local_private_key'];
 	$ciniki['sync']['remote_public_key'] = $rc['sync']['remote_public_key'];
 	$ciniki['sync']['business_id'] = $rc['sync']['id'];
+	$ciniki['sync']['uuids'] = array();
 
 	//
 	// unserialize the POST content
@@ -83,7 +85,13 @@ function ciniki_core_syncInit($ciniki_root) {
 		$encrypted_content = file_get_contents("php://input");
 
 		// unencrypt
-		if( !openssl_private_decrypt($encrypted_content, $decrypted_content, $local_private_key) ) {
+		// private_decrypt and encrypt can only be used for short strings
+//		if( !openssl_private_decrypt($encrypted_content, $decrypted_content, $local_private_key) ) {
+		$arsp = preg_split('/:::/', $encrypted_content);
+		if( count($arsp) != 2 || !isset($arsp[1]) ) {
+			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'72', 'msg'=>'Invalid request'));
+		}
+		if( !openssl_open(base64_decode($arsp[1]), $decrypted_content, base64_decode($arsp[0]), $local_private_key) ) {
 			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'52', 'msg'=>'Internal configuration error'));
 		}
 		
@@ -104,8 +112,8 @@ function ciniki_core_syncInit($ciniki_root) {
 			|| abs(gmmktime() - $ciniki['request']['ts']) > 60 ) {
 			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'54', 'msg'=>'Internal configuration error'));
 		}
-		if( !isset($ciniki['request']['action']) 
-			|| $ciniki['request']['action'] == ''
+		if( !isset($ciniki['request']['method']) 
+			|| $ciniki['request']['method'] == ''
 			) {
 			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'55', 'msg'=>'No action specified'));
 		}

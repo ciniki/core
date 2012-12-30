@@ -63,7 +63,7 @@ function ciniki_core_syncBusinessInfo($ciniki, $business_id) {
 	// Get modules which are enabled for the business, and their checksums
 	//
 	$strsql = "SELECT CONCAT_WS('.', package, module) AS fname, "
-		. "package, module AS name, last_change "
+		. "package, module AS name, UNIX_TIMESTAMP(last_change) AS last_change "
 		. "FROM ciniki_business_modules "
 		. "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
 		. "AND (status = 1 OR status = 2) "

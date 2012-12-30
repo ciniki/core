@@ -67,7 +67,6 @@ if( $ciniki['request']['method'] == 'ciniki.core.ping' ) {
 	$method_function = preg_replace('/^(.*)\.(.*)\.(.*)$/', '\1_\2_sync_\3', $ciniki['request']['method']);
 	if( file_exists($ciniki['config']['ciniki.core']['root_dir'] . $filename) ) {
 		require_once($ciniki['config']['ciniki.core']['root_dir'] . $filename);
-		error_log($method_function);
 		if( is_callable($method_function) ) {
 			$response = $method_function($ciniki, $ciniki['sync'], $ciniki['sync']['business_id'], $ciniki['request']);
 		} else {

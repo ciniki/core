@@ -64,7 +64,7 @@ function ciniki_core_syncRequest($ciniki, $sync, $request) {
 	// Decrypt the response
 	//
 	if( !openssl_open(base64_decode($arsp[1]), $decrypted_content, base64_decode($arsp[0]), $sync['local_private_key']) ) {
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'544', 'msg'=>'Invalid response'));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'544', 'msg'=>'Invalid response', 'pmsg'=>$rsp));
 	}
 
 	$rc = unserialize($decrypted_content);

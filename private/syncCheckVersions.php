@@ -22,7 +22,7 @@ function ciniki_core_syncCheckVersions($ciniki, $business_id, $sync_id) {
 	// Get the sync information required to send the request
 	//
 	$strsql = "SELECT ciniki_businesses.id, ciniki_businesses.uuid AS local_uuid, ciniki_business_syncs.flags, local_private_key, "
-		. "remote_name, remote_uuid, remote_url, remote_public_key "
+		. "remote_name, remote_uuid, remote_url, remote_public_key, UNIX_TIMESTAMP(last_sync) AS last_sync "
 		. "FROM ciniki_businesses, ciniki_business_syncs "
 		. "WHERE ciniki_businesses.id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
 		. "AND ciniki_businesses.id = ciniki_business_syncs.business_id "
@@ -76,6 +76,7 @@ function ciniki_core_syncCheckVersions($ciniki, $business_id, $sync_id) {
 			array('package'=>$module['module']['package'], 'name'=>$module['module']['name'], 
 				'version'=>$module['module']['version'],
 				'hash'=>$module['module']['hash'],
+				'last_change'=>$module['module']['last_change'],
 				'tables'=>$tables);
 	}
 
@@ -86,8 +87,10 @@ function ciniki_core_syncCheckVersions($ciniki, $business_id, $sync_id) {
 	$missing_modules = '';
 	$incompatible_versions = '';
 	$comma = '';
+	$r_modules = array();
 	foreach($remote_modules as $mnum => $module) {
 		$name = $module['module']['package'] . '.' . $module['module']['name'];
+		$tables = array();
 		if( !isset($local_modules[$name]) ) {
 			$errors .= $comma . "missing module $name";
 			$missing_modules .= $comma . $name;
@@ -107,8 +110,15 @@ function ciniki_core_syncCheckVersions($ciniki, $business_id, $sync_id) {
 					$errors .= $comma . "incorrect table version $tname (" . $local_modules[$name]['tables'][$tname]['version'] . " should be " . $table['table']['version'] . ")";
 					$comma = ', ';
 				}
+				$tables[$table['table']['name']] = array('name'=>$table['table']['name'], 'version'=>$table['table']['version']);
 			}
 		}
+		$r_modules[$name] = 
+			array('package'=>$module['module']['package'], 'name'=>$module['module']['name'], 
+				'version'=>$module['module']['version'],
+				'hash'=>$module['module']['hash'],
+				'last_change'=>$module['module']['last_change'],
+				'tables'=>$tables);
 	}
 
 	if( $missing_modules != '' ) {
@@ -124,6 +134,6 @@ function ciniki_core_syncCheckVersions($ciniki, $business_id, $sync_id) {
 		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'572', 'msg'=>'System code must be updated before synchronization.', 'pmsg'=>"$errors."));
 	}
 
-	return array('stat'=>'ok', 'sync'=>$sync, 'modules'=>$local_modules);
+	return array('stat'=>'ok', 'sync'=>$sync, 'modules'=>$local_modules, 'remote_modules'=>$r_modules);
 }
 ?>

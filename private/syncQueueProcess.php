@@ -28,7 +28,7 @@ function ciniki_core_syncQueueProcess($ciniki) {
 	// and then execute all the queue process on each sync.
 	//
 	$strsql = "SELECT ciniki_businesses.id, ciniki_businesses.uuid AS local_uuid, ciniki_business_syncs.flags, local_private_key, "
-		. "remote_name, remote_uuid, remote_url, remote_public_key "
+		. "remote_name, remote_uuid, remote_url, remote_public_key, UNIX_TIMESTAMP(last_sync) AS last_sync "
 		. "FROM ciniki_businesses, ciniki_business_syncs "
 		. "WHERE ciniki_businesses.id = '" . ciniki_core_dbQuote($ciniki, $args['business_id']) . "' "
 		. "AND ciniki_businesses.id = ciniki_business_syncs.business_id "
@@ -48,7 +48,7 @@ function ciniki_core_syncQueueProcess($ciniki) {
 				if( file_exists($method_filename) ) {
 					require_once($method_filename);
 					if( is_callable($method_function) ) {
-						error_log("Execute sync: " . print_r($queue_item, true));
+//						error_log("Execute sync: " . print_r($queue_item, true));
 						$rc = $method_function($ciniki, $sync, $args['business_id'], $queue_item['args']);
 						if( $rc['stat'] != 'ok' ) {
 							error_log("ERR: executing syncqueue: " . print_r($queue_item, true) . print_r($rc['err'], true));

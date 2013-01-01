@@ -56,7 +56,9 @@ function ciniki_core_syncInit($ciniki_root) {
 	// Get the local_private_key to decode the request
 	//
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQuote');
-	$strsql = "SELECT ciniki_businesses.id, ciniki_businesses.uuid, ciniki_business_syncs.flags, "
+	$strsql = "SELECT ciniki_business_syncs.id AS sync_id, "
+		. "ciniki_businesses.id AS business_id, ciniki_businesses.uuid, "
+		. "ciniki_business_syncs.flags, "
 		. "local_private_key, remote_public_key "
 		. "FROM ciniki_businesses, ciniki_business_syncs "
 		. "WHERE ciniki_businesses.uuid = '" . ciniki_core_dbQuote($ciniki, $ciniki['sync']['local_uuid']) . "' "
@@ -75,8 +77,10 @@ function ciniki_core_syncInit($ciniki_root) {
 	$local_private_key = $rc['sync']['local_private_key'];
 	$ciniki['sync']['local_private_key'] = $rc['sync']['local_private_key'];
 	$ciniki['sync']['remote_public_key'] = $rc['sync']['remote_public_key'];
-	$ciniki['sync']['business_id'] = $rc['sync']['id'];
+	$ciniki['sync']['business_id'] = $rc['sync']['business_id'];
+	$ciniki['sync']['id'] = $rc['sync']['sync_id'];
 	$ciniki['sync']['uuids'] = array();
+	$ciniki['syncqueue'] = array();
 
 	//
 	// unserialize the POST content

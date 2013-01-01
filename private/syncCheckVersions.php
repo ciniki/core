@@ -21,8 +21,10 @@ function ciniki_core_syncCheckVersions($ciniki, $business_id, $sync_id) {
 	//
 	// Get the sync information required to send the request
 	//
-	$strsql = "SELECT ciniki_businesses.id, ciniki_businesses.uuid AS local_uuid, ciniki_business_syncs.flags, local_private_key, "
-		. "remote_name, remote_uuid, remote_url, remote_public_key, UNIX_TIMESTAMP(last_sync) AS last_sync "
+	$strsql = "SELECT ciniki_business_syncs.id, ciniki_businesses.uuid AS local_uuid, "
+		. "ciniki_business_syncs.flags, local_private_key, "
+		. "remote_name, remote_uuid, remote_url, remote_public_key, "
+		. "UNIX_TIMESTAMP(last_sync) AS last_sync "
 		. "FROM ciniki_businesses, ciniki_business_syncs "
 		. "WHERE ciniki_businesses.id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
 		. "AND ciniki_businesses.id = ciniki_business_syncs.business_id "

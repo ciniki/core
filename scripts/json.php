@@ -74,7 +74,9 @@ if( isset($ciniki['syncqueue']) && count($ciniki['syncqueue']) > 0 ) {
 	session_write_close();
 
 	// Run queue
-	ciniki_core_syncQueueProcess($ciniki);
+	if( isset($ciniki['request']['args']['business_id']) ) {
+		ciniki_core_syncQueueProcess($ciniki, $ciniki['request']['args']['business_id']);
+	}
 
 } else {
 	//

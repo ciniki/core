@@ -30,7 +30,7 @@ if( $rc['stat'] != 'ok' ) {
 }
 
 //
-// Setup the $ciniki variable to hold all things ciniki.  
+// Setup the ciniki variable to hold all things ciniki
 //
 $ciniki = $rc['ciniki'];
 
@@ -74,13 +74,15 @@ if( isset($ciniki['syncqueue']) && count($ciniki['syncqueue']) > 0 ) {
 	session_write_close();
 
 	// Run queue
-	ciniki_core_syncQueueProcess($ciniki);
+	if( isset($ciniki['request']['args']['business_id']) ) {
+		ciniki_core_syncQueueProcess($ciniki, $ciniki['request']['args']['business_id']);
+	}
 
 } else {
 	//
 	// Output the result in requested format
 	//
-	ciniki_core_printResponse($ciniki, $rc);
+	ciniki_core_printResponse($ciniki, $ciniki[');
 }
 
 exit;

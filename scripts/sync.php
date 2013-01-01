@@ -80,11 +80,36 @@ if( $ciniki['request']['method'] == 'ciniki.core.ping' ) {
 }
 
 //
-// Output the result in requested format
+// Check if there is a sync queue to process
 //
-$rc = ciniki_core_syncResponse($ciniki, $response);
-if( $rc['stat'] != 'ok' ) {
-	print serialize($rc);
+if( isset($ciniki['syncqueue']) && count($ciniki['syncqueue']) > 0 ) {
+	ob_start();
+	$rc = ciniki_core_syncResponse($ciniki, $response);
+	if( $rc['stat'] != 'ok' ) {
+		print serialize($rc);
+	}
+	$contentlength = ob_get_length();
+	header("Content-Length: $contentlength");
+	header("Connection: Close");
+	ob_end_flush();
+	ob_flush();
+	flush();
+	session_write_close();
+
+	// Run queue
+	if( isset($ciniki['sync']['business_id']) ) {
+		ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncQueueProcess');
+		ciniki_core_syncQueueProcess($ciniki, $ciniki['sync']['business_id']);
+	}
+
+} else {
+	//
+	// Output the result in requested format
+	//
+	$rc = ciniki_core_syncResponse($ciniki, $response);
+	if( $rc['stat'] != 'ok' ) {
+		print serialize($rc);
+	}
 }
 
 exit;

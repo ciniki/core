@@ -106,6 +106,9 @@ function ciniki_core_dbGetModuleHistory($ciniki, $module, $history_table, $busin
 		if( isset($v['action']) && isset($v['action']['user_id']) && $v['action']['user_id'] != 0 
 			&& isset($users[$v['action']['user_id']]) && isset($users[$v['action']['user_id']]['display_name']) ) {
 			$rsp['history'][$k]['action']['user_display_name'] = $users[$v['action']['user_id']]['display_name'];
+		} 
+		if( isset($v['action']) && isset($v['action']['user_id']) && $v['action']['user_id'] == 0 ) {
+			$rsp['history'][$k]['action']['user_display_name'] = 'unknown';
 		}
 	}
 

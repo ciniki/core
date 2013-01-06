@@ -13,9 +13,9 @@ function ciniki_core_syncUpdateUUIDMap(&$ciniki, $business_id, &$sync, $module, 
 
 	$strsql = "INSERT INTO ciniki_business_sync_uuidmaps (sync_id, module, "
 		. "remote_uuid, local_uuid) VALUES ("
-		. "'" . ciniki_core_dbQuote($ciniki, $sync['id']) . "' "
-		. "'" . ciniki_core_dbQuote($ciniki, $module) . "' "
-		. "'" . ciniki_core_dbQuote($ciniki, $remote_uuid) . "' "
+		. "'" . ciniki_core_dbQuote($ciniki, $sync['id']) . "', "
+		. "'" . ciniki_core_dbQuote($ciniki, $module) . "', "
+		. "'" . ciniki_core_dbQuote($ciniki, $remote_uuid) . "', "
 		. "'" . ciniki_core_dbQuote($ciniki, $local_uuid) . "' "
 		. ")";
 	$rc = ciniki_core_dbInsert($ciniki, $strsql, 'ciniki.businesses');

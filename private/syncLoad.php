@@ -43,7 +43,7 @@ function ciniki_core_syncLoad($ciniki, $business_id, $sync_id) {
 	$strsql = "SELECT remote_uuid, local_id "
 		. "FROM ciniki_business_sync_uuidmaps "
 		. "WHERE ciniki_business_syncs.sync_id = '" . ciniki_core_dbQuote($ciniki, $sync['id']) . "' "
-		. "AND table = 'ciniki_users' "
+		. "AND table_name = 'ciniki_users' "
 		. "";
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashIDQuery');
 	$rc = ciniki_core_dbHashIDQuery($ciniki, $strsql, 'ciniki.businesses', 'uuids', 'remote_uuid');

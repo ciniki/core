@@ -40,6 +40,7 @@ function ciniki_core_syncUpdateTableElementHistory(&$ciniki, &$sync, $business_i
 					//
 					// Get the remote user
 					//
+					ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncRequest');
 					$rc = ciniki_core_syncRequest($ciniki, $sync, array('method'=>'ciniki.businesses.userGet', 'uuid'=>$history['user']));
 					if( $rc['stat'] != 'ok' ) {
 						return $rc;

@@ -23,25 +23,26 @@ function ciniki_core_syncUpdateTableElementHistory($ciniki, $sync, $business_id,
 	foreach($remote_history as $uuid => $history) {
 		if( !isset($local_history[$uuid]) ) {
 			//
-			// Check for the user_uuid in the list, otherwise query
+			// Check for the user_uuid in the maps for this sync, otherwise query
 			//
 			if( isset($sync['uuidmaps']['ciniki_users'][$history['user']]) ) {
 				$user_id = $sync['uuidmaps']['ciniki_users'][$history['user']];
 			} else {
-				$strsql = "SELECT id "
-					. "FROM ciniki_users "
-					. "WHERE uuid = '" . ciniki_core_dbQuote($ciniki, $history['user']) . "' "
-					. "";
-				$rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.users', 'user');
-				if( $rc['stat'] != 'ok' ) {
-					return $rc;
-				}
-				if( !isset($rc['user']) ) {
-					// FIXME: Call add user
-					$user_id = 0;
-				} else {
-					$user_id = $rc['user']['id'];
-				}
+				$user_uuid = $history['user'];
+			}
+			$strsql = "SELECT id "
+				. "FROM ciniki_users "
+				. "WHERE uuid = '" . ciniki_core_dbQuote($ciniki, $user_uuid) . "' "
+				. "";
+			$rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.users', 'user');
+			if( $rc['stat'] != 'ok' ) {
+				return $rc;
+			}
+			if( !isset($rc['user']) ) {
+				// FIXME: Call add user
+				$user_id = 0;
+			} else {
+				$user_id = $rc['user']['id'];
 			}
 
 			//
@@ -50,8 +51,8 @@ function ciniki_core_syncUpdateTableElementHistory($ciniki, $sync, $business_id,
 			if( isset($maps[$history['table_field']]) ) {
 				$map_module = $maps[$history['table_field']]['module'];
 				$map_table = $maps[$history['table_field']]['table'];
-				if( isset($sync['uuidmaps'][$map_table][$history['new_value']]) ) {
-					$history['new_value'] = $sync['uuidmaps'][$map_table][$history['new_value']];
+				if( isset($sync['uuids'][$map_table][$history['new_value']]) ) {
+					$history['new_value'] = $sync['uuids'][$map_table][$history['new_value']];
 				} else {
 					$strsql = "SELECT id "
 						. "FROM $map_table "

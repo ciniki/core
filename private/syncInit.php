@@ -83,7 +83,10 @@ function ciniki_core_syncInit($ciniki_root) {
 	$ciniki['sync']['remote_public_key'] = $rc['sync']['remote_public_key'];
 	$ciniki['sync']['business_id'] = $rc['sync']['business_id'];
 	$ciniki['sync']['id'] = $rc['sync']['sync_id'];
+	// uuidmaps stores the mappings from remote to local uuid
 	$ciniki['sync']['uuidmaps'] = array();
+	// uuids is a cache for looked up uuids in different modules
+	$ciniki['sync']['uuids'] = array();
 	$ciniki['syncqueue'] = array();
 
 	//

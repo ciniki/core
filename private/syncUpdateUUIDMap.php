@@ -9,12 +9,12 @@
 // Arguments
 // ---------
 //
-function ciniki_core_syncUpdateUUIDMap(&$ciniki, &$sync, $business_id, $module, $remote_uuid, $local_uuid) {
+function ciniki_core_syncUpdateUUIDMap(&$ciniki, &$sync, $business_id, $table, $remote_uuid, $local_uuid) {
 
-	$strsql = "INSERT INTO ciniki_business_sync_uuidmaps (sync_id, module, "
+	$strsql = "INSERT INTO ciniki_business_sync_uuidmaps (sync_id, table, "
 		. "remote_uuid, local_uuid) VALUES ("
 		. "'" . ciniki_core_dbQuote($ciniki, $sync['id']) . "', "
-		. "'" . ciniki_core_dbQuote($ciniki, $module) . "', "
+		. "'" . ciniki_core_dbQuote($ciniki, $table) . "', "
 		. "'" . ciniki_core_dbQuote($ciniki, $remote_uuid) . "', "
 		. "'" . ciniki_core_dbQuote($ciniki, $local_uuid) . "' "
 		. ")";

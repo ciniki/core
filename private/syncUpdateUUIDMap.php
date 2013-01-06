@@ -9,7 +9,7 @@
 // Arguments
 // ---------
 //
-function ciniki_core_syncLoad($ciniki, $business_id, $sync, $module, $remote_uuid, $local_uuid) {
+function ciniki_core_syncUpdateUUIDMap(&$ciniki, $business_id, &$sync, $module, $remote_uuid, $local_uuid) {
 
 	$strsql = "INSERT INTO ciniki_business_sync_uuidmaps (sync_id, module, "
 		. "remote_uuid, local_uuid) VALUES ("
@@ -25,6 +25,8 @@ function ciniki_core_syncLoad($ciniki, $business_id, $sync, $module, $remote_uui
 	if( $rc['stat'] != 'ok' && $rc['err']['code'] != 73 ) {
 		return $rc;
 	}
+
+	$sync['uuidmaps']['ciniki.users'][$remote_uuid] = $user_uuid;
 
 	return array('stat'=>'ok');
 }

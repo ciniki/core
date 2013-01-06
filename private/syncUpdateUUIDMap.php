@@ -9,7 +9,7 @@
 // Arguments
 // ---------
 //
-function ciniki_core_syncUpdateUUIDMap(&$ciniki, $business_id, &$sync, $module, $remote_uuid, $local_uuid) {
+function ciniki_core_syncUpdateUUIDMap(&$ciniki, &$sync, $business_id, $module, $remote_uuid, $local_uuid) {
 
 	$strsql = "INSERT INTO ciniki_business_sync_uuidmaps (sync_id, module, "
 		. "remote_uuid, local_uuid) VALUES ("
@@ -18,6 +18,7 @@ function ciniki_core_syncUpdateUUIDMap(&$ciniki, $business_id, &$sync, $module, 
 		. "'" . ciniki_core_dbQuote($ciniki, $remote_uuid) . "', "
 		. "'" . ciniki_core_dbQuote($ciniki, $local_uuid) . "' "
 		. ")";
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbInsert');
 	$rc = ciniki_core_dbInsert($ciniki, $strsql, 'ciniki.businesses');
 	//
 	// Ignore error if a duplicate record warning
@@ -26,7 +27,11 @@ function ciniki_core_syncUpdateUUIDMap(&$ciniki, $business_id, &$sync, $module, 
 		return $rc;
 	}
 
-	$sync['uuidmaps']['ciniki.users'][$remote_uuid] = $user_uuid;
+	if( !isset($sync['uuidmaps']['ciniki.users']) ) {
+		$sync['uuidmaps']['ciniki.users'] = array();
+	}
+
+	$sync['uuidmaps']['ciniki.users'][$remote_uuid] = $local_uuid;
 
 	return array('stat'=>'ok');
 }

@@ -6,7 +6,7 @@
 // Arguments
 // ---------
 //
-function ciniki_core_syncUpdateObjectSQL($ciniki, $sync, $business_id, $remote_object, $local_object, $fields) {
+function ciniki_core_syncUpdateObjectDetailSQL($ciniki, $sync, $business_id, $detail_key, $remote_object, $local_object, $fields) {
 	//
 	// Go through all the fields and build the SQL string
 	//
@@ -37,7 +37,7 @@ function ciniki_core_syncUpdateObjectSQL($ciniki, $sync, $business_id, $remote_o
 			$local_new_value = '';
 			if( isset($remote_object['history']) ) {
 				foreach($remote_object['history'] as $history_uuid => $history) {
-					if( $history['table_field'] == $field && $history['log_date'] > $remote_uts ) {
+					if( $history['table_field'] == $detail_key && $history['log_date'] > $remote_uts ) {
 						$remote_uts = $history['log_date'];
 						$remote_new_value = $history['new_value'];
 					}
@@ -45,7 +45,7 @@ function ciniki_core_syncUpdateObjectSQL($ciniki, $sync, $business_id, $remote_o
 			}
 			if( isset($local_object['history']) ) {
 				foreach($local_object['history'] as $history_uuid => $history) {
-					if( $history['table_field'] == $field && $history['log_date'] > $local_uts ) {
+					if( $history['table_field'] == $detail_key && $history['log_date'] > $local_uts ) {
 						$local_uts = $history['log_date'];
 						$local_new_value = $history['new_value'];
 					}
@@ -72,18 +72,18 @@ function ciniki_core_syncUpdateObjectSQL($ciniki, $sync, $business_id, $remote_o
 					$new_value = $local_new_value;
 				}
 			}
-			elseif( isset($remote_object['last_update']) && isset($local_object['last_update'])
-				&& $remote_object['last_update'] > $local_object['remote_object'] ) {
+			elseif( isset($remote_object['last_updated']) && isset($local_object['last_updated'])
+				&& $remote_object['last_updated'] > $local_object['remote_object'] ) {
 				// 
 				// If the object was updated later on the remote, use it's field value
 				//
 				$new_value = $remote_object[$field];
 			} 
-			elseif( isset($remote_object['last_update']) && isset($local_object['last_update'])
-				&& $remote_object['last_update'] < $local_object['remote_object'] ) {
+			elseif( isset($remote_object['last_updated']) && isset($local_object['last_updated'])
+				&& $remote_object['last_updated'] < $local_object['remote_object'] ) {
 				continue; // Skip the field if local is newer
 			}
-			elseif( $local_uts > $remote_uts ) {
+			elseif( $local_uts < $remote_uts ) {
 				// Skip the field if local is newer
 				continue;
 			} else {

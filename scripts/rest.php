@@ -62,7 +62,7 @@ $rc = ciniki_core_callPublicMethod($ciniki);
 //
 // Check if there is a sync queue to process
 //
-if( isset($ciniki['syncqueue']) && count($ciniki['syncqueue']) > 0 ) {
+if( isset($ciniki['syncqueue']) && count($ciniki['syncqueue']) > 0) {
 	ob_start();
 	ciniki_core_printResponse($ciniki, $rc);
 	$contentlength = ob_get_length();
@@ -74,15 +74,19 @@ if( isset($ciniki['syncqueue']) && count($ciniki['syncqueue']) > 0 ) {
 	session_write_close();
 
 	// Run queue
-	if( isset($ciniki['request']['args']['business_id']) ) {
+	if( isset($ciniki['syncbusinesses']) && count($ciniki['syncbusinesses']) > 0 ) {
+		foreach($ciniki['syncbusinesses'] as $business_id) {
+			ciniki_core_syncQueueProcess($ciniki, $business_id);
+		}
+	} elseif( isset($ciniki['request']['args']['business_id']) ) {
 		ciniki_core_syncQueueProcess($ciniki, $ciniki['request']['args']['business_id']);
-	}
+	} 
 
 } else {
 	//
 	// Output the result in requested format
 	//
-	ciniki_core_printResponse($ciniki, $ciniki[');
+	ciniki_core_printResponse($ciniki, $rc);
 }
 
 exit;

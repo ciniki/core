@@ -74,9 +74,13 @@ if( isset($ciniki['syncqueue']) && count($ciniki['syncqueue']) > 0 ) {
 	session_write_close();
 
 	// Run queue
-	if( isset($ciniki['request']['args']['business_id']) ) {
+	if( isset($ciniki['syncbusinesses']) && count($ciniki['syncbusinesses']) > 0 ) {
+		foreach($ciniki['syncbusinesses'] as $business_id) {
+			ciniki_core_syncQueueProcess($ciniki, $business_id);
+		}
+	} elseif( isset($ciniki['request']['args']['business_id']) ) {
 		ciniki_core_syncQueueProcess($ciniki, $ciniki['request']['args']['business_id']);
-	}
+	} 
 
 } else {
 	//

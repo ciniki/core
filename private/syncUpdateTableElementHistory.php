@@ -25,8 +25,8 @@ function ciniki_core_syncUpdateTableElementHistory($ciniki, $sync, $business_id,
 			//
 			// Check for the user_uuid in the list, otherwise query
 			//
-			if( isset($sync['uuids']['ciniki_users'][$history['user']]) ) {
-				$user_id = $sync['uuids']['ciniki_users'][$history['user']];
+			if( isset($sync['uuidmaps']['ciniki_users'][$history['user']]) ) {
+				$user_id = $sync['uuidmaps']['ciniki_users'][$history['user']];
 			} else {
 				$strsql = "SELECT id "
 					. "FROM ciniki_users "
@@ -50,8 +50,8 @@ function ciniki_core_syncUpdateTableElementHistory($ciniki, $sync, $business_id,
 			if( isset($maps[$history['table_field']]) ) {
 				$map_module = $maps[$history['table_field']]['module'];
 				$map_table = $maps[$history['table_field']]['table'];
-				if( isset($sync['uuids'][$map_table][$history['new_value']]) ) {
-					$history['new_value'] = $sync['uuids'][$map_table][$history['new_value']];
+				if( isset($sync['uuidmaps'][$map_table][$history['new_value']]) ) {
+					$history['new_value'] = $sync['uuidmaps'][$map_table][$history['new_value']];
 				} else {
 					$strsql = "SELECT id "
 						. "FROM $map_table "

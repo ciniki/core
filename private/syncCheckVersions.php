@@ -18,28 +18,16 @@
 //
 function ciniki_core_syncCheckVersions($ciniki, $business_id, $sync_id) {
 
-	//
-	// Get the sync information required to send the request
-	//
-	$strsql = "SELECT ciniki_business_syncs.id, ciniki_businesses.uuid AS local_uuid, "
-		. "ciniki_business_syncs.flags, local_private_key, "
-		. "remote_name, remote_uuid, remote_url, remote_public_key, "
-		. "UNIX_TIMESTAMP(last_sync) AS last_sync "
-		. "FROM ciniki_businesses, ciniki_business_syncs "
-		. "WHERE ciniki_businesses.id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
-		. "AND ciniki_businesses.id = ciniki_business_syncs.business_id "
-		. "AND ciniki_business_syncs.id = '" . ciniki_core_dbQuote($ciniki, $sync_id) . "' "
-		. "";
-	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashQuery');
-	$rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'businesses', 'sync');
-	if( $rc['stat'] != 'ok' ) {
-		return $rc;
-	}
-	if( !isset($rc['sync']) || !is_array($rc['sync']) ) {
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'392', 'msg'=>'Invalid sync'));
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncLoad');
+	$rc = ciniki_core_syncLoad($ciniki, $business_id, $sync_id);
+	if( $rc['stat'] != 'ok') {
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'392', 'msg'=>'Invalid sync', 'err'=>$rc['err']));
 	}
 	$sync = $rc['sync'];
-	$sync['type'] = 'business';
+
+	if( $sync['status'] != '10' ) {
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'106', 'msg'=>'The sync is not in an active status'));
+	}
 
 	//
 	// Make the request for the remote business information

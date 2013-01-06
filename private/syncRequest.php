@@ -57,7 +57,14 @@ function ciniki_core_syncRequest($ciniki, $sync, $request) {
 
 	$arsp = preg_split('/:::/', $rsp);
 	if( count($arsp) != 2 || !isset($arsp[1]) ) {
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'573', 'msg'=>'Invalid response'));
+		$rc = unserialize($rsp);
+		if( $rc !== false ) {
+			if( $rc['stat'] == 'ok' ) {
+				return $rc;
+			}
+			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'573', 'msg'=>'Error response', 'err'=>$rc['err']));
+		}
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'902', 'msg'=>'Invalid response'));
 	}
 
 	//

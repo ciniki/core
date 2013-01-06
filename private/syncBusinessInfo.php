@@ -81,6 +81,17 @@ function ciniki_core_syncBusinessInfo($ciniki, $business_id) {
 	}
 	$modules = $rc['modules'];
 
+	$mods = array();
+	foreach($modules as $mid => $module) {
+		$mod[$module['module']['package'] . '.' . $module['module']['name']] = $module['module']['last_change'];
+	}
+	if( !isset($mods['ciniki.users']) ) {
+		$modules[] = array('module'=>array('package'=>'ciniki', 'name'=>'users', 'last_change'=>0));
+	}
+	if( !isset($mods['ciniki.businesses']) ) {
+		$modules[] = array('module'=>array('package'=>'ciniki', 'name'=>'businesses', 'last_change'=>0));
+	}
+
 	//
 	// Check each package/module for table.schema's and get version from database
 	//

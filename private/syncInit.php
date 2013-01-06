@@ -58,12 +58,12 @@ function ciniki_core_syncInit($ciniki_root) {
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQuote');
 	$strsql = "SELECT ciniki_business_syncs.id AS sync_id, "
 		. "ciniki_businesses.id AS business_id, ciniki_businesses.uuid, "
+		. "ciniki_business_syncs.status, "
 		. "ciniki_business_syncs.flags, "
 		. "local_private_key, remote_public_key "
 		. "FROM ciniki_businesses, ciniki_business_syncs "
 		. "WHERE ciniki_businesses.uuid = '" . ciniki_core_dbQuote($ciniki, $ciniki['sync']['local_uuid']) . "' "
 		. "AND ciniki_businesses.id = ciniki_business_syncs.business_id "
-		. "AND ciniki_business_syncs.status = 10 "		// Make sure it is an active sync
 		. "AND ciniki_business_syncs.remote_uuid = '" . ciniki_core_dbQuote($ciniki, $ciniki['sync']['remote_uuid']) . "' "
 		. "";
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashQuery');
@@ -74,12 +74,16 @@ function ciniki_core_syncInit($ciniki_root) {
 	if( !isset($rc['sync']) ) {
 		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'51', 'msg'=>'Internal configuration error'));
 	}
+	if( $rc['sync']['status'] != '10' ) {
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'903', 'msg'=>'Suspended sync'));
+	}
+
 	$local_private_key = $rc['sync']['local_private_key'];
 	$ciniki['sync']['local_private_key'] = $rc['sync']['local_private_key'];
 	$ciniki['sync']['remote_public_key'] = $rc['sync']['remote_public_key'];
 	$ciniki['sync']['business_id'] = $rc['sync']['business_id'];
 	$ciniki['sync']['id'] = $rc['sync']['sync_id'];
-	$ciniki['sync']['uuids'] = array();
+	$ciniki['sync']['uuidmaps'] = array();
 	$ciniki['syncqueue'] = array();
 
 	//

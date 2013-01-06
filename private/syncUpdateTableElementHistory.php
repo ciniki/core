@@ -7,7 +7,7 @@
 // Arguments
 // ---------
 //
-function ciniki_core_syncUpdateTableElementHistory($ciniki, $sync, $business_id, $module, $history_table, $table_key, $table_name, $remote_history, $local_history, $maps) {
+function ciniki_core_syncUpdateTableElementHistory(&$ciniki, &$sync, $business_id, $module, $history_table, $table_key, $table_name, $remote_history, $local_history, $maps) {
 	//
 	// All transaction locking should be taken care of by a calling function
 	//
@@ -37,8 +37,27 @@ function ciniki_core_syncUpdateTableElementHistory($ciniki, $sync, $business_id,
 					return $rc;
 				}
 				if( !isset($rc['user']) ) {
-					// FIXME: Call add user
-					$user_id = 0;
+					//
+					// Get the remote user
+					//
+					$rc = ciniki_core_syncRequest($ciniki, $sync, array('method'=>'ciniki.businesses.userGet', 'uuid'=>$history['user']));
+					if( $rc['stat'] != 'ok' ) {
+						return $rc;
+					}
+					if( !isset($rc['user']) ) {
+						return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'920', 'msg'=>'User not found on remote server'));
+					}
+					$user = $rc['user'];
+
+					//
+					// Add to the local database
+					//
+					ciniki_core_loadMethod($ciniki, 'ciniki', 'businesses', 'sync', 'userUpdate');
+					$rc = ciniki_businesses_sync_userUpdate($ciniki, $sync, $business_id, array('user'=>$user));
+					if( $rc['stat'] != 'ok' ) {
+						return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'921', 'msg'=>'Unable to add user', 'err'=>$rc['err']));;
+					}
+					$user_id = $rc['id'];
 				} else {
 					$user_id = $rc['user']['id'];
 				}

@@ -88,6 +88,9 @@ function ciniki_core_syncBusinessInfo($ciniki, $business_id) {
 	if( !isset($mods['ciniki.users']) ) {
 		$modules[] = array('module'=>array('package'=>'ciniki', 'name'=>'users', 'last_change'=>0));
 	}
+	if( !isset($mods['ciniki.images']) ) {
+		$modules[] = array('module'=>array('package'=>'ciniki', 'name'=>'images', 'last_change'=>0));
+	}
 	if( !isset($mods['ciniki.businesses']) ) {
 		$modules[] = array('module'=>array('package'=>'ciniki', 'name'=>'businesses', 'last_change'=>0));
 	}

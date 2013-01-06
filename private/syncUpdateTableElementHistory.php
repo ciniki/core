@@ -28,21 +28,20 @@ function ciniki_core_syncUpdateTableElementHistory($ciniki, $sync, $business_id,
 			if( isset($sync['uuidmaps']['ciniki_users'][$history['user']]) ) {
 				$user_id = $sync['uuidmaps']['ciniki_users'][$history['user']];
 			} else {
-				$user_uuid = $history['user'];
-			}
-			$strsql = "SELECT id "
-				. "FROM ciniki_users "
-				. "WHERE uuid = '" . ciniki_core_dbQuote($ciniki, $user_uuid) . "' "
-				. "";
-			$rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.users', 'user');
-			if( $rc['stat'] != 'ok' ) {
-				return $rc;
-			}
-			if( !isset($rc['user']) ) {
-				// FIXME: Call add user
-				$user_id = 0;
-			} else {
-				$user_id = $rc['user']['id'];
+				$strsql = "SELECT id "
+					. "FROM ciniki_users "
+					. "WHERE uuid = '" . ciniki_core_dbQuote($ciniki, $history['user']) . "' "
+					. "";
+				$rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.users', 'user');
+				if( $rc['stat'] != 'ok' ) {
+					return $rc;
+				}
+				if( !isset($rc['user']) ) {
+					// FIXME: Call add user
+					$user_id = 0;
+				} else {
+					$user_id = $rc['user']['id'];
+				}
 			}
 
 			//

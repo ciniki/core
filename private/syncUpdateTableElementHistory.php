@@ -25,7 +25,13 @@ function ciniki_core_syncUpdateTableElementHistory(&$ciniki, &$sync, $business_i
 			//
 			// Check for the user_uuid in the maps for this sync, otherwise query
 			//
-			if( isset($sync['uuidmaps']['ciniki_users'][$history['user']]) ) {
+			if( $history['user'] == '' ) {
+				//
+				// If the history is screwed up, then user may be blank
+				//
+				$user_id = 0;
+			}
+			elseif( isset($sync['uuidmaps']['ciniki_users'][$history['user']]) ) {
 				$user_id = $sync['uuidmaps']['ciniki_users'][$history['user']];
 			} else {
 				$strsql = "SELECT id "

@@ -60,7 +60,9 @@ function ciniki_core_syncInit($ciniki_root) {
 		. "ciniki_businesses.id AS business_id, ciniki_businesses.uuid, "
 		. "ciniki_business_syncs.status, "
 		. "ciniki_business_syncs.flags, "
-		. "local_private_key, remote_public_key "
+		. "local_private_key, "
+		. "ciniki_business_syncs.remote_name, ciniki_business_syncs.remote_uuid, "
+		. "ciniki_business_syncs.remote_url, ciniki_business_syncs.remote_public_key "
 		. "FROM ciniki_businesses, ciniki_business_syncs "
 		. "WHERE ciniki_businesses.uuid = '" . ciniki_core_dbQuote($ciniki, $ciniki['sync']['local_uuid']) . "' "
 		. "AND ciniki_businesses.id = ciniki_business_syncs.business_id "
@@ -80,6 +82,9 @@ function ciniki_core_syncInit($ciniki_root) {
 
 	$local_private_key = $rc['sync']['local_private_key'];
 	$ciniki['sync']['local_private_key'] = $rc['sync']['local_private_key'];
+	$ciniki['sync']['remote_name'] = $rc['sync']['remote_name'];
+	$ciniki['sync']['remote_uuid'] = $rc['sync']['remote_uuid'];
+	$ciniki['sync']['remote_url'] = $rc['sync']['remote_url'];
 	$ciniki['sync']['remote_public_key'] = $rc['sync']['remote_public_key'];
 	$ciniki['sync']['business_id'] = $rc['sync']['business_id'];
 	$ciniki['sync']['id'] = $rc['sync']['sync_id'];

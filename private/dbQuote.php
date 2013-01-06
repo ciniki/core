@@ -15,6 +15,10 @@
 //
 function ciniki_core_dbQuote(&$ciniki, $str) {
 
+//	if( is_array($str) ) {
+//		error_log(print_r($str, true));
+//	}
+
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbConnect');
 
 	$rc = ciniki_core_dbConnect($ciniki, 'ciniki.core');

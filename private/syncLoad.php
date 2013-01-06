@@ -45,8 +45,8 @@ function ciniki_core_syncLoad($ciniki, $business_id, $sync_id) {
 		. "WHERE ciniki_business_sync_uuidmaps.sync_id = '" . ciniki_core_dbQuote($ciniki, $sync['id']) . "' "
 		. "AND table_name = 'ciniki_users' "
 		. "";
-	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashIDQuery');
-	$rc = ciniki_core_dbHashIDQuery($ciniki, $strsql, 'ciniki.businesses', 'uuids', 'remote_uuid');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQueryList2');
+	$rc = ciniki_core_dbQueryList2($ciniki, $strsql, 'ciniki.businesses', 'uuids');
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
 	}

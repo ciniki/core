@@ -30,7 +30,7 @@ function ciniki_core_syncBusinessModule(&$ciniki, &$sync, $business_id, $module,
 
 	$rc = $method_function($ciniki, $sync, $business_id, array('type'=>$type));
 	if( $rc['stat'] != 'ok' ) {
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'981', 'msg'=>'Unable to sync module: ' . $module));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'981', 'msg'=>'Unable to sync module: ' . $module, 'err'=>$rc['err']));
 	}
 
 	return array('stat'=>'ok');

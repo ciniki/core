@@ -12,7 +12,7 @@
 // module:			The module to sync.
 // type:			The type of sync (full, partial, incremental)
 //
-function ciniki_core_syncBusinessModule($ciniki, $sync, $business_id, $module, $type) {
+function ciniki_core_syncBusinessModule(&$ciniki, &$sync, $business_id, $module, $type) {
 
 //	$method_filename = $ciniki['config']['core']['root_dir'] . preg_replace("^(.*)\.(.*)$", "/\1-api/\2/sync/pull.php", $module);
 //	$method_function = preg_replace("^(.*)\.(.*)$", "/\1_\2_sync_pull", $module);
@@ -25,12 +25,12 @@ function ciniki_core_syncBusinessModule($ciniki, $sync, $business_id, $module, $
 
 	require_once($method_filename);
 	if( !is_callable($method_function) ) {
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'253', 'msg'=>'Unable to sync module'));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'253', 'msg'=>'Unable to sync module: ' . $module));
 	}
 
 	$rc = $method_function($ciniki, $sync, $business_id, array('type'=>$type));
 	if( $rc['stat'] != 'ok' ) {
-		return $rc;
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'981', 'msg'=>'Unable to sync module: ' . $module));
 	}
 
 	return array('stat'=>'ok');

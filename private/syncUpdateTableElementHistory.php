@@ -49,7 +49,7 @@ function ciniki_core_syncUpdateTableElementHistory(&$ciniki, &$sync, $business_i
 					ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncRequest');
 					$rc = ciniki_core_syncRequest($ciniki, $sync, array('method'=>'ciniki.businesses.userGet', 'uuid'=>$history['user']));
 					if( $rc['stat'] != 'ok' ) {
-						return $rc;
+						return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'982', 'msg'=>'Unable to get remote user: ' . $history['user']));
 					}
 					if( !isset($rc['user']) ) {
 						return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'920', 'msg'=>'User not found on remote server'));

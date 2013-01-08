@@ -22,52 +22,57 @@ function ciniki_core_syncUpdateTableElementHistory(&$ciniki, &$sync, $business_i
 	// The history might already exist and generate a dupliate error key, even when it doesn't exist in local_history.
 	//
 	foreach($remote_history as $uuid => $history) {
-		if( !isset($local_history[$uuid]) || ($local_history[$uuid]['user'] == '' && $remote_history[$uuid]['user'] != '') ) {
+		if( !isset($local_history[$uuid]) 
+			|| ($local_history[$uuid]['user'] == '' && $remote_history[$uuid]['user'] != '') 
+//			|| ($local_history[$uuid]['table_key'] == '' && $table_key != '') 
+			) {
 			//
 			// Check for the user_uuid in the maps for this sync, otherwise query
 			//
-			if( $history['user'] == '' ) {
-				//
-				// If the history is screwed up, then user may be blank
-				//
-				$user_id = 0;
-			}
-			elseif( isset($sync['uuidmaps']['ciniki_users'][$history['user']]) ) {
-				$user_id = $sync['uuidmaps']['ciniki_users'][$history['user']];
-			} else {
-				$strsql = "SELECT id "
-					. "FROM ciniki_users "
-					. "WHERE uuid = '" . ciniki_core_dbQuote($ciniki, $history['user']) . "' "
-					. "";
-				$rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.users', 'user');
-				if( $rc['stat'] != 'ok' ) {
-					return $rc;
+			if( !isset($local_history[$uuid]) || $local_history[$uuid]['user'] == '' ) {
+				if( $remote_history[$uuid]['user'] == '' ) {
+					//
+					// If the history is screwed up, then user may be blank
+					//
+					$user_id = 0;
 				}
-				if( !isset($rc['user']) ) {
-//					//
-//					// Get the remote user
-//					//
-//					ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncRequest');
-//					$rc = ciniki_core_syncRequest($ciniki, $sync, array('method'=>'ciniki.businesses.user.get', 'uuid'=>$history['user']));
-//					if( $rc['stat'] != 'ok' ) {
-//						return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'982', 'msg'=>'Unable to get remote user: ' . $history['user'], 'err'=>$rc['err']));
-//					}
-//					if( !isset($rc['user']) ) {
-//						return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'920', 'msg'=>'User not found on remote server'));
-//					}
-//					$user = $rc['user'];
-
-					//
-					// Add to the local database
-					//
-					ciniki_core_loadMethod($ciniki, 'ciniki', 'businesses', 'sync', 'user_update');
-					$rc = ciniki_businesses_user_update($ciniki, $sync, $business_id, array('uuid'=>$history['user']));
-					if( $rc['stat'] != 'ok' ) {
-						return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'921', 'msg'=>'Unable to add user', 'err'=>$rc['err']));;
-					}
-					$user_id = $rc['id'];
+				elseif( isset($sync['uuidmaps']['ciniki_users'][$history['user']]) ) {
+					$user_id = $sync['uuidmaps']['ciniki_users'][$history['user']];
 				} else {
-					$user_id = $rc['user']['id'];
+					$strsql = "SELECT id "
+						. "FROM ciniki_users "
+						. "WHERE uuid = '" . ciniki_core_dbQuote($ciniki, $history['user']) . "' "
+						. "";
+					$rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.users', 'user');
+					if( $rc['stat'] != 'ok' ) {
+						return $rc;
+					}
+					if( !isset($rc['user']) ) {
+	//					//
+	//					// Get the remote user
+	//					//
+	//					ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncRequest');
+	//					$rc = ciniki_core_syncRequest($ciniki, $sync, array('method'=>'ciniki.businesses.user.get', 'uuid'=>$history['user']));
+	//					if( $rc['stat'] != 'ok' ) {
+	//						return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'982', 'msg'=>'Unable to get remote user: ' . $history['user'], 'err'=>$rc['err']));
+	//					}
+	//					if( !isset($rc['user']) ) {
+	//						return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'920', 'msg'=>'User not found on remote server'));
+	//					}
+	//					$user = $rc['user'];
+
+						//
+						// Add to the local database
+						//
+						ciniki_core_loadMethod($ciniki, 'ciniki', 'businesses', 'sync', 'user_update');
+						$rc = ciniki_businesses_user_update($ciniki, $sync, $business_id, array('uuid'=>$history['user']));
+						if( $rc['stat'] != 'ok' ) {
+							return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'921', 'msg'=>'Unable to add user', 'err'=>$rc['err']));;
+						}
+						$user_id = $rc['id'];
+					} else {
+						$user_id = $rc['user']['id'];
+					}
 				}
 			}
 			//
@@ -122,15 +127,33 @@ function ciniki_core_syncUpdateTableElementHistory(&$ciniki, &$sync, $business_i
 				//
 				// Update history user_id
 				//
-				$strsql = "UPDATE $history_table SET user_id = '" . ciniki_core_dbQuote($ciniki, $user_id) . "' "
-					. "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+				$strsql = "UPDATE $history_table SET user_id = '" . ciniki_core_dbQuote($ciniki, $user_id) . "' ";
+//				if( $local_history['table_key'] == '' && $table_key != '' ) {
+//					$strsql .= ", table_key = '" . ciniki_core_dbQuote($ciniki, $table_key) . "' "
+//						. "";
+//				}
+				$strsql .= "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
 					. "AND uuid = '" . ciniki_core_dbQuote($ciniki, $uuid) . "' "
 					. "";
 				$rc = ciniki_core_dbUpdate($ciniki, $strsql, $module);
 				if( $rc['stat'] != 'ok' && $rc['err']['code'] != '73' ) {
 					return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1017', 'msg'=>'Unable to update history'));
 				}
+//			} elseif( $local_history['table_key'] == '' && $table_key != '' ) {
+//				//
+//				// Update history user_id
+//				//
+//				$strsql = "UPDATE $history_table SET table_key = '" . ciniki_core_dbQuote($ciniki, $table_key) . "' "
+//					. "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+//					. "AND uuid = '" . ciniki_core_dbQuote($ciniki, $uuid) . "' "
+//					. "AND table_key = ''"
+//					. "";
+//				$rc = ciniki_core_dbUpdate($ciniki, $strsql, $module);
+//				if( $rc['stat'] != 'ok' && $rc['err']['code'] != '73' ) {
+//					return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'934', 'msg'=>'Unable to update history'));
+//				}
 			}
+
 		}
 	}
 

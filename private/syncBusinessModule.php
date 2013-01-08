@@ -137,24 +137,6 @@ function ciniki_core_syncBusinessModule(&$ciniki, &$sync, $business_id, $module,
 		}
 	}
 	
-
-//	$method_filename = $ciniki['config']['core']['root_dir'] . preg_replace('/^(.*)\.(.*)$/', '/\1-api/\2/private/syncModule.php', $module);
-//	$method_function = preg_replace('/^(.*)\.(.*)$/', '\1_\2_syncModule', $module);
-
-//	if( !file_exists($method_filename) ) {
-//		return array('stat'=>'ok');
-//	}
-//
-//	require_once($method_filename);
-//	if( !is_callable($method_function) ) {
-//		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'253', 'msg'=>'Unable to sync module: ' . $module));
-//	}
-//
-//	$rc = $method_function($ciniki, $sync, $business_id, array('type'=>$type));
-//	if( $rc['stat'] != 'ok' ) {
-//		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'981', 'msg'=>'Unable to sync module: ' . $module, 'err'=>$rc['err']));
-//	}
-
 	return array('stat'=>'ok');
 }
 ?>

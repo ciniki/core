@@ -52,8 +52,8 @@ function ciniki_core_syncQueueProcess(&$ciniki, $business_id) {
 				if( isset($queue_item['args']['ignore_sync_id']) && $queue_item['args']['ignore_sync_id'] == $sync_id ) {
 					continue;
 				}
-				$method_filename = $ciniki['config']['ciniki.core']['root_dir'] . preg_replace('/^(.*)\.(.*)\.(.*)$/','/\1-api/\2/private/\3.php', $queue_item['method']);
-				$method_function = preg_replace('/^(.*)\.(.*)\.(.*)$/','\1_\2_\3', $queue_item['method']);
+				$method_filename = $ciniki['config']['ciniki.core']['root_dir'] . preg_replace('/^(.*)\.(.*)\.(.*)\.(.*)$/','/\1-api/\2/sync/\3_\4.php', $queue_item['method']);
+				$method_function = preg_replace('/^(.*)\.(.*)\.(.*)\.(.*)$/','\1_\2_\3_\4', $queue_item['method']);
 				if( file_exists($method_filename) ) {
 					require_once($method_filename);
 					if( is_callable($method_function) ) {

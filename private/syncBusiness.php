@@ -43,7 +43,7 @@ function ciniki_core_syncBusiness($ciniki, $business_id, $sync_id, $type) {
 	foreach($core_modules as $module) {
 		// FIXME: Put in check for incremental, will need to add core modules to list when 
 		if( $type == 'full' || $type == 'partial' ) {
-			$rc = ciniki_core_syncBusinessModule($ciniki, $sync, $business_id, $module, $type);
+			$rc = ciniki_core_syncBusinessModule($ciniki, $sync, $business_id, $module, $type, '');
 			if( $rc['stat'] != 'ok' ) {
 				return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'251', 'msg'=>'Unable to sync module ' . $module, 'err'=>$rc['err']));
 			}
@@ -63,7 +63,7 @@ function ciniki_core_syncBusiness($ciniki, $business_id, $sync_id, $type) {
 //					&& $modules[$module]['last_change'] != $remote_modules[$module]['last_change']
 					&& ($remote_modules[$module]['last_change'] >= $sync['last_sync'] || $modules[$module]['last_change'] >= $sync['last_sync'])
 					)) ) {
-			$rc = ciniki_core_syncBusinessModule($ciniki, $sync, $business_id, $module, $type);
+			$rc = ciniki_core_syncBusinessModule($ciniki, $sync, $business_id, $module, $type, '');
 			if( $rc['stat'] != 'ok' ) {
 				return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'276', 'msg'=>'Unable to sync module ' . $module, 'err'=>$rc['err']));
 			}
@@ -96,7 +96,7 @@ function ciniki_core_syncBusiness($ciniki, $business_id, $sync_id, $type) {
 		if( !in_array($name, $priority_modules) 
 			&& ($type == 'full' || $type == 'partial' || 
 				($type == 'incremental' && $modules[$name]['last_change'] != $remote_modules[$name]['last_change']) )) {
-			$rc = ciniki_core_syncBusinessModule($ciniki, $sync, $business_id, $name, $type);
+			$rc = ciniki_core_syncBusinessModule($ciniki, $sync, $business_id, $name, $type, '');
 			if( $rc['stat'] != 'ok' ) {
 				return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'252', 'msg'=>'Unable to sync module ' . $name, 'err'=>$rc['err']));
 			}

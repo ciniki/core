@@ -62,22 +62,41 @@ if( $ciniki['request']['method'] == 'ciniki.core.ping' ) {
 } elseif( $ciniki['request']['method'] == 'ciniki.core.delete' ) {
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncDelete');
 	$response = ciniki_core_syncDelete($ciniki, $ciniki['sync']['business_id'], $ciniki['sync']['id']);
-} elseif( preg_match('/.*\..*\.(.*List|.*Get|.*Update|.*Add)$/', $ciniki['request']['method']) ) {
+} elseif( preg_match('/(.*)\.(.*)\.(.*)\.(list|get|update)$/', $ciniki['request']['method'], $matches) ) {
 	//
 	// Parse the method, and the function name.  
 	//
-	$filename = preg_replace('/^(.*)\.(.*)\.(.*)$/', '/\1-api/\2/sync/\3.php', $ciniki['request']['method']);
-	$method_function = preg_replace('/^(.*)\.(.*)\.(.*)$/', '\1_\2_sync_\3', $ciniki['request']['method']);
+	$filename = '/' . $matches[1] . '-api/' . $matches[2] . '/sync/' . $matches[3] . '_' . $matches[4] . '.php';
+	$method_function = $matches[1] . '_' . $matches[2] . '_' . $matches[3] . '_' . $matches[4];
+//	$filename = preg_replace('/^(.*)\.(.*)\.(.*)\.(.*)$/', '/\1-api/\2/sync/\3_\4.php', $ciniki['request']['method']);
+//	$method_function = preg_replace('/^(.*)\.(.*)\.(.*)\.(.*)$/', '\1_\2_\3\_\4', $ciniki['request']['method']);
 	if( file_exists($ciniki['config']['ciniki.core']['root_dir'] . $filename) ) {
 		require_once($ciniki['config']['ciniki.core']['root_dir'] . $filename);
 		if( is_callable($method_function) ) {
 			$response = $method_function($ciniki, $ciniki['sync'], $ciniki['sync']['business_id'], $ciniki['request']);
 		} else {
-			$response = array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'50', 'msg'=>'Method does not exist'));
+			$response = array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'995', 'msg'=>'Method does not exist: ' . $ciniki['request']['method']));
 		}
 	} else {
-		$response = array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'56', 'msg'=>'Method does not exist'));
+		error_log($filename);
+		$response = array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'996', 'msg'=>'Method does not exist: ' . $ciniki['request']['method']));
 	}
+//} elseif( preg_match('/.*\..*\.(.*List|.*Get|.*Update|.*Add)$/', $ciniki['request']['method']) ) {
+//	//
+//	// Parse the method, and the function name.  
+//	//
+//	$filename = preg_replace('/^(.*)\.(.*)\.(.*)$/', '/\1-api/\2/sync/\3.php', $ciniki['request']['method']);
+//	$method_function = preg_replace('/^(.*)\.(.*)\.(.*)$/', '\1_\2_sync_\3', $ciniki['request']['method']);
+//	if( file_exists($ciniki['config']['ciniki.core']['root_dir'] . $filename) ) {
+//		require_once($ciniki['config']['ciniki.core']['root_dir'] . $filename);
+//		if( is_callable($method_function) ) {
+//			$response = $method_function($ciniki, $ciniki['sync'], $ciniki['sync']['business_id'], $ciniki['request']);
+//		} else {
+//			$response = array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'50', 'msg'=>'Method does not exist'));
+//		}
+//	} else {
+//		$response = array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'56', 'msg'=>'Method does not exist'));
+//	}
 } else {
 	$response = array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'547', 'msg'=>'Invalid method'));
 }

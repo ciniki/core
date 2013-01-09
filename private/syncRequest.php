@@ -8,7 +8,7 @@
 // Arguments
 // ---------
 //
-function ciniki_core_syncRequest($ciniki, $sync, $request) {
+function ciniki_core_syncRequest(&$ciniki, &$sync, $request) {
 
 	$request_url = $sync['remote_url'] . "?type=" . $sync['type'] . "&uuid=" . $sync['remote_uuid'] . "&from=" . $sync['local_uuid'];
 

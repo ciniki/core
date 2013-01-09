@@ -67,6 +67,8 @@ function ciniki_core_syncBusinessModule(&$ciniki, &$sync, $business_id, $module,
 		$list = $pkg . '_' . $mod . '_' . $name . '_list';
 		$get = $pkg . '_' . $mod . '_' . $name . '_get';
 		$update = $pkg . '_' . $mod . '_' . $name . '_update';
+		$delete = $pkg . '_' . $mod . '_' . $name . '_delete';
+		$push = $pkg . '_' . $mod . '_' . $name . '_push';
 
 		//
 		// Get the remote list of objects
@@ -80,6 +82,11 @@ function ciniki_core_syncBusinessModule(&$ciniki, &$sync, $business_id, $module,
 			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'274', 'msg'=>'Unable to get remote list'));
 		}
 		$remote_list = $rc['list'];
+		if( isset($rc['deleted']) ) {
+			$remote_deleted = $rc['deleted'];
+		} else {
+			$remote_deleted = array();
+		}
 
 		//
 		// Get the local list of objects
@@ -92,6 +99,46 @@ function ciniki_core_syncBusinessModule(&$ciniki, &$sync, $business_id, $module,
 			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'275', 'msg'=>'Unable to get local list'));
 		}
 		$local_list = $rc['list'];
+		if( isset($rc['deleted']) ) {
+			$local_deleted = $rc['deleted'];
+		} else {
+			$local_deleted = array();
+		}
+
+		//
+		// Process any deleted items first
+		//
+		if( ($sync['flags']&0x01) == 0x01 && isset($remote_delete) && count($remote_delete) > 0 ) {
+			foreach($remote_delete as $uuid => $deleted_history) {
+				if( isset($local_list[$uuid]) ) {
+					//
+					// Delete from the local server
+					//
+					ciniki_core_loadMethod($ciniki, $pkg, $mod, 'sync', $name . '_delete');
+					$rc = $delete($ciniki, $sync, $business_id, array('uuid'=>$uuid, 'history'=>$deleted_history));
+					if( $rc['stat'] != 'ok' ) {
+						return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1018', 'msg'=>"Unable to delete $name on local server", 'err'=>$rc['err']));;
+					}
+					unset($local_list[$uuid]);
+				}
+			}
+		}
+		if( ($sync['flags']&0x01) == 0x01 && isset($local_deleted) && count($local_deleted) > 0 ) {
+			foreach($local_deleted as $uuid => $deleted_history) {
+				if( isset($remote_list[$uuid]) ) {
+					//
+					// Push the delete to the remote server
+					//
+					error_log("delete remote: $uuid");
+					$rc = ciniki_core_syncRequest($ciniki, $sync, array('method'=>"$pkg.$mod.$name.delete", 'uuid'=>$uuid, 'history'=>$deleted_history));
+					if( $rc['stat'] != 'ok' ) {
+						return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1019', 'msg'=>"Unable to delete $name($uuid) on remote server", 'err'=>$rc['err']));
+					}
+					unset($remote_list[$uuid]);
+				}
+			}
+		}
+
 
 		//
 		// For the pull side
@@ -103,13 +150,14 @@ function ciniki_core_syncBusinessModule(&$ciniki, &$sync, $business_id, $module,
 				// a partial or incremental will only check records where the last_updated differs
 				// Check if uuid does not exist, and has not been deleted
 				//
-				if( $type == 'full' || !isset($local_list[$uuid]) || $local_list[$uuid] != $last_updated ) {
+				if( ($type == 'full' || !isset($local_list[$uuid]) || $local_list[$uuid] != $last_updated)
+					&& !isset($local_deleted[$uuid]) ) {
 					//
 					// Add to the local database
 					//
-					$rc = $update($ciniki, $sync, $business_id, array("uuid"=>$uuid));
+					$rc = $update($ciniki, $sync, $business_id, array('uuid'=>$uuid));
 					if( $rc['stat'] != 'ok' ) {
-						return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'284', 'msg'=>"Unable to add $name", 'err'=>$rc['err']));;
+						return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'284', 'msg'=>"Unable to update $name on local server", 'err'=>$rc['err']));;
 					}
 				} 
 			}
@@ -123,14 +171,18 @@ function ciniki_core_syncBusinessModule(&$ciniki, &$sync, $business_id, $module,
 				//
 				// Check if uuid does not exist, and has not been deleted
 				//
-				if( $type == 'full' || !isset($remote_list[$uuid]) || $remote_list[$uuid] != $last_updated ) {
+				if( ($type == 'full' || !isset($remote_list[$uuid]) || $remote_list[$uuid] != $last_updated) 
+					&& !isset($remote_deleted[$uuid]) ) {
+					$rc = $get($ciniki, $sync, $business_id, array('uuid'=>$uuid));
+					if( $rc['stat'] != 'ok' ) {
+						return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1037', 'msg'=>"Unable to get $name($uuid) on local server", 'err'=>$rc['err']));
+					}
 					//
 					// Update the remote object
 					//
-					$rc = ciniki_core_syncRequest($ciniki, $sync, array('method'=>"$pkg.$mod.$name.update", "uuid"=>$uuid));
+					$rc = ciniki_core_syncRequest($ciniki, $sync, array('method'=>"$pkg.$mod.$name.update", 'uuid'=>$uuid, "$name"=>$rc[$name]));
 					if( $rc['stat'] != 'ok' ) {
-						return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1015', 'msg'=>"Unable to get $name on remote server"));
-						return $rc;
+						return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1015', 'msg'=>"Unable to update $name($uuid) on remote server", 'err'=>$rc['err']));
 					}
 				}
 			}

@@ -62,7 +62,7 @@ if( $ciniki['request']['method'] == 'ciniki.core.ping' ) {
 } elseif( $ciniki['request']['method'] == 'ciniki.core.delete' ) {
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncDelete');
 	$response = ciniki_core_syncDelete($ciniki, $ciniki['sync']['business_id'], $ciniki['sync']['id']);
-} elseif( preg_match('/(.*)\.(.*)\.(.*)\.(list|get|update)$/', $ciniki['request']['method'], $matches) ) {
+} elseif( preg_match('/(.*)\.(.*)\.(.*)\.(list|get|update|delete)$/', $ciniki['request']['method'], $matches) ) {
 	//
 	// Parse the method, and the function name.  
 	//

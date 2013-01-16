@@ -115,6 +115,7 @@ if( isset($ciniki['syncqueue']) && count($ciniki['syncqueue']) > 0 ) {
 	}
 	ob_end_flush();
 	header("Connection: close");
+	ob_end_flush();
 	$contentlength = ob_get_length();
 	header("Content-Length: $contentlength");
 	ob_end_flush();

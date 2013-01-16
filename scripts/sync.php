@@ -106,17 +106,21 @@ if( $ciniki['request']['method'] == 'ciniki.core.ping' ) {
 //
 if( isset($ciniki['syncqueue']) && count($ciniki['syncqueue']) > 0 ) {
 	ob_start();
+	if( !ob_start("ob_gzhandler")) {
+		ob_start();		// Inner buffer when output is apache mod-deflate is enabled
+	}
 	$rc = ciniki_core_syncResponse($ciniki, $response);
 	if( $rc['stat'] != 'ok' ) {
 		print serialize($rc);
 	}
+	ob_end_flush();
+	header("Connection: close");
 	$contentlength = ob_get_length();
 	header("Content-Length: $contentlength");
-	header("Connection: Close");
 	ob_end_flush();
-	ob_flush();
 	flush();
 	session_write_close();
+	while(ob_get_level()>0) ob_end_clean();
 
 	// Run queue
 	if( isset($ciniki['sync']['business_id']) ) {

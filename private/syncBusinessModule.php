@@ -108,12 +108,15 @@ function ciniki_core_syncBusinessModule(&$ciniki, &$sync, $business_id, $module,
 		//
 		// Process any deleted items first
 		//
-		if( ($sync['flags']&0x01) == 0x01 && isset($remote_delete) && count($remote_delete) > 0 ) {
-			foreach($remote_delete as $uuid => $deleted_history) {
+//		error_log("Remote deleted: " . print_r(array_keys($remote_deleted), true));
+//		error_log("Local list: " . print_r(array_keys($local_list), true));
+		if( ($sync['flags']&0x01) == 0x01 && isset($remote_deleted) && count($remote_deleted) > 0 ) {
+			foreach($remote_deleted as $uuid => $deleted_history) {
 				if( isset($local_list[$uuid]) ) {
 					//
 					// Delete from the local server
 					//
+					error_log("delete local: $specified_object($uuid)");
 					ciniki_core_loadMethod($ciniki, $pkg, $mod, 'sync', $name . '_delete');
 					$rc = $delete($ciniki, $sync, $business_id, array('uuid'=>$uuid, 'history'=>$deleted_history));
 					if( $rc['stat'] != 'ok' ) {
@@ -129,7 +132,7 @@ function ciniki_core_syncBusinessModule(&$ciniki, &$sync, $business_id, $module,
 					//
 					// Push the delete to the remote server
 					//
-					error_log("delete remote: $uuid");
+					error_log("delete remote: $specified_object($uuid)");
 					$rc = ciniki_core_syncRequest($ciniki, $sync, array('method'=>"$pkg.$mod.$name.delete", 'uuid'=>$uuid, 'history'=>$deleted_history));
 					if( $rc['stat'] != 'ok' ) {
 						return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1019', 'msg'=>"Unable to delete $name($uuid) on remote server", 'err'=>$rc['err']));

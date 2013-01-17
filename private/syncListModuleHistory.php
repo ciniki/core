@@ -32,7 +32,9 @@ function ciniki_core_syncListModuleHistory(&$ciniki, &$sync, $business_id, $args
 	$history_table = $args['history_table'];
 	$strsql = "SELECT uuid, UNIX_TIMESTAMP(log_date) AS log_date "	
 		. "FROM $history_table "
-		. "WHERE $history_table.business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' ";
+		. "WHERE $history_table.business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+		. "";
+
 	if( $args['type'] == 'incremental' ) {
 		$strsql .= "AND UNIX_TIMESTAMP($history_table.log_date) >= '" . ciniki_core_dbQuote($ciniki, $args['since_uts']) . "' ";
 	}

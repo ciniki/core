@@ -56,19 +56,29 @@ function ciniki_core_syncUpdateModuleHistory(&$ciniki, &$sync, $business_id, $ar
 		//
 		$local_history = array();
 
+		//
+		// We need to translate the remote table key to local table key
+		//
 		if( isset($args['table_key_maps']) && isset($args['table_key_maps'][$remote_history['table_name']]) ) {
 			$details = $args['table_key_maps'][$remote_history['table_name']];
 			//
-			// Lookup the object
+			// Lookup the object id reference for table key.  If we can't find the reference
+			// then use uuid- and the remote uuid for the object instead.  This indicated it has never 
+			// existed in the local system and we only have the history.
 			//
-			ciniki_core_loadMethod($ciniki, $details['package'], $details['module'], 'sync', $details['lookup']);
-			$lookup = $details['package'] . '_' . $details['module'] . '_' . $details['lookup'];
-			$rc = $lookup($ciniki, $sync, $business_id, array('remote_uuid'=> $remote_history['table_key']));
-			if( $rc['stat'] != 'ok' ) {
-				error_log('SYNC-ERR: Unable to locate local table key for (' . $remote_history['table_key'] . ')');
-				$remote_history['table_key'] = '';
-			} else {
-				$remote_history['table_key'] = $rc['id'];
+			if( $remote_history['table_key'] != '' && strncmp($remote_history['table_key'], 'uuid-', 5) != 0 ) {
+				//
+				// The table_key on the remote end was blank, which means most likely the record was deleted
+				//
+				ciniki_core_loadMethod($ciniki, $details['package'], $details['module'], 'sync', $details['lookup']);
+				$lookup = $details['package'] . '_' . $details['module'] . '_' . $details['lookup'];
+				$rc = $lookup($ciniki, $sync, $business_id, array('remote_uuid'=> $remote_history['table_key']));
+				if( $rc['stat'] != 'ok' ) {
+//					error_log('SYNC-WARN: Unable to locate local table key for (' . $remote_history['table_key'] . ')');
+					$remote_history['table_key'] = 'uuid-' . $remote_history['table_key'];
+				} else {
+					$remote_history['table_key'] = $rc['id'];
+				}
 			}
 		}
 

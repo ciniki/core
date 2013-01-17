@@ -58,16 +58,20 @@ function ciniki_core_syncGetModuleHistory(&$ciniki, &$sync, $business_id, $args)
 	if( isset($args['table_key_maps']) && isset($args['table_key_maps'][$history['table_name']]) ) {
 		$details = $args['table_key_maps'][$history['table_name']];
 		//
-		// Lookup the object
+		// Lookup the object.  If the table_key is blank, then most likely the entire record was deleted. 
+		// The blank table_key object can be propagated through all servers, and may only have a non blank
+		// on the server where the object was add and deleted.
 		//
-		ciniki_core_loadMethod($ciniki, $details['package'], $details['module'], 'sync', $details['lookup']);
-		$lookup = $details['package'] . '_' . $details['module'] . '_' . $details['lookup'];
-		$rc = $lookup($ciniki, $sync, $business_id, array('local_id'=>$history['table_key']));
-		if( $rc['stat'] != 'ok' ) {
-			error_log("SYNC-ERR: Unable to locate local table key for $history_table(" . $history['table_key'] . ')');
-			$history['table_key'] = '';
-		} else {
-			$history['table_key'] = $rc['uuid'];
+		if( $history['table_key'] != '' ) {
+			ciniki_core_loadMethod($ciniki, $details['package'], $details['module'], 'sync', $details['lookup']);
+			$lookup = $details['package'] . '_' . $details['module'] . '_' . $details['lookup'];
+			$rc = $lookup($ciniki, $sync, $business_id, array('local_id'=>$history['table_key']));
+			if( $rc['stat'] != 'ok' ) {
+				error_log("SYNC-ERR: Unable to locate local table key for $history_table(" . $history['table_key'] . ')');
+				$history['table_key'] = '';
+			} else {
+				$history['table_key'] = $rc['uuid'];
+			}
 		}
 	}
 

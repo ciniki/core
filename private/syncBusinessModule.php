@@ -153,6 +153,7 @@ function ciniki_core_syncBusinessModule(&$ciniki, &$sync, $business_id, $module,
 				// a partial or incremental will only check records where the last_updated differs
 				// Check if uuid does not exist, and has not been deleted
 				//
+//				error_log("checking $module.$name: " . $uuid);
 				if( ($type == 'full' || !isset($local_list[$uuid]) || $local_list[$uuid] != $last_updated)
 					&& !isset($local_deleted[$uuid]) ) {
 					//
@@ -160,7 +161,7 @@ function ciniki_core_syncBusinessModule(&$ciniki, &$sync, $business_id, $module,
 					//
 					$rc = $update($ciniki, $sync, $business_id, array('uuid'=>$uuid));
 					if( $rc['stat'] != 'ok' ) {
-						return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'284', 'msg'=>"Unable to update $name on local server", 'err'=>$rc['err']));;
+						return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'284', 'msg'=>"Unable to update $name($uuid) on local server", 'err'=>$rc['err']));;
 					}
 				} 
 			}

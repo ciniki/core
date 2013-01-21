@@ -39,7 +39,8 @@ function ciniki_core_syncBusiness($ciniki, $business_id, $sync_id, $type) {
 	// Sync the core modules first
 	//
 //	$core_modules = array('ciniki.users', 'ciniki.images');
-	$core_modules = array('ciniki.businesses');
+//	$core_modules = array('ciniki.businesses');
+	$core_modules = array();
 	foreach($core_modules as $module) {
 		// FIXME: Put in check for incremental, will need to add core modules to list when 
 		if( $type == 'full' || $type == 'partial' ) {

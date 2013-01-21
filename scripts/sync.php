@@ -63,24 +63,44 @@ if( $ciniki['request']['method'] == 'ciniki.core.ping' ) {
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncDelete');
 	$response = ciniki_core_syncDelete($ciniki, $ciniki['sync']['business_id'], $ciniki['sync']['id']);
 } elseif( preg_match('/(.*)\.(.*)\.(.*)\.(list|get|update|delete)$/', $ciniki['request']['method'], $matches) ) {
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLoad');
+	$rc = ciniki_core_syncObjectLoad($ciniki, $ciniki['sync'], $ciniki['sync']['business_id'], $ciniki['request']['method'], array());
+	if( $rc['stat'] != 'ok' ) {
+		$response = array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'2001', 'msg'=>'Object does not exist'));
+	} else {
+		$o = $rc['object'];
+		if( $matches[4] == 'list' ) {
+			ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectList');
+			$response = ciniki_core_syncObjectList($ciniki, $ciniki['sync'], $ciniki['sync']['business_id'], $o, $ciniki['request']);
+		} elseif( $matches[4] == 'get' ) {
+			ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectGet');
+			$response = ciniki_core_syncObjectGet($ciniki, $ciniki['sync'], $ciniki['sync']['business_id'], $o, $ciniki['request']);
+		} elseif( $matches[4] == 'update' ) {
+			ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectUpdate');
+			$response = ciniki_core_syncObjectUpdate($ciniki, $ciniki['sync'], $ciniki['sync']['business_id'], $o, $ciniki['request']);
+		} elseif( $matches[4] == 'delete' ) {
+			ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectDelete');
+			$response = ciniki_core_syncObjectDelete($ciniki, $ciniki['sync'], $ciniki['sync']['business_id'], $o, $ciniki['request']);
+		} else {
+			$response = array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'2002', 'msg'=>'Object does not exist'));
+		}
+	}
 	//
 	// Parse the method, and the function name.  
 	//
-	$filename = '/' . $matches[1] . '-api/' . $matches[2] . '/sync/' . $matches[3] . '_' . $matches[4] . '.php';
-	$method_function = $matches[1] . '_' . $matches[2] . '_' . $matches[3] . '_' . $matches[4];
-//	$filename = preg_replace('/^(.*)\.(.*)\.(.*)\.(.*)$/', '/\1-api/\2/sync/\3_\4.php', $ciniki['request']['method']);
-//	$method_function = preg_replace('/^(.*)\.(.*)\.(.*)\.(.*)$/', '\1_\2_\3\_\4', $ciniki['request']['method']);
-	if( file_exists($ciniki['config']['ciniki.core']['root_dir'] . $filename) ) {
-		require_once($ciniki['config']['ciniki.core']['root_dir'] . $filename);
-		if( is_callable($method_function) ) {
-			$response = $method_function($ciniki, $ciniki['sync'], $ciniki['sync']['business_id'], $ciniki['request']);
-		} else {
-			$response = array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'995', 'msg'=>'Method does not exist: ' . $ciniki['request']['method']));
-		}
-	} else {
-		error_log($filename);
-		$response = array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'996', 'msg'=>'Method does not exist: ' . $ciniki['request']['method']));
-	}
+//	$filename = '/' . $matches[1] . '-api/' . $matches[2] . '/sync/' . $matches[3] . '_' . $matches[4] . '.php';
+//	$method_function = $matches[1] . '_' . $matches[2] . '_' . $matches[3] . '_' . $matches[4];
+//	if( file_exists($ciniki['config']['ciniki.core']['root_dir'] . $filename) ) {
+//		require_once($ciniki['config']['ciniki.core']['root_dir'] . $filename);
+//		if( is_callable($method_function) ) {
+//			$response = $method_function($ciniki, $ciniki['sync'], $ciniki['sync']['business_id'], $ciniki['request']);
+//		} else {
+//			$response = array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'995', 'msg'=>'Method does not exist: ' . $ciniki['request']['method']));
+//		}
+//	} else {
+//		error_log($filename);
+//		$response = array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'996', 'msg'=>'Method does not exist: ' . $ciniki['request']['method']));
+//	}
 //} elseif( preg_match('/.*\..*\.(.*List|.*Get|.*Update|.*Add)$/', $ciniki['request']['method']) ) {
 //	//
 //	// Parse the method, and the function name.  

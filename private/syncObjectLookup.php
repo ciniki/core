@@ -54,7 +54,7 @@ function ciniki_core_syncObjectLookup(&$ciniki, &$sync, $business_id, $o, $args)
 			. "";
 		$rc = ciniki_core_dbHashQuery($ciniki, $strsql, $o['pmod'], 'object');
 		if( $rc['stat'] != 'ok' ) {
-			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1022', 'msg'=>'Unable to get " . $o['name'] . " id from history', 'err'=>$rc['err']));
+			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1022', 'msg'=>'Unable to get ' . $o['name'] . ' id from history', 'err'=>$rc['err']));
 		}
 		if( isset($rc['object']) ) {
 			return array('stat'=>'ok', 'id'=>$rc['object']['table_key']);

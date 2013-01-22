@@ -54,9 +54,10 @@ function ciniki_core_syncQueueProcess(&$ciniki, $business_id) {
 					continue;
 				}
 				if( isset($queue_item['push']) ) {
+					error_log("SYNC-INFO: [$business_id] Push " . $queue_item['push'] . '(' . serialize($queue_item['args']) . ')');
 					// FIXME: Check if pushing settings
 					ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLoad');
-					$rc = ciniki_core_syncObjectLoad($ciniki, $sync, $business_id, $ref, array());
+					$rc = ciniki_core_syncObjectLoad($ciniki, $sync, $business_id, $queue_item['push'], array());
 					if( $rc['stat'] != 'ok' ) {
 						return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'999', 'msg'=>'Unable to load object ' . $ref, 'err'=>$rc['err']));
 					}

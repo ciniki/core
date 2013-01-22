@@ -17,6 +17,29 @@ function ciniki_core_syncObjectUpdateSQL($ciniki, $sync, $business_id, $o, $remo
 	$fields['last_updated'] = array('type'=>'uts');
 	foreach($fields as $field => $finfo) {
 		//
+		// Translate remote ID's to load ID's before compare
+		//
+		if( isset($finfo['ref']) && $finfo['ref'] != '' ) {
+			ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLoad');
+			$rc = ciniki_core_syncObjectLoad($ciniki, $sync, $business_id, $finfo['ref'], array());
+			if( $rc['stat'] != 'ok' ) {
+				return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'2004', 'msg'=>'Unable to load object ' . $finfo['ref'], 'err'=>$rc['err']));
+			}
+			$ref_o = $rc['object'];
+
+			//
+			// Lookup the object
+			//
+			ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLookup');
+			$rc = ciniki_core_syncObjectLookup($ciniki, $sync, $business_id, $ref_o, 
+				array('remote_uuid'=>$remote_object[$field]));
+			if( $rc['stat'] != 'ok' ) {
+				return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'2005', 'msg'=>'Unable to find ' . $o['name']));
+			}
+			$remote_object[$field] = $rc['id'];
+		}
+
+		//
 		// Check if the fields are different, and if so, figure out which one is newer
 		//
 		if( $remote_object[$field] != $local_object[$field] ) {

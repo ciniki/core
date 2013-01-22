@@ -91,6 +91,13 @@ function ciniki_core_syncBusiness($ciniki, $business_id, $sync_id, $type) {
 	// Go through the optional modules configured for the business
 	//
 	foreach($modules as $name => $module) {
+
+		// FIXME: Remove
+		continue;
+
+
+
+
 		//
 		// Check that it wasn't taken care of in priority modules
 		//

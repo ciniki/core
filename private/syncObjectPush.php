@@ -104,7 +104,7 @@ function ciniki_core_syncObjectPush(&$ciniki, &$sync, $business_id, $o, $args) {
 		// Delete the remote object 
 		//
 		ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncRequest');
-		$rc = ciniki_core_syncRequest($ciniki, $sync, array('method'=>$o['pmod'], . '.' . $o['oname'] . '.delete', 'uuid'=>$delete['uuid'], 'history'=>$history));
+		$rc = ciniki_core_syncRequest($ciniki, $sync, array('method'=>$o['pmod'] . '.' . $o['oname'] . '.delete', 'uuid'=>$delete['uuid'], 'history'=>$history));
 //		$rc = ciniki_core_syncRequest($ciniki, $sync, array('method'=>'ciniki.customers.customer.delete', 'uuid'=>$args['delete_uuid'], 'history'=>$history));
 		if( $rc['stat'] != 'ok' ) {
 			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1164', 'msg'=>'Unable to sync ' . $o['name']));

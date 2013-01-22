@@ -74,50 +74,27 @@ function ciniki_core_syncObjectUpdateHistory(&$ciniki, &$sync, $business_id, $o,
 				//
 				if( isset($o['fields'][$history['table_field']]) && isset($o['fields'][$history['table_field']]['ref']) ) {
 					$ref = $o['fields'][$history['table_field']]['ref'];
+					error_log('checking ref ' . $ref);
 
 					ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLoad');
 					$rc = ciniki_core_syncObjectLoad($ciniki, $sync, $business_id, $ref, array());
 					if( $rc['stat'] != 'ok' ) {
 						return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'999', 'msg'=>'Unable to load object ' . $ref, 'err'=>$rc['err']));
 					}
-					$history_object = $rc['object'];
+					$ref_o = $rc['object'];
 
 					//
 					// Lookup the object
 					//
 					ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLookup');
-					$rc = ciniki_core_syncObjectLookup($ciniki, $sync, $business_id, $history_object, 
+					$rc = ciniki_core_syncObjectLookup($ciniki, $sync, $business_id, $ref_o, 
 						array('remote_uuid'=>$history['new_value']));
-//					ciniki_core_loadMethod($ciniki, $details['package'], $details['module'], 'sync', $details['lookup']);
-//					$lookup = $details['package'] . '_' . $details['module'] . '_' . $details['lookup'];
-//					$rc = $lookup($ciniki, $sync, $business_id, array('remote_uuid'=> $history['new_value']));
 					if( $rc['stat'] != 'ok' ) {
 						error_log('SYNC-ERR: Unable to locate local new value for ' . $history['table_name'] . '(' . $history['new_value'] . ')');
 						$history['table_key'] = '';
 					} else {
 						$history['new_value'] = $rc['id'];
 					}
-
-//					$map_module = $maps[$history['table_field']]['module'];
-//					$map_table = $maps[$history['table_field']]['table'];
-//					if( isset($sync['uuids'][$map_table][$history['new_value']]) ) {
-//						$history['new_value'] = $sync['uuids'][$map_table][$history['new_value']];
-//					} else {
-//						$strsql = "SELECT id "
-//							. "FROM $map_table "
-//							. "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
-//							. "AND uuid = '" . ciniki_core_dbQuote($ciniki, $history['new_value']) . "' "
-//							. "";
-//						$rc = ciniki_core_dbHashQuery($ciniki, $strsql, $map_module, 'table_id');
-//						if( $rc['stat'] != 'ok' ) {
-//							return $rc;
-//						}
-//						if( !isset($rc['table_id']) ) {
-//							return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'280', 'msg'=>'Unable to find reference'));
-//						} else {
-//							$history['new_value'] = $rc['table_id']['id'];
-//						}
-//					}
 				}
 
 				$strsql = "INSERT INTO $history_table (uuid, business_id, user_id, "	
@@ -128,13 +105,13 @@ function ciniki_core_syncObjectUpdateHistory(&$ciniki, &$sync, $business_id, $o,
 					. "'" . ciniki_core_dbQuote($ciniki, $user_id) . "', "
 					. "'" . ciniki_core_dbQuote($ciniki, $history['session']) . "', "
 					. "'" . ciniki_core_dbQuote($ciniki, $history['action']) . "', "
-					. "'" . ciniki_core_dbQuote($ciniki, $o['history']['table']) . "', "
+					. "'" . ciniki_core_dbQuote($ciniki, $o['table']) . "', "
 					. "'" . ciniki_core_dbQuote($ciniki, $table_key) . "', "
 					. "'" . ciniki_core_dbQuote($ciniki, $history['table_field']) . "', "
 					. "'" . ciniki_core_dbQuote($ciniki, $history['new_value']) . "', "
 					. "FROM_UNIXTIME('" . ciniki_core_dbQuote($ciniki, $history['log_date']) . "') "
 					. ")";
-				$rc = ciniki_core_dbInsert($ciniki, $strsql, $module);
+				$rc = ciniki_core_dbInsert($ciniki, $strsql, $o['pmod']);
 				if( $rc['stat'] != 'ok' && $rc['err']['code'] != '73' ) {
 					return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'279', 'msg'=>'Unable to add history'));
 				}
@@ -150,7 +127,7 @@ function ciniki_core_syncObjectUpdateHistory(&$ciniki, &$sync, $business_id, $o,
 				$strsql .= "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
 					. "AND uuid = '" . ciniki_core_dbQuote($ciniki, $uuid) . "' "
 					. "";
-				$rc = ciniki_core_dbUpdate($ciniki, $strsql, $module);
+				$rc = ciniki_core_dbUpdate($ciniki, $strsql, $o['pmod']);
 				if( $rc['stat'] != 'ok' && $rc['err']['code'] != '73' ) {
 					return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1017', 'msg'=>'Unable to update history'));
 				}

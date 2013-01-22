@@ -63,7 +63,7 @@ function ciniki_core_syncObjectUpdate(&$ciniki, &$sync, $business_id, $o, $args)
 	// Get the local object
 	//
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectGet');
-	$rc = ciniki_core_syncObjectGet($ciniki, $sync, $business_id, $o, array('uuid'=>$remote_object['uuid']));
+	$rc = ciniki_core_syncObjectGet($ciniki, $sync, $business_id, $o, array('uuid'=>$remote_object['uuid'], 'translate'=>'no'));
 	if( $rc['stat'] != 'ok' && $rc['stat'] != 'noexist' ) {
 		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'962', 'msg'=>'Unable to get ' . $o['name'], 'err'=>$rc['err']));
 	}
@@ -82,12 +82,30 @@ function ciniki_core_syncObjectUpdate(&$ciniki, &$sync, $business_id, $o, $args)
 		}
 		$strsql .= "date_added, last_updated) VALUES (";
 		
-		$strsql .= "UNIX_TIMESTAMP($table.date_added) AS date_added, "
-			. "UNIX_TIMESTAMP($table.last_updated) AS last_updated, ";
 		$strsql .= "'" . ciniki_core_dbQuote($ciniki, $remote_object['uuid']) . "', "
 			. "'" . ciniki_core_dbQuote($ciniki, $business_id) . "', ";
 		foreach($o['fields'] as $fid => $finfo) {
-			$strsql .= "'" . ciniki_core_dbQuote($ciniki, $remote_object[$fid]) . "', ";
+			if( isset($finfo['ref']) && $finfo['ref'] != '' ) {
+				ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLoad');
+				$rc = ciniki_core_syncObjectLoad($ciniki, $sync, $business_id, $finfo['ref'], array());
+				if( $rc['stat'] != 'ok' ) {
+					return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'2004', 'msg'=>'Unable to load object ' . $finfo['ref'], 'err'=>$rc['err']));
+				}
+				$ref_o = $rc['object'];
+
+				//
+				// Lookup the object
+				//
+				ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLookup');
+				$rc = ciniki_core_syncObjectLookup($ciniki, $sync, $business_id, $ref_o, 
+					array('remote_uuid'=>$remote_object[$fid]));
+				if( $rc['stat'] != 'ok' ) {
+					return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'2005', 'msg'=>'Unable to find ' . $o['name']));
+				}
+				$strsql .= "'" . ciniki_core_dbQuote($ciniki, $rc['id']) . "', ";
+			} else {
+				$strsql .= "'" . ciniki_core_dbQuote($ciniki, $remote_object[$fid]) . "', ";
+			}
 		}
 		$strsql .= "FROM_UNIXTIME('" . ciniki_core_dbQuote($ciniki, $remote_object['date_added']) . "'), "
 			. "FROM_UNIXTIME('" . ciniki_core_dbQuote($ciniki, $remote_object['last_updated']) . "') "
@@ -95,6 +113,7 @@ function ciniki_core_syncObjectUpdate(&$ciniki, &$sync, $business_id, $o, $args)
 		ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbInsert');
 		$rc = ciniki_core_dbInsert($ciniki, $strsql, $o['pmod']);
 		if( $rc['stat'] != 'ok' ) { 
+			error_log(serialize($remote_object));
 			ciniki_core_dbTransactionRollback($ciniki, $o['pmod']);
 			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'953', 'msg'=>'Unable to add ' . $o['name'], 'err'=>$rc['err']));
 		}

@@ -19,7 +19,7 @@ function ciniki_core_syncObjectLoad(&$ciniki, &$sync, $business_id, $object_ref,
 		if( is_callable($object_function) ) {
 			$rc = $object_function($ciniki, $sync, $business_id, $args);
 			if( $rc['stat'] != 'ok' ) {
-				return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'999', 'msg'=>'Object does not exist'));
+				return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1180', 'msg'=>'Object does not exist'));
 			}
 			//
 			// Check if we are dealing with settings (special case) or standard object
@@ -36,14 +36,14 @@ function ciniki_core_syncObjectLoad(&$ciniki, &$sync, $business_id, $object_ref,
 					
 					return array('stat'=>'ok', 'object'=>$o);
 				} else {
-					return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'999', 'msg'=>'Object does not exist'));
+					return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1181', 'msg'=>'Object does not exist'));
 				}
 			}
 		} else {
-			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'999', 'msg'=>'Object does not exist'));
+			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1182', 'msg'=>'Object does not exist'));
 		}
 	} 
 
-	return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'999', 'msg'=>'Object does not exist'));
+	return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1183', 'msg'=>'Object does not exist'));
 }
 ?>

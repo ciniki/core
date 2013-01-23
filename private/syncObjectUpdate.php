@@ -23,7 +23,7 @@ function ciniki_core_syncObjectUpdate(&$ciniki, &$sync, $business_id, $o, $args)
 	//
 	if( (!isset($args['uuid']) || $args['uuid'] == '') 
 		&& (!isset($args['object']) || $args['object'] == '') ) {
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'273', 'msg'=>'No ' . $o['name'] . ' specified'));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1221', 'msg'=>'No ' . $o['name'] . ' specified'));
 	}
 
 	if( isset($args['uuid']) && $args['uuid'] != '' ) {
@@ -33,10 +33,10 @@ function ciniki_core_syncObjectUpdate(&$ciniki, &$sync, $business_id, $o, $args)
 		ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncRequest');
 		$rc = ciniki_core_syncRequest($ciniki, $sync, array('method'=>$o['pmod'] . '.' . $o['oname'] . '.get', 'uuid'=>$args['uuid']));
 		if( $rc['stat'] != 'ok' ) {
-			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'936', 'msg'=>'Unable to get the remote ' . $o['name'], 'err'=>$rc['err']));
+			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1222', 'msg'=>'Unable to get the remote ' . $o['name'], 'err'=>$rc['err']));
 		}
 		if( !isset($rc['object']) ) {
-			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'935', 'msg'=>$o['oname'] . ' not found on remote server'));
+			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1223', 'msg'=>$o['oname'] . ' not found on remote server'));
 		}
 		$remote_object = $rc['object'];
 	} else {
@@ -65,7 +65,7 @@ function ciniki_core_syncObjectUpdate(&$ciniki, &$sync, $business_id, $o, $args)
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectGet');
 	$rc = ciniki_core_syncObjectGet($ciniki, $sync, $business_id, $o, array('uuid'=>$remote_object['uuid'], 'translate'=>'no'));
 	if( $rc['stat'] != 'ok' && $rc['stat'] != 'noexist' ) {
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'962', 'msg'=>'Unable to get ' . $o['name'], 'err'=>$rc['err']));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1224', 'msg'=>'Unable to get ' . $o['name'], 'err'=>$rc['err']));
 	}
 	$db_updated = 0;
 	$table = $o['table'];
@@ -89,7 +89,7 @@ function ciniki_core_syncObjectUpdate(&$ciniki, &$sync, $business_id, $o, $args)
 				ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLoad');
 				$rc = ciniki_core_syncObjectLoad($ciniki, $sync, $business_id, $finfo['ref'], array());
 				if( $rc['stat'] != 'ok' ) {
-					return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'2004', 'msg'=>'Unable to load object ' . $finfo['ref'], 'err'=>$rc['err']));
+					return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1225', 'msg'=>'Unable to load object ' . $finfo['ref'], 'err'=>$rc['err']));
 				}
 				$ref_o = $rc['object'];
 
@@ -100,7 +100,7 @@ function ciniki_core_syncObjectUpdate(&$ciniki, &$sync, $business_id, $o, $args)
 				$rc = ciniki_core_syncObjectLookup($ciniki, $sync, $business_id, $ref_o, 
 					array('remote_uuid'=>$remote_object[$fid]));
 				if( $rc['stat'] != 'ok' ) {
-					return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'2005', 'msg'=>'Unable to find ' . $o['name']));
+					return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1226', 'msg'=>'Unable to find ' . $o['name']));
 				}
 				$strsql .= "'" . ciniki_core_dbQuote($ciniki, $rc['id']) . "', ";
 			} else {
@@ -115,11 +115,11 @@ function ciniki_core_syncObjectUpdate(&$ciniki, &$sync, $business_id, $o, $args)
 		if( $rc['stat'] != 'ok' ) { 
 			error_log(serialize($remote_object));
 			ciniki_core_dbTransactionRollback($ciniki, $o['pmod']);
-			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'953', 'msg'=>'Unable to add ' . $o['name'], 'err'=>$rc['err']));
+			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1227', 'msg'=>'Unable to add ' . $o['name'], 'err'=>$rc['err']));
 		}
 		if( !isset($rc['insert_id']) || $rc['insert_id'] < 1 ) {
 			ciniki_core_dbTransactionRollback($ciniki, $o['pmod']);
-			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'277', 'msg'=>'Unable to add ' . $o['name']));
+			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1228', 'msg'=>'Unable to add ' . $o['name']));
 		}
 		$object_id = $rc['insert_id'];
 		$db_updated = 1;

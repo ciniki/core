@@ -57,7 +57,7 @@ function ciniki_core_syncObjectUpdateHistory(&$ciniki, &$sync, $business_id, $o,
 						ciniki_core_loadMethod($ciniki, 'ciniki', 'businesses', 'sync', 'user_update');
 						$rc = ciniki_businesses_user_update($ciniki, $sync, $business_id, array('uuid'=>$history['user']));
 						if( $rc['stat'] != 'ok' ) {
-							return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'921', 'msg'=>'Unable to add user', 'err'=>$rc['err']));;
+							return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1168', 'msg'=>'Unable to add user', 'err'=>$rc['err']));;
 						}
 						$user_id = $rc['id'];
 					} else {
@@ -79,7 +79,7 @@ function ciniki_core_syncObjectUpdateHistory(&$ciniki, &$sync, $business_id, $o,
 					ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLoad');
 					$rc = ciniki_core_syncObjectLoad($ciniki, $sync, $business_id, $ref, array());
 					if( $rc['stat'] != 'ok' ) {
-						return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'999', 'msg'=>'Unable to load object ' . $ref, 'err'=>$rc['err']));
+						return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1169', 'msg'=>'Unable to load object ' . $ref, 'err'=>$rc['err']));
 					}
 					$ref_o = $rc['object'];
 
@@ -113,7 +113,7 @@ function ciniki_core_syncObjectUpdateHistory(&$ciniki, &$sync, $business_id, $o,
 					. ")";
 				$rc = ciniki_core_dbInsert($ciniki, $strsql, $o['pmod']);
 				if( $rc['stat'] != 'ok' && $rc['err']['code'] != '73' ) {
-					return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'279', 'msg'=>'Unable to add history'));
+					return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1172', 'msg'=>'Unable to add history'));
 				}
 			} elseif( $user_id > 0 ) {
 				//
@@ -129,7 +129,7 @@ function ciniki_core_syncObjectUpdateHistory(&$ciniki, &$sync, $business_id, $o,
 					. "";
 				$rc = ciniki_core_dbUpdate($ciniki, $strsql, $o['pmod']);
 				if( $rc['stat'] != 'ok' && $rc['err']['code'] != '73' ) {
-					return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1017', 'msg'=>'Unable to update history'));
+					return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1170', 'msg'=>'Unable to update history'));
 				}
 			}
 

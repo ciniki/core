@@ -41,9 +41,9 @@ function ciniki_core_threadAdd($ciniki, $module, $table, $args) {
 	// 
 	// Setup the SQL statement to insert the new thread
 	//
-	$strsql = "INSERT INTO $table (business_id, user_id, subject, state, "
+	$strsql = "INSERT INTO $table (uuid, business_id, user_id, subject, state, "
 		. "source, source_link, options, "
-		. "date_added, last_updated) VALUES (";
+		. "date_added, last_updated) VALUES (UUID(), ";
 
 	// business_id
 	if( isset($args['business_id']) && $args['business_id'] != '' && $args['business_id'] > 0 ) {

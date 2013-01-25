@@ -17,7 +17,7 @@
 // Returns
 // -------
 //
-function ciniki_core_threadAddFollowup($ciniki, $module, $table, $prefix, $id, $args) {
+function ciniki_core_threadAddFollowup($ciniki, $module, $business_id, $table, $prefix, $id, $args) {
 	//
 	// All arguments are assumed to be un-escaped, and will be passed through dbQuote to
 	// ensure they are safe to insert.
@@ -31,9 +31,12 @@ function ciniki_core_threadAddFollowup($ciniki, $module, $table, $prefix, $id, $
 	// 
 	// Setup the SQL statement to insert the new thread
 	//
-	$strsql = "INSERT INTO " . ciniki_core_dbQuote($ciniki, $table) . " (" . ciniki_core_dbQuote($ciniki, "{$prefix}_id") . ", "
+	$strsql = "INSERT INTO " . ciniki_core_dbQuote($ciniki, $table) . " (uuid, business_id, "
+		. " . ciniki_core_dbQuote($ciniki, "{$prefix}_id") . ", "
 		. "user_id, content, date_added, last_updated"
-		. ") VALUES (";
+		. ") VALUES (uuid(), "
+		. "'" . ciniki_core_dbQuote($ciniki, $business_id) . "', "
+		. "";
 
 	// $prefix_id (bug_id, help_id, comment_id, etc...
 	if( $id != null && $id > 0 ) {

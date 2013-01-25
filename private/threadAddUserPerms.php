@@ -18,7 +18,7 @@
 // Returns
 // -------
 //
-function ciniki_core_threadAddUserPerms($ciniki, $module, $table, $prefix, $id, $user_id, $perms) {
+function ciniki_core_threadAddUserPerms($ciniki, $module, $business_id, $table, $prefix, $id, $user_id, $perms) {
 	//
 	// All arguments are assumed to be un-escaped, and will be passed through dbQuote to
 	// ensure they are safe to insert.
@@ -32,9 +32,12 @@ function ciniki_core_threadAddUserPerms($ciniki, $module, $table, $prefix, $id, 
 	// 
 	// Setup the SQL statement to insert the new thread
 	//
-	$strsql = "INSERT INTO " . ciniki_core_dbQuote($ciniki, $table) . " (" . ciniki_core_dbQuote($ciniki, "{$prefix}_id") . ", "
+	$strsql = "INSERT INTO " . ciniki_core_dbQuote($ciniki, $table) 
+		. " (uuid, business_id, " . ciniki_core_dbQuote($ciniki, "{$prefix}_id") . ", "
 		. "user_id, perms, date_added, last_updated"
-		. ") VALUES (";
+		. ") VALUES (UUID(), "
+		. "'" . ciniki_core_dbQuote($ciniki, $business_id) . "', "
+		. "";
 
 	// $prefix_id (bug_id, help_id, comment_id, etc...
 	if( $id != null && $id > 0 ) {

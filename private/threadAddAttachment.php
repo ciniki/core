@@ -17,7 +17,7 @@
 // Returns
 // -------
 //
-function ciniki_core_threadAddAttachment($ciniki, $module, $table, $prefix, $id, $package, $a_module, $element, $element_id) {
+function ciniki_core_threadAddAttachment($ciniki, $module, $business_id, $table, $prefix, $id, $package, $a_module, $element, $element_id) {
 	//
 	// All arguments are assumed to be un-escaped, and will be passed through dbQuote to
 	// ensure they are safe to insert.
@@ -31,9 +31,11 @@ function ciniki_core_threadAddAttachment($ciniki, $module, $table, $prefix, $id,
 	// 
 	// Setup the SQL statement to insert the new thread
 	//
-	$strsql = "INSERT INTO " . ciniki_core_dbQuote($ciniki, $table) . " (" . ciniki_core_dbQuote($ciniki, "{$prefix}_id") . ", "
+	$strsql = "INSERT INTO " . ciniki_core_dbQuote($ciniki, $table) . " (uuid, business_id, " . ciniki_core_dbQuote($ciniki, "{$prefix}_id") . ", "
 		. "flags, package, module, element, element_id, date_added, last_updated"
-		. ") VALUES (";
+		. ") VALUES (uuid(), "
+		. "'" . ciniki_core_dbQuote($ciniki, $business_id) . "', "
+		. "";
 
 	// $prefix_id (bug_id, help_id, comment_id, etc...
 	if( $id != null && $id > 0 ) {

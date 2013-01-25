@@ -33,7 +33,7 @@ function ciniki_core_threadAddFollower($ciniki, $module, $business_id, $table, $
 	// Setup the SQL statement to insert the new thread
 	//
 	$strsql = "INSERT INTO " . ciniki_core_dbQuote($ciniki, $table) . " (uuid, business_id, "
-		. " . ciniki_core_dbQuote($ciniki, "{$prefix}_id") . ", "
+		. "" . ciniki_core_dbQuote($ciniki, "{$prefix}_id") . ", "
 		. "user_id, perms, date_added, last_updated"
 		. ") VALUES (uuid(), "
 		. "'" . ciniki_core_dbQuote($ciniki, $business_id) . "', "

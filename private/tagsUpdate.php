@@ -23,7 +23,7 @@
 // -------
 // <rsp stat="ok" />
 //
-function ciniki_core_tagsUpdate($ciniki, $module, $table, $key_name, $key_value, $type, $list) {
+function ciniki_core_tagsUpdate(&$ciniki, $module, $business_id, $table, $history_table, $key_name, $key_value, $type, $list) {
 	//
 	// All arguments are assumed to be un-escaped, and will be passed through dbQuote to
 	// ensure they are safe to insert.
@@ -46,6 +46,7 @@ function ciniki_core_tagsUpdate($ciniki, $module, $table, $key_name, $key_value,
 		. "FROM $table "
 		. "WHERE $key_name = '" . ciniki_core_dbQuote($ciniki, $key_value) . "' "
 		. "AND tag_type = '" . ciniki_core_dbQuote($ciniki, $type) . "' "
+		. "AND business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
 		. "";
 	$rc = ciniki_core_dbHashIDQuery($ciniki, $strsql, $module, 'tags', 'name');
 	if( $rc['stat'] != 'ok' ) {
@@ -65,11 +66,16 @@ function ciniki_core_tagsUpdate($ciniki, $module, $table, $key_name, $key_value,
 			//
 			// The tag does not exist in the new list, so it should be deleted.
 			//
-			$strsql = "DELETE FROM $table WHERE id = '" . ciniki_core_dbQuote($ciniki, $tag['id']) . "' ";
+			$strsql = "DELETE FROM $table "
+				. "WHERE id = '" . ciniki_core_dbQuote($ciniki, $tag['id']) . "' "
+				. "AND business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+				. "";
 			$rc = ciniki_core_dbDelete($ciniki, $strsql, $module);
 			if( $rc['stat'] != 'ok' ) {	
 				return $rc;
 			}
+			ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $business_id,
+				3, $table, $tag['id'], '*', '');
 		}
 	}
 
@@ -77,11 +83,24 @@ function ciniki_core_tagsUpdate($ciniki, $module, $table, $key_name, $key_value,
 	// Add new tags lists
 	//
 	foreach($list as $tag) {
-		if( $tag != '' && !in_array($tag, $dbtags) ) {
+		if( $tag != '' && !array_key_exists($tag, $dbtags) ) {
+			error_log("Adding tag: $tag");
+			//
+			// Get a new UUID
+			//
+			ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbUUID');
+			$rc = ciniki_core_dbUUID($ciniki, $module);
+			if( $rc['stat'] != 'ok' ) {
+				return $rc;
+			}
+			$uuid = $rc['uuid'];
+
 			// 
 			// Setup the SQL statement to insert the new thread
 			//
-			$strsql = "INSERT INTO $table ($key_name, tag_type, tag_name, date_added, last_updated) VALUES ("
+			$strsql = "INSERT INTO $table (uuid, business_id, $key_name, tag_type, tag_name, date_added, last_updated) VALUES ("
+				. "'" . ciniki_core_dbQuote($ciniki, $uuid) . "', "
+				. "'" . ciniki_core_dbQuote($ciniki, $business_id) . "', "
 				. "'" . ciniki_core_dbQuote($ciniki, $key_value) . "', "
 				. "'" . ciniki_core_dbQuote($ciniki, $type) . "', "
 				. "'" . ciniki_core_dbQuote($ciniki, $tag) . "', "
@@ -93,6 +112,20 @@ function ciniki_core_tagsUpdate($ciniki, $module, $table, $key_name, $key_value,
 			//
 			if( $rc['stat'] != 'ok' && $rc['err']['code'] != '73' ) {
 				return $rc;
+			}
+			if( isset($rc['insert_id']) ) {
+				$tag_id = $rc['insert_id'];
+				//
+				// Add history
+				//
+				ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $business_id,
+					1, $table, $tag_id, 'uuid', $uuid);
+				ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $business_id,
+					1, $table, $tag_id, $key_name, $key_value);
+				ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $business_id,
+					1, $table, $tag_id, 'tag_type', $type);
+				ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $business_id,
+					1, $table, $tag_id, 'tag_name', $tag);
 			}
 		}
 	}

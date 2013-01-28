@@ -8,6 +8,7 @@
 // ---------
 // ciniki:
 // module:				The package.module the tag is located in.
+// object:				The object used to push changes in sync.
 // table:				The database table that stores the tags.
 // key_name:			The name of the ID field that links to the item the tag is for.
 // key_value:			The value for the ID field.
@@ -23,7 +24,7 @@
 // -------
 // <rsp stat="ok" />
 //
-function ciniki_core_tagsUpdate(&$ciniki, $module, $business_id, $table, $history_table, $key_name, $key_value, $type, $list) {
+function ciniki_core_tagsUpdate(&$ciniki, $module, $object, $business_id, $table, $history_table, $key_name, $key_value, $type, $list) {
 	//
 	// All arguments are assumed to be un-escaped, and will be passed through dbQuote to
 	// ensure they are safe to insert.
@@ -42,7 +43,7 @@ function ciniki_core_tagsUpdate(&$ciniki, $module, $business_id, $table, $histor
 	//
 	// Get the existing list of tags for the item
 	//
-	$strsql = "SELECT id, $key_name, tag_type AS type, tag_name AS name "
+	$strsql = "SELECT id, uuid, $key_name, tag_type AS type, tag_name AS name "
 		. "FROM $table "
 		. "WHERE $key_name = '" . ciniki_core_dbQuote($ciniki, $key_value) . "' "
 		. "AND tag_type = '" . ciniki_core_dbQuote($ciniki, $type) . "' "
@@ -76,7 +77,14 @@ function ciniki_core_tagsUpdate(&$ciniki, $module, $business_id, $table, $histor
 			}
 			ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $business_id,
 				3, $table, $tag['id'], '*', '');
+
+			//
+			// Sync push delete
+			//
+			$ciniki['syncqueue'][] = array('push'=>$module . '.' . $object, 
+				'args'=>array('delete_uuid'=>$tag['uuid'], 'delete_id'=>$tag['id']));
 		}
+		
 	}
 
 	//
@@ -84,7 +92,6 @@ function ciniki_core_tagsUpdate(&$ciniki, $module, $business_id, $table, $histor
 	//
 	foreach($list as $tag) {
 		if( $tag != '' && !array_key_exists($tag, $dbtags) ) {
-			error_log("Adding tag: $tag");
 			//
 			// Get a new UUID
 			//
@@ -126,7 +133,13 @@ function ciniki_core_tagsUpdate(&$ciniki, $module, $business_id, $table, $histor
 					1, $table, $tag_id, 'tag_type', $type);
 				ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $business_id,
 					1, $table, $tag_id, 'tag_name', $tag);
+				//
+				// Sync push
+				//
+				$ciniki['syncqueue'][] = array('push'=>$module . '.' . $object, 
+					'args'=>array('id'=>$tag_id));
 			}
+
 		}
 	}
 

@@ -23,7 +23,7 @@
 // -------
 // <rsp stat="ok" />
 //
-function ciniki_core_tagAdd(&$ciniki, $module, $business_id, $table, $key_name, $key_value, $type, $name) {
+function ciniki_core_tagAdd(&$ciniki, $module, $object, $business_id, $table, $key_name, $key_value, $type, $name) {
 	//
 	// All arguments are assumed to be un-escaped, and will be passed through dbQuote to
 	// ensure they are safe to insert.
@@ -79,6 +79,11 @@ function ciniki_core_tagAdd(&$ciniki, $module, $business_id, $table, $key_name, 
 			1, $table, $tag_id, 'tag_type', $type);
 		ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $business_id,
 			1, $table, $tag_id, 'tag_name', $tag);
+		//
+		// Sync push
+		//
+		$ciniki['syncqueue'][] = array('push'=>$module . '.' . $object, 
+			'args'=>array('id'=>$tag_id));
 	}
 
 	return array('stat'=>'ok');

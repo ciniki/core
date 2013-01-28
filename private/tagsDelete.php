@@ -16,7 +16,7 @@
 // -------
 // <rsp stat="ok" />
 //
-function ciniki_core_tagsDelete(&$ciniki, $module, $business_id, $table, $history_table, $key_name, $key_value) {
+function ciniki_core_tagsDelete(&$ciniki, $module, $object, $business_id, $table, $history_table, $key_name, $key_value) {
 	//
 	// All arguments are assumed to be un-escaped, and will be passed through dbQuote to
 	// ensure they are safe to insert.
@@ -33,7 +33,7 @@ function ciniki_core_tagsDelete(&$ciniki, $module, $business_id, $table, $histor
 	//
 	// Grab the list of tags, so we can add the delete history
 	//
-	$strsql = "SELECT id FROM $table "
+	$strsql = "SELECT id, uuid FROM $table "
 		. "WHERE $key_name = '" . ciniki_core_dbQuote($ciniki, $key_value) . "' "
 		. "AND business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
 		. "";
@@ -58,6 +58,11 @@ function ciniki_core_tagsDelete(&$ciniki, $module, $business_id, $table, $histor
 	foreach($tags as $tid => $tag) {
 		ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $business_id,
 			3, $table, $tag['id'], '*', '');
+		//
+		// Sync push delete
+		//
+		$ciniki['syncqueue'][] = array('push'=>$module . '.' . $object, 
+			'args'=>array('delete_uuid'=>$tag['uuid'], 'delete_id'=>$tag['id']));
 	}
 		
 	return array('stat'=>'ok');

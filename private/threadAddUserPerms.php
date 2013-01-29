@@ -18,7 +18,7 @@
 // Returns
 // -------
 //
-function ciniki_core_threadAddUserPerms($ciniki, $module, $business_id, $table, $prefix, $id, $user_id, $perms) {
+function ciniki_core_threadAddUserPerms(&$ciniki, $module, $object, $business_id, $table, $history_table, $prefix, $id, $user_id, $perms) {
 	//
 	// All arguments are assumed to be un-escaped, and will be passed through dbQuote to
 	// ensure they are safe to insert.
@@ -28,6 +28,18 @@ function ciniki_core_threadAddUserPerms($ciniki, $module, $business_id, $table, 
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQuote');
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbInsert');
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbUpdate');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbAddModuleHistory');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashQuery');
+
+	//
+	// Get a new UUID
+	//
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbUUID');
+	$rc = ciniki_core_dbUUID($ciniki, $module);
+	if( $rc['stat'] != 'ok' ) {
+		return $rc;
+	}
+	$uuid = $rc['uuid'];
 
 	// 
 	// Setup the SQL statement to insert the new thread
@@ -35,7 +47,7 @@ function ciniki_core_threadAddUserPerms($ciniki, $module, $business_id, $table, 
 	$strsql = "INSERT INTO " . ciniki_core_dbQuote($ciniki, $table) 
 		. " (uuid, business_id, " . ciniki_core_dbQuote($ciniki, "{$prefix}_id") . ", "
 		. "user_id, perms, date_added, last_updated"
-		. ") VALUES (UUID(), "
+		. ") VALUES ('" . ciniki_core_dbQuote($ciniki, $uuid) . "', "
 		. "'" . ciniki_core_dbQuote($ciniki, $business_id) . "', "
 		. "";
 
@@ -60,14 +72,61 @@ function ciniki_core_threadAddUserPerms($ciniki, $module, $business_id, $table, 
 	// Chech for a duplicate key error, and then run an update
 	//
 	if( $rc['stat'] != 'ok' && ($rc['err']['dberrno'] == 1062 || $rc['err']['dberrno'] == 1022) ) {
-		//
-		// If the insert failed, then try to update an existing row
-		//
-		$strsql = "UPDATE " . ciniki_core_dbQuote($ciniki, $table) . " SET perms = (perms | '" . ciniki_core_dbQuote($ciniki, $perms) . "') "
-			. "WHERE " . ciniki_core_dbQuote($ciniki, "{$prefix}_id") . " = '" . ciniki_core_dbQuote($ciniki, $id) . "' "
-			. "AND user_id = '" . ciniki_core_dbQuote($ciniki, $user_id) . "'";
-		return ciniki_core_dbUpdate($ciniki, $strsql, $module);
+		$strsql = "SELECT id, uuid, perms "
+			. "FROM $table "
+			. "WHERE " . ciniki_core_dbQuote($ciniki, "{$prefix}_id") . " = "
+				. "'" . ciniki_core_dbQuote($ciniki, $id) . "' "
+			. "AND user_id = '" . ciniki_core_dbQuote($ciniki, $user_id) . "'"
+			. "";
+		$rc = ciniki_core_dbHashQuery($ciniki, $strsql, $module, 'user');
+		if( $rc['stat'] != 'ok' ) {
+			return $rc;
+		}
+		if( isset($rc['user']) ) {
+			$user = $rc['user'];
+			if( $user['perms'] != ($user['perms'] | $perms) ) {
+
+				//
+				// If the insert failed, then try to update an existing row
+				//
+				$strsql = "UPDATE " . ciniki_core_dbQuote($ciniki, $table) . " "
+					. "SET perms = (perms | '" . ciniki_core_dbQuote($ciniki, $perms) . "'), "
+					. "last_updated = UTC_TIMESTAMP() "
+					. "WHERE " . ciniki_core_dbQuote($ciniki, "{$prefix}_id") . " = '" . ciniki_core_dbQuote($ciniki, $id) . "' "
+					. "AND user_id = '" . ciniki_core_dbQuote($ciniki, $user_id) . "'";
+				$rc = ciniki_core_dbUpdate($ciniki, $strsql, $module);
+				if( $rc['stat'] != 'ok' ) {
+					return $rc;
+				}
+
+				ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $business_id,
+					2, $table, $user['id'], 'perms', $user['perms'] | $perms);
+
+				$ciniki['syncqueue'][] = array('push'=>$module . '.' . $object, 
+					'args'=>array('id'=>$user['id']));
+			}
+		}
+		return array('stat'=>'ok');
 	}
+	$uid = $rc['insert_id'];
+
+	//
+	// Add history
+	//
+	ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $business_id,
+		1, $table, $uid, 'uuid', $uuid);
+	ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $business_id,
+		1, $table, $uid, $prefix . '_id', $id);
+	ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $business_id,
+		1, $table, $uid, 'user_id', $user_id);
+	ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $business_id,
+		1, $table, $uid, 'perms', $perms);
+
+	//
+	// Sync push
+	//
+	$ciniki['syncqueue'][] = array('push'=>$module . '.' . $object, 
+		'args'=>array('id'=>$uid));
 
 	return $rc;
 }

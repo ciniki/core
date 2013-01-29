@@ -17,7 +17,7 @@
 // Returns
 // -------
 //
-function ciniki_core_threadAddFollowup($ciniki, $module, $business_id, $table, $prefix, $id, $args) {
+function ciniki_core_threadAddFollowup(&$ciniki, $module, $object, $business_id, $table, $history_table, $prefix, $id, $args) {
 	//
 	// All arguments are assumed to be un-escaped, and will be passed through dbQuote to
 	// ensure they are safe to insert.
@@ -27,6 +27,17 @@ function ciniki_core_threadAddFollowup($ciniki, $module, $business_id, $table, $
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQuote');
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbInsert');
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbUpdate');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbAddModuleHistory');
+
+	//
+	// Get a new UUID
+	//
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbUUID');
+	$rc = ciniki_core_dbUUID($ciniki, $module);
+	if( $rc['stat'] != 'ok' ) {
+		return $rc;
+	}
+	$uuid = $rc['uuid'];
 
 	// 
 	// Setup the SQL statement to insert the new thread
@@ -34,7 +45,7 @@ function ciniki_core_threadAddFollowup($ciniki, $module, $business_id, $table, $
 	$strsql = "INSERT INTO " . ciniki_core_dbQuote($ciniki, $table) . " (uuid, business_id, "
 		. "" . ciniki_core_dbQuote($ciniki, "{$prefix}_id") . ", "
 		. "user_id, content, date_added, last_updated"
-		. ") VALUES (uuid(), "
+		. ") VALUES ('" . ciniki_core_dbQuote($ciniki, $uuid) . "', "
 		. "'" . ciniki_core_dbQuote($ciniki, $business_id) . "', "
 		. "";
 
@@ -61,10 +72,32 @@ function ciniki_core_threadAddFollowup($ciniki, $module, $business_id, $table, $
 
 	$strsql .= "UTC_TIMESTAMP(), UTC_TIMESTAMP())";
 
+	//
+	// Add the followup
+	//
 	$rc = ciniki_core_dbInsert($ciniki, $strsql, $module);
 	if( $rc['stat'] != 'ok' ) {
 		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'209', 'msg'=>'Unable to add followup', 'err'=>$rc['err']));
 	}
+	$followup_id = $rc['insert_id'];
+
+	//
+	// Add history
+	//
+	ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $business_id,
+		1, $table, $followup_id, 'uuid', $uuid);
+	ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $business_id,
+		1, $table, $followup_id, $prefix . '_id', $id);
+	ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $business_id,
+		1, $table, $followup_id, 'user_id', $args['user_id']);
+	ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $business_id,
+		1, $table, $followup_id, 'content', $args['content']);
+
+	//
+	// Sync push
+	//
+	$ciniki['syncqueue'][] = array('push'=>$module . '.' . $object, 
+		'args'=>array('id'=>$followup_id));
 
 	// Updates to the main thread last_updated field should be done by the calling function,
 	// incase there are instances where we don't want to update that field.

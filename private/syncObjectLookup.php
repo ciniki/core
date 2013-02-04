@@ -71,7 +71,6 @@ function ciniki_core_syncObjectLookup(&$ciniki, &$sync, $business_id, $o, $args)
 
 		if( isset($rc['object']) ) {
 			$rc = ciniki_core_syncObjectUpdate($ciniki, $sync, $business_id, $o, array('object'=>$rc['object']));
-//			$rc = ciniki_customers_customer_update($ciniki, $sync, $business_id, array('customer'=>$rc['customer']));
 			if( $rc['stat'] != 'ok' ) {
 				return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1207', 'msg'=>'Unable to add ' . $o['name'] . ' to local server', 'err'=>$rc['err']));
 			}

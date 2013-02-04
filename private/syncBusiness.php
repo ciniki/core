@@ -94,7 +94,7 @@ function ciniki_core_syncBusiness($ciniki, $business_id, $sync_id, $type) {
 	foreach($modules as $name => $module) {
 
 		// FIXME: Remove
-//		continue;
+		continue;
 
 
 		//
@@ -103,7 +103,9 @@ function ciniki_core_syncBusiness($ciniki, $business_id, $sync_id, $type) {
 		if( !in_array($name, $priority_modules) 
 			&& !in_array($name, $core_modules) 
 			&& ($type == 'full' || $type == 'partial' || 
-				($type == 'incremental' && ($remote_modules[$module]['last_change'] >= $sync['last_sync'] || $modules[$module]['last_change'] >= $sync['last_sync']))) ) {
+				($type == 'incremental' 
+				&& ($remote_modules[$module]['last_change'] >= $sync['last_sync'] || $modules[$module]['last_change'] >= $sync['last_sync'])
+				)) ) {
 			$rc = ciniki_core_syncBusinessModule($ciniki, $sync, $business_id, $name, $type, '');
 			if( $rc['stat'] != 'ok' ) {
 				return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'252', 'msg'=>'Unable to sync module ' . $name, 'err'=>$rc['err']));

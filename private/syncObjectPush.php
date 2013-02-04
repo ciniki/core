@@ -18,14 +18,17 @@ function ciniki_core_syncObjectPush(&$ciniki, &$sync, $business_id, $o, $args) {
 		return ciniki_core_syncObjectFunction($ciniki, $sync, $business_id, $o['push'], $args);
 	}
 
+	if( isset($ciniki['config']['ciniki.core']['sync.push']) && $ciniki['config']['ciniki.core']['sync.push'] == 'off' ) {
+		error_log('SYNC-INFO: Push turned off');
+		return array('stat'=>'ok');
+	}
+
 	//
 	// Get the local object
 	//
 	if( isset($args['id']) && $args['id'] != '' ) {
 		ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectGet');
 		$rc = ciniki_core_syncObjectGet($ciniki, $sync, $business_id, $o, $args);
-//		ciniki_core_loadMethod($ciniki, 'ciniki', 'customers', 'sync', 'customer_get');
-//		$rc = ciniki_customers_customer_get($ciniki, $sync, $business_id, array('id'=>$args['id']));
 		if( $rc['stat'] != 'ok' ) {
 			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1166', 'msg'=>'Unable to get ' . $o['name']));
 		}
@@ -39,7 +42,6 @@ function ciniki_core_syncObjectPush(&$ciniki, &$sync, $business_id, $o, $args) {
 		//
 		ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncRequest');
 		$rc = ciniki_core_syncRequest($ciniki, $sync, array('method'=>$o['pmod'] . '.' . $o['oname'] . '.update', 'object'=>$object));
-//		$rc = ciniki_core_syncRequest($ciniki, $sync, array('method'=>'ciniki.customers.customer.update', 'customer'=>$customer));
 		if( $rc['stat'] != 'ok' ) {
 			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1175', 'msg'=>'Unable to sync ' . $o['name']));
 		}
@@ -48,46 +50,29 @@ function ciniki_core_syncObjectPush(&$ciniki, &$sync, $business_id, $o, $args) {
 	}
 
 	elseif( isset($args['delete_uuid']) ) {
-		if( !isset($args['history']) ) {
+		if( !isset($args['history']) || !is_array($args['history']) || count($args['history']) == 0 ) {
 			if( isset($args['delete_id']) ) {
 				//
 				// Grab the history for the latest delete
 				//
-				$table = $o['history_table'];
+				$history_table = $o['history_table'];
 				$strsql = "SELECT "
-					. "$table.uuid AS uuid, "
+					. "$history_table.uuid AS uuid, "
 					. "ciniki_users.uuid AS user, "
-					. "$table.action, "
-					. "$table.session, "
-					. "$table.table_field, "
-					. "$table.new_value, "
-					. "UNIX_TIMESTAMP($table.log_date) AS log_date "
-					. "FROM $table "
-					. "LEFT JOIN ciniki_users ON ($table.user_id = ciniki_users.id) "
-					. "WHERE $table.business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
-					. "AND $table.table_name = 'ciniki_customers' "
-					. "AND $table.action = 3 "
-					. "AND $table.table_key = '" . ciniki_core_dbQuote($ciniki, $args['delete_id']) . "' "
-					. "AND $table.table_field = '*' "
+					. "$history_table.action, "
+					. "$history_table.session, "
+					. "$history_table.table_field, "
+					. "$history_table.new_value, "
+					. "UNIX_TIMESTAMP($history_table.log_date) AS log_date "
+					. "FROM $history_table "
+					. "LEFT JOIN ciniki_users ON ($history_table.user_id = ciniki_users.id) "
+					. "WHERE $history_table.business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+					. "AND $history_table.table_name = '" . ciniki_core_dbQuote($ciniki, $o['table']) . "' "
+					. "AND $history_table.action = 3 "
+					. "AND $history_table.table_key = '" . ciniki_core_dbQuote($ciniki, $args['delete_id']) . "' "
+					. "AND $history_table.table_field = '*' "
 					. "ORDER BY log_date DESC "
 					. "LIMIT 1 ";
-//				$strsql = "SELECT "
-//					. "ciniki_customer_history.uuid AS uuid, "
-//					. "ciniki_users.uuid AS user, "
-//					. "ciniki_customer_history.action, "
-//					. "ciniki_customer_history.session, "
-//					. "ciniki_customer_history.table_field, "
-//					. "ciniki_customer_history.new_value, "
-//					. "UNIX_TIMESTAMP(ciniki_customer_history.log_date) AS log_date "
-//					. "FROM ciniki_customer_history "
-//					. "LEFT JOIN ciniki_users ON (ciniki_customer_history.user_id = ciniki_users.id) "
-//					. "WHERE ciniki_customer_history.business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
-//					. "AND ciniki_customer_history.table_name = 'ciniki_customers' "
-//					. "AND ciniki_customer_history.action = 3 "
-//					. "AND ciniki_customer_history.table_key = '" . ciniki_core_dbQuote($ciniki, $args['delete_id']) . "' "
-//					. "AND ciniki_customer_history.table_field = '*' "
-//					. "ORDER BY log_date DESC "
-//					. "LIMIT 1 ";
 				$rc = ciniki_core_dbHashQuery($ciniki, $strsql, $o['pmod'], 'history');
 				if( $rc['stat'] != 'ok' ) {
 					return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1171', 'msg'=>'Unable to sync ' . $o['name'], 'err'=>$rc['err']));
@@ -109,7 +94,6 @@ function ciniki_core_syncObjectPush(&$ciniki, &$sync, $business_id, $o, $args) {
 		//
 		ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncRequest');
 		$rc = ciniki_core_syncRequest($ciniki, $sync, array('method'=>$o['pmod'] . '.' . $o['oname'] . '.delete', 'uuid'=>$args['delete_uuid'], 'history'=>$history));
-//		$rc = ciniki_core_syncRequest($ciniki, $sync, array('method'=>'ciniki.customers.customer.delete', 'uuid'=>$args['delete_uuid'], 'history'=>$history));
 		if( $rc['stat'] != 'ok' ) {
 			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1174', 'msg'=>'Unable to sync ' . $o['name']));
 		}

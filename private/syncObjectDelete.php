@@ -26,7 +26,9 @@ function ciniki_core_syncObjectDelete(&$ciniki, &$sync, $business_id, $o, $args)
 		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1086', 'msg'=>'No ' . $o['name'] . ' specified'));
 	}
 	$uuid = $args['uuid'];
-	$history = $args['history'];
+	$remote_history = $args['history'];
+
+	error_log("SYNC-INFO: [$business_id] Removing " . $o['name'] . "(" . serialize($args) . ")");
 
 	if( isset($args['uuid']) && $args['uuid'] != '' ) {
 		//
@@ -38,6 +40,11 @@ function ciniki_core_syncObjectDelete(&$ciniki, &$sync, $business_id, $o, $args)
 			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1087', 'msg'=>'Unable to get ' . $o['name'], 'err'=>$rc['err']));
 		}
 		if( !isset($rc['object']) ) {
+			//
+			// Make sure the history is update to date
+			//
+
+
 			// Already deleted
 			return array('stat'=>'ok');
 		}
@@ -55,7 +62,7 @@ function ciniki_core_syncObjectDelete(&$ciniki, &$sync, $business_id, $o, $args)
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbUpdate');
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbDelete');
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashIDQuery');
-	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncUpdateTableElementHistory');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectUpdateHistory');
 	$rc = ciniki_core_dbTransactionStart($ciniki, $o['pmod']);
 	if( $rc['stat'] != 'ok' ) { 
 		return $rc;
@@ -84,20 +91,10 @@ function ciniki_core_syncObjectDelete(&$ciniki, &$sync, $business_id, $o, $args)
 	//
 	if( isset($local_object['history']) ) {
 		$rc = ciniki_core_syncObjectUpdateHistory($ciniki, $sync, $business_id, $o, $local_object['id'], 
-			array($history['uuid']=>$history), array());
-//		$rc = ciniki_core_syncUpdateTableElementHistory($ciniki, $sync, $business_id, $o['pmod'],
-//			$o['history']['table'], $local_object['id'], $o['table'], array($history['uuid']=>$history), $local_object['history'], array(
-//				'customer_id'=>array('package'=>'ciniki', 'module'=>'customers', 'lookup'=>'customer_lookup'),
-//				'related_id'=>array('package'=>'ciniki', 'module'=>'customers', 'lookup'=>'customer_lookup'),
-//			));
+			array($remote_history['uuid']=>$remote_history), array());
 	} else {
 		$rc = ciniki_core_syncObjectUpdateHistory($ciniki, $sync, $business_id, $o, $local_object['id'], 
-			array($history['uuid']=>$history), array());
-//		$rc = ciniki_core_syncUpdateTableElementHistory($ciniki, $sync, $business_id, 'ciniki.customers',
-//			'ciniki_customer_history', $local_customer['id'], 'ciniki_customer_customers', array($history['uuid']=>$history), array(), array(
-//				'customer_id'=>array('package'=>'ciniki', 'module'=>'customers', 'lookup'=>'customer_lookup'),
-//				'related_id'=>array('package'=>'ciniki', 'module'=>'customers', 'lookup'=>'customer_lookup'),
-//			));
+			array($remote_history['uuid']=>$remote_history), $local_object['history']);
 	}
 	if( $rc['stat'] != 'ok' ) {
 		ciniki_core_dbTransactionRollback($ciniki, $o['pmod']);

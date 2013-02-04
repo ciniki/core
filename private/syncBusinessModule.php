@@ -120,7 +120,6 @@ function ciniki_core_syncBusinessModule(&$ciniki, &$sync, $business_id, $module,
 					//
 					// Delete from the local server
 					//
-					error_log("delete local: $specified_object($uuid)");
 					$rc = ciniki_core_syncObjectDelete($ciniki, $sync, $business_id, $o, array('uuid'=>$uuid, 'history'=>$deleted_history));
 					if( $rc['stat'] != 'ok' ) {
 						return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1018', 'msg'=>"Unable to delete $name on local server", 'err'=>$rc['err']));;
@@ -135,7 +134,6 @@ function ciniki_core_syncBusinessModule(&$ciniki, &$sync, $business_id, $module,
 					//
 					// Push the delete to the remote server
 					//
-					error_log("delete remote: $specified_object($uuid)");
 					$rc = ciniki_core_syncRequest($ciniki, $sync, array('method'=>"$pkg.$mod.$name.delete", 'uuid'=>$uuid, 'history'=>$deleted_history));
 					if( $rc['stat'] != 'ok' ) {
 						return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1019', 'msg'=>"Unable to delete $name($uuid) on remote server", 'err'=>$rc['err']));

@@ -8,10 +8,10 @@
 // ---------
 //
 function ciniki_core_syncObjectUpdateHistory(&$ciniki, &$sync, $business_id, $o, $table_key, $remote_history, $local_history) {
+
 	//
 	// All transaction locking should be taken care of by a calling function
 	//
-
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQuote');
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashQuery');
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbInsert');
@@ -23,6 +23,14 @@ function ciniki_core_syncObjectUpdateHistory(&$ciniki, &$sync, $business_id, $o,
 	//
 	$history_table = $o['history_table'];
 	foreach($remote_history as $uuid => $history) {
+		//
+		// Check if remote_history is valid history
+		//
+		if( !is_array($history) || !isset($history['user']) ) {
+			error_log('SYNC-ERR: ' . serialize($remote_history));
+			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'164', 'msg'=>'Invalid history information'));
+		}
+
 		if( !isset($local_history[$uuid]) 
 			|| ($local_history[$uuid]['user'] == '' && $remote_history[$uuid]['user'] != '') 
 //			|| ($local_history[$uuid]['table_key'] == '' && $table_key != '') 
@@ -74,7 +82,7 @@ function ciniki_core_syncObjectUpdateHistory(&$ciniki, &$sync, $business_id, $o,
 				//
 				if( isset($o['fields'][$history['table_field']]) && isset($o['fields'][$history['table_field']]['ref']) ) {
 					$ref = $o['fields'][$history['table_field']]['ref'];
-					error_log('checking ref ' . $ref);
+					error_log("SYNC-INFO: [$business_id] Checking ref $ref(" . $history['new_value'] . ")");
 
 					ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLoad');
 					$rc = ciniki_core_syncObjectLoad($ciniki, $sync, $business_id, $ref, array());
@@ -90,8 +98,8 @@ function ciniki_core_syncObjectUpdateHistory(&$ciniki, &$sync, $business_id, $o,
 					$rc = ciniki_core_syncObjectLookup($ciniki, $sync, $business_id, $ref_o, 
 						array('remote_uuid'=>$history['new_value']));
 					if( $rc['stat'] != 'ok' ) {
-						error_log('SYNC-ERR: Unable to locate local new value for ' . $history['table_name'] . '(' . $history['new_value'] . ')');
-						$history['table_key'] = '';
+						error_log("SYNC-ERR: [$business_id] Unable to locate local new value for " . $history['table_name'] . '(' . $history['new_value'] . ')');
+						$history['new_value'] = '';
 					} else {
 						$history['new_value'] = $rc['id'];
 					}

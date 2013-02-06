@@ -79,7 +79,7 @@ function ciniki_core_dbHashQueryTree($ciniki, $strsql, $module, $tree) {
 			if( isset($tree[$i]['limit']) && $tree[$i]['limit'] > 0 && $num_elements[$i] >= $tree[$i]['limit'] ) {
 				break;
 			}
-			if( $prev[$i] != $row[$tree[$i]['fname']] ) {
+			if( $prev[$i] !== $row[$tree[$i]['fname']] ) {
 				// Reset all num_element this depth and below
 				for($j=$i+1;$j<count($tree);$j++) {
 					$num_elements[$j] = 0;
@@ -122,6 +122,7 @@ function ciniki_core_dbHashQueryTree($ciniki, $strsql, $module, $tree) {
 						
 						// Normal item
 						else {
+//							error_log("$field_id(" . $field . ") = '" . $row[$field] . "'");
 							$data[$tree[$i]['container']][$num_elements[$i]][$tree[$i]['name']][$field_id] = $row[$field];
 						}
 					}

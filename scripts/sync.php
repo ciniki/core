@@ -54,15 +54,45 @@ if( $rc['stat'] != 'ok' ) {
 //
 // Find out the command being requested
 //
+
+//
+// The ping command will simply return ok.  It means the 
+// secure handshake is ok
+//
 if( $ciniki['request']['method'] == 'ciniki.core.ping' ) {
 	$response = array('stat'=>'ok');
-} elseif( $ciniki['request']['method'] == 'ciniki.core.info' ) {
+} 
+
+//
+// The info command will return the business info for the local business.  This
+// is used to check versions between the systems.
+//
+elseif( $ciniki['request']['method'] == 'ciniki.core.info' ) {
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncBusinessInfo');
 	$response = ciniki_core_syncBusinessInfo($ciniki, $ciniki['sync']['business_id']);
-} elseif( $ciniki['request']['method'] == 'ciniki.core.delete' ) {
+} 
+
+//
+// The tables command will return the list of tables and the current number
+// of rows for the business.  The tables are organized by module
+//
+elseif( $ciniki['request']['method'] == 'ciniki.core.rowCounts' ) {
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbGetRowCounts');
+	$response = ciniki_core_dbGetRowCounts($ciniki, $ciniki['sync']['business_id']);
+} 
+
+//
+// If the sync is to be removed, this will remove it from the local business
+//
+elseif( $ciniki['request']['method'] == 'ciniki.core.delete' ) {
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncDelete');
 	$response = ciniki_core_syncDelete($ciniki, $ciniki['sync']['business_id'], $ciniki['sync']['id']);
-} elseif( preg_match('/(.*)\.(.*)\.(.*)\.history\.(list|get|update)$/', $ciniki['request']['method'], $matches) ) {
+} 
+
+//
+// Check if a history command has been sent
+//
+elseif( preg_match('/(.*)\.(.*)\.(.*)\.history\.(list|get|update)$/', $ciniki['request']['method'], $matches) ) {
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLoad');
 	$rc = ciniki_core_syncObjectLoad($ciniki, $ciniki['sync'], $ciniki['sync']['business_id'], $ciniki['request']['method'], array());
 	if( $rc['stat'] != 'ok' ) {
@@ -82,7 +112,12 @@ if( $ciniki['request']['method'] == 'ciniki.core.ping' ) {
 			$response = array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1214', 'msg'=>'Object does not exist'));
 		}
 	}
-} elseif( preg_match('/(.*)\.(.*)\.settings\.(list|get|update)$/', $ciniki['request']['method'], $matches) ) {
+} 
+
+//
+// Check if a settings command has been sent
+//
+elseif( preg_match('/(.*)\.(.*)\.settings\.(list|get|update)$/', $ciniki['request']['method'], $matches) ) {
 	if( $matches[3] == 'list' ) {
 		ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncSettingsList');
 		$response = ciniki_core_syncSettingsList($ciniki, $ciniki['sync'], $ciniki['sync']['business_id'], $ciniki['request']);
@@ -95,8 +130,12 @@ if( $ciniki['request']['method'] == 'ciniki.core.ping' ) {
 	} else {
 		$response = array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1215', 'msg'=>'Object does not exist'));
 	}
+} 
 
-} elseif( preg_match('/(.*)\.(.*)\.(.*)\.(list|get|update|delete)$/', $ciniki['request']['method'], $matches) ) {
+//
+// An object command has been sent
+//
+elseif( preg_match('/(.*)\.(.*)\.(.*)\.(list|get|update|delete)$/', $ciniki['request']['method'], $matches) ) {
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLoad');
 	$rc = ciniki_core_syncObjectLoad($ciniki, $ciniki['sync'], $ciniki['sync']['business_id'], $ciniki['request']['method'], array());
 	if( $rc['stat'] != 'ok' ) {
@@ -151,7 +190,12 @@ if( $ciniki['request']['method'] == 'ciniki.core.ping' ) {
 //	} else {
 //		$response = array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'56', 'msg'=>'Method does not exist'));
 //	}
-} else {
+} 
+
+//
+// When none of the commands are recognized, return an error
+//
+else {
 	$response = array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'547', 'msg'=>'Invalid method'));
 }
 

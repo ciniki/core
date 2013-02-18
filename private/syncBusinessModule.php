@@ -13,37 +13,17 @@
 // type:			The type of sync (full, partial, incremental)
 //
 function ciniki_core_syncBusinessModule(&$ciniki, &$sync, $business_id, $module, $type, $specified_object) {
-	//
-	// Load the objects for this module
-	//
-	$method_filename = $ciniki['config']['core']['root_dir'] . preg_replace('/^(.*)\.(.*)$/', '/\1-api/\2/sync/objects.php', $module);
-	$method_function = preg_replace('/^(.*)\.(.*)$/', '\1_\2_sync_objects', $module);
-	if( !file_exists($method_filename) ) {
-		// 
-		// No sync or objects defined for this module, skip
-		//
-		return array('stat'=>'ok');
-	}
-
-	require_once($method_filename);
-	if( !is_callable($method_function) ) {
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'253', 'msg'=>'Unable to sync module: ' . $module));
-	}
-
-	$rc = $method_function($ciniki, $sync, $business_id, array('type'=>$type));
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncModuleObjects');
+	$rc = ciniki_core_syncModuleObjects($ciniki, $business_id, $module, $type);
 	if( $rc['stat'] != 'ok' ) {
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'981', 'msg'=>'Unable to sync module: ' . $module, 'err'=>$rc['err']));
+		return $rc;
 	}
 	if( !isset($rc['objects']) ) {
-		//
-		// If no objects specified, then nothing to sync from this module
-		//
 		return array('stat'=>'ok');
 	}
+
 	$objects = $rc['objects'];
-	if( isset($rc['settings']) ) {
-		$settings = $rc['settings'];
-	}
+	$settings = $rc['settings'];
 	
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncRequest');
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectGet');

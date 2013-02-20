@@ -37,7 +37,11 @@ function ciniki_core_syncObjectList($ciniki, &$sync, $business_id, $o, $args) {
 	// Prepare the query to fetch the list
 	//
 	$table = $o['table'];
-	$strsql = "SELECT uuid, UNIX_TIMESTAMP(last_updated) AS last_updated "	
+	$table_key = 'uuid';
+	if( isset($o['type']) && $o['type'] == 'settings' ) {
+		$table_key = 'detail_key';
+	}
+	$strsql = "SELECT $table_key, UNIX_TIMESTAMP(last_updated) AS last_updated "	
 		. "FROM $table "
 		. "WHERE $table.business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' ";
 	if( $args['type'] == 'incremental' ) {
@@ -45,7 +49,7 @@ function ciniki_core_syncObjectList($ciniki, &$sync, $business_id, $o, $args) {
 	}
 	$strsql .= "ORDER BY last_updated "
 		. "";
-	$rc = ciniki_core_dbHashIDQuery($ciniki, $strsql, $o['pmod'], 'objects', 'uuid');
+	$rc = ciniki_core_dbHashIDQuery($ciniki, $strsql, $o['pmod'], 'objects', $table_key);
 	if( $rc['stat'] != 'ok' ) {
 		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'271', 'msg'=>'Unable to get list', 'err'=>$rc['err']));
 	}
@@ -56,7 +60,14 @@ function ciniki_core_syncObjectList($ciniki, &$sync, $business_id, $o, $args) {
 	$list = $rc['objects'];
 
 	//
-	// Get any deleted customers
+	// For type settings, there are no deleted objects
+	//
+	if( isset($o['type']) && $o['type'] == 'settings' ) {
+		return array('stat'=>'ok', 'list'=>$list, 'deleted'=>array());
+	}
+
+	//
+	// Get any deleted objects
 	//
 	$deleted = array();
 	$history_table = $o['history_table'];

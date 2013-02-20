@@ -17,6 +17,11 @@ function ciniki_core_syncObjectUpdate(&$ciniki, &$sync, $business_id, $o, $args)
 		ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectFunction');
 		return ciniki_core_syncObjectFunction($ciniki, $sync, $business_id, $o['update'], $args);
 	}
+
+	if( isset($o['type']) && $o['type'] == 'settings' ) {
+		ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncSettingUpdate');
+		return ciniki_core_syncSettingUpdate($ciniki, $sync, $business_id, $o, $args);
+	}
 	
 	//
 	// Check the args

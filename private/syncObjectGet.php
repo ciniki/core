@@ -18,6 +18,11 @@ function ciniki_core_syncObjectGet($ciniki, &$sync, $business_id, $o, $args) {
 		return ciniki_core_syncObjectFunction($ciniki, $sync, $business_id, $o['get'], $args);
 	}
 
+	if( isset($o['type']) && $o['type'] == 'settings' ) {
+		ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncSettingGet');
+		return ciniki_core_syncSettingGet($ciniki, $sync, $business_id, $o, $args);
+	}
+
 	//
 	// Check the args
 	//

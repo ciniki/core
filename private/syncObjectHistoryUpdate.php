@@ -62,7 +62,9 @@ function ciniki_core_syncObjectHistoryUpdate(&$ciniki, &$sync, $business_id, $o,
 	//
 	// Translate the remote object, but only if it looks like an actual object
 	//
-	if( $remote_history['table_key'] != '' && strncmp($remote_history['table_key'], 'uuid-', 5) != 0 ) {
+	if( (!isset($o['type']) || $o['type'] != 'settings')
+		&& $remote_history['table_key'] != '' 
+		&& strncmp($remote_history['table_key'], 'uuid-', 5) != 0 ) {
 		ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLookup');
 		$rc = ciniki_core_syncObjectLookup($ciniki, $sync, $business_id, $o, array('remote_uuid'=>$remote_history['table_key']));
 		if( $rc['stat'] != 'ok' ) {

@@ -59,12 +59,14 @@ function ciniki_core_syncObjectHistoryGet(&$ciniki, &$sync, $business_id, $o, $a
 	//
 	// Translate the table_key (eg: ciniki_customer_relationships.id) into a uuid
 	//
-	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLookup');
-	$rc = ciniki_core_syncObjectLookup($ciniki, $sync, $business_id, $o, array('local_id'=>$history['table_key']));
-	if( $rc['stat'] != 'ok' ) {
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1187', 'msg'=>$o['pmod'] . " history table key does not exist: " . $history['table_key']));
+	if( !isset($o['type']) || $o['type'] != 'settings' ) {
+		ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLookup');
+		$rc = ciniki_core_syncObjectLookup($ciniki, $sync, $business_id, $o, array('local_id'=>$history['table_key']));
+		if( $rc['stat'] != 'ok' ) {
+			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1187', 'msg'=>$o['pmod'] . " history table key does not exist: " . $history['table_key']));
+		}
+		$history['table_key'] = $rc['uuid'];
 	}
-	$history['table_key'] = $rc['uuid'];
 
 	//
 	// Translate the new_value into a uuid if required

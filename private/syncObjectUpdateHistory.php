@@ -62,8 +62,8 @@ function ciniki_core_syncObjectUpdateHistory(&$ciniki, &$sync, $business_id, $o,
 						//
 						// Add to the local database
 						//
-						ciniki_core_loadMethod($ciniki, 'ciniki', 'businesses', 'sync', 'user_update');
-						$rc = ciniki_businesses_user_update($ciniki, $sync, $business_id, array('uuid'=>$history['user']));
+						ciniki_core_loadMethod($ciniki, 'ciniki', 'users', 'sync', 'user_update');
+						$rc = ciniki_users_user_update($ciniki, $sync, $business_id, array('uuid'=>$history['user']));
 						if( $rc['stat'] != 'ok' ) {
 							return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1168', 'msg'=>'Unable to add user', 'err'=>$rc['err']));;
 						}

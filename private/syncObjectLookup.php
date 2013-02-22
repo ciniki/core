@@ -30,6 +30,10 @@ function ciniki_core_syncObjectLookup(&$ciniki, &$sync, $business_id, $o, $args)
 	$table = $o['table'];
 	$history_table = $o['history_table'];
 	if( isset($args['remote_uuid']) && $args['remote_uuid'] != '' ) {
+		// Check if uuid is mapped to different local uuid
+		if( isset($sync['uuidmaps'][$table][$args['remote_uuid']]) ) {
+			return array('stat'=>'ok', 'id'=>$sync['uuidmaps'][$table][$args['remote_uuid']]);
+		}
 		$strsql = "SELECT id FROM $table "
 			. "WHERE $table.business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
 			. "AND $table.uuid = '" . ciniki_core_dbQuote($ciniki, $args['remote_uuid']) . "' "

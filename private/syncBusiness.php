@@ -39,12 +39,18 @@ function ciniki_core_syncBusiness($ciniki, $business_id, $sync_id, $type) {
 	// Sync the core modules first
 	//
 //	$core_modules = array('ciniki.users', 'ciniki.images');
-	$core_modules = array('ciniki.businesses');
+	$core_modules = array('ciniki.users', 'ciniki.businesses');
 //	$core_modules = array();
 	foreach($core_modules as $module) {
-		continue;
+//		continue;
 		// FIXME: Put in check for incremental, will need to add core modules to list when 
-		if( $type == 'full' || $type == 'partial' ) {
+		if( $type == 'full' || $type == 'partial' 
+			|| ($type == 'incremental'
+				&& (isset($remote_modules[$module]['last_change'])
+					&& ($remote_modules[$module]['last_change'] >= $sync['last_sync'] 
+						|| $modules[$module]['last_change'] >= $sync['last_sync'])
+					)
+				)) {
 			$rc = ciniki_core_syncBusinessModule($ciniki, $sync, $business_id, $module, $type, '');
 			if( $rc['stat'] != 'ok' ) {
 				return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'251', 'msg'=>'Unable to sync module ' . $module, 'err'=>$rc['err']));

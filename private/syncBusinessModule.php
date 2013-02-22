@@ -13,6 +13,9 @@
 // type:			The type of sync (full, partial, incremental)
 //
 function ciniki_core_syncBusinessModule(&$ciniki, &$sync, $business_id, $module, $type, $specified_object) {
+
+	error_log("SYNC-INFO: [$business_id] Syncing $module");
+
 	//
 	// Load the module objects
 	//

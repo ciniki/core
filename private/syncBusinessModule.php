@@ -62,6 +62,7 @@ function ciniki_core_syncBusinessModule(&$ciniki, &$sync, $business_id, $module,
 		$o['pmod'] = $module;
 		$o['oname'] = $name;
 
+		error_log("SYNC-INFO: [$business_id] Syncing $module.$name");
 		//
 		// Get the remote list of objects
 		//
@@ -180,6 +181,7 @@ function ciniki_core_syncBusinessModule(&$ciniki, &$sync, $business_id, $module,
 		//
 		// Process the history for this object.
 		//
+		error_log("SYNC-INFO: [$business_id] Syncing $module.$name history");
 
 		//
 		// Get the local history
@@ -254,160 +256,6 @@ function ciniki_core_syncBusinessModule(&$ciniki, &$sync, $business_id, $module,
 				}
 			}
 		}
-	}
-
-	//
-	// FIXME: Sync settings
-	//
-
-	// FIXME: Changing to be part of objects
-	if( 1 == 2 && isset($settings) ) {
-		//
-		// Get the remote list of objects
-		//
-		$rc = ciniki_core_syncRequest($ciniki, $sync, array('method'=>"$pkg.$mod.settings.list", 'type'=>$type, 'since_uts'=>$sync['last_sync']));
-		if( $rc['stat'] != 'ok' ) {
-			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'281', 'msg'=>"Unable to get the remote list: $pkg.$mod.$name", 'err'=>$rc['err']));
-		}
-
-		if( !isset($rc['list']) ) {
-			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'282', 'msg'=>'Unable to get remote list'));
-		}
-		$remote_list = $rc['list'];
-
-		//
-		// Get the local list of objects
-		//
-		$rc = ciniki_core_syncSettingList($ciniki, $sync, $business_id, $settings, array('type'=>$type, 'since_uts'=>$sync['last_sync']));
-		if( $rc['stat'] != 'ok' ) {
-			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'283', 'msg'=>'Unable to get the local list', 'err'=>$rc['err']));
-		}
-		if( !isset($rc['list']) ) {
-			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'286', 'msg'=>'Unable to get local list'));
-		}
-		$local_list = $rc['list'];
-
-		//
-		// Process the updates/additions for the pull side
-		//
-		if( ($sync['flags']&0x02) == 0x02 ) {
-			foreach($remote_list as $uuid => $last_updated) {
-				//
-				// A full sync will compare every customer, 
-				// a partial or incremental will only check records where the last_updated differs
-				// Check if uuid does not exist, and has not been deleted
-				//
-				if( ($type == 'full' || !isset($local_list[$uuid]) || $local_list[$uuid] != $last_updated) ) {
-					//
-					// Add to the local database
-					//
-					$rc = ciniki_core_syncSettingUpdate($ciniki, $sync, $business_id, $settings, array('uuid'=>$uuid));
-					if( $rc['stat'] != 'ok' ) {
-						return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'503', 'msg'=>"Unable to update $name($uuid) on local server", 'err'=>$rc['err']));;
-					}
-				} 
-			}
-		}
-
-		//
-		// For the push side
-		//
-		if( ($sync['flags']&0x01) == 0x01 ) {
-			foreach($local_list as $uuid => $last_updated) {
-				//
-				// Check if uuid does not exist, and has not been deleted
-				//
-				if( ($type == 'full' || !isset($remote_list[$uuid]) || $remote_list[$uuid] != $last_updated) ) {
-					$rc = ciniki_core_syncSettingGet($ciniki, $sync, $business_id, $settings, array('uuid'=>$uuid));
-					if( $rc['stat'] != 'ok' ) {
-						return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'504', 'msg'=>"Unable to get $name($uuid) on local server", 'err'=>$rc['err']));
-					}
-					//
-					// Update the remote object
-					//
-					$rc = ciniki_core_syncRequest($ciniki, $sync, array('method'=>"$pkg.$mod.settings.update", 'uuid'=>$uuid, "object"=>$rc['object']));
-					if( $rc['stat'] != 'ok' ) {
-						return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'505', 'msg'=>"Unable to update $name($uuid) on remote server", 'err'=>$rc['err']));
-					}
-				}
-			}
-		}
-
-		//
-		// Get the local setting history
-		//
-		$rc = ciniki_core_syncObjectHistoryList($ciniki, $sync, $business_id, $settings, 
-			array('type'=>$type, 'since_uts'=>$sync['last_sync']));
-		if( $rc['stat'] != 'ok' ) {
-			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'546', 'msg'=>"Unable to get history list for $history_table", 'err'=>$rc['err']));
-		}
-		if( !isset($rc['list']) ) {
-			$local_list = array();
-		} else {
-			$local_list = $rc['list'];
-		}
-		
-		//
-		// Get the remote list of setting history
-		//
-		$rc = ciniki_core_syncRequest($ciniki, $sync, array('method'=>"$pkg.$mod.settings.history.list", 
-			'type'=>$type, 'since_uts'=>$sync['last_sync']));
-		if( $rc['stat'] != 'ok' ) {
-			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'559', 'msg'=>"Unable to get the remote list: $pkg.$mod.$name", 'err'=>$rc['err']));
-		}
-		if( !isset($rc['list']) ) {
-			$remote_list = array();
-		} else {
-			$remote_list = $rc['list'];
-		}
-
-		//
-		// Update the history for the pull side
-		//
-		if( ($sync['flags']&0x02) == 0x02 ) {
-			foreach($remote_list as $uuid => $last_updated) {
-				//
-				// A full sync will compare every customer, 
-				// a partial or incremental will only check records where the last_updated differs
-				// Check if uuid does not exist, and has not been deleted
-				//
-				if( ($type == 'full' || !isset($local_list[$uuid]) || $local_list[$uuid] != $last_updated) ) {
-					//
-					// Add to the local database
-					//
-					$rc = ciniki_core_syncObjectHistoryUpdate($ciniki, $sync, $business_id, $settings, array('uuid'=>$uuid));
-					if( $rc['stat'] != 'ok' ) {
-						return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'654', 'msg'=>"Unable to update $name($uuid) on local server", 'err'=>$rc['err']));;
-					}
-				} 
-			}
-		}
-
-		//
-		// Update the history for the push side
-		//
-		if( ($sync['flags']&0x01) == 0x01 ) {
-			foreach($local_list as $uuid => $last_updated) {
-				//
-				// Check if uuid does not exist, and has not been deleted
-				//
-				if( ($type == 'full' || !isset($remote_list[$uuid]) || $remote_list[$uuid] != $last_updated) ) {
-					$rc = ciniki_core_syncObjectHistoryGet($ciniki, $sync, $business_id, $settings, array('uuid'=>$uuid));
-					if( $rc['stat'] != 'ok' ) {
-						return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'664', 'msg'=>"Unable to get $name($uuid) on local server", 'err'=>$rc['err']));
-					}
-					//
-					// Update the remote object
-					//
-					$rc = ciniki_core_syncRequest($ciniki, $sync, array('method'=>"$pkg.$mod.settings.history.update", 'uuid'=>$uuid, "object"=>$rc['object']));
-					if( $rc['stat'] != 'ok' ) {
-						return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'888', 'msg'=>"Unable to update $name($uuid) on remote server", 'err'=>$rc['err']));
-					}
-				}
-			}
-		}
-
-//		$rc = syncBusinessModuleSettings($ciniki, $sync, $business_id, $settings);
 	}
 
 	return array('stat'=>'ok');

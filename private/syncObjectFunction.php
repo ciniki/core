@@ -18,7 +18,7 @@ function ciniki_core_syncObjectFunction(&$ciniki, &$sync, $business_id, $method,
 	if( file_exists($method_filename) ) {
 		require_once($method_filename);
 		if( is_callable($method_function) ) {
-			error_log("SYNC-INFO: [$business_id] " . $method . '(' . serialize($args) . ')');
+//			error_log("SYNC-INFO: [$business_id] " . $method . '(' . serialize($args) . ')');
 			$rc = $method_function($ciniki, $sync, $business_id, $args);
 			if( $rc['stat'] != 'ok' ) {
 				error_log('SYNC-ERR: ' . $method . '(' . serialize($args) . ') - (' . serialize($rc['err']) . ')');

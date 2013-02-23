@@ -56,6 +56,14 @@ function ciniki_core_syncLoad($ciniki, $business_id, $sync_id) {
 		$sync['uuidmaps'] = array();
 	}
 
+	//
+	// Setup cache
+	// The uuidcache is for remote_uuid lookup cache
+	// the idcache is for local_id lookup cache
+	//
+	$sync['uuidcache'] = array();
+	$sync['idcache'] = array();
+
 	return array('stat'=>'ok', 'sync'=>$sync);
 }
 ?>

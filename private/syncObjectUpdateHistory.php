@@ -82,7 +82,7 @@ function ciniki_core_syncObjectUpdateHistory(&$ciniki, &$sync, $business_id, $o,
 				//
 				if( isset($o['fields'][$history['table_field']]) && isset($o['fields'][$history['table_field']]['ref']) ) {
 					$ref = $o['fields'][$history['table_field']]['ref'];
-					error_log("SYNC-INFO: [$business_id] Checking ref $ref(" . $history['new_value'] . ")");
+//					error_log("SYNC-INFO: [$business_id] Checking ref $ref(" . $history['new_value'] . ")");
 
 					ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLoad');
 					$rc = ciniki_core_syncObjectLoad($ciniki, $sync, $business_id, $ref, array());

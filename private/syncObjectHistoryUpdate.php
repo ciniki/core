@@ -107,7 +107,7 @@ function ciniki_core_syncObjectHistoryUpdate(&$ciniki, &$sync, $business_id, $o,
 	//
 	// Get the local history
 	//
-	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectGet');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectHistoryGet');
 	$rc = ciniki_core_syncObjectHistoryGet($ciniki, $sync, $business_id, $o, array('uuid'=>$remote_history['uuid'], 'translate'=>'no'));
 	if( $rc['stat'] != 'ok' && $rc['stat'] != 'noexist' ) {
 		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1236', 'msg'=>'Unable to get ' . $o['name'] . ' history', 'err'=>$rc['err']));

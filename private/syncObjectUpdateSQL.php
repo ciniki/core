@@ -34,7 +34,7 @@ function ciniki_core_syncObjectUpdateSQL($ciniki, $sync, $business_id, $o, $remo
 			$rc = ciniki_core_syncObjectLookup($ciniki, $sync, $business_id, $ref_o, 
 				array('remote_uuid'=>$remote_object[$field]));
 			if( $rc['stat'] != 'ok' ) {
-				return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1194', 'msg'=>'Unable to find ' . $o['name']));
+				return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1194', 'msg'=>'Unable to find ' . $o['name'], 'err'=>$rc['err']));
 			}
 			$remote_object[$field] = $rc['id'];
 		}

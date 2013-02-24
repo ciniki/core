@@ -11,7 +11,7 @@
 // business_id:		The ID of the business on the local side to check sync.
 // sync_id:			The ID of the sync to check compatibility with.
 //
-function ciniki_core_syncBusiness($ciniki, $business_id, $sync_id, $type) {
+function ciniki_core_syncBusiness($ciniki, $business_id, $sync_id, $type, $module) {
 
 	//
 	// Check the versions of tables and modules enabled are the same between servers
@@ -34,6 +34,21 @@ function ciniki_core_syncBusiness($ciniki, $business_id, $sync_id, $type) {
 		return $rc;
 	}
 	$last_sync_time = $rc['sync']['last_sync_time'];
+
+	//
+	// If a specific module is specified, only sync that module and return.
+	// Don't update sync times, as not all modules syncd
+	//
+	if( $module != '' ) {
+		$rc = ciniki_core_syncBusinessModule($ciniki, $sync, $business_id, $module, $type, '');
+		if( $rc['stat'] != 'ok' ) {
+			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'886', 'msg'=>'Unable to sync module ' . $module, 'err'=>$rc['err']));
+		}
+		//
+		// Return 
+		//
+		return array('stat'=>'ok');
+	}
 
 	//
 	// Sync the core modules first

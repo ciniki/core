@@ -10,6 +10,13 @@
 // ciniki:
 // business_id:		The ID of the business on the local side to check sync.
 // sync_id:			The ID of the sync to check compatibility with.
+// type:			The type of sync.
+//
+//					incremental - compare last updated of records from last sync
+//					partial - compare last updated of all records
+//					full - compare every record all fields
+//
+// module:			If the sync should only do one module.
 //
 function ciniki_core_syncBusiness($ciniki, $business_id, $sync_id, $type, $module) {
 

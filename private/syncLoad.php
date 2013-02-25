@@ -12,6 +12,7 @@
 //
 function ciniki_core_syncLoad($ciniki, $business_id, $sync_id) {
 
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQuote');
 	//
 	// Get the sync information required to send the request
 	//

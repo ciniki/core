@@ -27,7 +27,7 @@ function ciniki_core_syncLoad($ciniki, $business_id, $sync_id) {
 		. "AND ciniki_business_syncs.id = '" . ciniki_core_dbQuote($ciniki, $sync_id) . "' "
 		. "";
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashQuery');
-	$rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'businesses', 'sync');
+	$rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.businesses', 'sync');
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
 	}

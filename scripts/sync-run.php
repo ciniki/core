@@ -47,7 +47,7 @@ if( isset($argv[1]) && $argv[1] != ''
 		error_log("SYNC-ERR: [$business_id-$sync_id] Unable to sync business (" . serialize($rc['err']) . ")");
 		exit(2);
 	}
-	error_log("SYNC-INFO: [" . $sync['business_id'] . '-' . $sync['id'] . "] Sync done");
+	error_log("SYNC-INFO: [" . $business_id . '-' . $sync_id . "] Sync done");
 } else {
 	error_log('SYNC-ERR: Unrecognized arguments');
 }

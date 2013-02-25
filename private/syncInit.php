@@ -126,7 +126,7 @@ function ciniki_core_syncInit($ciniki_root) {
 		if( !isset($ciniki['request']['ts']) 
 			|| $ciniki['request']['ts'] <= 0 
 			|| abs(gmmktime() - $ciniki['request']['ts']) > 60 ) {
-			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'54', 'msg'=>'Internal configuration error'));
+			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'54', 'msg'=>'System Clocks out of sync'));
 		}
 		if( !isset($ciniki['request']['method']) 
 			|| $ciniki['request']['method'] == ''

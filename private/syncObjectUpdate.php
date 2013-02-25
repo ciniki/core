@@ -80,7 +80,7 @@ function ciniki_core_syncObjectUpdate(&$ciniki, &$sync, $business_id, $o, $args)
 		// FIXME: Check if the object was deleted locally before adding
 
 		//
-		// Create the user record
+		// Create the object record
 		//
 		$strsql = "INSERT INTO $table (uuid, business_id, ";
 		foreach($o['fields'] as $fid => $finfo) {
@@ -119,7 +119,6 @@ function ciniki_core_syncObjectUpdate(&$ciniki, &$sync, $business_id, $o, $args)
 		ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbInsert');
 		$rc = ciniki_core_dbInsert($ciniki, $strsql, $o['pmod']);
 		if( $rc['stat'] != 'ok' ) { 
-			error_log(serialize($remote_object));
 			ciniki_core_dbTransactionRollback($ciniki, $o['pmod']);
 			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1227', 'msg'=>'Unable to add ' . $o['name'], 'err'=>$rc['err']));
 		}

@@ -18,7 +18,6 @@ function ciniki_core_syncQueueProcess(&$ciniki, $business_id) {
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncCheckVersions');
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectPush');
 
-//	return array('stat'=>'ok');
 	$strsql = "SELECT ciniki_business_syncs.id, ciniki_businesses.uuid AS local_uuid, ciniki_business_syncs.flags, local_private_key, "
 		. "remote_name, remote_uuid, remote_url, remote_public_key, UNIX_TIMESTAMP(last_sync) AS last_sync "
 		. "FROM ciniki_businesses, ciniki_business_syncs "
@@ -41,7 +40,7 @@ function ciniki_core_syncQueueProcess(&$ciniki, $business_id) {
 			$rc = ciniki_core_syncCheckVersions($ciniki, $business_id, $sync_id);
 			if( $rc['stat'] != 'ok' ) {
 				// Skip this sync
-				error_log("ERR: Unable to check sync versions for $sync_id");
+				error_log("SYNC-ERR: [$business_id] Unable to check sync versions for $sync_id");
 				continue;	
 			}
 
@@ -63,27 +62,29 @@ function ciniki_core_syncQueueProcess(&$ciniki, $business_id) {
 					$o = $rc['object'];
 					
 					$rc = ciniki_core_syncObjectPush($ciniki, $sync, $business_id, $o, $queue_item['args']);
-				} else {
-					$method_filename = $ciniki['config']['ciniki.core']['root_dir'] . preg_replace('/^(.*)\.(.*)\.(.*)\.(.*)$/','/\1-api/\2/sync/\3_\4.php', $queue_item['method']);
-					$method_function = preg_replace('/^(.*)\.(.*)\.(.*)\.(.*)$/','\1_\2_\3_\4', $queue_item['method']);
-					if( file_exists($method_filename) ) {
-						require_once($method_filename);
-						if( is_callable($method_function) ) {
-							error_log("SYNC-INFO: [$business_id] " . $queue_item['method'] . '(' . serialize($queue_item['args']) . ')');
-							$rc = $method_function($ciniki, $sync, $business_id, $queue_item['args']);
-							if( $rc['stat'] != 'ok' ) {
-								error_log('SYNC-ERR: ' . $queue_item['method'] . '(' . serialize($queue_item['args']) . ') - (' . serialize($rc['err']) . ')');
-								continue;
-							}
-						} else {
-							error_log('SYNC-ERR: Not executable ' . $queue_item['method'] . '(' . serialize($queue_item['args']) . ')');
-							continue;
-						}
-					} else {
-						error_log('SYNC-ERR: Doesn\'t exist' . $queue_item['method'] . '(' . serialize($queue_item['args']) . ')');
-						continue;
-					}
-				}
+				} 
+				
+//				else {
+//					$method_filename = $ciniki['config']['ciniki.core']['root_dir'] . preg_replace('/^(.*)\.(.*)\.(.*)\.(.*)$/','/\1-api/\2/sync/\3_\4.php', $queue_item['method']);
+//					$method_function = preg_replace('/^(.*)\.(.*)\.(.*)\.(.*)$/','\1_\2_\3_\4', $queue_item['method']);
+//					if( file_exists($method_filename) ) {
+//						require_once($method_filename);
+//						if( is_callable($method_function) ) {
+//							error_log("SYNC-INFO: [$business_id] " . $queue_item['method'] . '(' . serialize($queue_item['args']) . ')');
+//							$rc = $method_function($ciniki, $sync, $business_id, $queue_item['args']);
+//							if( $rc['stat'] != 'ok' ) {
+//								error_log('SYNC-ERR: ' . $queue_item['method'] . '(' . serialize($queue_item['args']) . ') - (' . serialize($rc['err']) . ')');
+//								continue;
+//							}
+//						} else {
+//							error_log('SYNC-ERR: Not executable ' . $queue_item['method'] . '(' . serialize($queue_item['args']) . ')');
+//							continue;
+//						}
+//					} else {
+//						error_log('SYNC-ERR: Doesn\'t exist' . $queue_item['method'] . '(' . serialize($queue_item['args']) . ')');
+//						continue;
+//					}
+//				}
 			}
 		}
 	}

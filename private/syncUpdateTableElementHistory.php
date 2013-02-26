@@ -93,7 +93,7 @@ function ciniki_core_syncUpdateTableElementHistory(&$ciniki, &$sync, $business_i
 					$lookup = $details['package'] . '_' . $details['module'] . '_' . $details['lookup'];
 					$rc = $lookup($ciniki, $sync, $business_id, array('remote_uuid'=> $history['new_value']));
 					if( $rc['stat'] != 'ok' ) {
-						error_log('SYNC-ERR: Unable to locate local new value for ' . $history['table_name'] . '(' . $history['new_value'] . ')');
+						ciniki_core_syncLog($ciniki, 0, 'Unable to locate local new value for ' . $history['table_name'] . '(' . $history['new_value'] . ')');
 						$history['table_key'] = '';
 					} else {
 						$history['new_value'] = $rc['id'];

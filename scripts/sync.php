@@ -50,6 +50,15 @@ if( $rc['stat'] != 'ok' ) {
 }
 
 //
+// Setup logging
+//
+ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncLog');
+//if( isset($ciniki['config']['ciniki.core']['sync.log_dir']) ) {
+//	$ciniki['synclogfile'] = $ciniki['config']['ciniki.core']['sync.log_dir'] . "/sync-$sync_id.log";
+//}
+//$ciniki['synclogprefix'] = "[$business_id-$sync_id]";
+
+//
 // Find out the command being requested
 //
 

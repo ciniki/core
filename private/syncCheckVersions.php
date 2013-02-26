@@ -120,7 +120,6 @@ function ciniki_core_syncCheckVersions($ciniki, $business_id, $sync_id) {
 	}
 
 	if( $errors != '' ) {
-		error_log($errors);
 		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'572', 'msg'=>'System code must be updated before synchronization.', 'pmsg'=>"$errors."));
 	}
 

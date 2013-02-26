@@ -82,7 +82,7 @@ function ciniki_core_syncUpdateModuleHistory(&$ciniki, &$sync, $business_id, $ar
 				}
 			}
 		} else {
-			error_log('SYNC-WARN: No history table_key mapping for ' . $remote_history['table_name'] . '(' . $remote_history['table_key'] . ')');
+			ciniki_core_syncLog($ciniki, 0, 'No history table_key mapping for ' . $remote_history['table_name'] . '(' . $remote_history['table_key'] . ')');
 		}
 
 		//

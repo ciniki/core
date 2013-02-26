@@ -30,26 +30,46 @@ if( $rc['stat'] != 'ok' ) {
 $ciniki = $rc['ciniki'];
 
 ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncBusiness');
+ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncLock');
+ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncUnlock');
 
 if( isset($argv[1]) && $argv[1] != '' 
 	&& isset($argv[2]) && $argv[2] != '' 
 	&& isset($argv[3]) && $argv[3] != '' ) {
 	if( $argv[3] != 'incremental' && $argv[3] != 'partial' && $argv[3] != 'full' ) {
-		error_log('SYNC-ERR: Unrecognized sync type');
+		error_log('Unrecognized sync type');
 		exit(1);
 	}
 	$business_id = $argv[1];
 	$sync_id = $argv[2];
 	$type = $argv[3];
-	error_log("SYNC-INFO: [$business_id-$sync_id] Syncing $type");
+	//
+	// Setup logging
+	//
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncLog');
+	if( isset($ciniki['config']['ciniki.core']['sync.log_dir']) ) {
+		$ciniki['synclogfile'] = $ciniki['config']['ciniki.core']['sync.log_dir'] . "/sync-$sync_id.log";
+	}
+	$ciniki['synclogprefix'] = "[$business_id-$sync_id]";
+
+	$rc = ciniki_core_syncLock($ciniki, $business_id, $sync_id);
+	if( $rc['stat'] == 'lockexists' ) {
+		return array('stat'=>'ok');
+	}
+	if( $rc['stat'] != 'ok' ) {
+		return $rc;
+	}
+	ciniki_core_syncLog($ciniki, 1, "Syncing $type");
 	$rc = ciniki_core_syncBusiness($ciniki, $business_id, $sync_id, $type, '');
 	if( $rc['stat'] != 'ok' ) {
-		error_log("SYNC-ERR: [$business_id-$sync_id] Unable to sync business (" . serialize($rc['err']) . ")");
+		ciniki_core_syncLog($ciniki, 0, "Unable to sync business (" . serialize($rc['err']) . ")");
+		ciniki_core_syncUnlock($ciniki, $business_id, $sync_id);
 		exit(2);
 	}
-	error_log("SYNC-INFO: [" . $business_id . '-' . $sync_id . "] Sync done");
+	ciniki_core_syncUnlock($ciniki, $business_id, $sync_id);
+	ciniki_core_syncLog($ciniki, 1, "Sync done");
 } else {
-	error_log('SYNC-ERR: Unrecognized arguments');
+	error_log("SYNC-ERR: Unrecognized args");
 }
 
 exit(0);

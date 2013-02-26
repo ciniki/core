@@ -19,7 +19,7 @@ function ciniki_core_syncObjectPush(&$ciniki, &$sync, $business_id, $o, $args) {
 	}
 
 	if( isset($ciniki['config']['ciniki.core']['sync.push']) && $ciniki['config']['ciniki.core']['sync.push'] == 'off' ) {
-		error_log('SYNC-INFO: Push turned off');
+		ciniki_core_syncLog($ciniki, 1, "Push turned off");
 		return array('stat'=>'ok');
 	}
 

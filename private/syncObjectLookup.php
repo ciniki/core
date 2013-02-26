@@ -14,6 +14,7 @@ function ciniki_core_syncObjectLookup(&$ciniki, &$sync, $business_id, $o, $args)
 	// Check for custom lookup function
 	//
 //	error_log("SYNC-INFO: [$business_id] Lookup " . $o['oname'] . '(' . serialize($args) . ')');
+	ciniki_core_syncLog($ciniki, 4, "Lookup " . $o['oname'] . '(' . serialize($args) . ')');
 	if( isset($o['lookup']) && $o['lookup'] != '' ) {
 		ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectFunction');
 		return ciniki_core_syncObjectFunction($ciniki, $sync, $business_id, $o['lookup'], $args);
@@ -41,7 +42,7 @@ function ciniki_core_syncObjectLookup(&$ciniki, &$sync, $business_id, $o, $args)
 		}
 		// Check for value in cache
 		if( isset($sync['uuidcache'][$table][$args['remote_uuid']]) ) {
-//			error_log("SYNC-INFO: [$business_id] Cached hit " . $o['oname'] . '(' . serialize($args) . ')');
+//			ciniki_core_syncLog($ciniki, 5, "Cache hit " . $o['oname'] . '(' . serialize($args) . ')');
 			return array('stat'=>'ok', 'id'=>$sync['uuidcache'][$table][$args['remote_uuid']]);
 		}
 		$strsql = "SELECT id FROM $table "
@@ -112,7 +113,7 @@ function ciniki_core_syncObjectLookup(&$ciniki, &$sync, $business_id, $o, $args)
 		}
 		// Check for value in cache
 		if( isset($sync['idcache'][$table][$args['local_id']]) ) {
-//			error_log("SYNC-INFO: [$business_id] Cached hit " . $o['oname'] . '(' . serialize($args) . ')');
+//			ciniki_core_syncLog($ciniki, 5, "Cache hit " . $o['oname'] . '(' . serialize($args) . ')');
 			return array('stat'=>'ok', 'uuid'=>$sync['idcache'][$table][$args['local_id']]);
 		}
 		$strsql = "SELECT uuid FROM $table "

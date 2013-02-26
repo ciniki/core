@@ -52,7 +52,7 @@ $syncs = $rc['syncs'];
 $cur_time = $rc['cur_time'];
 $cur_date = date_create('@' . $cur_time);
 $cur_hour = date_format($cur_date, 'G');
-$sync_full_hour = 3;
+$sync_full_hour = 6;
 if( isset($ciniki['config']['ciniki.core']['sync.full.hour']) ) {
 	$sync_full_hour = $ciniki['config']['ciniki.core']['sync.full.hour'];
 }

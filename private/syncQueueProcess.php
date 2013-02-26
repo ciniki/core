@@ -17,6 +17,7 @@ function ciniki_core_syncQueueProcess(&$ciniki, $business_id) {
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashIDQuery');
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncCheckVersions');
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectPush');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncLog');
 
 	$strsql = "SELECT ciniki_business_syncs.id, ciniki_businesses.uuid AS local_uuid, ciniki_business_syncs.flags, local_private_key, "
 		. "remote_name, remote_uuid, remote_url, remote_public_key, UNIX_TIMESTAMP(last_sync) AS last_sync "
@@ -33,6 +34,14 @@ function ciniki_core_syncQueueProcess(&$ciniki, $business_id) {
 
 	if( isset($rc['syncs']) ) {
 		foreach($rc['syncs'] as $sync_id => $sync) {
+			//
+			// Setup logging
+			//
+			if( isset($ciniki['config']['ciniki.core']['sync.log_dir']) ) {
+				$ciniki['synclogfile'] = $ciniki['config']['ciniki.core']['sync.log_dir'] . "/sync-$sync_id.log";
+			}
+			$ciniki['synclogprefix'] = "[$business_id-$sync_id]";
+
 			$sync['type'] = 'business';
 			//
 			// Check the versions
@@ -40,7 +49,7 @@ function ciniki_core_syncQueueProcess(&$ciniki, $business_id) {
 			$rc = ciniki_core_syncCheckVersions($ciniki, $business_id, $sync_id);
 			if( $rc['stat'] != 'ok' ) {
 				// Skip this sync
-				error_log("SYNC-ERR: [$business_id] Unable to check sync versions for $sync_id");
+				ciniki_core_syncLog($ciniki, 0, "Unable to check sync versions for $sync_id");
 				continue;	
 			}
 
@@ -53,7 +62,7 @@ function ciniki_core_syncQueueProcess(&$ciniki, $business_id) {
 					continue;
 				}
 				if( isset($queue_item['push']) ) {
-					error_log("SYNC-INFO: [$business_id] Push " . $queue_item['push'] . '(' . serialize($queue_item['args']) . ')');
+					ciniki_core_syncLog($ciniki, 1, "Push " . $queue_item['push'] . '(' . serialize($queue_item['args']) . ')');
 					ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLoad');
 					$rc = ciniki_core_syncObjectLoad($ciniki, $sync, $business_id, $queue_item['push'], array());
 					if( $rc['stat'] != 'ok' ) {

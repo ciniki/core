@@ -51,6 +51,12 @@ function ciniki_core_init($ciniki_root, $output_format) {
 	$ciniki['response']['format'] = $output_format;
 
 	$ciniki['syncqueue'] = array();
+	if( isset($ciniki['config']['ciniki.core']['sync.log_lvl']) ) {
+		$ciniki['syncloglvl'] = $ciniki['config']['ciniki.core']['sync.log_lvl'];
+	} else {
+		$ciniki['syncloglvl'] = 0;
+	}
+	$ciniki['synclogfile'] = '';
 
 	//
 	// Initialize Database

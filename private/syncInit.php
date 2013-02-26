@@ -93,6 +93,12 @@ function ciniki_core_syncInit($ciniki_root) {
 	// uuids is a cache for looked up uuids in different modules
 	$ciniki['sync']['uuids'] = array();
 	$ciniki['syncqueue'] = array();
+	if( isset($ciniki['config']['ciniki.core']['sync.log_lvl']) ) {
+		$ciniki['syncloglvl'] = $ciniki['config']['ciniki.core']['sync.log_lvl'];
+	} else {
+		$ciniki['syncloglvl'] = 0;
+	}
+	$ciniki['synclogfile'] = '';
 
 	//
 	// unserialize the POST content

@@ -28,7 +28,7 @@ function ciniki_core_syncObjectDelete(&$ciniki, &$sync, $business_id, $o, $args)
 	$uuid = $args['uuid'];
 	$remote_history = $args['history'];
 
-	error_log("SYNC-INFO: [$business_id] Removing " . $o['name'] . "(" . serialize($args) . ")");
+	ciniki_core_syncLog($ciniki, 3, 'Removing ' . $o['name'] . '(' . serialize($args) . ')');
 
 	if( isset($args['uuid']) && $args['uuid'] != '' ) {
 		//
@@ -57,7 +57,6 @@ function ciniki_core_syncObjectDelete(&$ciniki, &$sync, $business_id, $o, $args)
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbTransactionStart');
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbTransactionRollback');
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbTransactionCommit');
-	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncUpdateObjectSQL');
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQuote');
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbUpdate');
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbDelete');

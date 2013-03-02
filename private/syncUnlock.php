@@ -12,7 +12,7 @@
 function ciniki_core_syncUnlock($ciniki, $business_id, $sync_id) {
 
 	if( !isset($ciniki['config']['ciniki.core']['sync.lock_dir']) ) {
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'999', 'msg'=>'No sync lock dir specified'));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'283', 'msg'=>'No sync lock dir specified'));
 	}
 
 	$lockfile = $ciniki['config']['ciniki.core']['sync.lock_dir'] . '/sync-' . $sync_id . '.lck';
@@ -22,7 +22,7 @@ function ciniki_core_syncUnlock($ciniki, $business_id, $sync_id) {
 	}
 
 	if( unlink($lockfile) == false ) {
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'999', 'msg'=>'Unable to set sync lock'));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'286', 'msg'=>'Unable to set sync lock'));
 	}
 
 	return array('stat'=>'ok');

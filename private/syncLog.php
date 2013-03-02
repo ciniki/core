@@ -27,7 +27,7 @@ function ciniki_core_syncLog($ciniki, $lvl, $msg) {
 	}
 	
 	if( isset($ciniki['synclogfile']) && $ciniki['synclogfile'] != '' ) {
-		error_log('[' . date('d/M/Y:h:i:s O') . '] ' . $log_msg . "\n", 3, $ciniki['synclogfile']);
+		error_log('[' . date('d/M/Y:H:i:s O') . '] ' . $log_msg . "\n", 3, $ciniki['synclogfile']);
 	} else {
 		error_log($log_msg);
 	}

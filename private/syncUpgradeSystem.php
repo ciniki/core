@@ -3,7 +3,9 @@
 // Description
 // -----------
 // This function will check for the latest versions of modules and upgrade
-// if required, including any database upgrades.
+// if required, including any database upgrades.  In order to work, the 
+// config entry sync.code.url must be speified in ciniki-api.ini.  This is
+// the url to fetch the latest versions and code from.
 //
 // Arguments
 // ---------

@@ -28,6 +28,9 @@ function ciniki_core_syncUpgradeSystem($ciniki) {
 		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'504', 'msg'=>'Unable to get the remote versions'));
 	}
 	$remote_modules = parse_ini_string($remote_versions, true);
+	if( $remote_modules === false ) {
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'259', 'msg'=>'Unable to parse remote versions file'));
+	}
 
 	//
 	// Get the local version information
@@ -112,7 +115,7 @@ function ciniki_core_syncUpgradeSystem($ciniki) {
 	}
 
 	if( !file_put_contents($ciniki['config']['ciniki.core']['root_dir'] . '/ciniki-code/_versions.ini', $versions) ) {
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'505', 'msg'=>'Unable to write new versions file'));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'654', 'msg'=>'Unable to write new versions file'));
 	}
 
 	return array('stat'=>'ok');

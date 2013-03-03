@@ -53,7 +53,11 @@ function ciniki_core_syncUpgradeSystem($ciniki) {
 		if( !isset($local_modules[$mod_name]) 
 			|| $local_modules[$mod_name]['version'] != $remote_modules[$mod_name]['version'] ) {
 
-			error_log("Upgrading $mod_name (" . $local_modules[$mod_name]['version'] . ' -> ' . $module['version'] . ')');
+			if( isset($local_modules[$mod_name]) ) {
+				error_log("Upgrading $mod_name (" . $local_modules[$mod_name]['version'] . ' -> ' . $module['version'] . ')');
+			} else {
+				error_log("Upgrading $mod_name to " . $module['version'] . '');
+			}
 			//
 			// Fetch the zip file into site/ciniki-code
 			//

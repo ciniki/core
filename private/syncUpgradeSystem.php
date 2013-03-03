@@ -25,7 +25,6 @@ function ciniki_core_syncUpgradeSystem($ciniki) {
 	if( $remote_versions === false ) {
 		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'504', 'msg'=>'Unable to get the remote versions'));
 	}
-	print_r($remote_versions);
 	$remote_modules = parse_ini_string($remote_versions, true);
 
 	//
@@ -49,7 +48,7 @@ function ciniki_core_syncUpgradeSystem($ciniki) {
 		if( !isset($local_modules[$mod_name]) 
 			|| $local_modules[$mod_name]['version'] != $remote_modules[$mod_name]['version'] ) {
 
-			error_log("Upgrading $mod_name");
+			error_log("Upgrading $mod_name (" . $module['version'] . ' -> ' . $local_modules[$mod_name]['version'] . ')');
 			//
 			// Fetch the zip file into site/ciniki-code
 			//
@@ -65,7 +64,6 @@ function ciniki_core_syncUpgradeSystem($ciniki) {
 			//
 			// Unzip the file
 			//
-			error_log("Upgrading module $mod_name");
 			$zip = new ZipArchive;
 			$res = $zip->open($zipfilename);
 			if ($res === TRUE) {

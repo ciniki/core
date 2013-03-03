@@ -33,6 +33,15 @@ $ciniki = $rc['ciniki'];
 
 ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncCronList');
 ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncBusiness');
+ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncUpgradeSystem');
+
+//
+// Check first the code is up to date
+//
+$rc = ciniki_core_syncUpgradeSystem($ciniki);
+if( $rc['stat'] != 'ok' ) {
+	return $rc;
+}
 
 //
 // Get list of cron jobs

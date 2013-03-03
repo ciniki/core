@@ -76,6 +76,7 @@ function ciniki_core_syncCheckVersions($ciniki, $business_id, $sync_id) {
 	$errors = '';
 	$missing_modules = '';
 	$incompatible_versions = '';
+	$noupgrade_modules = '';
 	$comma = '';
 	$r_modules = array();
 	foreach($remote_modules as $mnum => $module) {
@@ -86,9 +87,26 @@ function ciniki_core_syncCheckVersions($ciniki, $business_id, $sync_id) {
 			$missing_modules .= $comma . $name;
 			$comma = ', ';
 		} elseif( $module['module']['version'] != $local_modules[$name]['version'] ) {
-			$errors .= $comma . "module $name incorrect version";
-			$incompatible_versions .= $comma . $name;
-			$comma = ', ';
+			//
+			// If code url specified, then upgrade
+			//
+//			if( isset($ciniki['config']['ciniki.core']['sync.code.url']) && $ciniki['config']['ciniki.core']['sync.code.url'] != '' ) {
+//				ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncUpgradeModule');
+//				$rc = ciniki_core_syncUpgradeModule($ciniki, $module['module']['package'], $module['module']['name']);
+//				if( $rc['stat'] != 'ok' || !isset($rc['version']) ) {
+//					$errors .= $comma . "module $name unable to upgrade";
+//					$noupgrade_modules .= $comma . $name;
+//					$comma = ', ';
+//				} elseif( $rc['version'] != $local_modules[$name]['version'] ) {
+//					$errors .= $comma . "module $name incorrect version";
+//					$incompatible_versions .= $comma . $name;
+//					$comma = ', ';
+//				}
+//			} else {
+				$errors .= $comma . "module $name incorrect version";
+				$incompatible_versions .= $comma . $name;
+				$comma = ', ';
+//			}
 		} else {
 			foreach($module['module']['tables'] as $tnum => $table) {
 				$tname = $table['table']['name'];

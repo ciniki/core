@@ -23,7 +23,6 @@ function ciniki_core_syncUpgradeSystem($ciniki) {
 	//
 	$remote_versions = file_get_contents($url . '/_versions.ini');
 	if( $remote_versions === false ) {
-		ciniki_core_syncLog($ciniki, 0, 'Unable to get remote _versions.ini');
 		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'504', 'msg'=>'Unable to get the remote versions'));
 	}
 	print_r($remote_versions);
@@ -55,20 +54,18 @@ function ciniki_core_syncUpgradeSystem($ciniki) {
 			// Fetch the zip file into site/ciniki-code
 			//
 			$remote_zip = file_get_contents($url . "/$mod_name.zip");
-			if( $file === false ) {
-				ciniki_core_syncLog($ciniki, 0, "Unable to get remote $mod_name.zip file");
+			if( $remote_zip === false ) {
 				return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'546', 'msg'=>"Unable to get remote $mod_name.zip"));
 			}
 			$zipfilename = $ciniki['config']['ciniki.core']['root_dir'] . "/ciniki-code/$mod_name.zip";
 			if( file_put_contents($zipfilename, $remote_zip) === false ) {
-				ciniki_core_syncLog($ciniki, 0, "Unable to file ciniki-code/$mod_name.zip");
 				return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'559', 'msg'=>"Unable to write ciniki-code/$mod_name.zip"));
 			}
 
 			//
 			// Unzip the file
 			//
-			ciniki_core_syncLog($ciniki, 1, "Upgrading module $mod_name");
+			error_log("Upgrading module $mod_name");
 			$zip = new ZipArchive;
 			$res = $zip->open($zipfilename);
 			if ($res === TRUE) {
@@ -76,7 +73,6 @@ function ciniki_core_syncUpgradeSystem($ciniki) {
 				$zip->extractTo($ciniki['config']['ciniki.core']['root_dir'] . '/' . $mpieces[0] . '-' . $mpieces[1] . '/' . $mpieces[2]);
 				$zip->close();
 			} else {
-				ciniki_core_syncLog($ciniki, 0, "Unable to extract zip $mod_name.zip");
 				return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'664', 'msg'=>"Unable to extract $mod_name.zip"));
 			}
 		}
@@ -88,7 +84,6 @@ function ciniki_core_syncUpgradeSystem($ciniki) {
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbUpgradeTables');
 	$rc = ciniki_core_dbUpgradeTables($ciniki);
 	if( $rc['stat'] != 'ok' ) {
-		ciniki_core_syncLog($ciniki, 0, "Unable to upgrade database tables");
 		return $rc;
 	}
 
@@ -113,12 +108,10 @@ function ciniki_core_syncUpgradeSystem($ciniki) {
 	}
 	closedir($dir);
 	if( !file_put_contents($ciniki['config']['ciniki.core']['root_dir'] . '/_versions.ini', $versions) ) {
-		ciniki_core_syncLog($ciniki, 0, 'Unable to write _versions.ini');
 		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'505', 'msg'=>'Unable to write new versions file'));
 	}
 
 	if( !file_put_contents($ciniki['config']['ciniki.core']['root_dir'] . '/ciniki-code/_versions.ini', $versions) ) {
-		ciniki_core_syncLog($ciniki, 0, 'Unable to write ciniki-code/_versions.ini');
 		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'505', 'msg'=>'Unable to write new versions file'));
 	}
 

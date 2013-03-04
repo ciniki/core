@@ -103,7 +103,7 @@ elseif( $ciniki['request']['method'] == 'ciniki.core.delete' ) {
 elseif( $ciniki['request']['method'] == 'ciniki.core.syncUpdateLastTime' ) {
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncUpdateLastTime');
 	$response = ciniki_core_syncUpdateLastTime($ciniki, $ciniki['sync']['business_id'],
-		$ciniki['sync']['id'], $ciniki['request']['type'], $ciniki['request']['last_sync_time']);
+		$ciniki['sync']['id'], $ciniki['request']['type'], $ciniki['request']['time']);
 }
 
 //

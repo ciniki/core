@@ -28,6 +28,7 @@ function ciniki_core_syncUpdateLastTime($ciniki, $business_id, $sync_id, $type, 
 	}
 	$strsql .= "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
 		. "AND id = '" . ciniki_core_dbQuote($ciniki, $sync_id) . "' "
+		. "AND last_sync < FROM_UNIXTIME('" . ciniki_core_dbQuote($ciniki, $last_sync_time) . "') "
 		. "";
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbUpdate');
 	$rc = ciniki_core_dbUpdate($ciniki, $strsql, 'ciniki.businesses');

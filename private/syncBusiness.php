@@ -36,7 +36,7 @@ function ciniki_core_syncBusiness($ciniki, $business_id, $sync_id, $type, $modul
 
 //	$last_sync_time = date('U');
 	$strsql = "SELECT UNIX_TIMESTAMP(UTC_TIMESTAMP()) AS last_sync_time ";
-	$rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.customers', 'sync');
+	$rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.businesses', 'sync');
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
 	}
@@ -79,7 +79,7 @@ function ciniki_core_syncBusiness($ciniki, $business_id, $sync_id, $type, $modul
 	//
 	// Go through the priority optional modules, which needs to be sync'd in order
 	//
-	$priority_modules = array('ciniki.customers');
+	$priority_modules = array('ciniki.businesses');
 	foreach($priority_modules as $module) {
 		// Check if module is enabled for the business
 		// and only run an incmental if the last_change dates for the modules don't match
@@ -155,20 +155,18 @@ function ciniki_core_syncBusiness($ciniki, $business_id, $sync_id, $type, $modul
 	//
 	// Updated the last sync time
 	//
-	$strsql = "UPDATE ciniki_business_syncs SET last_sync = FROM_UNIXTIME('" . ciniki_core_dbQuote($ciniki, $last_sync_time) . "') ";
-	if( $type == 'partial' || $type == 'full' ) {
-		$strsql .= ", last_partial = FROM_UNIXTIME('" . ciniki_core_dbQuote($ciniki, $last_sync_time) . "') ";
-	} 
-	// The full sync, updates the partial and incremental dates as well
-	if( $type == 'full' ) {
-		$strsql .= ", last_full = FROM_UNIXTIME('" . ciniki_core_dbQuote($ciniki, $last_sync_time) . "') ";
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncUpdateLastTime');
+	$rc = ciniki_core_syncUpdateLastTime($ciniki, $business_id, $sync_id, $type, $last_sync_time);
+	if( $rc['stat'] != 'ok' ) {
+		return $rc;
 	}
-	$strsql .= "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
-		. "AND id = '" . ciniki_core_dbQuote($ciniki, $sync_id) . "' "
-		. "";
-	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbUpdate');
-	$rc = ciniki_core_dbUpdate($ciniki, $strsql, 'ciniki.customers');
-	if( $rc['stat'] != 'ok' ) {	
+
+	//
+	// Update the remote time
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncRequest');
+	$rc = ciniki_core_syncRequest($ciniki, $sync, array('method'=>'ciniki.core.syncUpdateLastTime',
+		'type'=>$type, 'time'=>$last_sync_time));
+	if( $rc['stat'] != 'ok' ) {
 		return $rc;
 	}
 

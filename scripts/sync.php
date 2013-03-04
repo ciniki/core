@@ -93,8 +93,18 @@ elseif( $ciniki['request']['method'] == 'ciniki.core.rowCounts' ) {
 //
 elseif( $ciniki['request']['method'] == 'ciniki.core.delete' ) {
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncDelete');
-	$response = ciniki_core_syncDelete($ciniki, $ciniki['sync']['business_id'], $ciniki['sync']['id']);
+	$response = ciniki_core_syncDelete($ciniki, 
+		$ciniki['sync']['business_id'], $ciniki['sync']['id']);
 } 
+
+//
+// Check if the last_sync_time is to be updated
+//
+elseif( $ciniki['request']['method'] == 'ciniki.core.syncUpdateLastTime' ) {
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncUpdateLastTime');
+	$response = ciniki_core_syncUpdateLastTime($ciniki, $ciniki['sync']['business_id'],
+		$ciniki['sync']['id'], $ciniki['request']['type'], $ciniki['request']['last_sync_time']);
+}
 
 //
 // Check if a history command has been sent

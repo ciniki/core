@@ -26,7 +26,7 @@ function ciniki_core_syncLog($ciniki, $lvl, $msg, $err) {
 		$log_msg = "SYNC-INFO: $prefix$msg";
 	}
 
-	if( $err != null && isset($err['msg']) {
+	if( $err != null && isset($err['msg']) ) {
 		$log_msg .= ' {' . serialize($err) . '}';
 	}
 	

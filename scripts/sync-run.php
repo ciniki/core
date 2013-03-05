@@ -59,15 +59,15 @@ if( isset($argv[1]) && $argv[1] != ''
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
 	}
-	ciniki_core_syncLog($ciniki, 1, "Syncing $type");
+	ciniki_core_syncLog($ciniki, 1, "Syncing $type", null);
 	$rc = ciniki_core_syncBusiness($ciniki, $business_id, $sync_id, $type, '');
 	if( $rc['stat'] != 'ok' ) {
-		ciniki_core_syncLog($ciniki, 0, "Unable to sync business (" . serialize($rc['err']) . ")");
+		ciniki_core_syncLog($ciniki, 0, "Unable to sync business (" . serialize($rc['err']) . ")", $rc['err']);
 		ciniki_core_syncUnlock($ciniki, $business_id, $sync_id);
 		exit(2);
 	}
 	ciniki_core_syncUnlock($ciniki, $business_id, $sync_id);
-	ciniki_core_syncLog($ciniki, 1, "Sync done");
+	ciniki_core_syncLog($ciniki, 1, "Sync done", null);
 } else {
 	error_log("SYNC-ERR: Unrecognized args");
 }

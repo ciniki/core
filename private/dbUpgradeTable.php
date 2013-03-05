@@ -74,7 +74,7 @@ function ciniki_core_dbUpgradeTable($ciniki, $package, $module, $table, $old_ver
 			$end_minor = $new_minor;
 		}
 
-		error_log("Upgrading table from: $i.$start_minor to $i.$end_minor");
+		error_log("Upgrading table $table from: $i.$start_minor to $i.$end_minor");
 		for($j=$start_minor+1;$j<=$end_minor;$j++) {
 			$filename = $ciniki['config']['ciniki.core']['root_dir'] . sprintf("/$package-api/$module/db/$table.$i.%02d.upgrade", $j);
 			if( file_exists($filename) ) {

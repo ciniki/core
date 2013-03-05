@@ -13,7 +13,7 @@ function ciniki_core_syncObjectUpdate(&$ciniki, &$sync, $business_id, $o, $args)
 	//
 	// Check for custom update function
 	//
-	ciniki_core_syncLog($ciniki, 4, "Update " . $o['oname'] . '(' . serialize($args) . ')');
+	ciniki_core_syncLog($ciniki, 4, "Update " . $o['oname'] . '(' . serialize($args) . ')', null);
 	if( isset($o['update']) && $o['update'] != '' ) {
 		ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectFunction');
 		return ciniki_core_syncObjectFunction($ciniki, $sync, $business_id, $o['update'], $args);

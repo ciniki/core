@@ -64,7 +64,7 @@ function ciniki_core_syncBusinessModule(&$ciniki, &$sync, $business_id, $module,
 		$o['oname'] = $name;
 
 //		error_log("SYNC-INFO: [$business_id] Syncing $module.$name");
-		ciniki_core_syncLog($ciniki, 2, "Syncing $module.$name");
+		ciniki_core_syncLog($ciniki, 2, "Syncing $module.$name", null);
 		//
 		// Get the remote list of objects
 		//
@@ -184,7 +184,7 @@ function ciniki_core_syncBusinessModule(&$ciniki, &$sync, $business_id, $module,
 		// Process the history for this object.
 		//
 //		error_log("SYNC-INFO: [$business_id] Syncing $module.$name history");
-		ciniki_core_syncLog($ciniki, 2, "Syncing $module.$name history");
+		ciniki_core_syncLog($ciniki, 2, "Syncing $module.$name history", null);
 
 		//
 		// Get the local history

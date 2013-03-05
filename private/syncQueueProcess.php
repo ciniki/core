@@ -49,7 +49,7 @@ function ciniki_core_syncQueueProcess(&$ciniki, $business_id) {
 			$rc = ciniki_core_syncCheckVersions($ciniki, $business_id, $sync_id);
 			if( $rc['stat'] != 'ok' ) {
 				// Skip this sync
-				ciniki_core_syncLog($ciniki, 0, "Unable to check sync versions for $sync_id");
+				ciniki_core_syncLog($ciniki, 0, "Unable to check sync versions for $sync_id", $rc['err']);
 				continue;	
 			}
 
@@ -62,7 +62,7 @@ function ciniki_core_syncQueueProcess(&$ciniki, $business_id) {
 					continue;
 				}
 				if( isset($queue_item['push']) ) {
-					ciniki_core_syncLog($ciniki, 1, "Push " . $queue_item['push'] . '(' . serialize($queue_item['args']) . ')');
+					ciniki_core_syncLog($ciniki, 1, "Push " . $queue_item['push'] . '(' . serialize($queue_item['args']) . ')', null);
 					ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLoad');
 					$rc = ciniki_core_syncObjectLoad($ciniki, $sync, $business_id, $queue_item['push'], array());
 					if( $rc['stat'] != 'ok' ) {

@@ -67,7 +67,7 @@ function ciniki_core_syncGetModuleHistory(&$ciniki, &$sync, $business_id, $args)
 			$lookup = $details['package'] . '_' . $details['module'] . '_' . $details['lookup'];
 			$rc = $lookup($ciniki, $sync, $business_id, array('local_id'=>$history['table_key']));
 			if( $rc['stat'] != 'ok' ) {
-				ciniki_core_syncLog($ciniki, 0, "Unable to locate local table key for $history_table(" . $history['table_key'] . ')');
+				ciniki_core_syncLog($ciniki, 0, "Unable to locate local table key for $history_table(" . $history['table_key'] . ')', $rc['err']);
 				$history['table_key'] = '';
 			} else {
 				$history['table_key'] = $rc['uuid'];
@@ -84,7 +84,7 @@ function ciniki_core_syncGetModuleHistory(&$ciniki, &$sync, $business_id, $args)
 		$lookup = $details['package'] . '_' . $details['module'] . '_' . $details['lookup'];
 		$rc = $lookup($ciniki, $sync, $business_id, array('local_id'=>$history['new_value']));
 		if( $rc['stat'] != 'ok' ) {
-			ciniki_core_syncLog($ciniki, 0, 'Unable to locate local new_value (' . $history['table_name'] . ' - ' . $history['table_field'] . ':' . $history['new_value'] . ')');
+			ciniki_core_syncLog($ciniki, 0, 'Unable to locate local new_value (' . $history['table_name'] . ' - ' . $history['table_field'] . ':' . $history['new_value'] . ')', $rc['err']);
 			$history['new_value'] = '';
 		} else {
 			$history['new_value'] = $rc['uuid'];

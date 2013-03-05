@@ -90,7 +90,7 @@ function ciniki_core_syncUpdateObjectSQL($ciniki, $sync, $business_id, $remote_o
 //				error_log($remote_uts . ':' . $remote_new_value . ' -- ' . $local_uts . ':' . $local_new_value);
 //				error_log(print_r($remote_object, true));
 //				error_log(print_r($local_object, true));
-				ciniki_core_syncLog($ciniki, 0, "$field is different but unable to tell which is newer. (" . $remote_object[$field] . ":" . $local_object[$field] . ')');
+				ciniki_core_syncLog($ciniki, 0, "$field is different but unable to tell which is newer. (" . $remote_object[$field] . ":" . $local_object[$field] . ')', null);
 			}
 			if( $new_value != null ) {
 				if( isset($finfo['type']) && $finfo['type'] == 'uts' ) {

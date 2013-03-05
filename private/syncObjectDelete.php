@@ -28,7 +28,7 @@ function ciniki_core_syncObjectDelete(&$ciniki, &$sync, $business_id, $o, $args)
 	$uuid = $args['uuid'];
 	$remote_history = $args['history'];
 
-	ciniki_core_syncLog($ciniki, 3, 'Removing ' . $o['name'] . '(' . serialize($args) . ')');
+	ciniki_core_syncLog($ciniki, 3, 'Removing ' . $o['name'] . '(' . serialize($args) . ')', null);
 
 	if( isset($args['uuid']) && $args['uuid'] != '' ) {
 		//

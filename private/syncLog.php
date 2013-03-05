@@ -9,7 +9,7 @@
 // business_id:		The ID of the business on the local side to check sync.
 // sync_id:			The ID of the sync to check compatibility with.
 //
-function ciniki_core_syncLog($ciniki, $lvl, $msg) {
+function ciniki_core_syncLog($ciniki, $lvl, $msg, $err) {
 
 	if( isset($ciniki['syncloglvl']) && $ciniki['syncloglvl'] < $lvl ) {
 		return array('stat'=>'ok');
@@ -24,6 +24,10 @@ function ciniki_core_syncLog($ciniki, $lvl, $msg) {
 		$log_msg = "SYNC-ERR: $prefix$msg";
 	} else {
 		$log_msg = "SYNC-INFO: $prefix$msg";
+	}
+
+	if( $err != null && isset($err['msg']) {
+		$log_msg .= ' {' . serialize($err) . '}';
 	}
 	
 	if( isset($ciniki['synclogfile']) && $ciniki['synclogfile'] != '' ) {

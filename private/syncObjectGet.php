@@ -14,7 +14,7 @@ function ciniki_core_syncObjectGet($ciniki, &$sync, $business_id, $o, $args) {
 	// Check for custom get function
 	//
 //	error_log("SYNC-INFO: [$business_id] Get " . $o['oname'] . "(" . serialize($args) . ")");
-	ciniki_core_syncLog($ciniki, 4, "Get " . $o['oname'] . "(" . serialize($args) . ")");
+	ciniki_core_syncLog($ciniki, 4, "Get " . $o['oname'] . "(" . serialize($args) . ")", null);
 	if( isset($o['get']) && $o['get'] != '' ) {
 		ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectFunction');
 		return ciniki_core_syncObjectFunction($ciniki, $sync, $business_id, $o['get'], $args);

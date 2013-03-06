@@ -137,7 +137,7 @@ function ciniki_core_syncObjectGet($ciniki, &$sync, $business_id, $o, $args) {
 				ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLoad');
 				$rc = ciniki_core_syncObjectLoad($ciniki, $sync, $business_id, $ref, array());
 				if( $rc['stat'] != 'ok' ) {
-					return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1201', 'msg'=>'Unable to load object ' . $ref));
+					return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1201', 'msg'=>"Unable to load object $ref"));
 				}
 				$ref_o = $rc['object'];
 				ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLookup');
@@ -148,6 +148,57 @@ function ciniki_core_syncObjectGet($ciniki, &$sync, $business_id, $o, $args) {
 				}
 				$object['history'][$uuid]['new_value'] = $rc['uuid'];
 			}
+		}
+	}
+	
+	//
+	// Check if there is a details table for this object, and get the details and history
+	//
+	if( isset($o['details']) && isset($o['details']['key']) && isset($o['details']['table']) ) {
+		//
+		// Build the SQL string to get the object details along with history information
+		//
+		$key = $o['details']['key'];
+		$table = $o['details']['table'];
+		$strsql = "SELECT $table.detail_key, $table.detail_value, "
+			. "UNIX_TIMESTAMP($table.date_added) AS date_added, "
+			. "UNIX_TIMESTAMP($table.last_updated) AS last_updated, ";
+
+		$history_table = $o['history_table'];
+		$strsql .= "$history_table.id AS history_id, "
+			. "$history_table.uuid AS history_uuid, "
+			. "ciniki_users.uuid AS user_uuid, "
+			. "$history_table.session, "
+			. "$history_table.action, "
+			. "$history_table.table_field, "
+			. "$history_table.new_value, "
+			. "UNIX_TIMESTAMP($history_table.log_date) AS log_date ";
+
+		$strsql .= "FROM $table "
+			. "LEFT JOIN $history_table ON ($table.detail_key = $history_table.table_key "
+				. "AND $history_table.business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+				. "AND $history_table.table_name = '$table' "
+				. ") "
+			. "LEFT JOIN ciniki_users ON ($history_table.user_id = ciniki_users.id) ";
+
+		$strsql .= "WHERE $table.business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+			. "AND $table.$key = '" . ciniki_core_dbQuote($ciniki, $object['id']) . "' "
+			. "ORDER BY log_date ";
+		$rc = ciniki_core_dbHashQueryIDTree($ciniki, $strsql, $o['pmod'], array(
+			array('container'=>'details', 'fname'=>'detail_key', 
+				'fields'=>array('detail_value', 'date_added', 'last_updated')),
+			array('container'=>'history', 'fname'=>'history_uuid', 
+				'fields'=>array('user'=>'user_uuid', 'session', 
+					'action', 'table_field', 'new_value', 'log_date')),
+			));
+		if( $rc['stat'] != 'ok' ) {
+			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1179', 'msg'=>'Error retrieving the ' . $o['name'] . ' information', 'err'=>$rc['err']));
+		}
+
+		if( !isset($rc['details']) ) {
+			$object['details'] = array();
+		} else {
+			$object['details'] = $rc['details'];
 		}
 	}
 

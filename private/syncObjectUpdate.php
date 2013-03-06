@@ -195,6 +195,75 @@ function ciniki_core_syncObjectUpdate(&$ciniki, &$sync, $business_id, $o, $args)
 	}
 
 	//
+	// Check if there are details for this object
+	//
+	if( isset($o['details']) && isset($o['details']['key']) && isset($o['details']['table']) 
+		&& isset($remote_object['details']) ) {
+		//
+		// FIXME: Update the details and their history
+		//
+		$key = $o['details']['key'];
+		$table = $o['details']['table'];
+		foreach($remote_object['details'] as $detail_key => $remote_detail) {
+			//
+			// Check if detail already exists
+			//
+			if( !isset($local_object['details'][$detail_key]) ) {
+				$strsql = "INSERT INTO $table (business_id, $key, detail_key, detail_value, "
+					. "date_added, last_updated) VALUES ("
+					. "'" . ciniki_core_dbQuote($ciniki, $business_id) . "', "
+					. "'" . ciniki_core_dbQuote($ciniki, $object_id) . "', "
+					. "'" . ciniki_core_dbQuote($ciniki, $detail_key) . "', "
+					. "'" . ciniki_core_dbQuote($ciniki, $remote_detail['detail_value']) . "', "
+					. "FROM_UNIXTIME('" . ciniki_core_dbQuote($ciniki, $remote_detail['date_added']) . "'), "
+					. "FROM_UNIXTIME('" . ciniki_core_dbQuote($ciniki, $remote_detail['last_updated']) . "') "
+					. ")";
+				ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbInsert');
+				$rc = ciniki_core_dbInsert($ciniki, $strsql, $o['pmod']);
+				if( $rc['stat'] != 'ok' ) { 
+					ciniki_core_dbTransactionRollback($ciniki, $o['pmod']);
+					return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1227', 'msg'=>'Unable to add ' . $o['name'] . " detail $detail_key", 'err'=>$rc['err']));
+				}
+				$db_updated = 1;
+			}
+			//
+			// Update detail if the detail_value is different
+			//
+			elseif( $local_object['details'][$detail_key]['detail_value'] != $remote_detail['detail_value'] ) {
+				$strsql = "UPDATE $table SET "
+					. "detail_value = '" . ciniki_core_dbQuote($ciniki, $remote_detail['detail_value']) . "' "
+					. ", last_updated = FROM_UNIXTIME('" . ciniki_core_dbQuote($ciniki, $remote_detail['last_updated']) . "') "
+					. "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+					. "AND $key = '" . ciniki_core_dbQuote($ciniki, $object_id) . "' "
+					. "AND detail_key = '" . ciniki_core_dbQuote($ciniki, $detail_key) . "' "
+					. "";
+				$rc = ciniki_core_dbUpdate($ciniki, $strsql, $o['pmod']);
+				if( $rc['stat'] != 'ok' ) {
+					ciniki_core_dbTransactionRollback($ciniki, $o['pmod']);
+					return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'964', 'msg'=>'Unable to update ' . $o['name'] . " detail $detail_key", 'err'=>$rc['err']));
+				}
+				$db_updated = 1;
+			}
+
+			//
+			// Update the detail history
+			//
+			if( isset($details['history']) ) {
+				if( isset($local_object['details'][$detail_key]['history']) ) {
+					$rc = ciniki_core_syncUpdateTableElementHistory($ciniki, $sync, $business_id,
+						$o['pmod'], $o['history_table'], $detail_key, $table,
+						$details['history'], $local_object['details'][$detail_key]['history']);
+				} else {
+					$rc = ciniki_core_syncUpdateTableElementHistory($ciniki, $sync, $business_id,
+						$o['pmod'], $o['history_table'], $detail_key, $table,
+						$details['history'], array());
+				}
+			}
+		}
+
+	}
+
+	//
 	// Commit the database changes
 	//
     $rc = ciniki_core_dbTransactionCommit($ciniki, $o['pmod']);

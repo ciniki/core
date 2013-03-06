@@ -105,7 +105,7 @@ function ciniki_core_syncUpgradeSystem($ciniki) {
 			while( ($mfile = readdir($mdir)) != false ) {
 				$vfilename = $ciniki['config']['ciniki.core']['root_dir'] . "/$file/$mfile/_version.ini";
 				if( file_exists($vfilename) ) {
-					$versions .= '[' . $matches[1] . '.' . $matches[2] . '.' . $mfile . ']';
+					$versions .= '[' . $matches[1] . '.' . $matches[2] . '.' . $mfile . "]\n";
 					$versions .= file_get_contents($vfilename);
 					$versions .= "\n";
 				}

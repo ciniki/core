@@ -91,7 +91,7 @@ function ciniki_core_syncObjectUpdate(&$ciniki, &$sync, $business_id, $o, $args)
 		$strsql .= "'" . ciniki_core_dbQuote($ciniki, $remote_object['uuid']) . "', "
 			. "'" . ciniki_core_dbQuote($ciniki, $business_id) . "', ";
 		foreach($o['fields'] as $fid => $finfo) {
-			if( isset($finfo['ref']) && $finfo['ref'] != '' ) {
+			if( isset($finfo['ref']) && $finfo['ref'] != '' && $remote_object[$fid] != '0' ) {
 				ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLoad');
 				$rc = ciniki_core_syncObjectLoad($ciniki, $sync, $business_id, $finfo['ref'], array());
 				if( $rc['stat'] != 'ok' ) {

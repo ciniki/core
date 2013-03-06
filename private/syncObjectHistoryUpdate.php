@@ -84,7 +84,7 @@ function ciniki_core_syncObjectHistoryUpdate(&$ciniki, &$sync, $business_id, $o,
 	// Translate the new_value into a uuid if required
 	//
 //	if( isset($o['fields'][$remote_history['table_field']]) && isset($o['fields'][$remote_history['table_field']]['ref']) 
-//		&& $remote_history['new_value'] != '' && strncmp($remote_history['new_value'], 'uuid-', 5) != 0 ) {
+//		&& $remote_history['new_value'] != '' && strncmp($remote_history['new_value'], 'uuid-', 5) != 0 && $remote_history['new_value'] != '0' ) {
 //		$ref = $o['fields'][$remote_history['table_field']]['ref'];
 //		ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLoad');
 //		$rc = ciniki_core_syncObjectLoad($ciniki, $sync, $business_id, $ref, array());

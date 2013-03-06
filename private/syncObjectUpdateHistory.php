@@ -80,7 +80,7 @@ function ciniki_core_syncObjectUpdateHistory(&$ciniki, &$sync, $business_id, $o,
 				//
 				// Check if the table_field is a field that reverences an ID, and needs to be converted from a UUID
 				//
-				if( isset($o['fields'][$history['table_field']]) && isset($o['fields'][$history['table_field']]['ref']) ) {
+				if( isset($o['fields'][$history['table_field']]) && isset($o['fields'][$history['table_field']]['ref']) && $history['new_value'] != '0' ) {
 					$ref = $o['fields'][$history['table_field']]['ref'];
 //					ciniki_core_syncLog($ciniki, 5, "Checking ref $ref(" . $history['new_value'] . ")", null);
 

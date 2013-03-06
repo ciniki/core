@@ -19,7 +19,7 @@ function ciniki_core_syncObjectUpdateSQL($ciniki, $sync, $business_id, $o, $remo
 		//
 		// Translate remote ID's to load ID's before compare
 		//
-		if( isset($finfo['ref']) && $finfo['ref'] != '' ) {
+		if( isset($finfo['ref']) && $finfo['ref'] != '' && $remote_object[$field] != '0' ) {
 			ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLoad');
 			$rc = ciniki_core_syncObjectLoad($ciniki, $sync, $business_id, $finfo['ref'], array());
 			if( $rc['stat'] != 'ok' ) {

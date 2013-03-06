@@ -71,7 +71,7 @@ function ciniki_core_syncObjectHistoryGet(&$ciniki, &$sync, $business_id, $o, $a
 	//
 	// Translate the new_value into a uuid if required
 	//
-	if( isset($o['fields'][$history['table_field']]) && isset($o['fields'][$history['table_field']]['ref']) ) {
+	if( isset($o['fields'][$history['table_field']]) && isset($o['fields'][$history['table_field']]['ref']) && $history['new_value'] != '0' ) {
 		$ref = $o['fields'][$history['table_field']]['ref'];
 		ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLoad');
 		$rc = ciniki_core_syncObjectLoad($ciniki, $sync, $business_id, $ref, array());

@@ -111,7 +111,7 @@ function ciniki_core_syncObjectGet($ciniki, &$sync, $business_id, $o, $args) {
 		// Translate the table_key
 		//
 		foreach($o['fields'] as $fid => $finfo) {
-			if( isset($finfo['ref']) && $finfo['ref'] != '' ) {
+			if( isset($finfo['ref']) && $finfo['ref'] != '' && $object[$fid] != '0' ) {
 				ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLoad');
 				$rc = ciniki_core_syncObjectLoad($ciniki, $sync, $business_id, $finfo['ref'], array());
 				if( $rc['stat'] != 'ok' ) {
@@ -132,7 +132,7 @@ function ciniki_core_syncObjectGet($ciniki, &$sync, $business_id, $o, $args) {
 		// Translate the new_value if required
 		//
 		foreach($object['history'] as $uuid => $history) {
-			if( isset($o['fields'][$history['table_field']]) && isset($o['fields'][$history['table_field']]['ref']) ) {
+			if( isset($o['fields'][$history['table_field']]) && isset($o['fields'][$history['table_field']]['ref']) && $history['new_value'] != '0' ) {
 				$ref = $o['fields'][$history['table_field']]['ref'];
 				ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLoad');
 				$rc = ciniki_core_syncObjectLoad($ciniki, $sync, $business_id, $ref, array());

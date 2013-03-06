@@ -101,6 +101,23 @@ function ciniki_core_syncObjectDelete(&$ciniki, &$sync, $business_id, $o, $args)
 	}
 
 	//
+	// Check if the details also need to be removed
+	//
+	if( isset($local_object) && isset($o['details']) 
+		&& isset($o['details']['key']) && isset($o['details']['table']) ) {
+		$key = $o['details']['key'];
+		$table = $o['details']['table'];
+		$strsql = "DELETE FROM $table "
+			. "WHERE $key = '" . ciniki_core_dbQuote($ciniki, $local_object['id']) . "' "
+			. "AND business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+			. "";
+		$rc = ciniki_core_dbDelete($ciniki, $strsql, $o['pmod']);
+		if( $rc['stat'] != 'ok' ) {
+			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1089', 'msg'=>'Unable to delete ' . $o['name'] . ' details', 'err'=>$rc['err']));
+		}
+	}
+
+	//
 	// Commit the database changes
 	//
     $rc = ciniki_core_dbTransactionCommit($ciniki, $o['pmod']);

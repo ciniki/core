@@ -73,13 +73,29 @@ function ciniki_core_syncBusiness($ciniki, $business_id, $sync_id, $type, $modul
 			if( $rc['stat'] != 'ok' ) {
 				return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'251', 'msg'=>'Unable to sync module ' . $module, 'err'=>$rc['err']));
 			}
+			//
+			// Update the module last_change timestamp if more recent on remote
+			//
+			$mname = preg_split('/\./', $module);
+			$strsql = "UPDATE ciniki_business_modules "
+				. "SET last_change = FROM_UNIXTIME('" . ciniki_core_dbQuote($ciniki, $remote_modules[$module]['last_change']) . "') "
+				. "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+				. "AND package = '" . ciniki_core_dbQuote($ciniki, $mname[0]) . "' "
+				. "AND module = '" . ciniki_core_dbQuote($ciniki, $mname[1]) . "' "
+				. "AND last_change < FROM_UNIXTIME('" . ciniki_core_dbQuote($ciniki, $remote_modules[$module]['last_change']) . "') "
+				. "";
+			ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbUpdate');
+			$rc = ciniki_core_dbUpdate($ciniki, $strsql, $module);
+			if( $rc['stat'] != 'ok' ) {
+				return $rc;
+			}
 		}
 	}
 
 	//
 	// Go through the priority optional modules, which needs to be sync'd in order
 	//
-	$priority_modules = array('ciniki.businesses');
+	$priority_modules = array('ciniki.customers');
 	foreach($priority_modules as $module) {
 		// Check if module is enabled for the business
 		// and only run an incmental if the last_change dates for the modules don't match

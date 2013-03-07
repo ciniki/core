@@ -110,21 +110,23 @@ function ciniki_core_syncObjectGet($ciniki, &$sync, $business_id, $o, $args) {
 		//
 		// Translate the table_key
 		//
-		foreach($o['fields'] as $fid => $finfo) {
-			if( isset($finfo['ref']) && $finfo['ref'] != '' && $object[$fid] != '0' ) {
-				ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLoad');
-				$rc = ciniki_core_syncObjectLoad($ciniki, $sync, $business_id, $finfo['ref'], array());
-				if( $rc['stat'] != 'ok' ) {
-					return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1199', 'msg'=>'Unable to load object ' . $finfo['ref']));
+		if( isset($o['fields']) ) {
+			foreach($o['fields'] as $fid => $finfo) {
+				if( isset($finfo['ref']) && $finfo['ref'] != '' && $object[$fid] != '0' ) {
+					ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLoad');
+					$rc = ciniki_core_syncObjectLoad($ciniki, $sync, $business_id, $finfo['ref'], array());
+					if( $rc['stat'] != 'ok' ) {
+						return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1199', 'msg'=>'Unable to load object ' . $finfo['ref']));
+					}
+					$ref_o = $rc['object'];
+					ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLookup');
+					$rc = ciniki_core_syncObjectLookup($ciniki, $sync, $business_id, $ref_o, 
+						array('local_id'=>$object[$fid]));
+					if( $rc['stat'] != 'ok' ) {
+						return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1200', 'msg'=>'Unable to find reference for ' . $ref_o['name'] . '(' . $object[$fid] . ')'));
+					}
+					$object[$fid] = $rc['uuid'];
 				}
-				$ref_o = $rc['object'];
-				ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLookup');
-				$rc = ciniki_core_syncObjectLookup($ciniki, $sync, $business_id, $ref_o, 
-					array('local_id'=>$object[$fid]));
-				if( $rc['stat'] != 'ok' ) {
-					return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1200', 'msg'=>'Unable to find reference for ' . $ref_o['name'] . '(' . $object[$fid] . ')'));
-				}
-				$object[$fid] = $rc['uuid'];
 			}
 		}
 

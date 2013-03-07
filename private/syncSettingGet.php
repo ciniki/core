@@ -73,6 +73,48 @@ function ciniki_core_syncSettingGet($ciniki, $sync, $business_id, $o, $args) {
 	//
 	// FIXME: Add translate for new_value if required
 	//
+	//
+	// Translate any references for settings
+	//
+	if( !isset($args['translate']) || $args['translate'] == 'yes' ) {
+		if( isset($o['refs']) && isset($o['refs'][$setting['detail_key']]) 
+			&& isset($o['refs'][$setting['detail_key']]['ref']) && $setting['detail_value'] != 0 ) {
+			$ref = $o['refs'][$setting['detail_key']];
+			ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLoad');
+			$rc = ciniki_core_syncObjectLoad($ciniki, $sync, $business_id, $ref, array());
+			if( $rc['stat'] != 'ok' ) {
+				return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1199', 'msg'=>'Unable to load object ' . $ref));
+			}
+			$ref_o = $rc['object'];
+			ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLookup');
+			$rc = ciniki_core_syncObjectLookup($ciniki, $sync, $business_id, $ref_o, 
+				array('local_id'=>$object['detail_value']));
+			if( $rc['stat'] != 'ok' ) {
+				return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1200', 'msg'=>'Unable to find reference for ' . $ref_o['name'] . '(' . $object[$fid] . ')'));
+			}
+			$setting['detail_value'] = $rc['uuid'];
+
+			// FIXME: Add history translate
+			foreach($object['history'] as $uuid => $history) {
+				if( $history['table_field'] == 'detail_value' && $history['new_value'] != '0' ) {
+					$ref = $o['refs'][$setting['detail_key']]['ref'];
+					ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLoad');
+					$rc = ciniki_core_syncObjectLoad($ciniki, $sync, $business_id, $ref, array());
+					if( $rc['stat'] != 'ok' ) {
+						return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1201', 'msg'=>"Unable to load object $ref"));
+					}
+					$ref_o = $rc['object'];
+					ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLookup');
+					$rc = ciniki_core_syncObjectLookup($ciniki, $sync, $business_id, $ref_o, 
+						array('local_id'=>$history['new_value']));
+					if( $rc['stat'] != 'ok' ) {
+						return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1202', 'msg'=>'Unable to find reference for ' . $ref_o['name'] . '(' . $history['new_value'] . ')', 'err'=>$rc['err']));
+					}
+					$setting['history'][$uuid]['new_value'] = $rc['uuid'];
+				}
+			}
+		}
+	}
 
 	return array('stat'=>'ok', 'object'=>$setting);
 }

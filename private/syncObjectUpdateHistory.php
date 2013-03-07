@@ -84,6 +84,36 @@ function ciniki_core_syncObjectUpdateHistory(&$ciniki, &$sync, $business_id, $o,
 					$ref = $o['fields'][$history['table_field']]['ref'];
 //					ciniki_core_syncLog($ciniki, 5, "Checking ref $ref(" . $history['new_value'] . ")", null);
 
+					ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLoad');
+					$rc = ciniki_core_syncObjectLoad($ciniki, $sync, $business_id, $ref, array());
+					if( $rc['stat'] != 'ok' ) {
+						return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1169', 'msg'=>'Unable to load object ' . $ref, 'err'=>$rc['err']));
+					}
+					$ref_o = $rc['object'];
+
+					//
+					// Lookup the object
+					//
+					ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLookup');
+					$rc = ciniki_core_syncObjectLookup($ciniki, $sync, $business_id, $ref_o, 
+						array('remote_uuid'=>$history['new_value']));
+					if( $rc['stat'] != 'ok' ) {
+						ciniki_core_syncLog($ciniki, 0, "Unable to locate local new value for " . $history['table_name'] . '(' . $history['new_value'] . ')', $rc['err']);
+
+						$history['new_value'] = '';
+					} else {
+						$history['new_value'] = $rc['id'];
+					}
+				}
+
+				//
+				// Translate setting refs
+				//
+				if( isset($o['refs']) && isset($o['refs'][$history['table_key']]) 
+					&& $history['table_field'] == 'detail_value'
+					&& isset($o['refs'][$history['table_key']]['ref']) && $history['new_value'] != '0' ) {
+					$ref = $o['refs'][$history['table_key']]['ref'];
+//					ciniki_core_syncLog($ciniki, 5, "Checking ref $ref(" . $history['new_value'] . ")", null);
 
 					ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLoad');
 					$rc = ciniki_core_syncObjectLoad($ciniki, $sync, $business_id, $ref, array());

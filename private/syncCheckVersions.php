@@ -138,7 +138,7 @@ function ciniki_core_syncCheckVersions($ciniki, $business_id, $sync_id) {
 	}
 
 	if( $errors != '' ) {
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'572', 'msg'=>'System code must be updated before synchronization.', 'pmsg'=>"$errors."));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'572', 'msg'=>'System code must be updated before synchronization.', 'pmsg'=>"$errors"));
 	}
 
 	return array('stat'=>'ok', 'sync'=>$sync, 'modules'=>$local_modules, 'remote_modules'=>$r_modules);

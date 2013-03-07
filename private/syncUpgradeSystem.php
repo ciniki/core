@@ -18,6 +18,8 @@ function ciniki_core_syncUpgradeSystem($ciniki) {
 		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'503', 'msg'=>'No sync code url specified, unable to upgrade module'));
 	}
 
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'logMsg');
+
 	$url = $ciniki['config']['ciniki.core']['sync.code.url'];
 
 	//
@@ -54,9 +56,9 @@ function ciniki_core_syncUpgradeSystem($ciniki) {
 			|| $local_modules[$mod_name]['version'] != $remote_modules[$mod_name]['version'] ) {
 
 			if( isset($local_modules[$mod_name]) ) {
-				error_log('[' . date('d/M/Y:H:i:s O') . '] ' . "Upgrading $mod_name (" . $local_modules[$mod_name]['version'] . ' -> ' . $module['version'] . ')');
+				ciniki_core_logMsg($ciniki, 1, "Upgrading $mod_name (" . $local_modules[$mod_name]['version'] . ' -> ' . $module['version'] . ')');
 			} else {
-				error_log('[' . date('d/M/Y:H:i:s O') . '] ' . "Upgrading $mod_name to " . $module['version'] . '');
+				ciniki_core_logMsg($ciniki, 1, "Upgrading $mod_name to " . $module['version'] . '');
 			}
 			//
 			// Fetch the zip file into site/ciniki-code

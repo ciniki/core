@@ -23,6 +23,7 @@ function ciniki_core_dbUpgradeTable($ciniki, $package, $module, $table, $old_ver
 
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbConnect');
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbUpdate');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'logMsg');
 	$rc = ciniki_core_dbConnect($ciniki, "$package.$module");
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
@@ -74,7 +75,7 @@ function ciniki_core_dbUpgradeTable($ciniki, $package, $module, $table, $old_ver
 			$end_minor = $new_minor;
 		}
 
-		error_log("Upgrading table $table from: $i.$start_minor to $i.$end_minor");
+		ciniki_core_logMsg($ciniki, 1, "Upgrading table $table from: $i.$start_minor to $i.$end_minor");
 		for($j=$start_minor+1;$j<=$end_minor;$j++) {
 			$filename = $ciniki['config']['ciniki.core']['root_dir'] . sprintf("/$package-api/$module/db/$table.$i.%02d.upgrade", $j);
 			if( file_exists($filename) ) {

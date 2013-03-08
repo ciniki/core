@@ -147,7 +147,7 @@ function ciniki_core_syncSettingUpdate(&$ciniki, $sync, $business_id, $o, $args)
 			} else {
 				$strsql .= "detail_value = '" . ciniki_core_dbQuote($ciniki, $remote_object['detail_value']) . "' ";
 			}
-			$strsql .= ", FROM_UNIXTIME('" . ciniki_core_dbQuote($ciniki, $remote_object['last_updated']) . "') "
+			$strsql .= ", last_updated = FROM_UNIXTIME('" . ciniki_core_dbQuote($ciniki, $remote_object['last_updated']) . "') "
 				. "WHERE detail_key = '" . ciniki_core_dbQuote($ciniki, $local_object['detail_key']) . "' "
 				. "AND business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
 				. "";

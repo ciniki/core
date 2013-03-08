@@ -40,7 +40,7 @@ function ciniki_core_syncQueueProcess(&$ciniki, $business_id) {
 			// Setup logging
 			//
 			if( isset($ciniki['config']['ciniki.core']['sync.log_dir']) ) {
-				$ciniki['synclogfile'] = $ciniki['config']['ciniki.core']['sync.log_dir'] . "/sync_" . $sync['sitename'] . "-$sync_id.log";
+				$ciniki['synclogfile'] = $ciniki['config']['ciniki.core']['sync.log_dir'] . "/sync_" . $sync['sitename'] . "_$sync_id.log";
 			}
 			$ciniki['synclogprefix'] = "[" . $sync['sitename'] . "-" . $sync['remote_name'] . "]";
 

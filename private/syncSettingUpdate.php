@@ -72,7 +72,7 @@ function ciniki_core_syncSettingUpdate(&$ciniki, $sync, $business_id, $o, $args)
 			. "";
 			if( isset($o['refs']) && isset($o['refs'][$remote_object['detail_key']]) 
 				&& isset($o['refs'][$remote_object['detail_key']]['ref'])
-				&& $remote_object['detail_value'] != 0 ) {
+				&& $remote_object['detail_value'] != '0' ) {
 
 				$ref = $o['refs'][$remote_object['detail_key']]['ref'];
 				ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLoad');
@@ -124,7 +124,7 @@ function ciniki_core_syncSettingUpdate(&$ciniki, $sync, $business_id, $o, $args)
 			$strsql = "UPDATE $table SET ";
 			if( isset($o['refs']) && isset($o['refs'][$remote_object['detail_key']]) 
 				&& isset($o['refs'][$remote_object['detail_key']]['ref'])
-				&& $remote_object['detail_value'] != 0 ) {
+				&& $remote_object['detail_value'] != '0' ) {
 
 				$ref = $o['refs'][$remote_object['detail_key']]['ref'];
 				ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLoad');

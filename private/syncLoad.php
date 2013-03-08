@@ -10,13 +10,14 @@
 // business_id:		The ID of the business on the local side to check sync.
 // sync_id:			The ID of the sync to check compatibility with.
 //
-function ciniki_core_syncLoad($ciniki, $business_id, $sync_id) {
+function ciniki_core_syncLoad(&$ciniki, $business_id, $sync_id) {
 
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQuote');
 	//
 	// Get the sync information required to send the request
 	//
 	$strsql = "SELECT ciniki_business_syncs.id, ciniki_businesses.uuid AS local_uuid, "
+		. "ciniki_businesses.sitename, "
 		. "ciniki_business_syncs.status, "
 		. "ciniki_business_syncs.flags, local_private_key, "
 		. "ciniki_business_syncs.remote_name, ciniki_business_syncs.remote_uuid, "
@@ -37,6 +38,15 @@ function ciniki_core_syncLoad($ciniki, $business_id, $sync_id) {
 	}
 	$sync = $rc['sync'];
 	$sync['type'] = 'business';
+	
+	//
+	// Setup logging
+	//
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncLog');
+	if( isset($ciniki['config']['ciniki.core']['sync.log_dir']) ) {
+		$ciniki['synclogfile'] = $ciniki['config']['ciniki.core']['sync.log_dir'] . "/sync_" . $sync['sitename'] . "_$sync_id.log";
+	}
+	$ciniki['synclogprefix'] = '[' . $sync['sitename'] . '-' . $sync['remote_name'] . ']';
 
 	//
 	// Get the user uuidmaps

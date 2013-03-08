@@ -43,14 +43,16 @@ if( isset($argv[1]) && $argv[1] != ''
 	$business_id = $argv[1];
 	$sync_id = $argv[2];
 	$type = $argv[3];
+
 	//
-	// Setup logging
+	// Load sync
 	//
-	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncLog');
-	if( isset($ciniki['config']['ciniki.core']['sync.log_dir']) ) {
-		$ciniki['synclogfile'] = $ciniki['config']['ciniki.core']['sync.log_dir'] . "/sync-$sync_id.log";
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncLoad');
+	$rc = ciniki_core_syncLoad($ciniki, $business_id, $sync_id);
+	if( $rc['stat'] != 'ok' ) {
+		return $rc;
 	}
-	$ciniki['synclogprefix'] = "[$business_id-$sync_id]";
+	$sync = $rc['sync'];
 
 	$rc = ciniki_core_syncLock($ciniki, $business_id, $sync_id);
 	if( $rc['stat'] == 'lockexists' ) {
@@ -60,7 +62,7 @@ if( isset($argv[1]) && $argv[1] != ''
 		return $rc;
 	}
 	ciniki_core_syncLog($ciniki, 1, "Syncing $type", null);
-	$rc = ciniki_core_syncBusiness($ciniki, $business_id, $sync_id, $type, '');
+	$rc = ciniki_core_syncBusiness($ciniki, $sync, $business_id, $type, '');
 	if( $rc['stat'] != 'ok' ) {
 		ciniki_core_syncLog($ciniki, 0, "Unable to sync business (" . serialize($rc['err']) . ")", $rc['err']);
 		ciniki_core_syncUnlock($ciniki, $business_id, $sync_id);

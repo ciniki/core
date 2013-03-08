@@ -58,6 +58,7 @@ function ciniki_core_syncInit($ciniki_root) {
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQuote');
 	$strsql = "SELECT ciniki_business_syncs.id AS sync_id, "
 		. "ciniki_businesses.id AS business_id, ciniki_businesses.uuid, "
+		. "ciniki_businesses.sitename, "
 		. "ciniki_business_syncs.status, "
 		. "ciniki_business_syncs.flags, "
 		. "local_private_key, "
@@ -87,6 +88,7 @@ function ciniki_core_syncInit($ciniki_root) {
 	$ciniki['sync']['remote_url'] = $rc['sync']['remote_url'];
 	$ciniki['sync']['remote_public_key'] = $rc['sync']['remote_public_key'];
 	$ciniki['sync']['business_id'] = $rc['sync']['business_id'];
+	$ciniki['sync']['sitename'] = $rc['sync']['sitename'];
 	$ciniki['sync']['id'] = $rc['sync']['sync_id'];
 	// uuidmaps stores the mappings from remote to local uuid
 	$ciniki['sync']['uuidmaps'] = array();

@@ -76,41 +76,20 @@ $cmd = $ciniki['config']['ciniki.core']['php'] . " " . dirname(__FILE__) . "/syn
 foreach($rc['syncs'] as $sid => $sync) {
 	//
 	// For a copy of the script to handle each sync
-	// Sleep for 2 seconds between each fork
 	//
 	// if time since last full > 150 hours, and time is currently 3 am, run full
 	if( $cur_hour == $sync_full_hour && $sync['full_age'] > 540000 ) {
-		exec($cmd . " " . $sync['business_id'] . " " . $sync['id'] . " full >> " . $ciniki['config']['ciniki.core']['sync.log_dir'] . "/sync-" . $sync['id'] . ".log 2>&1 &");
-//		error_log("SYNC-INFO: [" . $sync['business_id'] . '-' . $sync['id'] . "] Syncing full");
-//		$rc = ciniki_core_syncBusiness($ciniki, $sync['business_id'], $sync['id'], 'partial', '');
-//		if( $rc['stat'] != 'ok' ) {
-//			error_log("SYNC-ERR: [" . $sync['business_id'] . '-' . $sync['id'] . "] Unable to sync business (" . serialize($rc['err']) . ")");
-//			break;
-//		}
-//		error_log("SYNC-INFO: [" . $sync['business_id'] . '-' . $sync['id'] . "] Sync done");
+		exec($cmd . " " . $sync['business_id'] . " " . $sync['id'] . " full >> " . $ciniki['config']['ciniki.core']['sync.log_dir'] . "/sync_" . $sync['sitename'] . '_' . $sync['id'] . ".log 2>&1 &");
 	} 
 	// if time since last partial > 23 hours, and time is currently 3 am, run parital
 	elseif( $cur_hour == $sync_partial_hour && $sync['partial_age'] > 82800 ) {
-		exec($cmd . " " . $sync['business_id'] . " " . $sync['id'] . " partial >> " . $ciniki['config']['ciniki.core']['sync.log_dir'] . "/sync-" . $sync['id'] . ".log 2>&1 &");
-//		error_log("SYNC-INFO: [" . $sync['business_id'] . '-' . $sync['id'] . "] Syncing partial");
-//		$rc = ciniki_core_syncBusiness($ciniki, $sync['business_id'], $sync['id'], 'partial', '');
-//		if( $rc['stat'] != 'ok' ) {
-//			error_log("SYNC-ERR: [" . $sync['business_id'] . '-' . $sync['id'] . "] Unable to sync business (" . serialize($rc['err']) . ")");
-//			break;
-//		}
-//		error_log("SYNC-INFO: [" . $sync['business_id'] . '-' . $sync['id'] . "] Sync done");
+		exec($cmd . " " . $sync['business_id'] . " " . $sync['id'] . " partial >> " . $ciniki['config']['ciniki.core']['sync.log_dir'] . "/sync_" . $sync['sitename'] . '_' . $sync['id'] . ".log 2>&1 &");
 	}
 	// Default to a incremental sync
 	else {
-		exec($cmd . " " . $sync['business_id'] . " " . $sync['id'] . " incremental >> " . $ciniki['config']['ciniki.core']['sync.log_dir'] . "/sync-" . $sync['id'] . ".log 2>&1 &");
-//		error_log("SYNC-INFO: [" . $sync['business_id'] . '-' . $sync['id'] . "] Syncing incremental");
-//		$rc = ciniki_core_syncBusiness($ciniki, $sync['business_id'], $sync['id'], 'incremental', '');
-//		if( $rc['stat'] != 'ok' ) {
-//			error_log("SYNC-ERR: [" . $sync['business_id'] . '-' . $sync['id'] . "] Unable to sync business (" . serialize($rc['err']) . ")");
-//			break;
-//		}
-//		error_log("SYNC-INFO: [" . $sync['business_id'] . '-' . $sync['id'] . "] Syncing done");
+		exec($cmd . " " . $sync['business_id'] . " " . $sync['id'] . " incremental >> " . $ciniki['config']['ciniki.core']['sync.log_dir'] . "/sync_" . $sync['sitename'] . '_' . $sync['id'] . ".log 2>&1 &");
 	}
+	// Sleep for 1 seconds between each exec
 	sleep(1);
 }
 

@@ -16,18 +16,7 @@
 // business_id:		The ID of the business on the local side to check sync.
 // sync_id:			The ID of the sync to check compatibility with.
 //
-function ciniki_core_syncCheckVersions($ciniki, $business_id, $sync_id) {
-
-	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncLoad');
-	$rc = ciniki_core_syncLoad($ciniki, $business_id, $sync_id);
-	if( $rc['stat'] != 'ok') {
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'392', 'msg'=>'Invalid sync', 'err'=>$rc['err']));
-	}
-	$sync = $rc['sync'];
-
-	if( $sync['status'] != '10' ) {
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'106', 'msg'=>'The sync is not in an active status'));
-	}
+function ciniki_core_syncCheckVersions($ciniki, $sync, $business_id) {
 
 	//
 	// Make the request for the remote business information

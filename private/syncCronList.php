@@ -21,12 +21,14 @@ function ciniki_core_syncCronList($ciniki) {
 	//
 	// Get the sync information required to send the request
 	//
-	$strsql = "SELECT id, business_id, "
-		. "(UNIX_TIMESTAMP(UTC_TIMESTAMP()) - UNIX_TIMESTAMP(last_sync)) AS incremental_age, "
-		. "(UNIX_TIMESTAMP(UTC_TIMESTAMP()) - UNIX_TIMESTAMP(last_partial)) AS partial_age, "
-		. "(UNIX_TIMESTAMP(UTC_TIMESTAMP()) - UNIX_TIMESTAMP(last_full)) AS full_age "
-		. "FROM ciniki_business_syncs "
-		. "WHERE status = 10 "
+	$strsql = "SELECT ciniki_business_syncs.id, ciniki_business_syncs.business_id, "
+		. "ciniki_businesses.sitename, "
+		. "(UNIX_TIMESTAMP(UTC_TIMESTAMP()) - UNIX_TIMESTAMP(ciniki_business_syncs.last_sync)) AS incremental_age, "
+		. "(UNIX_TIMESTAMP(UTC_TIMESTAMP()) - UNIX_TIMESTAMP(ciniki_business_syncs.last_partial)) AS partial_age, "
+		. "(UNIX_TIMESTAMP(UTC_TIMESTAMP()) - UNIX_TIMESTAMP(ciniki_business_syncs.last_full)) AS full_age "
+		. "FROM ciniki_business_syncs, ciniki_businesses "
+		. "WHERE ciniki_business_syncs.business_id = ciniki_businesses.id "
+		. "AND ciniki_business_syncs.status = 10 "
 		. "";
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashIDQuery');
 	$rc = ciniki_core_dbHashIDQuery($ciniki, $strsql, 'ciniki.businesses', 'syncs', 'id');

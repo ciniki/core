@@ -18,17 +18,16 @@
 //
 // module:			If the sync should only do one module.
 //
-function ciniki_core_syncBusiness($ciniki, $business_id, $sync_id, $type, $module) {
+function ciniki_core_syncBusiness($ciniki, $sync, $business_id, $type, $module) {
 
 	//
 	// Check the versions of tables and modules enabled are the same between servers
 	//
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncCheckVersions');
-	$rc = ciniki_core_syncCheckVersions($ciniki, $business_id, $sync_id);
+	$rc = ciniki_core_syncCheckVersions($ciniki, $sync, $business_id);
 	if( $rc['stat'] != 'ok' ) {
 		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'567', 'msg'=>'Incompatible versions', 'err'=>$rc['err']));
 	}
-	$sync = $rc['sync'];
 	$modules = $rc['modules'];
 	$remote_modules = $rc['remote_modules'];
 
@@ -41,6 +40,15 @@ function ciniki_core_syncBusiness($ciniki, $business_id, $sync_id, $type, $modul
 		return $rc;
 	}
 	$last_sync_time = $rc['sync']['last_sync_time'];
+
+	//
+	// Setup logging
+	//
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncLog');
+	if( isset($ciniki['config']['ciniki.core']['sync.log_dir']) ) {
+		$ciniki['synclogfile'] = $ciniki['config']['ciniki.core']['sync.log_dir'] . "/sync_" . $sync['sitename'] . '_' . $sync['id'] . ".log";
+	}
+	$ciniki['synclogprefix'] = '[' . $sync['sitename'] . '-' . $sync['remote_name'] . ']';
 
 	//
 	// If a specific module is specified, only sync that module and return.
@@ -172,7 +180,7 @@ function ciniki_core_syncBusiness($ciniki, $business_id, $sync_id, $type, $modul
 	// Updated the last sync time
 	//
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncUpdateLastTime');
-	$rc = ciniki_core_syncUpdateLastTime($ciniki, $business_id, $sync_id, $type, $last_sync_time);
+	$rc = ciniki_core_syncUpdateLastTime($ciniki, $business_id, $sync['id'], $type, $last_sync_time);
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
 	}

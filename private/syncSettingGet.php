@@ -79,7 +79,7 @@ function ciniki_core_syncSettingGet($ciniki, $sync, $business_id, $o, $args) {
 	if( !isset($args['translate']) || $args['translate'] == 'yes' ) {
 		if( isset($o['refs']) && isset($o['refs'][$setting['detail_key']]) 
 			&& isset($o['refs'][$setting['detail_key']]['ref']) && $setting['detail_value'] != 0 ) {
-			$ref = $o['refs'][$setting['detail_key']];
+			$ref = $o['refs'][$setting['detail_key']]['ref'];
 			ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLoad');
 			$rc = ciniki_core_syncObjectLoad($ciniki, $sync, $business_id, $ref, array());
 			if( $rc['stat'] != 'ok' ) {
@@ -88,9 +88,9 @@ function ciniki_core_syncSettingGet($ciniki, $sync, $business_id, $o, $args) {
 			$ref_o = $rc['object'];
 			ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLookup');
 			$rc = ciniki_core_syncObjectLookup($ciniki, $sync, $business_id, $ref_o, 
-				array('local_id'=>$object['detail_value']));
+				array('local_id'=>$setting['detail_value']));
 			if( $rc['stat'] != 'ok' ) {
-				return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1200', 'msg'=>'Unable to find reference for ' . $ref_o['name'] . '(' . $object[$fid] . ')'));
+				return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1200', 'msg'=>'Unable to find reference for ' . $ref_o['name'] . '(' . $setting[$fid] . ')'));
 			}
 			$setting['detail_value'] = $rc['uuid'];
 

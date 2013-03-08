@@ -90,7 +90,7 @@ function ciniki_core_syncSettingGet($ciniki, $sync, $business_id, $o, $args) {
 			$rc = ciniki_core_syncObjectLookup($ciniki, $sync, $business_id, $ref_o, 
 				array('local_id'=>$object['detail_value']));
 			if( $rc['stat'] != 'ok' ) {
-				return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1200', 'msg'=>'Unable to find reference for ' . $ref_o['name'] . '(' . $object[$fid] . ')'));
+				return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1200', 'msg'=>'Unable to find reference for ' . $ref_o['name'] . '(' . $object['detail_value'] . ')'));
 			}
 			$object['detail_value'] = $rc['uuid'];
 

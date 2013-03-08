@@ -109,10 +109,10 @@ function ciniki_core_syncObjectUpdateHistory(&$ciniki, &$sync, $business_id, $o,
 				//
 				// Translate setting refs
 				//
-				if( isset($o['refs']) && isset($o['refs'][$history['table_key']]) 
+				if( isset($o['refs']) && isset($o['refs'][$table_key]) 
 					&& $history['table_field'] == 'detail_value'
-					&& isset($o['refs'][$history['table_key']]['ref']) && $history['new_value'] != '0' ) {
-					$ref = $o['refs'][$history['table_key']]['ref'];
+					&& isset($o['refs'][$table_key]['ref']) && $history['new_value'] != '0' ) {
+					$ref = $o['refs'][$table_key]['ref'];
 //					ciniki_core_syncLog($ciniki, 5, "Checking ref $ref(" . $history['new_value'] . ")", null);
 
 					ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLoad');

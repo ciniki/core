@@ -66,9 +66,12 @@ if( isset($ciniki['syncqueue']) && count($ciniki['syncqueue']) > 0 ) {
 	ob_start();
 	if( !ob_start("ob_gzhandler")) {
 		ob_start();		// Inner buffer when output is apache mod-deflate is enabled
+		ciniki_core_printResponse($ciniki, $rc);
+		ob_end_flush();
+	} else {
+		ciniki_core_printResponse($ciniki, $rc);
+		ob_end_flush();
 	}
-	ciniki_core_printResponse($ciniki, $rc);
-	ob_end_flush();
 	header("Connection: close");
 	ob_end_flush();
 	$contentlength = ob_get_length();

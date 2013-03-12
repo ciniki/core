@@ -132,6 +132,7 @@ function ciniki_core_sessionStart(&$ciniki, $username, $password) {
 	// Generate a random 32 character string as the session id.
 	// FIXME: Check to make sure this is a secure enough method for generating a session id.
 	// 
+	date_default_timezone_set('UTC');
 	$ciniki['session']['auth_token'] = md5(date('Y-m-d-H-i-s') . rand());
 
 	$ciniki['session']['change_log_id'] = date('ymd.His') . '.' . substr($ciniki['session']['auth_token'], 0, 6);

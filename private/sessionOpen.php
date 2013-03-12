@@ -53,6 +53,7 @@ function ciniki_core_sessionOpen(&$ciniki) {
 	if( $rc['num_rows'] != 1 ) {
 		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'37', 'msg'=>'Session expired'));
 	}
+	$auth = array('token'=>$rc['auth']['auth_token'], 'id'=>$rc['auth']['user_id']);
 
 	//
 	// Check expiry
@@ -67,6 +68,7 @@ function ciniki_core_sessionOpen(&$ciniki) {
 	// Unserialize the session data
 	//
 	$ciniki['session'] = unserialize($rc['auth']['session_data']);
+	error_log($rc['auth']['session_data']);
 	
 	//
 	// Check session variables for security.  If the values in the session
@@ -87,6 +89,9 @@ function ciniki_core_sessionOpen(&$ciniki) {
 		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'26', 'msg'=>'Access Denied', 'pmsg'=>'Security Problem: The user_id in the session data does not match the user_id assigned to session in the database.'));
 	}
 
+	$auth['perms'] = $ciniki['session']['user']['perms'];
+	$auth['avatar_id'] = $ciniki['session']['user']['avatar_id'];
+
 	//
 	// Update session time, so timeout occurs from last action
 	//
@@ -95,6 +100,6 @@ function ciniki_core_sessionOpen(&$ciniki) {
 	// If we get to this point, then the session was loaded successfully
 	// and verified.
 	//
-	return array('stat'=>'ok');	
+	return array('stat'=>'ok', 'auth'=>$auth);	
 }
 ?>

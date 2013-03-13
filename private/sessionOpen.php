@@ -68,7 +68,6 @@ function ciniki_core_sessionOpen(&$ciniki) {
 	// Unserialize the session data
 	//
 	$ciniki['session'] = unserialize($rc['auth']['session_data']);
-	error_log($rc['auth']['session_data']);
 	
 	//
 	// Check session variables for security.  If the values in the session

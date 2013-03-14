@@ -95,7 +95,7 @@ function ciniki_core_syncObjectUpdate(&$ciniki, &$sync, $business_id, $o, $args)
 				ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLoad');
 				$rc = ciniki_core_syncObjectLoad($ciniki, $sync, $business_id, $finfo['ref'], array());
 				if( $rc['stat'] != 'ok' ) {
-					return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1225', 'msg'=>'Unable to load object ' . $finfo['ref'], 'err'=>$rc['err']));
+					return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1215', 'msg'=>'Unable to load object ' . $finfo['ref'], 'err'=>$rc['err']));
 				}
 				$ref_o = $rc['object'];
 
@@ -106,7 +106,7 @@ function ciniki_core_syncObjectUpdate(&$ciniki, &$sync, $business_id, $o, $args)
 				$rc = ciniki_core_syncObjectLookup($ciniki, $sync, $business_id, $ref_o, 
 					array('remote_uuid'=>$remote_object[$fid]));
 				if( $rc['stat'] != 'ok' ) {
-					return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1226', 'msg'=>'Unable to find ' . $o['name'], 'err'=>$rc['err']));
+					return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1219', 'msg'=>'Unable to find ' . $o['name'], 'err'=>$rc['err']));
 				}
 				$strsql .= "'" . ciniki_core_dbQuote($ciniki, $rc['id']) . "', ";
 			} else {
@@ -120,7 +120,7 @@ function ciniki_core_syncObjectUpdate(&$ciniki, &$sync, $business_id, $o, $args)
 		$rc = ciniki_core_dbInsert($ciniki, $strsql, $o['pmod']);
 		if( $rc['stat'] != 'ok' ) { 
 			ciniki_core_dbTransactionRollback($ciniki, $o['pmod']);
-			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1227', 'msg'=>'Unable to add ' . $o['name'], 'err'=>$rc['err']));
+			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1218', 'msg'=>'Unable to add ' . $o['name'], 'err'=>$rc['err']));
 		}
 		if( !isset($rc['insert_id']) || $rc['insert_id'] < 1 ) {
 			ciniki_core_dbTransactionRollback($ciniki, $o['pmod']);
@@ -167,7 +167,7 @@ function ciniki_core_syncObjectUpdate(&$ciniki, &$sync, $business_id, $o, $args)
 			$rc = ciniki_core_dbUpdate($ciniki, $strsql, $o['pmod']);
 			if( $rc['stat'] != 'ok' ) {
 				ciniki_core_dbTransactionRollback($ciniki, $o['pmod']);
-				return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'964', 'msg'=>'Unable to update ' . $o['name'], 'err'=>$rc['err']));
+				return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1178', 'msg'=>'Unable to update ' . $o['name'], 'err'=>$rc['err']));
 			}
 			$db_updated = 1;
 		}

@@ -97,7 +97,7 @@ function ciniki_core_syncObjectDelete(&$ciniki, &$sync, $business_id, $o, $args)
 	}
 	if( $rc['stat'] != 'ok' ) {
 		ciniki_core_dbTransactionRollback($ciniki, $o['pmod']);
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1089', 'msg'=>'Unable to update ' . $o['name'] . ' history', 'err'=>$rc['err']));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1159', 'msg'=>'Unable to update ' . $o['name'] . ' history', 'err'=>$rc['err']));
 	}
 
 	//

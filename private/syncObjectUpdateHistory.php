@@ -87,7 +87,7 @@ function ciniki_core_syncObjectUpdateHistory(&$ciniki, &$sync, $business_id, $o,
 					ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLoad');
 					$rc = ciniki_core_syncObjectLoad($ciniki, $sync, $business_id, $ref, array());
 					if( $rc['stat'] != 'ok' ) {
-						return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1169', 'msg'=>'Unable to load object ' . $ref, 'err'=>$rc['err']));
+						return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1158', 'msg'=>'Unable to load object ' . $ref, 'err'=>$rc['err']));
 					}
 					$ref_o = $rc['object'];
 

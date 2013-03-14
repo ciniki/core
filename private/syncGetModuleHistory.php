@@ -48,7 +48,7 @@ function ciniki_core_syncGetModuleHistory(&$ciniki, &$sync, $business_id, $args)
 		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'944', 'msg'=>"Unable to get " . $args['module'] . " history", 'err'=>$rc['err']));
 	}
 	if( !isset($rc['history'][$args['uuid']]) ) {
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'180', 'msg'=>$args['module'] . " history does not exist: " . $args['uuid']));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'106', 'msg'=>$args['module'] . " history does not exist: " . $args['uuid']));
 	}
 	$history = $rc['history'][$args['uuid']];
 

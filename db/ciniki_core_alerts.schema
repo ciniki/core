@@ -27,11 +27,11 @@ create table ciniki_core_alerts (
 	msg varchar(255) not null,
 	status tinyint unsigned not null,
 	var_alert text,
-	var_moss text,
+	var_ciniki text,
 	var_rc text,
 	date_added datetime not null,
 	last_updated datetime not null,
 	primary key (id),
 	index (status),
 	index (code, msg)
-) ENGINE=InnoDB, COMMENT='v1.01';
+) ENGINE=InnoDB, COMMENT='v1.02';

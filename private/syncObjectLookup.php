@@ -88,7 +88,7 @@ function ciniki_core_syncObjectLookup(&$ciniki, &$sync, $business_id, $o, $args)
 		ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncRequest');
 		$rc = ciniki_core_syncRequest($ciniki, $sync, array('method'=>$o['pmod'] . '.' . $o['oname'] . '.get', 'uuid'=>$args['remote_uuid']));
 		if( $rc['stat'] != 'ok' ) {
-			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1206', 'msg'=>'Unable to get ' . $o['name'] . ' from remote server', 'err'=>$rc['err']));
+			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1206', 'msg'=>'Unable to get ' . $o['name'] . '(' . $args['remote_uuid'] . ') from remote server', 'err'=>$rc['err']));
 		}
 
 		if( isset($rc['object']) ) {

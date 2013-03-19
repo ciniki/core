@@ -102,8 +102,13 @@ function ciniki_core_syncBusinessInfo($ciniki, $business_id) {
 		//
 		// Setup module version
 		//
-		$modules[$mnum]['module']['version'] = $modules_ini[$module['module']['package'] .'.api.' . $module['module']['name']]['version'];
-		$modules[$mnum]['module']['hash'] = $modules_ini[$module['module']['package'] .'.api.' . $module['module']['name']]['hash'];
+		if( isset($modules_ini[$module['module']['package'] . '.api.' . $module['module']['name']]) ) {
+			$modules[$mnum]['module']['version'] = $modules_ini[$module['module']['package'] .'.api.' . $module['module']['name']]['version'];
+			$modules[$mnum]['module']['hash'] = $modules_ini[$module['module']['package'] .'.api.' . $module['module']['name']]['hash'];
+		} else {
+			$modules[$mnum]['module']['version'] = '';
+			$modules[$mnum]['module']['hash'] = '';
+		}
 		$modules[$mnum]['module']['tables'] = array();
 		$dir = $ciniki['config']['core']['root_dir'] . '/' . $module['module']['package'] . '-api/' . $module['module']['name'] . '/db';
 		if( !is_dir($dir) ) {

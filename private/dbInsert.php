@@ -33,7 +33,7 @@ function ciniki_core_dbInsert(&$ciniki, $strsql, $module) {
 		// Error a different code if a duplicate key problem
 		//
 		if( mysqli_errno($dh) == 1062 || mysqli_errno($dh) == 1022 ) {
-			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'73', 'msg'=>'Database Error', 'pmsg'=>mysqli_error($dh), 'dberrno'=>mysqli_errno($dh), 'sql'=>$strsql));
+			return array('stat'=>'exists', 'err'=>array('pkg'=>'ciniki', 'code'=>'73', 'msg'=>'Database Error', 'pmsg'=>mysqli_error($dh), 'dberrno'=>mysqli_errno($dh), 'sql'=>$strsql));
 		} else {
 			error_log("SQLERR: " . mysqli_error($dh) . " -- '$strsql'");
 	 	}

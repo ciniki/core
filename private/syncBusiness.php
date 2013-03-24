@@ -187,6 +187,7 @@ function ciniki_core_syncBusiness($ciniki, $sync, $business_id, $type, $module) 
 
 	//
 	// Update the remote time
+	//
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncRequest');
 	$rc = ciniki_core_syncRequest($ciniki, $sync, array('method'=>'ciniki.core.syncUpdateLastTime',
 		'type'=>$type, 'time'=>$last_sync_time));

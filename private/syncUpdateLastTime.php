@@ -31,6 +31,7 @@ function ciniki_core_syncUpdateLastTime($ciniki, $business_id, $sync_id, $type, 
 		. "AND last_sync < FROM_UNIXTIME('" . ciniki_core_dbQuote($ciniki, $last_sync_time) . "') "
 		. "";
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbUpdate');
+	error_log("Updating last_sync: $business_id, $sync_id, $type, $last_sync_time");
 	$rc = ciniki_core_dbUpdate($ciniki, $strsql, 'ciniki.businesses');
 	if( $rc['stat'] != 'ok' ) {	
 		return $rc;

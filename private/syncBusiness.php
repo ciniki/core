@@ -40,6 +40,7 @@ function ciniki_core_syncBusiness($ciniki, $sync, $business_id, $type, $module) 
 		return $rc;
 	}
 	$last_sync_time = $rc['sync']['last_sync_time'];
+	error_log("Set last_sync: $business_id, $sync_id, $type, $last_sync_time");
 
 	//
 	// Setup logging

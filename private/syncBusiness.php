@@ -34,7 +34,7 @@ function ciniki_core_syncBusiness($ciniki, $sync, $business_id, $type, $module) 
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncBusinessModule');
 
 //	$last_sync_time = date('U');
-	$strsql = "SELECT UNIX_TIMESTAMP(UTC_TIMESTAMP()) AS last_sync_time ";
+	$strsql = "SELECT UNIX_TIMESTAMP() AS last_sync_time ";
 	$rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.businesses', 'sync');
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;

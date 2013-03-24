@@ -57,7 +57,7 @@ function ciniki_core_syncRequest(&$ciniki, &$sync, $request) {
 			$rsp = curl_exec($ch);
 		}
 		if( $rsp === false ) {
-			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'543', 'msg'=>'Unable to connect to remote system'));
+			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'543', 'msg'=>'Unable to connect to remote system (' . curl_errno($ch) . ':' . curl_error($ch) . ')'));
 		}
 	}
 	curl_close($ch);

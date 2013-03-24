@@ -33,7 +33,10 @@ function ciniki_core_syncInfo($ciniki) {
 		. "remote_name, remote_url, remote_uuid, "
 		. "IFNULL(DATE_FORMAT(last_sync, '" . ciniki_core_dbQuote($ciniki, $datetime_format) . "'), '') as last_sync, "
 		. "IFNULL(DATE_FORMAT(last_partial, '" . ciniki_core_dbQuote($ciniki, $datetime_format) . "'), '') as last_partial, "
-		. "IFNULL(DATE_FORMAT(last_full, '" . ciniki_core_dbQuote($ciniki, $datetime_format) . "'), '') as last_full "
+		. "IFNULL(DATE_FORMAT(last_full, '" . ciniki_core_dbQuote($ciniki, $datetime_format) . "'), '') as last_full, "
+		. "(UNIX_TIMESTAMP(UTC_TIMESTAMP())-UNIX_TIMESTAMP(last_sync)) AS last_sync_age, "
+		. "(UNIX_TIMESTAMP(UTC_TIMESTAMP())-UNIX_TIMESTAMP(last_partial)) AS last_partial_age, "
+		. "(UNIX_TIMESTAMP(UTC_TIMESTAMP())-UNIX_TIMESTAMP(last_full)) AS last_full_age "
 		. "FROM ciniki_business_syncs "
 		. "LEFT JOIN ciniki_businesses ON (ciniki_business_syncs.business_id = ciniki_businesses.id) "
 		. "ORDER BY ciniki_businesses.name, ciniki_business_syncs.remote_name "
@@ -42,7 +45,7 @@ function ciniki_core_syncInfo($ciniki) {
 	$rc = ciniki_core_dbHashQueryTree($ciniki, $strsql, 'ciniki.businesses', array(
 		array('container'=>'syncs', 'fname'=>'id', 'name'=>'sync',
 			'fields'=>array('id', 'business_id', 'business_name', 'business_uuid', 'flags', 'type', 'status', 'status_text', 'remote_name', 'remote_url', 'remote_uuid',
-				'last_sync', 'last_partial', 'last_full'),
+				'last_sync', 'last_sync_age', 'last_partial', 'last_partial_age', 'last_full', 'last_full_age'),
 			'maps'=>array('status_text'=>array('10'=>'Active', '60'=>'Suspended'),
 				'type'=>array('1'=>'Push', '2'=>'Pull', '3'=>'Bi'))),
 		));

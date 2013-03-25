@@ -36,6 +36,9 @@ function ciniki_core_dbGetRowCounts($ciniki, $business_id) {
 	if( !isset($modules['ciniki.businesses']) ) {
 		$modules['ciniki.businesses'] = array('package'=>'ciniki', 'name'=>'businesses');
 	}
+	if( !isset($modules['ciniki.images']) ) {
+		$modules['ciniki.images'] = array('package'=>'ciniki', 'name'=>'images');
+	}
 
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncModuleObjects');
 

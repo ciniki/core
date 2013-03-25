@@ -95,6 +95,7 @@ function ciniki_core_syncObjectUpdateHistory(&$ciniki, &$sync, $business_id, $o,
 						return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1140', 'msg'=>'Unable to find object ' . $o['pmod'] . '(' . $table_key . ')', 'err'=>$rc['err']));
 					}
 					if( !isset($rc['object']) ) {
+						error_log($strsql);
 						return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1139', 'msg'=>'Unable to find object ' . $o['pmod'] . '(' . $table_key . ')'));
 					}
 					$ref = $rc['object'][$oref_field_name];

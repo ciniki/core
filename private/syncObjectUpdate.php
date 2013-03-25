@@ -39,7 +39,7 @@ function ciniki_core_syncObjectUpdate(&$ciniki, &$sync, $business_id, $o, $args)
 		ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncRequest');
 		$rc = ciniki_core_syncRequest($ciniki, $sync, array('method'=>$o['pmod'] . '.' . $o['oname'] . '.get', 'uuid'=>$args['uuid']));
 		if( $rc['stat'] != 'ok' ) {
-			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1222', 'msg'=>'Unable to get the remote ' . $o['name'], 'err'=>$rc['err']));
+			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1222', 'msg'=>'Unable to get the remote ' . $o['oname'] . '(' . $args['uuid'] . ')', 'err'=>$rc['err']));
 		}
 		if( !isset($rc['object']) ) {
 			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1223', 'msg'=>$o['oname'] . ' not found on remote server'));
@@ -104,13 +104,17 @@ function ciniki_core_syncObjectUpdate(&$ciniki, &$sync, $business_id, $o, $args)
 				//
 				// Lookup the object
 				//
-				ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLookup');
-				$rc = ciniki_core_syncObjectLookup($ciniki, $sync, $business_id, $ref_o, 
-					array('remote_uuid'=>$remote_object[$fid]));
-				if( $rc['stat'] != 'ok' ) {
-					return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1219', 'msg'=>'Unable to find ' . $o['name'], 'err'=>$rc['err']));
+				if( !isset($ref_o['type']) || $ref_o['type'] != 'settings' ) {
+					ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLookup');
+					$rc = ciniki_core_syncObjectLookup($ciniki, $sync, $business_id, $ref_o, 
+						array('remote_uuid'=>$remote_object[$fid]));
+					if( $rc['stat'] != 'ok' ) {
+						return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1219', 'msg'=>'Unable to find ' . $o['name'], 'err'=>$rc['err']));
+					}
+					$strsql .= "'" . ciniki_core_dbQuote($ciniki, $rc['id']) . "', ";
+				} else {
+					$strsql .= "'" . ciniki_core_dbQuote($ciniki, $remote_object[$fid]) . "', ";
 				}
-				$strsql .= "'" . ciniki_core_dbQuote($ciniki, $rc['id']) . "', ";
 			}
 			elseif( isset($finfo['ref']) && $finfo['ref'] != '' && $remote_object[$fid] != '0' ) {
 				ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLoad');

@@ -57,18 +57,6 @@ function ciniki_core_syncObjectHistoryGet(&$ciniki, &$sync, $business_id, $o, $a
 	$history = $rc['history'][$args['uuid']];
 
 	//
-	// Translate the table_key (eg: ciniki_customer_relationships.id) into a uuid
-	//
-	if( !isset($o['type']) || $o['type'] != 'settings' ) {
-		ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLookup');
-		$rc = ciniki_core_syncObjectLookup($ciniki, $sync, $business_id, $o, array('local_id'=>$history['table_key']));
-		if( $rc['stat'] != 'ok' ) {
-			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1187', 'msg'=>$o['pmod'] . " history table key does not exist: " . $history['table_key']));
-		}
-		$history['table_key'] = $rc['uuid'];
-	}
-
-	//
 	// Translate the new_value into a uuid if required
 	//
 	if( isset($o['fields'][$history['table_field']]) && isset($o['fields'][$history['table_field']]['oref']) && $history['new_value'] != '0' ) {
@@ -81,7 +69,7 @@ function ciniki_core_syncObjectHistoryGet(&$ciniki, &$sync, $business_id, $o, $a
 			. "WHERE $history_table.business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
 			. "AND $history_table.table_key = '" . ciniki_core_dbQuote($ciniki, $history['table_key']) . "' "
 			. "AND $history_table.table_name = '" . ciniki_core_dbQuote($ciniki, $history['table_name']) . "' "
-			. "AND $history_table.table_field = '" . ciniki_core_dbQuote($ciniki, $o['fields'][$history['table_name']]['oref']) . "' "
+			. "AND $history_table.table_field = '" . ciniki_core_dbQuote($ciniki, $o['fields'][$history['table_field']]['oref']) . "' "
 			. "ORDER BY ABS(UNIX_TIMESTAMP(log_date)-" . ciniki_core_dbQuote($ciniki, $history['log_date']) . ") ASC "
 			. "LIMIT 1";
 		$rc = ciniki_core_dbHashQuery($ciniki, $strsql, $o['pmod'], 'entry');
@@ -89,6 +77,7 @@ function ciniki_core_syncObjectHistoryGet(&$ciniki, &$sync, $business_id, $o, $a
 			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1146', 'msg'=>'Unable to find history referenced object name for ' . $o['oname'] . '(' . $args['uuid'] . ')'));
 		}
 		if( !isset($rc['entry']) ) {
+			error_log($strsql);
 			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1145', 'msg'=>'Unable to find history referenced object name for ' . $o['oname'] . '(' . $args['uuid'] . ')'));
 		}
 		$ref = $rc['entry']['new_value'];
@@ -121,6 +110,18 @@ function ciniki_core_syncObjectHistoryGet(&$ciniki, &$sync, $business_id, $o, $a
 			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1189', 'msg'=>'Unable to find reference for ' . $ref_o['name'] . '(' . $history['new_value'] . ')', 'err'=>$rc['err']));
 		}
 		$history['new_value'] = $rc['uuid'];
+	}
+
+	//
+	// Translate the table_key (eg: ciniki_customer_relationships.id) into a uuid
+	//
+	if( !isset($o['type']) || $o['type'] != 'settings' ) {
+		ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLookup');
+		$rc = ciniki_core_syncObjectLookup($ciniki, $sync, $business_id, $o, array('local_id'=>$history['table_key']));
+		if( $rc['stat'] != 'ok' ) {
+			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1187', 'msg'=>$o['pmod'] . " history table key does not exist: " . $history['table_key']));
+		}
+		$history['table_key'] = $rc['uuid'];
 	}
 
 	return array('stat'=>'ok', 'object'=>$history);

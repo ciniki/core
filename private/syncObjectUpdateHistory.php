@@ -65,7 +65,7 @@ function ciniki_core_syncObjectUpdateHistory(&$ciniki, &$sync, $business_id, $o,
 						ciniki_core_loadMethod($ciniki, 'ciniki', 'users', 'sync', 'user_update');
 						$rc = ciniki_users_user_update($ciniki, $sync, $business_id, array('uuid'=>$history['user']));
 						if( $rc['stat'] != 'ok' ) {
-							return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1168', 'msg'=>'Unable to add user', 'err'=>$rc['err']));;
+							return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1168', 'msg'=>'Unable to add user', 'err'=>$rc['err']));
 						}
 						$user_id = $rc['id'];
 					} else {
@@ -80,7 +80,47 @@ function ciniki_core_syncObjectUpdateHistory(&$ciniki, &$sync, $business_id, $o,
 				//
 				// Check if the table_field is a field that reverences an ID, and needs to be converted from a UUID
 				//
-				if( isset($o['fields'][$history['table_field']]) && isset($o['fields'][$history['table_field']]['ref']) && $history['new_value'] != '0' ) {
+				if( isset($o['fields'][$history['table_field']]) && isset($o['fields'][$history['table_field']]['oref']) && $history['new_value'] != '0' ) {
+					//
+					// The object already exists in this database, load the object reference name from there
+					//
+					$oref_field_name = $o['fields'][$history['table_field']]['oref'];
+					$strsql = "SELECT " . $oref_field_name . " "
+						. "FROM " . $o['table'] . " "
+						. "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+						. "AND id = '" . ciniki_core_dbQuote($ciniki, $table_key) . "' "
+						. "";
+					$rc = ciniki_core_dbHashQuery($ciniki, $strsql, $o['pmod'], 'object');
+					if( $rc['stat'] != 'ok' ) {
+						return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1140', 'msg'=>'Unable to find object ' . $o['pmod'] . '(' . $table_key . ')', 'err'=>$rc['err']));
+					}
+					if( !isset($rc['object']) ) {
+						return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1139', 'msg'=>'Unable to find object ' . $o['pmod'] . '(' . $table_key . ')', 'err'=>$rc['err']));
+					}
+					$ref = $rc['object'][$oref_field_name];
+					
+					ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLoad');
+					$rc = ciniki_core_syncObjectLoad($ciniki, $sync, $business_id, $o['pmod'] . '.' . $o['oname'], array());
+					if( $rc['stat'] != 'ok' ) {
+						return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1138', 'msg'=>'Unable to load object ' . $ref, 'err'=>$rc['err']));
+					}
+					$ref_o = $rc['object'];
+
+					//
+					// Lookup the object
+					//
+					ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLookup');
+					$rc = ciniki_core_syncObjectLookup($ciniki, $sync, $business_id, $ref_o, 
+						array('remote_uuid'=>$history['new_value']));
+					if( $rc['stat'] != 'ok' ) {
+						ciniki_core_syncLog($ciniki, 0, "Unable to locate local new value for " . $history['table_name'] . '(' . $history['new_value'] . ')', $rc['err']);
+
+						$history['new_value'] = '';
+					} else {
+						$history['new_value'] = $rc['id'];
+					}
+				}
+				elseif( isset($o['fields'][$history['table_field']]) && isset($o['fields'][$history['table_field']]['ref']) && $history['new_value'] != '0' ) {
 					$ref = $o['fields'][$history['table_field']]['ref'];
 //					ciniki_core_syncLog($ciniki, 5, "Checking ref $ref(" . $history['new_value'] . ")", null);
 

@@ -71,7 +71,42 @@ function ciniki_core_syncObjectHistoryGet(&$ciniki, &$sync, $business_id, $o, $a
 	//
 	// Translate the new_value into a uuid if required
 	//
-	if( isset($o['fields'][$history['table_field']]) && isset($o['fields'][$history['table_field']]['ref']) && $history['new_value'] != '0' ) {
+	if( isset($o['fields'][$history['table_field']]) && isset($o['fields'][$history['table_field']]['oref']) && $history['new_value'] != '0' ) {
+		//
+		// Lookup the reference the history item is referring to,
+		// and lookup in the history because it may be a deleted item
+		//
+		$strsql = "SELECT $history_table.new_value "
+			. "FROM $history_table "
+			. "WHERE $history_table.business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+			. "AND $history_table.table_key = '" . ciniki_core_dbQuote($ciniki, $history['table_key']) . "' "
+			. "AND $history_table.table_name = '" . ciniki_core_dbQuote($ciniki, $history['table_name']) . "' "
+			. "AND $history_table.table_field = '" . ciniki_core_dbQuote($ciniki, $o['fields'][$history['table_name']]['oref']) . "' "
+			. "ORDER BY ABS(UNIX_TIMESTAMP(log_date)-" . ciniki_core_dbQuote($ciniki, $history['log_date']) . ") ASC "
+			. "LIMIT 1";
+		$rc = ciniki_core_dbHashQuery($ciniki, $strsql, $o['pmod'], 'entry');
+		if( $rc['stat'] != 'ok' ) {
+			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1146', 'msg'=>'Unable to find history referenced object name for ' . $o['oname'] . '(' . $args['uuid'] . ')'));
+		}
+		if( !isset($rc['entry']) ) {
+			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1145', 'msg'=>'Unable to find history referenced object name for ' . $o['oname'] . '(' . $args['uuid'] . ')'));
+		}
+		$ref = $rc['entry']['new_value'];
+		ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLoad');
+		$rc = ciniki_core_syncObjectLoad($ciniki, $sync, $business_id, $ref, array());
+		if( $rc['stat'] != 'ok' ) {
+			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1144', 'msg'=>'Unable to load object ' . $ref));
+		}
+		$ref_o = $rc['object'];
+		ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLookup');
+		$rc = ciniki_core_syncObjectLookup($ciniki, $sync, $business_id, $ref_o, 
+			array('local_id'=>$history['new_value']));
+		if( $rc['stat'] != 'ok' ) {
+			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1143', 'msg'=>'Unable to find reference for ' . $ref_o['name'] . '(' . $history['new_value'] . ')', 'err'=>$rc['err']));
+		}
+		$history['new_value'] = $rc['uuid'];
+	} 
+	elseif( isset($o['fields'][$history['table_field']]) && isset($o['fields'][$history['table_field']]['ref']) && $history['new_value'] != '0' ) {
 		$ref = $o['fields'][$history['table_field']]['ref'];
 		ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLoad');
 		$rc = ciniki_core_syncObjectLoad($ciniki, $sync, $business_id, $ref, array());

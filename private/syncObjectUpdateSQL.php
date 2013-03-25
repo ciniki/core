@@ -19,7 +19,28 @@ function ciniki_core_syncObjectUpdateSQL($ciniki, $sync, $business_id, $o, $remo
 		//
 		// Translate remote ID's to load ID's before compare
 		//
-		if( isset($finfo['ref']) && $finfo['ref'] != '' && $remote_object[$field] != '0' ) {
+		if( isset($finfo['oref']) && $finfo['oref'] != '' && $remote_object[$field] != '0' 
+			&& isset($remote_object[$finfo['oref']]) && $remote_object[$finfo['oref']] != ''
+			) {
+			ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLoad');
+			$rc = ciniki_core_syncObjectLoad($ciniki, $sync, $business_id, $remote_object[$finfo['oref']], array());
+			if( $rc['stat'] != 'ok' ) {
+				return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1142', 'msg'=>'Unable to load referenced object ' . $remote_object[$finfo['oref']], 'err'=>$rc['err']));
+			}
+			$ref_o = $rc['object'];
+
+			//
+			// Lookup the object
+			//
+			ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLookup');
+			$rc = ciniki_core_syncObjectLookup($ciniki, $sync, $business_id, $ref_o, 
+				array('remote_uuid'=>$remote_object[$field]));
+			if( $rc['stat'] != 'ok' ) {
+				return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1141', 'msg'=>'Unable to find referenced ' . $o['name'], 'err'=>$rc['err']));
+			}
+			$remote_object[$field] = $rc['id'];
+		}
+		elseif( isset($finfo['ref']) && $finfo['ref'] != '' && $remote_object[$field] != '0' ) {
 			ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLoad');
 			$rc = ciniki_core_syncObjectLoad($ciniki, $sync, $business_id, $finfo['ref'], array());
 			if( $rc['stat'] != 'ok' ) {

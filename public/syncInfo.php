@@ -26,7 +26,8 @@ function ciniki_core_syncInfo($ciniki) {
 	//
 	// Get the list of syncs setup for this business
 	//
-	$strsql = "SELECT ciniki_businesses.name AS business_name, ciniki_businesses.uuid AS business_uuid, "
+	$strsql = "SELECT ciniki_businesses.name AS business_name, "
+		. "ciniki_businesses.uuid AS business_uuid, "
 		. "ciniki_business_syncs.id AS id, ciniki_business_syncs.business_id, "
 		. "ciniki_business_syncs.flags, ciniki_business_syncs.flags AS type, "
 		. "ciniki_business_syncs.status, ciniki_business_syncs.status AS status_text, "
@@ -51,6 +52,55 @@ function ciniki_core_syncInfo($ciniki) {
 		));
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
+	}
+
+	//
+	// Decide what status each sync should have
+	//
+	foreach($rc['syncs'] as $sid => $sync) {
+		$alert = '';
+		$warn = '';
+		if( $sync['sync']['last_sync_age'] > 1800 ) {
+			// 30 minutes
+			$rc['syncs'][$sid]['sync']['last_sync_status'] = 'alert';
+			$alert = 'alert';
+		} elseif( $sync['sync']['last_sync_age'] > 600 ) {
+			// 10 minutes
+			$rc['syncs'][$sid]['sync']['last_sync_status'] = 'warn';
+			$warn = 'warn';
+		} else {
+			$rc['syncs'][$sid]['sync']['last_sync_status'] = 'ok';
+		}
+		if( $sync['sync']['last_partial_age'] > 180000 ) {
+			// 2 days 1 hour old
+			$rc['syncs'][$sid]['sync']['last_partial_status'] = 'alert';
+			$alert = 'alert';
+		} elseif( $sync['sync']['last_partial_age'] > 90000 ) {	
+			// 1 day 1 hour old
+			$rc['syncs'][$sid]['sync']['last_partial_status'] = 'warn';
+			$warn = 'warn';
+		} else {
+			$rc['syncs'][$sid]['sync']['last_partial_status'] = 'ok';
+		}
+		if( $sync['sync']['last_full_age'] > 734400 ) {
+			// 8 days 12 hours
+			$rc['syncs'][$sid]['sync']['last_full_status'] = 'alert';
+			$alert = 'alert';
+		} elseif( $sync['sync']['last_full_age'] > 648000 ) {
+			// 7 days 12 hours
+			$rc['syncs'][$sid]['sync']['last_full_status'] = 'warn';
+			$warn = 'warn';
+		} else {
+			$rc['syncs'][$sid]['sync']['last_full_status'] = 'ok';
+		}
+
+		if( $alert != '' ) {
+			$rc['syncs'][$sid]['sync']['sync_status'] = $alert;
+		} elseif( $warn != '' ) {
+			$rc['syncs'][$sid]['sync']['sync_status'] = $warn;
+		} else {
+			$rc['syncs'][$sid]['sync']['sync_status'] = 'ok';
+		}
 	}
 	
 	return array('stat'=>'ok', 'name'=>$ciniki['config']['core']['sync.name'], 'local_url'=>$ciniki['config']['core']['sync.url'], 'syncs'=>$rc['syncs']);

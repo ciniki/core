@@ -77,7 +77,6 @@ function ciniki_core_syncObjectHistoryGet(&$ciniki, &$sync, $business_id, $o, $a
 			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1146', 'msg'=>'Unable to find history referenced object name for ' . $o['oname'] . '(' . $args['uuid'] . ')'));
 		}
 		if( !isset($rc['entry']) ) {
-			error_log($strsql);
 			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1145', 'msg'=>'Unable to find history referenced object name for ' . $o['oname'] . '(' . $args['uuid'] . ')'));
 		}
 		$ref = $rc['entry']['new_value'];

@@ -26,7 +26,10 @@ function ciniki_core_syncObjectHistoryUpdate(&$ciniki, &$sync, $business_id, $o,
 		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1230', 'msg'=>'No ' . $o['name'] . ' history specified'));
 	}
 
-	if( isset($args['uuid']) && $args['uuid'] != '' ) {
+	if( isset($args['object']) ) {
+		$remote_history = $args['object'];
+	} 
+	elseif( isset($args['uuid']) && $args['uuid'] != '' ) {
 		//
 		// Get the remote object to update
 		//
@@ -40,7 +43,7 @@ function ciniki_core_syncObjectHistoryUpdate(&$ciniki, &$sync, $business_id, $o,
 		}
 		$remote_history = $rc['object'];
 	} else {
-		$remote_history = $args['object'];
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1137', 'msg'=>'Unable to update history for ' . $o['oname']));
 	}
 
 	//  

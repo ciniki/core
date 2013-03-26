@@ -31,7 +31,9 @@ function ciniki_core_syncRequest(&$ciniki, &$sync, $request) {
 		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'541', 'msg'=>'Invalid request'));
 	}
 
-	$request['ts'] = gmmktime();
+	// $request['ts'] = gmmktime();
+	date_default_timezone_set('UTC');
+	$request['ts'] = time();
 
 	//
 	// Serialize the request

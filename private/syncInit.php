@@ -131,9 +131,10 @@ function ciniki_core_syncInit($ciniki_root) {
 		// This makes sure that the request is current, and not a cut and paste, listening in the middle.  If
 		// the timestamp decrypts and is accurate, it is assumed the request is valid.
 		//
+		date_default_timezone_set('UTC');
 		if( !isset($ciniki['request']['ts']) 
 			|| $ciniki['request']['ts'] <= 0 
-			|| abs(gmmktime() - $ciniki['request']['ts']) > 60 ) {
+			|| abs(time() - $ciniki['request']['ts']) > 60 ) {
 			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'54', 'msg'=>'System Clocks out of sync'));
 		}
 		if( !isset($ciniki['request']['method']) 

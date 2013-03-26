@@ -32,7 +32,7 @@ function ciniki_core_syncObjectUpdateSQL($ciniki, $sync, $business_id, $o, $remo
 			//
 			// Lookup the object
 			//
-			if( !isset($ref_o['type']) && $ref_o['type'] != 'settings' ) {
+			if( !isset($ref_o['type']) || $ref_o['type'] != 'settings' ) {
 				ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLookup');
 				$rc = ciniki_core_syncObjectLookup($ciniki, $sync, $business_id, $ref_o, 
 					array('remote_uuid'=>$remote_object[$field]));

@@ -177,7 +177,7 @@ function ciniki_core_syncObjectGet($ciniki, &$sync, $business_id, $o, $args) {
 					$object['history'][$uuid]['new_value'] = $rc['uuid'];
 				}
 			}
-			if( isset($o['fields'][$history['table_field']]) && isset($o['fields'][$history['table_field']]['ref']) && $history['new_value'] != '0' ) {
+			elseif( isset($o['fields'][$history['table_field']]) && isset($o['fields'][$history['table_field']]['ref']) && $history['new_value'] != '0' ) {
 				$ref = $o['fields'][$history['table_field']]['ref'];
 				ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLoad');
 				$rc = ciniki_core_syncObjectLoad($ciniki, $sync, $business_id, $ref, array());

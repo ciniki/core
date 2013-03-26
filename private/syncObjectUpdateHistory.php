@@ -88,7 +88,7 @@ function ciniki_core_syncObjectUpdateHistory(&$ciniki, &$sync, $business_id, $o,
 					$strsql = "SELECT " . $oref_field_name . " "
 						. "FROM " . $o['table'] . " "
 						. "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
-						. "AND uuid = '" . ciniki_core_dbQuote($ciniki, $table_key) . "' "
+						. "AND id = '" . ciniki_core_dbQuote($ciniki, $table_key) . "' "
 						. "";
 					$rc = ciniki_core_dbHashQuery($ciniki, $strsql, $o['pmod'], 'object');
 					if( $rc['stat'] != 'ok' ) {

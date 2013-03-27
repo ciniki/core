@@ -27,12 +27,12 @@ function ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $busin
 	// dbConnect function will return an open connection if one 
 	// exists, otherwise open a new one
 	//
-	$rc = ciniki_core_dbConnect($ciniki, $module);
-	if( $rc['stat'] != 'ok' ) {
-		return $rc;
-	}
-
-	$dh = $rc['dh'];
+//	$rc = ciniki_core_dbConnect($ciniki, $module);
+//	if( $rc['stat'] != 'ok' ) {
+//		return $rc;
+//	}
+//
+//	$dh = $rc['dh'];
 
 	$strsql = "INSERT INTO " . ciniki_core_dbQuote($ciniki, $history_table) . " "
 		. "(uuid, business_id, user_id, session, action, "

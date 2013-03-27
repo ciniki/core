@@ -94,6 +94,13 @@ if( isset($ciniki['syncqueue']) && count($ciniki['syncqueue']) > 0) {
 	ciniki_core_printResponse($ciniki, $rc);
 }
 
-exit;
+//
+// Capture errors in the database for easy review
+//
+if( $rc['stat'] == 'fail' ) {
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbLogError');
+	ciniki_core_dbLogError($ciniki, $rc['err']);
+}
 
+exit;
 ?>

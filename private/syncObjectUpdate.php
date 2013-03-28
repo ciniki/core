@@ -97,7 +97,7 @@ function ciniki_core_syncObjectUpdate(&$ciniki, &$sync, $business_id, $o, $args)
 				ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLoad');
 				$rc = ciniki_core_syncObjectLoad($ciniki, $sync, $business_id, $remote_object[$finfo['oref']], array());
 				if( $rc['stat'] != 'ok' ) {
-					return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1215', 'msg'=>'Unable to load object ' . $remote_object[$finfo['oref']], 'err'=>$rc['err']));
+					return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1136', 'msg'=>'Unable to load object ' . $remote_object[$finfo['oref']], 'err'=>$rc['err']));
 				}
 				$ref_o = $rc['object'];
 
@@ -109,7 +109,7 @@ function ciniki_core_syncObjectUpdate(&$ciniki, &$sync, $business_id, $o, $args)
 					$rc = ciniki_core_syncObjectLookup($ciniki, $sync, $business_id, $ref_o, 
 						array('remote_uuid'=>$remote_object[$fid]));
 					if( $rc['stat'] != 'ok' ) {
-						return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1219', 'msg'=>'Unable to find ' . $o['name'], 'err'=>$rc['err']));
+						return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1135', 'msg'=>'Unable to find ' . $o['name'], 'err'=>$rc['err']));
 					}
 					$strsql .= "'" . ciniki_core_dbQuote($ciniki, $rc['id']) . "', ";
 				} else {

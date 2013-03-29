@@ -26,7 +26,7 @@ function ciniki_core_dbLogError($ciniki, $err) {
 	//
 	// Don't log if session expired error
 	//
-	$ignore_err_codes = array(5, 37);
+	$ignore_err_codes = array(5, 27, 37);
 	if( isset($err['code']) && in_array($err['code'], $ignore_err_codes) ) {
 		return array('stat'=>'ok');
 	}

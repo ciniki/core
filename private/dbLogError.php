@@ -23,6 +23,14 @@ function ciniki_core_dbLogError($ciniki, $err) {
 		return array('stat'=>'ok');
 	}
 
+	//
+	// Don't log if session expired error
+	//
+	$ignore_err_codes = array(5, 37);
+	if( isset($err['code']) && in_array($err['code'], $ignore_err_codes) ) {
+		return array('stat'=>'ok');
+	}
+
 	$business_id = 0;
 	if( isset($ciniki['request']['args']['business_id']) ) {
 		$business_id = $ciniki['request']['args']['business_id'];

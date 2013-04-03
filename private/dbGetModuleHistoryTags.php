@@ -31,10 +31,44 @@ function ciniki_core_dbGetModuleHistoryTags($ciniki, $module, $history_table, $b
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'users', 'private', 'datetimeFormat');
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQuote');
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQuoteList');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQueryList');
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbParseAge');
 
-//	select * from ciniki_artcatalog_history where business_id = 15 and table_name = 'ciniki_artcatalog_tags' and table_key in (select table_key from ciniki_artcatalog_history where table_field = 'artcatalog_id' and new_value = '8') order by log_date;
+	//
+	// Get the list of table_keys we're interested in
+	// This query is broken into three stages for speed
+	//
+	$strsql = "SELECT DISTINCT table_key "
+		. "FROM $history_table "
+		. "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+		. "AND table_field = '" . ciniki_core_dbQuote($ciniki, $table_id_field) . "' "
+		. "AND new_value = '" . ciniki_core_dbQuote($ciniki, $table_key) . "' "
+		. "";
+	$rc = ciniki_core_dbQueryList($ciniki, $strsql, $module, 'keys', 'table_key');	
+	if( $rc['stat'] != 'ok' ) {
+		return $rc;
+	}
+	$keys = $rc['keys'];
 
+	//
+	// Now get the subset of keys which are of the proper type
+	//
+	$strsql = "SELECT DISTINCT table_key "
+			. "FROM $history_table "
+			. "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+			. "AND table_field = 'tag_type' "
+			. "AND new_value = '" . ciniki_core_dbQuote($ciniki, $tag_type) . "' "
+			. "AND table_key IN (" . ciniki_core_dbQuoteList($ciniki, $keys) . ") "
+			. "";
+	$rc = ciniki_core_dbQueryList($ciniki, $strsql, $module, 'keys', 'table_key');	
+	if( $rc['stat'] != 'ok' ) {
+		return $rc;
+	}
+	$keys = $rc['keys'];
+
+	//
+	// Finally get the history
+	//
 	$date_format = ciniki_users_datetimeFormat($ciniki);
 	$strsql = "SELECT user_id, DATE_FORMAT(log_date, '" . ciniki_core_dbQuote($ciniki, $date_format) . "') as date, "
 		. "CAST(UNIX_TIMESTAMP(UTC_TIMESTAMP())-UNIX_TIMESTAMP(log_date) as DECIMAL(12,0)) as age, "
@@ -48,29 +82,18 @@ function ciniki_core_dbGetModuleHistoryTags($ciniki, $module, $history_table, $b
 		. "WHERE business_id ='" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
 		. "AND table_name = '" . ciniki_core_dbQuote($ciniki, $table_name) . "' "
 		. "AND (table_field = 'tag_name' OR table_field = '*') "
-		. "AND table_key IN ("
-			. "SELECT DISTINCT table_key "
-			. "FROM $history_table "
-			. "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
-			. "AND table_field = 'tag_type' "
-			. "AND new_value = '" . ciniki_core_dbQuote($ciniki, $tag_type) . "' "
-			. "AND table_key IN ("
-				. "SELECT DISTINCT table_key "
-				. "FROM $history_table "
-				. "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
-				. "AND table_field = '" . ciniki_core_dbQuote($ciniki, $table_id_field) . "' "
-				. "AND new_value = '" . ciniki_core_dbQuote($ciniki, $table_key) . "' "
-				. ") "
-			. ") "
+		. "AND table_key IN (" . ciniki_core_dbQuoteList($ciniki, $keys) . ") "
 		. "ORDER BY $history_table.log_date ASC "
 		. "";
-	error_log($strsql);
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashQuery');
 	$rc = ciniki_core_dbHashQuery($ciniki, $strsql, $module, 'row');
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
 	}
-	// Build array of tag_id's to use based on type
+
+	//
+	// Build the history based on additions (action:1) and deletions(action:3)
+	//
 	$tags = array();
 	$history = array();
 	foreach($rc['rows'] as $row) {

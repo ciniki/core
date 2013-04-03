@@ -49,13 +49,13 @@ function ciniki_core_dbGetModuleHistoryTags($ciniki, $module, $history_table, $b
 		. "AND table_name = '" . ciniki_core_dbQuote($ciniki, $table_name) . "' "
 		. "AND (table_field = 'tag_name' OR table_field = '*') "
 		. "AND table_key IN ("
-			. "SELECT table_key "
+			. "SELECT DISTINCT table_key "
 			. "FROM $history_table "
 			. "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
 			. "AND table_field = 'tag_type' "
 			. "AND new_value = '" . ciniki_core_dbQuote($ciniki, $tag_type) . "' "
 			. "AND table_key IN ("
-				. "SELECT table_key "
+				. "SELECT DISTINCT table_key "
 				. "FROM $history_table "
 				. "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
 				. "AND table_field = '" . ciniki_core_dbQuote($ciniki, $table_id_field) . "' "
@@ -64,6 +64,7 @@ function ciniki_core_dbGetModuleHistoryTags($ciniki, $module, $history_table, $b
 			. ") "
 		. "ORDER BY $history_table.log_date ASC "
 		. "";
+	error_log($strsql);
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashQuery');
 	$rc = ciniki_core_dbHashQuery($ciniki, $strsql, $module, 'row');
 	if( $rc['stat'] != 'ok' ) {

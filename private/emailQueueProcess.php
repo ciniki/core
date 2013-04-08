@@ -40,7 +40,7 @@ function ciniki_core_emailQueueProcess(&$ciniki) {
 			$mail->Body = $email['textmsg'];
 
 			if( !$mail->Send() ) {
-				error_log("MAIL-ERR: " . $mail->ErrorInfo);
+				error_log("MAIL-ERR: [" . $email['to'] . "] " . $mail->ErrorInfo);
 			}
 		}
 	}

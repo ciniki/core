@@ -39,7 +39,6 @@ function ciniki_core_emailQueueProcess(&$ciniki) {
 			$mail->Subject = $email['subject'];
 			$mail->Body = $email['textmsg'];
 
-			error_log("Sending email to: " . $email['to'] . " from: " . $mail->From);
 			if( !$mail->Send() ) {
 				error_log("MAIL-ERR: " . $mail->ErrorInfo);
 			}

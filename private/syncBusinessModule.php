@@ -18,6 +18,13 @@ function ciniki_core_syncBusinessModule(&$ciniki, &$sync, $business_id, $module,
 //	ciniki_core_syncLog($ciniki, 2, "Syncing $module");
 
 	//
+	// FIXME: The full sync needs to be fixed, switched to partial temporarily
+	//
+	if( $type == 'full' ) { 
+		$type = 'partial';
+	}
+
+	//
 	// Load the module objects
 	//
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncModuleObjects');

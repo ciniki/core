@@ -19,7 +19,7 @@
 // Returns
 // -------
 //
-function ciniki_core_threadNotifyUsers($ciniki, $module, $table, $prefix, $id, $perms, $subject, $msg) {
+function ciniki_core_threadNotifyUsers(&$ciniki, $module, $table, $prefix, $id, $perms, $subject, $msg) {
 	//
 	// All arguments are assumed to be un-escaped, and will be passed through dbQuote to
 	// ensure they are safe to insert.
@@ -60,7 +60,15 @@ function ciniki_core_threadNotifyUsers($ciniki, $module, $table, $prefix, $id, $
 	// Email each user
 	//
 	foreach($rc['user_ids'] as $user_id) {
-		$rc = ciniki_users_emailUser($ciniki, $user_id, $subject, $msg);
+		//
+		// Nofity the other users of the update, ignore the person who added the update
+		//
+		if( $ciniki['session']['user']['id'] != $user_id) {
+			$ciniki['emailqueue'][] = array('user_id'=>$user_id,
+				'subject'=>$subject,
+				'textmsg'=>$msg,
+				);
+		}
 	}
 
 	return array('stat'=>'ok');

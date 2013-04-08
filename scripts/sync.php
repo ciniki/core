@@ -169,7 +169,9 @@ else {
 //
 // Check if there is a sync queue to process
 //
-if( isset($ciniki['syncqueue']) && count($ciniki['syncqueue']) > 0 ) {
+if( (isset($ciniki['syncqueue']) && count($ciniki['syncqueue']) > 0)
+	|| (isset($ciniki['emailqueue']) && count($ciniki['emailqueue']) > 0) 
+	) {
 	ob_start();
 	if( !ob_start("ob_gzhandler")) {
 		ob_start();		// Inner buffer when output is apache mod-deflate is enabled
@@ -188,12 +190,16 @@ if( isset($ciniki['syncqueue']) && count($ciniki['syncqueue']) > 0 ) {
 	session_write_close();
 	while(ob_get_level()>0) ob_end_clean();
 
+	// Run email queue
+	if( isset($ciniki['emailqueue']) && count($ciniki['emailqueue']) > 0 ) {
+		ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'emailQueueProcess');
+		ciniki_core_emailQueueProcess($ciniki);
+	} 
 	// Run queue
 	if( isset($ciniki['sync']['business_id']) ) {
 		ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncQueueProcess');
 		ciniki_core_syncQueueProcess($ciniki, $ciniki['sync']['business_id']);
 	}
-
 } else {
 	//
 	// Output the result in requested format

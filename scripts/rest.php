@@ -20,11 +20,12 @@ require_once($ciniki_root . '/ciniki-api/core/private/checkSecureConnection.php'
 require_once($ciniki_root . '/ciniki-api/core/private/callPublicMethod.php');
 require_once($ciniki_root . '/ciniki-api/core/private/printHashToXML.php');
 require_once($ciniki_root . '/ciniki-api/core/private/printResponse.php');
+require_once($ciniki_root . '/ciniki-api/core/private/syncQueueProcess.php');
 
 $rc = ciniki_core_init($ciniki_root, 'rest');
 if( $rc['stat'] != 'ok' ) {
 	header("Content-Type: text/xml; charset=utf-8");
-	print "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n";
+	print "<?xml version='1.0' encoding='utf-8' ?>\n";
 	ciniki_core_printHashToXML('rsp', '', $rc);
 	exit;
 }
@@ -62,7 +63,9 @@ $rc = ciniki_core_callPublicMethod($ciniki);
 //
 // Check if there is a sync queue to process
 //
-if( isset($ciniki['syncqueue']) && count($ciniki['syncqueue']) > 0) {
+if( (isset($ciniki['syncqueue']) && count($ciniki['syncqueue']) > 0)
+	|| (isset($ciniki['emailqueue']) && count($ciniki['emailqueue']) > 0) 
+	) {
 	ob_start();
 	if( !ob_start("ob_gzhandler")) {
 		ob_start();		// Inner buffer when output is apache mod-deflate is enabled
@@ -78,15 +81,21 @@ if( isset($ciniki['syncqueue']) && count($ciniki['syncqueue']) > 0) {
 	session_write_close();
 	while(ob_get_level()>0) ob_end_clean();
 
-	// Run queue
-	if( isset($ciniki['syncbusinesses']) && count($ciniki['syncbusinesses']) > 0 ) {
-		foreach($ciniki['syncbusinesses'] as $business_id) {
-			ciniki_core_syncQueueProcess($ciniki, $business_id);
-		}
-	} elseif( isset($ciniki['request']['args']['business_id']) ) {
-		ciniki_core_syncQueueProcess($ciniki, $ciniki['request']['args']['business_id']);
+	// Run email queue
+	if( isset($ciniki['emailqueue']) && count($ciniki['emailqueue']) > 0 ) {
+		ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'emailQueueProcess');
+		ciniki_core_emailQueueProcess($ciniki);
 	} 
-
+	// Run sync queue
+	if( isset($ciniki['syncqueue']) && count($ciniki['syncqueue']) > 0 ) {
+		if( isset($ciniki['syncbusinesses']) && count($ciniki['syncbusinesses']) > 0 ) {
+			foreach($ciniki['syncbusinesses'] as $business_id) {
+				ciniki_core_syncQueueProcess($ciniki, $business_id);
+			}
+		} elseif( isset($ciniki['request']['args']['business_id']) ) {
+			ciniki_core_syncQueueProcess($ciniki, $ciniki['request']['args']['business_id']);
+		} 
+	}
 } else {
 	//
 	// Output the result in requested format

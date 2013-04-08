@@ -66,13 +66,12 @@ if( (isset($ciniki['syncqueue']) && count($ciniki['syncqueue']) > 0)
 	|| (isset($ciniki['emailqueue']) && count($ciniki['emailqueue']) > 0) 
 	) {
 	ob_start();
-	if( !ob_start("ob_gzhandler")) {
-		ob_start();		// Inner buffer when output is apache mod-deflate is enabled
+	if(strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== false) {
+		ob_start("ob_gzhandler"); // Inner buffer when output is apache mod-deflate is enabled
 		ciniki_core_printResponse($ciniki, $rc);
 		ob_end_flush();
 	} else {
 		ciniki_core_printResponse($ciniki, $rc);
-		ob_end_flush();
 	}
 	header("Connection: close");
 	ob_end_flush();
@@ -82,6 +81,9 @@ if( (isset($ciniki['syncqueue']) && count($ciniki['syncqueue']) > 0)
 	flush();
 	session_write_close();
 	while(ob_get_level()>0) ob_end_clean();
+
+//	error_log('sleeping');
+//	sleep(10);
 
 	// Run email queue
 	if( isset($ciniki['emailqueue']) && count($ciniki['emailqueue']) > 0 ) {
@@ -98,6 +100,7 @@ if( (isset($ciniki['syncqueue']) && count($ciniki['syncqueue']) > 0)
 			ciniki_core_syncQueueProcess($ciniki, $ciniki['request']['args']['business_id']);
 		} 
 	}
+//	error_log('finished');
 } else {
 	//
 	// Output the result in requested format

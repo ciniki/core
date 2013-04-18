@@ -48,6 +48,9 @@ function ciniki_core_dbGetModuleHistoryTags($ciniki, $module, $history_table, $b
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
 	}
+	if( !isset($rc['keys']) || count($rc['keys']) == 0 ) {
+		return array('stat'=>'ok', 'history'=>array());
+	}
 	$keys = $rc['keys'];
 
 	//
@@ -63,6 +66,9 @@ function ciniki_core_dbGetModuleHistoryTags($ciniki, $module, $history_table, $b
 	$rc = ciniki_core_dbQueryList($ciniki, $strsql, $module, 'keys', 'table_key');	
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
+	}
+	if( !isset($rc['keys']) ) {
+		return array('stat'=>'ok', 'history'=>array());
 	}
 	$keys = $rc['keys'];
 

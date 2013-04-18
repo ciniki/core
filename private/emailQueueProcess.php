@@ -13,7 +13,14 @@
 function ciniki_core_emailQueueProcess(&$ciniki) {
 
 	foreach($ciniki['emailqueue'] as $email) {
-		if( isset($email['user_id']) ) {
+		if( isset($email['mail_id']) ) {
+			ciniki_core_loadMethod($ciniki, 'ciniki', 'mail', 'private', 'sendMail');
+			$rc = ciniki_mail_sendMail($ciniki, $email['business_id'], $ciniki['ciniki.mail.settings'], $email['mail_id']);
+			if( $rc['stat'] != 'ok' ) {
+				error_log("MAIL-ERR: Error sending to: " . $email['email'] . " (" . serialize($rc) . ")");
+			}
+		} 
+		elseif( isset($email['user_id']) ) {
 			ciniki_core_loadMethod($ciniki, 'ciniki', 'users', 'private', 'emailUser');
 			ciniki_users_emailUser($ciniki, $email['user_id'], $email['subject'], $email['textmsg']);
 		}

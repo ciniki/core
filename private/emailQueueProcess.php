@@ -22,7 +22,11 @@ function ciniki_core_emailQueueProcess(&$ciniki) {
 		} 
 		elseif( isset($email['user_id']) ) {
 			ciniki_core_loadMethod($ciniki, 'ciniki', 'users', 'private', 'emailUser');
-			ciniki_users_emailUser($ciniki, $email['user_id'], $email['subject'], $email['textmsg']);
+			if( isset($email['htmlmsg']) ) {
+				ciniki_users_emailUser($ciniki, $email['user_id'], $email['subject'], $email['textmsg'], $email['htmlmsg']);
+			} else {
+				ciniki_users_emailUser($ciniki, $email['user_id'], $email['subject'], $email['textmsg'], '');
+			}
 		}
 		elseif( isset($email['to']) ) {
 			require_once($ciniki['config']['ciniki.core']['lib_dir'] . '/PHPMailer/class.phpmailer.php');

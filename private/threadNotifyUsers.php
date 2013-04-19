@@ -32,7 +32,6 @@ function ciniki_core_threadNotifyUsers(&$ciniki, $module, $table, $prefix, $id, 
 	// Required functions
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQuote');
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQueryList');
-	ciniki_core_loadMethod($ciniki, 'ciniki', 'users', 'private', 'emailUser');
 
 	
 	$strsql = "SELECT user_id FROM " . ciniki_core_dbQuote($ciniki, $table) . " "

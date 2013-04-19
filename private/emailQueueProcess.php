@@ -59,7 +59,12 @@ function ciniki_core_emailQueueProcess(&$ciniki) {
 						$mail->FromName = $ciniki['config']['ciniki.core']['system.email.name'];
 					}
 				}
-			} else {
+			} 
+			
+			//
+			// If not enough informatio, or none provided, default back to system email
+			//
+			if( $use_config == 'yes' ) {
 				$mail->Host = $ciniki['config']['ciniki.core']['system.smtp.servers'];
 				$mail->SMTPAuth = true;
 				$mail->Username = $ciniki['config']['ciniki.core']['system.smtp.username'];

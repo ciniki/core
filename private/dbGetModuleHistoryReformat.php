@@ -34,11 +34,13 @@ function ciniki_core_dbGetModuleHistoryReformat($ciniki, $module, $history_table
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'users', 'private', 'timezoneOffset');
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'users', 'private', 'datetimeFormat');
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'users', 'private', 'dateFormat');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'users', 'private', 'timeFormat');
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQuote');
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbParseAge');
 
 	$datetime_format = ciniki_users_datetimeFormat($ciniki);
 	$date_format = ciniki_users_dateFormat($ciniki);
+	$time_format = ciniki_users_timeFormat($ciniki);
 	$utc_offset = ciniki_users_timezoneOffset($ciniki);
 
 	$strsql = "SELECT user_id, DATE_FORMAT(log_date, '" . ciniki_core_dbQuote($ciniki, $datetime_format) . "') AS date, "
@@ -46,6 +48,8 @@ function ciniki_core_dbGetModuleHistoryReformat($ciniki, $module, $history_table
 		. "new_value as value ";
 	if( $format == 'date' ) {
 		$strsql .= ", DATE_FORMAT(new_value, '" . ciniki_core_dbQuote($ciniki, $date_format) . "') AS formatted_value ";
+	} elseif( $format == 'time' ) {
+		$strsql .= ", TIME_FORMAT(new_value, '" . ciniki_core_dbQuote($ciniki, $time_format) . "') AS formatted_value ";
 	} elseif( $format == 'utcdate' ) {
 		$strsql .= ", DATE_FORMAT(CONVERT_TZ(new_value, '+00:00', '" . ciniki_core_dbQuote($ciniki, $utc_offset) . "'), '" . ciniki_core_dbQuote($ciniki, $date_format) . "') AS formatted_value ";
 	} elseif( $format == 'datetime' ) {
@@ -75,7 +79,7 @@ function ciniki_core_dbGetModuleHistoryReformat($ciniki, $module, $history_table
 	$num_history = 0;
 	while( $row = mysqli_fetch_assoc($result) ) {
 		$rsp['history'][$num_history] = array('action'=>array('user_id'=>$row['user_id'], 'date'=>$row['date'], 'value'=>$row['value']));
-		if( $format == 'date' || $format == 'utcdate' || $format == 'datetime' ) {
+		if( $format == 'date' || $format == 'time' || $format == 'utcdate' || $format == 'datetime' ) {
 			$rsp['history'][$num_history]['action']['formatted_value'] = $row['formatted_value'];
 		}
 		if( $row['user_id'] > 0 ) {

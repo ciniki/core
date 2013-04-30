@@ -93,6 +93,19 @@ function ciniki_core_prepareArgs($ciniki, $quote_flag, $arg_info) {
 						$args[$arg] = strftime("%Y-%m-%d", $ts);
 					}
 				}
+			} elseif( isset($options['type']) && $options['type'] == 'time' && $ciniki['request']['args'][$arg] != '' ) {
+				date_default_timezone_set('America/Toronto');
+				if( $ciniki['request']['args'][$arg] == 'now' || $ciniki['request']['args'][$arg] == 'today' ) {
+					$args[$arg] = strftime("%H:%M:%S");
+				} else {
+					$ts = strtotime($ciniki['request']['args'][$arg]);
+					if( $ts === FALSE || $ts < 1 ) {	
+						return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'120', 'msg'=>"$invalid_msg", 'pmsg'=>"Argument: $arg invalid date format"));
+						
+					} else {
+						$args[$arg] = strftime("%H:%M:%S", $ts);
+					}
+				}
 			} elseif( isset($options['type']) && $options['type'] == 'datetime' && $ciniki['request']['args'][$arg] != '' ) {
 				date_default_timezone_set('America/Toronto');
 				if( $ciniki['request']['args'][$arg] == 'now' ) {

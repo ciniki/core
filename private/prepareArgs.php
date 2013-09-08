@@ -118,6 +118,8 @@ function ciniki_core_prepareArgs($ciniki, $quote_flag, $arg_info) {
 						$args[$arg] = strftime("%Y-%m-%d %H:%M", $ts);
 					}
 				}
+			} elseif( isset($options['type']) && $options['type'] == 'int' && preg_match('/^\d+$/',$ciniki['request']['args'][$arg]) ) {
+				$args[$arg] = (int)$ciniki['request']['args'][$arg];
 			} else {
 				$args[$arg] = $ciniki['request']['args'][$arg];
 			}

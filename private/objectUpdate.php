@@ -84,6 +84,8 @@ function ciniki_core_objectUpdate(&$ciniki, $business_id, $obj_name, $oid, $args
 	//
 	// Add the history
 	//
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'objectRefAdd');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'objectRefClear');
 	foreach($o['fields'] as $field => $options) {
 		if( isset($args[$field]) && (!isset($options['history']) || $options['history'] == 'yes') ) {
 			ciniki_core_dbAddModuleHistory($ciniki, $m, $o['history_table'], $business_id,

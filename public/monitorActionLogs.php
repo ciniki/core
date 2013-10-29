@@ -29,8 +29,8 @@ function ciniki_core_monitorActionLogs($ciniki) {
 	//
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'prepareArgs');
 	$rc = ciniki_core_prepareArgs($ciniki, 'no', array(
-		'last_timestamp'=>array('required'=>'no', 'blank'=>'yes', 'errmsg'=>'No timestamp specified'),
-		'session_key'=>array('required'=>'no', 'blank'=>'no', 'errmsg'=>'No session specified'),
+		'last_timestamp'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Last Timestamp'),
+		'session_key'=>array('required'=>'no', 'blank'=>'no', 'name'=>'Session Key'),
 		));
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;

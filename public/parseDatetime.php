@@ -24,7 +24,7 @@ function ciniki_core_parseDatetime($ciniki) {
     //  
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'prepareArgs');
     $rc = ciniki_core_prepareArgs($ciniki, 'no', array(
-        'datetime'=>array('required'=>'no', 'default'=>'', 'blank'=>'no', 'type'=>'datetime', 'errmsg'=>'No date specified'), 
+        'datetime'=>array('required'=>'no', 'default'=>'', 'blank'=>'no', 'type'=>'datetime', 'name'=>'Date'), 
 		));
     $args = $rc['args'];
 

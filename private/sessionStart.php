@@ -176,6 +176,14 @@ function ciniki_core_sessionStart(&$ciniki, $username, $password) {
 	
 	ciniki_users_logAuthSuccess($ciniki);
 
-	return array('stat'=>'ok', 'auth'=>array('token'=>$ciniki['session']['auth_token'], 'id'=>$user['id'], 'perms'=>$user['perms'], 'avatar_id'=>$user['avatar_id']));
+	$version_file = $ciniki['config']['ciniki.core']['root_dir'] . "/_versions.ini";
+	if( is_file($version_file) ) {
+		$version_info = parse_ini_file($version_file, true);
+		$version = $version_info['package']['version'];
+	} else {
+		$version = '';
+	}
+
+	return array('stat'=>'ok', 'version'=>$version, 'auth'=>array('token'=>$ciniki['session']['auth_token'], 'id'=>$user['id'], 'perms'=>$user['perms'], 'avatar_id'=>$user['avatar_id']));
 }
 ?>

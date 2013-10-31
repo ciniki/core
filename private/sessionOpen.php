@@ -51,7 +51,14 @@ function ciniki_core_sessionOpen(&$ciniki) {
 	}
 
 	if( $rc['num_rows'] != 1 ) {
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'37', 'msg'=>'Session expired'));
+		$version_file = $ciniki['config']['ciniki.core']['root_dir'] . "/_versions.ini";
+		if( is_file($version_file) ) {
+			$version_info = parse_ini_file($version_file, true);
+			$version = $version_info['package']['version'];
+		} else {
+			$version = '';
+		}
+		return array('stat'=>'fail', 'version'=>$version, 'err'=>array('pkg'=>'ciniki', 'code'=>'37', 'msg'=>'Session expired'));
 	}
 	$auth = array('token'=>$rc['auth']['auth_token'], 'id'=>$rc['auth']['user_id']);
 
@@ -61,7 +68,14 @@ function ciniki_core_sessionOpen(&$ciniki) {
 	if( $rc['auth']['session_length'] > $rc['auth']['timeout'] ) {
 		ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'sessionEnd');
 		ciniki_core_sessionEnd($ciniki);
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'27', 'msg'=>'Session expired'));
+		$version_file = $ciniki['config']['ciniki.core']['root_dir'] . "/_versions.ini";
+		if( is_file($version_file) ) {
+			$version_info = parse_ini_file($version_file, true);
+			$version = $version_info['package']['version'];
+		} else {
+			$version = '';
+		}
+		return array('stat'=>'fail', 'version'=>$version, 'err'=>array('pkg'=>'ciniki', 'code'=>'27', 'msg'=>'Session expired'));
 	}
 
 	//

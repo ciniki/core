@@ -78,7 +78,7 @@ function ciniki_core_objectUpdate(&$ciniki, $business_id, $obj_name, $oid, $args
 	}
 	if( !isset($rc['num_affected_rows']) || $rc['num_affected_rows'] != 1 ) {
 		if( ($tmsupdate&0x01) == 1 ) { ciniki_core_dbTransactionRollback($ciniki, $m); }
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1369', 'msg'=>'Unable to update object'));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1344', 'msg'=>'Unable to update object'));
 	}
 
 	//

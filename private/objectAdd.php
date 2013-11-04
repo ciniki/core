@@ -46,7 +46,7 @@ function ciniki_core_objectAdd(&$ciniki, $business_id, $obj_name, $args, $tmsupd
 		ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbUUID');
 		$rc = ciniki_core_dbUUID($ciniki, $m);
 		if( $rc['stat'] != 'ok' ) {
-			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1365', 'msg'=>'Unable to get a new UUID', 'err'=>$rc['err']));
+			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1370', 'msg'=>'Unable to get a new UUID', 'err'=>$rc['err']));
 		}
 		$args['uuid'] = $rc['uuid'];
 	}

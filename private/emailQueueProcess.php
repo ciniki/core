@@ -66,7 +66,7 @@ function ciniki_core_emailQueueProcess(&$ciniki) {
 			} 
 			
 			//
-			// If not enough informatio, or none provided, default back to system email
+			// If not enough information, or none provided, default back to system email
 			//
 			if( $use_config == 'yes' ) {
 				$mail->Host = $ciniki['config']['ciniki.core']['system.smtp.servers'];
@@ -93,7 +93,10 @@ function ciniki_core_emailQueueProcess(&$ciniki) {
 			}
 
 			if( !$mail->Send() ) {
-				error_log("MAIL-ERR: [" . $email['to'] . "] " . $mail->ErrorInfo);
+				error_log("MAIL-ERR: [" . $email['to'] . "] " . $mail->ErrorInfo . " (trying again)");
+				if( !$mail->Send() ) {
+					error_log("MAIL-ERR: [" . $email['to'] . "] " . $mail->ErrorInfo);
+				}
 			}
 		}
 	}

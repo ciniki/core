@@ -9,7 +9,7 @@
 // Returns
 // -------
 //
-function ciniki_core_objectRefAdd(&$ciniki, $business_id, $obj_name, $args) {
+function ciniki_core_objectRefAdd(&$ciniki, $business_id, $obj_name, $args, $options=0x07) {
 	//
 	// Break apart object name
 	//
@@ -25,6 +25,7 @@ function ciniki_core_objectRefAdd(&$ciniki, $business_id, $obj_name, $args) {
 	//
 	// Check if there is a reference table for module being referred to
 	//
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'objectLoad');
 	$rc = ciniki_core_objectLoad($ciniki, $pkg . '.' . $mod . '.ref');
 	if( $rc['stat'] != 'ok' ) {
 		return array('stat'=>'ok');
@@ -50,6 +51,6 @@ function ciniki_core_objectRefAdd(&$ciniki, $business_id, $obj_name, $args) {
 	}
 
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'objectAdd');
-	return ciniki_core_objectAdd($ciniki, $business_id, "$pkg.$mod.ref", $args, 0x07);
+	return ciniki_core_objectAdd($ciniki, $business_id, "$pkg.$mod.ref", $args, $options);
 }
 ?>

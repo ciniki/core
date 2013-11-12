@@ -17,7 +17,7 @@
 // -------
 // <rsp stat="ok" id="45" />
 //
-function ciniki_core_objectRefClear(&$ciniki, $business_id, $obj_name, $args) {
+function ciniki_core_objectRefClear(&$ciniki, $business_id, $obj_name, $args, $options=0) {
 	//
 	// Break apart object name
 	//
@@ -26,6 +26,7 @@ function ciniki_core_objectRefClear(&$ciniki, $business_id, $obj_name, $args) {
 	//
 	// Check if there is a reference table for module being referred to
 	//
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'objectLoad');
 	$rc = ciniki_core_objectLoad($ciniki, $pkg . '.' . $mod . '.ref');
 	if( $rc['stat'] != 'ok' ) {
 		return array('stat'=>'ok');

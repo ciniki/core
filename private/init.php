@@ -35,6 +35,11 @@ function ciniki_core_init($ciniki_root, $output_format) {
 	}
 
 	//
+	// Initialize the object variable.  This stores all the object information as loaded, so no need to load again.
+	//
+	$ciniki['objects'] = array();
+
+	//
 	// Initialize the request variables
 	//
 	$ciniki['request'] = array();

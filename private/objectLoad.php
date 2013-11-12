@@ -14,11 +14,15 @@
 // Returns
 // -------
 //
-function ciniki_core_objectLoad($ciniki, $obj_name) {
+function ciniki_core_objectLoad(&$ciniki, $obj_name) {
 	//
 	// Break apart object name
 	//
 	list($pkg, $mod, $obj) = explode('.', $obj_name);
+
+	if( isset($ciniki['objects'][$pkg][$mod][$obj]) ) {
+		return array('stat'=>'ok', 'object'=>$ciniki['objects'][$pkg][$mod][$obj]);
+	}
 
 	//
 	// Load the objects for this module
@@ -45,6 +49,17 @@ function ciniki_core_objectLoad($ciniki, $obj_name) {
 
 	if( !isset($objects[$obj]) ) {
 		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1376', 'msg'=>'Unable to load object definition: ' . $pkg . '.' . $mod . '.' . $obj));
+	}
+
+	//
+	// Store the loaded object, so it only needs to be loaded once
+	//
+	if( !isset($ciniki['objects']) ) {
+		$ciniki['objects'] = array($pkg=>array($mod=>$objects));
+	} elseif( !isset($ciniki['objects'][$pkg]) ) {
+		$ciniki['objects'][$pkg] = array($mod=>$objects);
+	} elseif( !isset($ciniki['objects'][$pkg][$mod]) ) {
+		$ciniki['objects'][$pkg][$mod] = $objects;
 	}
 	
 	return array('stat'=>'ok', 'object'=>$objects[$obj]);

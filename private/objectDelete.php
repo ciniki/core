@@ -40,6 +40,25 @@ function ciniki_core_objectDelete(&$ciniki, $business_id, $obj_name, $oid, $ouui
 	$m = "$pkg.$mod";
 
 	//
+	// If the object uuid is not specified, lookup in the table first
+	//
+	if( $ouuid == NULL ) {
+		$strsql = "SELECT uuid "
+			. "FROM " . $o['table'] . " "
+			. " WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+			. "AND id = '" . ciniki_core_dbQuote($ciniki, $oid) . "' "
+			. "";
+		$rc = ciniki_core_dbHashQuery($ciniki, $strsql, $m, 'object');
+		if( $rc['stat'] != 'ok' ) {	
+			return $rc;
+		}
+		if( !isset($rc['object']) || !isset($rc['object']['uuid']) ) {
+			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1064', 'msg'=>'Unable to lookup UUID for ' . $obj_name));
+		}
+		$ouuid = $rc['object']['uuid'];
+	}
+
+	//
 	// Start transaction
 	//
 	if( ($tmsupdate&0x01) == 1 ) {

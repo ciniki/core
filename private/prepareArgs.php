@@ -125,6 +125,21 @@ function ciniki_core_prepareArgs($ciniki, $quote_flag, $arg_info) {
 						$args[$arg] = strftime("%Y-%m-%d %H:%M", $ts);
 					}
 				}
+			} elseif( isset($options['type']) && $options['type'] == 'datetimetoutc' && $ciniki['request']['args'][$arg] != '' ) {
+				ciniki_core_loadMethod($ciniki, 'ciniki', 'businesses', 'private', 'timezoneOffset');
+				// UTC timezone offset in seconds
+				$utc_offset = ciniki_businesses_timezoneOffset($ciniki, 'seconds');
+				date_default_timezone_set('America/Toronto');
+				if( $ciniki['request']['args'][$arg] == 'now' ) {
+					$args[$arg] = strftime("%Y-%m-%d %H:%M:%S");
+				} else {
+					$ts = strtotime($ciniki['request']['args'][$arg]);
+					if( $ts === FALSE || $ts < 1 ) {
+						return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'235', 'msg'=>"$invalid_msg", 'pmsg'=>"Argument: $arg invalid datetime format"));
+					} else {
+						$args[$arg] = strftime("%Y-%m-%d %H:%M:%S", $ts - $utc_offset);
+					}
+				}
 			} elseif( isset($options['type']) && $options['type'] == 'int' && preg_match('/^\d+$/',$ciniki['request']['args'][$arg]) ) {
 				$args[$arg] = (int)$ciniki['request']['args'][$arg];
 			} else {

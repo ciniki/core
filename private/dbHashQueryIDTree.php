@@ -101,6 +101,20 @@ function ciniki_core_dbHashQueryIDTree($ciniki, $strsql, $module, $tree) {
 				}
 			}
 			else {
+// Untested code: Was added, but then not needed.
+//				foreach($tree[$i]['fields'] as $field) {
+//					if( isset($tree[$i]['idlists']) && in_array($field, $tree[$i]['idlists']) 
+//						&& $prev_row != null && $prev_row[$field] != $row[$field] ) {
+//						//
+//						// Check if field was declared in fields array, if not it can be added now
+//						//
+//						if( isset($data[$tree[$i]['container']][$row[$tree[$i]['fname']]][$field]) ) {
+//							$data[$tree[$i]['container']][$row[$tree[$i]['fname']]][$field] .= ',' . $row[$field];
+//						} else {
+//							$data[$tree[$i]['container']][$row[$tree[$i]['fname']]][$field] = $row[$field];
+//						}
+//					}
+//				}
 				$data = &$data[$tree[$i]['container']][$row[$tree[$i]['fname']]];
 			}
 			$prev[$i] = $row[$tree[$i]['fname']];

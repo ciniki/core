@@ -37,6 +37,19 @@
 function ciniki_core_prepareArgs($ciniki, $quote_flag, $arg_info) {
 	$args = array();
 
+	//
+	// Check if business_id is specified, and if so, load the business settings
+	//
+	if( isset($ciniki['request']['args']['business_id']) ) {
+		ciniki_core_loadMethod($ciniki, 'ciniki', 'businesses', 'private', 'intlSettings');
+		$rc = ciniki_businesses_intlSettings($ciniki, $ciniki['request']['args']['business_id']);
+		if( $rc['stat'] != 'ok' ) {
+			return $rc;
+		}
+		$intl_timezone = $rc['settings']['intl-default-timezone'];
+		date_default_timezone_set($intl_timezone);
+	}
+
 	foreach($arg_info as $arg => $options) {
 		$msg = 'Missing argument';
 		$invalid_msg = $msg;
@@ -86,7 +99,6 @@ function ciniki_core_prepareArgs($ciniki, $quote_flag, $arg_info) {
 					$args[$arg][] = array('object'=>$object, 'id'=>$object_id);
 				}
 			} elseif( isset($options['type']) && $options['type'] == 'date' && $ciniki['request']['args'][$arg] != '' ) {
-				date_default_timezone_set('America/Toronto');
 				if( $ciniki['request']['args'][$arg] == 'now' || $ciniki['request']['args'][$arg] == 'today' ) {
 					$args[$arg] = strftime("%Y-%m-%d");
 				} elseif( $ciniki['request']['args'][$arg] == 'tomorrow' ) {
@@ -101,7 +113,6 @@ function ciniki_core_prepareArgs($ciniki, $quote_flag, $arg_info) {
 					}
 				}
 			} elseif( isset($options['type']) && $options['type'] == 'time' && $ciniki['request']['args'][$arg] != '' ) {
-				date_default_timezone_set('America/Toronto');
 				if( $ciniki['request']['args'][$arg] == 'now' || $ciniki['request']['args'][$arg] == 'today' ) {
 					$args[$arg] = strftime("%H:%M:%S");
 				} else {
@@ -113,8 +124,8 @@ function ciniki_core_prepareArgs($ciniki, $quote_flag, $arg_info) {
 						$args[$arg] = strftime("%H:%M:%S", $ts);
 					}
 				}
-			} elseif( isset($options['type']) && $options['type'] == 'datetime' && $ciniki['request']['args'][$arg] != '' ) {
-				date_default_timezone_set('America/Toronto');
+			} 
+			elseif( isset($options['type']) && $options['type'] == 'datetime' && $ciniki['request']['args'][$arg] != '' ) {
 				if( $ciniki['request']['args'][$arg] == 'now' ) {
 					$args[$arg] = strftime("%Y-%m-%d %H:%M");
 				} else {
@@ -125,24 +136,34 @@ function ciniki_core_prepareArgs($ciniki, $quote_flag, $arg_info) {
 						$args[$arg] = strftime("%Y-%m-%d %H:%M", $ts);
 					}
 				}
-			} elseif( isset($options['type']) && $options['type'] == 'datetimetoutc' && $ciniki['request']['args'][$arg] != '' ) {
-				ciniki_core_loadMethod($ciniki, 'ciniki', 'businesses', 'private', 'timezoneOffset');
-				// UTC timezone offset in seconds
-				$utc_offset = ciniki_businesses_timezoneOffset($ciniki, 'seconds');
-				date_default_timezone_set('America/Toronto');
+			} 
+			elseif( isset($options['type']) && $options['type'] == 'datetimetoutc' && $ciniki['request']['args'][$arg] != '' ) {
+//				ciniki_core_loadMethod($ciniki, 'ciniki', 'businesses', 'private', 'timezoneOffset');
+//				// UTC timezone offset in seconds
+//				$utc_offset = ciniki_businesses_timezoneOffset($ciniki, 'seconds');
+//				date_default_timezone_set('America/Toronto');
 				if( $ciniki['request']['args'][$arg] == 'now' ) {
-					$args[$arg] = strftime("%Y-%m-%d %H:%M:%S");
+					$date = new DateTime('now', new DateTimeZone('UTC'));
+					$args[$arg] = $date->format('Y-m-d H:i:s');
+//					$args[$arg] = strftime("%Y-%m-%d %H:%M:%S");
 				} else {
 					$ts = strtotime($ciniki['request']['args'][$arg]);
 					if( $ts === FALSE || $ts < 1 ) {
-						return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'235', 'msg'=>"$invalid_msg", 'pmsg'=>"Argument: $arg invalid datetime format"));
+						return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'331', 'msg'=>"$invalid_msg", 'pmsg'=>"Argument: $arg invalid datetime format"));
 					} else {
-						$args[$arg] = strftime("%Y-%m-%d %H:%M:%S", $ts - $utc_offset);
+						$date = new DateTime("@".$ts, new DateTimeZone($intl_timezone));
+						$args[$arg] = $date->format('Y-m-d H:i:s');
+//						$args[$arg] = strftime("%Y-%m-%d %H:%M:%S", $ts - $utc_offset);
 					}
 				}
-			} elseif( isset($options['type']) && $options['type'] == 'int' && preg_match('/^\d+$/',$ciniki['request']['args'][$arg]) ) {
+			} 
+			elseif( isset($options['type']) && $options['type'] == 'int' && preg_match('/^\d+$/',$ciniki['request']['args'][$arg]) ) {
 				$args[$arg] = (int)$ciniki['request']['args'][$arg];
-			} else {
+			} 
+			elseif( isset($options['type']) && $options['type'] == 'float' && preg_match('/^\d+(\.\d+)?$/',$ciniki['request']['args'][$arg]) ) {
+				$args[$arg] = (float)$ciniki['request']['args'][$arg];
+			} 
+			else {
 				$args[$arg] = $ciniki['request']['args'][$arg];
 			}
 
@@ -176,7 +197,21 @@ function ciniki_core_prepareArgs($ciniki, $quote_flag, $arg_info) {
 			// The argument is not required, check for a default value to assign
 			//
 			if( isset($options['default']) ) {
-				$args[$arg] = $options['default'];
+				if( isset($options['type']) && $options['type'] == 'date' 
+					&& ($options['default'] == 'now' || $options['default'] == 'today') ) {
+					$date = new DateTime('now', new DateTimeZone($intl_timezone));
+					$args[$arg] = $date->format('Y-m-d');
+				} elseif( isset($options['type']) && $options['type'] == 'datetime' 
+					&& ($options['default'] == 'now' || $options['default'] == 'today') ) {
+					$date = new DateTime('now', new DateTimeZone($intl_timezone));
+					$args[$arg] = $date->format('Y-m-d H:i');
+				} elseif( isset($options['type']) && $options['type'] == 'datetimetoutc' 
+					&& ($options['default'] == 'now' || $options['default'] == 'today') ) {
+					$date = new DateTime('now', new DateTimeZone('UTC'));
+					$args[$arg] = $date->format('Y-m-d H:i:s');
+				} else {
+					$args[$arg] = $options['default'];
+				}
 			}
 
 			// If no default value, then the arg is not added to the list

@@ -14,5 +14,6 @@
 //
 function ciniki_core_loadMethod($ciniki, $package, $module, $type, $name) {
 	require_once($ciniki['config']['ciniki.core']['root_dir'] . '/' . $package . '-api/' . $module . '/' . $type . '/' . $name . '.php');
+	return array('stat'=>'ok');
 }
 ?>

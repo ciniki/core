@@ -38,6 +38,11 @@ function ciniki_core_init($ciniki_root, $output_format) {
 	// Initialize the object variable.  This stores all the object information as loaded, so no need to load again.
 	//
 	$ciniki['objects'] = array();
+	
+	//
+	// Initialize the business variable.  This is used to store settings for the business
+	//
+	$ciniki['business'] = array('settings'=>array());
 
 	//
 	// Initialize the request variables

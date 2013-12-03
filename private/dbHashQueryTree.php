@@ -94,7 +94,7 @@ function ciniki_core_dbHashQueryTree($ciniki, $strsql, $module, $tree) {
 				if( isset($tree[$i]['fields']) ) {
 					foreach($tree[$i]['fields'] as $field_id => $field) {
 						// Check if the field name from the SQL should be translated to another name in the array
-						// This is used when business_id should become id in the data structure.
+						// This is used when business_id should become id in the data structure (example).
 						if( !is_string($field_id) && is_int($field_id) ) {
 							// Field is in integer and should not be mapped
 							$field_id = $field;
@@ -116,6 +116,20 @@ function ciniki_core_dbHashQueryTree($ciniki, $strsql, $module, $tree) {
 								$data[$tree[$i]['container']][$num_elements[$i]][$tree[$i]['name']][$field_id] = $row[$field];
 							}
 						} 
+						//
+						// Check if utc dates should be converted to local timezone
+						//
+						elseif( isset($tree[$i]['utctotz']) && isset($tree[$i]['utctotz'][$field_id]) ) {
+							if( $row[$field] == '0000-00-00 00:00:00' || $row[$field] == '0000-00-00' ) {
+								$data[$tree[$i]['container']][$num_elements[$i]][$tree[$i]['name']][$field_id] = '';
+								
+							} else {
+								$date = new DateTime($row[$field], new DateTimeZone('UTC'));
+								$date->setTimezone(new DateTimeZone($tree[$i]['utctotz'][$field_id]['timezone']));
+								$data[$tree[$i]['container']][$num_elements[$i]][$tree[$i]['name']][$field_id] = 
+									$date->format($tree[$i]['utctotz'][$field_id]['format']);
+							}
+						}
 						elseif( $field == 'age' || substr($field, 0, 4) == 'age_' ) {
 							$data[$tree[$i]['container']][$num_elements[$i]][$tree[$i]['name']][$field_id] = ciniki_core_dbParseAge($ciniki, $row[$field]);
 						}
@@ -173,10 +187,12 @@ function ciniki_core_dbHashQueryTree($ciniki, $strsql, $module, $tree) {
 						//
 						// Check if field was declared in fields array, if not it can be added now
 						//
-						if( isset($data[$tree[$i]['container']][$num_elements[$i]-1][$tree[$i]['name']][$field]) ) {
-							$data[$tree[$i]['container']][$num_elements[$i]-1][$tree[$i]['name']][$field] .= ',' . $row[$field];
-						} else {
-							$data[$tree[$i]['container']][$num_elements[$i]-1][$tree[$i]['name']][$field] = $row[$field];
+						if( $row[$field] != null ) {
+							if( isset($data[$tree[$i]['container']][$num_elements[$i]-1][$tree[$i]['name']][$field]) ) {
+								$data[$tree[$i]['container']][$num_elements[$i]-1][$tree[$i]['name']][$field] .= ',' . $row[$field];
+							} else {
+								$data[$tree[$i]['container']][$num_elements[$i]-1][$tree[$i]['name']][$field] = $row[$field];
+							}
 						}
 					}
 					//

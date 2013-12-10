@@ -65,22 +65,24 @@ $rc = ciniki_core_callPublicMethod($ciniki);
 if( (isset($ciniki['syncqueue']) && count($ciniki['syncqueue']) > 0) 
 	|| (isset($ciniki['emailqueue']) && count($ciniki['emailqueue']) > 0) 
 	) {
-	ob_start();
-	if(strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== false) {
-		ob_start("ob_gzhandler"); // Inner buffer when output is apache mod-deflate is enabled
-		ciniki_core_printResponse($ciniki, $rc);
+	if( $rc['stat'] != 'exit' ) {
+		ob_start();
+		if(strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== false) {
+			ob_start("ob_gzhandler"); // Inner buffer when output is apache mod-deflate is enabled
+			ciniki_core_printResponse($ciniki, $rc);
+			ob_end_flush();
+		} else {
+			ciniki_core_printResponse($ciniki, $rc);
+		}
+		header("Connection: close");
+		$contentlength = ob_get_length();
+		header("Content-Length: $contentlength");
 		ob_end_flush();
-	} else {
-		ciniki_core_printResponse($ciniki, $rc);
+		ob_end_flush();
+		flush();
+		session_write_close();
+		while(ob_get_level()>0) ob_end_clean();
 	}
-	header("Connection: close");
-	$contentlength = ob_get_length();
-	header("Content-Length: $contentlength");
-	ob_end_flush();
-	ob_end_flush();
-	flush();
-	session_write_close();
-	while(ob_get_level()>0) ob_end_clean();
 
 	// Run email queue
 	if( isset($ciniki['emailqueue']) && count($ciniki['emailqueue']) > 0 ) {
@@ -101,7 +103,9 @@ if( (isset($ciniki['syncqueue']) && count($ciniki['syncqueue']) > 0)
 	//
 	// Output the result in requested format
 	//
-	ciniki_core_printResponse($ciniki, $rc);
+	if( $rc['stat'] != 'exit' ) {
+		ciniki_core_printResponse($ciniki, $rc);
+	}
 }
 
 //

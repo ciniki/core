@@ -13,6 +13,10 @@
 // name:		The name of the function.
 //
 function ciniki_core_loadMethod($ciniki, $package, $module, $type, $name) {
+	if( !file_exists($ciniki['config']['ciniki.core']['root_dir'] . '/' . $package . '-api/' . $module . '/' . $type . '/' . $name . '.php') ) {
+		return array('stat'=>'noexist', 'err'=>array('pkg'=>'ciniki', 'code'=>'1412', 'msg'=>'Internal Error', 'pmsg'=>'Requested method does not exist'));
+	}
+
 	require_once($ciniki['config']['ciniki.core']['root_dir'] . '/' . $package . '-api/' . $module . '/' . $type . '/' . $name . '.php');
 	return array('stat'=>'ok');
 }

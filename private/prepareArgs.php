@@ -48,6 +48,8 @@ function ciniki_core_prepareArgs($ciniki, $quote_flag, $arg_info) {
 		}
 		$intl_timezone = $rc['settings']['intl-default-timezone'];
 		date_default_timezone_set($intl_timezone);
+		$intl_currency_fmt = numfmt_create($rc['settings']['intl-default-locale'], NumberFormatter::CURRENCY);
+		$intl_currency = $rc['settings']['intl-default-currency'];
 	}
 
 	foreach($arg_info as $arg => $options) {
@@ -157,6 +159,18 @@ function ciniki_core_prepareArgs($ciniki, $quote_flag, $arg_info) {
 					}
 				}
 			} 
+			elseif( isset($options['type']) && $options['type'] == 'currency' && $ciniki['request']['args'][$arg] != '' ) {
+				if( ($intl_currency == 'CAD' || $intl_currency == 'USD') && $ciniki['request']['args'][$arg][0] != '$' ) {
+					$args[$arg] = '$' . $ciniki['request']['args'][$arg];
+				} else {
+					$args[$arg] = $ciniki['request']['args'][$arg];
+				}
+				$amt = numfmt_parse_currency($intl_currency_fmt, $args[$arg], $intl_currency);
+				if( $amt === FALSE ) {
+					return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1425', 'msg'=>"$invalid_msg", 'pmsg'=>"Argument: $arg invalid currency format"));
+				}
+				$args[$arg] = $amt;
+			}
 			elseif( isset($options['type']) && $options['type'] == 'int' && preg_match('/^\d+$/',$ciniki['request']['args'][$arg]) ) {
 				$args[$arg] = (int)$ciniki['request']['args'][$arg];
 			} 

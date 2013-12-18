@@ -38,6 +38,24 @@ function ciniki_core_dbGetModuleHistoryReformat($ciniki, $module, $history_table
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQuote');
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbParseAge');
 
+	//
+	// Check if reformat is for price
+	//
+	if( $format == 'currency' ) {
+		//
+		// Load business intl settings
+		//
+		ciniki_core_loadMethod($ciniki, 'ciniki', 'businesses', 'private', 'intlSettings');
+		$rc = ciniki_businesses_intlSettings($ciniki, $business_id);
+		if( $rc['stat'] != 'ok' ) {
+			return $rc;
+		}
+		$intl_timezone = $rc['settings']['intl-default-timezone'];
+		$intl_currency_fmt = numfmt_create($rc['settings']['intl-default-locale'], NumberFormatter::CURRENCY);
+		$intl_currency = $rc['settings']['intl-default-currency'];
+	}
+
+
 	$datetime_format = ciniki_users_datetimeFormat($ciniki);
 	$date_format = ciniki_users_dateFormat($ciniki);
 	$time_format = ciniki_users_timeFormat($ciniki);
@@ -81,6 +99,10 @@ function ciniki_core_dbGetModuleHistoryReformat($ciniki, $module, $history_table
 		$rsp['history'][$num_history] = array('action'=>array('user_id'=>$row['user_id'], 'date'=>$row['date'], 'value'=>$row['value']));
 		if( $format == 'date' || $format == 'time' || $format == 'utcdate' || $format == 'datetime' ) {
 			$rsp['history'][$num_history]['action']['formatted_value'] = $row['formatted_value'];
+		}
+		if( $format == 'currency' ) {
+			$rsp['history'][$num_history]['action']['value'] = numfmt_format_currency(
+				$intl_currency_fmt, $row['value'], $intl_currency);
 		}
 		if( $row['user_id'] > 0 ) {
 			array_push($user_ids, $row['user_id']);

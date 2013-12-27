@@ -34,7 +34,7 @@
 // Returns
 // -------
 //
-function ciniki_core_prepareArgs($ciniki, $quote_flag, $arg_info) {
+function ciniki_core_prepareArgs(&$ciniki, $quote_flag, $arg_info) {
 	$args = array();
 
 	//

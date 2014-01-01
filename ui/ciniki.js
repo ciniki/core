@@ -232,8 +232,6 @@ M.startApp = function(a, sF, cB, aP, args) {
 		// ciniki.users.prefs -> /ciniki-mods/users/ui/prefs.js
 		var src = a;
 		script.src = src.replace(/(.*)\.(.*)\.(.*)/, "/$1-mods/$2/ui/$3.js") + "?t=" + t;
-		console.log(func);
-		// script.src = '/mossi/js/' + a + '.js?t=' + t;
 
 		//
 		var done = false;

@@ -1,0 +1,13 @@
+[core]
+manage_root_url = /ciniki-manage
+themes_root_url = /ciniki-manage-themes
+json_url = /ciniki-json.php
+
+api_key = generatedkeybyinstall
+
+;
+; Override for the site title
+;
+; site_title = Ciniki
+
+

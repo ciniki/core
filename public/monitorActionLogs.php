@@ -73,7 +73,7 @@ function ciniki_core_monitorActionLogs($ciniki) {
 
 	$date_format = ciniki_users_datetimeFormat($ciniki);
 
-	// Sort the list ASC by date, so the oldest is at the bottom, and therefore will get insert at the top of the list in ciniki-manage
+	// Sort the list ASC by date, so the oldest is at the bottom, and therefore will get insert at the top of the list in ciniki manage
 	$strsql = "SELECT DATE_FORMAT(log_date, '" . ciniki_core_dbQuote($ciniki, $date_format) . "') as log_date"
 		. ", CAST(UNIX_TIMESTAMP(UTC_TIMESTAMP())-UNIX_TIMESTAMP(log_date) as DECIMAL(12,0)) as age "
 		. ", UNIX_TIMESTAMP(log_date) as TS"

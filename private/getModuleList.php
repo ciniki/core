@@ -30,7 +30,7 @@ function ciniki_core_getModuleList($ciniki) {
 	//
 	$rsp = array();
 	foreach($packages as $package) {
-		$dir = $ciniki['config']['ciniki.core']['root_dir'] . '/' . $package . '-api/';
+		$dir = $ciniki['config']['ciniki.core']['root_dir'] . '/' . $package . '-mods/';
 		if( !is_dir($dir) ) {
 			continue;
 		}

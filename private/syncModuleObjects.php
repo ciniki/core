@@ -14,7 +14,7 @@ function ciniki_core_syncModuleObjects(&$ciniki, $business_id, $module, $type) {
 	//
 	// Load the objects for this module
 	//
-	$method_filename = $ciniki['config']['ciniki.core']['root_dir'] . preg_replace('/^(.*)\.(.*)$/', '/\1-api/\2/sync/objects.php', $module);
+	$method_filename = $ciniki['config']['ciniki.core']['root_dir'] . preg_replace('/^(.*)\.(.*)$/', '/\1-mods/\2/sync/objects.php', $module);
 	$method_function = preg_replace('/^(.*)\.(.*)$/', '\1_\2_sync_objects', $module);
 	if( !file_exists($method_filename) ) {
 		// 

@@ -46,7 +46,7 @@ function ciniki_core_dbUpgradeTables($ciniki) {
 	}
 
 	foreach($tables as $table_name => $table) {
-		$schema = file_get_contents($ciniki['config']['ciniki.core']['root_dir'] . '/' . $table['package'] . '-api/' . $table['module'] . "/db/$table_name.schema");
+		$schema = file_get_contents($ciniki['config']['ciniki.core']['root_dir'] . '/' . $table['package'] . '-mods/' . $table['module'] . "/db/$table_name.schema");
 		if( preg_match('/comment=\'(v[0-9]+\.[0-9]+)\'/i', $schema, $matches) ) {
 			$new_version = $matches[1];
 			if( $new_version != $tables[$table_name]['database_version'] ) {

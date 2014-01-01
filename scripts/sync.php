@@ -18,11 +18,11 @@ if( !file_exists($ciniki_root . '/ciniki-api.ini') ) {
 	$ciniki_root = dirname(dirname(dirname(dirname(__FILE__))));
 }
 // loadMethod is required by all function to ensure the functions are dynamically loaded
-require_once($ciniki_root . '/ciniki-api/core/private/loadMethod.php');
-require_once($ciniki_root . '/ciniki-api/core/private/syncInit.php');
-require_once($ciniki_root . '/ciniki-api/core/private/checkSecureConnection.php');
-require_once($ciniki_root . '/ciniki-api/core/private/printHashToPHP.php');
-require_once($ciniki_root . '/ciniki-api/core/private/syncResponse.php');
+require_once($ciniki_root . '/ciniki-mods/core/private/loadMethod.php');
+require_once($ciniki_root . '/ciniki-mods/core/private/syncInit.php');
+require_once($ciniki_root . '/ciniki-mods/core/private/checkSecureConnection.php');
+require_once($ciniki_root . '/ciniki-mods/core/private/printHashToPHP.php');
+require_once($ciniki_root . '/ciniki-mods/core/private/syncResponse.php');
 
 //
 // The syncInit function will initialize the ciniki structure, and check

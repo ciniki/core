@@ -110,7 +110,7 @@ function ciniki_core_syncBusinessInfo($ciniki, $business_id) {
 			$modules[$mnum]['module']['hash'] = '';
 		}
 		$modules[$mnum]['module']['tables'] = array();
-		$dir = $ciniki['config']['core']['root_dir'] . '/' . $module['module']['package'] . '-api/' . $module['module']['name'] . '/db';
+		$dir = $ciniki['config']['core']['root_dir'] . '/' . $module['module']['package'] . '-mods/' . $module['module']['name'] . '/db';
 		if( !is_dir($dir) ) {
 			continue;
 		}

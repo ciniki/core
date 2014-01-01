@@ -13,7 +13,7 @@ function ciniki_core_help() {
         // Bug panel
         //
         this.bug = new M.panel('Bug/Feature/Question',
-            'ciniki_help_main', 'bug',
+            'ciniki_core_help', 'bug',
             'mh', 'medium', 'sectioned', 'ciniki.core.help.question');
         this.bug.data = null;
         this.bug.users = null;
@@ -23,7 +23,7 @@ function ciniki_core_help() {
                 'content':{'label':'Details', 'hidelabel':'yes', 'type':'textarea'},
             }},
 			'_buttons':{'label':'', 'buttons':{
-				'add':{'label':'Submit response', 'fn':'M.ciniki_help_main.addFollowup();'},
+				'add':{'label':'Submit response', 'fn':'M.ciniki_core_help.addFollowup();'},
 			}},
 		};
         this.bug.subject = '';
@@ -39,7 +39,7 @@ function ciniki_core_help() {
         // Questions listing panel, includes bugs and features
         //
         this.list = new M.panel('Help',
-            'ciniki_help_main', 'list',
+            'ciniki_core_help', 'list',
             'mh', 'medium', 'sectioned', 'ciniki.core.help.list');
 		this.list.data = {'type':'3'};
 		this.list.sections = {
@@ -51,13 +51,13 @@ function ciniki_core_help() {
                 'followup':{'label':'Details', 'hidelabel':'yes', 'type':'textarea'},
             }},
 			'_buttons':{'label':'', 'buttons':{
-				'add':{'label':'Submit Question', 'fn':'M.ciniki_help_main.submitBug();'},
+				'add':{'label':'Submit Question', 'fn':'M.ciniki_core_help.submitBug();'},
 			}},
 		};
 		this.list.sectionData = function(s) { return this.data[s]; };
         this.list.fieldValue = function(s, i, d) { return ''; }
         this.list.listValue = function(s, i, d) { return d.bug.subject; }
-        this.list.listFn = function(s, i, d) { return 'M.ciniki_help_main.showBug(\'' + i + '\');'; }
+        this.list.listFn = function(s, i, d) { return 'M.ciniki_core_help.showBug(\'' + i + '\');'; }
         this.list.addButton('exit', 'Close', 'M.toggleHelp(null);'); 
 	}
 	
@@ -75,7 +75,7 @@ function ciniki_core_help() {
 		// Create the app container if it doesn't exist, and clear it out
 		// if it does exist.
 		//
-		var appContainer = M.createContainer(appPrefix, 'ciniki_help_main', 'yes');
+		var appContainer = M.createContainer(appPrefix, 'ciniki_core_help', 'yes');
 		if( appContainer == null ) {
 			alert('App Error');
 			return false;
@@ -148,13 +148,13 @@ function ciniki_core_help() {
         }
 
         var rsp = M.api.postJSONCb('ciniki.bugs.bugAdd',
-            {'business_id':M.masterBusinessID, 'source':'ciniki-manage', 'source_link':M.ciniki_help_main.curHelpUID},
+            {'business_id':M.masterBusinessID, 'source':'ciniki-manage', 'source_link':M.ciniki_core_help.curHelpUID},
             c, function(rsp) {
 				if( rsp.stat != 'ok' ) {
 					M.api.err(rsp);
 					return false;
 				}
-				M.ciniki_help_main.loadBugs();
+				M.ciniki_core_help.loadBugs();
 			});
 	};
 
@@ -166,12 +166,12 @@ function ciniki_core_help() {
     this.loadBugs = function() {
         var r = M.api.getJSONCb('ciniki.bugs.bugList', 
             {'business_id':M.masterBusinessID, 'status':'1',
-				'source':'ciniki-manage', 'source_link':M.ciniki_help_main.curHelpUID}, function(rsp) {
+				'source':'ciniki-manage', 'source_link':M.ciniki_core_help.curHelpUID}, function(rsp) {
 					if( rsp.stat != 'ok' ) { 
 						M.api.err(rsp);
 						return false;
 					}
-					var p = M.ciniki_help_main.list;
+					var p = M.ciniki_core_help.list;
 					if( rsp.bugs != null && rsp.bugs.length > 0 ) {
 						p.sections.bugs.visible = 'yes';
 					} else {
@@ -205,12 +205,12 @@ function ciniki_core_help() {
 						M.api.err(rsp);
 						this.bug.data = null;
 					}   
-					var p = M.ciniki_help_main.bug;
-					p.bug_id = M.ciniki_help_main.list.data.bugs[bNUM].bug.id;
+					var p = M.ciniki_core_help.bug;
+					p.bug_id = M.ciniki_core_help.list.data.bugs[bNUM].bug.id;
 					p.data = rsp.followups;
 					p.users = rsp.users;
 					p.refresh();
-					p.show('M.ciniki_help_main.list.show();');
+					p.show('M.ciniki_core_help.list.show();');
 				});
     }
 
@@ -224,10 +224,10 @@ function ciniki_core_help() {
 						M.api.err(rsp);
 						return false;
 					}   
-					M.ciniki_help_main.showBug();
+					M.ciniki_core_help.showBug();
 				});
 		} else {
-			M.ciniki_help_main.showBug();
+			M.ciniki_core_help.showBug();
 		}
     }
 }

@@ -35,8 +35,8 @@ M.toggleHelp = function(helpUID) {
 	//
 	// Check if help is loaded
 	// 
-	if( helpUID == null || (M.ciniki_help_main != null && document.getElementById('m_help').style.display != 'none' && M.ciniki_help_main.curHelpUID == helpUID) ) {
-		M.ciniki_help_main.close();
+	if( helpUID == null || (M.ciniki_core_help != null && document.getElementById('m_help').style.display != 'none' && M.ciniki_core_help.curHelpUID == helpUID) ) {
+		M.ciniki_core_help.close();
 		M.hide('m_help');
 		M.setWidth('m_container', '100%');
 		M.setWidth('mc_header', '100%');

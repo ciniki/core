@@ -6,7 +6,7 @@
 
 [core]
 root_dir=site
-modules_dir=site/ciniki-api
+modules_dir=site/ciniki-mods
 lib_dir=site/ciniki-lib
 session_timeout = 600
 

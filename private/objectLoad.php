@@ -27,7 +27,7 @@ function ciniki_core_objectLoad(&$ciniki, $obj_name) {
 	//
 	// Load the objects for this module
 	//
-	$method_filename = $ciniki['config']['ciniki.core']['root_dir'] . "/$pkg-api/$mod/private/objects.php";
+	$method_filename = $ciniki['config']['ciniki.core']['root_dir'] . "/$pkg-mods/$mod/private/objects.php";
 	$method_function = "{$pkg}_{$mod}_objects";
 	if( !file_exists($method_filename) ) {
 		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1372', 'msg'=>'Unable to load object definition: ' . $pkg . '.' . $mod . '.' . $obj));

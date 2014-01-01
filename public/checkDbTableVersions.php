@@ -61,7 +61,7 @@ function ciniki_core_checkDbTableVersions($ciniki) {
 	}
 	
 	foreach($tables as $table_name => $table) {
-		$schema = file_get_contents($ciniki['config']['core']['root_dir'] . '/' . $table['package'] . '-api/' . $table['module']	. "/db/$table_name.schema");
+		$schema = file_get_contents($ciniki['config']['core']['root_dir'] . '/' . $table['package'] . '-mods/' . $table['module']	. "/db/$table_name.schema");
 		if( preg_match('/comment=\'(v[0-9]+\.[0-9]+)\'/i', $schema, $matches) ) {
 			$tables[$table_name]['schema_version'] = $matches[1];
 		}

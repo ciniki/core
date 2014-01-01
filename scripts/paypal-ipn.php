@@ -14,12 +14,12 @@ if( !file_exists($ciniki_root . '/ciniki-api.ini') ) {
 	$ciniki_root = dirname(dirname(dirname(dirname(__FILE__))));
 }
 // loadMethod is required by all function to ensure the functions are dynamically loaded
-require_once($ciniki_root . '/ciniki-api/core/private/loadMethod.php');
-require_once($ciniki_root . '/ciniki-api/core/private/init.php');
-require_once($ciniki_root . '/ciniki-api/core/private/checkSecureConnection.php');
-require_once($ciniki_root . '/ciniki-api/core/private/callPublicMethod.php');
-require_once($ciniki_root . '/ciniki-api/core/private/printHashToXML.php');
-require_once($ciniki_root . '/ciniki-api/core/private/printResponse.php');
+require_once($ciniki_root . '/ciniki-mods/core/private/loadMethod.php');
+require_once($ciniki_root . '/ciniki-mods/core/private/init.php');
+require_once($ciniki_root . '/ciniki-mods/core/private/checkSecureConnection.php');
+require_once($ciniki_root . '/ciniki-mods/core/private/callPublicMethod.php');
+require_once($ciniki_root . '/ciniki-mods/core/private/printHashToXML.php');
+require_once($ciniki_root . '/ciniki-mods/core/private/printResponse.php');
 
 $rc = ciniki_core_init($ciniki_root, 'rest');
 if( $rc['stat'] != 'ok' ) {
@@ -46,7 +46,7 @@ if( $rc['stat'] != 'ok' ) {
 //
 // Parse arguments
 //
-require_once($ciniki_root . '/ciniki-api/core/private/parseRestArguments.php');
+require_once($ciniki_root . '/ciniki-mods/core/private/parseRestArguments.php');
 $rc = ciniki_core_parseRestArguments($ciniki);
 if( $rc['stat'] != 'ok' ) {
 	ciniki_core_printResponse($ciniki, $rc);
@@ -67,7 +67,7 @@ $ciniki['session']['change_log_id'] = date('ymd.His');
 //
 // Handle transaction types
 //
-require_once($ciniki_root . '/ciniki-api/businesses/private/processPaypalIPN.php');
+require_once($ciniki_root . '/ciniki-mods/businesses/private/processPaypalIPN.php');
 $rc = ciniki_businesses_processPaypalIPN($ciniki);
 ciniki_core_printResponse($ciniki, $rc);
 

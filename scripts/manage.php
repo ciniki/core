@@ -13,14 +13,14 @@ $ciniki_root = dirname(__FILE__);
 if( !file_exists($ciniki_root . '/ciniki-api.ini') ) {
 	$ciniki_root = dirname(dirname(dirname(dirname(__FILE__))));
 }
-$manage_root = $ciniki_root . '/ciniki-manage';
+$manage_root = $ciniki_root . '/ciniki-mods';
 $themes_root = $ciniki_root . '/ciniki-manage-themes';
-$manage_js = "/ciniki-manage/core/js";
+$manage_js = "/ciniki-mods/core/ui";
 $manage_themes = "/ciniki-manage-themes";
 $start_container = 'm_login';
 
-require_once($ciniki_root . '/ciniki-api/core/private/loadMethod.php');
-require_once($ciniki_root . '/ciniki-api/core/private/init.php');
+require_once($ciniki_root . '/ciniki-mods/core/private/loadMethod.php');
+require_once($ciniki_root . '/ciniki-mods/core/private/init.php');
 $rc = ciniki_core_init($ciniki_root, 'manage');
 if( $rc['stat'] != 'ok' ) {
 	print "<html><head><title>Error</title></head>";
@@ -31,7 +31,7 @@ if( $rc['stat'] != 'ok' ) {
 $ciniki = $rc['ciniki'];
 
 //$ciniki = array();
-//require_once($ciniki_root . '/ciniki-api/core/private/loadCinikiConfig.php');
+//require_once($ciniki_root . '/ciniki-mods/core/private/loadCinikiConfig.php');
 //if( ciniki_core_loadCinikiConfig($ciniki, $ciniki_root) == false ) {
 //	print "<html><head><title>Error</title></head>";
 //	print_error('There is currently a configuration problem, please try again later.');
@@ -75,7 +75,7 @@ if( $config == false || !isset($config['ciniki.core']['api_key']) ) {
 	exit;
 }
 $apikey = $config['ciniki.core']['api_key'];
-$manage_js = $config['ciniki.core']['manage_root_url'] . "/core/js";
+$manage_js = $config['ciniki.core']['manage_root_url'] . "/core/ui";
 $manage_themes = $config['ciniki.core']['themes_root_url'];
 
 //
@@ -247,10 +247,10 @@ $ts = time();
 // Load device/browser specific javascript
 //
 // FIXME: Build minimizer and .js joiner
-if( file_exists("$manage_root/core/js/$device-$engine.min.js") ) {
+if( file_exists("$manage_root/core/ui/$device-$engine.min.js") ) {
 	print "<script src='$manage_js/$device-$engine.min.js?ts=$ts' type='text/javascript'></script>\n";
 //	print "<script src='$manage_js/colorPicker.js?ts=$ts' type='text/javascript'></script>\n";
-} elseif( file_exists("$manage_root/core/js/e-$engine.js") ) {
+} elseif( file_exists("$manage_root/core/ui/e-$engine.js") ) {
 	print "<script src='$manage_js/ciniki.js?ts=$ts' type='text/javascript'></script>\n";
 	print "<script src='$manage_js/ciniki_panels.js?ts=$ts' type='text/javascript'></script>\n";
 	print "<script src='$manage_js/cinikiAPI.js?ts=$ts' type='text/javascript'></script>\n";
@@ -262,7 +262,7 @@ if( file_exists("$manage_root/core/js/$device-$engine.min.js") ) {
 		print "<script src='$manage_js/s-normal.js?ts=$ts' type='text/javascript'></script>\n";
 	}
 	print "<script src='$manage_js/e-$engine.js?ts=$ts' type='text/javascript'></script>\n";
-	if( file_exists("$manage_root/core/js/d-$device.js") ) {
+	if( file_exists("$manage_root/core/ui/d-$device.js") ) {
 		print "<script src='$manage_js/d-$device.js?ts=$ts' type='text/javascript'></script>\n";
 	}
 } else {
@@ -289,7 +289,7 @@ if( ($device == 'ipad' || $device == 'xoom' || $device == 'hptablet' ) && $engin
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <?php print "<link rel='apple-touch-icon' href='$manage_themes/default/img/icon.png'/>\n"; ?>
-	<script src='/ciniki-manage/core/js/webkitdragdrop.js' type='text/javascript'></script>
+	<script src='/ciniki-manage/core/ui/webkitdragdrop.js' type='text/javascript'></script>
 	<?php // <script src='js/iscroll.js' type='text/javascript'></script> ?>
 <?php } elseif( $device == 'iphone' && $engine == 'webkit' ) { ?>
     <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -300,7 +300,7 @@ if( ($device == 'ipad' || $device == 'xoom' || $device == 'hptablet' ) && $engin
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 <?php } elseif( ($device == 'blackberry' || $device == 'android') && $engine == 'webkit' ) { ?>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0, target-densitydpi=medium-dpi" />
-	<?php // <script src='/ciniki-manage/core/js/iscroll.js' type='text/javascript'></script> ?>
+	<?php // <script src='/ciniki-manage/core/ui/iscroll.js' type='text/javascript'></script> ?>
 <?php } 
 print "<link rel='icon' href='$manage_themes/default/img/favicon.png' type='image/png' />\n";
 

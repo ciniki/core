@@ -10,7 +10,7 @@ M.resize = function(e) {
 }
 
 M.toggleHelp = function(helpUID) {
-	if( helpUID == null || (M.ciniki_help_main != null && document.getElementById('m_help').style.display != 'none' && M.ciniki_help_main.curHelpUID == helpUID) ) {
+	if( helpUID == null || (M.ciniki_core_help != null && document.getElementById('m_help').style.display != 'none' && M.ciniki_core_help.curHelpUID == helpUID) ) {
 		M.hideChildren('m_body', 'm_container');
     } else {
         M.curHelpUID = helpUID;

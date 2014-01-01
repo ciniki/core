@@ -229,9 +229,10 @@ M.startApp = function(a, sF, cB, aP, args) {
 		// Hack to get around cached data
 		var d = new Date();
 		var t = d.getTime();
-		// ciniki.users.prefs -> /ciniki-manage/users/js/prefs.js
+		// ciniki.users.prefs -> /ciniki-mods/users/ui/prefs.js
 		var src = a;
-		script.src = src.replace(/(.*)\.(.*)\.(.*)/, "/$1-manage/$2/js/$3.js") + "?t=" + t;
+		script.src = src.replace(/(.*)\.(.*)\.(.*)/, "/$1-mods/$2/ui/$3.js") + "?t=" + t;
+		console.log(func);
 		// script.src = '/mossi/js/' + a + '.js?t=' + t;
 
 		//

@@ -86,7 +86,7 @@ function ciniki_core_menu() {
 				}
 				this.businesses.addLeftButton('logout', 'Logout', 'M.logout();');
 				if( M.userID > 0 && (M.userPerms&0x01) == 0x01 ) {
-					this.businesses.addLeftButton('bigboard', 'bigboard', 'M.startApp(\'ciniki.monitoring.bigboard\',null,\'M.menuHome.show();\');');
+					this.businesses.addLeftButton('bigboard', 'bigboard', 'M.startApp(\'ciniki.sysadmin.bigboard\',null,\'M.menuHome.show();\');');
 				}
 
 				M.menuHome = this.businesses;

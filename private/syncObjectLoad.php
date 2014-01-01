@@ -12,7 +12,7 @@ function ciniki_core_syncObjectLoad(&$ciniki, &$sync, $business_id, $object_ref,
 	// Load the objects file
 	//
 	$obj = preg_split('/\./', $object_ref);
-	$objects_filename = $ciniki['config']['ciniki.core']['root_dir'] . '/' . $obj[0] . '-api/' . $obj[1] . '/sync/objects.php';
+	$objects_filename = $ciniki['config']['ciniki.core']['root_dir'] . '/' . $obj[0] . '-mods/' . $obj[1] . '/sync/objects.php';
 	if( file_exists($objects_filename) ) {
 		require_once($objects_filename);
 		$object_function = $obj[0] . '_' . $obj[1] . '_sync_objects';

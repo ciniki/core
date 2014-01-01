@@ -13,7 +13,7 @@ function ciniki_core_syncObjectFunction(&$ciniki, &$sync, $business_id, $method,
 	//
 	// Check for custom sync function (get, list, lookup, update, delete, push)
 	//
-	$method_filename = $ciniki['config']['ciniki.core']['root_dir'] . preg_replace('/^(.*)\.(.*)\.(.*)\.(.*)$/','/\1-api/\2/sync/\3_\4.php', $method);
+	$method_filename = $ciniki['config']['ciniki.core']['root_dir'] . preg_replace('/^(.*)\.(.*)\.(.*)\.(.*)$/','/\1-mods/\2/sync/\3_\4.php', $method);
 	$method_function = preg_replace('/^(.*)\.(.*)\.(.*)\.(.*)$/','\1_\2_\3_\4', $method);
 	if( file_exists($method_filename) ) {
 		require_once($method_filename);

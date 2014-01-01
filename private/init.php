@@ -29,7 +29,7 @@ function ciniki_core_init($ciniki_root, $output_format) {
 	//
 	// Load the config
 	//
-	require_once($ciniki_root . '/ciniki-api/core/private/loadCinikiConfig.php');
+	require_once($ciniki_root . '/ciniki-mods/core/private/loadCinikiConfig.php');
 	if( ciniki_core_loadCinikiConfig($ciniki, $ciniki_root) == false ) {
 		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'9', 'msg'=>'Internal configuration error'));
 	}

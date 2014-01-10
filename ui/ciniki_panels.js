@@ -4537,6 +4537,9 @@ M.panel.prototype.switchForm = function(form, fv) {
 	var org_data = {};
 	for(i in this.sections) {
 		var s = this.sections[i];
+		if( s.active != null && s.active == 'no' ) {
+			continue;
+		}
 		for(var j in s.fields) {
 			if( s.type == 'gridform' ) {
 				for(k in s.fields[j]) {

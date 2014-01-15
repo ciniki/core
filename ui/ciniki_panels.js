@@ -753,8 +753,10 @@ M.panel.prototype.liveSearchSection = function(s, i, inputElement, event) {
 		this.liveSearchSubmitFn(s, inputElement.value);
 	}
 
+//	if( (inputElement.value == '' && ((i != null && (sc.fields[i] != null && sc.fields[i].livesearchempty != null && sc.fields[i].livesearchempty == 'yes'))
+//			|| (i == null && sc.livesearchempty != null && sc.livesearchempty == 'yes')) )
 	if( (inputElement.value == '' && ((i != null && (sc.fields[i] != null && sc.fields[i].livesearchempty != null && sc.fields[i].livesearchempty == 'yes'))
-			|| (i == null && sc.livesearchempty != null && sc.livesearchempty == 'yes')) )
+			|| (sc.livesearchempty != null && sc.livesearchempty == 'yes')) )
 		|| (inputElement.value != '' && (
 			this.lastSearches[s] == ''
 			|| this.lastSearches[s] == null
@@ -1441,7 +1443,7 @@ M.panel.prototype.createSectionGrid = function(s) {
 			rcl = ' ' + this.rowClass(s, i, data[i]);
 			tr.className = rcl;
 		}
-	
+
 		for(var j=0;j<num_cols;j++) {
 			var cl = null;
 			if( this.cellClass != null ) { cl = this.cellClass(s, i, j, data[i]); }

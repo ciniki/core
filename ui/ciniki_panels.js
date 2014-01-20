@@ -2660,7 +2660,11 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
 		c.appendChild(div)
 	}
 	else if( field.type == 'multitoggle' || field.type == 'toggle' ) {
-		c.className = 'multitoggle';
+		if( field.join != null && field.join == 'no' ) {
+			c.className = 'multiselect';
+		} else {
+			c.className = 'multitoggle';
+		}
 		var div = M.aE('div', this.panelUID + '_' + fid + sFN);
 		var v = this.fieldValue(s, i, field, mN);
 		if( v == '' && field.default != null && field.default != '' ) {

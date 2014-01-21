@@ -4734,7 +4734,10 @@ M.panel.prototype.uploadDropImagesNext = function() {
 		return true;
 	}
 	// Upload next image
-	var rsp = M.api.postJSONFile('ciniki.images.add', 
+	if( p.addDropImageAPI == null ) {
+		p.addDropImageAPI = 'ciniki.images.add';
+	}
+	var rsp = M.api.postJSONFile(p.addDropImageAPI, 
 		{'business_id':M.curBusinessID}, 
 		p._uploadFiles[p._uploadCurrent],  // File
 		function(rsp) {

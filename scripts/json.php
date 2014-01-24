@@ -8,6 +8,7 @@
 //
 // Initialize Ciniki by including the ciniki_api.php
 //
+$start_time = microtime(true);
 global $ciniki_root;
 $ciniki_root = dirname(__FILE__);
 if( !file_exists($ciniki_root . '/ciniki-api.ini') ) {
@@ -114,6 +115,11 @@ if( (isset($ciniki['syncqueue']) && count($ciniki['syncqueue']) > 0)
 if( $rc['stat'] == 'fail' ) {
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbLogError');
 	ciniki_core_dbLogError($ciniki, $rc['err']);
+}
+if( isset($ciniki['config']['ciniki.core']['microtime']) 
+	&& $ciniki['config']['ciniki.core']['microtime'] == 'yes') {
+	$end_time = microtime(true);
+	error_log("PROF: microtime $end_time - $start_time = " . ($end_time - $start_time));
 }
 
 exit;

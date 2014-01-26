@@ -1634,7 +1634,7 @@ M.panel.prototype.createSectionGrid = function(s) {
 		tf.appendChild(tr);
 	}
 
-	if( sc.addFn != null && sc.addFn != '' ) {
+	if( sc.addFn != null && sc.addFn != '' && sc.addTxt != null && sc.addTxt != '' ) {
 		var tr = M.aE('tr');
 		var td = M.aE('td', null, 'addlink aligncenter', sc.addTxt);
 		if( M.size == 'compact' && sc.compact_split_at != null ) {

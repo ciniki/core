@@ -18,6 +18,7 @@ function ciniki_core_loadMethod($ciniki, $package, $module, $type, $name) {
 	}
 
 	require_once($ciniki['config']['ciniki.core']['root_dir'] . '/' . $package . '-mods/' . $module . '/' . $type . '/' . $name . '.php');
-	return array('stat'=>'ok');
+
+	return array('stat'=>'ok', 'function_call'=>$package . '_' . $module . '_' . $type . '_' . $name);
 }
 ?>

@@ -100,6 +100,8 @@ function ciniki_core_prepareArgs(&$ciniki, $quote_flag, $arg_info) {
 					list($object, $object_id) = explode(':', $i);
 					$args[$arg][] = array('object'=>$object, 'id'=>$object_id);
 				}
+			} elseif( isset($options['type']) && $options['type'] == 'json' ) {
+				$args[$arg] = json_decode($ciniki['request']['args'][$arg], true);
 			} elseif( isset($options['type']) && $options['type'] == 'date' && $ciniki['request']['args'][$arg] != '' ) {
 				if( $ciniki['request']['args'][$arg] == 'now' || $ciniki['request']['args'][$arg] == 'today' ) {
 					$args[$arg] = strftime("%Y-%m-%d");

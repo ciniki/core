@@ -1495,7 +1495,7 @@ M.panel.prototype.createSectionGrid = function(s) {
 					if( v == null ) {
 						c.sort_value = '';
 					} else if( (dfields = v.match(/([A-Za-z]+) ([0-9]+),? ([0-9][0-9][0-9][0-9])/)) != null ) {
-						c.sort_value = dfields[3] + '-' + monthMaps[dfields[1].toLowerCase()] + '-' + (dfields[2]<10?'0'+dfields[2]:dfields[2]);
+						c.sort_value = dfields[3] + monthMaps[dfields[1].toLowerCase()] + (dfields[2]<10?'0'+dfields[2]:dfields[2]);
 					} else {
 						c.sort_value = v;
 					}

@@ -1017,7 +1017,7 @@ M.sortGrid = function(tid, col, type, o, save, d) {
 			var svb = tb.children[i+1].children[col].sort_value;
 			if( type == 'date' || type == 'size' || type == 'altnumber' ) {
 				a = sva;
-				b = sva;
+				b = svb;
 			}
 			if( type == 'text' && a == '' && sva != null && sva != '' && sva != undefined) {
 				a = sva;
@@ -1041,7 +1041,7 @@ M.sortGrid = function(tid, col, type, o, save, d) {
 			a = tb.children[i].children[col].innerHTML;
 			b = tb.children[i-1].children[col].innerHTML;
 			var sva = tb.children[i].children[col].sort_value;
-			var svb = tb.children[i+1].children[col].sort_value;
+			var svb = tb.children[i-1].children[col].sort_value;
 			if( type == 'date' ) {
 				a = sva;
 				b = svb;

@@ -1042,7 +1042,7 @@ M.sortGrid = function(tid, col, type, o, save, d) {
 			b = tb.children[i-1].children[col].innerHTML;
 			var sva = tb.children[i].children[col].sort_value;
 			var svb = tb.children[i-1].children[col].sort_value;
-			if( type == 'date' ) {
+			if( type == 'date' || type == 'size' || type == 'altnumber' ) {
 				a = sva;
 				b = svb;
 			}

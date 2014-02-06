@@ -42,7 +42,7 @@ function ciniki_core_init($ciniki_root, $output_format) {
 	//
 	// Initialize the business variable.  This is used to store settings for the business
 	//
-	$ciniki['business'] = array('settings'=>array());
+	$ciniki['business'] = array('settings'=>array(), 'modules'=>array());
 
 	//
 	// Initialize the request variables

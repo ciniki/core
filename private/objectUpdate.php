@@ -117,7 +117,7 @@ function ciniki_core_objectUpdate(&$ciniki, $business_id, $obj_name, $oid, $args
 					'object_field'=>$field,			// The local object table field name of remote ID
 					));
 				if( $rc['stat'] != 'ok' ) {
-					return $rc;
+					return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1547', 'msg'=>'Unable to add reference to ' . $options['ref'], 'err'=>$rc['err']));
 				}
 			}
 		}

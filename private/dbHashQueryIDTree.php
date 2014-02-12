@@ -95,7 +95,26 @@ function ciniki_core_dbHashQueryIDTree($ciniki, $strsql, $module, $tree) {
 							// Field is in integer and should not be mapped
 							$field_id = $field;
 						}
-						$data[$tree[$i]['container']][$row[$tree[$i]['fname']]][$field_id] = $row[$field];
+						//
+						// Check if utc dates should be converted to local timezone
+						//
+						if( isset($tree[$i]['utctotz']) && isset($tree[$i]['utctotz'][$field_id]) ) {
+							if( $row[$field] == '0000-00-00 00:00:00' || $row[$field] == '0000-00-00' ) {
+								$data[$tree[$i]['container']][$num_elements[$i]][$tree[$i]['name']][$field_id] = '';
+							} else {
+								$date = new DateTime($row[$field], new DateTimeZone('UTC'));
+								$date->setTimezone(new DateTimeZone($tree[$i]['utctotz'][$field_id]['timezone']));
+								$data[$tree[$i]['container']][$row[$tree[$i]['fname']]][$field_id] = 
+									$date->format($tree[$i]['utctotz'][$field_id]['format']);
+							}
+						} 
+						
+						//
+						// Normal item, copy the data
+						//
+						else {
+							$data[$tree[$i]['container']][$row[$tree[$i]['fname']]][$field_id] = $row[$field];
+						}
 					}
 					$data = &$data[$tree[$i]['container']][$row[$tree[$i]['fname']]];
 				}

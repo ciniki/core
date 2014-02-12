@@ -35,10 +35,22 @@ function ciniki_core_tagsUpdate(&$ciniki, $module, $object, $business_id, $table
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashIDQuery');
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbDelete');
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbInsert');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbUUID');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'objectLoad');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'makePermalink');
 
 	//
 	// Don't worry about autocommit here, it's taken care of in the calling function
 	//
+
+	//
+	// Load the object definition
+	//
+	$rc = ciniki_core_objectLoad($ciniki, $module . '.' . $object);
+	if( $rc['stat'] != 'ok' ) {
+		return $rc;
+	}
+	$obj = $rc['object'];
 
 	//
 	// Get the existing list of tags for the item
@@ -58,6 +70,8 @@ function ciniki_core_tagsUpdate(&$ciniki, $module, $object, $business_id, $table
 	} else {
 		$dbtags = $rc['tags'];
 	}
+
+
 
 	//
 	// Delete tags no longer used
@@ -95,23 +109,43 @@ function ciniki_core_tagsUpdate(&$ciniki, $module, $object, $business_id, $table
 			//
 			// Get a new UUID
 			//
-			ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbUUID');
 			$rc = ciniki_core_dbUUID($ciniki, $module);
 			if( $rc['stat'] != 'ok' ) {
 				return $rc;
 			}
 			$uuid = $rc['uuid'];
 
-			// 
-			// Setup the SQL statement to insert the new thread
-			//
-			$strsql = "INSERT INTO $table (uuid, business_id, $key_name, tag_type, tag_name, date_added, last_updated) VALUES ("
-				. "'" . ciniki_core_dbQuote($ciniki, $uuid) . "', "
-				. "'" . ciniki_core_dbQuote($ciniki, $business_id) . "', "
-				. "'" . ciniki_core_dbQuote($ciniki, $key_value) . "', "
-				. "'" . ciniki_core_dbQuote($ciniki, $type) . "', "
-				. "'" . ciniki_core_dbQuote($ciniki, $tag) . "', "
-				. "UTC_TIMESTAMP(), UTC_TIMESTAMP())";
+			if( isset($obj['fields']['permalink']) ) {
+				//
+				// Make the permalink
+				//
+				$permalink = ciniki_core_makePermalink($ciniki, $tag);
+
+				// 
+				// Setup the SQL statement to insert the new thread
+				//
+				$strsql = "INSERT INTO $table (uuid, business_id, $key_name, tag_type, tag_name, "
+					. "permalink, date_added, last_updated) VALUES ("
+					. "'" . ciniki_core_dbQuote($ciniki, $uuid) . "', "
+					. "'" . ciniki_core_dbQuote($ciniki, $business_id) . "', "
+					. "'" . ciniki_core_dbQuote($ciniki, $key_value) . "', "
+					. "'" . ciniki_core_dbQuote($ciniki, $type) . "', "
+					. "'" . ciniki_core_dbQuote($ciniki, $tag) . "', "
+					. "'" . ciniki_core_dbQuote($ciniki, $permalink) . "', "
+					. "UTC_TIMESTAMP(), UTC_TIMESTAMP())";
+			} else {
+				// 
+				// Setup the SQL statement to insert the new thread
+				//
+				$strsql = "INSERT INTO $table (uuid, business_id, $key_name, tag_type, tag_name, "
+					. "date_added, last_updated) VALUES ("
+					. "'" . ciniki_core_dbQuote($ciniki, $uuid) . "', "
+					. "'" . ciniki_core_dbQuote($ciniki, $business_id) . "', "
+					. "'" . ciniki_core_dbQuote($ciniki, $key_value) . "', "
+					. "'" . ciniki_core_dbQuote($ciniki, $type) . "', "
+					. "'" . ciniki_core_dbQuote($ciniki, $tag) . "', "
+					. "UTC_TIMESTAMP(), UTC_TIMESTAMP())";
+			}
 			$rc = ciniki_core_dbInsert($ciniki, $strsql, $module);
 			// 
 			// Only return the error if it was not a duplicate key problem.  Duplicate key error

@@ -24,15 +24,14 @@
 // -------
 // <rsp stat="ok" />
 //
-function ciniki_core_tagsList($ciniki, $module, $business_id, $main_table, $main_key_name, $table, $key_name, $type) {
+function ciniki_core_tagsList($ciniki, $module, $business_id, $table, $type) {
 
 	// Required functions
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQuote');
 
 	$strsql = "SELECT DISTINCT CONCAT_WS('-', tag_type, tag_name) AS fname, tag_type, tag_name "
-		. "FROM $main_table, $table "
-		. "WHERE $table.$key_name = $main_table.$main_key_name "
-		. "AND $main_table.business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+		. "FROM $table "
+		. "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
 		. "";
 	if( $type > 0 ) {
 		$strsql .= "AND $table.tag_type = '" . ciniki_core_dbQuote($ciniki, $type) . "' ";

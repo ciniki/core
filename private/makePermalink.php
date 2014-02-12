@@ -13,6 +13,6 @@
 // -------
 //
 function ciniki_core_makePermalink($ciniki, $str) {
-	return preg_replace('/ \//', '-', preg_replace('/[^a-z0-9 \-\/]/', '', strtolower($str)));
+	return preg_replace('/[ \/]/', '-', preg_replace('/[^a-z0-9 \-\/]/', '', strtolower($str)));
 }
 ?>

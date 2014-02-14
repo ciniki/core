@@ -2779,14 +2779,22 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
 			f.setAttribute('onclick', this.panelRef + '.setSelectField(this, \'' + i + sFN + '\',\'yes\',null);');
 			div.appendChild(f);
 		}
+		//
+		// Add the add button
+		//
+		var f = M.aE('span', this.panelUID + '_' + fid + sFN + '_addBtn', 'rbutton_off');
+		f.innerHTML = 'a';
+		f.setAttribute('onclick', this.panelRef + '.addSelectField(\''+i+'\',\''+(mN!=null?mN:'')+'\',\''+(field.hint!=null?field.hint:'Add')+'\');');
+		div.appendChild(f);
 		c.appendChild(div);
+
 		// Create a small text field for adding new tags
-		var f = M.aE('input', this.panelUID + '_' + fid + sFN + '_new', 'text');
-		f.setAttribute('name', i + sFN + '_new');
-		if( field.hint != null && field.hint != '' ) {
-			f.setAttribute('placeholder', field.hint);
-		}
-		c.appendChild(f);	
+//		var f = M.aE('input', this.panelUID + '_' + fid + sFN + '_new', 'text');
+//		f.setAttribute('name', i + sFN + '_new');
+//		if( field.hint != null && field.hint != '' ) {
+//			f.setAttribute('placeholder', field.hint);
+//		}
+//		c.appendChild(f);	
 	}
 	else if( field.type == 'image' ) {
 		var d = M.aE('div', this.panelUID + '_' + i + sFN + '_preview', 'image_preview');
@@ -2883,6 +2891,14 @@ M.panel.prototype.setSelectField = function(e, i, noval, fn) {
 	}
 };
 
+// M.panel.prototype.setFieldValue = function(field, v, vnum, hide, nM, action) {
+M.panel.prototype.addSelectField = function(i, nM, txt) {
+	var tag = prompt(((txt!=null&&txt!='')?txt:'Add'));
+	if( tag != null && tag != '' ) {
+		this.setFieldValue(i,tag,0,0,nM,1);
+	}
+};
+
 //
 // This function will set the current form field value to the value
 // that was in the history for the field
@@ -2970,7 +2986,7 @@ M.panel.prototype.setFieldValue = function(field, v, vnum, hide, nM, action) {
 	var f = this.formField(field);
 
 	var sFN = '';
-	if( nM != null ) {
+	if( nM != null && nM != '' ) {
 		sFN = '_'+nM;
 	}
 
@@ -3071,6 +3087,11 @@ M.panel.prototype.setFieldValue = function(field, v, vnum, hide, nM, action) {
 						e.setAttribute('onclick', this.panelRef + '.setSelectField(this, \'' + field + sFN + '\',\'yes\',null);');
 						div.appendChild(e);
 					}
+					// Add the add button
+					var s = M.aE('span', this.panelUID + '_' + field + sFN + '_addBtn', 'rbutton_off');
+					s.innerHTML = 'a';
+					s.setAttribute('onclick', this.panelRef + '.addSelectField(\''+field+'\',\''+(nM!=null?nM:'')+'\',\''+(f.hint!=null?f.hint:'Add')+'\');');
+					div.appendChild(s);
 				}
 			} else if( action == 3 ) {
 				j = f.tags.indexOf(v);
@@ -3120,6 +3141,11 @@ M.panel.prototype.setFieldValue = function(field, v, vnum, hide, nM, action) {
 					s.setAttribute('onclick', this.panelRef + '.setSelectField(this, \'' + field + sFN + '\',\'yes\',null);');
 					div.appendChild(s);
 				}
+				// Add the add button
+				var s = M.aE('span', this.panelUID + '_' + field + sFN + '_addBtn', 'rbutton_off');
+				s.innerHTML = 'a';
+				s.setAttribute('onclick', this.panelRef + '.addSelectField(\''+field+'\',\''+(nM!=null?nM:'')+'\',\''+(f.hint!=null?f.hint:'Add')+'\');');
+				div.appendChild(s);
 			} else {
 				// Toggle existing tags
 				for(j in f.tags) {
@@ -4406,8 +4432,9 @@ M.panel.prototype.formFieldValue = function(f,fid) {
 	} else if( f.type == 'tags' ) {
 		n = '';
 		c = '';
-		var v = M.gE(this.panelUID + '_' + fid + '_new').value;
-		if( v == null ) { v = ''; }
+//		var v = M.gE(this.panelUID + '_' + fid + '_new').value;
+//		if( v == null ) { v = ''; }
+		v = '';
 		for(j in f.tags) {
 			if( v != '' && v < f.tags[j] && v != f.tags[j] ) {
 				n += c + v;

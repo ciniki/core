@@ -14,7 +14,7 @@
 // ---------
 // ciniki:
 //
-function ciniki_core_dbInsertAutoMerge($ciniki, $fields, $record, $prefix, $middle, $suffix, $row) {
+function ciniki_core_dbInsertAutoMerge(&$ciniki, $fields, $record, $prefix, $middle, $suffix, $row) {
 
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashToSQL');
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQuote');

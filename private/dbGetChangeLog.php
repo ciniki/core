@@ -13,7 +13,7 @@
 //					package in dot notation.  Example: ciniki.artcatalog
 //
 //
-function ciniki_core_dbGetChangeLog($ciniki, $business_id, $table_name, $table_key, $table_field, $module) {
+function ciniki_core_dbGetChangeLog(&$ciniki, $business_id, $table_name, $table_key, $table_field, $module) {
 	//
 	// Open a connection to the database if one doesn't exist.  The
 	// dbConnect function will return an open connection if one 

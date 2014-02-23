@@ -18,7 +18,7 @@
 // module:			The name of the module for the transaction, which should include the 
 //					package in dot notation.  Example: ciniki.artcatalog
 //
-function ciniki_core_dbTransactionRollback($ciniki, $module) {
+function ciniki_core_dbTransactionRollback(&$ciniki, $module) {
 
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbConnect');
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQuery');

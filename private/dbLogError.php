@@ -6,7 +6,7 @@
 // Arguments
 // ---------
 //
-function ciniki_core_dbLogError($ciniki, $err) {
+function ciniki_core_dbLogError(&$ciniki, $err) {
 
 	//
 	// Don't log if password passed

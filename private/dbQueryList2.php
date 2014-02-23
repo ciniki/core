@@ -9,7 +9,7 @@
 // Arguments
 // ---------
 //
-function ciniki_core_dbQueryList2($ciniki, $strsql, $module, $container_name) {
+function ciniki_core_dbQueryList2(&$ciniki, $strsql, $module, $container_name) {
 	//
 	// Check connection to database, and open if necessary
 	//

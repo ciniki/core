@@ -15,7 +15,7 @@
 // ciniki:
 // arr:				The array of strings which need to be escaped.
 //
-function ciniki_core_dbQuoteList($ciniki, $arr) {
+function ciniki_core_dbQuoteList(&$ciniki, $arr) {
 
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbConnect');
 

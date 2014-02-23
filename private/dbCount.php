@@ -13,7 +13,7 @@
 //						package in dot notation.  Example: ciniki.artcatalog
 // container_name:		The container name to attach the data when only one row returned.
 //
-function ciniki_core_dbCount($ciniki, $strsql, $module, $container_name) {
+function ciniki_core_dbCount(&$ciniki, $strsql, $module, $container_name) {
 	//
 	// Check connection to database, and open if necessary
 	//

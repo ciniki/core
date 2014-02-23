@@ -17,7 +17,7 @@
 //					eg: "date_added, last_updated) VALUES ("
 // suffix:			The end of the SQL string. eg: "UTC_TIMESTAMP(), UTC_TIMESTAMP())"
 // 
-function ciniki_core_dbHashToSQL($ciniki, $fields, $record, $prefix, $middle, $suffix) {
+function ciniki_core_dbHashToSQL(&$ciniki, $fields, $record, $prefix, $middle, $suffix) {
 
 	//
 	// Loop through the fields given, and add them if there is

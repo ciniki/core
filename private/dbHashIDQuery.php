@@ -25,7 +25,7 @@
 //					when there is only one row returned.
 // col_name:		The column to be used as the row ID within the result.
 //
-function ciniki_core_dbHashIDQuery($ciniki, $strsql, $module, $container_name, $col_name) {
+function ciniki_core_dbHashIDQuery(&$ciniki, $strsql, $module, $container_name, $col_name) {
 	//
 	// Open a connection to the database if one doesn't exist.  The
 	// dbConnect function will return an open connection if one 

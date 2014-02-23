@@ -18,7 +18,7 @@
 // table_field:
 //
 //
-function ciniki_core_dbCopyModuleHistory($ciniki, $module, $history_table, $business_id, $table_name, $old_table_key, $new_table_key, $table_field) {
+function ciniki_core_dbCopyModuleHistory(&$ciniki, $module, $history_table, $business_id, $table_name, $old_table_key, $new_table_key, $table_field) {
 	//
 	// Open a connection to the database if one doesn't exist.  The
 	// dbConnect function will return an open connection if one 

@@ -10,7 +10,7 @@
 // module:				The name of the module for the transaction, which should include the 
 //						package in dot notation.  Example: ciniki.artcatalog
 //
-function ciniki_core_dbUUID($ciniki, $module) {
+function ciniki_core_dbUUID(&$ciniki, $module) {
 	//
 	// Check connection to database, and open if necessary
 	//

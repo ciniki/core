@@ -15,7 +15,7 @@
 // ciniki:
 // arr:			The array of ID's which need to be escaped.
 //
-function ciniki_core_dbQuoteIDs($ciniki, $arr) {
+function ciniki_core_dbQuoteIDs(&$ciniki, $arr) {
 
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbConnect');
 	$rc = ciniki_core_dbConnect($ciniki, 'ciniki.core');

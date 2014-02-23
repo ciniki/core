@@ -18,7 +18,7 @@
 //					when there is only one row returned.
 // colname:			The column from the query to put in the list
 //
-function ciniki_core_dbQueryList($ciniki, $strsql, $module, $container_name, $colname) {
+function ciniki_core_dbQueryList(&$ciniki, $strsql, $module, $container_name, $colname) {
 	//
 	// Open a connection to the database if one doesn't exist.  The
 	// dbConnect function will return an open connection if one 

@@ -15,7 +15,7 @@
 // module:			The name of the module for the transaction, which should include the 
 //					package in dot notation.  Example: ciniki.artcatalog
 //
-function ciniki_core_dbGetModuleHistoryReformat($ciniki, $module, $history_table, $business_id, $table_name, $table_key, $table_field, $format) {
+function ciniki_core_dbGetModuleHistoryReformat(&$ciniki, $module, $history_table, $business_id, $table_name, $table_key, $table_field, $format) {
 	//
 	// Open a connection to the database if one doesn't exist.  The
 	// dbConnect function will return an open connection if one 

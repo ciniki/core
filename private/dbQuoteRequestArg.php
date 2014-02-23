@@ -13,7 +13,7 @@
 // ciniki:
 // arg: 		The argument passed in the request to the API.
 //
-function ciniki_core_dbQuoteRequestArg($ciniki, $arg) {
+function ciniki_core_dbQuoteRequestArg(&$ciniki, $arg) {
 
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbConnect');
 

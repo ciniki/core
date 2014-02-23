@@ -13,7 +13,7 @@
 // ---------
 // ciniki:			
 //
-function ciniki_core_dbDetailsQueryDash($ciniki, $table, $key, $key_value, $module, $container_name, $detail_key) {
+function ciniki_core_dbDetailsQueryDash(&$ciniki, $table, $key, $key_value, $module, $container_name, $detail_key) {
 	//
 	// Open a connection to the database if one doesn't exist.  The
 	// dbConnect function will return an open connection if one 

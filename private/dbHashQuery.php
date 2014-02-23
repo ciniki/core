@@ -17,7 +17,7 @@
 // container_name:	The name of the xml/hash tag to return the data under, 
 //					when there is only one row returned.
 //
-function ciniki_core_dbHashQuery($ciniki, $strsql, $module, $container_name) {
+function ciniki_core_dbHashQuery(&$ciniki, $strsql, $module, $container_name) {
 	//
 	// Open a connection to the database if one doesn't exist.  The
 	// dbConnect function will return an open connection if one 

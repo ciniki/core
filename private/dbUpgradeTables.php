@@ -16,7 +16,7 @@
 //		<table_name name='users' />
 //	</tables>
 //
-function ciniki_core_dbUpgradeTables($ciniki) {
+function ciniki_core_dbUpgradeTables(&$ciniki) {
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbGetTables');
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashIDQuery');
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbUpgradeTable');

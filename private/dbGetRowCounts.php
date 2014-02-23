@@ -8,7 +8,7 @@
 // ciniki:
 // business_id:		The ID of the business to get the table row counts for.
 //
-function ciniki_core_dbGetRowCounts($ciniki, $business_id) {
+function ciniki_core_dbGetRowCounts(&$ciniki, $business_id) {
 
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQuote');
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQuoteList');

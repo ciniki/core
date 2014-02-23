@@ -8,7 +8,7 @@
 // Arguments
 // ---------
 //
-function ciniki_core_dbFixTableHistory($ciniki, $module, $business_id, $table, $history_table, $fields) {
+function ciniki_core_dbFixTableHistory(&$ciniki, $module, $business_id, $table, $history_table, $fields) {
 
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashQuery');
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbInsert');

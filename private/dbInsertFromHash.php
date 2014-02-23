@@ -12,7 +12,7 @@
 // ---------
 // ciniki:
 //
-function ciniki_core_dbInsertFromHash($ciniki, $fields, $record, $prefix, $middle, $suffix) {
+function ciniki_core_dbInsertFromHash(&$ciniki, $fields, $record, $prefix, $middle, $suffix) {
 
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashToSQL');
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQuote');

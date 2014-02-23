@@ -15,7 +15,7 @@
 // module:			The name of the module for the transaction, which should include the 
 //					package in dot notation.  Example: ciniki.artcatalog
 //
-function ciniki_core_dbQuery($ciniki, $strsql, $module) {
+function ciniki_core_dbQuery(&$ciniki, $strsql, $module) {
 	//
 	// Open a connection to the database if one doesn't exist.  The
 	// dbConnect function will return an open connection if one 

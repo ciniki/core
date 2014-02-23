@@ -19,7 +19,7 @@
 // old_version:			The current version of the table within the database.
 // new_version:			The new version of the table to be upgraded to.
 //
-function ciniki_core_dbUpgradeTable($ciniki, $package, $module, $table, $old_version, $new_version) {
+function ciniki_core_dbUpgradeTable(&$ciniki, $package, $module, $table, $old_version, $new_version) {
 
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbConnect');
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbUpdate');

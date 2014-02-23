@@ -23,7 +23,7 @@
 //					when there is only one row returned.
 // col_name:		The column to be used as the row ID within the result.
 //
-function ciniki_core_dbHashQueryIDTree($ciniki, $strsql, $module, $tree) {
+function ciniki_core_dbHashQueryIDTree(&$ciniki, $strsql, $module, $tree) {
 	//
 	// Open a connection to the database if one doesn't exist.  The
 	// dbConnect function will return an open connection if one 

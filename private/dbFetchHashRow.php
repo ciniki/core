@@ -13,7 +13,7 @@
 // ciniki:			
 // handle:			The mysql resource handle to fetch the next row from.
 //
-function ciniki_core_dbFetchHashRow($ciniki, $handle) {
+function ciniki_core_dbFetchHashRow(&$ciniki, $handle) {
 	//
 	// Prepare and Execute Query
 	//

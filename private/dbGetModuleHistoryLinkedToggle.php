@@ -12,7 +12,7 @@
 //					package in dot notation.  Example: ciniki.artcatalog
 //
 //
-function ciniki_core_dbGetModuleHistoryLinkedToggle($ciniki, $module, $history_table, $business_id, 
+function ciniki_core_dbGetModuleHistoryLinkedToggle(&$ciniki, $module, $history_table, $business_id, 
 	$table_name, $table_fielda, $table_fielda_value, $table_fieldb, $table_fieldb_value) {
 	//
 	// Open a connection to the database if one doesn't exist.  The

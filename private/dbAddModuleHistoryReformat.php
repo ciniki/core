@@ -21,7 +21,7 @@
 // table_field:		The field in the table_name that was updated.
 // value:			The new value for the field.
 //
-function ciniki_core_dbAddModuleHistoryReformat($ciniki, $module, $history_table, $business_id, $action, $table_name, $table_key, $table_field, $value, $format) {
+function ciniki_core_dbAddModuleHistoryReformat(&$ciniki, $module, $history_table, $business_id, $action, $table_name, $table_key, $table_field, $value, $format) {
 	//
 	// Open a connection to the database if one doesn't exist.  The
 	// dbConnect function will return an open connection if one 

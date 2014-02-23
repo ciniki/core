@@ -16,7 +16,7 @@
 // row_name:			The row name to attached each row to.
 // no_row_error:		The error code and msg to return when no rows were returned from the query.
 //
-function ciniki_core_dbRspQueryPlusDisplayNames($ciniki, $strsql, $module, $container_name, $row_name, $no_row_error) {
+function ciniki_core_dbRspQueryPlusDisplayNames(&$ciniki, $strsql, $module, $container_name, $row_name, $no_row_error) {
 	//
 	// Check connection to database, and open if necessary
 	//

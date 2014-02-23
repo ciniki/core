@@ -14,7 +14,7 @@
 // id:			The field name that contains the ID value.
 // idvalue:		The value of the ID to match and update.
 //
-function ciniki_core_dbTouch($ciniki, $module, $table, $id, $idvalue) {
+function ciniki_core_dbTouch(&$ciniki, $module, $table, $id, $idvalue) {
 	//
 	// Build the SQL string.  The table and id should be hard coded
 	// into the calling function.  The id value may be passed from 

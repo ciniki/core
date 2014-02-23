@@ -10,7 +10,7 @@
 // module:			The name of the module for the transaction, which should include the 
 //					package in dot notation.  Example: ciniki.artcatalog
 //
-function ciniki_core_dbGetTables($ciniki) {
+function ciniki_core_dbGetTables(&$ciniki) {
 	//
 	// The following array is used but the upgrade process to tell what
 	// tables are required, and their current versions

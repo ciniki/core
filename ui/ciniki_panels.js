@@ -1611,7 +1611,7 @@ M.panel.prototype.createSectionGrid = function(s) {
 		// var t = M.addTable(null, 'list noheader border');
 		// var tb = M.aE('tbody');
 		var nd = this.noData(s);
-		if( nd != '' ) {
+		if( nd != null && nd != '' ) {
 			var tr = M.aE('tr');
 			var td = M.aE('td', null, null, nd);
 			if( M.size == 'compact' && sc.compact_split_at != null ) {

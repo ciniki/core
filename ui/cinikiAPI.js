@@ -577,7 +577,7 @@ M.api.err = function(r) {
 		if( window.innerHeight > c.offsetHeight ) {
 			e.style.height = window.innerHeight + 'px';
 		}
-		window.scrollTo(0);
+		window.scrollTo(0, 0);
 	}
 }
 

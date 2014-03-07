@@ -13,6 +13,9 @@
 // -------
 //
 function ciniki_core_makePermalink($ciniki, $str) {
-	return preg_replace('/[ \/]/', '-', preg_replace('/[^a-z0-9 \-\/]/', '', strtolower($str)));
+	$newstr = preg_replace('/[ \/]/', '-', preg_replace('/[^a-z0-9 \-\/]/', '', strtolower($str)));
+	// Remove multiple replaced characters to a single dash, looks better in url
+	$newstr = preg_replace('/\-\-+/', '-', $newstr);
+	return $newstr;
 }
 ?>

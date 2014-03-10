@@ -68,7 +68,8 @@ if( (isset($ciniki['syncqueue']) && count($ciniki['syncqueue']) > 0)
 	) {
 	if( $rc['stat'] != 'exit' ) {
 		ob_start();
-		if(strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== false) {
+		if(isset($_SERVER['HTTP_ACCEPT_ENCODING']) 
+			&& strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== false) {
 			ob_start("ob_gzhandler"); // Inner buffer when output is apache mod-deflate is enabled
 			ciniki_core_printResponse($ciniki, $rc);
 			ob_end_flush();

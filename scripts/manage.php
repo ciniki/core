@@ -220,6 +220,13 @@ elseif( preg_match('/Opera\/9.*Presto\/2.* Version\/11.*/', $_SERVER['HTTP_USER_
 	$browser = 'opera';
 	$engine = 'presto';
 }
+// Custom App
+elseif( preg_match('/Mozilla\/5.* .* AppleWebKit\/.* CinikiApp\/.*/', $_SERVER['HTTP_USER_AGENT']) == 1 ) {
+	$device = 'generic';
+	$touch = 'no';
+	$browser = 'safari';
+	$engine = 'webkit';
+}
 
 // print '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">';
 print '<!DOCTYPE html>';

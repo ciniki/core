@@ -133,6 +133,15 @@ function ciniki_core_dbHashQueryTree(&$ciniki, $strsql, $module, $tree) {
 						elseif( $field == 'age' || substr($field, 0, 4) == 'age_' ) {
 							$data[$tree[$i]['container']][$num_elements[$i]][$tree[$i]['name']][$field_id] = ciniki_core_dbParseAge($ciniki, $row[$field]);
 						}
+						elseif( isset($tree[$i]['flags']) && isset($tree[$i]['flags'][$field_id]) ) {
+							$text = '';
+							foreach($tree[$i]['flags'][$field_id] as $bitmask => $flagtext) {
+								if( ($row[$field]&$bitmask) == $bitmask ) {
+									$text .= ($text!=''?', ':'') . $flagtext;
+								}
+							}
+							$data[$tree[$i]['container']][$num_elements[$i]][$tree[$i]['name']][$field_id] = $text;
+						}
 						
 						// Normal item
 						else {

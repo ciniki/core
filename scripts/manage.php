@@ -200,7 +200,7 @@ elseif( preg_match('/Mozilla\/5.*Gecko\/.* Epiphany\/2.*/', $_SERVER['HTTP_USER_
 	$engine = 'gecko';
 }
 // Safari
-elseif( preg_match('/Mozilla\/5.* AppleWebKit\/.* Version\/[5|6].* Safari\/.*/', $_SERVER['HTTP_USER_AGENT']) == 1 ) {
+elseif( preg_match('/Mozilla\/5.* AppleWebKit\/.* Version\/[5|6|7|8].* Safari\/.*/', $_SERVER['HTTP_USER_AGENT']) == 1 ) {
 	$device = 'generic';
 	$touch = 'no';
 	$browser = 'safari';

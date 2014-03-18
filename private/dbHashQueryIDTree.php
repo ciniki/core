@@ -96,9 +96,29 @@ function ciniki_core_dbHashQueryIDTree(&$ciniki, $strsql, $module, $tree) {
 							$field_id = $field;
 						}
 						//
+						// Items that are mapped to another value
+						//
+						if( isset($tree[$i]['maps']) && isset($tree[$i]['maps'][$field]) ) {
+							//
+							// Check if the value is specified in the mapped array for this field
+							// If no mapped value specified, check for blank index
+							// Last resort, set it to current value
+							//
+							if( isset($tree[$i]['maps'][$field][$row[$field]]) ) {
+//								$data[$tree[$i]['container']][$num_elements[$i]][$tree[$i]['name']][$field_id] = $tree[$i]['maps'][$field][$row[$field]];
+								$data[$tree[$i]['container']][$row[$tree[$i]['fname']]][$field_id] = $tree[$i]['maps'][$field][$row[$field]];
+							} elseif( isset($tree[$i]['maps'][$field]['']) ) {
+//								$data[$tree[$i]['container']][$num_elements[$i]][$tree[$i]['name']][$field_id] = $tree[$i]['maps'][$field][''];
+								$data[$tree[$i]['container']][$row[$tree[$i]['fname']]][$field_id] = $tree[$i]['maps'][$field][''];
+							} else {
+								$data[$tree[$i]['container']][$row[$tree[$i]['fname']]][$field_id] = $row[$field];
+//								$data[$tree[$i]['container']][$num_elements[$i]][$tree[$i]['name']][$field_id] = $row[$field];
+							}
+						} 
+						//
 						// Check if utc dates should be converted to local timezone
 						//
-						if( isset($tree[$i]['utctotz']) && isset($tree[$i]['utctotz'][$field_id]) ) {
+						elseif( isset($tree[$i]['utctotz']) && isset($tree[$i]['utctotz'][$field_id]) ) {
 							if( $row[$field] == '0000-00-00 00:00:00' || $row[$field] == '0000-00-00' ) {
 								$data[$tree[$i]['container']][$num_elements[$i]][$tree[$i]['name']][$field_id] = '';
 							} else {
@@ -108,7 +128,7 @@ function ciniki_core_dbHashQueryIDTree(&$ciniki, $strsql, $module, $tree) {
 									$date->format($tree[$i]['utctotz'][$field_id]['format']);
 							}
 						} 
-						
+
 						//
 						// Normal item, copy the data
 						//
@@ -116,7 +136,7 @@ function ciniki_core_dbHashQueryIDTree(&$ciniki, $strsql, $module, $tree) {
 							$data[$tree[$i]['container']][$row[$tree[$i]['fname']]][$field_id] = $row[$field];
 						}
 					}
-					$data = &$data[$tree[$i]['container']][$row[$tree[$i]['fname']]];
+//					$data = &$data[$tree[$i]['container']][$row[$tree[$i]['fname']]];
 				}
 			}
 			else {
@@ -134,8 +154,45 @@ function ciniki_core_dbHashQueryIDTree(&$ciniki, $strsql, $module, $tree) {
 //						}
 //					}
 //				}
-				$data = &$data[$tree[$i]['container']][$row[$tree[$i]['fname']]];
+
+//				$data = &$data[$tree[$i]['container']][$row[$tree[$i]['fname']]];
 			}
+
+
+			//
+			// Check for subcontainers
+			//
+			if( isset($tree[$i]['containers']) ) {
+				foreach($tree[$i]['containers'] as $cname => $container) {
+					//
+					// Check container exists
+					//
+					if( !isset($data[$tree[$i]['container']][$row[$tree[$i]['fname']]][$cname]) ) {
+						$data[$tree[$i]['container']][$row[$tree[$i]['fname']]][$cname] = array();
+					}
+					
+					// 
+					// Check key does not exist
+					//
+					$c_key = $container['fname'];
+					if( !is_null($row[$c_key])
+						&& !isset($data[$tree[$i]['container']][$row[$tree[$i]['fname']]][$cname][$row[$c_key]]) ) {
+						$s_data = array();
+						foreach($container['fields'] as $s_field_id => $s_field) {
+							if( !is_string($s_field_id) && is_int($s_field_id) ) {
+								// Field is in integer and should not be mapped
+								$s_field_id = $s_field;
+							}
+							
+							$s_data[$s_field_id] = $row[$s_field];
+						}
+						$data[$tree[$i]['container']][$row[$tree[$i]['fname']]][$cname][$row[$c_key]] = $s_data;
+					}
+				}
+			}
+
+			$data = &$data[$tree[$i]['container']][$row[$tree[$i]['fname']]];
+
 			$prev[$i] = $row[$tree[$i]['fname']];
 		}
 	}

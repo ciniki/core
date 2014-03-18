@@ -232,6 +232,7 @@ function ciniki_core_dbHashQueryTree(&$ciniki, $strsql, $module, $tree) {
 						}
 					}
 				}
+
 				//
 				// Check for fields to be flattened out into a single item from multirow results
 				//

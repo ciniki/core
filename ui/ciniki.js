@@ -310,6 +310,7 @@ M.auth = function(t) {
 	if( t != null ) {
 		M.api.token = t;
 //		var c = 'auth_token=' + encodeURIComponent(t);
+		var c= '';
 		M.username = '';
 	} else {
 		M.username = M.gE('username').value;

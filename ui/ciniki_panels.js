@@ -2297,7 +2297,8 @@ M.panel.prototype.createFormFields = function(s, nF, fI, fields, mN) {
 				}
 			}
 			var f = null;
-			if( this.uploadImage != null || (this.addDropImage != null && fields[i].controls == 'all') ) {
+			if( this.uploadImage != null || ((this.addDropImage != null || fields[i].addDropImage != null) && fields[i].controls == 'all') ) {
+				
 				// 
 				// Show upload button, which will reveal a file upload form field
 				//
@@ -2307,7 +2308,6 @@ M.panel.prototype.createFormFields = function(s, nF, fI, fields, mN) {
 					var btn = M.aE('span', null, 'toggle_off', 'Add Photo');
 				}
 				btn.setAttribute('onclick', this.panelRef + '.uploadFile(\'' + i + '\');');
-				// btn.setAttribute('onclick', '(' + this.panelUID + '_' + i + '_upload).click();');
 				btns.appendChild(btn);
 				//
 				// Create the form upload field, but hide it
@@ -2324,7 +2324,11 @@ M.panel.prototype.createFormFields = function(s, nF, fI, fields, mN) {
 			}
 			if( img_id > 0 ) {
 				// Show delete button
-				if( this.deleteImage != null ) {
+				if( fields[i].deleteImage != null ) {
+					var btn = M.aE('span', null, 'toggle_off', 'Delete');
+					btn.setAttribute('onclick', fields[i].deleteImage + '(\'' + i + '\');');
+					btns.appendChild(btn);
+				} else if( this.deleteImage != null ) {
 					var btn = M.aE('span', null, 'toggle_off', 'Delete');
 					btn.setAttribute('onclick', this.panelRef + '.deleteImage(\'' + i + '\');');
 					btns.appendChild(btn);
@@ -4727,22 +4731,42 @@ M.panel.prototype.reset = function() {
 //
 // Handle drag/drop images into simplethumbs gallery
 //
-M.panel.prototype.uploadDropImages = function(e, p) {
+M.panel.prototype.uploadDropImages = function(e, p, s) {
 	if( p == null ) {
 		p = this;
 	}
+
 	M.startLoad();
 
 	//
 	// Check for external files dropped
 	//
 	var files = null;
+	p._uploadAddDropImage = null;
+	p._uploadAddDropImageRefresh = null;
 	if( typeof(e) == 'string' ) {
+		// Add Photo button used
 		var f = M.gE(this.panelUID + '_' + e + '_upload');
 		files = f.files;
+		var field = p.formField(e);
+		if( field != null ) {
+			if( field.addDropImage != null ) {
+				p._uploadAddDropImage = field.addDropImage;
+			}
+		}
 	} else if( e.dataTransfer != null ) {
+		// Photos dropped on browser
 		e.stopPropagation();
 		files = e.dataTransfer.files;
+		// If a section is specified, see if there is a specific addDropImage funciton
+		// This allows for multiple sections to accept dropped images
+		if( s != null && p.sections[s] != null ) {
+			for(i in p.sections[s].fields) {
+				if( p.sections[s].fields[i].addDropImage != null ) {
+					p._uploadAddDropImage = p.sections[s].fields[i].addDropImage;
+				}
+			}
+		}
 	}
 
 	// Build the list of files to be uploaded.
@@ -4775,7 +4799,9 @@ M.panel.prototype.uploadDropImagesNext = function() {
 		p._uploadCurrent = 0;
 		p._uploadCount = 0;
 		p._uploadFiles = [];
-		if( p.addDropImageRefresh != null ) {
+		if( p._uploadAddDropImageRefresh != null ) {
+			p._uploadAddDropImageRefresh();
+		} else if( p.addDropImageRefresh != null ) {
 			p.addDropImageRefresh();
 		}
 		return true;
@@ -4792,12 +4818,17 @@ M.panel.prototype.uploadDropImagesNext = function() {
 				M.stopLoad();
 				M.api.err(rsp);
 				return false;
-			} else {
-				if( !p.addDropImage(rsp.id) ) {
+			} // else {
+			if( p._uploadAddDropImage != null ) {
+				if( !p._uploadAddDropImage(rsp.id) ) {
 					M.stopLoad();
 					return false;
 				}
+			} else if( !p.addDropImage(rsp.id) ) {
+				M.stopLoad();
+				return false;
 			}
+//			}
 			p._uploadCurrent++;
 			p.uploadDropImagesNext();
 		});
@@ -4806,11 +4837,11 @@ M.panel.prototype.uploadDropImagesNext = function() {
 		M.stopLoad();
 		return false;
 	}
-	if( rsp.stat != 'ok' ) {
-		M.stopLoad();
-		M.api.err(rsp);
-		return false;
-	}
+//	if( rsp.stat != 'ok' ) {
+//		M.stopLoad();
+//		M.api.err(rsp);
+//		return false;
+//	}
 };
 
 M.panel.prototype.rotateImg = function(fid) {

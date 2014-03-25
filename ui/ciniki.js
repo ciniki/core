@@ -596,7 +596,17 @@ M.dropHandler = function(e) {
 		var p = eval(pRef);
 		// Make sure panel and app are displayed, which means top panel that was dropped onto
 		if( M.gE(p.panelUID).style.display == 'block' && M.gE(p.panelUID).parentNode.style.display == 'block' ) {
-			eval('' + M.dropHooks[pRef](e, p));
+			s = null;
+			// Find the section it was dropped into
+			var parent = e.toElement.parentElement;
+			var ps = p.panelUID + '_section_';
+			while(parent != null && parent.localName != 'form' && parent.localName != 'body') {
+				if( parent.id.substr(0, ps.length) == ps ) {
+					s = parent.id.substr(ps.length);
+				}
+				parent = parent.parentElement;
+			}
+			eval('' + M.dropHooks[pRef](e, p, s));
 		}
 	}
 }
@@ -1385,4 +1395,8 @@ M.formatAddress = function(addr) {
 		a += addr.country + '<br/>';
 	}
 	return a;
+}
+
+M.formatHtml = function(c) {
+	return c.replace(/\n/, '<br/>');
 }

@@ -353,6 +353,7 @@ M.panel.prototype.createSections = function() {
 // Default section label, can be overriden in panel
 //
 M.panel.prototype.sectionLabel = function(i, s) {
+	if( s.hidelabel != null && s.hidelabel == 'yes' ) { return null; }
 	return s.label;
 };
 

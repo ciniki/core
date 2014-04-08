@@ -544,7 +544,10 @@ M.api.postFormData = function(m, p, f, c) {
 		else if( x.readyState > 2 && (x.status >= 300) ) {
 			M.stopLoad();
 			c({'stat':'fail','err':{'code':'HTTP-' + x.status, 'msg':'Unable to transfer.'}});
-		} 
+		} else if( x.readyState == 4 && x.status == 0 ) {
+			M.stopLoad();
+			c({'stat':'fail','err':{'code':'HTTP-' + x.status, 'msg':'Unable to transfer.'}});
+		}
 	};
 	x.send(f);
 }

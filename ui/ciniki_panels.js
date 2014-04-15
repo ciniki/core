@@ -2646,6 +2646,8 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
 		var div = M.aE('div', this.panelUID + '_' + fid + sFN);
 		var v = this.fieldValue(s, fid, field, mN);
 		for(j in field.flags) {
+			if( field.flags[j] == null ) { continue; }
+			if( field.flags[j].active != null && field.flags[j].active == 'no' ) { continue; }
 			var f = M.aE('span', this.panelUID + '_' + fid + sFN + '_' + j);
 			f.setAttribute('onfocus', this.panelRef + '.clearLiveSearches(\''+s+'\',\''+i+sFN+'\');');
 			var bit_value = (v&Math.pow(2,j-1))==Math.pow(2,j-1)?1:0;
@@ -3009,6 +3011,8 @@ M.panel.prototype.setFieldValue = function(field, v, vnum, hide, nM, action) {
 	} else if( f.type == 'flags' ) {
 		if( typeof v == 'string' ) { v = parseInt(v, 10); }
 		for(j in f.flags) {
+			if( f.flags[j] == null ) { continue; }
+			if( f.flags[j].active != null && f.flags[j].active == 'no' ) { continue; }
 			var e = M.gE(this.panelUID + '_' + field + sFN + '_' + j);
 			if( (v&Math.pow(2, j-1)) == Math.pow(2,j-1) ) {
 				// Turn off all other options
@@ -4414,6 +4418,8 @@ M.panel.prototype.formFieldValue = function(f,fid) {
 	} else if( f.type == 'flags' ) {
 		n = 0;
 		for(j in f.flags) {
+			if( f.flags[j] == null ) { continue; }
+			if( f.flags[j].active != null && f.flags[j].active == 'no' ) { continue; }
 			if( M.gE(this.panelUID + '_' + fid + '_' + j).className == 'flag_on' ) {
 				n |= Math.pow(2, j-1);
 			}

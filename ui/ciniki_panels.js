@@ -316,10 +316,12 @@ M.panel.prototype.createSections = function() {
 				}
 			}
 		}
-		var ps = M.aE('div', this.panelUID + '_formtabs', 'panelsection formtabs');
-		st = this.createFormTabs(this.formtabs, this.formtab, fv);
-		ps.appendChild(st);
-		f.appendChild(ps);
+		if( this.formtabs.visible == null || this.formtabs.visible == 'yes' ) {
+			var ps = M.aE('div', this.panelUID + '_formtabs', 'panelsection formtabs');
+			st = this.createFormTabs(this.formtabs, this.formtab, fv);
+			ps.appendChild(st);
+			f.appendChild(ps);
+		}
 
 		//
 		// Check which form should be shown
@@ -2083,6 +2085,7 @@ M.panel.prototype.createPanelTabs = function(s, sc) {
 	var c = M.aE('td',null,'textfield aligncenter');
 	var div = M.aE('div', null, 'buttons');
 	for(i in sc.tabs) {
+		if( sc.tabs[i].visible != null && sc.tabs[i].visible == 'no' ) { continue; }
 		var e= null;
 		if( i == sc.selected ) {
 			e = M.aE('span', null, 'toggle_on', sc.tabs[i].label);
@@ -2144,6 +2147,7 @@ M.panel.prototype.createFormTabs = function(sc, ft, fv) {
 	var c = M.aE('td',null,'textfield aligncenter');
 	var div = M.aE('div', null, 'buttons');
 	for(i in sc.tabs) {
+		if( sc.tabs[i].visible != null && sc.tabs[i].visible == 'no' ) { continue; }
 		var e= null;
 		if( (sc.tabs[i].form == null && i == ft) || (sc.tabs[i].form != null && sc.tabs[i].field_id == fv) ) {
 			e = M.aE('span', null, 'toggle_on', sc.tabs[i].label);

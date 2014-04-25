@@ -31,6 +31,7 @@ M.panel = function(title, appID, panelID, appPrefix, size, type, helpUID) {
 	this.cbStack = [];
 	this.cbStacked = 'no';
 	this.liveSearchTables = [];
+	this.autofocus = '';
 
 	//
 	// Attach functions from other files.  These are typically located in s-compact and s-normal,
@@ -204,6 +205,11 @@ M.panel.prototype.show = function(cb) {
 			}
 		}
 	}
+
+	if( this.autofocus != '' ) {
+		var e = M.gE(this.autofocus);
+		e.focus();
+	}
 };
 
 //
@@ -376,8 +382,12 @@ M.panel.prototype.createSection = function(i, s) {
 		
 	var type = this.sectionType(i, s);
 	
-	if( s.aside != null && s.aside == 'yes' ) {
-		var f = M.aE('div', this.panelUID + '_section_' + i, 'panelsection aside');
+	if( s.aside != null ) {
+		if( s.aside == 'yes' || s.aside == 'right' ) {
+			var f = M.aE('div', this.panelUID + '_section_' + i, 'panelsection aside');
+		} else {
+			var f = M.aE('div', this.panelUID + '_section_' + i, 'panelsection asideleft');
+		}
 	} else if( s.aside != null && s.aside == 'fullwidth' ) {
 		var f = M.aE('div', this.panelUID + '_section_' + i, 'panelsection fullwidth');
 	} else if( type == 'paneltabs' ) {
@@ -2470,6 +2480,10 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
 		|| field.type == 'date' ) {
 		var f = M.aE('input', this.panelUID + '_' + i + sFN, field.type);
 		f.setAttribute('name', i);
+		if( field.autofocus != null && field.autofocus == 'yes' ) {
+//			f.setAttribute('autofocus', '');
+			this.autofocus = this.panelUID + '_' + i + sFN;
+		}
 		f.setAttribute('onfocus', this.panelRef + '.clearLiveSearches(\''+s+'\',\''+i+sFN+'\');');
 		if( field.type == 'date' || field.type == 'integer' ) {
 			f.setAttribute('type', 'text');

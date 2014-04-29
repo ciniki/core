@@ -71,6 +71,5 @@ function ciniki_core_threadNotifyUsers(&$ciniki, $module, $table, $prefix, $id, 
 	}
 
 	return array('stat'=>'ok');
-
 }
 ?>

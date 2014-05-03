@@ -343,7 +343,7 @@ M.api.getCb = function(m, p, c) {
 	M.startLoad();
 	var u = M.api.url + '?method=' + m + '&api_key=' + M.api.key + '&auth_token=' + M.api.token;
 	for(k in p) {
-		u += '&' + k + '=' + p[k];
+		u += '&' + k + '=' + encodeURIComponent(p[k]);
 	}
 	M.api.lastCall = {'f':'getCb', 'm':m, 'p':p, 'c':'', 'cb':c};
 	var x = M.xmlHttpCreate();

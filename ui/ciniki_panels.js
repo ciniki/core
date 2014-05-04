@@ -165,7 +165,7 @@ M.panel.prototype.show = function(cb) {
 
 		// Check if help needs to be updated
 		if( M.gE('m_help').style.display != 'none') {
-			M.ciniki_help_main.showHelp(this.helpUID);
+			M.ciniki_core_help.showHelp(this.helpUID);
 		}
 	}
 	M.resize();

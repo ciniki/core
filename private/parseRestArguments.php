@@ -31,6 +31,8 @@ function ciniki_core_parseRestArguments(&$ciniki) {
 	if( isset($_GET) && is_array($_GET) ) {
 		foreach($_GET as $arg_key => $arg_value) {
 			// Check for the required keys
+			$arg_key = urldecode($arg_key);
+			$arg_value = urldecode($arg_value);
 			if( in_array($arg_key, $request_keys) ) {
 				$ciniki['request'][$arg_key] = $arg_value;
 			} elseif( in_array($arg_key, $response_keys) ) {

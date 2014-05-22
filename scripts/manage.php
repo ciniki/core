@@ -590,9 +590,9 @@ Javscript must be enabled for this application to work.
 	</div></div>
 </div>
 <?php if( $start_container == 'm_container' ) { ?>
-<div id="m_container" class="s-<?php echo $size;?>">
+<div id="m_container" class="s-<?php echo $size;?> help-off">
 <?php } else { ?>
-<div id="m_container" class="s-<?php echo $size;?>" style="display:none;">
+<div id="m_container" class="s-<?php echo $size;?> help-off" style="display:none;">
 <?php } ?>
 	<table id="mc_header" class="headerbar" cellspacing="0" cellpadding="0">
 		<tr>

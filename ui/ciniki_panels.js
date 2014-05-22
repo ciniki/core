@@ -169,6 +169,7 @@ M.panel.prototype.show = function(cb) {
 		}
 	}
 	M.resize();
+
 	//
 	// Align sections
 	//

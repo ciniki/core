@@ -35,7 +35,9 @@ M.toggleHelp = function(helpUID) {
 	//
 	// Check if help is loaded
 	// 
+	var mc = M.gE('m_container'); 
 	if( helpUID == null || (M.ciniki_core_help != null && document.getElementById('m_help').style.display != 'none' && M.ciniki_core_help.curHelpUID == helpUID) ) {
+		mc.className = mc.className.replace(/help-on/, 'help-off');
 		M.ciniki_core_help.close();
 		M.hide('m_help');
 		M.setWidth('m_container', '100%');
@@ -43,6 +45,7 @@ M.toggleHelp = function(helpUID) {
 		M.show('m_container');
 	} else {
 		// M.curHelpUID = helpUID;
+		mc.className = mc.className.replace(/help-off/, 'help-on');
 		M.startApp('ciniki.core.help', null, null, 'mh', {'helpUID':helpUID});
 		if( window.innerWidth < 800 ) {
 			M.hide('m_container');

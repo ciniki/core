@@ -4803,6 +4803,7 @@ M.panel.prototype.uploadDropImages = function(e, p, s) {
 		for(i in files) {
 			if( files[i].type == null ) { continue; }
 			if( files[i].type != 'image/jpeg' 
+				&& files[i].type != 'image/png'
 				) {
 				alert("I'm sorry, we only allow jpeg images to be uploaded.");
 				M.stopLoad();

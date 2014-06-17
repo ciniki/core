@@ -120,7 +120,7 @@ function ciniki_core_dbHashQueryIDTree(&$ciniki, $strsql, $module, $tree) {
 						//
 						elseif( isset($tree[$i]['utctotz']) && isset($tree[$i]['utctotz'][$field_id]) ) {
 							if( $row[$field] == '0000-00-00 00:00:00' || $row[$field] == '0000-00-00' ) {
-								$data[$tree[$i]['container']][$num_elements[$i]][$tree[$i]['name']][$field_id] = '';
+								$data[$tree[$i]['container']][$row[$tree[$i]['fname']]][$field_id] = '';
 							} else {
 								$date = new DateTime($row[$field], new DateTimeZone('UTC'));
 								$date->setTimezone(new DateTimeZone($tree[$i]['utctotz'][$field_id]['timezone']));

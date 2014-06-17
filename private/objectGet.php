@@ -34,16 +34,29 @@ function ciniki_core_objectGet(&$ciniki, $business_id, $obj_name, $oid) {
 	$o = $rc['object'];
 	$m = "$pkg.$mod";
 
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'businesses', 'private', 'intlSettings');
+	$rc = ciniki_businesses_intlSettings($ciniki, $business_id);
+	if( $rc['stat'] != 'ok' ) {
+		return $rc;
+	}
+	$intl_timezone = $rc['settings']['intl-default-timezone'];
+//	$intl_currency_fmt = numfmt_create($rc['settings']['intl-default-locale'], NumberFormatter::CURRENCY);
+//	$intl_currency = $rc['settings']['intl-default-currency'];
+
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'users', 'private', 'datetimeFormat');
+	$datetime_format = ciniki_users_datetimeFormat($ciniki, 'php');
+
 	// 
 	// Build the query to get the object
 	//
 	$strsql = "SELECT id ";
 	$fields = array();
+	$utctotz = array();
 	foreach($o['fields'] as $field => $options) {
 		$strsql .= ", " . $field . " ";
-//		if( isset($field['ref']) && $field['ref'] == $obj_name ) {
-//			$obj_strsql = "AND $field = '" . ciniki_core_dbQuote($ciniki, $oid) . "' ";	
-//		}
+		if( isset($options['type']) && $options['type'] == 'utcdatetime' ) {
+			$utctotz[$field] = array('timezone'=>$intl_timezone, 'format'=>$datetime_format);
+		}
 	}
 	$strsql .= "FROM " . $o['table'] . " "
 		. "WHERE id = '" . ciniki_core_dbQuote($ciniki, $oid) . "' "
@@ -53,7 +66,9 @@ function ciniki_core_objectGet(&$ciniki, $business_id, $obj_name, $oid) {
 	$name = isset($o['o_name'])?$o['o_name']:'object';
 	$rc = ciniki_core_dbHashQueryIDTree($ciniki, $strsql, $pkg . '.' . $mod, array(
 		array('container'=>$container, 'fname'=>'id',
-			'fields'=>array_keys($o['fields'])),
+			'fields'=>array_keys($o['fields']),
+			'utctotz'=>$utctotz,
+			),
 		));
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;

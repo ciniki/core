@@ -33,7 +33,7 @@ function ciniki_core_menu() {
 				//
 				// If only 1 business, then go direct to that menu
 				//
-				M.startApp('ciniki.businesses.main',null,null,'mc',{'id':r.businesses[0].business.id});
+				M.startApp(M.businessMenu,null,null,'mc',{'id':r.businesses[0].business.id});
 			} else {
 				//
 				// Create the app container if it doesn't exist, and clear it out
@@ -82,7 +82,7 @@ function ciniki_core_menu() {
 
 				this.businesses.listValue = function(s, i, d) { return d.business.name; }
 				this.businesses.listFn = function(s, i, d) { 
-					return 'M.startApp(\'ciniki.businesses.main\',null,\'M.ciniki_core_menu.businesses.show();\',\'mc\',{\'id\':' + d.business.id + '});';
+					return 'M.startApp(M.businessMenu,null,\'M.ciniki_core_menu.businesses.show();\',\'mc\',{\'id\':' + d.business.id + '});';
 				}
 				this.businesses.addLeftButton('logout', 'Logout', 'M.logout();');
 				if( M.userID > 0 && (M.userPerms&0x01) == 0x01 ) {

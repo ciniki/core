@@ -377,6 +377,7 @@ if( $browser == 'unsupported' ) {
 		'root_url'=>$config['ciniki.core']['manage_root_url'],
 		'themes_root_url'=>$config['ciniki.core']['themes_root_url'],
 		'start_menu'=>'ciniki.core.menu',
+		'business_menu'=>'ciniki.businesses.main',
 		'modules'=>array(),
 		);
 	//
@@ -407,6 +408,9 @@ if( $browser == 'unsupported' ) {
 	//
 	if( isset($config['ciniki.core']['start_menu']) && $config['ciniki.core']['start_menu'] != '' ) {
 		$manage_config['start_menu'] = $config['ciniki.core']['start_menu'];
+	}
+	if( isset($config['ciniki.core']['business_menu']) && $config['ciniki.core']['business_menu'] != '' ) {
+		$manage_config['business_menu'] = $config['ciniki.core']['business_menu'];
 	}
 	
 ?>

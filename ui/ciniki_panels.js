@@ -4436,11 +4436,19 @@ M.panel.prototype.formFieldValue = function(f,fid) {
 		n = M.rgbToHex(M.gE(this.panelUID + '_' + fid).style.backgroundColor);
 	} else if( f.type == 'flags' ) {
 		n = 0;
+		// By starting with the existing value, not all bits have to be specified in each form.
+		// This was created for Members/Dealers/Distributors in customers
+		var s = this.sections[this.formFieldSection(f)];
+		n = this.fieldValue(s, fid, f);
 		for(j in f.flags) {
 			if( f.flags[j] == null ) { continue; }
 			if( f.flags[j].active != null && f.flags[j].active == 'no' ) { continue; }
 			if( M.gE(this.panelUID + '_' + fid + '_' + j).className == 'flag_on' ) {
+				// Toggle bit on
 				n |= Math.pow(2, j-1);
+			} else {
+				// Toggle bit off
+				if( (n&Math.pow(2, j-1)) > 0 ) { n ^= Math.pow(2, j-1); }
 			}
 		}
 	} else if( f.type == 'multitoggle' || f.type == 'toggle' ) {

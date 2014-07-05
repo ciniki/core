@@ -4440,6 +4440,7 @@ M.panel.prototype.formFieldValue = function(f,fid) {
 		// This was created for Members/Dealers/Distributors in customers
 		var s = this.sections[this.formFieldSection(f)];
 		n = this.fieldValue(s, fid, f);
+		if( n == null || n == '' ) { n = 0; }
 		for(j in f.flags) {
 			if( f.flags[j] == null ) { continue; }
 			if( f.flags[j].active != null && f.flags[j].active == 'no' ) { continue; }

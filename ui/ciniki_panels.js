@@ -384,10 +384,10 @@ M.panel.prototype.createSection = function(i, s) {
 	var type = this.sectionType(i, s);
 	
 	if( s.aside != null ) {
-		if( s.aside == 'yes' || s.aside == 'right' ) {
-			var f = M.aE('div', this.panelUID + '_section_' + i, 'panelsection aside');
-		} else {
+		if( s.aside == 'yes' || s.aside == 'left' ) {
 			var f = M.aE('div', this.panelUID + '_section_' + i, 'panelsection asideleft');
+		} else {
+			var f = M.aE('div', this.panelUID + '_section_' + i, 'panelsection aside');
 		}
 	} else if( s.aside != null && s.aside == 'fullwidth' ) {
 		var f = M.aE('div', this.panelUID + '_section_' + i, 'panelsection fullwidth');
@@ -2522,6 +2522,29 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
 			//img.setAttribute('onclick', 'M.' + this.appID + '.' + this.name + '.toggleFormFieldCalendar(\'' + i + '\');');
 			//c.appendChild(img);
 		}
+		// Display extra options for a field
+//		if( field.option_field != null && field.option_field != '' && field.options != null ) {
+//			d = M.aE('div', this.panelUID + '_' + i + sFN + '_options', 'toggles');
+//			for(var j in field.options) {
+//				f2 = M.aE('span', null, 'toggle_off', '' + j);
+//				f2.setAttribute('onfocus', this.panelRef + '.clearLiveSearches(\''+s+'\',\''+i+sFN+'\');');
+//				f2.setAttribute('onclick', this.panelRef + '.setFromButton(this, \'' + i + sFN + '\',\'' + field.options[j] + '\');');
+//				f2.setAttribute('onclick', this.panelRef + '.setToggleField(this, \'' + i + sFN + '\',\'' + field.none + '\',\'' + field.fn + '\');');
+//				d.appendChild(f2);
+//			}
+//			c.appendChild(d);
+
+//			var f = M.aE('span', this.panelUID + '_' + fid + sFN + '_' + j);
+//			f.setAttribute('onfocus', this.panelRef + '.clearLiveSearches(\''+s+'\',\''+i+sFN+'\');');
+//			if( v == j ) {
+//				f.className = 'toggle_on';
+//			} else {
+//				f.className = 'toggle_off';
+//			}
+//			f.innerHTML = field.toggles[j];
+//			f.setAttribute('onclick', this.panelRef + '.setToggleField(this, \'' + i + sFN + '\',\'' + field.none + '\',\'' + field.fn + '\');');
+//			div.appendChild(f);
+//		}
 		// Add time field
 //			if( field.type == 'datetime' ) {
 //				var f = M.aE('input', this.panelUID + '_' + i, field.type);
@@ -4277,6 +4300,16 @@ M.panel.prototype.serializeForm = function(fs) {
 				if( n != o || fs == 'yes' ) {
 					c += encodeURIComponent(fid) + '=' + encodeURIComponent(n) + '&';
 				}
+				// Check if secondary field
+				if( f.option_field != null ) {
+					var o = '';
+					if( this.fieldValue != null ) { o = this.fieldValue(i, fid, f); }
+					if( o == undefined ) { o = ''; }
+					var n = this.formFieldValue(f, f.option_field);
+					if( n != o || fs == 'yes' ) {
+						c += encodeURIComponent(fid) + '=' + encodeURIComponent(n) + '&';
+					}
+				}
 			}
 		}
 	}
@@ -4316,6 +4349,16 @@ M.panel.prototype.serializeFormSection = function(fs, i, nM) {
 		}
 		if( n != o || fs == 'yes' ) {
 			c += encodeURIComponent(fid) + '=' + encodeURIComponent(n) + '&';
+		}
+		// Check if secondary field
+		if( f.option_field != null ) {
+			var o = '';
+			if( this.fieldValue != null ) { o = this.fieldValue(i, fid, f); }
+			if( o == undefined ) { o = ''; }
+			var n = this.formFieldValue(f, f.option_field);
+			if( n != o || fs == 'yes' ) {
+				c += encodeURIComponent(fid) + '=' + encodeURIComponent(n) + '&';
+			}
 		}
 	}
 	return c;
@@ -4407,6 +4450,16 @@ M.panel.prototype.serializeFormData = function(fs) {
 						c.append(fid, n);
 						count++;
 					}
+					// Check if secondary field
+					if( f.option_field != null ) {
+						var o = '';
+						if( this.fieldValue != null ) { o = this.fieldValue(i, fid, f); }
+						if( o == undefined ) { o = ''; }
+						var n = this.formFieldValue(f, f.option_field);
+						if( n != o || fs == 'yes' ) {
+							c += encodeURIComponent(fid) + '=' + encodeURIComponent(n) + '&';
+						}
+					}
 				}
 			}
 		}
@@ -4424,7 +4477,14 @@ M.panel.prototype.serializeFormData = function(fs) {
 //
 M.panel.prototype.formFieldValue = function(f,fid) {
 	var n = null;
-	if( f.type == 'colourswatches' ) {
+	if( f.option_field != null && f.option_field == fid ) {
+		// Get the secondary option field value
+		for(var i in f.options) {
+			if( M.gE(this.panelUID + '_' + fid + '_' + i).className == 'toggle_on' ) {
+				n = f.options[i];
+			}
+		}
+	} else if( f.type == 'colourswatches' ) {
 		n = M.gE(this.panelUID + '_' + fid).getAttribute('value');
 		// Check if no value was found, and save as blank instead of the string null.
 		if( n == null ) { n = ''; }

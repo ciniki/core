@@ -2816,15 +2816,20 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
 		} else {
 			var vs = [];
 		}
-		field.tags.sort();
-		for(j in field.tags) {
+		if( this.tags != null && this.tags[fid] != null ) {
+			var tags = this.tags[fid];
+		} else {
+			var tags = field.tags;
+		}
+		tags.sort();
+		for(j in tags) {
 			var f = M.aE('span', this.panelUID + '_' + fid + sFN + '_' + j);
 			f.setAttribute('onfocus', this.panelRef + '.clearLiveSearches(\''+s+'\',\''+fid+sFN+'\');');
 			f.className = 'toggle_off';
-			if( vs.indexOf(field.tags[j]) >= 0 ) {
+			if( vs.indexOf(tags[j]) >= 0 ) {
 				f.className = 'toggle_on';
 			}
-			f.innerHTML = field.tags[j];
+			f.innerHTML = tags[j];
 			f.setAttribute('onclick', this.panelRef + '.setSelectField(this, \'' + i + sFN + '\',\'yes\',null);');
 			div.appendChild(f);
 		}
@@ -3093,24 +3098,30 @@ M.panel.prototype.setFieldValue = function(field, v, vnum, hide, nM, action) {
 		}
 	} else if( f.type == 'tags' ) {
 		if( action != null ) {
+			// Check if tags are stored with field or with form
+			if( this.tags != null && this.tags[field] != null ) {
+				var tags = this.tags[field];
+			} else {
+				var tags = f.tags;
+			}
 			if( action == 1 ) {
 				var upd = 0;
 				// Check if added tag doesn't exist
-				j = f.tags.indexOf(v);
+				j = tags.indexOf(v);
 				if( j < 0 ) {
 					// Save the existing settings
 					var ev = this.formFieldValue(f, field);
-					for(k in f.tags) {
+					for(k in tags) {
 						upd = 0;
 						// Insert tag into list
-						if( f.tags[k] > v ) {
-							f.tags.splice(k, 0, v);
+						if( tags[k] > v ) {
+							tags.splice(k, 0, v);
 							upd = 1;
 							break;
 						}
 					}
 					if( upd == 0 ) {
-						f.tags.push(v);
+						tags.push(v);
 						upd = 1;
 					}
 				} else {
@@ -3125,16 +3136,16 @@ M.panel.prototype.setFieldValue = function(field, v, vnum, hide, nM, action) {
 					}
 					var div = M.gE(this.panelUID + '_' + field + sFN);
 					M.clr(div);
-					f.tags.sort();
-					for(j in f.tags) {
+					tags.sort();
+					for(j in tags) {
 						var e = M.aE('span', this.panelUID + '_' + field + sFN + '_' + j);
 						// set on if already on or added
-						if( vs.indexOf(f.tags[j]) >= 0 || f.tags[j] == v ) {
+						if( vs.indexOf(tags[j]) >= 0 || tags[j] == v ) {
 							e.className = 'toggle_on';
 						} else {
 							e.className = 'toggle_off';
 						}
-						e.innerHTML = f.tags[j];
+						e.innerHTML = tags[j];
 						e.setAttribute('onclick', this.panelRef + '.setSelectField(this, \'' + field + sFN + '\',\'yes\',null);');
 						div.appendChild(e);
 					}
@@ -3145,7 +3156,7 @@ M.panel.prototype.setFieldValue = function(field, v, vnum, hide, nM, action) {
 					div.appendChild(s);
 				}
 			} else if( action == 3 ) {
-				j = f.tags.indexOf(v);
+				j = tags.indexOf(v);
 				if( j >= 0 ) {
 					var e = M.gE(this.panelUID + '_' + field + sFN + '_' + j);
 					e.className = 'toggle_off';
@@ -4534,14 +4545,19 @@ M.panel.prototype.formFieldValue = function(f,fid) {
 //		var v = M.gE(this.panelUID + '_' + fid + '_new').value;
 //		if( v == null ) { v = ''; }
 		v = '';
-		for(j in f.tags) {
-			if( v != '' && v < f.tags[j] && v != f.tags[j] ) {
+		if( this.tags != null && this.tags[fid] != null ) {
+			var tags = this.tags[fid];
+		} else {
+			var tags = f.tags;
+		}
+		for(j in tags) {
+			if( v != '' && v < tags[j] && v != tags[j] ) {
 				n += c + v;
 				c = '::';
 				v = '';
 			}
 			if( M.gE(this.panelUID + '_' + fid + '_' + j).className == 'toggle_on' ) {
-				n += c + f.tags[j];
+				n += c + tags[j];
 				c = '::';
 			}
 		}

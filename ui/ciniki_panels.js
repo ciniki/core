@@ -2816,10 +2816,11 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
 		} else {
 			var vs = [];
 		}
+		var tags = [];
 		if( this.tags != null && this.tags[fid] != null ) {
-			var tags = this.tags[fid];
-		} else {
-			var tags = field.tags;
+			tags = this.tags[fid];
+		} else if( field.tags != null ) {
+			tags = field.tags;
 		}
 		tags.sort();
 		for(j in tags) {

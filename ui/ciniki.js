@@ -87,7 +87,7 @@ M.init = function(cfg) {
 	// Check if username and password were passed to script, and auto-login
 	//
 	if( cfg.auth_token != null ) {
-		M.auth(cfg.auth_token);
+		M.auth(this, cfg.auth_token);
 	}
 }
 
@@ -302,7 +302,7 @@ M.logout = function() {
 //
 // This function will authenticate the user against the cinikiAPI and get an auth_token
 //
-M.auth = function(t) {
+M.auth = function(e, t) {
 //	if( u != null && p != null ) {
 //		var c = 'username=' + encodeURIComponent(u)
 //			+ '&password=' + encodeURIComponent(p);

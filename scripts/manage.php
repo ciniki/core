@@ -428,7 +428,8 @@ Javscript must be enabled for this application to work.
 		<div id="mcw_login" class="narrow">
 			<?php print "<img id='logo' class='logo' src='$manage_themes/default/img/logo_com.png'>";?>
 			<br/>
-			<form id="mc_login" name="mc_login" class="narrow" onsubmit="M.auth();" action="/ciniki-login.php" target="login_target" method="POST">
+			<iframe src="/ciniki-login.php" id="login_target" name="login_target" style="display:none;"></iframe>
+			<form id="mc_login_form" name="mc_login_form" class="narrow" action="/ciniki-login.php" onsubmit="M.auth();" target="login_target" method="POST">
 				<div class="section">
 					<h2>Username</h2>
 					<table class="list noheader form" cellspacing='0' cellpadding='0'>
@@ -443,7 +444,6 @@ Javscript must be enabled for this application to work.
 				<br/><br/>
 				<p class="right link"><a href="" onClick="M.hide('m_login'); M.show('m_forgot'); return false;">Forgot Password</a></p>
 			</form>
-			<iframe style="margin:0px;padding:0px;border:0px;display:block;width:0px;height:0px;" name="login_target" id="login_target"></iframe>
 		</div>
 	</div>
 </div>

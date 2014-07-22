@@ -14,9 +14,9 @@ if( !file_exists($ciniki_root . '/ciniki-api.ini') ) {
 	$ciniki_root = dirname(dirname(dirname(dirname(__FILE__))));
 }
 $manage_root = $ciniki_root . '/ciniki-mods';
-$themes_root = $ciniki_root . '/ciniki-manage-themes';
+$themes_root = $ciniki_root . '/ciniki-mods/core/ui/themes';
 $manage_js = "/ciniki-mods/core/ui";
-$manage_themes = "/ciniki-manage-themes";
+$manage_themes = "/ciniki-mods/core/ui/themes";
 $start_container = 'm_login';
 
 require_once($ciniki_root . '/ciniki-mods/core/private/loadMethod.php');

@@ -102,7 +102,7 @@ function ciniki_core_syncUpgradeSystem($ciniki) {
 	$versions = "";	
 	$dir = opendir($ciniki['config']['ciniki.core']['root_dir']);
 	while( ($file = readdir($dir)) !== false ) {
-		if( preg_match('/^(ciniki)-(api|lib|manage-themes|manage)$/', $file, $matches) ) {
+		if( preg_match('/^(ciniki)-(api|lib|manage)$/', $file, $matches) ) {
 			$mdir = opendir($ciniki['config']['ciniki.core']['root_dir'] . "/$file");
 			while( ($mfile = readdir($mdir)) != false ) {
 				$vfilename = $ciniki['config']['ciniki.core']['root_dir'] . "/$file/$mfile/_version.ini";

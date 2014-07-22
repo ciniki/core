@@ -1,0 +1,237 @@
+table.form td.textarea,
+table.form td.search input,
+table.form td.multiselect input,
+table.form td.input input {
+	-webkit-border-radius: 7px;
+	-webkit-box-shadow: #777 0px 1px 3px inset;
+}
+
+table.simplelist input,
+table.datepicker input {
+	-webkit-border-radius: 7px;
+	-webkit-box-shadow: #eee 0px 1px 1px inset;
+}
+
+input, textarea {
+	-webkit-appearance: none;
+}
+
+input:focus {
+	outline: none;
+}
+
+table.form tr.textfield > td > input.search {
+	height: 2.0em;
+}
+
+div.media div.imgwrap {
+    -webkit-box-shadow: #777 1px 1px 3px;
+}
+table.form td.select > select,
+table.list {
+	-webkit-border-radius: 7px;
+	-webkit-box-shadow: #777 1px 1px 3px;
+}
+
+table.form {
+	-webkit-box-shadow: none;
+}
+
+table.simplegrid {
+	-webkit-border-radius: 7px;
+	-webkit-box-shadow: #777 1px 1px 3px;
+}
+
+h2 {
+	text-shadow: #fff 1px 1px 0px;
+}
+
+span.count {
+	-webkit-border-radius: 1.2em;
+	text-shadow: #fff 1px 1px 0px;
+}
+
+button, input.button {
+	-webkit-border-radius: 1.2em;
+	border: 1px solid #ccc;
+	background: -webkit-gradient(linear, left top, left bottom, from(#eee), to(#bbb));
+	text-shadow: #eee 1px 1px 0px;
+	padding: 5px 15px 5px 15px;
+}
+
+span.rbutton_on,
+span.rbutton_off {
+	-webkit-border-radius: 1em;
+}
+
+table.form td.joinedflags span.flag_on:first-child,
+table.form td.joinedflags span.flag_off:first-child,
+table.form td div span.toggle_on:first-child,
+table.form td div span.toggle_off:first-child {
+	-webkit-border-top-left-radius: 0.5em;
+	-webkit-border-bottom-left-radius: 0.5em;
+}
+
+table.form td.joinedflags span.flag_on:last-child,
+table.form td.joinedflags span.flag_off:last-child,
+table.form td div span.toggle_on:last-child,
+table.form td div span.toggle_off:last-child {
+	-webkit-border-top-right-radius: 0.5em;
+	-webkit-border-bottom-right-radius: 0.5em;
+}
+
+table.form tr.toggle td.multiselect span.toggle_on,
+table.form tr.toggle td.multiselect span.toggle_off,
+table.form tr.multiselect span.toggle_on,
+table.form tr.multiselect span.toggle_off,
+table.form tr.tags td span.toggle_on,
+table.form tr.tags td span.toggle_off,
+table.form td.flags span.flag_on,
+table.form td.flags span.flag_off {
+	-webkit-border-radius: 0.5em;
+}
+
+span.rbutton_on,
+table.form td div span.toggle_on,
+table.form span.flag_on {
+	background: -webkit-gradient(linear, left top, left bottom, from(#555), to(#999));
+	text-shadow: 1px 1px 0px #555; 
+	-webkit-box-shadow: inset 1px 1px 0px 0px #555;
+	color: #ddd;
+	border: 1px solid #777;
+}
+
+span.rbutton_off,
+table.form td div span.toggle_off,
+table.form span.flag_off {
+	background: -webkit-gradient(linear, left top, left bottom, from(#eee), to(#bbb));
+	text-shadow: 1px 1px 0px #eee; 
+	-webkit-box-shadow: 1px 1px 2px 0px #555;
+	color: #777;
+	border: 1px solid #777;
+}
+
+table.list td > button {
+	-webkit-border-radius: 0.5em;
+}
+
+table.form > tbody > tr > td.button,
+table.simplebuttons > tbody > tr > td.button {
+	border: 0px;
+	background: -webkit-gradient(linear, left top, left bottom, from(#999), to(#555));
+	text-shadow: 0 -1px 1px #555; 
+	text-decoration: none; 
+}
+
+
+table.form > tbody > tr > td.delete,
+table.simplebuttons > tbody > tr > td.delete {
+	border: 0px;
+	background: -webkit-gradient(linear,left top,left bottom,color-stop(0, #ec4a0b),color-stop(1, #ad390c));   
+	text-shadow: 0 -1px 1px #953403; 
+	text-decoration: none; 
+}
+
+table.list td > span.icon {
+	/* text-shadow: 1px 1px 0px #eee;  */
+}
+
+textarea {
+	-webkit-appearance: none;
+}
+
+.headerbar td.title {
+	text-shadow: #000 1px 1px 0px;
+}
+
+.headerbar td.avatar img {
+	/* FIXME: In the future this can have rounded corners */
+}
+
+.headerbar td div.button span.label {
+	text-shadow: 1px 1px 0px #667;
+}
+
+.headerbar td div.button span.icon {
+	text-shadow: -1px -1px 0px #667;
+}
+
+.subheaderbar {
+	margin: 0em 0.5em 0em 0.5em;
+	padding: 5px 10px 5px 10px;
+}
+
+.subheaderbar td.title {
+	text-shadow: #ddd 1px 1px 0px;
+}
+
+.subheaderbar {
+	-webkit-border-bottom-left-radius: 7px;
+	-webkit-border-bottom-right-radius: 7px;
+}
+
+
+input:-webkit-autofill {
+	background: #fff !important;
+}
+
+table.list {
+	-webkit-border-radius: 7px;
+}
+
+table.list > tbody:first-child > tr:first-child > td:first-child > textarea,
+table.list > tbody:first-child > tr table,
+table.list > tbody:first-child > tr table tr:first-child > td:first-child,
+table.header > thead > tr:first-child > th:first-child,
+table.noheader > tbody:first-child > tr:first-child > td:first-child,
+table.list > tfoot:first-child > tr:first-child > th:first-child, 
+table.list > tfoot:first-child > tr:first-child > td:first-child {
+	-webkit-border-top-left-radius: 7px;
+}
+
+table.list > tbody:first-child > tr:first-child > td:last-child > textarea,
+table.list > tbody:first-child > tr table,
+table.list > tbody:first-child > tr table tr:first-child > td:last-child,
+table.header > thead > tr:first-child > th:last-child,
+table.noheader > tbody:first-child > tr:first-child > td:last-child,
+table.list > tfoot:first-child > tr:first-child > th:last-child, 
+table.list > tfoot:first-child > tr:first-child > td:last-child {
+	-webkit-border-top-right-radius: 7px;
+}
+table.list > tbody:last-child > tr:last-child > td:first-child > textarea,
+table.list > tbody:last-child > tr table,
+table.list > tbody:last-child > tr table tr:last-child > td:first-child,
+table.list > thead:last-child > tr:last-child > th:first-child,
+table.list > tbody:last-child > tr:last-child > th:first-child,
+table.list > tbody:last-child > tr:last-child > td:first-child,
+table.list > tfoot > tr:last-child > th:first-child, 
+table.list > tfoot > tr:last-child > td:first-child {
+	-webkit-border-bottom-left-radius: 7px;
+}
+table.list > tbody:last-child > tr:last-child > td:last-child > textarea,
+table.list > tbody:last-child > tr table,
+table.list > tbody:last-child > tr table tr:last-child > td:last-child,
+table.list > thead:last-child > tr:last-child > th:last-child,
+table.list > tbody:last-child > tr:last-child > td:last-child,
+table.list > tfoot > tr:last-child > th:last-child, 
+table.list > tfoot > tr:last-child > td:last-child {
+	-webkit-border-bottom-right-radius: 7px;
+}
+
+table.list > tbody > tr table.calendar,
+table.list > tbody > tr table.calendar tr td {
+/*	-webkit-border-radius: 0px !important; */
+	
+}
+
+table.list td > div.colourswatches > span.selected {
+	-webkit-box-shadow: #777 1px 1px 3px;
+}
+
+table.dayschedule td.schedule_appointment {
+	-webkit-border-radius: 7px;
+}
+
+table.services td span.job {
+	-webkit-border-radius: 7px;
+}

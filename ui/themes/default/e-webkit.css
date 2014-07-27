@@ -27,6 +27,7 @@ table.form tr.textfield > td > input.search {
 div.media div.imgwrap {
     -webkit-box-shadow: #777 1px 1px 3px;
 }
+table.form td.input > select,
 table.form td.select > select,
 table.list {
 	-webkit-border-radius: 7px;

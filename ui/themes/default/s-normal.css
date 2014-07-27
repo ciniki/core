@@ -258,5 +258,10 @@ table.list td div.calendar {
 	div.help-off div.mediumaside div.panelsection {
 		width: 45em;
 	}
+	div.help-off div.mediumaside div.fullwidth,
+	div.help-off div.mediumaside div.formtabs,
+	div.help-off div.mediumaside div.paneltabs {
+		width: 100%;
+	}
 
 }

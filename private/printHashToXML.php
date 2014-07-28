@@ -32,7 +32,7 @@ function ciniki_core_printHashToXML($name, $indent, $hash) {
 		} elseif( is_string($hash_item) && (strpos($hash_item, "\n") > 0 || strlen($hash_item) >= 100) ) {
 			$subitems = true;
 		} elseif( is_string($hash_item) ) {
-			print " $hash_key=\"$hash_item\"";
+			print " $hash_key=\"" . htmlspecialchars($hash_item) . "\"";
 		} elseif( is_array($hash_item) && array_key_exists('0', $hash_item) ) {
 			$subitems = true;
 		} elseif( is_array($hash_item) ) {

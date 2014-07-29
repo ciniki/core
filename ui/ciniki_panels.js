@@ -51,6 +51,9 @@ M.panel = function(title, appID, panelID, appPrefix, size, type, helpUID) {
 M.panel.prototype.addButton = function(n,l,f,i) {
 	this.rightbuttons[n] = {'label':l, 'icon':((i==null)?n:i), 'function':f};
 };
+M.panel.prototype.delButton = function(n) {
+	if( this.rightbuttons[n] != null ) { delete(this.rightbuttons[n]); }
+};
 
 //
 // Arguments

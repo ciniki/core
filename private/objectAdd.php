@@ -42,7 +42,7 @@ function ciniki_core_objectAdd(&$ciniki, $business_id, $obj_name, $args, $tmsupd
 	//
 	// Check if UUID was passed
 	//
-	if( !isset($args['UUID']) || $args['UUID'] == '' ) {
+	if( !isset($args['uuid']) || $args['uuid'] == '' ) {
 		ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbUUID');
 		$rc = ciniki_core_dbUUID($ciniki, $m);
 		if( $rc['stat'] != 'ok' ) {

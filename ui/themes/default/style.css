@@ -1264,6 +1264,27 @@ table.list td > div.colourswatches > span.selected {
 	height: 1.2em;
 }
 
+table.form > tbody > tr > td.audiocontrols {
+	padding: 0em 0.25em 0em 0.25em;
+	width: 100%;
+	text-align: center;
+}
+
+table.form > tbody > tr > td.audiocontrols span.audio_filename {
+	border: 1px solid #bbb;
+	min-width: 30em;
+	width: 100%;
+	background: #fff;
+	padding: 0.4em;
+	font-size: 1.0em;
+	margin: 0px;
+}
+
+table.form > tbody > tr > td.audiocontrols > audio {
+	padding: 0.25em;
+	vertical-align: bottom;
+}
+
 table.form > tbody > tr > td.multiselect,
 table.form > tbody > tr > td.multitoggle,
 table.form > tbody > tr > td.joinedflags,
@@ -1368,6 +1389,17 @@ table.paneltabs td div span.toggle_off {
 }
 
 table.form tr td input.image_uploader {
+	height: 1px !important;
+	width: 1px !important;
+	font-size: 0.1em;
+	border: 0px;
+	padding: 0px;
+	margin: 0px;
+	overflow: hidden;
+	visibility: hidden;
+}
+
+table.form tr td input.file_uploader {
 	height: 1px !important;
 	width: 1px !important;
 	font-size: 0.1em;

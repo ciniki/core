@@ -1,6 +1,7 @@
 table.form td.textarea,
 table.form td.search input,
 table.form td.multiselect input,
+table.form td.audiocontrols span.audio_filename,
 table.form td.input input {
 	-webkit-border-radius: 7px;
 	-webkit-box-shadow: #777 0px 1px 3px inset;

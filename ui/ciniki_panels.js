@@ -2667,6 +2667,9 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
 			f.setAttribute('autocomplete', 'off');
 			this.lastSearches[i] = '';
 		}
+		if( field.enterFn != null && field.enterFn != '' ) {
+			f.setAttribute('onkeyup', 'if( event.keyCode == 13 ) { ' + field.enterFn + ' };');
+		}
 		c.appendChild(f);
 //			if( field.type == 'fkid' ) {
 //				c.appendChild(f2);

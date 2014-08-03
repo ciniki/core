@@ -773,6 +773,9 @@ M.panel.prototype.createLiveSearchGrid = function(s, sd) {
 		if( sd.hint != null && sd.hint != '' ) {
 			f.setAttribute('placeholder', sd.hint);
 		}
+		if( sd.autofocus != null && sd.autofocus == 'yes' ) {
+			this.autofocus = this.panelUID + '_' + s;
+		}
 		if( sd.livesearchempty == 'yes' ) {
 			f.setAttribute('onfocus', this.panelRef + '.liveSearchSection(\'' + s + '\',null,this,event);');
 //		} else {
@@ -2387,7 +2390,6 @@ M.panel.prototype.createSectionForm = function(s, fields) {
 // fS - The sections of the form
 // mN
 //
-// M.createFormFields = function(nF, fI, cH, cF, fields) {
 M.panel.prototype.createFormFields = function(s, nF, fI, fields, mN) {
 	var ct = 0;
 	var ef = 0;	// Keep track of the number of editable fields (used to display outline)
@@ -2632,6 +2634,7 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
 	}
 	else if( field.type == 'text' || field.type == 'email' 
 		|| field.type == 'integer'
+		|| field.type == 'number'
 		|| field.type == 'search' 
 		|| field.type == 'hexcolour' 
 		|| field.type == 'date' ) {

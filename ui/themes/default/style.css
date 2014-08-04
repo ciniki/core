@@ -1374,14 +1374,18 @@ table.form td span.toggle_off span.icon {
 	color: inherit;
 }
 
+table.formtabs, 
 table.paneltabs {
 	margin-bottom: 0.5em;
 }
 
+table.formtabs > tbody > tr > td,
 table.paneltabs > tbody > tr > td {
 	padding: 0em;
 }
 
+table.formtabs td div span.toggle_on,
+table.formtabs td div span.toggle_off,
 table.paneltabs td div span.toggle_on,
 table.paneltabs td div span.toggle_off {
 	font-size: 1.0em;

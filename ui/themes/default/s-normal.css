@@ -242,7 +242,7 @@ table.list td div.calendar {
 
 	div.help-off div.mediumaside div.fullwidth,
 	div.help-off div.mediumaside div.formtabs,
-	div.help-off div.mediumaside div.paneltabs {
+	div.help-off div.mediumaside div.formtabs {
 		width: 100%;
 	}
 }
@@ -260,7 +260,7 @@ table.list td div.calendar {
 	}
 	div.help-off div.mediumaside div.fullwidth,
 	div.help-off div.mediumaside div.formtabs,
-	div.help-off div.mediumaside div.paneltabs {
+	div.help-off div.mediumaside div.formtabs {
 		width: 100%;
 	}
 

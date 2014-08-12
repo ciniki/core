@@ -31,7 +31,7 @@ function ciniki_core_storageFileDelete(&$ciniki, $business_id, $obj_name, $args)
 			return $rc;
 		}
 		if( !isset($rc['business']) ) {
-			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1911', 'msg'=>'Unable to get business details'));
+			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1923', 'msg'=>'Unable to get business details'));
 		}
 		$business_uuid = $rc['business']['uuid'];
 	} else {

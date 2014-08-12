@@ -1,5 +1,0 @@
-#
-# This file will upgrade the database table businesses to version 1.02.
-#
-ALTER TABLE ciniki_core_change_logs MODIFY COLUMN new_value varchar(65000) not null;
-ALTER TABLE ciniki_core_change_logs COMMENT='v1.02';

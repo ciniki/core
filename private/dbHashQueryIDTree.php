@@ -129,6 +129,16 @@ function ciniki_core_dbHashQueryIDTree(&$ciniki, $strsql, $module, $tree) {
 							}
 						} 
 
+						elseif( isset($tree[$i]['flags']) && isset($tree[$i]['flags'][$field_id]) ) {
+							$text = '';
+							foreach($tree[$i]['flags'][$field_id] as $bitmask => $flagtext) {
+								if( ($row[$field]&$bitmask) == $bitmask ) {
+									$text .= ($text!=''?', ':'') . $flagtext;
+								}
+							}
+							$data[$tree[$i]['container']][$row[$tree[$i]['fname']]][$field_id] = $text;
+						}
+
 						//
 						// Normal item, copy the data
 						//

@@ -391,8 +391,10 @@ M.panel.prototype.createSection = function(i, s) {
 	if( s.aside != null ) {
 		if( s.aside == 'yes' || s.aside == 'left' ) {
 			var f = M.aE('div', this.panelUID + '_section_' + i, 'panelsection asideleft');
+		} else if( s.aside == 'left' ) {
+			var f = M.aE('div', this.panelUID + '_section_' + i, 'panelsection aside'); 
 		} else {
-			var f = M.aE('div', this.panelUID + '_section_' + i, 'panelsection aside');
+			var f = M.aE('div', this.panelUID + '_section_' + i, 'panelsection'); 
 		}
 	} else if( s.aside != null && s.aside == 'fullwidth' ) {
 		var f = M.aE('div', this.panelUID + '_section_' + i, 'panelsection fullwidth');
@@ -850,15 +852,31 @@ M.panel.prototype.createLiveSearchGrid = function(s, sd) {
 };
 
 M.panel.prototype.liveSearchResultsTable = function(s, f, sd) {
-	var t = M.addTable(this.panelUID + '_' + s + '_livesearchresults');
-	var tb = M.aE('tbody');
-	var tr = M.aE('tr');
-	var c = M.aE('td');
+//	var t = M.addTable(this.panelUID + '_' + s + '_livesearchresults');
+//	var tb = M.aE('tbody');
+//	var tr = M.aE('tr');
+//	var c = M.aE('td');
 
 	var n = this.panelUID + '_' + s;	
 	if( f != null ) { n += '_' + f; }
 	if( sd.livesearchtype == 'appointments' ) {
 		var t = M.addTable(n + '_livesearch_grid', 'list dayschedule noheader noborder');
+	} else if( sd.fields != null && sd.fields[f] != null && sd.fields[f].headerValues != null ) {
+		var t = M.addTable(n + '_livesearch_grid', 'list simplegrid header border');
+		var th = M.aE('thead');
+		var tr = M.aE('tr');
+		for(var i=0;i<sd.fields[f].headerValues.length;i++) {
+			var c = M.aE('th',null,null,sd.fields[f].headerValues[i]);
+			tr.appendChild(c);
+		}
+		// If there's the possiblity of row being clickable, then add extra column to header for > (arrow).
+		sd.num_cols = sd.fields[f].headerValues.length;
+		if( this.liveSearchResultRowFn != null ) {
+			sd.num_cols = sd.fields[f].headerValues.length + 1;
+			tr.appendChild(M.aE('th', null, 'noprint'));
+		}
+		th.appendChild(tr);
+		t.appendChild(th);
 	} else if( sd.headerValues != null ) {
 		var t = M.addTable(n + '_livesearch_grid', 'list simplegrid header border');
 		var th = M.aE('thead');
@@ -899,10 +917,11 @@ M.panel.prototype.liveSearchSection = function(s, i, inputElement, event) {
 	} else {
 		t = M.gE(this.panelUID + '_' + s + '_livesearch_grid');
 	}
+	// Add the results table if it doesn't already exist
     if( t == null && i != null ) {  
         var tr = M.aE('tr', null, 'searchresults');
         var rC = M.aE('td', null, 'searchresults');
-        rC.colSpan = 3; 
+        rC.colSpan = 3;
 		t = this.liveSearchResultsTable(s, i, this.sections[s]);
         rC.appendChild(t);
         tr.appendChild(rC);
@@ -979,6 +998,9 @@ M.panel.prototype.liveSearchShow = function(s, f, inputElement, searchData) {
 			tr.setAttribute('style', this.liveSearchResultRowStyle(s, f, i, searchData[i]));
 		}
 		var nc = sc.livesearchcols;
+		if( f != null && this.sections[s].fields[f].livesearchcols != null ) {
+			nc = this.sections[s].fields[f].livesearchcols;
+		}
 		// Reset null to 1 column
 		nc=(nc==null)?1:nc;
 		for(var j=0;j<nc;j++) {

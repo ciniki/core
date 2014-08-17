@@ -185,7 +185,8 @@ table.simplebuttons > tbody > tr > td.delete {
 table.list, 
 table.list > tbody:first-child > tr:first-child > td:first-child > textarea,
 table.list > tbody:first-child > tr table,
-table.list > tbody:first-child > tr table tr:first-child > td:first-child,
+table.list > tbody:first-child > tr table thead tr:first-child > td:first-child,
+table.list > tbody:first-child > tr table.noheader tbody tr:first-child > td:first-child,
 table.header > thead > tr:first-child > th:first-child,
 table.noheader > tbody:first-child > tr:first-child > td:first-child,
 table.list > tfoot:first-child > tr:first-child > td:first-child {
@@ -196,7 +197,8 @@ table.list > tfoot:first-child > tr:first-child > td:first-child {
 table.list, 
 table.list > tbody:first-child > tr:first-child > td:last-child > textarea,
 table.list > tbody:first-child > tr table,
-table.list > tbody:first-child > tr table tr:first-child > td:last-child,
+table.list > tbody:first-child > tr table thead tr:first-child > td:last-child,
+table.list > tbody:first-child > tr table.noheader tr:first-child > td:last-child,
 table.header > thead > tr:first-child > th:last-child,
 table.noheader > tbody:first-child > tr:first-child > td:last-child,
 table.list > tfoot:first-child > tr:first-child > td:last-child {

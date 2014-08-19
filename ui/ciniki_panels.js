@@ -998,8 +998,8 @@ M.panel.prototype.liveSearchShow = function(s, f, inputElement, searchData) {
 			tr.setAttribute('style', this.liveSearchResultRowStyle(s, f, i, searchData[i]));
 		}
 		var nc = sc.livesearchcols;
-		if( f != null && this.sections[s].fields[f].livesearchcols != null ) {
-			nc = this.sections[s].fields[f].livesearchcols;
+		if( f != null && sc.fields[f] != null && sc.fields[f].livesearchcols != null ) {
+			nc = sc.fields[f].livesearchcols;
 		}
 		// Reset null to 1 column
 		nc=(nc==null)?1:nc;

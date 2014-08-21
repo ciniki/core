@@ -5295,7 +5295,6 @@ M.panel.prototype.uploadDropFiles = function(e, p, s) {
 				&& files[i].type != 'audio/vnd.wave'
 				&& files[i].type != 'audio/wav'
 				) {
-				console.log(files[i].type);
 				alert("I'm sorry, we only do not currently allow that format.");
 				M.stopLoad();
 				return false;

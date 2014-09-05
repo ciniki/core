@@ -58,14 +58,23 @@ function ciniki_core_objectUpdate(&$ciniki, $business_id, $obj_name, $oid, $args
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQuote');
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbAddModuleHistory');
 	$strsql = "UPDATE " . $o['table'] . " SET last_updated = UTC_TIMESTAMP()";
+	$num_fields = 0;
 	foreach($o['fields'] as $field => $options) {
 		if( isset($args[$field]) ) {
+			$num_fields++;
 			$strsql .= ", $field = '" . ciniki_core_dbQuote($ciniki, $args[$field]) . "' ";
 		}
 	}
 	$strsql .= " WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
 		. "AND id = '" . ciniki_core_dbQuote($ciniki, $oid) . "' "
 		. "";
+
+	//
+	// Nothing to update, ignore
+	//
+	if( $num_fields == 0 ) {
+		return array('stat'=>'ok');
+	}
 
 	//
 	// Update the object

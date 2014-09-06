@@ -108,7 +108,13 @@ function ciniki_core_dbHashQueryTree(&$ciniki, $strsql, $module, $tree) {
 							// If no mapped value specified, check for blank index
 							// Last resort, set it to current value
 							//
-							if( isset($tree[$i]['maps'][$field][$row[$field]]) ) {
+							if( isset($tree[$i]['maps'][$field][$row[$field]])
+								&& is_array($tree[$i]['maps'][$field][$row[$field]])
+								&& isset($tree[$i]['maps'][$field][$row[$field]]['field']) ) {
+								// if array of single/plural names, decide which it is
+								$decision_field = $tree[$i]['maps'][$field][$row[$field]]['field'];
+								$data[$tree[$i]['container']][$num_elements[$i]][$tree[$i]['name']][$field_id] = $tree[$i]['maps'][$field][$row[$field]][($row[$decision_field]!=1?'p':'s')];
+							} elseif( isset($tree[$i]['maps'][$field][$row[$field]]) ) {
 								$data[$tree[$i]['container']][$num_elements[$i]][$tree[$i]['name']][$field_id] = $tree[$i]['maps'][$field][$row[$field]];
 							} elseif( isset($tree[$i]['maps'][$field]['']) ) {
 								$data[$tree[$i]['container']][$num_elements[$i]][$tree[$i]['name']][$field_id] = $tree[$i]['maps'][$field][''];

@@ -637,7 +637,9 @@ M.dateMake12hourTime = function(ts) {
 		dt = ts;
 	}
 	str = '';
-	if( dt.getHours() < 10 ) {
+	if( dt.getHours() == 0 ) {
+		str += '12';
+	} else if( dt.getHours() < 10 ) {
 		str += '0' + dt.getHours();
 	} else if( dt.getHours() > 21 ) {
 		str += '0' + dt.getHours() - 12;
@@ -662,7 +664,9 @@ M.dateMake12hourTime2 = function(ts) {
 		dt = ts;
 	}
 	str = '';
-	if( dt.getHours() < 10 ) {
+	if( dt.getHours() == 0 ) {
+		str += '12';
+	} else if( dt.getHours() < 10 ) {
 		str += '0' + dt.getHours();
 	} else if( dt.getHours() > 21 ) {
 		str += '0' + dt.getHours() - 12;

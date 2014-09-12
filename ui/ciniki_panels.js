@@ -3896,9 +3896,9 @@ M.panel.prototype.toggleFormFieldCalendar = function(field) {
 		fD.parentNode.insertBefore(hD, fD.nextSibling);
 
 		if( this.formValue(field) != '' ) {
-			this.showFieldCalendars(field, Number(v.year), Number(v.month)-1, v, 'calendar', null, v.time);
+			this.showFieldCalendars(field, Number(v.year), Number(v.month)-1, v, 'calendar', (f.fn!=null?f.fn:null), v.time);
 		} else {
-			this.showFieldCalendars(field, Number(v.year), Number(v.month)-1, {'year':'', 'month':'', 'day':'', 'hour':'', 'minute':''}, 'calendar', null, v.time);
+			this.showFieldCalendars(field, Number(v.year), Number(v.month)-1, {'year':'', 'month':'', 'day':'', 'hour':'', 'minute':''}, 'calendar', (f.fn!=null?f.fn:null), v.time);
 		}
 	}
 };

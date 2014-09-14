@@ -882,7 +882,11 @@ M.panel.prototype.liveSearchResultsTable = function(s, f, sd) {
 		var th = M.aE('thead');
 		var tr = M.aE('tr');
 		for(var i=0;i<sd.headerValues.length;i++) {
-			var c = M.aE('th',null,null,sd.headerValues[i]);
+			var cl = '';
+			if( sd.headerClasses != null && sd.headerClasses[i] != null ) {
+				cl += ((cl!='')?' ':'')+sd.headerClasses[i];
+			}
+			var c = M.aE('th',null,cl,sd.headerValues[i]);
 			tr.appendChild(c);
 		}
 		// If there's the possiblity of row being clickable, then add extra column to header for > (arrow).

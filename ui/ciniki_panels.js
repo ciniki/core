@@ -2439,6 +2439,9 @@ M.panel.prototype.createFormFields = function(s, nF, fI, fields, mN) {
 
 		// Create the new row element
 		var r = M.aE('tr');
+		if( fields[i].visible != null && fields[i].visible == 'no' ) {
+			r.style.display = 'none';
+		}
 		if( fields[i].hidelabel == null && fields[i].hidelabel != 'yes' ) {
 			var l = M.aE('label');
 			l.setAttribute('for', this.panelUID + '_' + i);

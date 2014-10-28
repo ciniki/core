@@ -312,6 +312,12 @@ if( ($device == 'ipad' || $device == 'xoom' || $device == 'hptablet' ) && $engin
 print "<link rel='icon' href='$manage_themes/default/img/favicon.png' type='image/png' />\n";
 
 //
+// Load the tinymce editor
+//
+//print "<script type='text/javascript' src='$manage_js/tinymce/tinymce.min.js'></script>\n";
+//print "<script type='text/javascript'>tinymce.init({selector: 'textarea'});</script>\n";
+
+//
 // Check to see if a compile, minimized version exists
 //
 if( file_exists("$themes_root/default/$device-$engine.min.css") ) {

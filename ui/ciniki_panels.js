@@ -210,6 +210,16 @@ M.panel.prototype.show = function(cb) {
 		}
 	}
 
+	// Setup TinyMCE Editor
+//	tinyMCE.init({
+//		mode:'textareas',
+//		theme:'modern',
+//		schema:'html5',
+//		toolbar:["bold italic underline strikethrough | link unlink | bulllist numlist"],
+//		menubar:'false',
+//		statusbar:'false',
+//		});
+
 	if( this.autofocus != '' ) {
 		var e = M.gE(this.autofocus);
 		e.focus();

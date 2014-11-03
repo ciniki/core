@@ -81,6 +81,15 @@ function ciniki_core_emailQueueProcess(&$ciniki) {
 			}
 
 			$mail->AddAddress($email['to']);
+			
+			// Add reply to if specified
+			if( isset($email['replyto_email']) && $email['replyto_email'] != '' ) {
+				if( isset($email['replyto_name']) && $email['replyto_name'] != '' ) {
+					$mail->addReplyTo($email['replyto_email'], $email['replyto_name']);
+				} else {
+					$mail->addReplyTo($email['replyto_email']);
+				}
+			}
 
 			$mail->Subject = $email['subject'];
 			if( isset($email['htmlmsg']) && $email['htmlmsg'] != '' ) {

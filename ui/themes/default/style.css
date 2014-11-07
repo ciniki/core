@@ -1354,6 +1354,8 @@ table.form tr.toggle td.multiselect div span.toggle_on,
 table.form tr.toggle td.multiselect div span.toggle_off,
 table.form tr.multiselect div span.toggle_on,
 table.form tr.multiselect div span.toggle_off,
+table.form tr.collection div span.toggle_on,
+table.form tr.collection div span.toggle_off,
 table.form tr.tags div span.toggle_on,
 table.form tr.tags div span.toggle_off {
 	margin-right: 0.5em;

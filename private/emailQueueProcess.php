@@ -23,9 +23,9 @@ function ciniki_core_emailQueueProcess(&$ciniki) {
 		elseif( isset($email['user_id']) ) {
 			ciniki_core_loadMethod($ciniki, 'ciniki', 'users', 'private', 'emailUser');
 			if( isset($email['htmlmsg']) ) {
-				ciniki_users_emailUser($ciniki, 0, $email['user_id'], $email['subject'], $email['textmsg'], $email['htmlmsg']);
+				ciniki_users_emailUser($ciniki, 0, $email['user_id'], $email);
 			} else {
-				ciniki_users_emailUser($ciniki, 0, $email['user_id'], $email['subject'], $email['textmsg'], '');
+				ciniki_users_emailUser($ciniki, 0, $email['user_id'], $email);
 			}
 		}
 		elseif( isset($email['to']) ) {
@@ -69,6 +69,10 @@ function ciniki_core_emailQueueProcess(&$ciniki) {
 			// If not enough information, or none provided, default back to system email
 			//
 			if( $use_config == 'yes' ) {
+				if( !isset($ciniki['config']['ciniki.core']['system.email']) ) {
+					// If the system.email is not set, don't send any emails, dev system.
+					return array('stat'=>'ok');
+				}
 				$mail->Host = $ciniki['config']['ciniki.core']['system.smtp.servers'];
 				$mail->SMTPAuth = true;
 				$mail->Username = $ciniki['config']['ciniki.core']['system.smtp.username'];

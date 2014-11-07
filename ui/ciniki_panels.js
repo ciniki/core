@@ -3002,10 +3002,34 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
 			f.setAttribute('onclick', this.panelRef + '.setSelectField(this, \'' + i + sFN + '\',\'' + field.none + '\',\'' + field.fn + '\');');
 			div.appendChild(f);
 		}
-		c.appendChild(div)
+		c.appendChild(div);
 		if( field.hint != null && field.hint != '' ) {
 			c.appendChild(M.aE('span', this.panelUID + '_' + fid + sFN + '_hint', 'hint', field.hint));
 		}
+	}
+	else if( field.type == 'collection' ) {
+		c.className = 'multiselect';
+		var div = M.aE('div', this.panelUID + '_' + fid + sFN);
+		var v = this.fieldValue(s, i, field, mN);
+		if( v != null && v != '' ) {
+			vs = v.split(',');
+		} else {
+			vs = [];
+		}
+		if( this.data['_' + fid] != null ) { var collections = this.data['_' + fid]; } 
+		if( field.collections != null ) { var collections = field.collections; }
+		for(j in collections) {
+			var f = M.aE('span', this.panelUID + '_' + fid + sFN + '_' + j);
+			f.setAttribute('onfocus', this.panelRef + '.clearLiveSearches(\''+s+'\',\''+i+sFN+'\');');
+			f.className = 'toggle_off';
+			if( vs.indexOf(collections[j].collection.id) >= 0 ) {
+				f.className = 'toggle_on';
+			}
+			f.innerHTML = collections[j].collection.name;
+			f.setAttribute('onclick', this.panelRef + '.setSelectField(this, \'' + i + sFN + '\',\'yes\',\'' + field.fn + '\');');
+			div.appendChild(f);
+		}
+		c.appendChild(div);
 	}
 	else if( field.type == 'tags' ) {
 		c.className = 'multiselect';
@@ -4831,6 +4855,15 @@ M.panel.prototype.formFieldValue = function(f,fid) {
 			if( M.gE(this.panelUID + '_' + fid + '_' + j).className == 'toggle_on' ) {
 				n += c + j;
 				c = ',';
+			}
+		}
+	} else if( f.type == 'collection' ) {
+		n = '';
+		if( this.data['_' + fid] != null ) { var collections = this.data['_' + fid]; } 
+		if( f.collections != null ) { var collections = f.collections; }
+		for(j in collections) {
+			if( M.gE(this.panelUID + '_' + fid + '_' + j).className == 'toggle_on' ) {
+				n += (n!=''?',':'') + collections[j].collection.id;
 			}
 		}
 	} else if( f.type == 'tags' ) {

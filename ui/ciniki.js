@@ -1398,6 +1398,9 @@ M.formatAddress = function(addr) {
 	if( addr.country != null && addr.country != '' ) {
 		a += addr.country + '<br/>';
 	}
+	if( addr.phone != null && addr.phone != '' ) {
+		a += 'Phone: ' + addr.phone + '<br/>';
+	}
 	return a;
 }
 

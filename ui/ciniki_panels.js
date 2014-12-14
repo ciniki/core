@@ -2846,7 +2846,7 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
 		}
 		var v = this.fieldValue(s, i, field, mN);
 		if( v != null ) {
-			f.value = v.replace(/\n/g,"<br />");
+			f.value = v; 
 		}
 		if( field.livesearch != null && field.livesearch == 'yes' ) {
 			f.setAttribute('onkeyup', this.panelRef + '.liveSearchSection(\'' + s + '\',\'' + i + sFN + '\',this, event);');

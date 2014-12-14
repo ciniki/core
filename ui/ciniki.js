@@ -89,6 +89,19 @@ M.init = function(cfg) {
 	if( cfg.auth_token != null ) {
 		M.auth(this, cfg.auth_token);
 	}
+
+	// Setup TinyMCE Editor
+	tinyMCE.init({
+		mode:'none',
+		inline:true,
+		theme:'modern',
+		schema:'html5',
+		toolbar:["bold italic underline strikethrough"],
+		menubar:false,
+		statusbar:false,
+		forced_root_block:false,
+		resize:true,
+		});
 }
 
 M.preLoad = function(s) {

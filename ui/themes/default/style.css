@@ -570,6 +570,12 @@ table.list tr.textfield > td.toggle {
 	padding: 0.5em;
 }
 
+div.narrow table.list tr.textfield > td.htmlarea,
+div.medium table.list tr.textfield > td.htmlarea,
+div.large table.list tr.textfield > td.htmlarea,
+div.xlarge table.list tr.textfield > td.htmlarea,
+div.full table.list tr.textfield > td.htmlarea,
+div.wide table.list tr.textfield > td.htmlarea,
 div.narrow table.list tr.textfield > td.textarea,
 div.medium table.list tr.textfield > td.textarea,
 div.large table.list tr.textfield > td.textarea,
@@ -579,6 +585,7 @@ div.wide table.list tr.textfield > td.textarea {
 	width: 100%;
 }
 
+table.list tr.textfield > td.htmlarea,
 table.list tr.textfield > td.textarea {
 	background: #fff;
 	padding: 0 0em 0 0em;
@@ -598,8 +605,28 @@ table.list tr.textfield > td > textarea {
 	border: 0px;
 }
 
+table.list tr.textfield > td > div.htmlarea {
+	width: 100%;
+	padding: 0.4em;
+	padding: 0.0em;
+	font-size: 1.0em;
+	color: #555;
+	text-align: left;
+	margin: 0em;
+	border: 0px;
+	min-height: 3em;
+}
+
 table.list tr.textfield > td > textarea.small {
 	height: 3em;
+}
+
+table.list tr.textfield > td.medium > div.htmlarea {
+	min-height: 10em;
+}
+
+table.list tr.textfield > td.large > div.htmlarea {
+	min-height: 10em;
 }
 
 table.list tr.textfield > td > textarea.large {
@@ -625,6 +652,7 @@ table.list tr > td.historybutton {
 	text-align: right;
 }
 
+table.list tr.htmlarea > td.historybutton,
 table.list tr.textarea > td.historybutton {
 	vertical-align: top;
 }

@@ -4,6 +4,7 @@ body {
 }
 
 .headerbar,
+table.form td.htmlarea,
 table.form td.textarea,
 table.list,
 table.form td.input input {

@@ -32,6 +32,7 @@ M.panel = function(title, appID, panelID, appPrefix, size, type, helpUID) {
 	this.cbStacked = 'no';
 	this.liveSearchTables = [];
 	this.autofocus = '';
+	this.tinymce = [];
 
 	//
 	// Attach functions from other files.  These are typically located in s-compact and s-normal,
@@ -91,6 +92,12 @@ M.panel.prototype.close = function(data) {
 	// Remove the panel
 	//
 //	this.destroy();
+	if( this.tinymce.length > 0 ) {
+		for(i in this.tinymce) {
+			tinymce.execCommand("mceRemoveEditor", false, this.tinymce[i]);
+		}
+	}
+
 
 	//
 	// Remove any hooks
@@ -211,6 +218,7 @@ M.panel.prototype.show = function(cb) {
 	}
 
 	// Setup TinyMCE Editor
+	// Moved to ciniki init
 //	tinyMCE.init({
 //		mode:'textareas',
 //		theme:'modern',
@@ -219,6 +227,12 @@ M.panel.prototype.show = function(cb) {
 //		menubar:'false',
 //		statusbar:'false',
 //		});
+
+	if( this.tinymce.length > 0 ) {
+		for(i in this.tinymce) {
+			tinymce.execCommand("mceAddEditor", false, this.tinymce[i]);
+		}
+	}
 
 	if( this.autofocus != '' ) {
 		var e = M.gE(this.autofocus);
@@ -231,6 +245,7 @@ M.panel.prototype.show = function(cb) {
 // can be called by show or refresh
 //
 M.panel.prototype.addPanel = function() {
+	this.tinymce = [];
 	var p = M.aE('div', this.panelUID, 'panel');
 	if( this.sidePanel != null ) {
 		var w = M.aE('div', '', this.size + ' leftpanel');
@@ -284,6 +299,11 @@ M.panel.prototype.addPanel = function() {
 M.panel.prototype.refresh = function() {
 	var c = M.gE(this.panelUID);
 	if( c != null ) {
+		if( this.tinymce.length > 0 ) {
+			for(i in this.tinymce) {
+				tinymce.execCommand("mceRemoveEditor", false, this.tinymce[i]);
+			}
+		}
 		var s = c.style.display;
 		var p = c.parentNode;
 		p.removeChild(c);
@@ -2775,8 +2795,33 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
 		c.appendChild(f);
 		c.appendChild(M.aE('span',null,'rbutton_off','D','M.' + this.appID + '.' + this.name + '.toggleFormFieldAppointment(\'' + i + sFN + '\');'));
 	}
-	else if( field.type == 'textarea' ) {
-		var f = M.aE('textarea', this.panelUID + '_' + i + sFN);
+	else if( field.type == 'htmlarea' ) {
+		var f = M.aE('div', this.panelUID + '_' + i + sFN, (field.type=='textarea'?null:field.type) + (field.size!=null?' ' + field.size:''));
+		console.log(f.className);
+		f.setAttribute('name', i + sFN);
+		f.setAttribute('onfocus', this.panelRef + '.clearLiveSearches(\''+s+'\',\''+i+sFN+'\');');
+//		if( field.size != null && field.size == 'small' ) {
+//			f.setAttribute('rows', 2);
+//			f.setAttribute('class', 'small');
+//		} else if( field.size != null && field.size == 'large' ) {
+//			f.setAttribute('rows', 12);
+//			f.setAttribute('class', 'large');
+//		} else {
+//			f.setAttribute('rows', 6);
+//		}
+//		if( field.hint != null && field.hint != '' ) {
+//			f.setAttribute('placeholder', field.hint);
+//		}
+		var v = this.fieldValue(s, i, field, mN);
+		if( v != null ) {
+			f.innerHTML = v.replace(/\n/g,"<br />");
+		}
+		c.className = field.type + (field.size!=null?' ' + field.size:'');
+		this.tinymce.push(this.panelUID + '_' + i + sFN);
+		c.appendChild(f);
+	}
+	else if( field.type == 'textarea' || field.type == 'htmlarea' ) {
+		var f = M.aE('textarea', this.panelUID + '_' + i + sFN, (field.type=='textarea'?null:field.type));
 		f.setAttribute('name', i + sFN);
 		f.setAttribute('onfocus', this.panelRef + '.clearLiveSearches(\''+s+'\',\''+i+sFN+'\');');
 		if( field.size != null && field.size == 'small' ) {
@@ -2793,15 +2838,18 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
 		}
 		var v = this.fieldValue(s, i, field, mN);
 		if( v != null ) {
-			f.value = v;
+			f.value = v.replace(/\n/g,"<br />");
 		}
 		if( field.livesearch != null && field.livesearch == 'yes' ) {
 			f.setAttribute('onkeyup', this.panelRef + '.liveSearchSection(\'' + s + '\',\'' + i + sFN + '\',this, event);');
 			f.setAttribute('autocomplete', 'off');
 			this.lastSearches[i] = '';
 		}
-		c.className = 'textarea';
+		c.className = field.type; // 'textarea';
 		c.appendChild(f);
+		if( field.type == 'htmlarea' ) {
+			this.tinymce.push(this.panelUID + '_' + i + sFN);
+		}
 	}
 	else if( field.type == 'select' ) {
 		var sel = M.aE('select', this.panelUID + '_' + fid + sFN);
@@ -3556,6 +3604,8 @@ M.panel.prototype.setFieldValue = function(field, v, vnum, hide, nM, action) {
 	} else if( f.type == 'audio_id' ) {
 		M.gE(this.panelUID + '_' + field + sFN).value = v;
 		this.updateAudioPreview(field + sFN, v);
+	} else if( f.type == 'htmlarea' ) {
+		tinymce.get(this.panelUID + '_' + field + sFN).setContent(v.replace(/\n/g,"<br />"));
 	} else {
 		//
 		// If not a special type, then set the input field value to the
@@ -4897,6 +4947,9 @@ M.panel.prototype.formFieldValue = function(f,fid) {
 			var t = n.split(/:/);
 			n = (parseInt(t[0])*60) + parseInt(t[1]);
 		}
+	} else if( f.type == 'htmlarea' ) {
+		n = tinymce.get(this.panelUID + '_' + fid).getContent();
+		n = n.replace(/<br \/>/g, "\n");
 	} else {
 		n = M.gE(this.panelUID + '_' + fid).value;
 	}

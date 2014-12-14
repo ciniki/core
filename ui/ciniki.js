@@ -1404,6 +1404,22 @@ M.formatAddress = function(addr) {
 	return a;
 }
 
+M.linkEmail = function(v) {
+	if( typeof(v) == 'string' ) {
+		v = v.replace(/(\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)/, "<a class=\"mailto\" href=\"mailto:$1\" onclick=\"event.stopPropagation();\">$1</a>");
+	}
+
+	return v;
+}
+
+M.hyperlink = function(v) {
+	if( typeof(v) == 'string' ) {
+		v = '<a class="website" target="blank_" href="' + v + '" onclick="event.stopPropagation();">' + v + '</a>';
+	}
+
+	return v;
+}
+
 M.formatHtml = function(c) {
 	return c.replace(/\n/, '<br/>');
 }

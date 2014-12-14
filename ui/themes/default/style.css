@@ -283,6 +283,16 @@ table.outline {
 	background-color: rgba(255,255,255,0.4);
 }
 
+a.website,
+a.website:hover,
+a.website:visited,
+a.mailto,
+a.mailto:hover,
+a.mailto:visited {
+	color: #439BBD;
+	text-decoration: none;
+}
+
 table.list > thead,
 table.list > tbody,
 table.list > tfoot {

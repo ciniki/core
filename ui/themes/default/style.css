@@ -614,7 +614,7 @@ table.list tr.textfield > td.htmlarea {
 table.list tr.textfield > td > div.htmlarea {
 	background: #fff;
 	width: 100%;
-	padding: 0.4em;
+	padding: 0.5em;
 	font-size: 1.0em;
 	color: #555;
 	text-align: left;

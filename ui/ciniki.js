@@ -92,11 +92,13 @@ M.init = function(cfg) {
 
 	// Setup TinyMCE Editor
 	tinyMCE.init({
-		mode:'none',
+		selector:false,
 		inline:true,
 		theme:'modern',
 		schema:'html5',
-		toolbar:["bold italic underline strikethrough"],
+		skin:'ciniki',
+//		toolbar:["bold italic underline strikethrough"],
+		toolbar:false,
 		menubar:false,
 		statusbar:false,
 		forced_root_block:false,

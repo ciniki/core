@@ -1,4 +1,4 @@
-table.form td.htmlarea,
+table.form td.htmlarea div.htmlarea,
 table.form td.textarea,
 table.form td.search input,
 table.form td.multiselect input,
@@ -62,6 +62,8 @@ button, input.button {
 	padding: 5px 15px 5px 15px;
 }
 
+span.button_on,
+span.button_off,
 span.rbutton_on,
 span.rbutton_off {
 	-webkit-border-radius: 1em;
@@ -96,6 +98,7 @@ table.form td.flags span.flag_off {
 	-webkit-border-radius: 0.5em;
 }
 
+span.button_on,
 span.rbutton_on,
 table.form td div span.toggle_on,
 table.form span.flag_on {
@@ -106,6 +109,7 @@ table.form span.flag_on {
 	border: 1px solid #777;
 }
 
+span.button_off,
 span.rbutton_off,
 table.form td div span.toggle_off,
 table.form span.flag_off {

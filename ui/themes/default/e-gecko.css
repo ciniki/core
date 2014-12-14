@@ -1,4 +1,4 @@
-table.form td.htmlarea,
+table.form td.htmlarea div.htmlarea,
 table.form td.textarea,
 table.form td.search input,
 table.form td.multiselect input,
@@ -7,6 +7,10 @@ table.form td.input input {
 	-moz-border-radius: 7px;
 	border-radius: 7px;
 	box-shadow: #777 0px 1px 3px inset;
+}
+
+table.list textarea {
+	font-family: inherit;
 }
 
 table.simplelist input,
@@ -81,6 +85,8 @@ h2 span.rbutton_off {
 	padding: 0.2em 0.25em 0.2em 0.25em;
 }
 
+span.button_on,
+span.button_off,
 span.rbutton_on,
 span.rbutton_off {
 	-moz-border-radius: 1.5em;
@@ -101,6 +107,7 @@ table.form td.flags span.flag_off {
 	border-radius: 7px;
 }
 
+span.button_on,
 span.rbutton_on,
 table.form td div span.toggle_on,
 table.form span.flag_on {
@@ -118,6 +125,7 @@ table.form td div span.toggle_off {
 	padding: 0.3em 0.5em 0.3em 0.5em;
 }
 
+span.button_off,
 span.rbutton_off,
 table.form td div span.toggle_off,
 table.form span.flag_off {

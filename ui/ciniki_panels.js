@@ -2797,7 +2797,6 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
 	}
 	else if( field.type == 'htmlarea' ) {
 		var f = M.aE('div', this.panelUID + '_' + i + sFN, (field.type=='textarea'?null:field.type) + (field.size!=null?' ' + field.size:''));
-		console.log(f.className);
 		f.setAttribute('name', i + sFN);
 		f.setAttribute('onfocus', this.panelRef + '.clearLiveSearches(\''+s+'\',\''+i+sFN+'\');');
 //		if( field.size != null && field.size == 'small' ) {
@@ -2818,6 +2817,15 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
 		}
 		c.className = field.type + (field.size!=null?' ' + field.size:'');
 		this.tinymce.push(this.panelUID + '_' + i + sFN);
+		c.appendChild(f);
+		// Create the toolbar
+		var f = M.aE('div', this.panelUID + '_' + i + sFN + '_htmlarea_toolbar', 'htmlarea-toolbar');
+//				tinymce.execCommand("mceRemoveEditor", false, this.tinymce[i]);
+		f.innerHTML = '<span class="button_off" onmousedown="tinymce.get(\'' + this.panelUID + '_' + i + sFN + '\').execCommand(\'Bold\'); return false;"><strong>B</strong></span>'
+			+ '<span class="button_off" onmousedown="tinymce.get(\'' + this.panelUID + '_' + i + sFN + '\').execCommand(\'Italic\'); return false;"><em>I</em></span>'
+			+ '<span class="button_off" onmousedown="tinymce.get(\'' + this.panelUID + '_' + i + sFN + '\').execCommand(\'Underline\'); return false;"><u>U</u></span>'
+			+ '<span class="button_off" onmousedown="tinymce.get(\'' + this.panelUID + '_' + i + sFN + '\').execCommand(\'Strikethrough\'); return false;"><strike>S</strike></span>'
+			+ '';
 		c.appendChild(f);
 	}
 	else if( field.type == 'textarea' || field.type == 'htmlarea' ) {

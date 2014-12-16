@@ -2993,7 +2993,7 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
 		}
 		var div = M.aE('div', this.panelUID + '_' + fid + sFN);
 		var v = this.fieldValue(s, i, field, mN);
-		if( v == '' && field.default != null && field.default != '' ) {
+		if( (v == null || v == '') && field.default != null && field.default != '' ) {
 			v = field.default;
 		}
 		for(j in field.toggles) {

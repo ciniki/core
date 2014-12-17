@@ -409,7 +409,7 @@ M.panel.prototype.createSection = function(i, s) {
 	// 
 	// Check if section is visible
 	//
-	if( s.visible != null && s.visible != 'yes' ) {
+	if( s.visible != null && s.visible != 'yes' && s.visible != 'hidden' ) {
 		return null;
 	}
 	if( s.active != null && s.active != 'yes' ) {
@@ -432,6 +432,10 @@ M.panel.prototype.createSection = function(i, s) {
 		var f = M.aE('div', this.panelUID + '_section_' + i, 'panelsection paneltabs');
 	} else {
 		var f = M.aE('div', this.panelUID + '_section_' + i, 'panelsection');
+	}
+
+	if( s.visible != null && s.visible == 'hidden' ) {
+		f.style.display = 'none';
 	}
 
 	//

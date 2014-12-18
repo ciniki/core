@@ -671,6 +671,20 @@ table.list tr.textarea > td.historybutton {
 	vertical-align: top;
 }
 
+span.rating_on,
+span.rating_off {
+	padding-left: 0.15em;
+	padding-right: 0.15em;
+}
+
+span.rating_off {
+	color: #ccc;
+}
+
+span.rating_on {
+	color: inherit;
+}
+
 span.button_on,
 span.button_off,
 span.rbutton_on,

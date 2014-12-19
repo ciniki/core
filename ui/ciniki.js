@@ -989,7 +989,7 @@ M.sortGrid = function(tid, col, type, o, save, d) {
 		type = M.gridSorting[tid].type;
 	}
 
-	if( type == 'text' || type == 'undefined' ) {
+	if( type == 'text' || type == 'alttext' || type == 'undefined' ) {
 		var sorter_fn = function(a, b) {
 //			console.log('sort:'+a+'--'+b);
 			if( a == b ) return 0;
@@ -1045,7 +1045,7 @@ M.sortGrid = function(tid, col, type, o, save, d) {
 			b = tb.children[i+1].children[col].innerHTML;
 			var sva = tb.children[i].children[col].sort_value;
 			var svb = tb.children[i+1].children[col].sort_value;
-			if( type == 'date' || type == 'size' || type == 'altnumber' ) {
+			if( type == 'date' || type == 'size' || type == 'altnumber' || type == 'alttext' ) {
 				a = sva;
 				b = svb;
 			}
@@ -1072,7 +1072,7 @@ M.sortGrid = function(tid, col, type, o, save, d) {
 			b = tb.children[i-1].children[col].innerHTML;
 			var sva = tb.children[i].children[col].sort_value;
 			var svb = tb.children[i-1].children[col].sort_value;
-			if( type == 'date' || type == 'size' || type == 'altnumber' ) {
+			if( type == 'date' || type == 'size' || type == 'altnumber' || type == 'alttext' ) {
 				a = sva;
 				b = svb;
 			}

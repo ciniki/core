@@ -1738,6 +1738,9 @@ M.panel.prototype.createSectionGrid = function(s) {
 				if( sc.sortable != null && sc.sortable == 'yes' && sc.sortTypes != null && sc.sortTypes[j] == 'altnumber' ) {
 					c.sort_value = this.cellSortValue(s, i, j, data[i]);
 				}
+				if( sc.sortable != null && sc.sortable == 'yes' && sc.sortTypes != null && sc.sortTypes[j] == 'alttext' ) {
+					c.sort_value = this.cellSortValue(s, i, j, data[i]);
+				}
 				// Check if a sortable size field, where we need to store the real size
 //				if( sc.sortable != null && sc.sortable == 'yes' && sc.sortTypes != null && sc.sortTypes[j] == 'date' ) {
 //					c.sort_value = v;

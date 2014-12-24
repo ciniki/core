@@ -2739,6 +2739,9 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
 		if( field.enterFn != null && field.enterFn != '' ) {
 			f.setAttribute('onkeyup', 'if( event.keyCode == 13 ) { ' + field.enterFn + ' };');
 		}
+		if( field.onchangeFn != null && field.onchangeFn != '' ) {
+			f.setAttribute('onchange', field.onchangeFn + '(\'' + s + '\',\'' + i+sFN+'\');');
+		}
 		c.appendChild(f);
 //			if( field.type == 'fkid' ) {
 //				c.appendChild(f2);
@@ -2779,7 +2782,7 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
 //				f.setAttribute('name', i + '_time');
 //			}
 	}
-	else if(  field.type == 'appointment' ) {
+	else if( field.type == 'appointment' ) {
 		var f = M.aE('input', this.panelUID + '_' + i + sFN + '', 'datetime');
 		f.setAttribute('name', i + sFN + '');
 		f.setAttribute('type', 'text');
@@ -4232,8 +4235,13 @@ M.panel.prototype.showFieldCalendars = function(field, start_year, start_month, 
 M.panel.prototype.setFromCalendar = function(field, date) {
 	//v = this.dateFormat(date).date;
 	v = M.dateFormat(date);
-	M.gE(this.panelUID + '_' + field).value = v;
+	var input = M.gE(this.panelUID + '_' + field);
+	input.value = v;
 	this.removeFormFieldCalendar(field);
+	// Trigger onchange
+	if( input.onchange != null ) {
+		input.onchange();
+	}
 };
 
 M.panel.prototype.setFromAppointment = function(field, date, time, ad) {

@@ -137,9 +137,6 @@ function ciniki_core_dbGetModuleHistoryLinkedToggle(&$ciniki, $module, $history_
 		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'135', 'msg'=>'Unable to merge user information', 'err'=>$rc['err']));
 	}
 	$users = $rc['users'];
-	if( in_array('-2', $user_ids) ) {
-		$users['-2'] = array('display_name'=>'website');
-	}
 
 	//
 	// Merge user list information into array

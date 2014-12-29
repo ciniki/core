@@ -116,9 +116,9 @@ function ciniki_core_dbGetModuleHistoryReformat(&$ciniki, $module, $history_tabl
 			$rsp['history'][$num_history]['action']['value'] = numfmt_format_currency(
 				$intl_currency_fmt, $row['value'], $intl_currency);
 		}
-		if( $row['user_id'] > 0 ) {
+//		if( $row['user_id'] > 0 ) {
 			array_push($user_ids, $row['user_id']);
-		}
+//		}
 		$rsp['history'][$num_history]['action']['age'] = ciniki_core_dbParseAge($ciniki, $row['age']);
 		$num_history++;
 	}
@@ -146,7 +146,7 @@ function ciniki_core_dbGetModuleHistoryReformat(&$ciniki, $module, $history_tabl
 	// Merge user list information into array
 	//
 	foreach($rsp['history'] as $k => $v) {
-		if( isset($v['action']) && isset($v['action']['user_id']) && $v['action']['user_id'] > 0 
+		if( isset($v['action']) && isset($v['action']['user_id']) //&& $v['action']['user_id'] > 0 
 			&& isset($users[$v['action']['user_id']]) && isset($users[$v['action']['user_id']]['display_name']) ) {
 			$rsp['history'][$k]['action']['user_display_name'] = $users[$v['action']['user_id']]['display_name'];
 		}

@@ -73,11 +73,15 @@ function ciniki_core_objectAdd(&$ciniki, $business_id, $obj_name, $args, $tmsupd
 		. "'" . ciniki_core_dbQuote($ciniki, $business_id) . "', ";
 	foreach($o['fields'] as $field => $options) {
 		$strsql .= $field . ', ';
-		if( !isset($args[$field]) ) {
+		if( isset($args[$field]) ) {
+			$values .= "'" . ciniki_core_dbQuote($ciniki, $args[$field]) . "', ";
+		} elseif( isset($options['default']) ) {
+			$args[$field] = $options['default'];
+			$values .= "'" . ciniki_core_dbQuote($ciniki, $options['default']) . "', ";
+		} else {
 			if( ($tmsupdate&0x01) == 1 ) { ciniki_core_dbTransactionRollback($ciniki, $m); }
 			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1366', 'msg'=>'Missing object field: ' . $field));
 		}
-		$values .= "'" . ciniki_core_dbQuote($ciniki, $args[$field]) . "', ";
 	}
 	$strsql .= "date_added, last_updated) VALUES (" . $values . " UTC_TIMESTAMP(), UTC_TIMESTAMP())";
 

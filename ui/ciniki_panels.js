@@ -2485,16 +2485,24 @@ M.panel.prototype.createFormFields = function(s, nF, fI, fields, mN) {
 			l.appendChild(document.createTextNode(fields[i].label));
 			var c = M.aE('td');
 			c.className = 'label';
+			if( fields[i].editFn != null && fields[i].editFn != '' ) {
+				c.setAttribute('onclick', fields[i].editFn);
+			}
 			c.appendChild(l);
 			r.appendChild(c);
 		} 
 		if( fields[i].type != 'noedit' ) {
 			ef++;
 		}
+
 		//
 		// Call the generic generate form field
 		//
 		r.className = 'textfield ' + fields[i].type;
+		if( fields[i].editFn != null && fields[i].editFn != '' ) {
+//			r.setAttribute('onclick', fields[i].editFn);
+			r.className += ' clickable';
+		}
 		r.appendChild(this.createFormField(s, i, fields[i], fid, mN));
 		nF.appendChild(r);
 
@@ -2510,10 +2518,14 @@ M.panel.prototype.createFormFields = function(s, nF, fI, fields, mN) {
 
 		// Check if there should be a history button displayed
 		if( this.fieldHistory != null && this.fieldHistory != '' && (fields[i].history == null || fields[i].history == 'yes') ) {
-			r.appendChild(M.aE('td',null,'historybutton','<span class="rbutton_off">H</span>','M.' + this.appID + '.' + this.name + '.toggleFormFieldHistory(\'' + s + '\',\'' + fid + '\');'));
+			r.appendChild(M.aE('td',null,'historybutton','<span class="rbutton_off">H</span>','M.' + this.appID + '.' + this.name + '.toggleFormFieldHistory(event, \'' + s + '\',\'' + fid + '\');'));
 		} else if( this.fieldHistoryArgs != null && this.fieldHistoryArgs != '' && (fields[i].history == null || fields[i].history == 'yes') ) {
-			r.appendChild(M.aE('td',null,'historybutton','<span class="rbutton_off">H</span>','M.' + this.appID + '.' + this.name + '.toggleFormFieldHistory(\'' + s + '\',\'' + fid + '\');'));
+			r.appendChild(M.aE('td',null,'historybutton','<span class="rbutton_off">H</span>','event.stopPropagation(); M.' + this.appID + '.' + this.name + '.toggleFormFieldHistory(event, \'' + s + '\',\'' + fid + '\');'));
 		}
+		if( fields[i].editFn != null && fields[i].editFn != '' ) {
+			r.appendChild(M.aE('td', null, 'buttons noprint','<span class="icon">r</span>',fields[i].editFn));
+		}
+
 		ct++;
 
 		//
@@ -2975,7 +2987,8 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
 			};
 			// Use a different onclick function if this is a toggle field, where only one can be active at a time
 			if( field.toggle != null && field.toggle == 'yes' ) {
-				f.onclick = function(event) {event.stopPropagation();
+				f.onclick = function(event) {
+					event.stopPropagation();
 					if( this.className == 'flag_on' ) { this.className = 'flag_off'; } 
 					else {
 						for(k in this.parentNode.children) {
@@ -3008,7 +3021,7 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
 		}
 		for(j in field.toggles) {
 			var f = M.aE('span', this.panelUID + '_' + fid + sFN + '_' + j);
-			f.setAttribute('onfocus', this.panelRef + '.clearLiveSearches(\''+s+'\',\''+i+sFN+'\');');
+//			f.setAttribute('onfocus', this.panelRef + '.clearLiveSearches(\''+s+'\',\''+i+sFN+'\');');
 			if( v == j ) {
 				f.className = 'toggle_on';
 			} else {
@@ -3663,7 +3676,11 @@ M.panel.prototype.removeFormFieldHistory = function(field) {
 	// Toggle image
 	//
 	//h.previousSibling.children[h.previousSibling.children.length-1].children[0].src ='' + M.themes_root_url + '/default/img/historyA.png';
-	h.previousSibling.children[h.previousSibling.children.length-1].children[0].className = 'rbutton_off';
+	var r = h.previousSibling.getElementsByClassName('historybutton');
+	r[0].children[0].className = 'rbutton_off';
+
+
+//	h.previousSibling.children[h.previousSibling.children.length-1].children[0].className = 'rbutton_off';
 
 	//
 	// Remove element, and delete the history object to save memory
@@ -3823,7 +3840,8 @@ M.panel.prototype.toggleFormGridHistory = function(s, row) {
 // This function will check for an existing field history, and remove it,
 // or add a new one 
 //
-M.panel.prototype.toggleFormFieldHistory = function(s, field) {
+M.panel.prototype.toggleFormFieldHistory = function(e, s, field) {
+	e.stopPropagation();
 	var h = M.gE(this.panelUID + '_' + field + '_history');
 	if( h != null ) {
 		this.removeFormFieldHistory(field);
@@ -3831,6 +3849,11 @@ M.panel.prototype.toggleFormFieldHistory = function(s, field) {
 		//
 		// Issue callback to get the history for this field
 		//
+		if( e.target.nodeName == 'SPAN' ) {
+			e.target.className = 'rbutton_on';
+		} else {
+			e.target.firstChild.className = 'rbutton_on';
+		}
 		if( this.fieldHistoryArgs != null ) {
 			var r = this.fieldHistoryArgs(s,field);
 			var p = this;
@@ -3847,8 +3870,8 @@ M.panel.prototype.toggleFormFieldHistory = function(s, field) {
 				//
 				// Toggle the image
 				//
-				var h = M.gE(p.panelUID + '_' + field + '_history');
-				h.previousSibling.children[h.previousSibling.children.length-1].children[0].className = 'rbutton_on';
+//				var h = M.gE(p.panelUID + '_' + field + '_history');
+//				h.previousSibling.children[h.previousSibling.children.length-1].children[0].className = 'rbutton_on';
 			});
 		} else {
 			this.fieldHistories[field] = this.fieldHistory(s,field);
@@ -3861,8 +3884,8 @@ M.panel.prototype.toggleFormFieldHistory = function(s, field) {
 			//
 			// Toggle the image
 			//
-			var h = M.gE(this.panelUID + '_' + field + '_history');
-			h.previousSibling.children[h.previousSibling.children.length-1].children[0].className = 'rbutton_on';
+//			var h = M.gE(this.panelUID + '_' + field + '_history');
+//			h.previousSibling.children[h.previousSibling.children.length-1].children[0].className = 'rbutton_on';
 			// h.previousSibling.children[h.previousSibling.children.length-1].innerHTML = '<img name=\'history\' src=\'' + M.themes_root_url + '/default/img/historyB.png\' />';
 			}
 	}

@@ -733,6 +733,24 @@ M.panel.prototype.createSimpleThumbnails = function(s) {
 	return f;
 };
 
+M.panel.prototype.thumbSrc = function(s, i, d) {
+	if( d.image.image_id > 0 && d.image.image_data != null && d.image.image_data != '' ) {
+		return d.image.image_data;
+	} else {
+		return '/ciniki-mods/core/ui/themes/default/img/noimage_75.jpg';
+	}
+};
+
+M.panel.prototype.thumbTitle = function(s, i, d) {
+	if( d.image.name != null ) { return d.image.name; }
+	return '';
+};
+
+M.panel.prototype.thumbID = function(s, i, d) {
+	if( d.image.id != null ) { return d.image.id; }
+	return 0;
+};
+
 M.panel.prototype.createDailySchedule = function(s, d) {
 	var adate = this.scheduleDate(s, this.sections[s]);
 	if( this.sectionData != null ) {

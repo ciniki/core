@@ -146,24 +146,23 @@ function ciniki_core_dbHashQueryIDTree(&$ciniki, $strsql, $module, $tree) {
 							$data[$tree[$i]['container']][$row[$tree[$i]['fname']]][$field_id] = $row[$field];
 						}
 					}
-//					$data = &$data[$tree[$i]['container']][$row[$tree[$i]['fname']]];
 				}
+//				$data = &$data[$tree[$i]['container']][$row[$tree[$i]['fname']]];
 			}
 			else {
-// Untested code: Was added, but then not needed.
-//				foreach($tree[$i]['fields'] as $field) {
-//					if( isset($tree[$i]['idlists']) && in_array($field, $tree[$i]['idlists']) 
-//						&& $prev_row != null && $prev_row[$field] != $row[$field] ) {
-//						//
-//						// Check if field was declared in fields array, if not it can be added now
-//						//
-//						if( isset($data[$tree[$i]['container']][$row[$tree[$i]['fname']]][$field]) ) {
-//							$data[$tree[$i]['container']][$row[$tree[$i]['fname']]][$field] .= ',' . $row[$field];
-//						} else {
-//							$data[$tree[$i]['container']][$row[$tree[$i]['fname']]][$field] = $row[$field];
-//						}
-//					}
-//				}
+				foreach($tree[$i]['fields'] as $field) {
+					if( isset($tree[$i]['dlists'][$field])
+						&& $prev_row != null && $prev_row[$field] != $row[$field] ) {
+						//
+						// Check if field was declared in fields array, if not it can be added now
+						//
+						if( isset($data[$tree[$i]['container']][$row[$tree[$i]['fname']]][$field]) ) {
+							$data[$tree[$i]['container']][$row[$tree[$i]['fname']]][$field] .= $tree[$i]['dlists'][$field] . $row[$field];
+						} else {
+							$data[$tree[$i]['container']][$row[$tree[$i]['fname']]][$field] = $row[$field];
+						}
+					}
+				}
 
 //				$data = &$data[$tree[$i]['container']][$row[$tree[$i]['fname']]];
 			}
@@ -205,6 +204,7 @@ function ciniki_core_dbHashQueryIDTree(&$ciniki, $strsql, $module, $tree) {
 
 			$prev[$i] = $row[$tree[$i]['fname']];
 		}
+		$prev_row = $row;
 	}
 
 	mysqli_free_result($result);

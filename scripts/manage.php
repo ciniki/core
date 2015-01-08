@@ -114,7 +114,7 @@ $touch = 'no';
 $browser = 'unsupported';
 $size = 'normal';
 $engine = 'generic';
-if( preg_match('/Mozilla\/5.*iPad.*AppleWebKit\/5.*KHTML, like Gecko.*Mobile\/.*/', $_SERVER['HTTP_USER_AGENT']) == 1 ) {
+if( preg_match('/Mozilla\/5.*iPad.*AppleWebKit\/(5|6).*KHTML, like Gecko.*Mobile\/.*/', $_SERVER['HTTP_USER_AGENT']) == 1 ) {
 	$device = 'ipad';
 	$touch = 'yes';
 	$browser = 'safari';

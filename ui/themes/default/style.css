@@ -1409,6 +1409,8 @@ table.form td.flags span.flag_on,
 table.form td.flags span.flag_off, 
 table.form td.joinedflags span.flag_on,
 table.form td.joinedflags span.flag_off, 
+table.paneltabs td.joinedtabs div span.toggle_on,
+table.paneltabs td.joinedtabs div span.toggle_off,
 table.form td div span.toggle_on,
 table.form td div span.toggle_off {
 	display: inline-block;
@@ -1428,6 +1430,8 @@ table td.tags span.rbutton_off {
 
 table.form td.flags span.flag_on,
 table.form td.flags span.flag_off,
+table.paneltabs td.tabs div span.toggle_on,
+table.paneltabs td.tabs div span.toggle_off,
 table.form tr.toggle td.multiselect div span.toggle_on,
 table.form tr.toggle td.multiselect div span.toggle_off,
 table.form tr.multiselect div span.toggle_on,
@@ -1438,6 +1442,7 @@ table.form tr.tags div span.toggle_on,
 table.form tr.tags div span.toggle_off {
 	margin-right: 0.5em;
 }
+
 
 table.form td div span.toggle_on {
 	color: #000;
@@ -1466,8 +1471,8 @@ table.paneltabs > tbody > tr > td {
 
 table.formtabs td div span.toggle_on,
 table.formtabs td div span.toggle_off,
-table.paneltabs td div span.toggle_on,
-table.paneltabs td div span.toggle_off {
+table.paneltabs td.joinedtabs div span.toggle_on,
+table.paneltabs td.joinedtabs div span.toggle_off {
 	font-size: 1.0em;
 	margin: 0em;
 }

@@ -1438,3 +1438,16 @@ M.hyperlink = function(v) {
 M.formatHtml = function(c) {
 	return c.replace(/\n/, '<br/>');
 }
+
+M.length = function(o) {
+	if( o.keys ) {
+		return o.keys.length;
+	}
+	var l = 0;
+	for(var i in o) {
+		if( o.hasOwnProperty(i) ) {
+			l++;
+		}
+	}
+	return l;
+}

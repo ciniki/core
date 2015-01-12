@@ -2006,15 +2006,16 @@ M.panel.prototype.createSimpleList = function(si, l, as) {
 	var ss = 0;
 
 	if( as != null ) {
-		if( as == 'yes' ) {
-			if( l != null && l.length < 6 ) { 
+		if( as == 'yes' ) {	
+			var len = M.length(l);
+			if( l != null && len < 6 ) { 
 				ss = 1;
-			} else if( l != null && l.length < 20 ) {
-				ss = parseInt((l.length/2)+0.5);
-			} else if( l != null && l.length < 50 ) {
-				ss = parseInt((l.length/4)+0.5);
-			} else if( l != null && l.length < 100 ) {
-				ss = parseInt((l.length/8)+0.5);
+			} else if( l != null && len < 20 ) {
+				ss = parseInt((len/2)+0.5);
+			} else if( l != null && len < 50 ) {
+				ss = parseInt((len/4)+0.5);
+			} else if( l != null && len < 100 ) {
+				ss = parseInt((len/8)+0.5);
 			}
 		} else if( as == 'always' ) {
 			ss = 1;

@@ -140,6 +140,13 @@ elseif( preg_match('/Mozilla\/5.*Android .*AppleWebKit\/.*KHTML, like Gecko.*Mob
 	$engine = 'webkit';
 	$size = 'compact';
 }
+// Mozilla/5.0 (Linux; U; Android 4.2.1; en-us; ASUS Transformer Pad TF300T Build/JOP40D) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Safari/534.30
+elseif( preg_match('/Mozilla\/5.*Android.*ASUS Transformer Pad.*AppleWebKit\/.*KHTML, like Gecko.* Safari\/5.*/', $_SERVER['HTTP_USER_AGENT']) == 1 ) {
+	$device = 'android';
+	$touch = 'yes';
+	$browser = 'safari';
+	$engine = 'webkit';
+}
 // Mozilla/5.0 (hp-tablet; Linux; hpwOS/3.0.2; U; en-CA) AppleWebKit/534.6 (KHTML, like Gecko) wOSBrowser/234.40.1 Safari/534.6 TouchPad/1.0
 elseif( preg_match('/Mozilla\/5.*hp-tablet;.*U;.*AppleWebKit\/.*KHTML, like Gecko.* Safari\/534.*TouchPad.*/', $_SERVER['HTTP_USER_AGENT']) == 1 ) {
 	$device = 'hptablet';

@@ -45,10 +45,12 @@ div.xlarge {
 
 /* media queries to adjust screen based on width */
 @media screen and (min-width: 60em) {
+	div.help-off div.narrowaside,
 	div.help-off div.mediumaside {
 		max-width: 70em;
 	}
 
+	div.help-off div.narrowaside div.panelsection,
 	div.help-off div.mediumaside div.panelsection {
 		width: 35em;
 	}
@@ -62,8 +64,9 @@ div.xlarge {
 		margin-top: 0px;
 	}
 
+	div.help-off div.narrowaside div.fullwidth,
+	div.help-off div.narrowaside div.formtabs,
 	div.help-off div.mediumaside div.fullwidth,
-	div.help-off div.mediumaside div.formtabs,
 	div.help-off div.mediumaside div.formtabs {
 		width: 100%;
 	}

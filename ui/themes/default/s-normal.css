@@ -204,6 +204,31 @@ table.list td div.calendar {
 }
 
 /* media queries to adjust screen based on width */
+@media screen and (min-width: 59em) {
+	div.help-off div.narrowaside {
+		max-width: 56em;
+	}
+	div.help-off div.narrowaside div.panelsection {
+		width: 35em;
+		margin-left: 21em;
+	}
+	div.help-off div.narrowaside div.formtabs {
+		margin-left: 0px;
+	}
+
+	div.help-off div.narrowaside div.asideleft {
+		float: left;
+		clear: left;
+		width: 20em;
+		max-width: 20em;
+		/* FIXME: needs to be 38 for date picker */
+		/* max-width: 38em; */
+		margin-left: 0px;
+		height: auto;
+		margin-top: 0px;
+	}
+
+}
 @media screen and (min-width: 73em) {
 	div.help-off div.mediumaside {
 		max-width: 70em;
@@ -240,7 +265,6 @@ table.list td div.calendar {
 	}
 
 	div.help-off div.mediumaside div.fullwidth,
-	div.help-off div.mediumaside div.formtabs,
 	div.help-off div.mediumaside div.formtabs {
 		width: 100%;
 	}
@@ -258,7 +282,6 @@ table.list td div.calendar {
 		width: 45em;
 	}
 	div.help-off div.mediumaside div.fullwidth,
-	div.help-off div.mediumaside div.formtabs,
 	div.help-off div.mediumaside div.formtabs {
 		width: 100%;
 	}

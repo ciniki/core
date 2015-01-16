@@ -236,7 +236,7 @@ M.panel.prototype.show = function(cb) {
 
 	if( this.autofocus != '' ) {
 		var e = M.gE(this.autofocus);
-		e.focus();
+		if( e != null ) { e.focus(); }
 	}
 };
 

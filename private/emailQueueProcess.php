@@ -84,7 +84,11 @@ function ciniki_core_emailQueueProcess(&$ciniki) {
 				$mail->FromName = $ciniki['config']['ciniki.core']['system.email.name'];
 			}
 
-			$mail->AddAddress($email['to']);
+			if( isset($email['to_name']) && $email['to_name'] != '' ) {
+				$mail->AddAddress($email['to'], $email['to_name']);
+			} else {
+				$mail->AddAddress($email['to']);
+			}
 			
 			// Add reply to if specified
 			if( isset($email['replyto_email']) && $email['replyto_email'] != '' ) {
@@ -103,6 +107,17 @@ function ciniki_core_emailQueueProcess(&$ciniki) {
 			} else {
 				$mail->IsHTML(false);
 				$mail->Body = $email['textmsg'];
+			}
+
+			//
+			// Check for attachments
+			//
+			if( isset($email['attachments']) ) {
+				foreach($email['attachments'] as $attachment) {
+					if( isset($attachment['string']) ) {
+						$mail->addStringAttachment($attachment['string'], $attachment['filename']);
+					}
+				}
 			}
 
 			if( !$mail->Send() ) {

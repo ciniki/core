@@ -44,7 +44,7 @@ div.xlarge {
 }
 
 /* media queries to adjust screen based on width */
-@media screen and (min-width: 60em) {
+@media screen and (min-width: 61em) {
 	div.help-off div.narrowaside,
 	div.help-off div.mediumaside {
 		max-width: 70em;
@@ -52,7 +52,18 @@ div.xlarge {
 
 	div.help-off div.narrowaside div.panelsection,
 	div.help-off div.mediumaside div.panelsection {
-		width: 35em;
+		width: 34em;
+		margin-left: 26em;
+	}
+
+	div.help-off div.mediumaside div.asideleft {
+		float: left;
+		clear: left;
+		width: 25em;
+		max-width: 25em;
+		margin-left: 0px;
+		height: auto;
+		margin-top: 0px;
 	}
 
 	div.help-off div.aside {

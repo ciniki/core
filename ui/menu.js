@@ -56,10 +56,16 @@ function ciniki_core_menu() {
 				}
 
 				if( r.categories != null ) {
+					this.businesses.sections['_'] = {'label':'', 'aside':'yes', 
+						'autofocus':'yes', 'type':'livesearchgrid', 'livesearchcols':1,
+						'hint':'Search', 
+						'noData':'No items found',
+						'headerValues':null,
+						};
 					for(i in r.categories) {
-						this.businesses.sections[i] = {'label':r.categories[i].category.name, 
+						this.businesses.sections['_'+i] = {'label':r.categories[i].category.name, 
 							'type':'simplelist'};
-						this.businesses.data[i] = r.categories[i].category.businesses;
+						this.businesses.data['_'+i] = r.categories[i].category.businesses;
 					}
 					this.businesses.sectionData = function(s) {
 						return this.data[s];
@@ -75,7 +81,8 @@ function ciniki_core_menu() {
 							};
 						r.businesses.shift();
 					} else {
-						this.businesses.sections = {'_':{'label':'', 'as':'yes', 'list':{}}};
+						this.businesses.sections = {
+							'_':{'label':'', 'as':'yes', 'list':{}}};
 					}
 					this.businesses.sections._.list = r.businesses;
 				}
@@ -88,6 +95,24 @@ function ciniki_core_menu() {
 				if( M.userID > 0 && (M.userPerms&0x01) == 0x01 ) {
 					this.businesses.addLeftButton('bigboard', 'bigboard', 'M.startApp(\'ciniki.sysadmin.bigboard\',null,\'M.menuHome.show();\');');
 				}
+
+				// Add searching
+				this.businesses.liveSearchCb = function(s, i, v) {
+					if( v != '' ) {
+						M.api.getJSONBgCb('ciniki.businesses.searchBusinesses', {'business_id':M.curBusinessID, 'start_needle':v, 'limit':'15'},
+							function(rsp) {
+								M.ciniki_core_menu.businesses.liveSearchShow(s, null, M.gE(M.ciniki_core_menu.businesses.panelUID + '_' + s), rsp.businesses);
+							});
+					}
+					return true;
+				};
+				this.businesses.liveSearchResultValue = function(s, f, i, j, d) {
+					return d.business.name;
+				};
+				this.businesses.liveSearchResultRowFn = function(s, f, i, j, d) {
+					return 'M.startApp(M.businessMenu,null,\'M.ciniki_core_menu.businesses.show();\',\'mc\',{\'id\':\'' + d.business.id + '\'});';
+				};
+				this.businesses.liveSearchResultRowStyle = function(s, f, i, d) { return ''; };
 
 				M.menuHome = this.businesses;
 

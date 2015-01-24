@@ -66,6 +66,10 @@ div.xlarge {
 		margin-top: 0px;
 	}
 
+	div.help-off div.mediumaside div.formtabs {
+		margin-left: 0px;
+	}
+
 	div.help-off div.aside {
 		float: right;
 		clear: both;
@@ -79,6 +83,7 @@ div.xlarge {
 	div.help-off div.narrowaside div.formtabs,
 	div.help-off div.mediumaside div.fullwidth,
 	div.help-off div.mediumaside div.formtabs {
+		
 		width: 100%;
 	}
 }

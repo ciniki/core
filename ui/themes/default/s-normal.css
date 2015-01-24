@@ -204,10 +204,11 @@ table.list td div.calendar {
 }
 
 /* media queries to adjust screen based on width */
-*@media screen and (min-width: 59em) {
+@media screen and (min-width: 59em) {
 	div.help-off div.narrowaside {
 		max-width: 59em;
 	}
+
 	div.help-off div.narrowaside div.panelsection {
 		width: 35em;
 		margin-left: 21em;
@@ -222,7 +223,7 @@ table.list td div.calendar {
 		clear: left;
 		width: 20em;
 		max-width: 20em;
-*/		/* FIXME: needs to be 38 for date picker */
+		/* FIXME: needs to be 38 for date picker */
 		/* max-width: 38em; */
 		margin-left: 0px;
 		height: auto;

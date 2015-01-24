@@ -250,6 +250,9 @@ if( file_exists("$manage_root/$device-$engine.manifest") ) {
 ?>
 <head>
 
+<meta content='text/html;charset=UTF-8' http-equiv='Content-Type'>
+<meta content='UTF-8' http-equiv='encoding'>
+
 <?php
 if( isset($config['ciniki.core']['site_title']) ) {
 	print "<title>" . $config['ciniki.core']['site_title'] . "</title>";

@@ -613,7 +613,11 @@ M.dropHandler = function(e) {
 		if( M.gE(p.panelUID).style.display == 'block' && M.gE(p.panelUID).parentNode.style.display == 'block' ) {
 			s = null;
 			// Find the section it was dropped into
-			var parent = e.toElement.parentElement;
+			if( e.toElement != null ) {
+				var parent = e.toElement.parentElement;
+			} else {
+				var parent = e.target.parentElement;
+			}
 			var ps = p.panelUID + '_section_';
 			while(parent != null && parent.localName != 'form' && parent.localName != 'body') {
 				if( parent.id.substr(0, ps.length) == ps ) {

@@ -213,6 +213,13 @@ elseif( preg_match('/Mozilla\/5.* AppleWebKit\/.* Version\/[5|6|7|8].* Safari\/.
 	$browser = 'safari';
 	$engine = 'webkit';
 }
+// IE 11 Mozilla/5.0 (Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko
+elseif( preg_match('/Mozilla\/5.* Trident\/7.*rv:11\..*like Gecko/', $_SERVER['HTTP_USER_AGENT']) == 1 ) {
+	$device = 'generic';
+	$touch = 'no';
+	$browser = 'ie';
+	$engine = 'trident';
+}
 // IE 8
 elseif( preg_match('/Mozilla\/4.*MSIE 8.* Trident\/4.*/', $_SERVER['HTTP_USER_AGENT']) == 1 ) {
 //	$device = 'generic';
@@ -575,7 +582,7 @@ Javscript must be enabled for this application to work.
 			<p><br/></p>
 			<table width="100%" cellspacing="0" cellpadding="0">
 				<tr><td><input type="submit" value="Close" class="button" onclick="M.hide('m_error');"/></td>
-				<td style="text-align:right";><input type="submit" value="Submit Bug" class="button" onclick="M.submitErrBug();"/></td></tr>
+				<td style="text-align:right;"><input type="submit" value="Submit Bug" class="button" onclick="M.submitErrBug();"/></td></tr>
 			</table>
 		</div>
 	</div>

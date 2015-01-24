@@ -372,7 +372,8 @@ M.api.getCb = function(m, p, c) {
 			M.stopLoad();
 			c({'stat':'fail','err':{'code':'HTTP-' + x.status, 'msg':'Unable to transfer.'}});
 		} 
-		else if( x.status == 0 ) {
+		else if( x.readyState == 4 && x.status == 0 ) {
+//		else if( x.status == 0 ) {
 			M.stopLoad();
 			c({'stat':'fail','err':{'code':'HTTP-' + x.status, 'msg':'API Error'}});
 		}
@@ -424,13 +425,14 @@ M.api.postCb = function(m, p, c, cb) {
 	var x = M.xmlHttpCreate();
 	x.open("POST", u, true);
 	x.onreadystatechange = function() {
-		if( x.readyState == 4 && x.status == 200 ) {
+//		if( x == null ) { return true; }
+		if( this.readyState == 4 && this.status == 200 ) {
 			M.stopLoad();
 			if(p.format == 'json') {
 				try {
-					var r = JSON.parse(x.responseText);
+					var r = JSON.parse(this.responseText);
 				} catch(e) {
-					cb({'stat':'fail', 'err':{'pkg':'ciniki', 'code':'JSON-ERR', 'msg':'API Error', 'pmsg':'Unable to parse (' + x.responseText + ')'}});
+					cb({'stat':'fail', 'err':{'pkg':'ciniki', 'code':'JSON-ERR', 'msg':'API Error', 'pmsg':'Unable to parse (' + this.responseText + ')'}});
 				}
 				if( r.stat != 'ok' && (r.err.code == 37 || r.err.code == 27)) {
 					M.reauth_apiresume = {'f':'postCb', 'm':m, 'p':p, 'c':c, 'cb':cb};
@@ -438,16 +440,17 @@ M.api.postCb = function(m, p, c, cb) {
 				} 
 				cb(r);
 			} else {
-				cb(x.responseXML);
+				cb(this.responseXML);
 			}
 		} 
-		else if( x.readyState > 2 && x.status >= 300 ) {
+		else if( this.readyState > 2 && this.status >= 300 ) {
 			M.stopLoad();
-			cb({'stat':'fail','err':{'code':'HTTP-' + x.status, 'msg':'Network error - unable to transfer.'}});
+			cb({'stat':'fail','err':{'code':'HTTP-' + this.status, 'msg':'Network error - unable to transfer.'}});
 		} 
-		else if( x.status == 0 ) {
+//		else if( M.browser != 'ie' && this.status == 0 ) {
+		else if( x.readyState == 4 && x.status == 0 ) {
 			M.stopLoad();
-			cb({'stat':'fail','err':{'code':'HTTP-' + x.status, 'msg':'API Error'}});
+			cb({'stat':'fail','err':{'code':'HTTP-' + this.status, 'msg':'API Error'}});
 		}
 	};
 	x.send(c);

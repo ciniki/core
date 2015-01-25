@@ -61,6 +61,7 @@ function ciniki_core_init($ciniki_root, $output_format) {
 	$ciniki['response']['format'] = $output_format;
 
 	$ciniki['emailqueue'] = array();
+	$ciniki['fbrefreshqueue'] = array();
 	$ciniki['syncqueue'] = array();
 	if( isset($ciniki['config']['ciniki.core']['sync.log_lvl']) ) {
 		$ciniki['syncloglvl'] = $ciniki['config']['ciniki.core']['sync.log_lvl'];

@@ -64,6 +64,7 @@ $rc = ciniki_core_callPublicMethod($ciniki);
 // Check if there is a sync queue to process or email queue to process
 //
 if( (isset($ciniki['syncqueue']) && count($ciniki['syncqueue']) > 0) 
+	|| (isset($ciniki['fbrefreshqueue']) && count($ciniki['fbrefreshqueue']) > 0) 
 	|| (isset($ciniki['emailqueue']) && count($ciniki['emailqueue']) > 0) 
 	) {
 	if( $rc['stat'] != 'exit' ) {
@@ -90,6 +91,11 @@ if( (isset($ciniki['syncqueue']) && count($ciniki['syncqueue']) > 0)
 	if( isset($ciniki['emailqueue']) && count($ciniki['emailqueue']) > 0 ) {
 		ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'emailQueueProcess');
 		ciniki_core_emailQueueProcess($ciniki);
+	} 
+	// Run facebook refresh queue
+	if( isset($ciniki['fbrefreshqueue']) && count($ciniki['fbrefreshqueue']) > 0 ) {
+		ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'fbRefreshQueueProcess');
+		ciniki_core_fbRefreshQueueProcess($ciniki);
 	} 
 	// Run sync queue
 	if( isset($ciniki['syncqueue']) && count($ciniki['syncqueue']) > 0 ) {

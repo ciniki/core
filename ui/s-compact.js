@@ -76,11 +76,11 @@ M.panel.setupFormFieldHistory = function(fieldID, field) {
 			var tr = M.aE('tr');
 			var c1 = M.aE('td');
 			var age = '';
-			if( M.userSettings == null || M.userSettings['ui.history.date.display'] == null || M.userSettings['ui.history.date.display'] == 'age' ) {
+			if( M.userSettings == null || M.userSettings['ui-history-date-display'] == null || M.userSettings['ui-history-date-display'] == 'age' ) {
 				age = ', <span class=\'age\'>' + history[i].action.age + ' ago</span>';
-			} else if( M.userSettings['ui.history.date.display'] == 'datetime' ) {
+			} else if( M.userSettings['ui-history-date-display'] == 'datetime' ) {
 				age = ', <span class=\'age\'>' + history[i].action.date + '</span>';
-			} else if( M.userSettings['ui.history.date.display'] == 'datetimeage' ) {
+			} else if( M.userSettings['ui-history-date-display'] == 'datetimeage' ) {
 				age = ', <span class=\'age\'>' + history[i].action.date + ' (' + history[i].action.age + ' ago)</span>';
 			}
 			c1.innerHTML = '<span class=\'username\'>' 

@@ -252,7 +252,7 @@ M.panel.prototype.show = function(cb) {
 //
 M.panel.prototype.addPanel = function() {
 	this.tinymce = [];
-	var p = M.aE('div', this.panelUID, 'panel');
+	var p = M.aE('div', this.panelUID, 'panel guided-disabled');
 	if( this.sidePanel != null ) {
 		var w = M.aE('div', '', this.size + ' leftpanel');
 	} else {
@@ -267,6 +267,13 @@ M.panel.prototype.addPanel = function() {
 
 	else if( this.type == 'simplemedia' ) {
 		w.appendChild(this.createSimpleMedia('', this.data, 'yes'));
+	}
+
+	//
+	// Check if guided steps
+	//
+	if( this.gsteps.length > 0 ) {
+		p.className = p.className.replace(/guided-disabled/, 'guided-enabled');
 	}
 
 	p.appendChild(w);
@@ -501,6 +508,7 @@ M.panel.prototype.createSections = function() {
 		r.className += ' guided-show';
 		f.appendChild(r);
 	}
+
 
 	return f;
 };

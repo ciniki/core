@@ -45,17 +45,22 @@ div.xlarge {
 
 /* media queries to adjust screen based on width */
 @media screen and (min-width: 61em) {
+	div.help-off.guided-on div.guided-disabled div.narrowaside,
+	div.help-off.guided-on div.guided-disabled div.mediumaside,
 	div.help-off.guided-off div.narrowaside,
 	div.help-off.guided-off div.mediumaside {
 		max-width: 70em;
 	}
 
+	div.help-off.guided-on div.guided-disabled div.narrowaside div.panelsection,
+	div.help-off.guided-on div.guided-disabled div.mediumaside div.panelsection,
 	div.help-off.guided-off div.narrowaside div.panelsection,
 	div.help-off.guided-off div.mediumaside div.panelsection {
 		width: 34em;
 		margin-left: 26em;
 	}
 
+	div.help-off.guided-on div.guided-disabled div.mediumaside div.asideleft,
 	div.help-off.guided-off div.mediumaside div.asideleft {
 		float: left;
 		clear: left;
@@ -66,10 +71,12 @@ div.xlarge {
 		margin-top: 0px;
 	}
 
+	div.help-off.guided-on div.guided-disabled div.mediumaside div.formtabs,
 	div.help-off.guided-off div.mediumaside div.formtabs {
 		margin-left: 0px;
 	}
 
+	div.help-off.guided-on div.guided-disabled div.aside,
 	div.help-off.guided-off div.aside {
 		float: right;
 		clear: both;
@@ -79,6 +86,10 @@ div.xlarge {
 		margin-top: 0px;
 	}
 
+	div.help-off.guided-on div.guided-disabled div.narrowaside div.fullwidth,
+	div.help-off.guided-on div.guided-disabled div.narrowaside div.formtabs,
+	div.help-off.guided-on div.guided-disabled div.mediumaside div.fullwidth,
+	div.help-off.guided-on div.guided-disabled div.mediumaside div.formtabs,
 	div.help-off.guided-off div.narrowaside div.fullwidth,
 	div.help-off.guided-off div.narrowaside div.formtabs,
 	div.help-off.guided-off div.mediumaside div.fullwidth,

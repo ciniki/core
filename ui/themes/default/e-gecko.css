@@ -33,8 +33,13 @@ table.form td.input > select {
 	box-shadow: none;
 }
 
+tr.guided-text td p,
 p.guided-text {
 	border-radius: 7px;
+}
+div.guided-on tr.guided-title:first-child td p {
+	border-top-left-radius: 7px;
+	border-top-right-radius: 7px;
 }
 table.form td.input > select,
 table.form td.select > select,
@@ -88,6 +93,7 @@ h2 span.rbutton_off {
 	padding: 0.2em 0.25em 0.2em 0.25em;
 }
 
+div.guided-on table.paneltabs .guided-selected div.buttons span,
 span.button_on,
 span.button_off,
 span.rbutton_on,
@@ -108,6 +114,19 @@ table.form td.flags span.flag_on,
 table.form td.flags span.flag_off {
 	-moz-border-radius: 7px;
 	border-radius: 7px;
+}
+
+div.guided-on .guided-selected table.formtabs div.buttons span {
+    border-radius: 0px;
+}
+div.guided-on .guided-selected table.formtabs div.buttons span:first-child {
+	border-top-left-radius: 0.5em;
+	border-top-right-radius: 0.5em;
+}
+
+div.guided-on .guided-selected table.formtabs div.buttons span:last-child {
+	border-bottom-left-radius: 0.5em;
+	border-bottom-right-radius: 0.5em;
 }
 
 span.button_on,

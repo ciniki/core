@@ -205,19 +205,23 @@ table.list td div.calendar {
 
 /* media queries to adjust screen based on width */
 @media screen and (min-width: 59em) {
+	div.help-off.guided-on div.guided-disabled div.narrowaside,
 	div.help-off.guided-off div.narrowaside {
 		max-width: 59em;
 	}
 
+	div.help-off.guided-on div.guided-disabled div.narrowaside div.panelsection,
 	div.help-off.guided-off div.narrowaside div.panelsection {
 		width: 35em;
 		margin-left: 21em;
 		margin-left: 22em;
 	}
+	div.help-off.guided-on div.guided-disabled div.narrowaside div.formtabs,
 	div.help-off.guided-off div.narrowaside div.formtabs {
 		margin-left: 0px;
 	}
 
+	div.help-off.guided-on div.guided-disabled div.narrowaside div.asideleft,
 	div.help-off.guided-off div.narrowaside div.asideleft {
 		float: left;
 		clear: left;
@@ -232,19 +236,23 @@ table.list td div.calendar {
 }
 
 @media screen and (min-width: 73em) {
+	div.help-off.guided-on div.guided-disabled div.mediumaside,
 	div.help-off.guided-off div.mediumaside {
 		max-width: 70em;
 	}
 
+	div.help-off.guided-on div.guided-disabled div.mediumaside div.panelsection,
 	div.help-off.guided-off div.mediumaside div.panelsection {
 		width: 35em;
 		margin-left: 35em;
 	}
 
+	div.help-off.guided-on div.guided-disabled div.mediumaside div.formtabs,
 	div.help-off.guided-off div.mediumaside div.formtabs {
 		margin-left: 0px;
 	}
 
+	div.help-off.guided-on div.guided-disabled div.mediumaside div.asideleft,
 	div.help-off.guided-off div.mediumaside div.asideleft {
 		float: left;
 		clear: left;
@@ -257,6 +265,7 @@ table.list td div.calendar {
 		margin-top: 0px;
 	}
 
+	div.help-off.guided-on div.guided-disabled div.aside,
 	div.help-off.guided-off div.aside {
 		float: right;
 		clear: right;
@@ -266,6 +275,8 @@ table.list td div.calendar {
 		margin-top: 0px;
 	}
 
+	div.help-off.guided-on div.guided-disabled div.mediumaside div.fullwidth,
+	div.help-off.guided-on div.guided-disabled div.mediumaside div.formtabs,
 	div.help-off.guided-off div.mediumaside div.fullwidth,
 	div.help-off.guided-off div.mediumaside div.formtabs {
 		width: 100%;
@@ -274,18 +285,57 @@ table.list td div.calendar {
 
 /* media queries to adjust screen based on width */
 @media screen and (min-width: 84em) {
+	div.help-off.guided-on div.guided-disabled div.mediumaside,
 	div.help-off.guided-off div.mediumaside {
 		max-width: 80em;
 	}
+	div.help-off.guided-on div.guided-disabled div.mediumaside div.formtabs,
 	div.help-off.guided-off div.mediumaside div.formtabs {
 		margin-left: 0px;
 	}
+	div.help-off.guided-on div.guided-disabled div.mediumaside div.panelsection,
 	div.help-off.guided-off div.mediumaside div.panelsection {
 		width: 45em;
 	}
+	div.help-off.guided-on div.guided-disabled div.mediumaside div.fullwidth,
+	div.help-off.guided-on div.guided-disabled div.mediumaside div.formtabs,
 	div.help-off.guided-off div.mediumaside div.fullwidth,
 	div.help-off.guided-off div.mediumaside div.formtabs {
 		width: 100%;
 	}
-
 }
+/*
+@media screen and (min-width: 110em) {
+	div.help-on.guided-on div.guided-disabled div.mediumaside,
+	div.help-on.guided-off div.mediumaside {
+		max-width: 59em;
+	}
+	div.help-on.guided-on div.guided-disabled div.mediumaside div.formtabs,
+	div.help-on.guided-off div.mediumaside div.formtabs {
+		margin-left: 0px;
+	}
+	div.help-on.guided-on div.guided-disabled div.mediumaside div.panelsection,
+	div.help-on.guided-off div.mediumaside div.panelsection {
+		width: 35em;
+		margin-left: 21em;
+		margin-left: 22em;
+	}
+	div.help-on.guided-on div.guided-disabled div.mediumaside div.fullwidth,
+	div.help-on.guided-on div.guided-disabled div.mediumaside div.formtabs,
+	div.help-on.guided-off div.mediumaside div.fullwidth,
+	div.help-on.guided-off div.mediumaside div.formtabs {
+		width: 100%;
+	}
+
+	div.help-on.guided-on div.guided-disabled div.narrowaside div.asideleft,
+	div.help-on.guided-off div.narrowaside div.asideleft {
+		float: left;
+		clear: left;
+		width: 20em;
+		max-width: 20em;
+		margin-left: 0px;
+		height: auto;
+		margin-top: 0px;
+	}
+}
+*/

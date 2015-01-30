@@ -205,20 +205,20 @@ table.list td div.calendar {
 
 /* media queries to adjust screen based on width */
 @media screen and (min-width: 59em) {
-	div.help-off div.narrowaside {
+	div.help-off.guided-off div.narrowaside {
 		max-width: 59em;
 	}
 
-	div.help-off div.narrowaside div.panelsection {
+	div.help-off.guided-off div.narrowaside div.panelsection {
 		width: 35em;
 		margin-left: 21em;
 		margin-left: 22em;
 	}
-	div.help-off div.narrowaside div.formtabs {
+	div.help-off.guided-off div.narrowaside div.formtabs {
 		margin-left: 0px;
 	}
 
-	div.help-off div.narrowaside div.asideleft {
+	div.help-off.guided-off div.narrowaside div.asideleft {
 		float: left;
 		clear: left;
 		width: 20em;
@@ -232,20 +232,20 @@ table.list td div.calendar {
 }
 
 @media screen and (min-width: 73em) {
-	div.help-off div.mediumaside {
+	div.help-off.guided-off div.mediumaside {
 		max-width: 70em;
 	}
 
-	div.help-off div.mediumaside div.panelsection {
+	div.help-off.guided-off div.mediumaside div.panelsection {
 		width: 35em;
 		margin-left: 35em;
 	}
 
-	div.help-off div.mediumaside div.formtabs {
+	div.help-off.guided-off div.mediumaside div.formtabs {
 		margin-left: 0px;
 	}
 
-	div.help-off div.mediumaside div.asideleft {
+	div.help-off.guided-off div.mediumaside div.asideleft {
 		float: left;
 		clear: left;
 		width: 34em;
@@ -257,7 +257,7 @@ table.list td div.calendar {
 		margin-top: 0px;
 	}
 
-	div.help-off div.aside {
+	div.help-off.guided-off div.aside {
 		float: right;
 		clear: right;
 		width: 20em;
@@ -266,25 +266,25 @@ table.list td div.calendar {
 		margin-top: 0px;
 	}
 
-	div.help-off div.mediumaside div.fullwidth,
-	div.help-off div.mediumaside div.formtabs {
+	div.help-off.guided-off div.mediumaside div.fullwidth,
+	div.help-off.guided-off div.mediumaside div.formtabs {
 		width: 100%;
 	}
 }
 
 /* media queries to adjust screen based on width */
 @media screen and (min-width: 84em) {
-	div.help-off div.mediumaside {
+	div.help-off.guided-off div.mediumaside {
 		max-width: 80em;
 	}
-	div.help-off div.mediumaside div.formtabs {
+	div.help-off.guided-off div.mediumaside div.formtabs {
 		margin-left: 0px;
 	}
-	div.help-off div.mediumaside div.panelsection {
+	div.help-off.guided-off div.mediumaside div.panelsection {
 		width: 45em;
 	}
-	div.help-off div.mediumaside div.fullwidth,
-	div.help-off div.mediumaside div.formtabs {
+	div.help-off.guided-off div.mediumaside div.fullwidth,
+	div.help-off.guided-off div.mediumaside div.formtabs {
 		width: 100%;
 	}
 

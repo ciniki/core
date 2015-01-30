@@ -32,6 +32,7 @@ M.init = function(cfg) {
 	M.engine = cfg.engine; 
 	M.touch = cfg.touch; 
 	M.size = cfg.size;
+	M.uiModeGuided = 'no';
 	M.months = [
 		{'shortname':'Jan'},
 		{'shortname':'Feb'},
@@ -348,6 +349,16 @@ M.auth = function(e, t) {
 		M.avatarID = r.auth.avatar_id;
 		M.userPerms = r.auth.perms;
 		M.userSettings = r.auth.settings;
+		if( r.auth.settings['ui-mode-guided'] != null 
+			&& r.auth.settings['ui-mode-guided'] == 'yes' ) {
+			// Set to off, so toggle can switch on
+			M.uiModeGuided = 'no';
+			M.toggleGuidedMode();
+		} else {
+			// Set to on, so toggle can switch off
+			M.uiModeGuided = 'yes';
+			M.toggleGuidedMode();
+		}
 
 		if( M.oldUserId == M.userID ) {
 			M.hide('m_login');

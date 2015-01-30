@@ -53,9 +53,19 @@ function ciniki_core_help() {
 			'_buttons':{'label':'', 'buttons':{
 				'add':{'label':'Submit Question', 'fn':'M.ciniki_core_help.submitBug();'},
 			}},
+			'_ui_options':{'label':'Extend Help', 'visible':'no', 'fields':{
+				'ui-mode-guided':{'label':'Guided Mode', 'type':'toggle', 'fn':'M.ciniki_core_help.updateUI', 'toggles':{
+					'no':'Off',
+					'yes':'On',
+					}},
+				}},
 		};
 		this.list.sectionData = function(s) { return this.data[s]; };
-        this.list.fieldValue = function(s, i, d) { return ''; }
+        this.list.fieldValue = function(s, i, d) { 
+			if( s == '_ui_options' && i == 'ui-mode-guided' ) {
+				return M.uiModeGuided;
+			}
+			return ''; }
         this.list.listValue = function(s, i, d) { return d.bug.subject; }
         this.list.listFn = function(s, i, d) { return 'M.ciniki_core_help.showBug(\'' + i + '\');'; }
         this.list.addButton('exit', 'Close', 'M.toggleHelp(null);'); 
@@ -67,9 +77,7 @@ function ciniki_core_help() {
 	//
 	this.start = function(cb, appPrefix, aG) {
 		args = {};
-		if( aG != null ) {
-			args = eval(aG);
-		}
+		if( aG != null ) { args = eval(aG); }
 
 		//
 		// Create the app container if it doesn't exist, and clear it out
@@ -86,6 +94,13 @@ function ciniki_core_help() {
 		//
 		if( args['helpUID'] != null ) {
 			this.curHelpUID = args['helpUID'];
+		}
+
+		if( (M.userPerms&0x01) > 0 ) {
+			this.list.sections._ui_options.visible = 'yes';
+			this.list.data['ui-mode-guided'] = M.uiModeGuided;
+		} else {
+			this.list.sections._ui_options.visible = 'no';
 		}
 
 		this.loadBugs();
@@ -230,4 +245,14 @@ function ciniki_core_help() {
 			M.ciniki_core_help.showBug();
 		}
     }
+
+	this.updateUI = function(f, a, b) {
+		if( b == 'toggle_on' && M.uiModeGuided != 'yes' ) {
+			M.api.getJSONBg('ciniki.users.updateDetails', {'user_id':M.userID, 'ui-mode-guided':'yes'});
+			M.toggleGuidedMode();
+		} else {
+			M.api.getJSONBg('ciniki.users.updateDetails', {'user_id':M.userID, 'ui-mode-guided':'no'});
+			M.toggleGuidedMode();
+		}
+	}
 }

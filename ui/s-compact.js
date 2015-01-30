@@ -9,6 +9,17 @@
 M.resize = function(e) {
 }
 
+M.toggleGuidedMode = function() {
+	var mc = M.gE('m_container'); 
+	if( M.uiModeGuided == 'yes' ) {
+		M.uiModeGuided = 'no';
+		mc.className = mc.className.replace(/guided-on/, 'guided-off');
+	} else {
+		M.uiModeGuided = 'yes';
+		mc.className = mc.className.replace(/guided-off/, 'guided-on');
+	}
+};
+
 M.toggleHelp = function(helpUID) {
 	if( helpUID == null || (M.ciniki_core_help != null && document.getElementById('m_help').style.display != 'none' && M.ciniki_core_help.curHelpUID == helpUID) ) {
 		M.hideChildren('m_body', 'm_container');

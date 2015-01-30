@@ -25,6 +25,9 @@ input:focus {
 div.media div.imgwrap {
     box-shadow: #777 1px 1px 3px;
 }
+p.guided-text {
+	border-radius: 7px;
+}
 table.form td.input > select,
 table.form td.select > select,
 table.list {

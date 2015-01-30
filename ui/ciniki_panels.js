@@ -33,6 +33,8 @@ M.panel = function(title, appID, panelID, appPrefix, size, type, helpUID) {
 	this.liveSearchTables = [];
 	this.autofocus = '';
 	this.tinymce = [];
+	this.gstep = 0;
+	this.gsteps = [];
 
 	//
 	// Attach functions from other files.  These are typically located in s-compact and s-normal,
@@ -164,6 +166,10 @@ M.panel.prototype.show = function(cb) {
 
 	// Make sure app container
 	M.show(app.parentNode.parentNode.parentNode.parentNode);
+
+//	if( M.uiModeGuided == 'yes' ) {
+		this.gstepGoto(this.gstep);
+//	}
 
 	M.setHTML(this.titleID, this.title);
 
@@ -337,6 +343,12 @@ M.panel.prototype.createSections = function() {
 	f.setAttribute('onsubmit', 'return false;');
 	f.setAttribute('target', '_blank');
 
+	var gstepfound = 'no';
+	var gprev = 0;
+	var glast = 0;
+	var gnext = 0;
+	this.gsteps = [];
+
 	if( this.formtabs != null ) {
 		// Decide which form to display
 		var fv = 0;
@@ -359,10 +371,32 @@ M.panel.prototype.createSections = function() {
 			}
 		}
 		if( this.formtabs.visible == null || this.formtabs.visible == 'yes' ) {
-			var ps = M.aE('div', this.panelUID + '_formtabs', 'panelsection formtabs');
+			var ps = M.aE('div', this.panelUID + '_section_formtabs', 'panelsection formtabs');
+			if( this.formtabs.gstep != null && this.formtabs.gtitle != null && this.formtabs.gtitle != '' ) {
+				var gt = M.aE('h2', null, 'guided-title guided-show', this.formtabs.gtitle);
+				ps.appendChild(gt);
+			}
+			if( this.formtabs.gstep != null && this.formtabs.gtext != null && this.formtabs.gtext != '' ) {
+				ps.appendChild(M.aE('p', null, 'guided-show', this.formtabs.gtext));
+			}
 			st = this.createFormTabs(this.formtabs, this.formtab, fv);
 			ps.appendChild(st);
 			f.appendChild(ps);
+			if( this.formtabs.gstep != null && this.formtabs.gstep != 'hide' ) {
+				gprev = this.formtabs.gstep;
+				ps.className += ' guided-hide';
+			}
+			if( this.formtabs.gstep != null && this.formtabs.gstep != 'hide' ) {
+				if( this.gsteps[this.formtabs.gstep] == null ) {
+					this.gsteps[this.formtabs.gstep] = {'elements':[]};
+				}
+				this.gsteps[this.formtabs.gstep].elements.push({'e':this.panelUID + '_section_formtabs'});
+			}
+			if( this.gstep > 0 ) {
+				if( this.gstep == this.formtabs.gstep ) {
+					gstepfound = 'yes';
+				}
+			}
 		}
 
 		//
@@ -376,21 +410,168 @@ M.panel.prototype.createSections = function() {
 	for(var i in this.sections) {
 		var r = this.createSection(i, this.sections[i]);
 		if( r != null ) {
+			// Guided access mode - determine visibility of section
+			if( this.sections[i].gstep != null && this.sections[i].gstep != 'hide' ) {
+				if( this.gsteps[this.sections[i].gstep] == null ) {
+					this.gsteps[this.sections[i].gstep] = {'elements':[]};
+				}
+				this.gsteps[this.sections[i].gstep].elements.push({'e':this.panelUID + '_section_' + i});
+			}
+			if( this.gstep > 0 ) {
+				glast = this.sections[i].gstep;
+				if( (gstepfound == 'yes' && this.gstep == this.sections[i].gstep)
+					|| (gstepfound == 'no' && this.gstep <= this.sections[i].gstep) ) {
+					gstepfound = 'yes';
+				}
+			}
+			// Add the panel
 			f.appendChild(r);
 		}
-//		// Check if this is a multi section, and we need more to be created
-//		if( this.sections[i].multi != null && this.sections[i].multi == 'yes' && this.sectionCount != null ) {
-//			var c = this.sectionCount(i);
-//			for(j=1;j<c;j++) {
-//				this.dupFormSection(i);
-//				var r = this.createSection(i + '_' + j, this.sections[i + '_' + j]);
-//				if( r != null ) {
-//					f.appendChild(r);
-//				}
-//			}
-//		}
 	}
+
+	//
+	// Build the list of gstep buttons, but hide it until needed
+	//
+	if( this.gsteps.length > 0 ) {
+		//
+		// Setup nav bar
+		//
+		var t = M.addTable(this.panelUID + '_gstepnav_top', 'list stepnav stepnav-top noheader border guided-show');
+		var th = M.aE('tbody');
+		var tr = M.aE('tr');
+
+		// Previous
+		var c1 = M.aE('td',null,'prev', '<span class="icon">l</span>');
+		c1.className = 'prev clickable';
+		c1.setAttribute('onclick', this.panelRef + '.gstepPrev();');
+		tr.appendChild(c1);
+
+		// Current Step
+		var c2 = M.aE('td',this.panelUID + '_gstepnav_top_position','position', '');
+		tr.appendChild(c2);
+
+		// Next
+		c3 = M.aE('td',null,'next', '<span class="icon">r</span>');
+		c3.className = 'next clickable';
+		c3.setAttribute('onclick', this.panelRef + '.gstepNext();');
+		tr.appendChild(c3);
+		th.appendChild(tr);
+		t.appendChild(th);
+		f.insertBefore(t, f.children[0]);
+
+		var bts = {};
+		if( this.gsaveBtn != null ) {
+			bts._save = this.gsaveBtn;
+		}
+		var r = this.createSection('gstepbuttons', {'label':'', 'buttons':bts});
+		r.className += ' guided-show';
+		f.appendChild(r);
+
+		//
+		// Setup nav bar
+		//
+		var t = M.addTable(this.panelUID + '_gstepnav_bottom', 'list stepnav stepnav-bottom noheader border guided-show');
+		var th = M.aE('tbody');
+		var tr = M.aE('tr');
+
+		// Previous
+		var c1 = M.aE('td',null,'prev', '<span class="icon">l</span>');
+		c1.className = 'prev clickable';
+		c1.setAttribute('onclick', this.panelRef + '.gstepPrev();');
+		tr.appendChild(c1);
+
+		// Current Step
+		var c2 = M.aE('td',this.panelUID + '_gstepnav_bottom_position','position', '');
+		tr.appendChild(c2);
+
+		// Next
+		c3 = M.aE('td',null,'next', '<span class="icon">r</span>');
+		c3.className = 'next clickable';
+		c3.setAttribute('onclick', this.panelRef + '.gstepNext();');
+		tr.appendChild(c3);
+		th.appendChild(tr);
+		t.appendChild(th);
+		f.appendChild(t);
+
+		var bts = {};
+		if( this.gsaveBtn != null ) {
+			bts._save = this.gsaveBtn;
+		}
+		var r = this.createSection('gstepbuttons', {'label':'', 'buttons':bts});
+		r.className += ' guided-show';
+		f.appendChild(r);
+	}
+
 	return f;
+};
+
+M.panel.prototype.gstepPrev = function() {
+	this.gstep--;
+	while(this.gstep > 1 && this.gsteps[this.gstep] == null ) { this.gstep--; }
+	this.gstepGoto(this.gstep);
+};
+
+M.panel.prototype.gstepNext = function() {
+	var prev = 0;
+	var next = 0;
+	for(i in this.gsteps) {
+		if( prev == this.gstep ) {
+			this.gstep = i;
+			break;
+		}
+		prev = i;
+	}
+	this.gstepGoto(this.gstep);
+};
+
+M.panel.prototype.gstepGoto = function(gstep) {
+	var prev = 0;
+	var next = 0;
+	var gstepfound = 'no';
+	this.gstep = gstep;
+	var step_num = 1;
+	var num_steps = 0;
+	for(var i in this.gsteps) {
+		if( this.gstep > i ) {
+			prev = i;
+		} else if( this.gstep < i && next == 0 ) {
+			next = i;
+		}
+		if( gstepfound == 'no' ) {
+			if( this.gstep == i ) {
+				gstepfound = 'yes';
+			} else if( this.gstep < i ) {
+				this.gstep = i;
+				gstepfound = 'yes';
+				next = 0;
+			}
+		}
+		if( this.gstep == i ) {
+			// Show the elements for this step
+			for(var j in this.gsteps[i].elements) {
+				var e = M.gE(this.gsteps[i].elements[j].e);
+				e.className = e.className.replace(/guided-hide/, 'guided-selected');
+			}
+		} else {
+			// Hide the other elements
+			for(var j in this.gsteps[i].elements) {
+				var e = M.gE(this.gsteps[i].elements[j].e);
+				e.className = e.className.replace(/guided-selected/, 'guided-hide');
+			}
+		}
+		if( i < this.gstep ) {
+			step_num++;
+		}
+		num_steps++;
+	}
+
+	if( this.gsteps.length > 0 ) {
+		var e = M.gE(this.panelUID + '_gstepnav_top_position');
+		if( e != null ) { e.innerHTML = 'Step ' + step_num + ' of ' + num_steps; }
+		var e = M.gE(this.panelUID + '_gstepnav_bottom_position');
+		if( e != null ) { e.innerHTML = 'Step ' + step_num + ' of ' + num_steps; }
+	}
+	window.scrollTo(0, 0);
 };
 
 //
@@ -434,6 +615,12 @@ M.panel.prototype.createSection = function(i, s) {
 		var f = M.aE('div', this.panelUID + '_section_' + i, 'panelsection');
 	}
 
+	if( s.gstep != null ) {
+//		if( s.gstep == 'hide' ) {
+			f.className += ' guided-hide';
+//		}
+	}
+
 	if( s.visible != null && s.visible == 'hidden' ) {
 		f.style.display = 'none';
 	}
@@ -453,7 +640,18 @@ M.panel.prototype.createSection = function(i, s) {
 			// -1 means don't display count
 			lE = M.addSectionLabel(t, -1);
 		}
+		lE.className += ' guided-hide';
+		if( this.sectionGuidedTitle != null ) {
+			var gt = this.sectionGuidedTitle(i);
+			f.appendChild(M.aE('h2', null, 'guided-title guided-show', (gt!=null&&gt!=''?gt:t)));
+		} else {
+			f.appendChild(M.aE('h2', null, 'guided-title guided-show', t));
+		}
 		f.appendChild(lE);
+		if( this.sectionGuidedText != null ) {
+			var gt = this.sectionGuidedText(i);
+			if( gt != null ) { f.appendChild(M.aE('p', null, 'guided-text guided-show', gt)); }
+		}
 	}
 
 	//
@@ -533,6 +731,10 @@ M.panel.prototype.createSection = function(i, s) {
 		}
 	}
 
+	if( this.sectionGuidedMore != null ) {
+		var gt = this.sectionGuidedMore(i);
+		if( gt != null ) { f.appendChild(M.aE('p', null, 'guided-text guided-show', gt)); }
+	}
 	return f;
 };
 
@@ -2124,7 +2326,8 @@ M.panel.prototype.createSimpleButtons = function(si, l, as) {
 		}
 		var t = M.addTable(null, 'list simplebuttons noheader border');
 		var tb = M.aE('tbody');
-		var tr = M.aE('tr');
+		var tr = M.aE('tr', l[i].id);
+
 	
 		// Add the list item
 		tr.appendChild(M.aE('td', null, 'button ' + i, l[i].label));
@@ -2497,12 +2700,25 @@ M.panel.prototype.createFormFields = function(s, nF, fI, fields, mN) {
 			}
 		}
 
+		// Check for guided mode title
+		if( fields[i].gtitle != null && fields[i].gtitle != '' ) {
+			var rgt = M.aE('tr', null, 'guided-title guided-show');
+			var c = M.aE('td', null, null, '<p>' + fields[i].gtitle + '</p>');
+			c.colSpan = 2;
+			rgt.appendChild(c);
+			nF.appendChild(rgt);
+		}
+
 		// Create the new row element
 		var r = M.aE('tr');
-		if( fields[i].visible != null && fields[i].visible == 'no' ) {
+		if( typeof fields[i].visible == 'function' && fields[i].visible() == 'no' ) {
 			r.style.display = 'none';
+			if( rgt != null ) { rgt.style.display = 'none'; }
+		} else if( fields[i].visible != null && fields[i].visible == 'no' ) {
+			r.style.display = 'none';
+			if( rgt != null ) { rgt.style.display = 'none'; }
 		}
-		if( fields[i].hidelabel == null && fields[i].hidelabel != 'yes' ) {
+		if( fields[i].hidelabel == null || fields[i].hidelabel != 'yes' ) {
 			var l = M.aE('label');
 			l.setAttribute('for', this.panelUID + '_' + i);
 			l.appendChild(document.createTextNode(fields[i].label));
@@ -2541,9 +2757,9 @@ M.panel.prototype.createFormFields = function(s, nF, fI, fields, mN) {
 
 		// Check if there should be a history button displayed
 		if( this.fieldHistory != null && this.fieldHistory != '' && (fields[i].history == null || fields[i].history == 'yes') ) {
-			r.appendChild(M.aE('td',null,'historybutton','<span class="rbutton_off">H</span>','M.' + this.appID + '.' + this.name + '.toggleFormFieldHistory(event, \'' + s + '\',\'' + fid + '\');'));
+			r.appendChild(M.aE('td',null,'historybutton guided-hide','<span class="rbutton_off">H</span>','M.' + this.appID + '.' + this.name + '.toggleFormFieldHistory(event, \'' + s + '\',\'' + fid + '\');'));
 		} else if( this.fieldHistoryArgs != null && this.fieldHistoryArgs != '' && (fields[i].history == null || fields[i].history == 'yes') ) {
-			r.appendChild(M.aE('td',null,'historybutton','<span class="rbutton_off">H</span>','event.stopPropagation(); M.' + this.appID + '.' + this.name + '.toggleFormFieldHistory(event, \'' + s + '\',\'' + fid + '\');'));
+			r.appendChild(M.aE('td',null,'historybutton guided-hide','<span class="rbutton_off">H</span>','event.stopPropagation(); M.' + this.appID + '.' + this.name + '.toggleFormFieldHistory(event, \'' + s + '\',\'' + fid + '\');'));
 		}
 		if( fields[i].editFn != null && fields[i].editFn != '' ) {
 			r.appendChild(M.aE('td', null, 'buttons noprint','<span class="icon">r</span>',fields[i].editFn));
@@ -2609,7 +2825,7 @@ M.panel.prototype.createFormFields = function(s, nF, fI, fields, mN) {
 				}
 			}
 			if( btns.children.length > 0 ) {
-				var r = M.aE('tr');
+				var r = M.aE('tr',null,'imagebuttons');
 				var td = M.aE('td',null,'aligncenter');
 				td.appendChild(btns);
 				if( f != null ) {
@@ -2619,7 +2835,18 @@ M.panel.prototype.createFormFields = function(s, nF, fI, fields, mN) {
 				nF.appendChild(r);
 			}
 		}
-
+		//
+		// Check if there is guided text for this field
+		//
+		if( fields[i].gtext != null && fields[i].gtext != '' ) {
+			var r = M.aE('tr', null, 'guided-text guided-show');
+			if( fields[i].hidelabel == null || fields[i].hidelabel != 'yes' ) {
+				r.appendChild(M.aE('td',null,null,''));
+			}
+			var c = M.aE('td', null, null, '<p>' + fields[i].gtext + '</p>');
+			r.appendChild(c);
+			nF.appendChild(r);
+		}
 	}
 
 	if( ct == 0 && this.noData != null ) {
@@ -3059,6 +3286,45 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
 			c.appendChild(M.aE('span', this.panelUID + '_' + fid + sFN + '_hint', 'hint', field.hint));
 		}
 	}
+	else if( field.type == 'flagtoggle' ) {
+		c.className = 'multitoggle';
+		var div = M.aE('div', this.panelUID + '_' + fid + sFN);
+		var v = this.fieldValue(s, field.field, field, mN);
+		if( (v == null || v == '') && field.default != null && field.default != '' ) {
+			v = field.default;
+		} else {
+			if( (v&field.bit) > 0 ) {
+				v = 'on';
+			} else {
+				v = 'off';
+			}
+		}
+
+		var updateFn = '';	
+		if( field.on_fields != null || field.off_fields != null ) {
+			updateFn = this.panelRef + '.updateFlagToggleFields(\'' + i + sFN + '\');';
+		}
+		if( field.reverse != null && field.reverse == 'yes' ) {
+			var off = M.aE('span', this.panelUID + '_' + fid + sFN + '_off', 
+				(v=='off'?'toggle_on':'toggle_off'), (field.offn!=null&&field.offn!=''?field.off:'Yes'));
+			off.setAttribute('onclick', this.panelRef + '.setToggleField(this, \'' + i + sFN + '\',\'' + field.none + '\',\'' + field.fn + '\');' + updateFn);
+			var on = M.aE('span', this.panelUID + '_' + fid + sFN + '_on', 
+				(v=='on'?'toggle_on':'toggle_off'), (field.on!=null&&field.on!=''?field.on:'No'));
+			on.setAttribute('onclick', this.panelRef + '.setToggleField(this, \'' + i + sFN + '\',\'' + field.none + '\',\'' + field.fn + '\');' + updateFn);
+			div.appendChild(on);
+			div.appendChild(off);
+		} else {
+			var off = M.aE('span', this.panelUID + '_' + fid + sFN + '_off', 
+				(v=='off'?'toggle_on':'toggle_off'), (field.offn!=null&&field.offn!=''?field.off:'No'));
+			off.setAttribute('onclick', this.panelRef + '.setToggleField(this, \'' + i + sFN + '\',\'' + field.none + '\',\'' + field.fn + '\');' + updateFn);
+			var on = M.aE('span', this.panelUID + '_' + fid + sFN + '_on', 
+				(v=='on'?'toggle_on':'toggle_off'), (field.on!=null&&field.on!=''?field.on:'Yes'));
+			on.setAttribute('onclick', this.panelRef + '.setToggleField(this, \'' + i + sFN + '\',\'' + field.none + '\',\'' + field.fn + '\');' + updateFn);
+			div.appendChild(off);
+			div.appendChild(on);
+		}
+		c.appendChild(div)
+	}
 	else if( field.type == 'multiselect' ) {
 		if( field.joined != null && field.joined == 'no' ) {
 			c.className = 'multiselect';
@@ -3186,23 +3452,23 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
 		}
 		c.appendChild(d);
 		// File upload doesn't work on ios and will break the field history button. :(
-		if( M.device != 'ipad' && M.device != 'iphone' ) {
+//		if( M.device != 'ipad' && M.device != 'iphone' ) {
 			var f = M.aE('input', this.panelUID + '_' + i + sFN, 'file');
 			f.setAttribute('name', i + sFN);
 			f.setAttribute('onfocus', this.panelRef + '.clearLiveSearches(\''+s+'\',\''+i+sFN+'\');');
 			f.setAttribute('type', 'file');
 			c.appendChild(f);
-		}
+//		}
 	}
 	else if( field.type == 'file' ) {
 		// File upload doesn't work on ios and will break the field history button. :(
-		if( M.device != 'ipad' && M.device != 'iphone' ) {
+//		if( M.device != 'ipad' && M.device != 'iphone' ) {
 			var f = M.aE('input', this.panelUID + '_' + i + sFN, 'file');
 			f.setAttribute('onfocus', this.panelRef + '.clearLiveSearches(\''+s+'\',\''+i+sFN+'\');');
 			f.setAttribute('name', i + sFN);
 			f.setAttribute('type', 'file');
 			c.appendChild(f);
-		}
+//		}
 	}
 	else if( field.type == 'image_id' ) {
 		var d = M.aE('div', this.panelUID + '_' + i + sFN + '_preview', 'image_preview');
@@ -3304,6 +3570,59 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
 	}
 
 	return c;
+};
+
+M.panel.prototype.updateFlagToggleFields = function(fid) {
+	var f = this.formField(fid);
+
+	var v = this.formValue(fid);
+	if( f.on_fields != null && f.on_fields.length > 0 ) {
+		for(var i in f.on_fields) {
+			var e = M.gE(this.panelUID + '_' + f.on_fields[i]);
+			e = e.parentNode.parentNode;
+			if( v == 'on' ) {
+				e.style.display = 'table-row';
+				if( e.previousSibling != null && e.previousSibling.className.match(/guided-title/) ) {
+					e.previousSibling.style.display = '';
+				}
+				if( e.nextSibling != null && e.nextSibling.className.match(/guided-text/) ) {
+					e.nextSibling.style.display = '';
+				}
+			} else {
+				e.style.display = 'none';
+				if( e.previousSibling != null && e.previousSibling.className.match(/guided-title/) ) {
+					e.previousSibling.style.display = 'none';
+				}
+				if( e.nextSibling != null && e.nextSibling.className.match(/guided-text/) ) {
+					e.nextSibling.style.display = 'none';
+				}
+			}
+		}
+	}
+	if( f.off_fields != null && f.off_fields.length > 0 ) {
+		for(var i in f.off_fields) {
+			var e = M.gE(this.panelUID + '_' + f.off_fields[i]);
+			e = e.parentNode.parentNode;
+			if( v == 'off' ) {
+				e.style.display = 'table-row';
+				if( e.previousSibling != null && e.previousSibling.className.match(/guided-title/) ) {
+					e.previousSibling.style.display = '';
+				}
+				if( e.nextSibling != null && e.nextSibling.className.match(/guided-text/) ) {
+					e.nextSibling.style.display = '';
+				}
+			} else {
+				e.style.display = 'none';
+				if( e.previousSibling != null && e.previousSibling.className.match(/guided-title/) ) {
+					e.previousSibling.style.display = 'none';
+				}
+				if( e.nextSibling != null && e.nextSibling.className.match(/guided-text/) ) {
+					e.nextSibling.style.display = 'none';
+				}
+			}
+		}
+	}
+	M.resize();
 };
 
 M.panel.prototype.updateImgPreview = function(fid, img_id) {
@@ -4696,6 +5015,7 @@ M.panel.prototype.serializeForm = function(fs) {
 		}
 	}
 
+	var flags = {};
 	for(i in this.sections) {
 		//
 		// Grid elements
@@ -4758,9 +5078,34 @@ M.panel.prototype.serializeForm = function(fs) {
 						c += encodeURIComponent(fid) + '=' + encodeURIComponent(n) + '&';
 					}
 				}
+				// Check if flagtoggle and field specified
+				if( f.type == 'flagtoggle' && f.field != null ) {
+					if( flags[f.field] == null ) {
+						flags[f.field] = {'f':f, 'v':0};
+					}
+					if( n == 'on' || (f.reverse != null && f.reverse == 'yes' && n == 'off') ) {
+						flags[f.field].v |= f.bit;
+					}
+				}
 			}
 		}
 	}
+
+	//
+	// Check for flags that need to be updated
+	//
+	for(var i in flags) {
+		var o = 0;
+		if( this.fieldValue != null ) {
+			o = this.fieldValue('', flags[i].f.field, flags[i].f);
+		}
+		var n = flags[i].v;
+		if( n != o || fs == 'yes' ) {
+			c += encodeURIComponent(flags[i].f.field, n);
+			count++;
+		}
+	}
+
 
 	return c;
 };
@@ -4844,6 +5189,7 @@ M.panel.prototype.serializeFormData = function(fs) {
 		}
 	}
 
+	var flags = {};
 	for(i in this.sections) {
 		//
 		// Grid elements
@@ -4908,8 +5254,32 @@ M.panel.prototype.serializeFormData = function(fs) {
 							c += encodeURIComponent(fid) + '=' + encodeURIComponent(n) + '&';
 						}
 					}
+					// Check if flagtoggle and field specified
+					if( f.type == 'flagtoggle' && f.field != null ) {
+						if( flags[f.field] == null ) {
+							flags[f.field] = {'f':f, 'v':0};
+						}
+						if( n == 'on' || (f.reverse != null && f.reverse == 'yes' && n == 'off') ) {
+							flags[f.field].v |= f.bit;
+						}
+					}
 				}
 			}
+		}
+	} // Done the sections
+
+	//
+	// Check for flags that need to be updated
+	//
+	for(var i in flags) {
+		var o = 0;
+		if( this.fieldValue != null ) {
+			o = this.fieldValue('', flags[i].f.field, flags[i].f);
+		}
+		var n = flags[i].v;
+		if( n != o || fs == 'yes' ) {
+			c.append(flags[i].f.field, n);
+			count++;
 		}
 	}
 
@@ -4963,9 +5333,18 @@ M.panel.prototype.formFieldValue = function(f,fid) {
 	} else if( f.type == 'multitoggle' || f.type == 'toggle' ) {
 		n = 0;
 		for(j in f.toggles) {
-			if( M.gE(this.panelUID + '_' + fid + '_' + j).className == 'toggle_on' ) {
+			var e = M.gE(this.panelUID + '_' + fid + '_' + j);
+			if( e != null && e.className == 'toggle_on' ) {
 				n = j;
 			}
+		}
+	} else if( f.type == 'flagtoggle' ) {
+		n = 0;
+		var on = M.gE(this.panelUID + '_' + fid + '_on');
+		if( on.className == 'toggle_on' ) {
+			return 'on';
+		} else {
+			return 'off';
 		}
 	} else if( f.type == 'multiselect' ) {
 		n = '';
@@ -5182,7 +5561,17 @@ M.panel.prototype.switchForm = function(form, fv) {
 					}
 				}
 			} else {
-				org_data[j] = this.data[j];
+				if( this.data[j] != null ) {
+					org_data[j] = this.data[j];
+				}
+				if( s.fields[j].type == 'flagtoggle' ) {
+					if( org_data[s.fields[j].field] == null ) {
+						org_data[s.fields[j].field] = 0;
+					}
+					if( n == 'on' ) {
+						org_data[s.fields[j].field] |= s.fields[j].bit;
+					}
+				}
 				// Get the new data if the field is active
 				if( s.fields[j].active == null || s.fields[j].active == 'yes' ) {
 					var n = this.formFieldValue(s.fields[j], j);
@@ -5202,9 +5591,20 @@ M.panel.prototype.switchForm = function(form, fv) {
 							}
 							else { this.data.due_duration_allday = 'no'; }
 						}
+						if( s.fields[j].type == 'flagtoggle' ) {
+							if( this.data[s.fields[j].field] == null ) {
+								this.data[s.fields[j].field] = 0;
+							}
+							if( n == 'on' ) {
+								this.data[s.fields[j].field] |= s.fields[j].bit;
+							} else {
+								this.data[s.fields[j].field] = this.data[s.fields[j].field]&~s.fields[j].bit;
+							}
+						}
 					}
 				}
 			}
+
 		}
 	}
 
@@ -5240,6 +5640,9 @@ M.panel.prototype.switchForm = function(form, fv) {
 			} else {
 				if( org_data[j] != null ) {
 					this.data[j] = org_data[j];
+				}
+				if( s.fields[j].type == 'flagtoggle' ) {
+					this.data[s.fields[j].field] = org_data[s.fields[j].field];
 				}
 			}
 		}
@@ -5278,6 +5681,7 @@ M.panel.prototype.destroy = function() {
 // remove all the data.
 //
 M.panel.prototype.reset = function() {
+	this.gstep = 0;
 	if( this.formtab_field_id != null ) {
 		this.formtab_field_id = null;
 	}

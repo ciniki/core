@@ -33,6 +33,9 @@ table.form td.input > select {
 	box-shadow: none;
 }
 
+p.guided-text {
+	border-radius: 7px;
+}
 table.form td.input > select,
 table.form td.select > select,
 table.list {

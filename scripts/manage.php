@@ -589,9 +589,9 @@ Javscript must be enabled for this application to work.
 	</div>
 </div>
 <?php if( $start_container == 'm_help' ) { ?>
-<div id="m_help">
+<div id="m_help" class="guided-off">
 <?php } else { ?>
-<div id="m_help" style="display:none;">
+<div id="m_help" style="display:none;" class="guided-off">
 <?php } ?>
 	<table id="mh_header" class="headerbar" cellspacing="0" cellpadding="0">
 		<tr>
@@ -618,9 +618,9 @@ Javscript must be enabled for this application to work.
 	</div></div>
 </div>
 <?php if( $start_container == 'm_container' ) { ?>
-<div id="m_container" class="s-<?php echo $size;?> help-off">
+<div id="m_container" class="s-<?php echo $size;?> help-off guided-off">
 <?php } else { ?>
-<div id="m_container" class="s-<?php echo $size;?> help-off" style="display:none;">
+<div id="m_container" class="s-<?php echo $size;?> help-off guided-off" style="display:none;">
 <?php } ?>
 	<table id="mc_header" class="headerbar" cellspacing="0" cellpadding="0">
 		<tr>

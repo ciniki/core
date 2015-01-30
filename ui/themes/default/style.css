@@ -401,6 +401,12 @@ table.list > tbody > tr > td.addbutton {
 	padding-bottom: 0px; */
 }
 
+table.stepnav {
+	background: rgba(255,255,255,0.75);
+}
+
+table.stepnav > tbody > tr > td.prev,
+table.stepnav > tbody > tr > td.next,
 table.datepicker > tbody > tr > td.prev,
 table.datepicker > tbody > tr > td.next,
 table.list > tbody > tr > td.buttons,
@@ -413,16 +419,20 @@ table.list > tfoot > tr > td.buttons {
 	padding-left: 0.0em;
 }
 
+table.stepnav > tbody > tr > td.prev,
 table.datepicker > tbody > tr > td.prev {
 	text-align: left;
 	padding-left: 0.5em;
 }
 
+table.stepnav > tbody > tr > td.next,
 table.datepicker > tbody > tr > td.next {
 	text-align: right;
 	padding-right: 0.5em;
 }
 
+table.stepnav > tbody > tr > td.prev span.icon,
+table.stepnav > tbody > tr > td.next span.icon,
 table.datepicker > tbody > tr > td.prev span.icon,
 table.datepicker > tbody > tr > td.next span.icon,
 table.list > tbody > tr > td.buttons span.icon,
@@ -1262,6 +1272,7 @@ div.media div.media_album div.titlewrap {
 	font-weight: bold;
 }
 
+table.stepnav,
 table.datepicker {
 	width: 100%;
 	table-layout: auto;
@@ -1274,6 +1285,9 @@ table.datepicker > tbody > tr > td.next {
 	padding-left: 1em;
 } */
 
+table.stepnav > tbody > tr > td.position {
+	text-align: center; 
+}
 table.datepicker > tbody > tr > td.date {
 	text-align: center;
 }
@@ -1837,6 +1851,92 @@ table.text tr.text td pre:last-child {
 	padding-bottom: 0px;
 	margin-bottom: 0px;
 }
+
+/******** Guided mode settings *******/
+div.guided-off .guided-show,
+div.guided-on .guided-hide {
+	display: none;
+}
+
+div.guided-off .guided-selected,
+div.guided-on .guided-selected,
+div.guided-on .guided-show,
+div.guided-off .guided-hide {
+	display: block;
+}
+div.guided-on table.stepnav.guided-show {
+	display: table;
+}
+div.guided-on tr.guided-show {
+	display: table-row;
+}
+div.guided-on table.stepnav-bottom.guided-show {
+	margin-top: 3em;
+}
+
+div.guided-on div.panelsection.guided-selected {
+	margin-top: 2em;
+}
+
+div.guided-on .guided-selected h2.guided-title {
+	font-size: 1.2em;
+}
+
+div.guided-on .guided-selected table.formtabs div.buttons {
+	width: 99%;
+	margin: 1em 0 1em 0;
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+div.guided-on .guided-selected table.formtabs div.buttons span {
+	display: block;
+	width: 100%;
+	margin: 0em 0em 0em 0em;
+	padding: 0.7em 0 0.7em 0;
+}
+
+div.guided-on p.guided-text {
+	padding: 1em;
+	background-color: rgba(255,253,213,1.0);
+	margin: 1em 0 1em 0;
+}
+div.guided-on tr.guided-title {
+}
+div.guided-on tr.guided-title td {
+	padding: 1.5em 0em 0.5em 0em;
+}
+div.guided-on tr.guided-title td p {
+	padding: 0.5em 0.5em 0.5em 0.5em;
+	background: rgba(255,255,255,0.8);
+	border-top: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
+}
+div.guided-on tr.guided-title:first-child td {
+	padding-top: 0em;
+}
+div.guided-on tr.guided-title:first-child td p {
+	border-top: 0px solid #ddd;
+}
+div.guided-on tr.guided-text td {
+	padding: 0.2em 0.2em 0.3em 0.2em;
+}
+div.guided-on tr.guided-text td p {
+	margin: 0.2em 0em 0.5em 0em;
+	margin: 0;
+	padding: 0.5em;
+	background-color: rgba(255,253,213,1.0);
+}
+/*
+div.guided-on table.form.outline {
+	border: 0px;
+	background: transparent;
+}
+div.guided-on table.outline tr.textfield,
+div.guided-on table.outline tr.imagebuttons {
+	border: 1px solid #ddd;
+	background: rgba(255,255,255,0.4);
+} */
 
 
 /**************  MOSSi App Styles **************/

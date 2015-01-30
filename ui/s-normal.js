@@ -31,6 +31,18 @@ M.resize = function(e) {
 	}
 }
 
+M.toggleGuidedMode = function() {
+	var mc = M.gE('m_container'); 
+	if( M.uiModeGuided == 'yes' ) {
+		M.uiModeGuided = 'no';
+		mc.className = mc.className.replace(/guided-on/, 'guided-off');
+	} else {
+		M.uiModeGuided = 'yes';
+		mc.className = mc.className.replace(/guided-off/, 'guided-on');
+	}
+	M.resize();
+};
+
 M.toggleHelp = function(helpUID) {
 	//
 	// Check if help is loaded
@@ -57,7 +69,7 @@ M.toggleHelp = function(helpUID) {
 			M.setWidth('mc_header', '66%');
 			M.setWidth('mh_header', '34%');
 			M.setWidth('m_help', (window.innerWidth - document.getElementById('m_container').offsetWidth - 1) + 'px');
-			document.getElementById('m_help').className = 'leftborder';
+			document.getElementById('m_help').className = 'leftborder guided-off';
 		}
 		M.show('m_help');
 		M.resize();

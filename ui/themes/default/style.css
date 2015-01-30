@@ -1938,6 +1938,28 @@ div.guided-on table.outline tr.imagebuttons {
 	background: rgba(255,255,255,0.4);
 } */
 
+/**** Field Help Mode *****/
+div.xhelp-on p.xhelp-text {
+	display: table-row;
+	padding: 1em;
+	background-color: rgba(255,253,213,1.0);
+	margin: 1em 0 1em 0;
+}
+
+div.xhelp-off .xhelp-text {
+	display: none;
+}
+div.xhelp-on tr.xhelp-text td {
+	padding: 0.2em 0.2em 0.3em 0.2em;
+}
+div.xhelp-on tr.xhelp-text td p {
+	margin: 0.2em 0em 0.5em 0em;
+	margin: 0;
+	padding: 0.5em;
+	background-color: rgba(255,253,213,1.0);
+}
+
+
 
 /**************  MOSSi App Styles **************/
 #mc_apps {

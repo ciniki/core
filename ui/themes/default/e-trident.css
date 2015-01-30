@@ -25,6 +25,7 @@ input:focus {
 div.media div.imgwrap {
     box-shadow: #777 1px 1px 3px;
 }
+tr.xhelp-text td p,
 tr.guided-text td p,
 p.guided-text {
 	border-radius: 7px;

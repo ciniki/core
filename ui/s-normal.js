@@ -43,6 +43,18 @@ M.toggleGuidedMode = function() {
 	M.resize();
 };
 
+M.toggleXHelpMode = function() {
+	var mc = M.gE('m_container'); 
+	if( M.uiModeXHelp == 'yes' ) {
+		M.uiModeXHelp = 'no';
+		mc.className = mc.className.replace(/xhelp-on/, 'xhelp-off');
+	} else {
+		M.uiModeXHelp = 'yes';
+		mc.className = mc.className.replace(/xhelp-off/, 'xhelp-on');
+	}
+	M.resize();
+};
+
 M.toggleHelp = function(helpUID) {
 	//
 	// Check if help is loaded

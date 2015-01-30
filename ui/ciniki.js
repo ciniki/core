@@ -33,6 +33,7 @@ M.init = function(cfg) {
 	M.touch = cfg.touch; 
 	M.size = cfg.size;
 	M.uiModeGuided = 'no';
+	M.uiModeXHelp = 'no';
 	M.months = [
 		{'shortname':'Jan'},
 		{'shortname':'Feb'},
@@ -358,6 +359,16 @@ M.auth = function(e, t) {
 			// Set to on, so toggle can switch off
 			M.uiModeGuided = 'yes';
 			M.toggleGuidedMode();
+		}
+		if( r.auth.settings['ui-mode-xhelp'] != null 
+			&& r.auth.settings['ui-mode-xhelp'] == 'yes' ) {
+			// Set to off, so toggle can switch on
+			M.uiModeXHelp = 'no';
+			M.toggleXHelpMode();
+		} else {
+			// Set to on, so toggle can switch off
+			M.uiModeXHelp = 'yes';
+			M.toggleXHelpMode();
 		}
 
 		if( M.oldUserId == M.userID ) {

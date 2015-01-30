@@ -33,6 +33,7 @@ table.form td.input > select {
 	box-shadow: none;
 }
 
+tr.xhelp-text td p,
 tr.guided-text td p,
 p.guided-text {
 	border-radius: 7px;

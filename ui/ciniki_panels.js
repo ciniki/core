@@ -540,6 +540,7 @@ M.panel.prototype.gstepGoto = function(gstep) {
 	var step_num = 1;
 	var num_steps = 0;
 	for(var i in this.gsteps) {
+		i = parseInt(i);
 		if( this.gstep > i ) {
 			prev = i;
 		} else if( this.gstep < i && next == 0 ) {
@@ -624,9 +625,7 @@ M.panel.prototype.createSection = function(i, s) {
 	}
 
 	if( s.gstep != null ) {
-//		if( s.gstep == 'hide' ) {
-			f.className += ' guided-hide';
-//		}
+		f.className += ' guided-hide';
 	}
 
 	if( s.visible != null && s.visible == 'hidden' ) {
@@ -637,6 +636,10 @@ M.panel.prototype.createSection = function(i, s) {
 	// Check if there should be label
 	//
 	var lE = null;
+	gt = null;
+	if( this.sectionGuidedTitle != null ) {
+		gt = this.sectionGuidedTitle(i);
+	} 
 	var t = this.sectionLabel(i, s);
 	if( t != null && t != '' ) {
 		if( s.multi != null && s.multi == 'yes' ) {
@@ -649,19 +652,16 @@ M.panel.prototype.createSection = function(i, s) {
 			lE = M.addSectionLabel(t, -1);
 		}
 		lE.className += ' guided-hide';
-		if( this.sectionGuidedTitle != null ) {
-			var gt = this.sectionGuidedTitle(i);
-			f.appendChild(M.aE('h2', null, 'guided-title guided-show', (gt!=null&&gt!=''?gt:t)));
-		} else {
-			f.appendChild(M.aE('h2', null, 'guided-title guided-show', t));
-		}
+		f.appendChild(M.aE('h2', null, 'guided-title guided-show', (gt!=null&&gt!=''?gt:t)));
 		f.appendChild(lE);
-		if( this.sectionGuidedText != null ) {
-			var gt = this.sectionGuidedText(i);
-			if( gt != null ) { f.appendChild(M.aE('p', null, 'guided-text guided-show', gt)); }
-		}
+	} else if( gt != null ) {
+		f.appendChild(M.aE('h2', null, 'guided-title guided-show', (gt!=null&&gt!=''?gt:t)));
 	}
 
+	if( this.sectionGuidedText != null ) {
+		var gt = this.sectionGuidedText(i);
+		if( gt != null ) { f.appendChild(M.aE('p', null, 'guided-text guided-show', gt)); }
+	}
 	//
 	// Get the section 
 	//
@@ -2719,10 +2719,13 @@ M.panel.prototype.createFormFields = function(s, nF, fI, fields, mN) {
 
 		// Create the new row element
 		var r = M.aE('tr');
+		var visible = 'yes';
 		if( typeof fields[i].visible == 'function' && fields[i].visible() == 'no' ) {
+			visible = 'no';
 			r.style.display = 'none';
 			if( rgt != null ) { rgt.style.display = 'none'; }
 		} else if( fields[i].visible != null && fields[i].visible == 'no' ) {
+			visible = 'no';
 			r.style.display = 'none';
 			if( rgt != null ) { rgt.style.display = 'none'; }
 		}
@@ -2846,12 +2849,15 @@ M.panel.prototype.createFormFields = function(s, nF, fI, fields, mN) {
 		//
 		// Check if there is guided text for this field
 		//
-		if( fields[i].gtext != null && fields[i].gtext != '' ) {
-			var r = M.aE('tr', null, 'guided-text guided-show');
+		if( fields[i].htext != null && fields[i].htext != '' ) {
+			var r = M.aE('tr', null, 'xhelp-text');
 			if( fields[i].hidelabel == null || fields[i].hidelabel != 'yes' ) {
 				r.appendChild(M.aE('td',null,null,''));
 			}
-			var c = M.aE('td', null, null, '<p>' + fields[i].gtext + '</p>');
+			if( visible == 'no' ) {
+				r.style.display = 'none';
+			}
+			var c = M.aE('td', null, null, '<p>' + fields[i].htext + '</p>');
 			r.appendChild(c);
 			nF.appendChild(r);
 		}

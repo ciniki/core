@@ -405,6 +405,10 @@ table.stepnav {
 	background: rgba(255,255,255,0.75);
 }
 
+table.stepnav > tbody > tr > td.prevtext,
+table.stepnav > tbody > tr > td.nexttext {
+	color: #aaa;
+}
 table.stepnav > tbody > tr > td.prev,
 table.stepnav > tbody > tr > td.next,
 table.datepicker > tbody > tr > td.prev,
@@ -429,6 +433,12 @@ table.stepnav > tbody > tr > td.next,
 table.datepicker > tbody > tr > td.next {
 	text-align: right;
 	padding-right: 0.5em;
+}
+table.stepnav > tbody > tr > td.prevtext {
+	padding-left: 0;
+}
+table.stepnav > tbody > tr > td.nexttext {
+	padding-right: 0;
 }
 
 table.stepnav > tbody > tr > td.prev span.icon,

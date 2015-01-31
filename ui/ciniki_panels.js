@@ -384,10 +384,13 @@ M.panel.prototype.createSections = function() {
 				ps.appendChild(gt);
 			}
 			if( this.formtabs.gstep != null && this.formtabs.gtext != null && this.formtabs.gtext != '' ) {
-				ps.appendChild(M.aE('p', null, 'guided-show', this.formtabs.gtext));
+				ps.appendChild(M.aE('p', null, 'guided-text guided-show', this.formtabs.gtext));
 			}
 			st = this.createFormTabs(this.formtabs, this.formtab, fv);
 			ps.appendChild(st);
+			if( this.formtabs.gstep != null && this.formtabs.gmore != null && this.formtabs.gmore != '' ) {
+				ps.appendChild(M.aE('p', null, 'guided-text guided-show', this.formtabs.gmore));
+			}
 			f.appendChild(ps);
 			if( this.formtabs.gstep != null && this.formtabs.gstep != 'hide' ) {
 				gprev = this.formtabs.gstep;
@@ -448,8 +451,10 @@ M.panel.prototype.createSections = function() {
 		var tr = M.aE('tr');
 
 		// Previous
-		var c1 = M.aE('td',null,'prev', '<span class="icon">l</span>');
-		c1.className = 'prev clickable';
+		var c1 = M.aE('td',null,'prev clickable', '<span class="icon">l</span>');
+		c1.setAttribute('onclick', this.panelRef + '.gstepPrev();');
+		tr.appendChild(c1);
+		var c1 = M.aE('td',null,'prev prevtext clickable', 'prev');
 		c1.setAttribute('onclick', this.panelRef + '.gstepPrev();');
 		tr.appendChild(c1);
 
@@ -458,8 +463,10 @@ M.panel.prototype.createSections = function() {
 		tr.appendChild(c2);
 
 		// Next
-		c3 = M.aE('td',null,'next', '<span class="icon">r</span>');
-		c3.className = 'next clickable';
+		c3 = M.aE('td',null,'next nexttext clickable', 'next');
+		c3.setAttribute('onclick', this.panelRef + '.gstepNext();');
+		tr.appendChild(c3);
+		c3 = M.aE('td',null,'next clickable', '<span class="icon">r</span>');
 		c3.setAttribute('onclick', this.panelRef + '.gstepNext();');
 		tr.appendChild(c3);
 		th.appendChild(tr);
@@ -482,18 +489,23 @@ M.panel.prototype.createSections = function() {
 		var tr = M.aE('tr');
 
 		// Previous
-		var c1 = M.aE('td',null,'prev', '<span class="icon">l</span>');
-		c1.className = 'prev clickable';
+		var c1 = M.aE('td',null,'prev clickable', '<span class="icon">l</span>');
+		c1.setAttribute('onclick', this.panelRef + '.gstepPrev();');
+		tr.appendChild(c1);
+		var c1 = M.aE('td',null,'prev prevtext clickable', 'back');
 		c1.setAttribute('onclick', this.panelRef + '.gstepPrev();');
 		tr.appendChild(c1);
 
 		// Current Step
 		var c2 = M.aE('td',this.panelUID + '_gstepnav_bottom_position','position', '');
+		c3.setAttribute('onclick', this.panelRef + '.gstepNext();');
 		tr.appendChild(c2);
 
 		// Next
-		c3 = M.aE('td',null,'next', '<span class="icon">r</span>');
-		c3.className = 'next clickable';
+		c3 = M.aE('td',null,'next nexttext clickable', 'next');
+		c3.setAttribute('onclick', this.panelRef + '.gstepNext();');
+		tr.appendChild(c3);
+		c3 = M.aE('td',null,'next clickable', '<span class="icon">r</span>');
 		c3.setAttribute('onclick', this.panelRef + '.gstepNext();');
 		tr.appendChild(c3);
 		th.appendChild(tr);
@@ -575,10 +587,32 @@ M.panel.prototype.gstepGoto = function(gstep) {
 	}
 
 	if( this.gsteps.length > 0 ) {
-		var e = M.gE(this.panelUID + '_gstepnav_top_position');
-		if( e != null ) { e.innerHTML = 'Step ' + step_num + ' of ' + num_steps; }
-		var e = M.gE(this.panelUID + '_gstepnav_bottom_position');
-		if( e != null ) { e.innerHTML = 'Step ' + step_num + ' of ' + num_steps; }
+		var et = M.gE(this.panelUID + '_gstepnav_top_position');
+		if( et != null ) { et.innerHTML = 'Step ' + step_num + ' of ' + num_steps; }
+		var eb = M.gE(this.panelUID + '_gstepnav_bottom_position');
+		if( eb != null ) { eb.innerHTML = 'Step ' + step_num + ' of ' + num_steps; }
+		if( prev == 0 ) {
+			et.previousSibling.innerHTML = '';
+			eb.previousSibling.innerHTML = '';
+			et.previousSibling.previousSibling.innerHTML = '<span class="icon"></span>';
+			eb.previousSibling.previousSibling.innerHTML = '<span class="icon"></span>';
+		} else {
+			et.previousSibling.innerHTML = 'back';
+			eb.previousSibling.innerHTML = 'back';
+			et.previousSibling.previousSibling.innerHTML = '<span class="icon">l</span>';
+			eb.previousSibling.previousSibling.innerHTML = '<span class="icon">l</span>';
+		}
+		if( next == 0 ) {
+			et.nextSibling.innerHTML = '';
+			eb.nextSibling.innerHTML = '';
+			et.nextSibling.nextSibling.innerHTML = '<span class="icon"></span>';
+			eb.nextSibling.nextSibling.innerHTML = '<span class="icon"></span>';
+		} else {
+			et.nextSibling.innerHTML = 'next';
+			eb.nextSibling.innerHTML = 'next';
+			et.nextSibling.nextSibling.innerHTML = '<span class="icon">r</span>';
+			eb.nextSibling.nextSibling.innerHTML = '<span class="icon">r</span>';
+		}
 	}
 	window.scrollTo(0, 0);
 };

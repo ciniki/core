@@ -310,7 +310,7 @@ if( file_exists("$manage_root/core/ui/$device-$engine.min.js") ) {
 //
 if( ($device == 'ipad' || $device == 'xoom' || $device == 'hptablet' ) && $engine == 'webkit' ) { ?>
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black translucent" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <?php print "<link rel='apple-touch-icon' href='$manage_themes/default/img/icon.png'/>\n"; ?>
     <?php print "<link rel='apple-touch-startup-image' href='$manage_themes/default/img/icon.png'/>\n"; ?>

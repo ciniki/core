@@ -210,6 +210,21 @@ M.api.iFramePostJSONRsp = function(iframe_id) {
 	return eval('(' + iframe.contentWindow.document.body.innerHTML + ')');
 }
 
+M.api.openPDF = function(m, p) {
+	return M.api.openFile(m, p);
+}
+
+M.api.openFile = function(m, p) {
+	var a = M.aE('a');
+	a.setAttribute("href", M.api.getUploadURL(m, p));
+	a.setAttribute("target", "_blank");
+
+	var dispatch = document.createEvent("HTMLEvents");
+	dispatch.initEvent("click", true, true);
+	a.dispatchEvent(dispatch);
+	return true;
+}
+
 M.api.getUploadURL = function(m, p) {
 	var u = M.api.url + '?method=' + m + '&api_key=' + M.api.key + '&auth_token=' + M.api.token;
 	for(k in p) {

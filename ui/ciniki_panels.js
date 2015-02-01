@@ -240,7 +240,7 @@ M.panel.prototype.show = function(cb) {
 		}
 	}
 
-	if( this.autofocus != '' ) {
+	if( this.autofocus != '' && M.device != 'ipad' ) {
 		var e = M.gE(this.autofocus);
 		if( e != null ) { e.focus(); }
 	}

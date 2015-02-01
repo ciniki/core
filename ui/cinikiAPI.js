@@ -215,14 +215,18 @@ M.api.openPDF = function(m, p) {
 }
 
 M.api.openFile = function(m, p) {
-	var a = M.aE('a');
-	a.setAttribute("href", M.api.getUploadURL(m, p));
-	a.setAttribute("target", "_blank");
+	if( M.engine == 'trident' || M.engine == 'gecko' ) {
+		window.open(M.api.getUploadURL(m, p));
+	} else {
+		var a = M.aE('a');
+		a.setAttribute("href", M.api.getUploadURL(m, p));
+		a.setAttribute("target", "_blank");
 
-	var dispatch = document.createEvent("HTMLEvents");
-	dispatch.initEvent("click", true, true);
-	a.dispatchEvent(dispatch);
-	return true;
+		var dispatch = document.createEvent("Event");
+		dispatch.initEvent("click", true, true);
+		a.dispatchEvent(dispatch);
+	}
+	return false;
 }
 
 M.api.getUploadURL = function(m, p) {

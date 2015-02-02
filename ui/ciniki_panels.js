@@ -673,7 +673,9 @@ M.panel.prototype.createSection = function(i, s) {
 	gt = null;
 	if( this.sectionGuidedTitle != null ) {
 		gt = this.sectionGuidedTitle(i);
-	} 
+	} else if( s.gtitle != null && s.gtitle != '' ) {
+		gt = s.gtitle;
+	}
 	var t = this.sectionLabel(i, s);
 	if( t != null && t != '' ) {
 		if( s.multi != null && s.multi == 'yes' ) {
@@ -695,6 +697,9 @@ M.panel.prototype.createSection = function(i, s) {
 	if( this.sectionGuidedText != null ) {
 		var gt = this.sectionGuidedText(i);
 		if( gt != null ) { f.appendChild(M.aE('p', null, 'guided-text guided-show', gt)); }
+	} else if( s.gtext != null && s.gtext != '' ) {
+		f.appendChild(M.aE('p', null, 'guided-text guided-show', s.gtext));
+		
 	}
 	//
 	// Get the section 
@@ -776,6 +781,8 @@ M.panel.prototype.createSection = function(i, s) {
 	if( this.sectionGuidedMore != null ) {
 		var gt = this.sectionGuidedMore(i);
 		if( gt != null ) { f.appendChild(M.aE('p', null, 'guided-text guided-show', gt)); }
+	} else if( s.gmore != null && s.gmore != '' ) {
+		f.appendChild(M.aE('p', null, 'guided-text guided-show', s.gmore));
 	}
 	return f;
 };

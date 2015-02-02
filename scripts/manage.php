@@ -308,11 +308,21 @@ if( file_exists("$manage_root/core/ui/$device-$engine.min.js") ) {
 //
 // Output any device-engine specific headers
 //
-if( ($device == 'ipad' || $device == 'xoom' || $device == 'hptablet' ) && $engine == 'webkit' ) { ?>
+if( $device == 'ipad' && $engine == 'webkit' ) { ?>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta id="apple_sbarstyle" name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <?php print "<link rel='apple-touch-icon' href='$manage_themes/default/img/icon.png'/>\n"; ?>
+    <?php print "<link rel='apple-touch-startup-image' href='$manage_themes/default/img/icon.png'/>\n"; ?>
+	<script src='/ciniki-manage/core/ui/webkitdragdrop.js' type='text/javascript'></script>
+<?php } elseif( ($device == 'ipad' || $device == 'xoom' || $device == 'hptablet' ) && $engine == 'webkit' ) { ?>
+    <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <?php print "<link rel='apple-touch-icon' href='$manage_themes/default/img/icon.png'/>\n"; ?>
+    <?php print "<link rel='icon' sizes='192x192' href='$manage_themes/default/img/icon192.png'/>\n"; ?>
+    <?php print "<link rel='icon' sizes='128x128' href='$manage_themes/default/img/icon128.png'/>\n"; ?>
     <?php print "<link rel='apple-touch-startup-image' href='$manage_themes/default/img/icon.png'/>\n"; ?>
 	<script src='/ciniki-manage/core/ui/webkitdragdrop.js' type='text/javascript'></script>
 	<?php // <script src='js/iscroll.js' type='text/javascript'></script> ?>

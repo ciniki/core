@@ -119,7 +119,7 @@ function ciniki_core_help() {
 //		} else {
 //			this.list.sections._ui_options.visible = 'no';
 //		}
-
+	
 		this.loadBugs();
 	}
 

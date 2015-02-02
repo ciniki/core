@@ -49,6 +49,14 @@ M.init = function(cfg) {
 		{'shortname':'Dec'}
 		];
 
+//	if( window.navigator.standalone ) {
+//		var m = M.gE('apple_sbarstyle');
+//		if( m != null ) {
+//			m.parentNode.remoteChild(m);
+//			m.setAttribute('content', 'black');
+//		}
+//	}
+
 	// M.hideChildren('m_body', 'm_login');
 	M.api.url = cfg.api_url;
 	M.api.key = cfg.api_key;

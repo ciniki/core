@@ -465,9 +465,9 @@ Javscript must be enabled for this application to work.
 			<iframe src="/ciniki-login.php" id="login_target" name="login_target" style="display:none;"></iframe>
 			<form id="mc_login_form" name="mc_login_form" class="narrow" action="/ciniki-login.php" onsubmit="M.auth();" target="login_target" method="POST">
 				<div class="section">
-					<h2>Username</h2>
+					<h2>Email or Username</h2>
 					<table class="list noheader form" cellspacing='0' cellpadding='0'>
-						<tr class="textfield"><td class="input"><label style="display:none;" for="username">Username</label><input id="username" type="text" maxlength="255" name="username"></td></tr>
+						<tr class="textfield"><td class="input"><label style="display:none;" for="username">Email or Username</label><input id="username" type="text" maxlength="255" name="username"></td></tr>
 					</table>
 					<h2>Password</h2>
 					<table class="list noheader form" cellspacing='0' cellpadding='0'>

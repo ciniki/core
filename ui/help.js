@@ -7,6 +7,7 @@ function ciniki_core_help() {
 	// Panels
 	//
 	this.curHelpUID = '';
+	this.toggles = {'no':'Off', 'yes':'On'};
 
 	this.init = function() {
         //
@@ -58,14 +59,8 @@ function ciniki_core_help() {
 				+ ' If you have any problems, please ask a question above. '
 				+ ' You can change these settings anytime by opening help.'},
 			'_ui_options':{'label':'Extended Help', 'visible':'no', 'fields':{
-				'ui-mode-guided':{'label':'Guided Mode', 'type':'toggle', 'fn':'M.ciniki_core_help.updateModeGuided', 'toggles':{
-					'no':'Off',
-					'yes':'On',
-					}},
-				'ui-mode-xhelp':{'label':'Field Descriptions', 'type':'toggle', 'fn':'M.ciniki_core_help.updateModeXHelp', 'toggles':{
-					'no':'Off',
-					'yes':'On',
-					}},
+				'ui-mode-guided':{'label':'Guided Mode', 'type':'toggle', 'fn':'M.ciniki_core_help.updateModeGuided', 'toggles':this.toggles},
+				'ui-mode-xhelp':{'label':'Field Descriptions', 'type':'toggle', 'fn':'M.ciniki_core_help.updateModeXHelp', 'toggles':this.toggles},
 				}},
 		};
 		this.list.sectionData = function(s) { 

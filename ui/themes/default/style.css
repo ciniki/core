@@ -1874,6 +1874,9 @@ div.guided-on .guided-show,
 div.guided-off .guided-hide {
 	display: block;
 }
+div.guided-off td.guided-hide {
+	display: table-cell;
+}
 div.guided-on table.stepnav.guided-show {
 	display: table;
 }

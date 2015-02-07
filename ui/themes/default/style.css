@@ -1,11 +1,11 @@
 /* Icon font for use in UI */
 @font-face {
     font-family: 'CinikiRegular';
-    src: url('fonts/ciniki.eot');
-    src: url('fonts/ciniki.eot?#iefix') format('embedded-opentype'),
-         url('fonts/ciniki.woff') format('woff'),
-         url('fonts/ciniki.ttf') format('truetype'),
-         url('fonts/ciniki.svg#CinikiRegular') format('svg');
+    src: url('fonts/ciniki_v1.eot');
+    src: url('fonts/ciniki_v1.eot?#iefix') format('embedded-opentype'),
+         url('fonts/ciniki_v1.woff') format('woff'),
+         url('fonts/ciniki_v1.ttf') format('truetype'),
+         url('fonts/ciniki_v1.svg#CinikiRegular') format('svg');
     font-weight: normal;
     font-style: normal;
 }

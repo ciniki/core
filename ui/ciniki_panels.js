@@ -4997,6 +4997,7 @@ M.panel.prototype.showButtons = function(wID, buttons) {
 			case 'settings': icn = 's'; break;
 			case 'save': icn = 'S'; break;
 			case 'edit': icn = 'y'; break;
+			case 'download': icn = 'G'; break;
 			case 'exit': 
 			case 'close': 
 			case 'cancel': icn = 'X'; break;

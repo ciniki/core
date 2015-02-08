@@ -3191,6 +3191,7 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
 		sel.setAttribute('name', fid + sFN);
 		sel.setAttribute('onfocus', this.panelRef + '.clearLiveSearches(\''+s+'\',\''+fid+sFN+'\');');
 		var o = field.options;
+		var fv = this.fieldValue(s, i, field, mN);
 		for(j in o) {
 			var n = o[j];
 			var v = j;
@@ -3203,7 +3204,7 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
 			//
 			// Add the options to the select, and choose which one to have selected
 			//
-			if( v == this.fieldValue(s, i, field, mN) ) {
+			if( v == fv ) {
 				var op = new Option(n, v, 0, 1);
 			} else {
 				var op = new Option(n, v);
@@ -3294,12 +3295,13 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
 			if( field.toggle != null && field.toggle == 'yes' ) {
 				f.onclick = function(event) {
 					event.stopPropagation();
-					if( this.className == 'flag_on' ) { this.className = 'flag_off'; } 
-					else {
+					if( this.className == 'flag_off' ) {
 						for(k in this.parentNode.children) {
 							this.parentNode.children[k].className = 'flag_off';
 						}
 						this.className = 'flag_on';
+					} else if( field.none != null && field.none == 'yes' && e.className == 'flag_on' ) {
+						this.className = 'flag_off';
 					}
 				};
 			} else {
@@ -3345,7 +3347,7 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
 		c.className = 'multitoggle';
 		var div = M.aE('div', this.panelUID + '_' + fid + sFN);
 		var v = this.fieldValue(s, field.field, field, mN);
-		if( (v == null || v == '') && field.default != null && field.default != '' ) {
+		if( typeof v != 'number' && (v == null || v == '') && field.default != null && field.default != '' ) {
 			v = field.default;
 		} else {
 			if( (v&field.bit) > 0 ) {
@@ -5294,6 +5296,13 @@ M.panel.prototype.serializeFormData = function(fs) {
 						c.append(fid, file.files[0]);
 						count++;
 					}
+				} else if( f.type == 'flagtoggle' && f.field != null ) {
+					if( flags[f.field] == null ) {
+						flags[f.field] = {'f':f, 'v':0};
+					}
+					if( n == 'on' || (f.reverse != null && f.reverse == 'yes' && n == 'off') ) {
+						flags[f.field].v |= f.bit;
+					}
 				} else {
 					var n = this.formFieldValue(f, fid);
 					if( n != o || fs == 'yes' ) {
@@ -5307,17 +5316,12 @@ M.panel.prototype.serializeFormData = function(fs) {
 						if( o == undefined ) { o = ''; }
 						var n = this.formFieldValue(f, f.option_field);
 						if( n != o || fs == 'yes' ) {
-							c += encodeURIComponent(fid) + '=' + encodeURIComponent(n) + '&';
+//							c += encodeURIComponent(fid) + '=' + encodeURIComponent(n) + '&';
+							c.append(fid, n);
 						}
 					}
 					// Check if flagtoggle and field specified
 					if( f.type == 'flagtoggle' && f.field != null ) {
-						if( flags[f.field] == null ) {
-							flags[f.field] = {'f':f, 'v':0};
-						}
-						if( n == 'on' || (f.reverse != null && f.reverse == 'yes' && n == 'off') ) {
-							flags[f.field].v |= f.bit;
-						}
 					}
 				}
 			}

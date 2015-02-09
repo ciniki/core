@@ -64,9 +64,17 @@ if( !isset($rc['businesses']) ) {
 $businesses = $rc['businesses'];
 
 foreach($businesses as $bid => $business) {
+	
 	$rc = ciniki_core_backupBusiness($ciniki, $business);
 	if( $rc['stat'] != 'ok' ) {
 		error_log('BACKUP-ERR: ' . $rc['err']['code'] . ' - ' . $rc['err']['msg']);
+	}
+	
+	foreach($ciniki['databases'] as $db_name => $db) {
+		if( isset($db['connection']) ) {
+			mysqli_close($db['connection']);
+			unset($ciniki['databases'][$db_name]['connection']);
+		}
 	}
 }
 

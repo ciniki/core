@@ -2824,36 +2824,11 @@ M.panel.prototype.createFormFields = function(s, nF, fI, fields, mN) {
 		//
 		if( fields[i].type == 'image_id' ) {
 			var img_id = this.fieldValue(s, i, fields[i], mN);
-			var btns = M.aE('div', null, 'buttons');
-			if( img_id > 0 ) {
-				// Show buttons for rotate, etc...
-				if( this.rotateImage != null ) {
-					var btn = M.aE('span', null, 'toggle_off', 'Rotate');
-					btn.setAttribute('onclick', this.panelRef + '.rotateImage(\'' + i + '\');');
-					btns.appendChild(btn);
-				} 
-				if( fields[i].controls == 'all' ) {
-					var btn = M.aE('span', null, 'toggle_off', 'Rotate');
-					btn.setAttribute('onclick', this.panelRef + '.rotateImg(\'' + i + '\');');
-					btns.appendChild(btn);
-				}
-			}
+			//
+			// Create the form upload field, but hide it
+			//
 			var f = null;
 			if( this.uploadImage != null || ((this.addDropImage != null || fields[i].addDropImage != null) && fields[i].controls == 'all') ) {
-				
-				// 
-				// Show upload button, which will reveal a file upload form field
-				//
-				if( img_id > 0 ) {
-					var btn = M.aE('span', null, 'toggle_off', 'Change Photo');
-				} else {
-					var btn = M.aE('span', null, 'toggle_off', 'Add Photo');
-				}
-				btn.setAttribute('onclick', this.panelRef + '.uploadFile(\'' + i + '\');');
-				btns.appendChild(btn);
-				//
-				// Create the form upload field, but hide it
-				//
 				f = M.aE('input', this.panelUID + '_' + i + '_upload', 'image_uploader');
 				f.setAttribute('name', i);
 				f.setAttribute('type', 'file');
@@ -2864,22 +2839,14 @@ M.panel.prototype.createFormFields = function(s, nF, fI, fields, mN) {
 				}
 				f.setAttribute('onfocus', this.panelRef + '.clearLiveSearches(\''+s+'\',\''+i+'\');');
 			}
-			if( img_id > 0 ) {
-				// Show delete button
-				if( fields[i].deleteImage != null ) {
-					var btn = M.aE('span', null, 'toggle_off', 'Delete');
-					btn.setAttribute('onclick', fields[i].deleteImage + '(\'' + i + '\');');
-					btns.appendChild(btn);
-				} else if( this.deleteImage != null ) {
-					var btn = M.aE('span', null, 'toggle_off', 'Delete');
-					btn.setAttribute('onclick', this.panelRef + '.deleteImage(\'' + i + '\');');
-					btns.appendChild(btn);
-				}
-			}
-			if( btns.children.length > 0 ) {
+			var btns = this.createImageControls(i, fields[i], img_id);
+			if( btns != null && btns.children.length > 0 ) {
 				var r = M.aE('tr',null,'imagebuttons');
+//				var td = M.aE('td',this.panelUID + '_' + i + '_controls','aligncenter');
 				var td = M.aE('td',null,'aligncenter');
-				td.appendChild(btns);
+				var d = M.aE('div', this.panelUID + '_' + i + '_controls', 'buttons');
+				d.appendChild(btns);
+				td.appendChild(d);
 				if( f != null ) {
 					td.appendChild(f);
 				}
@@ -2912,6 +2879,60 @@ M.panel.prototype.createFormFields = function(s, nF, fI, fields, mN) {
 
 	return ef;
 };
+
+//
+// Create the image buttons to change/rotate/delete/download images
+//
+M.panel.prototype.createImageControls = function(i, field, img_id) {
+	var btns = document.createDocumentFragment();
+	if( this.uploadImage != null || ((this.addDropImage != null || field.addDropImage != null) && field.controls == 'all') ) {
+		// 
+		// Show upload button, which will reveal a file upload form field
+		//
+		if( img_id > 0 ) {
+			var btn = M.aE('span', null, 'toggle_off', 'Change Photo');
+		} else {
+			var btn = M.aE('span', null, 'toggle_off', 'Add Photo');
+		}
+		btn.setAttribute('onclick', this.panelRef + '.uploadFile(\'' + i + '\');');
+		btns.appendChild(btn);
+	}
+	if( img_id > 0 ) {
+		// Show buttons for rotate, etc...
+		if( this.rotateImage != null ) {
+			var btn = M.aE('span', null, 'toggle_off', '<span class="icon">I</span>');
+			btn.setAttribute('onclick', this.panelRef + '.rotateImage(\'' + i + '\');');
+			btns.appendChild(btn);
+		} 
+		if( field.controls == 'all' ) {
+			var btn = M.aE('span', null, 'toggle_off', '<span class="icon">I</span>');
+			btn.setAttribute('onclick', this.panelRef + '.rotateImg(\'' + i + '\',\'left\');');
+			btns.appendChild(btn);
+		}
+		if( field.controls == 'all' ) {
+			var btn = M.aE('span', null, 'toggle_off', '<span class="icon">J</span>');
+			btn.setAttribute('onclick', this.panelRef + '.rotateImg(\'' + i + '\',\'right\');');
+			btns.appendChild(btn);
+		}
+		// Show delete button
+		if( field.deleteImage != null ) {
+			var btn = M.aE('span', null, 'toggle_off', '<span class="icon">V</span>');
+			btn.setAttribute('onclick', field.deleteImage + '(\'' + i + '\');');
+			btns.appendChild(btn);
+		} else if( this.deleteImage != null ) {
+			var btn = M.aE('span', null, 'toggle_off', '<span class="icon">V</span>');
+			btn.setAttribute('onclick', this.panelRef + '.deleteImage(\'' + i + '\');');
+			btns.appendChild(btn);
+		}
+		// Show download button
+		if( field.controls == 'all' ) {
+			var btn = M.aE('span', null, 'toggle_off', '<span class="icon">G</span>');
+			btn.setAttribute('onclick', 'M.api.openFile(\'ciniki.images.get\', {\'business_id\':M.curBusinessID, \'image_id\':\'' + img_id + '\', \'version\':\'original\', \'attachment\':\'yes\'});');
+			btns.appendChild(btn);
+		}
+	}
+	return btns;
+}
 
 M.panel.prototype.uploadFile = function(i) {
 	var f = M.gE(this.panelUID + '_' + i + '_upload');
@@ -3689,6 +3710,10 @@ M.panel.prototype.updateImgPreview = function(fid, img_id) {
 	} else {
 		d.innerHTML = '<img src=\'/ciniki-mods/core/ui/themes/default/img/noimage_200.jpg\' />';
 	}
+	var btns = this.createImageControls(fid, this.formField(fid), img_id);
+	var c = M.gE(this.panelUID + '_' + fid + '_controls');
+	M.clr(c);
+	c.appendChild(btns);
 };
 
 M.panel.prototype.updateAudioPreview = function(fid, aid) {
@@ -5991,11 +6016,11 @@ M.panel.prototype.uploadDropFilesNext = function() {
 	}
 };
 
-M.panel.prototype.rotateImg = function(fid) {
+M.panel.prototype.rotateImg = function(fid, dir) {
 	var iid = this.formValue(fid);
 	var p = this;
 	var rsp = M.api.getJSONCb('ciniki.images.rotate', {'business_id':M.curBusinessID,
-		'image_id':iid}, function(rsp) {
+		'image_id':iid, 'direction':dir}, function(rsp) {
 			if( rsp.stat != 'ok' ) {
 				M.api.err(rsp);
 				return false;

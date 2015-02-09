@@ -32,7 +32,7 @@ if( $rc['stat'] != 'ok' ) {
 $ciniki = $rc['ciniki'];
 
 if( isset($argv[1]) && $argv[1] != '' ) {
-	$ciniki['config']['ciniki.core']['backup_dir'] = $argv[1];
+	$ciniki['config']['ciniki.core']['zip_backup_dir'] = $argv[1];
 }
 
 ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashQuery');

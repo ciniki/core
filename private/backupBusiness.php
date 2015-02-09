@@ -15,8 +15,13 @@ function ciniki_core_backupBusiness(&$ciniki, $business) {
 	//
 	// Check the backup directory exists
 	//
-	$zip_backup_dir = $ciniki['config']['ciniki.core']['backup_dir'] . '/'
-		. $business['uuid'][0] . '/' . $business['uuid'];
+	if( isset($ciniki['config']['ciniki.core']['zip_backup_dir']) ) {
+		$zip_backup_dir = $ciniki['config']['ciniki.core']['zip_backup_dir'] . '/'
+			. $business['uuid'][0] . '/' . $business['uuid'];
+	} else {
+		$zip_backup_dir = $ciniki['config']['ciniki.core']['backup_dir'] . '/'
+			. $business['uuid'][0] . '/' . $business['uuid'];
+	}
 	$business['backup_dir'] = $ciniki['config']['ciniki.core']['backup_dir'] . '/'
 		. $business['uuid'][0] . '/' . $business['uuid'] . '/data';
 	if( !file_exists($business['backup_dir']) ) {
@@ -91,6 +96,17 @@ function ciniki_core_backupBusiness(&$ciniki, $business) {
 			}
 		}	
 	}
+
+	//
+	// Close database connections
+	//
+	foreach($ciniki['databases'] as $db_name => $db) {
+		if( isset($db['connection']) ) {
+			mysqli_close($db['connection']);
+			unset($ciniki['databases'][$db_name]['connection']);
+		}
+	}
+
 
 	//
 	// Create the zip file

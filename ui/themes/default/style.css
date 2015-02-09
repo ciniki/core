@@ -441,6 +441,7 @@ table.stepnav > tbody > tr > td.nexttext {
 	padding-right: 0;
 }
 
+p.guided-text span.icon,
 table.stepnav > tbody > tr > td.prev span.icon,
 table.stepnav > tbody > tr > td.next span.icon,
 table.datepicker > tbody > tr > td.prev span.icon,
@@ -1190,6 +1191,7 @@ table.list > tfoot > tr > td.alignright {
 	text-align: right;
 }
 
+p.guided-text span.icon,
 table.list td span.icon {
 	font-size: 1.1em;
 	text-decoration: none;
@@ -1476,6 +1478,7 @@ table.form td div span.toggle_off {
 	color: #bbb;
 }
 
+p.guided-text span.icon,
 table.form td span.flag_on span.icon,
 table.form td span.flag_off span.icon,
 table.form td span.toggle_on span.icon,

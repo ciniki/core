@@ -34,6 +34,7 @@ M.panel = function(title, appID, panelID, appPrefix, size, type, helpUID) {
 	this.autofocus = '';
 	this.tinymce = [];
 	this.gstep = 0;
+	this.gstep_number = 0;
 	this.gsteps = [];
 
 	//
@@ -272,7 +273,7 @@ M.panel.prototype.addPanel = function() {
 	//
 	// Check if guided steps
 	//
-	if( this.gsteps.length > 0 ) {
+	if( this.gstep_number > 0 ) {
 		p.className = p.className.replace(/guided-disabled/, 'guided-enabled');
 	}
 
@@ -442,7 +443,8 @@ M.panel.prototype.createSections = function() {
 	//
 	// Build the list of gstep buttons, but hide it until needed
 	//
-	if( this.gsteps.length > 0 ) {
+	this.gstep_number = Object.keys(this.gsteps).length;
+	if( this.gstep_number > 1 ) {
 		//
 		// Setup nav bar
 		//
@@ -586,7 +588,7 @@ M.panel.prototype.gstepGoto = function(gstep) {
 		num_steps++;
 	}
 
-	if( this.gsteps.length > 0 ) {
+	if( num_steps > 1 ) {
 		var et = M.gE(this.panelUID + '_gstepnav_top_position');
 		if( et != null ) { et.innerHTML = 'Step ' + step_num + ' of ' + num_steps; }
 		var eb = M.gE(this.panelUID + '_gstepnav_bottom_position');
@@ -671,7 +673,9 @@ M.panel.prototype.createSection = function(i, s) {
 	//
 	var lE = null;
 	gt = null;
-	if( this.sectionGuidedTitle != null ) {
+	if( s.gtitle != null && typeof s.gtitle == 'function' ) {
+		gt = s.gtitle(this);
+	} else if( this.sectionGuidedTitle != null ) {
 		gt = this.sectionGuidedTitle(i);
 	} else if( s.gtitle != null && s.gtitle != '' ) {
 		gt = s.gtitle;
@@ -694,13 +698,16 @@ M.panel.prototype.createSection = function(i, s) {
 		f.appendChild(M.aE('h2', null, 'guided-title guided-show', (gt!=null&&gt!=''?gt:t)));
 	}
 
-	if( this.sectionGuidedText != null ) {
-		var gt = this.sectionGuidedText(i);
-		if( gt != null ) { f.appendChild(M.aE('p', null, 'guided-text guided-show', gt)); }
+	var gt = null;
+	if( s.gtext != null && typeof s.gtext == 'function' ) {
+		gt = s.gtext(this);	
+	} else if( this.sectionGuidedText != null ) {
+		gt = this.sectionGuidedText(i);
 	} else if( s.gtext != null && s.gtext != '' ) {
-		f.appendChild(M.aE('p', null, 'guided-text guided-show', s.gtext));
-		
+		gt = s.gtext;
 	}
+	if( gt != null ) { f.appendChild(M.aE('p', null, 'guided-text guided-show', gt)); }
+
 	//
 	// Get the section 
 	//
@@ -778,12 +785,15 @@ M.panel.prototype.createSection = function(i, s) {
 		}
 	}
 
-	if( this.sectionGuidedMore != null ) {
-		var gt = this.sectionGuidedMore(i);
-		if( gt != null ) { f.appendChild(M.aE('p', null, 'guided-text guided-show', gt)); }
+	var gt = null;
+	if( s.gmore != null && typeof s.gmore == 'function' ) {
+		gt = s.gmore(this);
+	} else if( this.sectionGuidedMore != null ) {
+		gt = this.sectionGuidedMore(i);
 	} else if( s.gmore != null && s.gmore != '' ) {
-		f.appendChild(M.aE('p', null, 'guided-text guided-show', s.gmore));
+		gt = s.gmore;
 	}
+	if( gt != null ) { f.appendChild(M.aE('p', null, 'guided-text guided-show', gt)); }
 	return f;
 };
 

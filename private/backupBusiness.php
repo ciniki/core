@@ -31,7 +31,7 @@ function ciniki_core_backupBusiness(&$ciniki, $business) {
 	}
 	if( !file_exists($zip_backup_dir) ) {
 		if( mkdir($zip_backup_dir, 0755, true) === false ) {
-			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1727', 'msg'=>'Unable to create backup directory'));
+			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1843', 'msg'=>'Unable to create backup directory'));
 		}
 	}
 	

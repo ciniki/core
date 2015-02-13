@@ -3667,6 +3667,7 @@ M.panel.prototype.updateFlagToggleFields = function(fid) {
 	if( f.on_fields != null && f.on_fields.length > 0 ) {
 		for(var i in f.on_fields) {
 			var e = M.gE(this.panelUID + '_' + f.on_fields[i]);
+			if( e == null ) { continue; }
 			e = e.parentNode.parentNode;
 			if( v == 'on' ) {
 				e.style.display = 'table-row';
@@ -3690,6 +3691,7 @@ M.panel.prototype.updateFlagToggleFields = function(fid) {
 	if( f.off_fields != null && f.off_fields.length > 0 ) {
 		for(var i in f.off_fields) {
 			var e = M.gE(this.panelUID + '_' + f.off_fields[i]);
+			if( e == null ) { continue; }
 			e = e.parentNode.parentNode;
 			if( v == 'off' ) {
 				e.style.display = 'table-row';

@@ -2850,7 +2850,8 @@ M.panel.prototype.createFormFields = function(s, nF, fI, fields, mN) {
 				f.setAttribute('onfocus', this.panelRef + '.clearLiveSearches(\''+s+'\',\''+i+'\');');
 			}
 			var btns = this.createImageControls(i, fields[i], img_id);
-			if( btns != null && btns.children != null && btns.children.length > 0 ) {
+			console.log(btns);
+			if( btns != null ) { //&& btns.children != null && btns.children.length > 0 ) {
 				var r = M.aE('tr',null,'imagebuttons');
 //				var td = M.aE('td',this.panelUID + '_' + i + '_controls','aligncenter');
 				var td = M.aE('td',null,'aligncenter');

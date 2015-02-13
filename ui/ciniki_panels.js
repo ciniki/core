@@ -5337,6 +5337,7 @@ M.panel.prototype.serializeFormData = function(fs) {
 					if( flags[f.field] == null ) {
 						flags[f.field] = {'f':f, 'v':0};
 					}
+					var n = this.formFieldValue(f, fid);
 					if( n == 'on' || (f.reverse != null && f.reverse == 'yes' && n == 'off') ) {
 						flags[f.field].v |= f.bit;
 					}
@@ -5357,9 +5358,9 @@ M.panel.prototype.serializeFormData = function(fs) {
 							c.append(fid, n);
 						}
 					}
-					// Check if flagtoggle and field specified
-					if( f.type == 'flagtoggle' && f.field != null ) {
-					}
+//					// Check if flagtoggle and field specified
+//					if( f.type == 'flagtoggle' && f.field != null ) {
+//					}
 				}
 			}
 		}

@@ -2850,7 +2850,6 @@ M.panel.prototype.createFormFields = function(s, nF, fI, fields, mN) {
 				f.setAttribute('onfocus', this.panelRef + '.clearLiveSearches(\''+s+'\',\''+i+'\');');
 			}
 			var btns = this.createImageControls(i, fields[i], img_id);
-			console.log(btns);
 			if( btns != null && btns.childNodes != null && btns.childNodes.length > 0 ) {
 				var r = M.aE('tr',null,'imagebuttons');
 				var td = M.aE('td',null,'aligncenter');

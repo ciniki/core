@@ -2851,9 +2851,8 @@ M.panel.prototype.createFormFields = function(s, nF, fI, fields, mN) {
 			}
 			var btns = this.createImageControls(i, fields[i], img_id);
 			console.log(btns);
-			if( btns != null ) { //&& btns.children != null && btns.children.length > 0 ) {
+			if( btns != null && btns.childNodes != null && btns.childNodes.length > 0 ) {
 				var r = M.aE('tr',null,'imagebuttons');
-//				var td = M.aE('td',this.panelUID + '_' + i + '_controls','aligncenter');
 				var td = M.aE('td',null,'aligncenter');
 				var d = M.aE('div', this.panelUID + '_' + i + '_controls', 'buttons');
 				d.appendChild(btns);

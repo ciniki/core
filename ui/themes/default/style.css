@@ -547,7 +547,7 @@ table.list tr > td input {
 	text-align: left;
 	margin: 0px;
 	border: 0px;
-	text-overflow: ellipsis
+	text-overflow: ellipsis;
 	white-space: nowrap;
 }
 
@@ -576,7 +576,7 @@ table.form td.select > select {
 	text-align: left;
 	margin: 0.4em 0em 0.4em 0em;
 	border: 0px;
-	text-overflow: ellipsis
+	text-overflow: ellipsis;
 	white-space: nowrap;
 	border: 1px solid #bbb;
 }
@@ -1329,7 +1329,7 @@ table.datepickersearch > tbody > tr > td.search input {
 	color: #555;
 	text-align: left;
 	margin: 0.3em;
-	text-overflow: ellipsis
+	text-overflow: ellipsis;
 	white-space: nowrap;
 	border: 1px solid #ddd;	
 }

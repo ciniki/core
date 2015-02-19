@@ -5195,7 +5195,7 @@ M.panel.prototype.serializeForm = function(fs) {
 		}
 		var n = flags[i].v;
 		if( n != o || fs == 'yes' ) {
-			c += encodeURIComponent(flags[i].f.field, n);
+			c += encodeURIComponent(flags[i].f.field) + '=' + encodeURIComponent(n) + '&';
 			count++;
 		}
 	}

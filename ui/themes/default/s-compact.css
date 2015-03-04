@@ -1,0 +1,308 @@
+body {
+	font-size: 100%;
+	font-family: arial, helvetica;
+	color: #303030;
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
+	border: 0px;
+}
+
+#m_forgot,
+#m_recover,
+#m_relogin,
+#m_login {
+    width: 100%;
+	height: 100%;
+	text-align: center;
+}
+
+#m_forgot img.logo,
+#m_recover img.logo,
+#m_relogin img.logo,
+#m_login img.logo {
+	text-align: center;
+	width: 65%;
+	padding-top: 0.5em;
+	padding-bottom: 1em;
+}
+
+#m_container {
+    width: 100%;
+    height: 100%;
+	margin: 0px;
+	border: 0px;
+	padding: 0px;
+}
+
+#mc_content {
+	padding-top: 2.8em;
+}
+
+#mc_header {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+}
+
+#mh_header {
+	position: fixed;
+	top: 0;
+	right: 0;
+	width: 100%;
+}
+
+#mh_content,
+#mc_content {
+	/* FIXME: Allow fixed header */
+	padding-top: 2.5em;
+}
+
+.headerbar td.helpbutton {
+	width: 2.5em;
+}
+
+.headerbar td.leftbuttons,
+.headerbar td.rightbuttons {
+	min-width: 0em;
+}
+
+/*
+.headerbar td.homebutton {
+	width: 2.1em;
+	text-align: left;
+}
+
+.headerbar td.leftbuttons {
+	width: 7em;
+	text-align: left;
+}
+
+.headerbar td.rightbuttons {
+	width: 9em;
+	text-align: right;
+}
+*/
+
+.headerbar {
+/*	position: fixed;
+	top: 0px; 
+	font-size: 1em;
+	margin: 0px;
+	padding: 0px;
+	width: 100%;
+	height: 2.5em; */
+	z-index: 10;
+	table-layout: auto; 
+}
+.headerbar td.spacer {
+	width: 90%;
+	min-width: 1px;
+	padding-right: 0px;
+	padding-left: 0px;
+	border-left: 0px;
+	border-right: 0px;
+}
+
+.subheaderbar {
+	position: relative;
+	top: 41px;
+	border-left: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	background: #eee;
+	color: #333;
+	margin: 0 auto;
+	width: 95%;
+	height: 2em;
+	table-layout: fixed;
+	z-index: 2;
+}
+
+.subheaderbar td.title {
+	color: #333;
+	font-size: 1.1em;
+	text-align: center;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	width: 95%;
+}
+
+#m_error {
+	width: 100%;
+	height: 100%;
+}
+
+#m_error table.list td {
+	background: #fff;
+}
+
+
+#mc_apps {
+	width: 100%;
+	margin: 0px;
+}
+
+div.narrowmulti,
+div.narrow {
+	width: 95%;
+	margin: 0 auto;
+}
+
+
+div.mediumflex,
+div.medium,
+div.large,
+div.xlarge {
+	width: 95%;
+	margin: 0 auto;
+}
+
+
+table.list table.fieldhistory tr td.user {
+	border-bottom: 1px dashed #bbb;
+	padding-left: 0.5em;
+}
+table.list table.questionanswers tr td.user {
+	border-bottom: 1px dashed #bbb;
+}
+
+button, input.button {
+	padding: 5px 10px 5px 10px;
+}
+
+table.list tr.textfield > td > input.datetime {
+	height: 1em;
+	width: 11em;
+	max-width: 75%;
+}
+
+table.form tr > td > input.timeduration {
+	height: 1em;
+	width: 6em;
+}
+
+table.form tr > td > input.integer,
+table.form tr > td > input.small {
+	max-width: 75%;
+	width: 9em;
+}
+
+table.list tr > td > input.date {
+	height: 1em;
+	width: 9em;
+	max-width: 75%;
+}
+
+table.list tr.textfield > td > input.time {
+	height: 1em;
+	width: 3em;
+	max-width: 40%;
+}
+
+table.form tr.textfield > td > input.hexcolour {
+	max-width: 9em;
+}
+
+table.list > tbody > tr.followup > td.userdetails {
+	border-bottom: 1px dashed #bbb;
+	text-decoration: normal;
+}
+
+table.list > tbody > tr.followup > td.content {
+	text-decoration: normal;
+	white-space: pre-wrap;
+}
+
+table.list td div.calendar {
+	width: 100%;
+}
+
+table.list td.label {
+	font-size: 0.9em;
+	white-space: nowrap;
+}
+
+table.border > thead > tr > th:last-child,
+table.border > tfoot > tr > td:last-child,
+table.border > tbody > tr > td:last-child {
+	border-right: 1px solid #bbb;
+}
+
+table.border tr:last-child > td {
+	border-bottom: 1px solid #bbb;
+}
+
+table.form tr.gridfields span.colourswatch {
+	padding: 0.0em;
+	margin: 0.0em;
+	width: 1em;
+	height: 1em;
+}
+
+table.form tr.gridfields td.gridfield {
+	padding: 0.2em;
+	margin: 0.1em;
+}
+
+table.form td.gridheaderlabel {
+	padding-left: 0.0em;
+	padding-right: 0.0em;
+	margin-left: 0.0em;
+	margin-right: 0.0em;
+	text-align: center;
+}
+
+table.form tr.fieldcolourpicker	div.colours,
+table.form tr.fieldcolourpicker	div.colourpicker {
+	display: block;
+	width: 100%;
+}
+
+div.panel {
+	text-align: center;
+	margin: 0 auto;
+	width: 100%;
+}
+
+div.wide {
+	width: 95%;
+	text-align: center;
+	margin: 0 auto;
+}
+
+table.simplegrid tr.split_element {
+	
+}
+
+table.simplegrid tr.split th,
+table.simplegrid tr.split td {
+	border-bottom: 1px dashed #bbb;
+}
+
+table.simplegrid tr.split_element th {
+	border-left: 1px solid #bbb;
+	border-right: 1px solid #bbb;
+	background: #eee;
+	text-align: right;
+	padding-right: 0.5em;
+	padding-left: 0.5em;
+}
+
+table.simplegrid tr.split_element th,
+table.simplegrid tr.split_element td {
+	border-bottom: 1px dashed #bbb;
+}
+
+table.simplegrid tr.split_last th,
+table.simplegrid tr.split_last td {
+	border-bottom: 1px solid #bbb;
+}
+
+table.dayschedule td.schedule_time {
+	width: 3em;
+	max-width: 8em;
+}

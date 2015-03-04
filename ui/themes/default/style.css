@@ -117,7 +117,7 @@
 	max-width: 5em;
 	text-align: center;
 	padding: 0em 0.2em 0em 0.2em;
-	color: #ddd;
+	color: #eee;
 	cursor: pointer;
 }
 
@@ -131,6 +131,7 @@
 	text-decoration: none;
 	font-family: CinikiRegular;
 	color: #99a;
+	color: #bbc;
 	max-height: 20px;
 	vertical-align: top;
 }

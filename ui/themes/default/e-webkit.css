@@ -187,11 +187,11 @@ textarea {
 }
 
 .headerbar td div.button span.label {
-	text-shadow: 1px 1px 0px #667;
+	text-shadow: 1px 1px 0px #445;
 }
 
 .headerbar td div.button span.icon {
-	text-shadow: -1px -1px 0px #667;
+	text-shadow: -1px -1px 0px #445;
 }
 
 .subheaderbar {

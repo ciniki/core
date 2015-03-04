@@ -109,6 +109,7 @@ if( !isset($_SERVER['HTTP_USER_AGENT']) ) {
 // Default to a generic device and browser.  Try to find a better set
 // from the USER_AGENT string.
 //
+$minimized = 'yes';		// Deliver minimized code if applicable
 $device = 'generic';
 $touch = 'no';
 $browser = 'unsupported';
@@ -146,6 +147,7 @@ elseif( preg_match('/Mozilla\/5.*Android.*ASUS Transformer Pad.*AppleWebKit\/.*K
 	$touch = 'yes';
 	$browser = 'safari';
 	$engine = 'webkit';
+	$minimized = 'no';
 }
 // Mozilla/5.0 (hp-tablet; Linux; hpwOS/3.0.2; U; en-CA) AppleWebKit/534.6 (KHTML, like Gecko) wOSBrowser/234.40.1 Safari/534.6 TouchPad/1.0
 elseif( preg_match('/Mozilla\/5.*hp-tablet;.*U;.*AppleWebKit\/.*KHTML, like Gecko.* Safari\/534.*TouchPad.*/', $_SERVER['HTTP_USER_AGENT']) == 1 ) {
@@ -348,7 +350,7 @@ print "<script type='text/javascript' src='$manage_js/tinymce/tinymce.min.js'></
 //
 // Check to see if a compile, minimized version exists
 //
-if( file_exists("$themes_root/default/$device-$engine.min.css") ) {
+if( $minimized == 'yes' && file_exists("$themes_root/default/$device-$engine.min.css") ) {
 	print "<link rel='stylesheet' type='text/css' href='$manage_themes/default/$device-$engine.min.css?ts=$ts' />\n";
 	// print "<link id='business_colours' rel='stylesheet' type='text/css' href='$manage_themes/default/colors.css' />\n";
 } else {

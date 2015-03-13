@@ -177,7 +177,7 @@ table.list tr > td input.small,
 table.list tr > td input.date,
 table.list tr > td input.hexcolour,
 table.list tr > td input.time {
-	max-width: 8em;
+	max-width: 10em;
 }
 
 table.list tr.textfield > td > input.medium {

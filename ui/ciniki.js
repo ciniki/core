@@ -4,7 +4,7 @@
 //
 
 window.M = {
-	'version':'110101.1134',
+	'version':'150101.1134',
 	'menus':{},
 	'curMenu':'',
 	'startMenu':'ciniki.core.menu',
@@ -1484,4 +1484,22 @@ M.length = function(o) {
 		}
 	}
 	return l;
+}
+
+// n = name, v = value, d = days
+M.cookieSet = function(n,v,d) {
+	if(d) { var date = new Date(); date.setTime(date.getTime()+(d*24*60*60*1000));var expires="; expires="+date.toGMTString();}
+	else{var expires ='';}
+	document.cookie = n+'='+v+expires+'; path=/';
+}
+
+M.cookieGet = function(n) {
+	var ne = n+'=';
+	var ca = document.cookie.split(';');
+	for(var i=0;i<ca.length;i++) {
+		var c = ca[i];
+		while (c.charAt(0)==' ') c = c.substring(1,c.length);
+		if (c.indexOf(ne) == 0) return c.substring(ne.length,c.length);
+	}
+	return null;
 }

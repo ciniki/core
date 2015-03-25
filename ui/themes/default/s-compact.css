@@ -185,6 +185,11 @@ table.form tr > td > input.timeduration {
 	width: 6em;
 }
 
+table.form tr > td > input.tiny {
+	max-width: 75%;
+	width: 4em;
+}
+
 table.form tr > td > input.integer,
 table.form tr > td > input.small {
 	max-width: 75%;

@@ -3462,6 +3462,30 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
 			c.appendChild(M.aE('span', this.panelUID + '_' + fid + sFN + '_hint', 'hint', field.hint));
 		}
 	}
+	else if( field.type == 'idlist' ) {
+		c.className = 'multiselect';
+		var div = M.aE('div', this.panelUID + '_' + fid + sFN);
+		var v = this.fieldValue(s, i, field, mN);
+		if( v != null && v != '' ) {
+			vs = v.split(',');
+		} else {
+			vs = [];
+		}
+//		if( this.data['_' + fid] != null ) { var idlist = this.data['_' + fid]; } 
+		if( field.list != null ) { var idlist = field.list; }
+		for(j in idlist) {
+			var f = M.aE('span', this.panelUID + '_' + fid + sFN + '_' + j);
+			f.setAttribute('onfocus', this.panelRef + '.clearLiveSearches(\''+s+'\',\''+i+sFN+'\');');
+			f.className = 'toggle_off';
+			if( vs.indexOf(idlist[j].item.id) >= 0 ) {
+				f.className = 'toggle_on';
+			}
+			f.innerHTML = idlist[j].item.name;
+			f.setAttribute('onclick', this.panelRef + '.setSelectField(this, \'' + i + sFN + '\',\'yes\',\'' + field.fn + '\');');
+			div.appendChild(f);
+		}
+		c.appendChild(div);
+	}
 	else if( field.type == 'collection' ) {
 		c.className = 'multiselect';
 		var div = M.aE('div', this.panelUID + '_' + fid + sFN);
@@ -5450,6 +5474,15 @@ M.panel.prototype.formFieldValue = function(f,fid) {
 			if( M.gE(this.panelUID + '_' + fid + '_' + j).className == 'toggle_on' ) {
 				n += c + j;
 				c = ',';
+			}
+		}
+	} else if( f.type == 'idlist' ) {
+		n = '';
+		if( this.data['_' + fid] != null ) { var list = this.data['_' + fid]; } 
+		if( f.list != null ) { var list = f.list; }
+		for(j in list) {
+			if( M.gE(this.panelUID + '_' + fid + '_' + j).className == 'toggle_on' ) {
+				n += (n!=''?',':'') + list[j].item.id;
 			}
 		}
 	} else if( f.type == 'collection' ) {

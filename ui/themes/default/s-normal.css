@@ -167,6 +167,10 @@ table.list tr.textfield > td > input.timeduration {
 	max-width: 6em;
 }
 
+table.list tr.textfield > td.input input.tiny {
+	max-width: 5em;
+}
+
 table.list tr.gridfields > td.input input.integer,
 table.list tr.gridfields > td.input input.small,
 table.list tr.gridfields > td.input input.date,

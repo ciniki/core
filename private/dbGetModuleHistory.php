@@ -26,15 +26,29 @@ function ciniki_core_dbGetModuleHistory(&$ciniki, $module, $history_table, $busi
 	$dh = $rc['dh'];
 
 	//
+	// Get the time information for business and user
+	//
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'businesses', 'private', 'intlSettings');
+	$rc = ciniki_businesses_intlSettings($ciniki, $business_id);
+	if( $rc['stat'] != 'ok' ) {
+		return $rc;
+	}
+	$intl_timezone = $rc['settings']['intl-default-timezone'];
+	date_default_timezone_set($intl_timezone);
+
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'users', 'private', 'datetimeFormat');
+	$datetime_format = ciniki_users_datetimeFormat($ciniki, 'php');
+
+	//
 	// Get the history log from ciniki_core_change_logs table.
 	//
-	ciniki_core_loadMethod($ciniki, 'ciniki', 'users', 'private', 'datetimeFormat');
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQuote');
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQuoteList');
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbParseAge');
 
-	$date_format = ciniki_users_datetimeFormat($ciniki);
-	$strsql = "SELECT user_id, DATE_FORMAT(log_date, '" . ciniki_core_dbQuote($ciniki, $date_format) . "') as date, "
+	$strsql = "SELECT user_id, "
+//		. "DATE_FORMAT(log_date, '" . ciniki_core_dbQuote($ciniki, $date_format) . "') as date, "
+		. "log_date as date, "
 		. "CAST(UNIX_TIMESTAMP(UTC_TIMESTAMP())-UNIX_TIMESTAMP(log_date) as DECIMAL(12,0)) as age, "
 		. "action, "
 		. "table_key, "
@@ -70,6 +84,11 @@ function ciniki_core_dbGetModuleHistory(&$ciniki, $module, $history_table, $busi
 		if( is_array($table_key) ) {
 			$rsp['history'][$num_history]['action']['key'] = $row['table_key'];
 		}
+		// Format the date
+		$date = new DateTime($row['date'], new DateTimeZone('UTC'));
+		$date->setTimezone(new DateTimeZone($intl_timezone));
+		$rsp['history'][$num_history]['action']['date'] = $date->format($datetime_format);
+
 		if( $row['user_id'] != 0 ) {
 			array_push($user_ids, $row['user_id']);
 		}

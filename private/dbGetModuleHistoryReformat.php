@@ -39,31 +39,35 @@ function ciniki_core_dbGetModuleHistoryReformat(&$ciniki, $module, $history_tabl
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbParseAge');
 
 	//
+	// Load business intl settings
+	//
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'businesses', 'private', 'intlSettings');
+	$rc = ciniki_businesses_intlSettings($ciniki, $business_id);
+	if( $rc['stat'] != 'ok' ) {
+		return $rc;
+	}
+	$intl_timezone = $rc['settings']['intl-default-timezone'];
+	$intl_currency_fmt = numfmt_create($rc['settings']['intl-default-locale'], NumberFormatter::CURRENCY);
+	$intl_currency = $rc['settings']['intl-default-currency'];
+	$date_format = ciniki_users_dateFormat($ciniki);
+	$time_format = ciniki_users_timeFormat($ciniki);
+	$php_date_format = ciniki_users_dateFormat($ciniki, 'php');
+	$php_datetime_format = ciniki_users_datetimeFormat($ciniki, 'php');
+
+	//
 	// Check if reformat is for price
 	//
-	if( $format == 'currency' || $format == 'utcdate' || $format == 'utcdatetime' ) {
-		//
-		// Load business intl settings
-		//
-		ciniki_core_loadMethod($ciniki, 'ciniki', 'businesses', 'private', 'intlSettings');
-		$rc = ciniki_businesses_intlSettings($ciniki, $business_id);
-		if( $rc['stat'] != 'ok' ) {
-			return $rc;
-		}
-		$intl_timezone = $rc['settings']['intl-default-timezone'];
-		$intl_currency_fmt = numfmt_create($rc['settings']['intl-default-locale'], NumberFormatter::CURRENCY);
-		$intl_currency = $rc['settings']['intl-default-currency'];
-		$date_format = ciniki_users_dateFormat($ciniki, 'php');
-		$datetime_format = ciniki_users_datetimeFormat($ciniki, 'php');
-	} else {
-		$date_format = ciniki_users_dateFormat($ciniki);
-		$datetime_format = ciniki_users_datetimeFormat($ciniki);
-	}
+//	if( $format == 'currency' || $format == 'utcdate' || $format == 'utcdatetime' ) {
+//	} else {
+//		$date_format = ciniki_users_dateFormat($ciniki);
+////		$datetime_format = ciniki_users_datetimeFormat($ciniki);
+//	}
 
-	$time_format = ciniki_users_timeFormat($ciniki);
 	$utc_offset = ciniki_users_timezoneOffset($ciniki);
 
-	$strsql = "SELECT user_id, DATE_FORMAT(log_date, '" . ciniki_core_dbQuote($ciniki, $datetime_format) . "') AS date, "
+	$strsql = "SELECT user_id, "
+//		. "DATE_FORMAT(log_date, '" . ciniki_core_dbQuote($ciniki, $datetime_format) . "') AS date, "
+		. "log_date as date, "
 		. "CAST(UNIX_TIMESTAMP(UTC_TIMESTAMP())-UNIX_TIMESTAMP(log_date) as DECIMAL(12,0)) AS age, "
 		. "new_value as value ";
 	if( $format == 'date' ) {
@@ -102,12 +106,12 @@ function ciniki_core_dbGetModuleHistoryReformat(&$ciniki, $module, $history_tabl
 		if( $format == 'utcdate' && $row['value'] != '' ) {
 			$date = new DateTime($row['value'], new DateTimeZone('UTC'));
 			$date->setTimezone(new DateTimeZone($intl_timezone));
-			$rsp['history'][$num_history]['action']['value'] = $date->format($date_format);
+			$rsp['history'][$num_history]['action']['value'] = $date->format($php_date_format);
 		}
 		elseif( $format == 'utcdatetime' && $row['value'] != '' ) {
 			$date = new DateTime($row['value'], new DateTimeZone('UTC'));
 			$date->setTimezone(new DateTimeZone($intl_timezone));
-			$rsp['history'][$num_history]['action']['value'] = $date->format($datetime_format);
+			$rsp['history'][$num_history]['action']['value'] = $date->format($php_datetime_format);
 		}
 		elseif( $format == 'date' || $format == 'time' || $format == 'datetime' ) {
 			$rsp['history'][$num_history]['action']['formatted_value'] = $row['formatted_value'];
@@ -116,6 +120,11 @@ function ciniki_core_dbGetModuleHistoryReformat(&$ciniki, $module, $history_tabl
 			$rsp['history'][$num_history]['action']['value'] = numfmt_format_currency(
 				$intl_currency_fmt, $row['value'], $intl_currency);
 		}
+		// Format the date
+		$date = new DateTime($row['date'], new DateTimeZone('UTC'));
+		$date->setTimezone(new DateTimeZone($intl_timezone));
+		$rsp['history'][$num_history]['action']['date'] = $date->format($php_datetime_format);
+
 //		if( $row['user_id'] > 0 ) {
 			array_push($user_ids, $row['user_id']);
 //		}

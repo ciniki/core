@@ -95,8 +95,8 @@ function ciniki_core_parseArgs(&$ciniki, $business_id, $raw_args, $arg_info) {
 					$args[$arg] = strftime("%Y-%m-%d", time()+86400);
 				} else {
 					$ts = strtotime($raw_args[$arg]);
-					if( $ts === FALSE || $ts < 1 ) {
-						return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'234', 'msg'=>"$invalid_msg", 'pmsg'=>"Argument: $arg invalid date format"));
+					if( $ts === FALSE ) { // Removed check for < 1 as negative timestamps work || $ts < 1 ) {
+						return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'234', 'msg'=>"$invalid_msg", 'pmsg'=>"Argument: $arg invalid date format $ts"));
 						
 					} else {
 						$args[$arg] = strftime("%Y-%m-%d", $ts);
@@ -120,7 +120,7 @@ function ciniki_core_parseArgs(&$ciniki, $business_id, $raw_args, $arg_info) {
 					$args[$arg] = strftime("%Y-%m-%d %H:%M");
 				} else {
 					$ts = strtotime($raw_args[$arg]);
-					if( $ts === FALSE || $ts < 1 ) {
+					if( $ts === FALSE ) {
 						return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'235', 'msg'=>"$invalid_msg", 'pmsg'=>"Argument: $arg invalid datetime format"));
 					} else {
 						$args[$arg] = strftime("%Y-%m-%d %H:%M", $ts);

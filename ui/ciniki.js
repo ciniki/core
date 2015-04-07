@@ -1513,7 +1513,8 @@ M.showWebsite = function(url) {
 	} else {
 		e2.style.display = 'none';
 		e1.style.display = 'block';
-		var url = M.curBusiness.modules['ciniki.web'].settings.base_url + url;
+//		var url = M.curBusiness.modules['ciniki.web'].settings.base_url + url;
+		var url = '/preview/' + M.curBusiness.modules['ciniki.web'].settings.sitename + url;
 		var w = M.gE('mc_website_iframe');
 		w.src = url;
 	}

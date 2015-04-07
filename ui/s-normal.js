@@ -29,6 +29,14 @@ M.resize = function(e) {
 	} else {
 
 	}
+	var mw = M.gE('m_website');
+	var mwi = M.gE('mc_website_iframe');
+	if( mw.style.display == 'block' ) {
+		var h = document.getElementById('mw_header').offsetHeight;
+//		if( mh.offsetHeight < window.innerHeight ) {
+//		mw.style.height = (window.innerHeight) + 'px';
+		mwi.style.height = (window.innerHeight-h-5) + 'px';
+	}
 }
 
 M.toggleGuidedMode = function() {

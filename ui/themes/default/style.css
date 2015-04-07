@@ -10,6 +10,14 @@
     font-style: normal;
 }
 
+@font-face {
+  font-family: 'FontAwesome';
+  src: url('fonts/fontawesome-webfont.eot?v=4.3.0');
+  src: url('fonts/fontawesome-webfont.eot?#iefix&v=4.3.0') format('embedded-opentype'), url('fonts/fontawesome-webfont.woff2?v=4.3.0') format('woff2'), url('fonts/fontawesome-webfont.woff?v=4.3.0') format('woff'), url('fonts/fontawesome-webfont.ttf?v=4.3.0') format('truetype'), url('fonts/fontawesome-webfont.svg?v=4.3.0#fontawesomeregular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
 /******* The top bar across the window ******/
 .headerbar {
 	width: 100%;
@@ -25,7 +33,7 @@
 	padding: 0px;
 	vertical-align: bottom;
 	background: #778;
-	padding: 0.2em 0.3em 0.2em 0.3em;
+	padding: 0.2em 0.2em 0.2em 0.2em;
 	border-left: 1px solid #889;
 	border-right: 1px solid #667;
 }
@@ -116,7 +124,7 @@
 	min-width: 3.5em;
 	max-width: 5em;
 	text-align: center;
-	padding: 0em 0.2em 0em 0.2em;
+	padding: 0em 0.1em 0em 0.1em;
 	color: #eee;
 	cursor: pointer;
 }
@@ -134,6 +142,21 @@
 	color: #bbc;
 	max-height: 20px;
 	vertical-align: top;
+}
+
+.headerbar td div.button span.faicon {
+	text-decoration: none;
+	font-family: FontAwesome;
+/*  font: normal normal normal 14px/1 FontAwesome; */
+	text-rendering: auto;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	transform: translate(0, 0);
+	font-size: 1.2em;
+	color: #bbc;
+	max-height: 20px;
+	vertical-align: top;
+	padding-bottom: 1px;
 }
 
 /************* Panel Markups      **************/

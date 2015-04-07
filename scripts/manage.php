@@ -629,6 +629,24 @@ Javscript must be enabled for this application to work.
 		<div id="mh_apps"></div>
 	</div></div>
 </div>
+<div id="m_website" style="display:none;overflow:hidden;">
+<table id="mw_header" class="headerbar" cellspacing="0" cellpadding="0">
+	<tr>
+	<td id="mw_home_button" class="homebutton" onClick="M.showWebsite();"><div class="button home"><span class="faicon">&#xf060;</span><span class="label">Back</span></div></td>
+	<td id="mw_leftbuttons_0" class="leftbuttons hide"></td>
+	<td id="mw_leftbuttons_1" class="leftbuttons hide"></td>
+	<?php if( $size == 'compact' ) { ?>
+		<td class="spacer">&nbsp;</td>
+	<?php } else { ?>
+		<td id="mw_title" class="title"></td>
+	<?php } ?>
+	<td id="mw_rightbuttons_1" class="rightbuttons hide"></td>
+	<td id="mw_rightbuttons_0" class="rightbuttons hide"></td>
+	<td id="mw_help_button" class="helpbutton hide"></td>
+	</tr>
+</table>
+<div id="mc_website"><iframe id="mc_website_iframe" src="" width="100%" height="100%" marginwidth="0" marginheight="0" frameborder="no" scrolling="yes"></iframe></div>
+</div>
 <?php if( $start_container == 'm_container' ) { ?>
 <div id="m_container" class="s-<?php echo $size;?> help-off guided-off xhelp-off">
 <?php } else { ?>
@@ -636,17 +654,19 @@ Javscript must be enabled for this application to work.
 <?php } ?>
 	<table id="mc_header" class="headerbar" cellspacing="0" cellpadding="0">
 		<tr>
-		<td id="mc_home_button" class="homebutton" onClick="M.menuHome.show();"><div class="button home"><span class="icon">h</span><span class="label">Home</span></div></td>
+		<td id="mc_home_button" class="homebutton" onClick="M.menuHome.show();"><div class="button home"><span class="faicon">&#xf015;</span><span class="label">Home</span></div></td>
 		<td id="mc_leftbuttons_0" class="leftbuttons hide"></td>
 		<td id="mc_leftbuttons_1" class="leftbuttons hide"></td>
 		<?php if( $size == 'compact' ) { ?>
 			<td class="spacer">&nbsp;</td>
 		<?php } else { ?>
+			<td id="mc_leftbuttons_2" class="leftbuttons hide"></td>
 			<td id="mc_title" class="title"></td>
+			<td id="mc_rightbuttons_2" class="rightbuttons hide"></td>
 		<?php } ?>
 		<td id="mc_rightbuttons_1" class="rightbuttons hide"></td>
 		<td id="mc_rightbuttons_0" class="rightbuttons hide"></td>
-		<td id="mc_help_button" class="helpbutton" onClick="M.toggleHelp(M.curHelpUID);"><div class="button help"><span class="icon">?</span><span class="label">Help</span></div></td>
+		<td id="mc_help_button" class="helpbutton" onClick="M.toggleHelp(M.curHelpUID);"><div class="button help"><span class="faicon">&#xf128;</span><span class="label">Help</span></div></td>
 		</tr>
 	</table>
 	<?php if( $size == 'compact' ): ?>

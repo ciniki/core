@@ -193,11 +193,9 @@ table.simplebuttons > tbody > tr > td.delete {
 	text-shadow: 1px 1px 0px #445;
 }
 
+.headerbar td div.button span.faicon,
 .headerbar td div.button span.icon {
 	text-shadow: -1px -1px 0px #445;
-}
-
-.headerbar td div.button span.icon {
 	max-height: 15px;
 }
 

@@ -5051,30 +5051,49 @@ M.panel.prototype.showButtons = function(wID, buttons) {
 	for(i in buttons) {
 		var icn = '';
 		switch(buttons[i].icon) {
-			// case 'back': icn = 'b'; break;
-			case 'rewind': icn = 'B'; break;
-			case 'prev': icn = 'p'; break;
-			case 'next': icn = 'n'; break;
-			case 'add': icn = 'a'; break;
-			case 'settings': icn = 's'; break;
-			case 'save': icn = 'S'; break;
-			case 'edit': icn = 'y'; break;
-			case 'download': icn = 'G'; break;
+//			case 'rewind': icn = 'B'; break;
+//			case 'prev': icn = 'p'; break;
+//			case 'next': icn = 'n'; break;
+//			case 'add': icn = 'a'; break;
+//			case 'settings': icn = 's'; break;
+//			case 'save': icn = 'S'; break;
+//			case 'edit': icn = 'y'; break;
+//			case 'download': icn = 'G'; break;
+//			case 'exit': 
+//			case 'close': 
+//			case 'cancel': icn = 'X'; break;
+//			case 'more': icn = 'm'; break;
+//			case 'tools': icn = 'A'; break;
+//			case 'admin': icn = 'A'; break;
+//			case 'account': icn = 'w'; break;
+//			case 'logout': icn = 'L'; break;
+//			case 'forward': icn = 'f'; break;
+			case 'back': icn = '&#xf060;'; break;
+			case 'rewind': icn = '&#xf048;'; break;
+			case 'prev': icn = '&#xf053;'; break;
+			case 'next': icn = '&#xf054;'; break;
+			case 'add': icn = '&#xf067;'; break;
+			case 'settings': icn = '&#xf013;'; break;
+			case 'save': icn = '&#xf0c7;'; break;
+			case 'edit': icn = '&#xf040;'; break;
+			case 'download': icn = '&#xf019;'; break;
 			case 'exit': 
 			case 'close': 
-			case 'cancel': icn = 'X'; break;
-			case 'more': icn = 'm'; break;
-			case 'tools': icn = 'A'; break;
-			case 'admin': icn = 'A'; break;
-			case 'account': icn = 'w'; break;
-			case 'logout': icn = 'L'; break;
-			case 'forward': icn = 'f'; break;
+			case 'cancel': icn = '&#xf00d;'; break;
+			case 'more': icn = '&#xf141;'; break;
+			case 'tools': icn = '&#xf0ad;'; break;
+			case 'admin': icn = '&#xf0ad;'; break;
+			case 'account': icn = '&#xf007;'; break;
+			case 'logout': icn = '&#xf08b;'; break;
+			case 'forward': icn = '&#xf061;'; break;
+			case 'bigboard': icn = '&#xf0ae;'; break;
+			case 'website': icn = '&#xf08e;'; break;
 		}
 		switch(buttons[i].label) {
-			case 'Home': icn = 'h';break;
-			case 'Back': icn = 'b';break;
+			case 'Home': icn = '&#xf015;';break;
+			case 'Back': icn = '&#xf060;';break;
 			case 'Close':
-			case 'Cancel': icn = 'X';break;
+			case 'Cancel': icn = '&#xf00d;';break;
 		}
 		var l = M.clr(this.appPrefix + '_' + wID + '_' + c);
 		var bfn = null;
@@ -5086,7 +5105,7 @@ M.panel.prototype.showButtons = function(wID, buttons) {
 			bfn = buttons[i]['function'];
 		}
 		if( bfn != null ) {
-			l.appendChild(M.aE('div', null, 'button ' + i, '<span class="icon">' + icn + '</span><span class="label">' + buttons[i].label + '</span>'));
+			l.appendChild(M.aE('div', null, 'button ' + i, '<span class="faicon">' + icn + '</span><span class="label">' + buttons[i].label + '</span>'));
 			l.setAttribute('onclick', bfn + 'return false;');
 			l.className = wID;
 			c++;

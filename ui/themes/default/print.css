@@ -15,8 +15,10 @@ table.form td.input input {
 #mc_home_button,
 #mc_leftbuttons_0,
 #mc_leftbuttons_1,
+#mc_leftbuttons_2,
 #mc_rightbuttons_0,
 #mc_rightbuttons_1,
+#mc_rightbuttons_2,
 #mc_help_button {
 	display: none;
 }

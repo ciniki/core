@@ -1151,7 +1151,7 @@ M.loadAvatar = function() {
 	} else {
 		var l = M.gE('mc_home_button');
 		M.clr(l);
-		l.innerHTML = '<div class="button home"><span class="icon">h</span><span class="label">Home</span></div>';
+		l.innerHTML = '<div class="button home"><span class="faicon">&#xf015;</span><span class="label">Home</span></div>';
 	}
 }
 
@@ -1502,4 +1502,20 @@ M.cookieGet = function(n) {
 		if (c.indexOf(ne) == 0) return c.substring(ne.length,c.length);
 	}
 	return null;
+}
+
+M.showWebsite = function(url) {
+	var e1 = M.gE('m_website');
+	var e2 = M.gE('m_container');
+	if( e1.style.display == 'block' ) {
+		e1.style.display = 'none';
+		e2.style.display = 'block';
+	} else {
+		e2.style.display = 'none';
+		e1.style.display = 'block';
+		var url = M.curBusiness.modules['ciniki.web'].settings.base_url + url;
+		var w = M.gE('mc_website_iframe');
+		w.src = url;
+	}
+	M.resize();
 }

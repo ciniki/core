@@ -15,6 +15,7 @@ body {
 	height: 100%;
 }
 
+#mw_header,
 #mc_header {
 	/* FIXME: Allow fixed header */
 	position: fixed;

@@ -1520,3 +1520,23 @@ M.showWebsite = function(url) {
 	}
 	M.resize();
 }
+
+M.showPDF = function(m, p) {
+//	if( M.device == 'ipad' ) {
+		var e1 = M.gE('m_pdf');
+		var e2 = M.gE('m_container');
+		if( e1.style.display == 'block' ) {
+			e1.style.display = 'none';
+			e2.style.display = 'block';
+		} else {
+			e2.style.display = 'none';
+			e1.style.display = 'block';
+			var url = M.api.getUploadURL(m, p);
+			var w = M.gE('mc_pdf_iframe');
+			w.src = url;
+		}
+		M.resize();
+//	} else {
+//		M.api.openPDF(m, p);
+//	}
+}

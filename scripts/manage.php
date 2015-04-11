@@ -647,6 +647,24 @@ Javscript must be enabled for this application to work.
 </table>
 <div id="mc_website"><iframe id="mc_website_iframe" src="" width="100%" height="100%" marginwidth="0" marginheight="0" frameborder="no" scrolling="yes"></iframe></div>
 </div>
+<div id="m_pdf" style="display:none;overflow:hidden;">
+<table id="mp_header" class="headerbar" cellspacing="0" cellpadding="0">
+	<tr>
+	<td id="mp_home_button" class="homebutton" onClick="M.showPDF();"><div class="button home"><span class="faicon">&#xf060;</span><span class="label">Back</span></div></td>
+	<td id="mp_leftbuttons_0" class="leftbuttons hide"></td>
+	<td id="mp_leftbuttons_1" class="leftbuttons hide"></td>
+	<?php if( $size == 'compact' ) { ?>
+		<td class="spacer">&nbsp;</td>
+	<?php } else { ?>
+		<td id="mp_title" class="title"></td>
+	<?php } ?>
+	<td id="mp_rightbuttons_1" class="rightbuttons hide"></td>
+	<td id="mp_rightbuttons_0" class="rightbuttons hide"></td>
+	<td id="mp_help_button" class="helpbutton hide"></td>
+	</tr>
+</table>
+<div id="mc_pdf"><iframe id="mc_pdf_iframe" src="" width="100%" height="100%" marginwidth="0" marginheight="0" frameborder="no" scrolling="yes"></iframe></div>
+</div>
 <?php if( $start_container == 'm_container' ) { ?>
 <div id="m_container" class="s-<?php echo $size;?> help-off guided-off xhelp-off">
 <?php } else { ?>

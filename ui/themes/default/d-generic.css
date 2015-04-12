@@ -25,6 +25,7 @@ div.scrollable {
 	padding-top: 2.5em;
 }
 
+#mc_pdf,
 #mc_website {
 	width:100%;
 	height:100%;
@@ -33,6 +34,7 @@ div.scrollable {
 	padding:2.5em 0px 0px 0px;
 }
 
+#mc_pdf #mc_pdf_iframe,
 #mc_website #mc_website_iframe {
 	margin:0px;
 	padding:0px;

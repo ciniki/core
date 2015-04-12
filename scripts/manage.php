@@ -648,7 +648,7 @@ Javscript must be enabled for this application to work.
 <div id="mc_website"><iframe id="mc_website_iframe" src="" width="100%" height="100%" marginwidth="0" marginheight="0" frameborder="no" scrolling="yes"></iframe></div>
 </div>
 <div id="m_pdf" style="display:none;overflow:hidden;">
-<table id="mp_header" class="headerbar" cellspacing="0" cellpadding="0">
+<table id="mp_header" class="headerbar noprint" cellspacing="0" cellpadding="0">
 	<tr>
 	<td id="mp_home_button" class="homebutton" onClick="M.showPDF();"><div class="button home"><span class="faicon">&#xf060;</span><span class="label">Back</span></div></td>
 	<td id="mp_leftbuttons_0" class="leftbuttons hide"></td>
@@ -660,10 +660,10 @@ Javscript must be enabled for this application to work.
 	<?php } ?>
 	<td id="mp_rightbuttons_1" class="rightbuttons hide"></td>
 	<td id="mp_rightbuttons_0" class="rightbuttons hide"></td>
-	<td id="mp_help_button" class="helpbutton hide"></td>
+	<td id="mp_print_button" class="rightbuttons" onClick="M.printPDF();"><div class="button home"><span class="faicon">&#xf02f;</span><span class="label">Print</span></div></td>
 	</tr>
 </table>
-<div id="mc_pdf"><iframe id="mc_pdf_iframe" src="" width="100%" height="100%" marginwidth="0" marginheight="0" frameborder="no" scrolling="yes"></iframe></div>
+<div id="mc_pdf"><div id="mc_content_wrap" class="medium"><p>Use two fingers to scroll</p></div><iframe id="mc_pdf_iframe" src="" width="100%" height="100%" marginwidth="0" marginheight="0" frameborder="no" scrolling="yes" onload="M.resize();"></iframe></div>
 </div>
 <?php if( $start_container == 'm_container' ) { ?>
 <div id="m_container" class="s-<?php echo $size;?> help-off guided-off xhelp-off">

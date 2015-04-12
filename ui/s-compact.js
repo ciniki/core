@@ -7,6 +7,20 @@
 // e - the element to resize
 //
 M.resize = function(e) {
+	var mw = M.gE('m_website');
+	var mwi = M.gE('mc_website_iframe');
+	if( mw.style.display == 'block' ) {
+		var h = document.getElementById('mw_header').offsetHeight;
+//		if( mh.offsetHeight < window.innerHeight ) {
+//		mw.style.height = (window.innerHeight) + 'px';
+		mwi.style.height = (window.innerHeight-h-5) + 'px';
+	}
+	var mp = M.gE('m_pdf');
+	var mpi = M.gE('mc_pdf_iframe');
+	if( mp.style.display == 'block' ) {
+		var h = document.getElementById('mp_header').offsetHeight;
+		mpi.style.height = (window.innerHeight-h-5) + 'px';
+	}
 }
 
 M.toggleGuidedMode = function() {

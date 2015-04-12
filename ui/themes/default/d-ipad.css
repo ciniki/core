@@ -15,6 +15,7 @@ body {
 	height: 100%;
 }
 
+#mp_header,
 #mw_header,
 #mc_header {
 	/* FIXME: Allow fixed header */
@@ -38,6 +39,7 @@ body {
 	padding-top: 2.5em;
 }
 
+#mc_pdf,
 #mc_website {
 	width:100%;
 	height:100%;
@@ -45,11 +47,26 @@ body {
 	border:0px;
 	padding:2.5em 0px 0px 0px;
 }
+#mc_pdf {
+	text-align: center;
+}
 
+#mc_pdf, 
+#mc_pdf_iframe {
+	text-align: center;
+	overflow: scroll !important;
+	-webkit-overflow-scrolling:touch !important;
+}
+
+#mc_pdf #mc_pdf_iframe,
 #mc_website #mc_website_iframe {
 	margin:0px;
 	padding:0px;
 	border:0px;
+}
+
+#mc_pdf_iframe {
+	padding-left: 50px;
 }
 
 div.mediumflex,

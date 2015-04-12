@@ -37,6 +37,20 @@ M.resize = function(e) {
 //		mw.style.height = (window.innerHeight) + 'px';
 		mwi.style.height = (window.innerHeight-h-5) + 'px';
 	}
+	var mp = M.gE('m_pdf');
+	var mpi = M.gE('mc_pdf_iframe');
+	if( mp.style.display == 'block' ) {
+		var w = document.getElementById('mp_header').offsetWidth;
+		mpi.style.paddingLeft = '50px';
+		mpi.style.width = (w - 100) + 'px';
+		mpi.style.height = (window.innerHeight-150) + 'px';
+	//	mp.style.height = mpi.contentWindow.document.body.scrollHeight + 'px';
+//		mpi.style.height = mpi.contentWindow.document.body.scrollHeight + 'px';
+//		mpi.style.height = '20000px'
+//		alert(mpi.contentWindow.document.body.scrollHeight);
+//		mpi.addEventListener('load', function() {alert('test' + this.contentWindow.document.body.scrollHeight); this.style.height = '10000px'; M.resize(); }, true);
+//		mpi.addEventListener('load', function() {alert('test'); alert(this.offsetHeight); this.style.height = '10000px';}, true);
+	}
 }
 
 M.toggleGuidedMode = function() {

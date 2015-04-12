@@ -1522,7 +1522,7 @@ M.showWebsite = function(url) {
 }
 
 M.showPDF = function(m, p) {
-//	if( M.device == 'ipad' ) {
+	if( M.device == 'ipad' && window.navigator != null && window.navigator.standalone == true ) {
 		var e1 = M.gE('m_pdf');
 		var e2 = M.gE('m_container');
 		if( e1.style.display == 'block' ) {
@@ -1536,7 +1536,13 @@ M.showPDF = function(m, p) {
 			w.src = url;
 		}
 		M.resize();
-//	} else {
-//		M.api.openPDF(m, p);
-//	}
+	} else {
+		M.api.openPDF(m, p);
+	}
+}
+
+M.printPDF = function() {
+//	window.frames["mc_pdf_iframe"].focus();
+//	window.frames["mc_pdf_iframe"].print();
+	window.print();
 }

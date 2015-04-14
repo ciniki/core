@@ -1510,7 +1510,7 @@ M.showWebsite = function(url) {
 	var iframe = M.gE('mc_website_iframe');
 	var d = iframe.contentWindow.document;
 	d.open();
-/	d.write("<html><body style='background:#fff;background:url(\"/ciniki-mods/core/ui/themes/default/img/background2.png\");'><div style='height: 100%; width: 100%; position:fixed; top:0px; left:0px; background: #fff; opacity: .5;'><table width='100%' style='width:100%;height:100%;border-collapse:separate;text-align:center;'><tbody style='vertical-align: middle;'><tr><td><img src='/ciniki-mods/core/ui/themes/default/img/spinner.gif'></td></tr></tbody></table></div></body></html>");
+	d.write("<html><body style='background:#fff;background:url(\"/ciniki-mods/core/ui/themes/default/img/background2.png\");'><div style='height: 100%; width: 100%; position:fixed; top:0px; left:0px; background: #fff; opacity: .5;'><table width='100%' style='width:100%;height:100%;border-collapse:separate;text-align:center;'><tbody style='vertical-align: middle;'><tr><td><img src='/ciniki-mods/core/ui/themes/default/img/spinner.gif'></td></tr></tbody></table></div></body></html>");
 	d.close();
 	if( e1.style.display == 'block' ) {
 		e1.style.display = 'none';

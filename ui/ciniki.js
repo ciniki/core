@@ -1529,20 +1529,18 @@ M.showPDF = function(m, p) {
 		var e1 = M.gE('m_pdf');
 		var e2 = M.gE('m_container');
 		var iframe = M.gE('mc_pdf_iframe');
-		iframe.src = "";
-		var d = iframe.contentWindow.document;
-		d.open();
-		d.write("<html><body style='background:#fff;background:url(\"/ciniki-mods/core/ui/themes/default/img/background2.png\");'><div style='height: 100%; width: 100%; position:fixed; top:0px; left:0px; background: #fff; opacity: .5;'><table width='100%' style='width:100%;height:100%;border-collapse:separate;text-align:center;'><tbody style='vertical-align: middle;'><tr><td><img src='/ciniki-mods/core/ui/themes/default/img/spinner.gif'></td></tr></tbody></table></div></body></html>");
-		d.close();
+		iframe.src = "about:blank";
 		if( e1.style.display == 'block' ) {
 			e1.style.display = 'none';
 			e2.style.display = 'block';
-			iframe.src = '';
 		} else {
+			var d = iframe.contentWindow.document;
+			d.open();
+			d.write("<html><body style='background:#fff;background:url(\"/ciniki-mods/core/ui/themes/default/img/background2.png\");'><div style='height: 100%; width: 100%; position:fixed; top:0px; left:0px; background: #fff; opacity: .5;'><table width='100%' style='width:100%;height:100%;border-collapse:separate;text-align:center;'><tbody style='vertical-align: middle;'><tr><td><img src='/ciniki-mods/core/ui/themes/default/img/spinner.gif'></td></tr></tbody></table></div></body></html>");
+			d.close();
 			e2.style.display = 'none';
 			e1.style.display = 'block';
 			var url = M.api.getUploadURL(m, p);
-//			iframe.src = "/ciniki-iframe.php";
 			iframe.src = url;
 		}
 		M.resize();
@@ -1552,7 +1550,5 @@ M.showPDF = function(m, p) {
 }
 
 M.printPDF = function() {
-//	window.frames["mc_pdf_iframe"].focus();
-//	window.frames["mc_pdf_iframe"].print();
 	window.print();
 }

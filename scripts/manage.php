@@ -316,7 +316,7 @@ if( $device == 'ipad' && $engine == 'webkit' ) { ?>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <?php print "<link rel='apple-touch-icon' href='$manage_themes/default/img/icon.png'/>\n"; ?>
     <?php print "<link rel='apple-touch-startup-image' href='$manage_themes/default/img/icon.png'/>\n"; ?>
-	<script src='/ciniki-manage/core/ui/webkitdragdrop.js' type='text/javascript'></script>
+	<?php /* <script src='/ciniki-manage/core/ui/webkitdragdrop.js' type='text/javascript'></script> */ ?>
 <?php } elseif( ($device == 'ipad' || $device == 'xoom' || $device == 'hptablet' ) && $engine == 'webkit' ) { ?>
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -645,7 +645,7 @@ Javscript must be enabled for this application to work.
 	<td id="mw_help_button" class="helpbutton hide"></td>
 	</tr>
 </table>
-<div id="mc_website"><iframe id="mc_website_iframe" src="" width="100%" height="100%" marginwidth="0" marginheight="0" frameborder="no" scrolling="yes"></iframe></div>
+<div id="mc_website"><iframe id="mc_website_iframe" src="" width="100%" height="100%" marginwidth="0" marginheight="0" frameborder="no" scrolling="yes" src=""></iframe></div>
 </div>
 <div id="m_pdf" style="display:none;overflow:hidden;">
 <table id="mp_header" class="headerbar noprint" cellspacing="0" cellpadding="0">

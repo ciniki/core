@@ -21,7 +21,9 @@ function ciniki_core_processDateRange($ciniki, $args) {
 		$date_range .= " " . $args['start_day'];
 	}
 
-	if( isset($args['end_day']) && $args['end_day'] != '' && $args['start_day'] != $args['end_day'] ) {
+	if( (isset($args['end_day']) && $args['end_day'] != '' && $args['start_day'] != $args['end_day']) 
+		|| (isset($args['end_month']) && $args['end_month'] != '' && $args['start_month'] != $args['end_month']) 
+		) {
 		if( isset($args['end_month']) && $args['end_month'] != '' 
 			&& $args['end_month'] == $args['start_month'] ) {
 			$date_range .= " - " . $args['end_day'];

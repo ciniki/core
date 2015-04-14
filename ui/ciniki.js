@@ -1507,13 +1507,17 @@ M.cookieGet = function(n) {
 M.showWebsite = function(url) {
 	var e1 = M.gE('m_website');
 	var e2 = M.gE('m_container');
+	var iframe = M.gE('mc_website_iframe');
+	var d = iframe.contentWindow.document;
+	d.open();
+	d.write("<html><body style='background:#fff;background:url(\"/ciniki-mods/core/ui/themes/default/img/background2.png\");'><div style='height: 100%; width: 100%; position:fixed; top:0px; left:0px; background: #fff; opacity: .5;'><table width='100%' style='width:100%;height:100%;border-collapse:separate;text-align:center;'><tbody style='vertical-align: middle;'><tr><td><img src='/ciniki-mods/core/ui/themes/default/img/spinner.gif'></td></tr></tbody></table></div></body></html>");
+	d.close();
 	if( e1.style.display == 'block' ) {
 		e1.style.display = 'none';
 		e2.style.display = 'block';
 	} else {
 		e2.style.display = 'none';
 		e1.style.display = 'block';
-//		var url = M.curBusiness.modules['ciniki.web'].settings.base_url + url;
 		var url = '/preview/' + M.curBusiness.modules['ciniki.web'].settings.sitename + url;
 		var w = M.gE('mc_website_iframe');
 		w.src = url;
@@ -1523,6 +1527,11 @@ M.showWebsite = function(url) {
 
 M.showPDF = function(m, p) {
 	if( M.device == 'ipad' && window.navigator != null && window.navigator.standalone == true ) {
+		var iframe = M.gE('mc_pdf_iframe');
+		var d = iframe.contentWindow.document;
+		d.open();
+		d.write("<html><body style='background:#fff;background:url(\"/ciniki-mods/core/ui/themes/default/img/background2.png\");'><div style='height: 100%; width: 100%; position:fixed; top:0px; left:0px; background: #fff; opacity: .5;'><table width='100%' style='width:100%;height:100%;border-collapse:separate;text-align:center;'><tbody style='vertical-align: middle;'><tr><td><img src='/ciniki-mods/core/ui/themes/default/img/spinner.gif'></td></tr></tbody></table></div></body></html>");
+		d.close();
 		var e1 = M.gE('m_pdf');
 		var e2 = M.gE('m_container');
 		if( e1.style.display == 'block' ) {

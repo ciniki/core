@@ -5112,10 +5112,12 @@ M.panel.prototype.showButtons = function(wID, buttons) {
 		}
 	}
 	// Clear unused spaces
-	for(;c<2;c++){
+	for(;c<3;c++){
 		var l = M.clr(this.appPrefix + '_' + wID + '_' + c);
-		l.className = wID + ' hide';
-		l.setAttribute('onclick', '');
+		if( l != null ) {
+			l.className = wID + ' hide';
+			l.setAttribute('onclick', '');
+		}
 	}
 };
 

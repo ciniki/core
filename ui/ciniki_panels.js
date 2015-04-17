@@ -3473,14 +3473,15 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
 		}
 //		if( this.data['_' + fid] != null ) { var idlist = this.data['_' + fid]; } 
 		if( field.list != null ) { var idlist = field.list; }
+		var iname = (field.itemname!=null?field.itemname:'item');
 		for(j in idlist) {
 			var f = M.aE('span', this.panelUID + '_' + fid + sFN + '_' + j);
 			f.setAttribute('onfocus', this.panelRef + '.clearLiveSearches(\''+s+'\',\''+i+sFN+'\');');
 			f.className = 'toggle_off';
-			if( vs.indexOf(idlist[j].item.id) >= 0 ) {
+			if( vs.indexOf(idlist[j][iname].id) >= 0 ) {
 				f.className = 'toggle_on';
 			}
-			f.innerHTML = idlist[j].item.name;
+			f.innerHTML = idlist[j][iname].name;
 			f.setAttribute('onclick', this.panelRef + '.setSelectField(this, \'' + i + sFN + '\',\'yes\',\'' + field.fn + '\');');
 			div.appendChild(f);
 		}
@@ -5501,9 +5502,10 @@ M.panel.prototype.formFieldValue = function(f,fid) {
 		n = '';
 		if( this.data['_' + fid] != null ) { var list = this.data['_' + fid]; } 
 		if( f.list != null ) { var list = f.list; }
+		var iname = (f.itemname!=null?f.itemname:'item');
 		for(j in list) {
 			if( M.gE(this.panelUID + '_' + fid + '_' + j).className == 'toggle_on' ) {
-				n += (n!=''?',':'') + list[j].item.id;
+				n += (n!=''?',':'') + list[j][iname].id;
 			}
 		}
 	} else if( f.type == 'collection' ) {

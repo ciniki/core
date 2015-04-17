@@ -99,6 +99,8 @@ table.form td div span.toggle_off:last-child {
 	-webkit-border-bottom-right-radius: 0.5em;
 }
 
+table.form tr.idlist td.multiselect span.toggle_on,
+table.form tr.idlist td.multiselect span.toggle_off,
 table.form tr.collection td.multiselect span.toggle_on,
 table.form tr.collection td.multiselect span.toggle_off,
 table.form tr.toggle td.multiselect span.toggle_on,

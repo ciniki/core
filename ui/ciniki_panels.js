@@ -3220,6 +3220,9 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
 		var sel = M.aE('select', this.panelUID + '_' + fid + sFN);
 		sel.setAttribute('name', fid + sFN);
 		sel.setAttribute('onfocus', this.panelRef + '.clearLiveSearches(\''+s+'\',\''+fid+sFN+'\');');
+		if( field.onchangeFn != null && field.onchangeFn != '' ) {
+			sel.setAttribute('onchange', field.onchangeFn + '(\'' + s + '\',\'' + i+sFN+'\');');
+		}
 		var o = field.options;
 		var fv = this.fieldValue(s, i, field, mN);
 		for(j in o) {
@@ -3245,7 +3248,6 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
 //						op.style.background = '#' + o[j][field['complex_options']['subname']][field['complex_options']['bgcolor']];
 //					}
 			sel.appendChild(op);
-
 		}
 		c.appendChild(sel);
 	}
@@ -5038,6 +5040,18 @@ M.panel.prototype.generateAppointmentScheduleTable = function(f, field, cl, appo
 
 	t.appendChild(tb);
 	return t;
+};
+
+M.panel.prototype.appointmentEventText = function(ev) {
+	if( ev != null && ev.subject != null ) { return ev.subject; }
+	return '';
+};
+
+M.panel.prototype.appointmentColour = function(ev) {
+	if( ev != null && ev.colour != null && ev.colour != '' ) {
+		return ev.colour;
+	}
+	return '#aaddff';
 };
 
 //

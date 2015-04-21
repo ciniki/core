@@ -3066,6 +3066,10 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
 		if( field.size != null && field.size != '' ) {
 			f.setAttribute('class', field.type + ' ' + field.size);
 		}
+		if( field.editable != null && field.editable == 'no' ) {
+			f.setAttribute('readonly', 'yes');
+			f.className = f.className + ' readonly';
+		}
 		if( field.hint != null && field.hint != '' ) {
 			f.setAttribute('placeholder', field.hint);
 		}

@@ -33,6 +33,12 @@ table.form td.input > select {
 	box-shadow: none;
 }
 
+table.list tr.textfield > td > input.readonly {
+	border: 0px;
+	background: inherit;
+	box-shadow: none;
+}
+
 tr.xhelp-text td p,
 tr.guided-text td p,
 p.guided-text {
@@ -48,7 +54,6 @@ table.list {
 	border-radius: 7px;
 	box-shadow: #777 1px 1px 3px;
 }
-
 
 table.list tr.textfield > td > input:-moz-placeholder {
 	color: #ccc;

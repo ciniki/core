@@ -590,6 +590,11 @@ table.list tr.textfield > td.select {
 	height: 100%;
 }
 
+table.list tr.textfield > td > input.readonly {
+	border: 0px;
+	background: inherit;
+}
+
 table.form td.input > select,
 table.form td.select > select {
 	width: 100%;

@@ -18,6 +18,12 @@ input, textarea {
 	appearance: none;
 }
 
+table.list tr.textfield > td > input.readonly {
+	border: 0px;
+	background: inherit;
+	box-shadow: none;
+}
+
 input:focus {
 	outline: none;
 }

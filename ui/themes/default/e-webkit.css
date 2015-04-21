@@ -22,6 +22,12 @@ input:focus {
 	outline: none;
 }
 
+table.list tr.textfield > td > input.readonly {
+	border: 0px;
+	background: inherit;
+	box-shadow: none;
+}
+
 table.form tr.textfield > td > input.search {
 	height: 2.0em;
 }

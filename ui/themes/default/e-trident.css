@@ -168,7 +168,9 @@ table.simplebuttons > tbody > tr > td.button {
 
 
 table.form > tbody > tr > td.delete,
-table.simplebuttons > tbody > tr > td.delete {
+table.form > tbody > tr > td.remove,
+table.simplebuttons > tbody > tr > td.delete,
+table.simplebuttons > tbody > tr > td.remove {
 	border: 0px;
 	background: linear-gradient(to bottom, #ec4a0b, #ad390c);   
 	text-shadow: 0 -1px 1px #953403; 

@@ -171,7 +171,9 @@ table.simplebuttons > tbody > tr > td.button {
 
 
 table.form > tbody > tr > td.delete,
-table.simplebuttons > tbody > tr > td.delete {
+table.form > tbody > tr > td.remove,
+table.simplebuttons > tbody > tr > td.delete,
+table.simplebuttons > tbody > tr > td.remove {
 	border: 0px;
 	background: -webkit-gradient(linear,left top,left bottom,color-stop(0, #ec4a0b),color-stop(1, #ad390c));   
 	text-shadow: 0 -1px 1px #953403; 

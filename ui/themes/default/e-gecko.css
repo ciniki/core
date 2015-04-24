@@ -187,7 +187,9 @@ table.form td div span.toggle_off:last-child {
 }
 
 table.form > tbody > tr > td.delete,
-table.simplebuttons > tbody > tr > td.delete {
+table.form > tbody > tr > td.remove,
+table.simplebuttons > tbody > tr > td.delete,
+table.simplebuttons > tbody > tr > td.remove {
 	background: -moz-linear-gradient(top, #ec4a0b, #ad390c); 
 	text-shadow: 0 -1px 1px #953403; text-decoration: none; 
 	border: 0px;

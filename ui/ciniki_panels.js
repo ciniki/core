@@ -523,7 +523,6 @@ M.panel.prototype.createSections = function() {
 		f.appendChild(r);
 	}
 
-
 	return f;
 };
 
@@ -730,7 +729,7 @@ M.panel.prototype.createSection = function(i, s) {
 	} else if( type == 'livesearchgrid' ) {
 		st = this.createLiveSearchGrid(i, s);
 	} else if( type == 'simplegrid' ) {
-		if( s.visible == null || (s.visible != null && s.visible == 'yes') ) {
+		if( s.visible == null || (s.visible != null && s.visible != 'no') ) {
 			st = this.createSectionGrid(i);
 			tid = st.childNodes[0].id;
 		}

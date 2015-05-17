@@ -753,6 +753,8 @@ M.panel.prototype.createSection = function(i, s) {
 //		st.appendChild(tb);
 	} else if( type == 'datepicker' ) {
 		st = this.createDatePicker(i, s);
+	} else if( type == 'multiweekcalendar' ) {
+		st = this.createMultiWeekCalendar(i, s);
 	} else if( type == 'dayschedule' ) {
 		st = this.createDailySchedule(i, s);
 	} else if( type == 'paneltabs' ) {
@@ -1009,6 +1011,17 @@ M.panel.prototype.thumbTitle = function(s, i, d) {
 M.panel.prototype.thumbID = function(s, i, d) {
 	if( d.image.id != null ) { return d.image.id; }
 	return 0;
+};
+
+M.panel.prototype.createMultiWeekSchedule = function(s, d) {
+	if( this.sectionData != null ) {
+		data = this.sectionData(s);
+	} else if( this.data[s] != null ) {
+		data = this.data[s];
+	}
+
+	var t = this.generateMultiWeekScheduleTable(s, 'list noheader multiweekschedule', data, this.start_date, this.end_date);
+	return t;
 };
 
 M.panel.prototype.createDailySchedule = function(s, d) {
@@ -5045,6 +5058,84 @@ M.panel.prototype.generateAppointmentScheduleTable = function(f, field, cl, appo
 	return t;
 };
 
+M.panel.prototype.generateMultiWeekScheduleTable = function(s, cl, data, sdate, edate) {
+	var t = M.aE('table', null, cl);
+	t.setAttribute('cellspacing', '0');
+	t.setAttribute('cellpadding', '0');
+	var tb = M.aE('tbody');
+
+	var cur_date = new Date(sdate.getTime());
+
+	//
+	// Build the table
+	//
+	col = 0;
+	var tr = M.aE('tr');
+	while(cur_date < edate) {
+		var cds = dt.getFullYear() + '-' + (dt.getMonth()+1) + '-' + dt.getDate();
+		if( col >= 7 ) { 
+			col = 0; 
+			tb.appendChild(tr);
+			tr = M.aE('tr');
+		}
+		
+		var c = M.aE('td');
+		//
+		// Add the day and special notes for the day
+		//
+		var d = M.aE('div');
+		var s = M.aE('span',null,'day', cur_date.getDate());	
+		d.appendChild(s);
+		var s = M.aE('span',null,'day', this.multiWeekDayNotes(cds));	
+		d.appendChild(s);	
+		c.appendChild(d);
+
+		//
+		// Add the appointments
+		//
+		var d = M.aE('div');
+		if( data[cds] != null ) {
+			// Create a div to contain each appointment
+			for(var i in data[cdr]) {
+				var e = M.aE('div');
+				var ev = appointments[i]['appointment'];
+				if( ev.time != '' ) {	
+					var s = M.aE('span',null,'time',ev.time);
+					e.appendChild(s);
+				}
+				var s = M.aE('span',null,'subject', this.appointmentAbbrSubject(ev));
+				e.appendChild(s);
+				var s = M.aE('span',null,'secondary', this.appointmentAbbrSecondary(ev));
+				e.appendChild(s);
+				d.appendChild(e);
+			}
+		}
+
+		c.appendChild(d);
+		tr.appendChild(c);
+
+		cur_date.setDate(cur_date.getDate() + 1);
+		col++;
+	}
+
+	t.appendChild(tb);
+	return t;
+};
+
+M.panel.prototype.multiWeekDayNotes = function(ev) {
+	return '';
+};
+
+M.panel.prototype.appointmentAbbrSubject = function(ev) {
+	if( ev != null && ev.abbr_subject != null ) { return ev.abbr_subject; }
+	return '';
+};
+
+M.panel.prototype.appointmentAbbrSecondary = function(ev) {
+	if( ev != null && ev.abbr_secondary_text != null ) { return ev.abbr_secondary_text; }
+	return '';
+};
+
 M.panel.prototype.appointmentEventText = function(ev) {
 	if( ev != null && ev.subject != null ) { return ev.subject; }
 	return '';
@@ -5106,6 +5197,8 @@ M.panel.prototype.showButtons = function(wID, buttons) {
 			case 'forward': icn = '&#xf061;'; break;
 			case 'bigboard': icn = '&#xf0ae;'; break;
 			case 'website': icn = '&#xf08e;'; break;
+			case 'monthcalendar': icn = '&#xf073;'; break;
+			case 'daycalendar': icn = '&#xf0c9;'; break;
 		}
 		switch(buttons[i].label) {
 			case 'Home': icn = '&#xf015;';break;

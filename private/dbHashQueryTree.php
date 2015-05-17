@@ -126,9 +126,8 @@ function ciniki_core_dbHashQueryTree(&$ciniki, $strsql, $module, $tree) {
 						// Check if utc dates should be converted to local timezone
 						//
 						elseif( isset($tree[$i]['utctotz']) && isset($tree[$i]['utctotz'][$field_id]) ) {
-							if( $row[$field] == '0000-00-00 00:00:00' || $row[$field] == '0000-00-00' ) {
+							if( $row[$field] == '0000-00-00 00:00:00' || $row[$field] == '0000-00-00' || $row[$field] == '' ) {
 								$data[$tree[$i]['container']][$num_elements[$i]][$tree[$i]['name']][$field_id] = '';
-								
 							} else {
 								$date = new DateTime($row[$field], new DateTimeZone('UTC'));
 								$date->setTimezone(new DateTimeZone($tree[$i]['utctotz'][$field_id]['timezone']));

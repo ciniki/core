@@ -1626,6 +1626,10 @@ table.dayschedule td {
 	border-bottom: 1px solid #bbb;
 }
 
+table.dayschedule > tbody > tr > td:last-child {
+	border-right: 1px solid #bbb;
+}
+
 table.dayschedule td.schedule_time {
 	background: #fff;
 	text-align: right;

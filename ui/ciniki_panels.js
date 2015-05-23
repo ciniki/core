@@ -753,10 +753,12 @@ M.panel.prototype.createSection = function(i, s) {
 //		st.appendChild(tb);
 	} else if( type == 'datepicker' ) {
 		st = this.createDatePicker(i, s);
-	} else if( type == 'multiweekcalendar' ) {
-		st = this.createMultiWeekCalendar(i, s);
+	} else if( type == 'weekpicker' ) {
+		st = this.createDatePicker(i, s);
 	} else if( type == 'dayschedule' ) {
 		st = this.createDailySchedule(i, s);
+	} else if( type == 'mwschedule' ) {
+		st = this.createMultiWeekSchedule(i, s);
 	} else if( type == 'paneltabs' ) {
 		st = this.createPanelTabs(i, this.sections[i]);
 	} else if( type == 'html' ) {
@@ -1019,8 +1021,7 @@ M.panel.prototype.createMultiWeekSchedule = function(s, d) {
 	} else if( this.data[s] != null ) {
 		data = this.data[s];
 	}
-
-	var t = this.generateMultiWeekScheduleTable(s, 'list noheader multiweekschedule', data, this.start_date, this.end_date);
+	var t = this.generateMultiWeekScheduleTable(s, 'list header mwschedule', data, this.start_date, this.end_date);
 	return t;
 };
 
@@ -1382,8 +1383,12 @@ M.panel.prototype.createDatePicker = function(s, sd) {
 	if( this.datePickerValue != null ) {
 		var v = this.datePickerValue(s, sd);
 		if( v != null && v != '' && v != 'today' ) {
-			var dtpieces = v.split('-');
-			var dt = new Date(dtpieces[0], Number(dtpieces[1])-1, dtpieces[2]);
+			if( v instanceof Date ) {
+				var dt = new Date(v.getTime());
+			} else {
+				var dtpieces = v.split('-');
+				var dt = new Date(dtpieces[0], Number(dtpieces[1])-1, dtpieces[2]);
+			}
 		} else {
 			var dt = new Date();
 		}
@@ -1393,7 +1398,8 @@ M.panel.prototype.createDatePicker = function(s, sd) {
 	var dtm = (dt.getTime())/1000;
 
 	// format display date
-	var dts = dt.getFullYear() + '-' + (dt.getMonth()+1) + '-' + dt.getDate();
+//	var dts = dt.getFullYear() + '-' + (dt.getMonth()+1) + '-' + dt.getDate();
+	var dts = dt.toISOString().substring(0,10);
 	// var dtfs = this.dateFormat(dts).date;
 	var dtfs = M.dateFormatWD(dt);
 	
@@ -1409,8 +1415,13 @@ M.panel.prototype.createDatePicker = function(s, sd) {
 	//var c1 = M.aE('td',null,'prev', '<img src=\'' + M.themes_root_url + '/default/img/arrowleft.png\'>');
 	var c1 = M.aE('td',null,'prev', '<span class="icon">l</span>');
 	c1.className = 'prev clickable';
-	dt.setTime((dtm-86400)*1000);
-	var dtprevs = dt.getFullYear() + '-' + (dt.getMonth()+1) + '-' + dt.getDate();
+	if( sd.type == 'weekpicker' ) {
+		dt.setTime((dtm-604800)*1000);
+	} else {
+		dt.setTime((dtm-86400)*1000);
+	}
+//	var dtprevs = dt.getFullYear() + '-' + (dt.getMonth()+1) + '-' + dt.getDate();
+	var dtprevs = dt.toISOString().substring(0,10);
 	c1.setAttribute('onclick', sd.fn + '(null, \'' + dtprevs + '\');');
 	tr.appendChild(c1);
 
@@ -1448,8 +1459,13 @@ M.panel.prototype.createDatePicker = function(s, sd) {
 	// c3 = M.aE('td',null,'next', '<img src=\'' + M.themes_root_url + '/default/img/arrow.png\'>');
 	c3 = M.aE('td',null,'next', '<span class="icon">r</span>');
 	c3.className = 'next clickable';
-	dt.setTime((dtm+86400)*1000);
-	var dtnexts = dt.getFullYear() + '-' + (dt.getMonth()+1) + '-' + dt.getDate();
+	if( sd.type == 'weekpicker' ) {
+		dt.setTime((dtm+604800)*1000);
+	} else {
+		dt.setTime((dtm+86400)*1000);
+	}
+//	var dtnexts = dt.getFullYear() + '-' + (dt.getMonth()+1) + '-' + dt.getDate();
+	var dtnexts = dt.toISOString().substring(0,10);
 	c3.setAttribute('onclick', sd.fn + '(null, \'' + dtnexts + '\');');
 	tr.appendChild(c3);
 	
@@ -4682,9 +4698,9 @@ M.panel.prototype.showFieldCalendars = function(field, start_year, start_month, 
 				// FIXME: Need to make it into appointment type
 				c.setAttribute('onclick', this.panelRef + '.updateAppointmentSchedule(event, \'' + field + '\',\'' + cur_year + '\',\'' + (cur_month + 1) + '\',\'' + j + '\',\'' + stime + '\');');
 			} else if( fn != null && fn != '' && fn != 'null' && fn != 'undefined' ) {
-				c.setAttribute('onclick', fn + '(\'' + field + '\',\'' + cur_year + '-' + (cur_month + 1) + '-' + j + '\');');
+				c.setAttribute('onclick', fn + '(\'' + field + '\',\'' + cur_year + '-' + (cur_month<9?'0':'') + (cur_month + 1) + '-' + (j<10?'0':'') + j + '\');');
 			} else {
-				c.setAttribute('onclick', this.panelRef + '.setFromCalendar(\'' + field + '\',\'' + cur_year + '-' + (cur_month + 1) + '-' + j + '\');');
+				c.setAttribute('onclick', this.panelRef + '.setFromCalendar(\'' + field + '\',\'' + cur_year + '-' + (cur_month<9?'0':'') + (cur_month + 1) + '-' + (j<10?'0':'') + j + '\');');
 			}
 			if( f != null && f.newselection_year != null && j == f.newselection_day && cur_month == (Number(f.newselection_month)-1) && cur_year == f.newselection_year ) {
 				f.last_target = c;
@@ -4902,12 +4918,13 @@ M.panel.prototype.generateAppointmentScheduleTable = function(f, field, cl, appo
 						c.className += ' clickable';
 					}
 					pc = c;
+					c.colSpan = 2;
 					tr.appendChild(c);
 				} else if(i > 0) {
 					pc.rowSpan = parseInt(i)+1;
 				}
 				// This element is used to setup fixed sizes for rows
-				tr.appendChild(M.aE('td', null, 'schedule_interval', ''));
+//				tr.appendChild(M.aE('td', null, 'schedule_interval schedule_interval_allday', ''));
 
 				if( ev['allday'] == 'yes' ) {
 					c = M.aE('td', null, 'schedule_appointment', '<p class=\'size_6\'>' + this.appointmentEventText(ev) + '</p>');
@@ -5062,17 +5079,40 @@ M.panel.prototype.generateMultiWeekScheduleTable = function(s, cl, data, sdate, 
 	var t = M.aE('table', null, cl);
 	t.setAttribute('cellspacing', '0');
 	t.setAttribute('cellpadding', '0');
-	var tb = M.aE('tbody');
 
 	var cur_date = new Date(sdate.getTime());
+
+	var th = M.aE('thead');
+	var tr = M.aE('tr',null,'days');
+	if( M.size == 'compact' ) {
+		tr.appendChild(M.aE('th',null,null,'Sun'));
+		tr.appendChild(M.aE('th',null,null,'Mon'));
+		tr.appendChild(M.aE('th',null,null,'Tue'));
+		tr.appendChild(M.aE('th',null,null,'Wed'));
+		tr.appendChild(M.aE('th',null,null,'Thu'));
+		tr.appendChild(M.aE('th',null,null,'Fri'));
+		tr.appendChild(M.aE('th',null,null,'Sat'));
+	} else {
+		tr.appendChild(M.aE('th',null,null,'Sunday'));
+		tr.appendChild(M.aE('th',null,null,'Monday'));
+		tr.appendChild(M.aE('th',null,null,'Tuesday'));
+		tr.appendChild(M.aE('th',null,null,'Wednesday'));
+		tr.appendChild(M.aE('th',null,null,'Thursday'));
+		tr.appendChild(M.aE('th',null,null,'Friday'));
+		tr.appendChild(M.aE('th',null,null,'Saturday'));
+	}
+	th.appendChild(tr);
+	t.appendChild(th);
 
 	//
 	// Build the table
 	//
+	var tb = M.aE('tbody');
 	col = 0;
 	var tr = M.aE('tr');
-	while(cur_date < edate) {
-		var cds = dt.getFullYear() + '-' + (dt.getMonth()+1) + '-' + dt.getDate();
+	while(cur_date <= edate) {
+		var cds = cur_date.toISOString().substring(0,10);
+//		var cds = cur_date.getFullYear() + '-' + '0' + (cur_date.getMonth()+1) + '-' + cur_date.getDate();
 		if( col >= 7 ) { 
 			col = 0; 
 			tb.appendChild(tr);
@@ -5084,10 +5124,14 @@ M.panel.prototype.generateMultiWeekScheduleTable = function(s, cl, data, sdate, 
 		// Add the day and special notes for the day
 		//
 		var d = M.aE('div');
-		var s = M.aE('span',null,'day', cur_date.getDate());	
-		d.appendChild(s);
-		var s = M.aE('span',null,'day', this.multiWeekDayNotes(cds));	
-		d.appendChild(s);	
+		var sp = M.aE('span',null,'day', cur_date.getDate());	
+		if( this.sections[s].dayfn != null && this.sections[s].dayfn != '' ) {
+			sp.setAttribute('onclick', this.sections[s].dayfn + '(\'' + s + '\',\'' + cds + '\');');
+			sp.className += ' clickable';
+		}
+		d.appendChild(sp);
+		var sp = M.aE('span',null,'notes', this.multiWeekDayNotes(cds));	
+		d.appendChild(sp);	
 		c.appendChild(d);
 
 		//
@@ -5096,17 +5140,25 @@ M.panel.prototype.generateMultiWeekScheduleTable = function(s, cl, data, sdate, 
 		var d = M.aE('div');
 		if( data[cds] != null ) {
 			// Create a div to contain each appointment
-			for(var i in data[cdr]) {
-				var e = M.aE('div');
-				var ev = appointments[i]['appointment'];
-				if( ev.time != '' ) {	
-					var s = M.aE('span',null,'time',ev.time);
-					e.appendChild(s);
+			for(var i in data[cds]) {
+				var e = M.aE('div',null,'appointment');
+				var ev = data[cds][i]['appointment'];
+				// Check if there is a specific colour for this appointment
+				if( this.appointmentColour != null ) {
+					e.style.background = this.appointmentColour(ev);
 				}
-				var s = M.aE('span',null,'subject', this.appointmentAbbrSubject(ev));
-				e.appendChild(s);
-				var s = M.aE('span',null,'secondary', this.appointmentAbbrSecondary(ev));
-				e.appendChild(s);
+				if( this.appointmentFn != null ) {
+					e.setAttribute('onclick', this.appointmentFn(ev));
+					e.className = 'schedule_appointment clickable';
+				}
+				if( ev['12hour'] != null && ev['12hour'] != '' && (ev.allday == null || ev.allday == 'no') ) {	
+					var time = M.aE('span',null,'time',ev['12hour']);
+					e.appendChild(time);
+				}
+				var su = M.aE('span',null,'subject', this.appointmentAbbrSubject(ev));
+				e.appendChild(su);
+				var se = M.aE('span',null,'secondary', this.appointmentAbbrSecondary(ev));
+				e.appendChild(se);
 				d.appendChild(e);
 			}
 		}
@@ -5117,7 +5169,8 @@ M.panel.prototype.generateMultiWeekScheduleTable = function(s, cl, data, sdate, 
 		cur_date.setDate(cur_date.getDate() + 1);
 		col++;
 	}
-
+	// Append the last row
+	tb.appendChild(tr);
 	t.appendChild(tb);
 	return t;
 };
@@ -5197,7 +5250,7 @@ M.panel.prototype.showButtons = function(wID, buttons) {
 			case 'forward': icn = '&#xf061;'; break;
 			case 'bigboard': icn = '&#xf0ae;'; break;
 			case 'website': icn = '&#xf08e;'; break;
-			case 'monthcalendar': icn = '&#xf073;'; break;
+			case 'mwcalendar': icn = '&#xf073;'; break;
 			case 'daycalendar': icn = '&#xf0c9;'; break;
 		}
 		switch(buttons[i].label) {

@@ -279,10 +279,6 @@ table.list td > div.colourswatches > span.selected {
 	-webkit-box-shadow: #777 1px 1px 3px;
 }
 
-table.dayschedule td.schedule_appointment {
-	-webkit-border-radius: 7px;
-}
-
 table.services td span.job {
 	-webkit-border-radius: 7px;
 }

@@ -254,6 +254,10 @@ div.mediumflex table.list {
 	max-width: 60em;
 }
 
+div.xlargeflex table.mwschedule {
+	max-width: 100%;
+}
+
 div.large table.list,
 div.xlarge table.list,
 div.full table.list {
@@ -289,6 +293,12 @@ table.simplegrid {
 
 table.simplegrid th.sortable {
 	cursor: pointer;
+}
+
+div.full table.datepicker {
+	max-width: 60em;
+	margin-right: auto;
+	margin-left: auto;
 }
 
 div.wide table.datepicker,
@@ -1653,7 +1663,11 @@ table.dayschedule td.schedule_interval {
 	padding: 0px;
 	border-left: 0px solid #eee;
 }
- 
+
+table.dayschedule td.schedule_interval_allday {
+	border-bottom: 0px;
+}
+
 table.dayschedule td.schedule_appointment {
 	text-align: left;
 	vertical-align: top;
@@ -1662,6 +1676,7 @@ table.dayschedule td.schedule_appointment {
 	padding: 0.5em;
 	margin: 0.5em;
 	font-size: 0.85em;
+	border-radius: 7px;
 }
 
 table.dayschedule td span.secondary {
@@ -1688,12 +1703,13 @@ table.dayschedule span.colourswatch {
 	display: inline-block;
 	margin: 0.0em;
 	padding: 0.05em 0.05em 0.05em 0.05em;
-	width: 1.15em !important;
-	height: 1.15em !important;
-	font-size: 1.10em;
+	width: 1.05em !important;
+	height: 1.05em !important;
+	font-size: 1.00em;
 	text-align: center;
 	font-family: CinikiRegular;
 	vertical-align: top;
+	border-radius: 4px;
 }
 
 table.dayschedule td.empty {
@@ -1703,6 +1719,8 @@ table.dayschedule td.empty {
 table.dayschedule td.allday {
 	font-size: 0.9em;
 	height: 1.5em;
+	border-right: 1px solid #bbb;
+	padding-right: 0.65em;
 }
 table.dayschedule td.slice_0 {
 	border-bottom: 1px solid #dfdfdf;
@@ -1738,6 +1756,82 @@ table.dayschedule p.size_15 { height: 5em; }
 table.dayschedule p.size_16 { height: 5.0em; }
 table.dayschedule p.size_24 { height: 6.0em; }
 
+table.mwschedule {
+	border-left: 1px solid #bbb;
+	border-top: 1px solid #bbb;
+}
+
+table.mwschedule > thead > tr > th {
+	background: #efefef;
+	text-align: center;
+	overflow: hidden;
+	padding: 0.2em;
+	border-right: 1px solid #bbb;
+	border-bottom: 1px solid #bbb;
+}
+
+table.mwschedule > tbody > tr > td {
+	background: #ffffff;
+	vertical-align: top;
+	border-right: 1px solid #bbb;
+	border-bottom: 1px solid #bbb;
+	padding: 0px;
+	margin: 0px;
+}
+
+table.mwschedule div span.day {
+	display: inline-block;
+	border-bottom: 1px solid #bbb;
+	border-right: 1px solid #bbb;
+	padding: 0.25em;
+	width: 1.2em;
+	text-align: center;
+	border-bottom-right-radius: 7px;
+}
+
+table.mwschedule div.schedule_appointment {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	padding: 0.2em;
+	margin: 0.1em;
+	font-size: 0.85em;
+	border-radius: 4px;
+}
+
+table.mwschedule span.time {
+	color: #777;
+	white-space: pre;
+	padding-right: 0.5em;
+}
+
+table.mwschedule span.colourswatch {
+	display: inline-block;
+	margin: 0.0em;
+	padding: 0.05em 0.05em 0.05em 0.05em;
+	width: 1.05em !important;
+	height: 1.05em !important;
+	font-size: 0.9em;
+	text-align: center;
+	font-family: CinikiRegular;
+	vertical-align: top;
+	border-radius: 4px;
+}
+
+table.mwschedule span.subject,
+table.mwschedule span.secondary {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+table.mwschedule span.secondary {
+	display: block;
+	color: #777;
+	font-size: 0.8em;
+	padding-top: 0.3em;
+	white-space: nowrap;
+}
+
 table.html img {
 	max-width: 100%;
 	height: auto;
@@ -1751,6 +1845,8 @@ table.html > tbody > tr > td pre {
 	overflow-x: scroll;
 	white-space: pre-wrap;
 }
+
+
 
 /***************  Appointments with a table section ****************/
 /*

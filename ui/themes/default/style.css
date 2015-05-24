@@ -1777,6 +1777,7 @@ table.mwschedule > tbody > tr > td {
 	border-bottom: 1px solid #bbb;
 	padding: 0px;
 	margin: 0px;
+	height: 8em;
 }
 
 table.mwschedule div span.day {

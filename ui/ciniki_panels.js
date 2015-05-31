@@ -5035,9 +5035,8 @@ M.panel.prototype.generateAppointmentScheduleTable = function(f, field, cl, appo
 			c.setAttribute('onclick', this.appointmentTimeFn(adate, M.dateMake12hourTime2(cur_ts),1));
 			c.className += ' clickable';
 		}
+		c.colSpan = 2;
 		tr.appendChild(c);
-		// This element is used to setup fixed sizes for rows
-		tr.appendChild(M.aE('td', null, 'schedule_interval', ''));
 		var c = M.aE('td', null, 'empty');
 		c.colSpan = 10;
 		tr.appendChild(c);

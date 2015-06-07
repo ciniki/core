@@ -46,6 +46,12 @@ table.list {
 	border-radius: 7px;
 	box-shadow: #777 1px 1px 3px;
 }
+table.imageform td img {
+	box-shadow: #777 1px 1px 3px;
+}
+table.imageform td.input div.image_preview img {
+	max-width: 32em;
+}
 
 table.form {
 	box-shadow: none;

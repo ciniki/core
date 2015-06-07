@@ -498,6 +498,12 @@ table.list tr.textfield > td.label {
 	text-align: right;
 }
 
+table.imageform {
+	width: 100%;
+	border: 0px;
+	padding: 0px;
+}
+
 table.form tr.textfield > td.label > label {
 	white-space: nowrap;
 	text-overflow: ellipsis;
@@ -563,6 +569,11 @@ table.list tr > td.input {
 	padding: 0.3em 0.5em 0.3em 0.2em;
 	margin: 0px;
 	vertical-align: center;
+}
+
+table.imageform tr > td.input {
+	padding: 0;
+	width: 100%;
 }
 
 table.simplelist tr > td.input {
@@ -1257,6 +1268,10 @@ table.form td.input div.image_preview img {
 	padding: 8px;
 	border: 1px solid #aaa;
 	max-width: 95%;
+}
+
+table.imageform td.input div.image_preview img {
+	max-width: 96%;
 }
 
 /*****  MEDIA display styles ****/

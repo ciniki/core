@@ -51,6 +51,10 @@ table.list {
 	-webkit-box-shadow: #777 1px 1px 3px;
 }
 
+table.imageform td img {
+	-webkit-box-shadow: #777 1px 1px 3px;
+}
+
 table.form {
 	-webkit-box-shadow: none;
 }

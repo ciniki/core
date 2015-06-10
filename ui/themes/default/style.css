@@ -626,7 +626,7 @@ table.form td.select > select {
 }
 
 table.form td.input > select {
-	width: auto;
+/*	width: auto; */
 }
 
 table.list tr.textfield > td.toggle {

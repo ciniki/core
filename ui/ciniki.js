@@ -1014,6 +1014,10 @@ M.sortGrid = function(tid, col, type, o, save, d) {
 		var tb = t.getElementsByTagName('tbody')[0];
 	}
 
+	if( tb == null || tb.children == null || tb.children.length == 0 || tb.children.length == 1 ) {
+		return true;
+	}
+
 	var o = 'asc';
 	if( col == null ) {
 		col = M.gridSorting[tid].col;
@@ -1048,7 +1052,11 @@ M.sortGrid = function(tid, col, type, o, save, d) {
 
 	var s = 0;
 	// Last entry in list
-	var l = tb.children.length - 1;
+	if( tb.children != null && tb.children.length > 1 ) {
+		var l = tb.children.length - 1;
+	} else {
+		var l = 0;
+	}
 	var swap = true;
 
 	// Check if we are sorted the same column

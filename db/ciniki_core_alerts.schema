@@ -16,7 +16,7 @@
 #					1 - 
 #					
 # var_alert:		The contents of the alert message.
-# var_moss:			The contents of the $moss variable.
+# var_ciniki:		The contents of the $ciniki variable.
 # var_rc:			The contents of any return code of the function called before the alert generated.
 # date_added:		The date and time the record was added.
 # last_updated:		The date and time the record was last updated.

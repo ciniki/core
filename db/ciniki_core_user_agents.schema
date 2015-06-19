@@ -53,7 +53,7 @@
 # browser:					firefox, chrome, opera, lynx, blackberry, safari, 
 # browser_version:			3.5, 4.0.3342
 # device: 					generic, iPad, iPhone, iPod Touch, Netbook, desktop, tablet, blackberry
-# device_verions:			1, 2, alpha, beta, torch, 9800, pearl 9211,
+# device_version:			1, 2, alpha, beta, torch, 9800, pearl 9211,
 # device_manufacturer:		Apple, Acer, HTC, Samsung, HP
 #
 # date_added:		The date and time the record was added.

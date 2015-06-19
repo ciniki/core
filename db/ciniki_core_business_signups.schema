@@ -1,12 +1,17 @@
 #
 # Description
 # -----------
+# This table keeps track of the signup session information. This allows the signups
+# to be across multiple servers without having to worry about sessions.
 #
 # Fields
 # ------
 # id:				The id of the question.
 # uuid:				The Universal Unique ID.
 # business_id:		The business the question is for.
+#
+# signup_key:		The token used during signup to track the session.
+# signup_data:		The serialized signup data.
 #
 # date_added:		The date and time the domain was added to the table.
 # last_updated:		The date and time the domain was last updated.

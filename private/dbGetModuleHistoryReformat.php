@@ -117,6 +117,12 @@ function ciniki_core_dbGetModuleHistoryReformat(&$ciniki, $module, $history_tabl
 			$rsp['history'][$num_history]['action']['formatted_value'] = $row['formatted_value'];
 		}
 		elseif( $format == 'currency' ) {
+			if( isset($row['value']) == '' ) {
+				$row['value'] = 0.00;
+			}
+			if( isset($row['value'][0]) && $row['value'][0] == '$' ) {
+				$row['value'] = substr($row['value'], 1, strlen($row['value']));
+			}
 			$rsp['history'][$num_history]['action']['value'] = numfmt_format_currency(
 				$intl_currency_fmt, $row['value'], $intl_currency);
 		}

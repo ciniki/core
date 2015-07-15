@@ -3424,12 +3424,30 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
 		}
 
 		var updateFn = '';	
-		if( field.on_fields != null || field.off_fields != null ) {
+		if( field.on_fields != null || field.off_fields != null || field.on_sections != null || field.off_sections != null ) {
 			updateFn = this.panelRef + '.updateFlagToggleFields(\'' + i + sFN + '\');';
+		}
+		if( field.on_sections != null && field.on_sections.length > 0 ) {
+			for(var i in field.on_sections) {
+				if( v == 'on' ) {
+					this.sections[field.on_sections[i]].visible = 'yes';
+				} else {
+					this.sections[field.on_sections[i]].visible = 'hidden';
+				}
+			}
+		}
+		if( field.off_sections != null && field.off_sections.length > 0 ) {
+			for(var i in field.off_sections) {
+				if( v == 'off' ) {
+					this.sections[field.off_sections[i]].visible = 'yes';
+				} else {
+					this.sections[field.off_sections[i]].visible = 'hidden';
+				}
+			}
 		}
 		if( field.reverse != null && field.reverse == 'yes' ) {
 			var off = M.aE('span', this.panelUID + '_' + fid + sFN + '_off', 
-				(v=='off'?'toggle_on':'toggle_off'), (field.offn!=null&&field.offn!=''?field.off:'Yes'));
+				(v=='off'?'toggle_on':'toggle_off'), (field.off!=null&&field.off!=''?field.off:'Yes'));
 			off.setAttribute('onclick', this.panelRef + '.setToggleField(this, \'' + i + sFN + '\',\'' + field.none + '\',\'' + field.fn + '\');' + updateFn);
 			var on = M.aE('span', this.panelUID + '_' + fid + sFN + '_on', 
 				(v=='on'?'toggle_on':'toggle_off'), (field.on!=null&&field.on!=''?field.on:'No'));
@@ -3438,7 +3456,7 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
 			div.appendChild(off);
 		} else {
 			var off = M.aE('span', this.panelUID + '_' + fid + sFN + '_off', 
-				(v=='off'?'toggle_on':'toggle_off'), (field.offn!=null&&field.offn!=''?field.off:'No'));
+				(v=='off'?'toggle_on':'toggle_off'), (field.off!=null&&field.off!=''?field.off:'No'));
 			off.setAttribute('onclick', this.panelRef + '.setToggleField(this, \'' + i + sFN + '\',\'' + field.none + '\',\'' + field.fn + '\');' + updateFn);
 			var on = M.aE('span', this.panelUID + '_' + fid + sFN + '_on', 
 				(v=='on'?'toggle_on':'toggle_off'), (field.on!=null&&field.on!=''?field.on:'Yes'));
@@ -3769,6 +3787,28 @@ M.panel.prototype.updateFlagToggleFields = function(fid) {
 				if( e.nextSibling != null && e.nextSibling.className.match(/guided-text/) ) {
 					e.nextSibling.style.display = 'none';
 				}
+			}
+		}
+	}
+	if( f.on_sections != null && f.on_sections.length > 0 ) {
+		for(var i in f.on_sections) {
+			var e = M.gE(this.panelUID + '_section_' + f.on_sections[i]);
+			if( e == null ) { continue; }
+			if( v == 'on' ) {
+				e.style.display = '';
+			} else {
+				e.style.display = 'none';
+			}
+		}
+	}
+	if( f.off_sections != null && f.off_sections.length > 0 ) {
+		for(var i in f.off_sections) {
+			var e = M.gE(this.panelUID + '_section_' + f.off_sections[i]);
+			if( e == null ) { continue; }
+			if( v == 'off' ) {
+				e.style.display = '';
+			} else {
+				e.style.display = 'none';
 			}
 		}
 	}

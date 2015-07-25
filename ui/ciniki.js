@@ -1526,6 +1526,16 @@ M.showWebsite = function(url) {
 	} else {
 		e2.style.display = 'none';
 		e1.style.display = 'block';
+		// Force links to keep within iframe
+		iframe.onload = function() {
+			var a=this.contentWindow.document.getElementsByTagName("a");
+			for(var i=0;i<a.length;i++) {
+				a[i].onclick=function() {
+					iframe.src = this.getAttribute('href');
+					return false;
+				}
+			}
+		};
 		var url = '/preview/' + M.curBusiness.modules['ciniki.web'].settings.sitename + url;
 		iframe.src = url;
 	}

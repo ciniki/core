@@ -1838,6 +1838,9 @@ M.panel.prototype.createSectionGridHeaders = function(s, sc) {
 		cl = 'simplegrid border';
 	}
 	if( this.headerValue(s, 0, sc) == null ) {
+		if( sc.fields != null ) {
+			return M.addTable(null, 'form list ' + cl + ' noheader');
+		}
 		return M.addTable(null, 'list ' + cl + ' noheader');
 	}
 	if( sc.fields != null ) {
@@ -3401,7 +3404,7 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
 				f.className = 'toggle_off';
 			}
 			f.innerHTML = field.toggles[j];
-			f.setAttribute('onclick', this.panelRef + '.setToggleField(this, \'' + i + sFN + '\',\'' + field.none + '\',\'' + field.fn + '\');');
+			f.setAttribute('onclick', 'event.stopPropagation();' + this.panelRef + '.setToggleField(this, \'' + i + sFN + '\',\'' + field.none + '\',\'' + field.fn + '\');');
 			div.appendChild(f);
 		}
 		c.appendChild(div)

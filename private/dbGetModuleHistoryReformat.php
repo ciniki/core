@@ -52,6 +52,7 @@ function ciniki_core_dbGetModuleHistoryReformat(&$ciniki, $module, $history_tabl
 	$date_format = ciniki_users_dateFormat($ciniki);
 	$time_format = ciniki_users_timeFormat($ciniki);
 	$php_date_format = ciniki_users_dateFormat($ciniki, 'php');
+	$php_time_format = ciniki_users_timeFormat($ciniki, 'php');
 	$php_datetime_format = ciniki_users_datetimeFormat($ciniki, 'php');
 
 	//
@@ -107,6 +108,11 @@ function ciniki_core_dbGetModuleHistoryReformat(&$ciniki, $module, $history_tabl
 			$date = new DateTime($row['value'], new DateTimeZone('UTC'));
 			$date->setTimezone(new DateTimeZone($intl_timezone));
 			$rsp['history'][$num_history]['action']['value'] = $date->format($php_date_format);
+		}
+		elseif( $format == 'utctime' && $row['value'] != '' ) {
+			$date = new DateTime($row['value'], new DateTimeZone('UTC'));
+			$date->setTimezone(new DateTimeZone($intl_timezone));
+			$rsp['history'][$num_history]['action']['value'] = $date->format($php_time_format);
 		}
 		elseif( $format == 'utcdatetime' && $row['value'] != '' ) {
 			$date = new DateTime($row['value'], new DateTimeZone('UTC'));

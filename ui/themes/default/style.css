@@ -1848,6 +1848,27 @@ table.mwschedule span.secondary {
 	white-space: nowrap;
 }
 
+table.mwschedule > thead > tr > th.monthlabel {
+	width: 1.1em;
+}
+
+table.mwschedule > tbody > tr > td.monthlabel {
+	background: #efefef;
+}
+
+table.mwschedule > tbody > tr > td.monthlabel > span {
+	display: inline-block;
+	writing-mode: tb-lr;
+	-webkit-transform: translate(-43%,300%) rotate(-90deg);
+	transform: translate(2%,800%) rotate(-90deg);
+	transform-origin: left top;
+	text-align: center;
+	border: 0px;
+	height: 1em;
+	width: 8em; 
+	font-weight: bold; 
+}
+
 table.html img {
 	max-width: 100%;
 	height: auto;

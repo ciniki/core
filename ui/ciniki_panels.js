@@ -5133,6 +5133,7 @@ M.panel.prototype.generateMultiWeekScheduleTable = function(s, cl, data, sdate, 
 	var th = M.aE('thead');
 	var tr = M.aE('tr',null,'days');
 	if( M.size == 'compact' ) {
+		tr.appendChild(M.aE('th',null,'monthlabel',''));
 		tr.appendChild(M.aE('th',null,null,'Sun'));
 		tr.appendChild(M.aE('th',null,null,'Mon'));
 		tr.appendChild(M.aE('th',null,null,'Tue'));
@@ -5141,6 +5142,7 @@ M.panel.prototype.generateMultiWeekScheduleTable = function(s, cl, data, sdate, 
 		tr.appendChild(M.aE('th',null,null,'Fri'));
 		tr.appendChild(M.aE('th',null,null,'Sat'));
 	} else {
+		tr.appendChild(M.aE('th',null,'monthlabel',''));
 		tr.appendChild(M.aE('th',null,null,'Sunday'));
 		tr.appendChild(M.aE('th',null,null,'Monday'));
 		tr.appendChild(M.aE('th',null,null,'Tuesday'));
@@ -5158,12 +5160,15 @@ M.panel.prototype.generateMultiWeekScheduleTable = function(s, cl, data, sdate, 
 	var tb = M.aE('tbody');
 	col = 0;
 	var tr = M.aE('tr');
+	tr.appendChild(M.aE('td',null,'monthlabel','<span>' + M.monthOfYear(cur_date) + '</span>'));
 	while(cur_date <= edate) {
 		var cds = cur_date.toISOString().substring(0,10);
 		if( col >= 7 ) { 
 			col = 0; 
 			tb.appendChild(tr);
 			tr = M.aE('tr');
+			tr.appendChild(M.aE('td',null,'monthlabel','<span>' + M.monthOfYear(cur_date) + '</span>'));
+//			tr.appendChild(M.aE('td',null,'monthlabel','' + M.monthOfYear(cur_date) + ''));
 		}
 		
 		var c = M.aE('td');

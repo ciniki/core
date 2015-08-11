@@ -1858,7 +1858,6 @@ table.mwschedule > tbody > tr > td.monthlabel {
 
 table.mwschedule > tbody > tr > td.monthlabel > span {
 	display: inline-block;
-	writing-mode: tb-lr;
 	-webkit-transform: translate(-43%,300%) rotate(-90deg);
 	transform: translate(2%,800%) rotate(-90deg);
 	transform-origin: left top;

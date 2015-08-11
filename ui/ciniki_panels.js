@@ -5168,7 +5168,6 @@ M.panel.prototype.generateMultiWeekScheduleTable = function(s, cl, data, sdate, 
 			tb.appendChild(tr);
 			tr = M.aE('tr');
 			tr.appendChild(M.aE('td',null,'monthlabel','<span>' + M.monthOfYear(cur_date) + '</span>'));
-//			tr.appendChild(M.aE('td',null,'monthlabel','' + M.monthOfYear(cur_date) + ''));
 		}
 		
 		var c = M.aE('td');

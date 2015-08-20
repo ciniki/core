@@ -3182,7 +3182,11 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
 				if( dfv == 'yes' ) {
 					// default to 8am
 					f.oldtime = '08:00 am';
-					f.value = M.dateFormat(this.fieldValue(s, i + '_date', field, mN));
+// FIXME: change Aug 18, 2015 and need to remove commented line below after testing
+//					f.value = M.dateFormat(this.fieldValue(s, i + '_date', field, mN));
+					if( v != null ) {
+						f.value = M.dateFormat(v);
+					}
 				}
 			}
 		}

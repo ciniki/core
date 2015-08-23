@@ -3399,6 +3399,10 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
 		if( (v == null || v == '') && field.default != null && field.default != '' ) {
 			v = field.default;
 		}
+		var onchange = '';
+		if( field.onchange != null && field.onchange != '' ) {
+			onchange = field.onchange;
+		}
 		for(j in field.toggles) {
 			var f = M.aE('span', this.panelUID + '_' + fid + sFN + '_' + j);
 //			f.setAttribute('onfocus', this.panelRef + '.clearLiveSearches(\''+s+'\',\''+i+sFN+'\');');
@@ -3408,7 +3412,7 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
 				f.className = 'toggle_off';
 			}
 			f.innerHTML = field.toggles[j];
-			f.setAttribute('onclick', 'event.stopPropagation();' + this.panelRef + '.setToggleField(this, \'' + i + sFN + '\',\'' + field.none + '\',\'' + field.fn + '\');');
+			f.setAttribute('onclick', 'event.stopPropagation();' + this.panelRef + '.setToggleField(this, \'' + i + sFN + '\',\'' + field.none + '\',\'' + field.fn + '\');' + onchange + '(event,\'' + s + '\',\'' + fid + '\');');
 			div.appendChild(f);
 		}
 		c.appendChild(div)

@@ -14,8 +14,19 @@ function ciniki_core_emailQueueProcess(&$ciniki) {
 
 	foreach($ciniki['emailqueue'] as $email) {
 		if( isset($email['mail_id']) ) {
+			//
+			// Load the settings for the business
+			//
+			ciniki_core_loadMethod($ciniki, 'ciniki', 'mail', 'private', 'getSettings');
+			$rc = ciniki_mail_getSettings($ciniki, $email['business_id']);
+			if( $rc['stat'] != 'ok' ) {
+				error_log("MAIL-ERR: Unable to load business mail settings for $business_id (" . serialize($rc) . ")");
+				continue;
+			}
+			$settings = $rc['settings'];	
+
 			ciniki_core_loadMethod($ciniki, 'ciniki', 'mail', 'private', 'sendMail');
-			$rc = ciniki_mail_sendMail($ciniki, $email['business_id'], $ciniki['ciniki.mail.settings'], $email['mail_id']);
+			$rc = ciniki_mail_sendMail($ciniki, $email['business_id'], $settings, $email['mail_id']);
 			if( $rc['stat'] != 'ok' ) {
 				error_log("MAIL-ERR: Error sending to: " . $email['email'] . " (" . serialize($rc) . ")");
 			}

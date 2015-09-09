@@ -28,7 +28,7 @@ function ciniki_core_emailQueueProcess(&$ciniki) {
 			ciniki_core_loadMethod($ciniki, 'ciniki', 'mail', 'private', 'sendMail');
 			$rc = ciniki_mail_sendMail($ciniki, $email['business_id'], $settings, $email['mail_id']);
 			if( $rc['stat'] != 'ok' ) {
-				error_log("MAIL-ERR: Error sending to: " . $email['email'] . " (" . serialize($rc) . ")");
+				error_log("MAIL-ERR: Error sending mail: " . $email['mail_id'] . " (" . serialize($rc) . ")");
 			}
 		} 
 		elseif( isset($email['user_id']) ) {

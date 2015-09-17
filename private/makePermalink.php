@@ -12,7 +12,7 @@
 // Returns
 // -------
 //
-function ciniki_core_makePermalink($ciniki, $str) {
+function ciniki_core_makePermalink($ciniki, $str, $type='') {
 	$normalizeChars = array(
 	    'Š'=>'S', 'š'=>'s', 'Ð'=>'Dj','Ž'=>'Z', 'ž'=>'z', 'À'=>'A', 'Á'=>'A', 'Â'=>'A', 'Ã'=>'A', 'Ä'=>'A',
 		'Å'=>'A', 'Æ'=>'A', 'Ç'=>'C', 'È'=>'E', 'É'=>'E', 'Ê'=>'E', 'Ë'=>'E', 'Ì'=>'I', 'Í'=>'I', 'Î'=>'I',
@@ -24,7 +24,11 @@ function ciniki_core_makePermalink($ciniki, $str) {
 		'ă'=>'a', 'î'=>'i', 'â'=>'a', 'ș'=>'s', 'ț'=>'t', 'Ă'=>'A', 'Î'=>'I', 'Â'=>'A', 'Ș'=>'S', 'Ț'=>'T',
 		);
 	$newstr = strtr($str, $normalizeChars);
-	$newstr = preg_replace('/[ \/]/', '-', preg_replace('/[^a-z0-9 \-\/]/', '', strip_tags(strtolower($newstr))));
+	if( $type == 'filename' ) {
+		$newstr = preg_replace('/[ \/]/', '-', preg_replace('/[^a-z0-9 \-\.\/]/', '', strip_tags(strtolower($newstr))));
+	} else {
+		$newstr = preg_replace('/[ \/]/', '-', preg_replace('/[^a-z0-9 \-\/]/', '', strip_tags(strtolower($newstr))));
+	}
 	// Remove multiple replaced characters to a single dash, looks better in url
 	$newstr = preg_replace('/\-\-+/', '-', $newstr);
 	return $newstr;

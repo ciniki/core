@@ -634,7 +634,9 @@ M.panel.prototype.createSection = function(i, s) {
 	// 
 	// Check if section is visible
 	//
-	if( s.visible != null && s.visible != 'yes' && s.visible != 'hidden' ) {
+	if( typeof s.visible == 'function' && s.visible() == 'no' ) {
+		return null;
+	} else if( s.visible != null && s.visible == 'no' ) {
 		return null;
 	}
 	if( s.active != null && s.active != 'yes' ) {

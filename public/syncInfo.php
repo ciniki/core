@@ -57,6 +57,7 @@ function ciniki_core_syncInfo($ciniki) {
 	//
 	// Decide what status each sync should have
 	//
+	$syncs = array();
 	if( isset($rc['syncs']) ) {
 		foreach($rc['syncs'] as $sid => $sync) {
 			$alert = '';
@@ -103,8 +104,9 @@ function ciniki_core_syncInfo($ciniki) {
 				$rc['syncs'][$sid]['sync']['sync_status'] = 'ok';
 			}
 		}
+		$syncs = $rc['syncs'];
 	}
 	
-	return array('stat'=>'ok', 'name'=>$ciniki['config']['core']['sync.name'], 'local_url'=>$ciniki['config']['core']['sync.url'], 'syncs'=>$rc['syncs']);
+	return array('stat'=>'ok', 'name'=>$ciniki['config']['core']['sync.name'], 'local_url'=>$ciniki['config']['core']['sync.url'], 'syncs'=>$syncs);
 }
 ?>

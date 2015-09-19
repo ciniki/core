@@ -3388,6 +3388,57 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
 		}
 		c.appendChild(div)
 	}
+	else if( field.type == 'flagspiece' ) {
+		if( field.join != null && field.join == 'yes' ) {
+			c.className = 'joinedflags';
+		} else {
+			c.className = 'flags';
+		}
+		var div = M.aE('div', this.panelUID + '_' + fid + sFN);
+		var v = this.fieldValue(s, field.field, field, mN);
+		for(j in field.flags) {
+			if( field.flags[j] == null ) { continue; }
+			if( field.flags[j].active != null && field.flags[j].active == 'no' ) { continue; }
+			var f = M.aE('span', this.panelUID + '_' + fid + sFN + '_' + j);
+			f.setAttribute('onfocus', this.panelRef + '.clearLiveSearches(\''+s+'\',\''+i+sFN+'\');');
+			var bit_value = (v&Math.pow(2,j-1))==Math.pow(2,j-1)?1:0;
+			if( bit_value == 1 ) {
+				f.className = 'flag_on';
+			} else {
+				f.className = 'flag_off';
+			}
+			f.innerHTML = field.flags[j].name;
+			f.onclick = function() {
+				if( this.className == 'flag_on' ) {
+					this.className = 'flag_off';
+				} else {
+					this.className = 'flag_on';
+				}
+			};
+			// Use a different onclick function if this is a toggle field, where only one can be active at a time
+			if( field.toggle != null && field.toggle == 'yes' ) {
+				f.onclick = function(event) {
+					event.stopPropagation();
+					if( this.className == 'flag_off' ) {
+						for(k in this.parentNode.children) {
+							this.parentNode.children[k].className = 'flag_off';
+						}
+						this.className = 'flag_on';
+					} else if( field.none != null && field.none == 'yes' && e.className == 'flag_on' ) {
+						this.className = 'flag_off';
+					}
+				};
+			} else {
+				f.onclick = function(event) { 
+					event.stopPropagation();
+					if( this.className == 'flag_on' ) { this.className = 'flag_off'; } 
+					else { this.className = 'flag_on'; }
+				};
+			}
+			div.appendChild(f);
+		}
+		c.appendChild(div)
+	}
 	else if( field.type == 'multitoggle' || field.type == 'toggle' ) {
 		if( field.join != null && field.join == 'no' ) {
 			c.className = 'multiselect';
@@ -5453,6 +5504,12 @@ M.panel.prototype.serializeForm = function(fs) {
 					if( n == 'on' || (f.reverse != null && f.reverse == 'yes' && n == 'off') ) {
 						flags[f.field].v |= f.bit;
 					}
+				} else if( f.type == 'flagspiece' && f.field != null ) {
+					if( flags[f.field] == null ) {
+						flags[f.field] = {'f':f, 'v':this.fieldValue('', f.field, f)};
+					}
+					var n = this.formFieldValue(f, fid);
+					flags[f.field].v = flags[f.field].v ^ ((flags[f.field].v ^ n) & f.mask);
 				}
 			}
 		}
@@ -5613,6 +5670,12 @@ M.panel.prototype.serializeFormData = function(fs) {
 					if( n == 'on' || (f.reverse != null && f.reverse == 'yes' && n == 'off') ) {
 						flags[f.field].v |= f.bit;
 					}
+				} else if( f.type == 'flagspiece' && f.field != null ) {
+					if( flags[f.field] == null ) {
+						flags[f.field] = {'f':f, 'v':this.fieldValue('', f.field, f)};
+					}
+					var n = this.formFieldValue(f, fid);
+					flags[f.field].v = flags[f.field].v ^ ((flags[f.field].v ^ n) & f.mask);
 				} else {
 					var n = this.formFieldValue(f, fid);
 					if( n != o || fs == 'yes' ) {
@@ -5626,13 +5689,9 @@ M.panel.prototype.serializeFormData = function(fs) {
 						if( o == undefined ) { o = ''; }
 						var n = this.formFieldValue(f, f.option_field);
 						if( n != o || fs == 'yes' ) {
-//							c += encodeURIComponent(fid) + '=' + encodeURIComponent(n) + '&';
 							c.append(fid, n);
 						}
 					}
-//					// Check if flagtoggle and field specified
-//					if( f.type == 'flagtoggle' && f.field != null ) {
-//					}
 				}
 			}
 		}
@@ -5688,6 +5747,24 @@ M.panel.prototype.formFieldValue = function(f,fid) {
 		// This was created for Members/Dealers/Distributors in customers
 		var s = this.sections[this.formFieldSection(f)];
 		n = this.fieldValue(s, fid, f);
+		if( n == null || n == '' ) { n = 0; }
+		for(j in f.flags) {
+			if( f.flags[j] == null ) { continue; }
+			if( f.flags[j].active != null && f.flags[j].active == 'no' ) { continue; }
+			if( M.gE(this.panelUID + '_' + fid + '_' + j).className == 'flag_on' ) {
+				// Toggle bit on
+				n |= Math.pow(2, j-1);
+			} else {
+				// Toggle bit off
+				if( (n&Math.pow(2, j-1)) > 0 ) { n ^= Math.pow(2, j-1); }
+			}
+		}
+	} else if( f.type == 'flagspiece' && f.mask != null ) {
+		n = 0;
+		// By starting with the existing value, not all bits have to be specified in each form.
+		// This was created for Members/Dealers/Distributors in customers
+		var s = this.sections[this.formFieldSection(f)];
+		n = this.fieldValue(s, f.field, f);
 		if( n == null || n == '' ) { n = 0; }
 		for(j in f.flags) {
 			if( f.flags[j] == null ) { continue; }
@@ -6022,6 +6099,8 @@ M.panel.prototype.switchForm = function(form, fv) {
 					this.data[j] = org_data[j];
 				}
 				if( s.fields[j].type == 'flagtoggle' ) {
+					this.data[s.fields[j].field] = org_data[s.fields[j].field];
+				} else if( s.fields[j].type == 'flagspiece' && f.field != null ) {
 					this.data[s.fields[j].field] = org_data[s.fields[j].field];
 				}
 			}

@@ -3704,7 +3704,11 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
 		var d = M.aE('div', this.panelUID + '_' + i + sFN + '_preview', 'image_preview');
 		var img_id = this.fieldValue(s, i, field, mN);
 		if( img_id != null && img_id != '' && img_id > 0 ) {
-			d.innerHTML = '<img src=\'' + M.api.getBinaryURL('ciniki.images.get', {'business_id':M.curBusinessID, 'image_id':img_id, 'version':'original', 'maxwidth':'0', 'maxheight':'300'}) + '&ts=' + new Date().getTime() + '\' />';
+			if( field.size != null && field.size == 'large' ) {
+				d.innerHTML = '<img src=\'' + M.api.getBinaryURL('ciniki.images.get', {'business_id':M.curBusinessID, 'image_id':img_id, 'version':'original', 'maxwidth':'0', 'maxheight':'600'}) + '&ts=' + new Date().getTime() + '\' />';
+			} else {
+				d.innerHTML = '<img src=\'' + M.api.getBinaryURL('ciniki.images.get', {'business_id':M.curBusinessID, 'image_id':img_id, 'version':'original', 'maxwidth':'0', 'maxheight':'300'}) + '&ts=' + new Date().getTime() + '\' />';
+			}
 		} else {
 			d.innerHTML = '<img src=\'/ciniki-mods/core/ui/themes/default/img/noimage_200.jpg\' />';
 		}
@@ -3880,9 +3884,14 @@ M.panel.prototype.updateFlagToggleFields = function(fid) {
 };
 
 M.panel.prototype.updateImgPreview = function(fid, img_id) {
+	var f = this.formField(fid);
 	var d = M.gE(this.panelUID + '_' + fid + '_preview');
 	if( img_id != null && img_id != '' ) {
-		d.innerHTML = '<img src=\'' + M.api.getBinaryURL('ciniki.images.get', {'business_id':M.curBusinessID, 'image_id':img_id, 'version':'original', 'maxwidth':'0', 'maxheight':'300'}) + '&ts=' + new Date().getTime() + '\' />';
+		if( f != null && f.size == 'large' ) {
+			d.innerHTML = '<img src=\'' + M.api.getBinaryURL('ciniki.images.get', {'business_id':M.curBusinessID, 'image_id':img_id, 'version':'original', 'maxwidth':'0', 'maxheight':'600'}) + '&ts=' + new Date().getTime() + '\' />';
+		} else {
+			d.innerHTML = '<img src=\'' + M.api.getBinaryURL('ciniki.images.get', {'business_id':M.curBusinessID, 'image_id':img_id, 'version':'original', 'maxwidth':'0', 'maxheight':'300'}) + '&ts=' + new Date().getTime() + '\' />';
+		}
 	} else {
 		d.innerHTML = '<img src=\'/ciniki-mods/core/ui/themes/default/img/noimage_200.jpg\' />';
 	}

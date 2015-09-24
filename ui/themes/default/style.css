@@ -188,6 +188,7 @@ div.rightpanel {
 	padding-left: 1em;
 }
 
+div.fullwidth,
 div.large,
 div.xlarge,
 div.full {
@@ -256,6 +257,16 @@ div.mediumflex table.list {
 
 div.xlargeflex table.mwschedule {
 	max-width: 100%;
+}
+
+div.fullwidth table.list {
+	width: 100%;
+	max-width: 100%;
+}
+
+div.fullwidth table.list tr > th,
+div.fullwidth table.list tr > td {
+	white-space: nowrap;
 }
 
 div.large table.list,

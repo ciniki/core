@@ -289,3 +289,26 @@ table.dayschedule td.schedule_appointment {
 table.services td span.job {
 	border-radius: 7px;
 }
+
+div.fullwidth table.list,
+div.fullwidth table.header > thead > tr:first-child > th:first-child,
+div.fullwidth table.noheader > tbody:first-child > tr:first-child > td:first-child,
+div.fullwidth table.header > thead > tr:first-child > th:last-child,
+div.fullwidth table.noheader > tbody:first-child > tr:first-child > td:last-child,
+div.fullwidth table.list > thead:last-child > tr:last-child > th:first-child,
+div.fullwidth table.list > thead:last-child > tr:last-child > th:last-child,
+div.fullwidth table.list > tbody:first-child > tr table,
+div.fullwidth table.list > tbody:first-child > tr table thead tr:first-child > td:first-child,
+div.fullwidth table.list > tbody:first-child > tr table thead tr:first-child > td:last-child,
+div.fullwidth table.list > tbody:first-child > tr table.noheader tbody tr:first-child > td:first-child,
+div.fullwidth table.list > tbody:first-child > tr table.noheader tbody tr:first-child > td:last-child,
+div.fullwidth table.list > tbody:first-child > tr:first-child > td:first-child > textarea,
+div.fullwidth table.list > tbody:last-child > tr table,
+div.fullwidth table.list > tbody:last-child > tr table tr:last-child > td:first-child,
+div.fullwidth table.list > tbody:last-child > tr table tr:last-child > td:last-child,
+div.fullwidth table.list > tbody:last-child > tr:last-child > th:first-child,
+div.fullwidth table.list > tfoot:first-child > tr:first-child > th:first-child,
+div.fullwidth table.list > tfoot:first-child > tr:first-child > th:last-child, 
+div.fullwidth table.list > tfoot > tr:last-child > td:last-child {
+	border-radius: 0px;
+}

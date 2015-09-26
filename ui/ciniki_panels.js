@@ -3238,6 +3238,9 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
 		} else if( field.size != null && field.size == 'large' ) {
 			f.setAttribute('rows', 12);
 			f.setAttribute('class', 'large');
+		} else if( field.size != null && field.size == 'xlarge' ) {
+			f.setAttribute('rows', 30);
+			f.setAttribute('class', 'xlarge');
 		} else {
 			f.setAttribute('rows', 6);
 		}

@@ -952,6 +952,21 @@ table.list > tbody > tr > td.truncate {
 	text-overflow: ellipsis;
 }
 
+table.list > tbody > tr > td > div.truncate {
+	display: table;
+	table-layout: fixed;
+	width: 100%;
+}
+
+table.list > tbody > tr > td > div.truncate > span {
+	display: inline-block;
+	width: 100%;
+	max-width: 100%;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
 table.list td p {
 	padding-top: 1em;
 	line-height: 1.4em;

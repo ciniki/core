@@ -42,7 +42,6 @@ function ciniki_core_bigboard($ciniki) {
 	//
 	// Sort the list ASC by date, so the oldest is at the bottom, and therefore will get insert at the top of the list in ciniki-manage
 	//
-	error_log('test1');
 	$strsql = "SELECT ciniki_users.display_name, "
 		. "ciniki_core_session_data.api_key, ciniki_core_api_keys.appname, ciniki_core_session_data.user_id,  "
 //		. "DATE_FORMAT(ciniki_core_session_data.date_added, '" . ciniki_core_dbQuote($ciniki, $date_format) . "') as date_added, "
@@ -57,7 +56,6 @@ function ciniki_core_bigboard($ciniki) {
 		. "ORDER BY age "
 		. "";
 	$sessions = ciniki_core_dbRspQuery($ciniki, $strsql, 'ciniki.core', 'sessions', 'session', array('stat'=>'ok', 'sessions'=>array()));
-	error_log('test2');
 /*
 	// Sort the list ASC by date, so the oldest is at the bottom, and therefore will get insert at the top of the list in ciniki-manage
 	$strsql = "SELECT "
@@ -78,7 +76,6 @@ function ciniki_core_bigboard($ciniki) {
 //	if( $actions['stat'] == 'ok' ) {
 //		$actions['timestamp'] = $ts['timestamp']['cur'];
 //	}
-	error_log('test3');
 
 	return array('stat'=>'ok', 'sessions'=>$sessions['sessions'], 'actions'=>$actions['actions']);
 */

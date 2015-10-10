@@ -1571,3 +1571,14 @@ M.showPDF = function(m, p) {
 M.printPDF = function() {
 	window.print();
 }
+
+M.modFlags = function(m) {
+	if( M.curBusiness != null && M.curBusiness.modules != null && M.curBusiness.modules[m] != null && M.curBusiness.modules[m].flags != null ) {
+		return M.curBusiness.modules[m].flags;
+	}
+	return 0;
+}
+
+M.modFlagSet = function(m, f) {
+	return (M.modFlags(m)&f)==f?'yes':'no';
+}

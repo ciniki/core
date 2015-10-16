@@ -46,29 +46,46 @@ function ciniki_core_menu() {
 				} 
 			
 				// setup home panel as list of businesses
-				this.businesses = new M.panel('Businesses', 
-					'ciniki_core_menu', 'businesses',
-					'mc', 'narrow', 'sectioned', 'ciniki.core.menu.businesses');
-				this.businesses.data = {};
+				if( (M.userPerms&0x01) == 0x01 && r.categories != null && r.categories.length > 1 ) {
+					this.businesses = new M.panel('Businesses', 
+						'ciniki_core_menu', 'businesses',
+						'mc', 'medium narrowaside', 'sectioned', 'ciniki.core.menu.businesses');
+					this.businesses.data = {};
+				} else {
+					this.businesses = new M.panel('Businesses', 
+						'ciniki_core_menu', 'businesses',
+						'mc', 'narrow', 'sectioned', 'ciniki.core.menu.businesses');
+					this.businesses.data = {};
+				}
+				this.businesses.curCategory = 0;
 				this.businesses.addButton('account', 'Account', 'M.startApp(\'ciniki.users.main\',null,\'M.menuHome.show();\');');
 				if( M.userID > 0 && (M.userPerms&0x01) == 0x01 ) {
 					this.businesses.addButton('admin', 'Admin', 'M.startApp(\'ciniki.sysadmin.main\',null,\'M.menuHome.show();\');');
 				}
 
 				if( r.categories != null ) {
-					this.businesses.sections['_'] = {'label':'', 'aside':'yes', 
-						'autofocus':'yes', 'type':'livesearchgrid', 'livesearchcols':1,
-						'hint':'Search', 
-						'noData':'No items found',
-						'headerValues':null,
-						};
-					for(i in r.categories) {
-						this.businesses.sections['_'+i] = {'label':r.categories[i].category.name, 
-							'type':'simplelist'};
-						this.businesses.data['_'+i] = r.categories[i].category.businesses;
+					if( r.categories.length > 1 ) {
+						this.businesses.data = r;
+						this.businesses.sections['categories'] = {'label':'Categories', 'aside':'yes', 'type':'simplegrid', 'num_cols':1};
+						this.businesses.sections['_'] = {'label':'',
+							'autofocus':'yes', 'type':'livesearchgrid', 'livesearchcols':1,
+							'hint':'Search', 
+							'noData':'No items found',
+							'headerValues':null,
+							};
+						this.businesses.sections['list'] = {'label':'', 'type':'simplegrid', 'num_cols':1};
+					} else {
+						for(i in r.categories) {
+							this.businesses.sections['_'+i] = {'label':r.categories[i].category.name, 
+								'type':'simplelist'};
+							this.businesses.data['_'+i] = r.categories[i].category.businesses;
+						}
 					}
-					this.businesses.sectionData = function(s) {
-						return this.data[s];
+					this.businesses.sectionData = function(s) { 
+						if( s == 'list' ) {
+							return this.data.categories[this.curCategory].category.businesses;
+						}
+						return this.data[s]; 
 					}
 				} else {
 					// Display the master business at the top of the list
@@ -91,6 +108,22 @@ function ciniki_core_menu() {
 				this.businesses.listFn = function(s, i, d) { 
 					return 'M.startApp(M.businessMenu,null,\'M.ciniki_core_menu.businesses.show();\',\'mc\',{\'id\':' + d.business.id + '});';
 				}
+				this.businesses.cellValue = function(s, i, j, d) {
+					switch(s) {
+						case 'categories': return (d.category.name!=''?d.category.name:'Default') + ' <span class="count">' + d.category.businesses.length + '</span>';
+						case 'list': return d.business.name;
+					}
+				};
+				this.businesses.switchCategory = function(i) {
+					this.curCategory = i;
+					this.refreshSection('list');
+				};
+				this.businesses.rowFn = function(s, i, d) {
+					switch (s) {
+						case 'categories': return 'M.ciniki_core_menu.businesses.switchCategory(\'' + i + '\');';
+						case 'list': return 'M.startApp(M.businessMenu,null,\'M.ciniki_core_menu.businesses.show();\',\'mc\',{\'id\':' + d.business.id + '});';
+					}
+				};
 				this.businesses.addLeftButton('logout', 'Logout', 'M.logout();');
 				if( M.userID > 0 && (M.userPerms&0x01) == 0x01 ) {
 					this.businesses.addLeftButton('bigboard', 'bigboard', 'M.startApp(\'ciniki.sysadmin.bigboard\',null,\'M.menuHome.show();\');');

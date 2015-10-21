@@ -93,40 +93,42 @@ function ciniki_core_objectUpdate(&$ciniki, $business_id, $obj_name, $oid, $args
 	//
 	// Add the history
 	//
-	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'objectRefAdd');
-	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'objectRefClear');
-	foreach($o['fields'] as $field => $options) {
-		if( isset($args[$field]) && (!isset($options['history']) || $options['history'] == 'yes') ) {
-			ciniki_core_dbAddModuleHistory($ciniki, $m, $o['history_table'], $business_id,
-				2, $o['table'], $oid, $field, $args[$field]);
-		}
-		//
-		// Check if this column is a reference to another modules object, 
-		// and see if there should be a reference updated
-		//
-		if( isset($options['ref']) && $options['ref'] != '' && isset($args[$field]) ) {
-			//
-			// Clear any old refs
-			//
-			$rc = ciniki_core_objectRefClear($ciniki, $business_id, $options['ref'], array(
-				'object'=>$obj_name,			// The local object ref (this objects ref)
-				'object_id'=>$oid,				// The local object ID
-				));
-			if( $rc['stat'] != 'ok' && $rc['stat'] != 'noexist' ) {
-				return $rc;
+	if( isset($o['history_table']) ) {
+		ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'objectRefAdd');
+		ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'objectRefClear');
+		foreach($o['fields'] as $field => $options) {
+			if( isset($args[$field]) && (!isset($options['history']) || $options['history'] == 'yes') ) {
+				ciniki_core_dbAddModuleHistory($ciniki, $m, $o['history_table'], $business_id,
+					2, $o['table'], $oid, $field, $args[$field]);
 			}
 			//
-			// Add the new ref 
+			// Check if this column is a reference to another modules object, 
+			// and see if there should be a reference updated
 			//
-			if( $args[$field] != '' && $args[$field] > 0 ) {
-				$rc = ciniki_core_objectRefAdd($ciniki, $business_id, $options['ref'], array(
-					'ref_id'=>$args[$field],		// The remote ID (other modules object id)
+			if( isset($options['ref']) && $options['ref'] != '' && isset($args[$field]) ) {
+				//
+				// Clear any old refs
+				//
+				$rc = ciniki_core_objectRefClear($ciniki, $business_id, $options['ref'], array(
 					'object'=>$obj_name,			// The local object ref (this objects ref)
-					'object_id'=>$oid,		// The local object ID
-					'object_field'=>$field,			// The local object table field name of remote ID
+					'object_id'=>$oid,				// The local object ID
 					));
-				if( $rc['stat'] != 'ok' ) {
-					return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1547', 'msg'=>'Unable to add reference to ' . $options['ref'], 'err'=>$rc['err']));
+				if( $rc['stat'] != 'ok' && $rc['stat'] != 'noexist' ) {
+					return $rc;
+				}
+				//
+				// Add the new ref 
+				//
+				if( $args[$field] != '' && $args[$field] > 0 ) {
+					$rc = ciniki_core_objectRefAdd($ciniki, $business_id, $options['ref'], array(
+						'ref_id'=>$args[$field],		// The remote ID (other modules object id)
+						'object'=>$obj_name,			// The local object ref (this objects ref)
+						'object_id'=>$oid,		// The local object ID
+						'object_field'=>$field,			// The local object table field name of remote ID
+						));
+					if( $rc['stat'] != 'ok' ) {
+						return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1547', 'msg'=>'Unable to add reference to ' . $options['ref'], 'err'=>$rc['err']));
+					}
 				}
 			}
 		}

@@ -103,31 +103,33 @@ function ciniki_core_objectAdd(&$ciniki, $business_id, $obj_name, $args, $tmsupd
 	//
 	// Add the history and check for foreign module ref table
 	//
-	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbAddModuleHistory');
-	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'objectRefAdd');
-	ciniki_core_dbAddModuleHistory($ciniki, $m, $o['history_table'], $business_id,
-		1, $o['table'], $insert_id, 'uuid', $args['uuid']);
-	foreach($o['fields'] as $field => $options) {
-		//
-		// Some field we don't store the history for, like binary content of files
-		//
-		if( !isset($options['history']) || $options['history'] == 'yes' ) {
-			ciniki_core_dbAddModuleHistory($ciniki, $m, $o['history_table'], $business_id,
-				1, $o['table'], $insert_id, $field, $args[$field]);
-		}
-		//
-		// Check if this column is a reference to another modules object, 
-		// and see if there should be a reference added
-		//
-		if( isset($options['ref']) && $options['ref'] != '' && $args[$field] != '' && $args[$field] > 0 ) {
-			$rc = ciniki_core_objectRefAdd($ciniki, $business_id, $options['ref'], array(
-				'ref_id'=>$args[$field],		// The remote ID (other modules object id)
-				'object'=>$obj_name,			// The local object ref (this objects ref)
-				'object_id'=>$insert_id,		// The local object ID
-				'object_field'=>$field,			// The local object table field name of remote ID
-				));
-			if( $rc['stat'] != 'ok' ) {
-				return $rc;
+	if( isset($o['history_table']) ) {
+		ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbAddModuleHistory');
+		ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'objectRefAdd');
+		ciniki_core_dbAddModuleHistory($ciniki, $m, $o['history_table'], $business_id,
+			1, $o['table'], $insert_id, 'uuid', $args['uuid']);
+		foreach($o['fields'] as $field => $options) {
+			//
+			// Some field we don't store the history for, like binary content of files
+			//
+			if( !isset($options['history']) || $options['history'] == 'yes' ) {
+				ciniki_core_dbAddModuleHistory($ciniki, $m, $o['history_table'], $business_id,
+					1, $o['table'], $insert_id, $field, $args[$field]);
+			}
+			//
+			// Check if this column is a reference to another modules object, 
+			// and see if there should be a reference added
+			//
+			if( isset($options['ref']) && $options['ref'] != '' && $args[$field] != '' && $args[$field] > 0 ) {
+				$rc = ciniki_core_objectRefAdd($ciniki, $business_id, $options['ref'], array(
+					'ref_id'=>$args[$field],		// The remote ID (other modules object id)
+					'object'=>$obj_name,			// The local object ref (this objects ref)
+					'object_id'=>$insert_id,		// The local object ID
+					'object_field'=>$field,			// The local object table field name of remote ID
+					));
+				if( $rc['stat'] != 'ok' ) {
+					return $rc;
+				}
 			}
 		}
 	}

@@ -32,11 +32,11 @@ function ciniki_core_emailQueueProcess(&$ciniki) {
 			}
 		} 
 		elseif( isset($email['user_id']) ) {
-			ciniki_core_loadMethod($ciniki, 'ciniki', 'users', 'private', 'emailUser');
+			ciniki_core_loadMethod($ciniki, 'ciniki', 'users', 'hooks', 'emailUser');
 			if( isset($email['htmlmsg']) ) {
-				ciniki_users_emailUser($ciniki, 0, $email['user_id'], $email);
+				ciniki_users_hooks_emailUser($ciniki, 0, $email);
 			} else {
-				ciniki_users_emailUser($ciniki, 0, $email['user_id'], $email);
+				ciniki_users_hooks_emailUser($ciniki, 0, $email);
 			}
 		}
 		elseif( isset($email['to']) ) {

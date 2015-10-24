@@ -6215,8 +6215,9 @@ M.panel.prototype.uploadDropImages = function(e, p, s) {
 			if( files[i].type == null ) { continue; }
 			if( files[i].type != 'image/jpeg' 
 				&& files[i].type != 'image/png'
-				&& files[i].fileName.match(/.JPG$/) == null
-				&& files[i].fileName.match(/.jpg$/) == null
+// Remove following lines as causing crashes
+//				&& files[i].fileName.match(/.JPG$/) == null
+//				&& files[i].fileName.match(/.jpg$/) == null
 				) {
 				alert("I'm sorry, we only allow jpeg images to be uploaded.");
 				M.stopLoad();

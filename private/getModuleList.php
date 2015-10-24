@@ -28,7 +28,7 @@ function ciniki_core_getModuleList($ciniki) {
 	// Build the list of modules from package directories, unless 
 	// otherwise specified in the config
 	//
-	$rsp = array();
+	$modules = array();
 	foreach($packages as $package) {
 		$dir = $ciniki['config']['ciniki.core']['root_dir'] . '/' . $package . '-mods/';
 		if( !is_dir($dir) ) {
@@ -75,13 +75,13 @@ function ciniki_core_getModuleList($ciniki) {
 					if( isset($info['optional']) ) {
 						$mod['optional'] = $info['optional'];
 					}
-					array_push($rsp, $mod);
+					array_push($modules, $mod);
 				}
 			}
 		}
 	}
 
 
-	return array('stat'=>'ok', 'modules'=>$rsp);
+	return array('stat'=>'ok', 'modules'=>$modules);
 }
 ?>

@@ -1,7 +1,10 @@
 body {
-	background: #fff url('/ciniki-mods/core/ui/themes/default/img/background2.png');
+	background: #2259c9;
+	background: #fff;
+	background: #fafafa;
 }
 
 #m_error {
-	background: #fff url('/ciniki-mods/core/ui/themes/default/img/background2.png');
+	background: #2259c9;
+	background: #fff;
 }

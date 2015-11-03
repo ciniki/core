@@ -1,12 +1,14 @@
+table.form td.textarea {
+	box-shadow: #777 0px 0px 1px inset;
+}
 table.form td.htmlarea div.htmlarea,
 table.form td.textarea,
 table.form td.search input,
 table.form td.multiselect input,
 table.form td.audiocontrols span.audio_filename,
 table.form td.input input {
-	-moz-border-radius: 7px;
-	border-radius: 7px;
-	box-shadow: #777 0px 1px 3px inset;
+	border-radius: 3px;
+	box-shadow: #555 0px 0px 2px inset;
 }
 
 table.list textarea {
@@ -15,8 +17,7 @@ table.list textarea {
 
 table.simplelist input,
 table.datepicker input {
-	-moz-border-radius: 7px;
-	border-radius: 7px;
+	border-radius: 3px;
 	box-shadow: #eee 0px 1px 1px inset;
 }
 table.form td.input > select {
@@ -29,7 +30,7 @@ table.form td.input > select {
 	cursor: pointer;
 	border: 0px;
 	-moz-appearance: menulist-textfield;
-	-moz-border-radius: 7px;
+	border-radius: 3px;
 	box-shadow: none;
 }
 
@@ -42,20 +43,17 @@ table.list tr.textfield > td > input.readonly {
 tr.xhelp-text td p,
 tr.guided-text td p,
 p.guided-text {
-	border-radius: 7px;
+	border-radius: 3px;
 }
 div.guided-on tr.guided-title:first-child td p {
-	border-top-left-radius: 7px;
-	border-top-right-radius: 7px;
+	border-top-left-radius: 3px;
+	border-top-right-radius: 3px;
 }
 table.form td.input > select,
 table.form td.select > select,
 table.list {
-	border-radius: 7px;
-	box-shadow: #777 1px 1px 3px;
-}
-table.imageform td img {
-	box-shadow: #777 1px 1px 3px;
+	border-radius: 3px;
+	box-shadow: none;
 }
 table.imageform td.input div.image_preview img {
 	max-width: 32em;
@@ -66,13 +64,11 @@ table.list tr.textfield > td > input:-moz-placeholder {
 }
 
 h2 {
-	text-shadow: #fff 1px 1px 0px;
 	padding-top: 0.2em;
 }
 
 span.count {
-	-moz-border-radius: 1.2em;
-	border-radius: 1.2em;
+	border-radius: 3px;
 }
 
 table.list td span.count {
@@ -84,18 +80,14 @@ table.list > tbody > tr > td.label {
 
 button, input.button {
 	border: 1px solid #ddd;
-	-moz-border-radius: 7px;
-	-moz-border-radius: 1.2em;
-	border-radius: 7px;
+	border-radius: 3px;
 	background: -moz-linear-gradient(top, #eee, #bbb);
-	text-shadow: #eee 1px 1px 0px;
 	padding: 3px 10px 3px 10px;
 }
 
 table.form > tbody > tr > td.button,
 table.simplebuttons > tbody > tr > td.button {
 	background: -moz-linear-gradient(top, #999, #555); 
-	text-shadow: #555 -1px 1px 0px; 
 	text-decoration: none; 
 	border: 0px;
 }
@@ -110,8 +102,7 @@ span.button_on,
 span.button_off,
 span.rbutton_on,
 span.rbutton_off {
-	-moz-border-radius: 1.5em;
-	border-radius: 1.5em;
+	border-radius: 3px;
 }
 
 table.form tr.idlist td.multiselect span.toggle_on,
@@ -126,7 +117,6 @@ table.form tr.tags td span.toggle_on,
 table.form tr.tags td span.toggle_off,
 table.form td.flags span.flag_on,
 table.form td.flags span.flag_off {
-	-moz-border-radius: 7px;
 	border-radius: 7px;
 }
 
@@ -134,13 +124,13 @@ div.guided-on .guided-selected table.formtabs div.buttons span {
     border-radius: 0px;
 }
 div.guided-on .guided-selected table.formtabs div.buttons span:first-child {
-	border-top-left-radius: 0.5em;
-	border-top-right-radius: 0.5em;
+	border-top-left-radius: 3px;
+	border-top-right-radius: 3px;
 }
 
 div.guided-on .guided-selected table.formtabs div.buttons span:last-child {
-	border-bottom-left-radius: 0.5em;
-	border-bottom-right-radius: 0.5em;
+	border-bottom-left-radius: 3px;
+	border-bottom-right-radius: 3px;
 }
 
 span.button_on,
@@ -148,8 +138,7 @@ span.rbutton_on,
 table.form td div span.toggle_on,
 table.form span.flag_on {
 	background: -moz-linear-gradient(top, #555, #999);
-	text-shadow: 1px 1px 0px #555; 
-	-moz-box-shadow: inset 1px 1px 0px 0px #555;
+	box-shadow: inset 1px 1px 0px 0px #555;
 	color: #ddd;
 	border: 1px solid #777;
 }
@@ -166,8 +155,6 @@ span.rbutton_off,
 table.form td div span.toggle_off,
 table.form span.flag_off {
 	background: -moz-linear-gradient(top, #eee, #bbb);
-	text-shadow: 1px 1px 0px #eee; 
-	box-shadow: 1px 1px 2px 0 #555;
 	color: #777;
 	border: 1px solid #777;
 }
@@ -176,20 +163,16 @@ table.form td.joinedflags span.flag_on:first-child,
 table.form td.joinedflags span.flag_off:first-child,
 table.form td div span.toggle_on:first-child,
 table.form td div span.toggle_off:first-child {
-	-moz-border-radius-topleft: 7px;
-	-moz-border-radius-bottomleft: 7px;
-	border-top-left-radius: 7px;
-	border-bottom-left-radius: 7px;
+	border-top-left-radius: 3px;
+	border-bottom-left-radius: 3px;
 }
 
 table.form td.joinedflags span.flag_on:last-child,
 table.form td.joinedflags span.flag_off:last-child,
 table.form td div span.toggle_on:last-child,
 table.form td div span.toggle_off:last-child {
-	-moz-border-radius-topright: 7px;
-	-moz-border-radius-bottomright: 7px;
-	border-top-right-radius: 7px;
-	border-bottom-right-radius: 7px;
+	border-top-right-radius: 3px;
+	border-bottom-right-radius: 3px;
 }
 
 table.form > tbody > tr > td.delete,
@@ -197,20 +180,13 @@ table.form > tbody > tr > td.remove,
 table.simplebuttons > tbody > tr > td.delete,
 table.simplebuttons > tbody > tr > td.remove {
 	background: -moz-linear-gradient(top, #ec4a0b, #ad390c); 
-	text-shadow: 0 -1px 1px #953403; text-decoration: none; 
+	text-shadow: 0 -1px 1px #953403; 
+	text-decoration: none; 
 	border: 0px;
-}
-.headerbar td.title {
-    text-shadow: #000 1px 1px 0px;
-}
-
-.headerbar td div.button span.label {
-	text-shadow: 1px 1px 0px #445;
 }
 
 .headerbar td div.button span.faicon,
 .headerbar td div.button span.icon {
-	text-shadow: -1px -1px 0px #445;
 	max-height: 15px;
 }
 
@@ -218,15 +194,9 @@ table.simplebuttons > tbody > tr > td.remove {
 	/* FIXME: In the future this can have rounded corners */
 }
 
-.subheaderbar td.title {
-	text-shadow: #ddd 1px 1px 0px;
-}
-
 .subheaderbar {
-	-moz-border-radius-bottomleft: 7px;
-	-moz-border-radius-bottomright: 7px;
-	border-bottom-left-radius: 7px;
-	border-bottom-right-radius: 7px;
+	border-bottom-left-radius: 3px;
+	border-bottom-right-radius: 3px;
 }
 
 table.list, 
@@ -237,8 +207,7 @@ table.list > tbody:first-child > tr table.noheader tbody tr:first-child > td:fir
 table.header > thead > tr:first-child > th:first-child,
 table.noheader > tbody:first-child > tr:first-child > td:first-child,
 table.list > tfoot:first-child > tr:first-child > td:first-child {
-	-moz-border-radius-topleft: 7px;
-	border-top-left-radius: 7px;
+	border-top-left-radius: 3px;
 }
 
 table.list, 
@@ -249,8 +218,7 @@ table.list > tbody:first-child > tr table.noheader tr:first-child > td:last-chil
 table.header > thead > tr:first-child > th:last-child,
 table.noheader > tbody:first-child > tr:first-child > td:last-child,
 table.list > tfoot:first-child > tr:first-child > td:last-child {
-	-moz-border-radius-topright: 7px;
-	border-top-right-radius: 7px;
+	border-top-right-radius: 3px;
 }
 
 table.list, 
@@ -262,8 +230,7 @@ table.list > tbody:last-child > tr:last-child > th:first-child,
 table.list > tbody:last-child > tr:last-child > td:first-child,
 table.list > tfoot > tr:last-child > th:first-child, 
 table.list > tfoot > tr:last-child > td:first-child {
-	-moz-border-radius-bottomleft: 7px;
-	border-bottom-left-radius: 7px;
+	border-bottom-left-radius: 3px;
 }
 
 table.list, 
@@ -274,48 +241,7 @@ table.list > thead:last-child > tr:last-child > th:last-child,
 table.list > tbody:last-child > tr:last-child > td:last-child,
 table.list > tfoot > tr:last-child > th:last-child, 
 table.list > tfoot > tr:last-child > td:last-child {
-	-moz-border-radius-bottomright: 7px;
-	border-bottom-right-radius: 7px;
-}
-
-/*
-table.list > tbody > tr:first-child > td:first-child > textarea,
-table.list > tbody > tr table,
-table.form > tbody > tr table tbody,
-table.form > tbody > tr table tr:first-child > td:first-child,
-table.header > thead > tr:first-child > th:first-child,
-table.noheader > tbody > tr:first-child > td:first-child {
-	-moz-border-radius-topleft: 7px;
-}
-
-table.list > tbody > tr:first-child > td:last-child > textarea,
-table.list > tbody > tr table,
-table.form > tbody > tr table tbody,
-table.form > tbody > tr table tr:first-child > td:last-child,
-table.header > thead > tr:first-child > th:last-child,
-table.noheader > tbody > tr:first-child > td:last-child {
-	-moz-border-radius-topright: 7px;
-}
-
-table.list > tbody > tr:last-child > td:first-child > textarea,
-table.list > tbody > tr table,
-table.form > tbody > tr table tbody,
-table.list > tbody > tr table tr:last-child > td:first-child,
-table.list > tbody > tr:last-child > th:first-child,
-table.list > tbody > tr:last-child > td:first-child {
-	-moz-border-radius-bottomleft: 7px;
-}
-
-table.list > tbody > tr:last-child > td:last-child > textarea,
-table.list > tbody > tr table,
-table.list > tbody > tr table tr:last-child > td:last-child,
-table.list > tbody > tr:last-child > td:last-child {
-	-moz-border-radius-bottomright: 7px;
-}
-*/
-
-table.list > tbody > tr table.calendar tr td {
-	/* -moz-border-radius: 0px !important; */
+	border-bottom-right-radius: 3px;
 }
 
 table.list td > div.colourswatches > span.selected {
@@ -323,16 +249,20 @@ table.list td > div.colourswatches > span.selected {
 }
 
 table.dayschedule td.schedule_appointment {
-	-moz-border-radius: 7px;
-	border-radius: 7px;
+	border-radius: 3px;
 }
 
 table.services td span.job {
-	border-radius: 7px;
+	border-radius: 3px;
 }
 
 #mh_header {
 	width: 33%;
+}
+
+table.simplelist > tbody > tr > td.search input, 
+table.datepickersearch > tbody > tr > td.search input {
+	padding: 0.2em 0.2em 0.2em 0.3em;
 }
 
 div.fullwidth table.list,
@@ -355,6 +285,20 @@ div.fullwidth table.list > tbody:last-child > tr:last-child > th:first-child,
 div.fullwidth table.list > tfoot:first-child > tr:first-child > th:first-child,
 div.fullwidth table.list > tfoot:first-child > tr:first-child > th:last-child, 
 div.fullwidth table.list > tfoot > tr:last-child > td:last-child {
-	-moz-border-radius: 0px;
+	border-radius: 0px;
+}
+
+table.fieldhistory,
+table.fieldhistory tr,
+table.fieldhistory td,
+table.list > tbody:first-child > tr table.fieldhistory,
+table.list > tbody:first-child > tr table.fieldhistory thead tr:first-child > td:first-child,
+table.list > tbody:first-child > tr table.fieldhistory tbody tr:first-child > td:first-child,
+table.list > tbody:first-child > tr table.fieldhistory thead tr:first-child > td:last-child,
+table.list > tbody:first-child > tr table.fieldhistory tbody tr:first-child > td:last-child,
+table.list > tbody:first-child > tr table.fieldhistory thead tr:last-child > td:first-child,
+table.list > tbody:first-child > tr table.fieldhistory tbody tr:last-child > td:first-child,
+table.list > tbody:first-child > tr table.fieldhistory thead tr:last-child > td:last-child,
+table.list > tbody:first-child > tr table.fieldhistory tbody tr:last-child > td:last-child {
 	border-radius: 0px;
 }

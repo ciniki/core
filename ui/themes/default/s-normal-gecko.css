@@ -1,10 +1,5 @@
-div.media div.imgwrap {
-	box-shadow: #777 1px 1px 3px;
-}
-
 table.list {
-	-moz-border-radius: 7px;
-	box-shadow: #777 1px 1px 3px;
+	-moz-border-radius: 3px;
 }
 
 table.form {
@@ -12,24 +7,5 @@ table.form {
 }
 
 table.simplegrid {
-	-moz-border-radius: 7px;
-	box-shadow: #777 1px 1px 3px;
-}
-
-h2 {
-	text-shadow: #fff 1px 1px 0px;
-}
-
-.headerbar,
-#m_forgot input.button,
-#m_forgot button,
-#m_recover input.button,
-#m_recover button,
-#m_login input.button,
-#m_login button {
-	box-shadow: #777 1px 1px 3px;
-}
-
-.subheaderbar td.title {
-	text-shadow: #000 1px 1px 0px;
+	-moz-border-radius: 3px;
 }

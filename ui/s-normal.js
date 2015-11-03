@@ -155,7 +155,7 @@ M.panel.setupFormFieldHistory = function(fieldID, field) {
 	var history = this.fieldHistories[fieldID].history;
 	var users = this.fieldHistories[fieldID].users;
 
-	var t = M.addTable(null, 'fieldhistory noheader border');
+	var t = M.addTable(null, 'fieldhistory noheader');
 	var tb = M.aE('tbody');
 	if( history.length == 0 ) {
 		var tr = M.aE('tr');

@@ -18,6 +18,10 @@
   font-style: normal;
 }
 
+html {
+	box-sizing: border-box;
+}
+
 /******* The top bar across the window ******/
 .headerbar {
 	width: 100%;
@@ -32,6 +36,7 @@
 	margin: 0px;
 	padding: 0px;
 	vertical-align: bottom;
+	background: #0d3dae;
 	background: #778;
 	padding: 0.2em 0.2em 0.2em 0.2em;
 	border-left: 1px solid #889;
@@ -80,7 +85,7 @@
 	max-width:90%;
 	font-size: 1.2em;
 	text-align:center;
-	color: #eee;
+	color: #fff;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -125,7 +130,7 @@
 	max-width: 5em;
 	text-align: center;
 	padding: 0em 0.1em 0em 0.1em;
-	color: #eee;
+	color: #f8f8f8;
 	cursor: pointer;
 }
 
@@ -153,7 +158,6 @@
 	-moz-osx-font-smoothing: grayscale;
 	transform: translate(0, 0);
 	font-size: 1.2em;
-	color: #bbc;
 	max-height: 20px;
 	vertical-align: top;
 	padding-bottom: 1px;
@@ -232,8 +236,10 @@ span.count {
 	background: #eee;
 	display: inline-block;
 	border: 1px solid #bbb;
-	padding: 0.2em 0.7em 0.2em 0.7em;
+	padding: 0.2em 0.4em 0.2em 0.4em;
 	margin: 0px;
+	min-width: 1em;
+	text-align: center;
 }
 
 table.list td span.count {
@@ -241,7 +247,7 @@ table.list td span.count {
 	position: relative;
 	margin-top: -0.3em;
 	vertical-align: middle;
-	top: -0.2em;
+	top: -0.0em;
 	margin-left: 0.5em;
 }
 
@@ -323,9 +329,10 @@ div.wide h2 {
 }
 
 table.outline {
-	border: 1px solid #ddd;
+	border: 1px solid #ccc;
 	padding: 0.1em 0.1em 0.1em 0.1em;
-	background-color: rgba(255,255,255,0.4);
+	padding: 0px;
+	background: #fff;
 }
 
 a.website,
@@ -336,6 +343,10 @@ a.mailto:hover,
 a.mailto:visited {
 	color: #439BBD;
 	text-decoration: none;
+}
+
+table.list {
+/*	border-collapse: collapse; */
 }
 
 table.list > thead,
@@ -354,7 +365,14 @@ table.border > thead:first-child > tr:first-child > th,
 table.border > tbody:first-child > tr:first-child > td,
 table.border > tfoot:first-child > tr:first-child > th,
 table.border > tfoot:first-child > tr:first-child > td {
-	border-top: 1px solid #bbb;
+	border-top: 1px solid #ccc;
+}
+
+table.border > thead:last-child > tr:last-child > th,
+table.border > tbody:last-child > tr:last-child > td,
+table.border > tfoot:last-child > tr:last-child > th,
+table.border > tfoot:last-child > tr:last-child > td {
+	border-bottom: 1px solid #ccc;
 }
 
 table.border {
@@ -365,7 +383,14 @@ table.border > thead > tr > th:first-child,
 table.border > tfoot > tr > th:first-child,
 table.border > tfoot > tr > td:first-child,
 table.border > tbody > tr > td:first-child {
-	border-left: 1px solid #bbb;
+	border-left: 1px solid #ccc;
+}
+
+table.border > thead > tr > th:last-child,
+table.border > tfoot > tr > th:last-child,
+table.border > tfoot > tr > td:last-child,
+table.border > tbody > tr > td:last-child {
+	border-right: 1px solid #ccc;
 }
 
 /* --remove nov 14, 2013
@@ -375,10 +400,6 @@ table.border > tbody > tr > td:last-child {
 	border-right: 1px solid #bbb; 
 	border-right: 0px; 
 } */
-
-table.fieldhistory > tbody > tr > td:last-child {
-	border-right: 1px solid #bbb; 
-}
 
 table.list > tbody > tr > td,
 table.list > tfoot > tr > th,
@@ -392,7 +413,7 @@ table.list > tfoot > tr > td {
 table.border > tbody > tr > td,
 table.border > tfoot > tr > th, 
 table.border > tfoot > tr > td {
-	border-bottom: 1px solid #bbb;
+	border-bottom: 1px solid #ccc;
 }
 
 table.list > tbody > tr:last-child > td,
@@ -401,19 +422,15 @@ table.list > tfoot > tr:last-child > td {
 	border-bottom: 0px; 
 }
 
-table.list > thead > tr > th:last-child,
+/*table.list > thead > tr > th:last-child,
 table.list > tbody > tr > th:last-child,
 table.list > tbody > tr > td:last-child {
 	border-right: 0px; 
-}
-
-table.fieldhistory > tbody > tr:last-child > td {
-	border-bottom: 1px solid #bbb;
-}
+} */
 
 table.border > tfoot > tr:first-child > th, 
 table.border > tfoot > tr:first-child > td {
-	border-top: 1px solid #bbb;
+	border-top: 1px solid #ccc;
 }
 
 table.list > tfoot > tr > th, 
@@ -577,10 +594,18 @@ table.border tr > td.input {
 table.list tr > td.input {
 	font-size: 1em;
 	width: 100%;
-	padding: 0.3em 0.5em 0.3em 0.2em;
+	padding: 0.4em 0.4em 0.4em 0em;
 	margin: 0px;
 	vertical-align: center;
 }
+table.outline tr > td.input {
+	font-size: 1em;
+	width: 100%;
+	padding: 0.4em 0.8em 0.4em 0em;
+	margin: 0px;
+	vertical-align: center;
+}
+
 
 table.imageform tr > td.input {
 	padding: 0;
@@ -668,11 +693,14 @@ table.list tr.textfield > td.textarea {
 	padding: 0.4em; 
 }
 
+table.list tr.textarea td.historybutton {
+	padding: 0.4em 0px 0.4em 0px;
+}
+
 table.list tr.textfield > td > textarea {
 	width: 100%;
 	height: 10em;
-	padding: 0.4em;
-	padding: 0.0em;
+	padding: 0px;
 	font-size: 1.0em;
 	color: #555;
 	text-align: left;
@@ -862,6 +890,7 @@ table.list table.calendar {
 	/* border-collapse: collapse; */
 	border-top: 1px solid #bbb;
 	border-left: 1px solid #bbb;
+	border: 1px solid #bbb;
 }
 
 table.list table.calendar td {
@@ -1022,7 +1051,7 @@ table.list tr > td.helpbutton {
 }
 
 table.border tr > td.nohistorybutton {
-	border-right: 1px solid #bbb;	
+	border-right: 1px solid #ddd;	
 }
 
 table.list tr > td.nohistorybutton {
@@ -1039,9 +1068,9 @@ table.list tr.fieldhistory {
 }
 
 table.border td.history {
-	border-left: 1px solid #bbb;	
-	border-right: 1px solid #bbb;	
-	border-bottom: 1px solid #bbb;	
+	border-left: 0px solid #bbb;	
+	border-right: 0px solid #bbb;	
+	border-bottom: 1px solid #ddd;	
 }
 
 table.list td.colourpicker,
@@ -1051,9 +1080,9 @@ table.list td.history {
 }
 
 table.border td.nohistory {
-	border-left: 1px solid #bbb;	
-	border-right: 1px solid #bbb;	
-	border-bottom: 1px solid #bbb;	
+	border-left: 0px solid #bbb;	
+	border-right: 0px solid #bbb;	
+	border-bottom: 1px solid #ddd;	
 }
 
 table.list td.nohistory {
@@ -1081,12 +1110,12 @@ table.list table.fieldhistory tr td {
 	background: #eee;
 }
 
-table.list table.fieldhistory tr td:last-child {
-	
+table.list table.fieldhistory tr:last-child td {
+	border-bottom: 1px solid #ccc;
 }
 
-table.border table.fieldhistory td {
-	border-bottom: 1px solid #777;
+table.list table.fieldhistory td {
+	border-top: 1px solid #ccc;
 }
 
 table.list table.fieldhistory td.fieldvalue {
@@ -1296,7 +1325,7 @@ table.form td.input div.image_preview {
 table.form td.input div.image_preview img {
 	background-color: #fff;
 	padding: 8px;
-	border: 1px solid #aaa;
+	border: 1px solid #ddd;
 	max-width: 95%;
 }
 
@@ -1326,11 +1355,11 @@ div.media div div.imgwrap {
 }
 
 div.media div.media_image div.imgwrap {
-	border: 1px solid #bbb;
+	border: 1px solid #ddd;
 }
 
 div.media div.media_album div.imgwrap {
-	border: 3px double #bbb;
+	border: 3px double #ddd;
 
 }
 
@@ -1453,7 +1482,7 @@ table.form > tbody > tr > td.audiocontrols {
 }
 
 table.form > tbody > tr > td.audiocontrols span.audio_filename {
-	border: 1px solid #bbb;
+	border: 1px solid #ddd;
 	min-width: 30em;
 	width: 100%;
 	background: #fff;
@@ -1471,7 +1500,7 @@ table.form > tbody > tr > td.multiselect,
 table.form > tbody > tr > td.multitoggle,
 table.form > tbody > tr > td.joinedflags,
 table.form > tbody > tr > td.flags {
-	padding: 0em 0.25em 0em 0.25em;
+	padding: 0.1em 0.25em 0.1em 0.25em;
 }
 
 table.form > tbody > tr > td div.buttons {
@@ -1518,7 +1547,7 @@ table.paneltabs td.joinedtabs div span.toggle_off,
 table.form td div span.toggle_on,
 table.form td div span.toggle_off {
 	display: inline-block;
-	border: 1px solid #777;
+	border: 1px solid #aaa;
 	font-weight: bold; 
 	padding: 0.4em 0.5em 0.4em 0.5em;
 	margin: 0.3em 0 0.3em 0;
@@ -1721,7 +1750,7 @@ table.dayschedule td.schedule_appointment {
 	padding: 0.5em;
 	margin: 0.5em;
 	font-size: 0.85em;
-	border-radius: 7px;
+	border-radius: 3px;
 }
 
 table.dayschedule td span.secondary {

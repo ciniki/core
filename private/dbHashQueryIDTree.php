@@ -128,6 +128,14 @@ function ciniki_core_dbHashQueryIDTree(&$ciniki, $strsql, $module, $tree) {
 									$date->format($tree[$i]['utctotz'][$field_id]['format']);
 							}
 						} 
+						elseif( isset($tree[$i]['utctots']) && in_array($field_id, $tree[$i]['utctots']) ) {
+							if( $row[$field] == '0000-00-00 00:00:00' || $row[$field] == '0000-00-00' || $row[$field] == '' ) {
+								$data[$tree[$i]['container']][$row[$tree[$i]['fname']]][$field_id] = '0';
+							} else {
+								$date = new DateTime($row[$field], new DateTimeZone('UTC'));
+								$data[$tree[$i]['container']][$row[$tree[$i]['fname']]][$field_id] = $date->format('U');
+							}
+						}
 
 						elseif( isset($tree[$i]['flags']) && isset($tree[$i]['flags'][$field_id]) ) {
 							$text = '';

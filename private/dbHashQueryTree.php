@@ -135,6 +135,15 @@ function ciniki_core_dbHashQueryTree(&$ciniki, $strsql, $module, $tree) {
 									$date->format($tree[$i]['utctotz'][$field_id]['format']);
 							}
 						}
+						elseif( isset($tree[$i]['utctots']) && in_array($field_id, $tree[$i]['utctots']) ) {
+							if( $row[$field] == '0000-00-00 00:00:00' || $row[$field] == '0000-00-00' || $row[$field] == '' ) {
+								$data[$tree[$i]['container']][$num_elements[$i]][$tree[$i]['name']][$field_id] = '0';
+							} else {
+								$date = new DateTime($row[$field], new DateTimeZone('UTC'));
+								$data[$tree[$i]['container']][$num_elements[$i]][$tree[$i]['name']][$field_id] = 
+									$date->format('U');
+							}
+						}
 						elseif( $field == 'age' || substr($field, 0, 4) == 'age_' ) {
 							$data[$tree[$i]['container']][$num_elements[$i]][$tree[$i]['name']][$field_id] = ciniki_core_dbParseAge($ciniki, $row[$field]);
 						}

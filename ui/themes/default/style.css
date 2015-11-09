@@ -1500,7 +1500,7 @@ table.form > tbody > tr > td.multiselect,
 table.form > tbody > tr > td.multitoggle,
 table.form > tbody > tr > td.joinedflags,
 table.form > tbody > tr > td.flags {
-	padding: 0.1em 0.25em 0.1em 0.25em;
+	padding: 0.1em 0.25em 0.1em 0.2em;
 }
 
 table.form > tbody > tr > td div.buttons {

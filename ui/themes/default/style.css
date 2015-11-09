@@ -601,7 +601,7 @@ table.list tr > td.input {
 table.outline tr > td.input {
 	font-size: 1em;
 	width: 100%;
-	padding: 0.4em 0.8em 0.4em 0em;
+	padding: 0.4em 0.8em 0.4em 0.2em;
 	margin: 0px;
 	vertical-align: center;
 }

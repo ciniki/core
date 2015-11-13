@@ -21,7 +21,7 @@ function ciniki_core_sequencesNext($ciniki, $business_id, $obj_name, $id_field, 
 	// Load the object
 	//
 	list($pkg, $mod, $obj) = explode('.', $obj_name);
-	$rc = ciniki_core_objectLoad($ciniki, $object);
+	$rc = ciniki_core_objectLoad($ciniki, $obj_name);
 	if( $rc['stat'] != 'ok' ) {	
 		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'2532', 'msg'=>'Invalid object'));
 	}

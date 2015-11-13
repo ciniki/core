@@ -805,7 +805,7 @@ span.rbutton_off {
 	margin: 0em 0.25em 0em 0.5em;
 	cursor: pointer;
 	text-align: center;
-	font-size: 1.1em;
+	font-size: 1em;
 	width: 1.0em;
 	height: 1.0em;
 	vertical-align: top;
@@ -840,7 +840,7 @@ h2 span.rbutton_off {
 
 td.multiselect div span.rbutton_off {
 	margin-top: 0.4em;
-	margin-top: 0.4em;
+	margin-bottom: 0.4em;
 }
 
 td.tags span.rbutton_off,

@@ -20,6 +20,7 @@
 
 html {
 	box-sizing: border-box;
+    -webkit-text-size-adjust: 100%; /* Prevent font scaling in landscape while allowing user zoom */
 }
 
 /******* The top bar across the window ******/
@@ -290,6 +291,10 @@ table.list {
 	padding: 0px;
 	margin-bottom: 1em;
 	table-layout: fixed;
+}
+
+span.faicon {
+    font-family: 'FontAwesome';
 }
 
 table.form {
@@ -1615,6 +1620,14 @@ table.paneltabs td.joinedtabs div span.toggle_off {
 	font-size: 1.0em;
 	margin: 0em;
 }
+
+table.paneltabs td.joinedtabs div span.toggle_on span.faicon,
+table.paneltabs td.joinedtabs div span.toggle_off span.faicon {
+    display: inline-block;
+    min-width: 1.2em;
+    vertical-align: baseline;
+}
+
 
 table.form tr td input.image_uploader {
 	height: 1px !important;

@@ -665,7 +665,9 @@ M.panel.prototype.createSection = function(i, s) {
 		f.className += ' guided-hide';
 	}
 
-	if( s.visible != null && s.visible == 'hidden' ) {
+	if( typeof s.visible == 'function' && s.visible() == 'hidden' ) {
+		f.style.display = 'none';
+	} else if( s.visible != null && s.visible == 'hidden' ) {
 		f.style.display = 'none';
 	}
 
@@ -771,7 +773,10 @@ M.panel.prototype.createSection = function(i, s) {
 		st = this.createSimpleThumbnails(i);
 	} else if( type == 'audiolist' ) {
 		st = this.createAudioList(i);
-	}
+	} else {
+        console.log('Missing section type for: ' + s);
+        st = document.createDocumentFragment();
+    }
 	
 	// Add the section table
 	f.appendChild(st);
@@ -1000,7 +1005,9 @@ M.panel.prototype.createSimpleThumbnails = function(s) {
 };
 
 M.panel.prototype.thumbSrc = function(s, i, d) {
-	if( d.image.image_id > 0 && d.image.image_data != null && d.image.image_data != '' ) {
+	if( d.image_id > 0 && d.image_data != null && d.image_data != '' ) {
+		return d.image_data;
+    } else if( d.image.image_id > 0 && d.image.image_data != null && d.image.image_data != '' ) {
 		return d.image.image_data;
 	} else {
 		return '/ciniki-mods/core/ui/themes/default/img/noimage_75.jpg';
@@ -1008,11 +1015,13 @@ M.panel.prototype.thumbSrc = function(s, i, d) {
 };
 
 M.panel.prototype.thumbTitle = function(s, i, d) {
+	if( d.name != null ) { return d.name; }
 	if( d.image.name != null ) { return d.image.name; }
 	return '';
 };
 
 M.panel.prototype.thumbID = function(s, i, d) {
+	if( d.id != null ) { return d.id; }
 	if( d.image.id != null ) { return d.image.id; }
 	return 0;
 };

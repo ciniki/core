@@ -197,7 +197,7 @@ table.form tr > td > input.small {
 }
 
 table.list tr > td > input.date {
-	height: 1em;
+/*	height: 1em; */
 	width: 9em;
 	max-width: 75%;
 }

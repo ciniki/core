@@ -91,7 +91,7 @@ div.mediumflex {
 }
 
 div.large {
-	width: 50em;
+	width: 95%;
 	max-width: 95%;
 	margin: 0 auto;
 }
@@ -210,12 +210,17 @@ table.list td div.calendar {
 /* media queries to adjust screen based on width */
 @media screen and (min-width: 59em) {
 	div.help-off.guided-on div.guided-disabled div.narrowaside,
-	div.help-off.guided-off div.narrowaside {
+	div.help-off.guided-off div.narrow.narrowaside,
+	div.help-off.guided-off div.medium.narrowaside,
+	div.help-off.guided-off div.large.narrowaside {
 		max-width: 59em;
 	}
 
 	div.help-off.guided-on div.guided-disabled div.narrowaside div.panelsection,
-	div.help-off.guided-off div.narrowaside div.panelsection {
+/*	div.help-off.guided-off div.narrow.narrowaside div.panelsection, */
+	div.help-off.guided-off div.narrow.narrowaside div.panelsection,
+	div.help-off.guided-off div.medium.narrowaside div.panelsection,
+	div.help-off.guided-off div.large.narrowaside div.panelsection {
 		width: 35em;
 		margin-left: 21em;
 		margin-left: 22em;
@@ -226,6 +231,9 @@ table.list td div.calendar {
 	}
 
 	div.help-off.guided-on div.guided-disabled div.narrowaside div.asideleft,
+	div.help-off.guided-off div.narrow.narrowaside div.asideleft,
+	div.help-off.guided-off div.medium.narrowaside div.asideleft,
+	div.help-off.guided-off div.large.narrowaside div.asideleft,
 	div.help-off.guided-off div.narrowaside div.asideleft {
 		float: left;
 		clear: left;
@@ -241,7 +249,8 @@ table.list td div.calendar {
 
 @media screen and (min-width: 73em) {
 	div.help-off.guided-on div.guided-disabled div.mediumaside,
-	div.help-off.guided-off div.mediumaside {
+	div.help-off.guided-off div.mediumaside,
+	div.help-off.guided-off div.large.narrowaside {
 		max-width: 70em;
 	}
 
@@ -249,6 +258,11 @@ table.list td div.calendar {
 	div.help-off.guided-off div.mediumaside div.panelsection {
 		width: 35em;
 		margin-left: 35em;
+	}
+
+	div.help-off.guided-off div.large.narrowaside div.panelsection {
+		width: 47em;
+		margin-left: 22em;
 	}
 
 	div.help-off.guided-on div.guided-disabled div.mediumaside div.formtabs,
@@ -287,6 +301,17 @@ table.list td div.calendar {
 	div.help-off.guided-off div.mediumaside div.fullwidth,
 	div.help-off.guided-off div.mediumaside div.formtabs {
 		width: 100%;
+	}
+	div.help-off.guided-off div.large.narrowaside div.asideleft {
+		float: left;
+		clear: left;
+		width: 20em;
+		max-width: 20em;
+		/* FIXME: needs to be 38 for date picker */
+		/* max-width: 38em; */
+		margin-left: 0px;
+		height: auto;
+		margin-top: 0px;
 	}
 }
 

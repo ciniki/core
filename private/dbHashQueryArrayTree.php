@@ -252,11 +252,11 @@ function ciniki_core_dbHashQueryArrayTree(&$ciniki, $strsql, $module, $tree) {
 				//
 				if( isset($tree[$i]['details']) ) {
 					foreach($tree[$i]['details'] as $key_name => $key_value) {
-						$data[$tree[$i]['container']][$num_elements[$i]-1][$tree[$i]['name']][$row[$key_name]] = $row[$key_value];
+						$data[$tree[$i]['container']][$num_elements[$i]-1][$row[$key_name]] = $row[$key_value];
 					}
 				}
 
-				$data = &$data[$tree[$i]['container']][$num_elements[$i]-1][$tree[$i]['name']];
+				$data = &$data[$tree[$i]['container']][$num_elements[$i]-1];
 			}
 			$prev[$i] = $row[$tree[$i]['fname']];
 		}

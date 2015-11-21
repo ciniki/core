@@ -2422,7 +2422,9 @@ M.panel.prototype.createSimpleList = function(si, l, as) {
 M.panel.prototype.createSimpleButtons = function(si, l, as) {
 	var f = document.createDocumentFragment();
 	for(i in l) {
-		if( l[i].visible != null && l[i].visible != 'yes' ) {	
+        if( typeof l[i].visible == 'function' && l[i].visible() == 'no' ) {
+            continue;
+		} else if( l[i].visible != null && l[i].visible == 'no' ) {	
 			continue;
 		}
 		var t = M.addTable(null, 'list simplebuttons noheader border');

@@ -91,9 +91,12 @@ div.mediumflex {
 }
 
 div.large {
-	width: 95%;
+    width: 50em;
 	max-width: 95%;
 	margin: 0 auto;
+}
+div.large.narrowaside {
+	width: 95%;
 }
 
 div.xlarge {

@@ -5467,6 +5467,9 @@ M.panel.prototype.serializeForm = function(fs) {
 		if( s.multi != null && s.multi == 'yes' ) {
 			continue;
 		}
+        if( s.active != null && typeof s.active == 'function' && s.active() == 'no' ) {
+            continue;
+        }
 		if( s.active != null && s.active == 'no' ) {
 			continue;	// Skip inactive sections
 		}
@@ -5881,6 +5884,7 @@ M.panel.prototype.formFieldValue = function(f,fid) {
 		n = tinymce.get(this.panelUID + '_' + fid).getContent();
 		n = n.replace(/<br \/>/g, "\n");
 	} else {
+//        console.log(fid);
 		n = M.gE(this.panelUID + '_' + fid).value;
 	}
 

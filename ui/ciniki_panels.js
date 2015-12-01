@@ -639,7 +639,9 @@ M.panel.prototype.createSection = function(i, s) {
 	} else if( s.visible != null && s.visible == 'no' ) {
 		return null;
 	}
-	if( s.active != null && s.active != 'yes' ) {
+	if( typeof s.active == 'function' && s.active() == 'no' ) {
+        return null;
+    } else if( s.active != null && s.active == 'no' ) {
 		return null;
 	}
 		

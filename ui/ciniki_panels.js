@@ -2159,6 +2159,8 @@ M.panel.prototype.createSectionGrid = function(s) {
 				ptr.className = 'clickable' + rcl;
 			}
 			ptr.appendChild(c);
+        } else if( sc.addFn != null && sc.addFn != '' && sc.addTxt != null && sc.addTxt != '' ) {
+            ptr.appendChild(M.aE('td', null, 'noprint'));
 		}
 
 		tb.appendChild(tr);

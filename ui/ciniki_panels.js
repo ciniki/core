@@ -3120,6 +3120,9 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
 			f.setAttribute('readonly', 'yes');
 			f.className = f.className + ' readonly';
 		}
+        if( field.maxlength != null && field.maxlength > 0 ) {
+            f.setAttribute('maxlength', field.maxlength);
+        }
 		if( field.hint != null && field.hint != '' ) {
 			f.setAttribute('placeholder', field.hint);
 		}

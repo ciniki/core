@@ -2331,7 +2331,9 @@ M.panel.prototype.createSimpleList = function(si, l, as) {
 	var ct = 0;
 	var t = null;
 	for(i in l) {
-		if( l[i].visible != null && l[i].visible != 'yes' ) {
+        if( typeof l[i].visible == 'function' ) {
+            if( l[i].visible() != 'yes' ) { continue; }
+        } else if( l[i].visible != null && l[i].visible != 'yes' ) {
 			continue;
 		}
 		if( ct == 0 || (ss > 0 && (ct % ss) == 0) ) {

@@ -16,12 +16,16 @@ function ciniki_core_backupBusiness(&$ciniki, $business) {
 	// Check the backup directory exists
 	//
 	if( isset($ciniki['config']['ciniki.core']['zip_backup_dir']) ) {
-		$zip_backup_dir = $ciniki['config']['ciniki.core']['zip_backup_dir'] . '/'
+		$zip_backup_dir = $ciniki['config']['ciniki.core']['backup_dir'] . '/'
 			. $business['uuid'][0] . '/' . $business['uuid'];
 	} else {
 		$zip_backup_dir = $ciniki['config']['ciniki.core']['backup_dir'] . '/'
 			. $business['uuid'][0] . '/' . $business['uuid'];
 	}
+    if( isset($ciniki['config']['ciniki.core']['final_backup_dir']) ) {
+		$final_backup_dir = $ciniki['config']['ciniki.core']['zip_backup_dir'] . '/'
+			. $business['uuid'][0] . '/' . $business['uuid'];
+    }
 	$business['backup_dir'] = $ciniki['config']['ciniki.core']['backup_dir'] . '/'
 		. $business['uuid'][0] . '/' . $business['uuid'] . '/data';
 	if( !file_exists($business['backup_dir']) ) {
@@ -129,12 +133,25 @@ function ciniki_core_backupBusiness(&$ciniki, $business) {
 		error_log($zip->getStatusString());
 		error_log('BACKUP-ERR[' . $business['name'] . ']: Unable to create zip file: ' . $zip_backup_dir . '/backup.zip');
 	}
+    
+    //
+    // If there is a final spot for backups, then move the zip file
+    //
+    if( isset($final_backup_dir) ) {
+        rename("$zip_backup_dir/backup-$date.zip", "$final_backup_dir/backup-$date.zip");
+    }
+
+
 	$cur_date = $date;
 
 	//
 	// Clear old zip files
 	//
-	$dh = opendir($zip_backup_dir);
+    if( isset($final_backup_dir) ) {
+        $dh = opendir($final_backup_dir);
+    } else {
+        $dh = opendir($zip_backup_dir);
+    }
 	$today = date('Ymd');
 	$today_datetime = strtotime($today);
 	while( ($file = readdir($dh)) !== false ) {

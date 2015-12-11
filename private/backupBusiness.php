@@ -136,9 +136,18 @@ function ciniki_core_backupBusiness(&$ciniki, $business) {
     
     //
     // If there is a final spot for backups, then move the zip file
+    // Note: Due to sshfs mount problems at rackspace, the following code was added to create backups on local storage and then copy via sftp.
+    //       In ciniki-api.ini setup final_backup_dir = ssh2.sftp://user:pass@ftpserver:22/fullpathtobackups
+    //       Must have libssh2-php installed as a package on server
     //
     if( isset($final_backup_dir) ) {
+        if( !file_exists($final_backup_dir) ) {
+            if( mkdir($final_backup_dir, 0755, true) === false ) {
+                return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'2833', 'msg'=>'Unable to create backup directory'));
+            }
+        }
         rename("$zip_backup_dir/backup-$date.zip", "$final_backup_dir/backup-$date.zip");
+        unlink("$zip_backup_dir/backup-$date.zip");
     }
 
 

@@ -157,16 +157,18 @@ function ciniki_core_backupBusiness(&$ciniki, $business) {
 	// Clear old zip files
 	//
     if( isset($final_backup_dir) ) {
-        $dh = opendir($final_backup_dir);
-    } else {
-        $dh = opendir($zip_backup_dir);
+        $zip_backup_dir = $final_backup_dir;
     }
+    $dh = opendir($zip_backup_dir);
 	$today = date('Ymd');
 	$today_datetime = strtotime($today);
 	while( ($file = readdir($dh)) !== false ) {
 		if( $file == "backup-$cur_date.zip" ) {
 			continue;
 		}
+        //
+        // Clear other backups from the same day.
+        //
 		if( preg_match("/backup-$today-.*zip/", $file) ) {
 			unlink($zip_backup_dir . '/' . $file);
 		}

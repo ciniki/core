@@ -16,14 +16,14 @@ function ciniki_core_backupBusiness(&$ciniki, $business) {
 	// Check the backup directory exists
 	//
 	if( isset($ciniki['config']['ciniki.core']['zip_backup_dir']) ) {
-		$zip_backup_dir = $ciniki['config']['ciniki.core']['backup_dir'] . '/'
+		$zip_backup_dir = $ciniki['config']['ciniki.core']['zip_backup_dir'] . '/'
 			. $business['uuid'][0] . '/' . $business['uuid'];
 	} else {
 		$zip_backup_dir = $ciniki['config']['ciniki.core']['backup_dir'] . '/'
 			. $business['uuid'][0] . '/' . $business['uuid'];
 	}
     if( isset($ciniki['config']['ciniki.core']['final_backup_dir']) ) {
-		$final_backup_dir = $ciniki['config']['ciniki.core']['zip_backup_dir'] . '/'
+		$final_backup_dir = $ciniki['config']['ciniki.core']['final_backup_dir'] . '/'
 			. $business['uuid'][0] . '/' . $business['uuid'];
     }
 	$business['backup_dir'] = $ciniki['config']['ciniki.core']['backup_dir'] . '/'

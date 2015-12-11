@@ -146,7 +146,7 @@ function ciniki_core_backupBusiness(&$ciniki, $business) {
                 return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'2833', 'msg'=>'Unable to create backup directory'));
             }
         }
-        rename("$zip_backup_dir/backup-$date.zip", "$final_backup_dir/backup-$date.zip");
+        copy("$zip_backup_dir/backup-$date.zip", "$final_backup_dir/backup-$date.zip");
         unlink("$zip_backup_dir/backup-$date.zip");
     }
 

@@ -22,6 +22,7 @@ require_once($ciniki_root . '/ciniki-mods/core/private/callPublicMethod.php');
 require_once($ciniki_root . '/ciniki-mods/core/private/printHashToJSON.php');
 require_once($ciniki_root . '/ciniki-mods/core/private/printResponse.php');
 require_once($ciniki_root . '/ciniki-mods/core/private/syncQueueProcess.php');
+require_once($ciniki_root . '/ciniki-mods/core/private/checkModuleFlags.php');
 
 $rc = ciniki_core_init($ciniki_root, 'rest');
 if( $rc['stat'] != 'ok' ) {

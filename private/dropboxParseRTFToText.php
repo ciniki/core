@@ -40,7 +40,7 @@ function ciniki_core_dropboxParseRTFToText($ciniki, $business_id, $client, $path
         $tmp_filename .= '/' . preg_replace('/\//', '_', $path);
 
         file_put_contents($tmp_filename, $file_contents);
-        $rc = exec("$unrtf --html $tmp_filename", $output);
+        $rc = exec("$unrtf --html '$tmp_filename'", $output);
         if( isset($output) && count($output) > 0 ) {
             $text = '';
             foreach($output as $line) {
@@ -55,7 +55,7 @@ function ciniki_core_dropboxParseRTFToText($ciniki, $business_id, $client, $path
                 }
             }
             $file_contents = $text;
-            unline($tmp_filename);
+            unlink($tmp_filename);
         }
     }
 

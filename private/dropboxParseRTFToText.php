@@ -28,8 +28,36 @@ function ciniki_core_dropboxParseRTFToText($ciniki, $business_id, $client, $path
 	curl_close($ch);
 
 	//
-	// FIXME: Parse the RTF content
+	// Parse the RTF content
 	//
+    if( isset($ciniki['config']['ciniki.core']['unrtf']) ) {
+        $unrtf = $ciniki['config']['ciniki.core']['unrtf'];
+
+        $tmp_filename = '/tmp';
+        if( isset($ciniki['config']['ciniki.core']['tmp_dir']) && $ciniki['config']['ciniki.core']['tmp_dir'] != '' ) {
+            $tmp_filename = $ciniki['config']['ciniki.core']['tmp_dir'];
+        }
+        $tmp_filename .= '/' . preg_replace('/\//', '_', $path);
+
+        file_put_content($tmp_filename, $file_contents);
+        $rc = exec("$unrtf --html $tmp_filename", $output);
+        if( isset($output) && count($output) > 0 ) {
+            $text = '';
+            foreach($output as $line) {
+                $line = preg_replace('/<br>/', "\n", $line);
+                $line = preg_replace('/&ldquo;/', '"', $line);
+                $line = preg_replace('/&rdquo;/', '"', $line);
+                $line = preg_replace('/&quot;/', '"', $line);
+                $line = preg_replace('/&nbsp;/', '', $line);
+                $line = strip_tags($line);
+                if( $line != '' ) {
+                    $text .= $line;
+                }
+            }
+            $file_contents = $text;
+            unline($tmp_filename);
+        }
+    }
 
 	return array('stat'=>'ok', 'content'=>$file_contents);
 }

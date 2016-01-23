@@ -64,7 +64,9 @@ if( !isset($rc['businesses']) ) {
 $businesses = $rc['businesses'];
 
 foreach($businesses as $bid => $business) {
-	
+
+    error_log("Backing up business: " . $business['name']);
+    continue;
 	$rc = ciniki_core_backupBusiness($ciniki, $business);
 	if( $rc['stat'] != 'ok' ) {
 		error_log('BACKUP-ERR: ' . $rc['err']['code'] . ' - ' . $rc['err']['msg']);

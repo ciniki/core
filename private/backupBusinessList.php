@@ -12,9 +12,13 @@
 //
 function ciniki_core_backupBusinessList($ciniki) {
 
-	$strsql = "SELECT id, uuid, name "
-		. "FROM ciniki_businesses "
-		. "WHERE status = 1 "
+	$strsql = "SELECT ciniki_businesses.id, ciniki_businesses.uuid, ciniki_businesses.name "
+		. "FROM ciniki_businesses, ciniki_business_modules "
+		. "WHERE ciniki_businesses.status = 1 "
+        . "AND ciniki_businesses.id = ciniki_business_modules.business_id "
+        . "AND ciniki_business_modules.package = 'ciniki' "
+        . "AND ciniki_business_modules.module = 'businesses' "
+        . "AND (ciniki_business_modules.flags&0x020000) > 0 "
 		. "";
 
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashQueryIDTree');

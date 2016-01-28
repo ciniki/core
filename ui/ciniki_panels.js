@@ -2797,6 +2797,9 @@ M.panel.prototype.createFormFields = function(s, nF, fI, fields, mN) {
 		//
 		// Check if field should be shown
 		//
+        if( typeof fields[i].active == 'function' && fields[i].active() == 'no' ) {
+			continue;
+        }
 		if( fields[i].active != null && fields[i].active == 'no' ) {
 			continue;
 		}

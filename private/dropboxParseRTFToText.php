@@ -18,7 +18,7 @@ function ciniki_core_dropboxParseRTFToText($ciniki, $business_id, $client, $path
 	curl_setopt($ch, CURLOPT_SSLVERSION, 1);
 	curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization: Bearer ' . $client->getAccessToken()));
 	if( $path[0] != '/' ) { $path = '/' . $path; }
-	curl_setopt($ch, CURLOPT_URL, "https://api-content.dropbox.com/1/files/auto" . curl_escape($path));
+	curl_setopt($ch, CURLOPT_URL, "https://api-content.dropbox.com/1/files/auto" . curl_escape($ch, $path));
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
 	curl_setopt($ch, CURLOPT_BINARYTRANSFER, TRUE);
 	$file_contents = curl_exec($ch);
@@ -55,7 +55,7 @@ function ciniki_core_dropboxParseRTFToText($ciniki, $business_id, $client, $path
                 $line = preg_replace('/&rdquo;/', '"', $line);
                 $line = preg_replace('/&quot;/', '"', $line);
                 $line = preg_replace('/&nbsp;/', '', $line);
-                $line = strip_tags($line);
+                $line = strip_tags($line, '<b><i><em>');
                 if( $line != '' ) {
                     $text .= $line;
                 }

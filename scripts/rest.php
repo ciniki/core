@@ -68,6 +68,7 @@ $rc = ciniki_core_callPublicMethod($ciniki);
 // Check if there is a sync queue to process
 //
 if( (isset($ciniki['syncqueue']) && count($ciniki['syncqueue']) > 0)
+	|| (isset($ciniki['smsqueue']) && count($ciniki['smsqueue']) > 0) 
 	|| (isset($ciniki['emailqueue']) && count($ciniki['emailqueue']) > 0) 
 	|| (isset($ciniki['fbrefreshqueue']) && count($ciniki['fbrefreshqueue']) > 0) 
 	) {
@@ -88,6 +89,11 @@ if( (isset($ciniki['syncqueue']) && count($ciniki['syncqueue']) > 0)
 		while(ob_get_level()>0) ob_end_clean();
 	}
 
+	// Run sms queue
+	if( isset($ciniki['smsqueue']) && count($ciniki['smsqueue']) > 0 ) {
+		ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'smsQueueProcess');
+		ciniki_core_smsQueueProcess($ciniki);
+	} 
 	// Run email queue
 	if( isset($ciniki['emailqueue']) && count($ciniki['emailqueue']) > 0 ) {
 		ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'emailQueueProcess');

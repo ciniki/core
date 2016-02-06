@@ -66,6 +66,7 @@ $rc = ciniki_core_callPublicMethod($ciniki);
 //
 if( (isset($ciniki['syncqueue']) && count($ciniki['syncqueue']) > 0) 
 	|| (isset($ciniki['fbrefreshqueue']) && count($ciniki['fbrefreshqueue']) > 0) 
+	|| (isset($ciniki['smsqueue']) && count($ciniki['smsqueue']) > 0) 
 	|| (isset($ciniki['emailqueue']) && count($ciniki['emailqueue']) > 0) 
 	) {
 	if( $rc['stat'] != 'exit' ) {

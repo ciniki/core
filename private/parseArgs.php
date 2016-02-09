@@ -148,16 +148,19 @@ function ciniki_core_parseArgs(&$ciniki, $business_id, $raw_args, $arg_info) {
 				}
 			} 
 			elseif( isset($options['type']) && $options['type'] == 'currency' && $raw_args[$arg] != '' ) {
-				if( ($intl_currency == 'CAD' || $intl_currency == 'USD') && $raw_args[$arg][0] != '$' ) {
-					$args[$arg] = '$' . $raw_args[$arg];
-				} else {
-					$args[$arg] = $raw_args[$arg];
-				}
-				$amt = numfmt_parse_currency($intl_currency_fmt, $args[$arg], $intl_currency);
-				if( $amt === FALSE ) {
-					return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1425', 'msg'=>"$invalid_msg", 'pmsg'=>"Argument: $arg invalid currency format"));
-				}
-				$args[$arg] = $amt;
+                $args[$arg] = preg_replace('/ /', '', $raw_args[$arg]);
+                if( $args[$arg] != '' ) {
+                    if( ($intl_currency == 'CAD' || $intl_currency == 'USD') && $args[$arg][0] != '$' ) {
+                        $args[$arg] = '$' . $args[$arg];
+                    } else {
+                        $args[$arg] = $args[$arg];
+                    }
+                    $amt = numfmt_parse_currency($intl_currency_fmt, $args[$arg], $intl_currency);
+                    if( $amt === FALSE ) {
+                        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1425', 'msg'=>"$invalid_msg", 'pmsg'=>"Argument: $arg invalid currency format"));
+                    }
+                    $args[$arg] = $amt;
+                }
 			}
 			elseif( isset($options['type']) && $options['type'] == 'int' && preg_match('/^\d+$/',$raw_args[$arg]) ) {
 				$args[$arg] = (int)$raw_args[$arg];

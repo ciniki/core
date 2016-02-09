@@ -7,7 +7,7 @@ table.form td.multiselect input,
 table.form td.audiocontrols span.audio_filename,
 table.form td.input input {
 	-webkit-border-radius: 3px;
-	-webkit-box-shadow: #555 0px 0px 2px inset;
+/*	-webkit-box-shadow: #555 0px 0px 2px inset;*/
 }
 
 table.simplelist input,

@@ -761,6 +761,11 @@ table.list tr.textfield > td > textarea.xlarge {
 	height: 40em;
 }
 
+table.list tr.textfield > td > textarea.monospace {
+    font-family: monospace;
+}
+
+
 table.list tr > td.noedit {
 	padding: 0.5em;
 	width: 95%;

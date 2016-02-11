@@ -3267,6 +3267,9 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
 		} else {
 			f.setAttribute('rows', 6);
 		}
+        if( field.monospace != null && field.monospace == 'yes' ) {
+            f.classList.add('monospace');
+        }
 		if( field.hint != null && field.hint != '' ) {
 			f.setAttribute('placeholder', field.hint);
 		}

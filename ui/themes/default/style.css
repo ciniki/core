@@ -1346,6 +1346,12 @@ table.imageform td.input div.image_preview img {
 	max-width: 96%;
 }
 
+/* Charting styles */
+table.chart td canvas {
+    width: 100%;
+    height: 300px;
+}
+
 /*****  MEDIA display styles ****/
 div.media {
 	display: block;

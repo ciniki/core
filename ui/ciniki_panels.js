@@ -36,6 +36,7 @@ M.panel = function(title, appID, panelID, appPrefix, size, type, helpUID) {
 	this.gstep = 0;
 	this.gstep_number = 0;
 	this.gsteps = [];
+    this.onShowCbs = [];
 
 	//
 	// Attach functions from other files.  These are typically located in s-compact and s-normal,
@@ -100,7 +101,6 @@ M.panel.prototype.close = function(data) {
 			tinymce.execCommand("mceRemoveEditor", false, this.tinymce[i]);
 		}
 	}
-
 
 	//
 	// Remove any hooks
@@ -245,6 +245,12 @@ M.panel.prototype.show = function(cb) {
 		var e = M.gE(this.autofocus);
 		if( e != null ) { e.focus(); }
 	}
+
+    if( this.onShowCbs.length > 0 ) {
+        for(var i in this.onShowCbs) {
+            eval(this.onShowCbs[i]);
+        }
+    }
 };
 
 //
@@ -313,6 +319,7 @@ M.panel.prototype.addPanel = function() {
 M.panel.prototype.refresh = function() {
 	var c = M.gE(this.panelUID);
 	if( c != null ) {
+        this.onShowCbs = [];
 		if( this.tinymce.length > 0 ) {
 			for(i in this.tinymce) {
 				tinymce.execCommand("mceRemoveEditor", false, this.tinymce[i]);
@@ -775,6 +782,8 @@ M.panel.prototype.createSection = function(i, s) {
 		st = this.createSimpleThumbnails(i);
 	} else if( type == 'audiolist' ) {
 		st = this.createAudioList(i);
+	} else if( type == 'chart' ) {
+		st = this.createChart(i);
 	} else {
         console.log('Missing section type for: ' + s);
         st = document.createDocumentFragment();
@@ -807,6 +816,86 @@ M.panel.prototype.createSection = function(i, s) {
 	}
 	if( gt != null ) { f.appendChild(M.aE('p', null, 'guided-text guided-show', gt)); }
 	return f;
+};
+
+M.panel.prototype.createChart = function(s) {
+	var f = document.createDocumentFragment();
+
+	var t = M.addTable(this.panelUID + '_' + s, 'list chart border noheader');
+	var tb = M.aE('tbody');
+	var tr = M.aE('tr');
+	var c = M.aE('td',null,'');
+    c.innerHTML = '<canvas id="' + this.panelUID + '_' + s + '_canvas"></canvas>';
+	tr.appendChild(c);
+	tb.appendChild(tr);
+	t.appendChild(tb);
+
+    f.appendChild(t);
+
+    if( typeof Chart == "undefined" ) {
+        M.startLoad();
+		var script = document.createElement('script');
+		script.type = 'text/javascript';
+		// Hack to get around cached data
+		var d = new Date();
+		var t = d.getTime();
+		// ciniki.users.prefs -> /ciniki-mods/users/ui/prefs.js
+        script.src = '/ciniki-mods/core/ui/Chart.min.js';
+		var done = false;
+		var head = document.getElementsByTagName('head')[0];
+
+		script.onerror = function() {
+			M.stopLoad();
+			alert("Unable to load, please report this bug.");
+		}
+        var cb = this.panelRef + '.createChartContent("' + s + '");';
+
+		// Attach handlers for all browsers
+		script.onload = script.onreadystatechange = function() {
+			M.stopLoad();
+			if(!done&&(!this.readyState||this.readyState==="loaded"||this.readyState==="complete")){
+				done = true;
+                
+                eval(cb);
+			   
+				// Handle memory leak in IE
+				script.onload = script.onreadystatechange = null;
+				if(head&&script.parentNode){
+					head.removeChild( script );
+				}    
+			}    
+		};
+		head.appendChild(script);
+    } else {
+        this.onShowCbs.push(this.panelRef + '.createChartContent("' + s + '");');
+    }
+
+    return f;
+};
+
+M.panel.prototype.createChartContent = function(s) {
+
+	var sc = this.sections[s];
+	var data = null;
+	if( this.sectionData != null ) {
+		data = this.sectionData(s);
+	} else if( sc.data != null ) {
+		data = sc.data;
+	} 
+    if( data == null ) {
+        console.log('No data for chart');
+        return false;
+    }
+   
+    var c = new Chart(document.getElementById(this.panelUID + '_' + s + '_canvas').getContext("2d")).Overlay(data, {
+        scaleBeginAtZero: (sc.scaleBeginAtZero!=null?sc.scaleBeginAtZero:false), 
+        populateSparseData: (sc.populateSparseData!=null?sc.populateSparseData:true), 
+        scaleLabel: (sc.scaleLabel!=null?sc.scaleLabel:"<%=value%>%"), 
+        tooltipTemplate: (sc.tooltopTemplate!=null?sc.tooltopTemplate:"<%=value%>%"),
+        multiTooltipTemplate: (sc.multiTooltipTemplate!=null?sc.multiTooltipTemplate:"<%=value%>%"),
+        responsive: true,
+        datasetFill: false,
+        });
 };
 
 M.panel.prototype.createAudioList = function(s) {

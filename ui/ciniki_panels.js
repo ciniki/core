@@ -843,12 +843,12 @@ M.panel.prototype.createChart = function(s) {
         script.src = '/ciniki-mods/core/ui/Chart.min.js';
 		var done = false;
 		var head = document.getElementsByTagName('head')[0];
+        var cb = this.panelRef + '.createChartContent("' + s + '");';
 
 		script.onerror = function() {
 			M.stopLoad();
 			alert("Unable to load, please report this bug.");
-		}
-        var cb = this.panelRef + '.createChartContent("' + s + '");';
+		};
 
 		// Attach handlers for all browsers
 		script.onload = script.onreadystatechange = function() {

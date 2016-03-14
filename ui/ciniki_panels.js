@@ -886,8 +886,11 @@ M.panel.prototype.createChartContent = function(s) {
         console.log('No data for chart');
         return false;
     }
-   
-    var c = new Chart(document.getElementById(this.panelUID + '_' + s + '_canvas').getContext("2d")).Overlay(data, {
+    if( this.sections[s].chart_overlay != null ) {  
+        this.sections[s].chart_overlay.destroy();
+    }
+
+    this.sections[s].chart_overlay = new Chart(document.getElementById(this.panelUID + '_' + s + '_canvas').getContext("2d")).Overlay(data, {
         scaleBeginAtZero: (sc.scaleBeginAtZero!=null?sc.scaleBeginAtZero:false), 
         populateSparseData: (sc.populateSparseData!=null?sc.populateSparseData:true), 
         scaleLabel: (sc.scaleLabel!=null?sc.scaleLabel:"<%=value%>%"), 

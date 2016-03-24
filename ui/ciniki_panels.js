@@ -3717,10 +3717,17 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
 			var f = M.aE('span', this.panelUID + '_' + fid + sFN + '_' + j);
 			f.setAttribute('onfocus', this.panelRef + '.clearLiveSearches(\''+s+'\',\''+i+sFN+'\');');
 			f.className = 'toggle_off';
-			if( vs.indexOf(idlist[j][iname].id) >= 0 ) {
-				f.className = 'toggle_on';
-			}
-			f.innerHTML = idlist[j][iname].name;
+            if( iname != '' ) {
+                if( vs.indexOf(idlist[j][iname].id) >= 0 ) {
+                    f.className = 'toggle_on';
+                }
+                f.innerHTML = idlist[j][iname].name;
+            } else {
+                if( vs.indexOf(idlist[j].id) >= 0 ) {
+                    f.className = 'toggle_on';
+                }
+                f.innerHTML = idlist[j].name;
+            }
 			f.setAttribute('onclick', this.panelRef + '.setSelectField(this, \'' + i + sFN + '\',\'yes\',\'' + field.fn + '\');');
 			div.appendChild(f);
 		}
@@ -5944,7 +5951,11 @@ M.panel.prototype.formFieldValue = function(f,fid) {
 		var iname = (f.itemname!=null?f.itemname:'item');
 		for(j in list) {
 			if( M.gE(this.panelUID + '_' + fid + '_' + j).className == 'toggle_on' ) {
-				n += (n!=''?',':'') + list[j][iname].id;
+                if( iname != '' ) {
+                    n += (n!=''?',':'') + list[j][iname].id;
+                } else {
+                    n += (n!=''?',':'') + list[j].id;
+                }
 			}
 		}
 	} else if( f.type == 'collection' ) {

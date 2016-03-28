@@ -893,9 +893,9 @@ M.panel.prototype.createChartContent = function(s) {
     this.sections[s].chart_overlay = new Chart(document.getElementById(this.panelUID + '_' + s + '_canvas').getContext("2d")).Overlay(data, {
         scaleBeginAtZero: (sc.scaleBeginAtZero!=null?sc.scaleBeginAtZero:false), 
         populateSparseData: (sc.populateSparseData!=null?sc.populateSparseData:true), 
-        scaleLabel: (sc.scaleLabel!=null?sc.scaleLabel:"<%=value%>%"), 
-        tooltipTemplate: (sc.tooltopTemplate!=null?sc.tooltopTemplate:"<%=value%>%"),
-        multiTooltipTemplate: (sc.multiTooltipTemplate!=null?sc.multiTooltipTemplate:"<%=value%>%"),
+        scaleLabel: (sc.scaleLabel!=null?sc.scaleLabel:"<%=value%>"), 
+        tooltipTemplate: (sc.tooltopTemplate!=null?sc.tooltopTemplate:"<%=value%>"),
+        multiTooltipTemplate: (sc.multiTooltipTemplate!=null?sc.multiTooltipTemplate:"<%=value%>"),
         responsive: true,
         datasetFill: false,
         });

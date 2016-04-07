@@ -1679,8 +1679,17 @@ input.submit {
 	cursor: pointer;
 }
 
+table.simplegrid tr.statusgreen,
 table.simplegrid td.statusgreen {
 	background: #ddffdd;
+}
+table.simplegrid tr.statusorange,
+table.simplegrid td.statusorange {
+	background: #ffefdd;
+}
+table.simplegrid tr.statusred,
+table.simplegrid td.statusred {
+	background: #ffdddd;
 }
 /* Alert styles */
 table.list tr.severity50 {

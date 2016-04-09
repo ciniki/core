@@ -5625,7 +5625,7 @@ M.panel.prototype.serializeForm = function(fs) {
 				// Set to blank if not defined
 				if( o == undefined ) { o = ''; }
 				var n = this.formFieldValue(f, fid);
-				if( n != o || fs == 'yes' ) {
+				if( f.type != 'flagtoggle' && (n != o || fs == 'yes') ) {
 					c += encodeURIComponent(fid) + '=' + encodeURIComponent(n) + '&';
 				}
 				// Check if secondary field

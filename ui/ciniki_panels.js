@@ -5625,9 +5625,9 @@ M.panel.prototype.serializeForm = function(fs) {
 				// Set to blank if not defined
 				if( o == undefined ) { o = ''; }
 				var n = this.formFieldValue(f, fid);
-				if( f.type != 'flagtoggle' && (n != o || fs == 'yes') ) {
+				if( f.type != 'flagtoggle' && f.type != 'flagspiece' && (n != o || fs == 'yes') ) {
 					c += encodeURIComponent(fid) + '=' + encodeURIComponent(n) + '&';
-				}
+                }
 				// Check if secondary field
 				if( f.option_field != null ) {
 					var o = '';
@@ -5641,18 +5641,20 @@ M.panel.prototype.serializeForm = function(fs) {
 				// Check if flagtoggle and field specified
 				if( f.type == 'flagtoggle' && f.field != null ) {
 					if( flags[f.field] == null ) {
-						flags[f.field] = {'f':f, 'v':0};
+						flags[f.field] = {'f':f, 'v':this.fieldValue('', f.field, f)};
 					}
 					if( n == 'on' || (f.reverse != null && f.reverse == 'yes' && n == 'off') ) {
 						flags[f.field].v |= f.bit;
-					}
+					} else if( (flags[f.field].v&f.bit) > 0 ) {
+                        flags[f.field].v ^= f.bit;
+                    }
 				} else if( f.type == 'flagspiece' && f.field != null ) {
 					if( flags[f.field] == null ) {
 						flags[f.field] = {'f':f, 'v':this.fieldValue('', f.field, f)};
 					}
 					var n = this.formFieldValue(f, fid);
 					flags[f.field].v = flags[f.field].v ^ ((flags[f.field].v ^ n) & f.mask);
-				}
+                }
 			}
 		}
 	}

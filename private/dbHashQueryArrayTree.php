@@ -135,6 +135,14 @@ function ciniki_core_dbHashQueryArrayTree(&$ciniki, $strsql, $module, $tree) {
 									$date->format($tree[$i]['utctotz'][$field_id]['format']);
 							}
 						}
+						elseif( isset($tree[$i]['utctodate']) && isset($tree[$i]['utctodate'][$field_id]) ) {
+							if( $row[$field] == '0000-00-00 00:00:00' || $row[$field] == '0000-00-00' || $row[$field] == '' ) {
+								$data[$tree[$i]['container']][$num_elements[$i]][$field_id] = '';
+							} else {
+								$data[$tree[$i]['container']][$num_elements[$i]][$field_id] = 
+                                    new DateTime($row[$field], new DateTimeZone($tree[$i]['utctodate'][$field_id]));
+							}
+						}
 						elseif( isset($tree[$i]['utctots']) && in_array($field_id, $tree[$i]['utctots']) ) {
 							if( $row[$field] == '0000-00-00 00:00:00' || $row[$field] == '0000-00-00' || $row[$field] == '' ) {
 								$data[$tree[$i]['container']][$num_elements[$i]][$field_id] = '0';

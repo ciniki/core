@@ -9,13 +9,18 @@
 // ---------
 // ciniki: 			The standard ciniki data structure, the arguments will be parsed into it.
 //
-function ciniki_core_recursiveRmdir($ciniki, $dir) {
+function ciniki_core_recursiveRmdir($ciniki, $dir, $skip=array()) {
 
 	$fp = opendir($dir);
 	if( $fp ) {
 		while( $f = readdir($fp)) {
 			$file = $dir . '/' . $f;
-			if( $f == '.' || $f == '..' ) { continue; }
+			if( $f == '.' || $f == '..' ) { 
+                continue; 
+            }
+            if( in_array($f, $skip) ) { 
+                continue; 
+            }
 			elseif( is_dir($file) && !is_link($file) ) {
 				$rc = ciniki_core_recursiveRmdir($ciniki, $file);
 				if( $rc['stat'] != 'ok' ) {

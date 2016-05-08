@@ -17,7 +17,8 @@ $manage_root = $ciniki_root . '/ciniki-mods';
 $themes_root = $ciniki_root . '/ciniki-mods/core/ui/themes';
 $manage_js = "/ciniki-mods/core/ui";
 $manage_themes = "/ciniki-mods/core/ui/themes";
-$start_container = 'm_login';
+//$start_container = 'm_login';
+$start_container = 'm_loading';
 
 require_once($ciniki_root . '/ciniki-mods/core/private/loadMethod.php');
 require_once($ciniki_root . '/ciniki-mods/core/private/init.php');
@@ -419,6 +420,9 @@ if( $browser == 'unsupported' ) {
 	//
 	// Check if submiting form authorized user
 	//
+//    if( isset($_COOKIE['auth_token']) ) {
+//        $manage_config['auth_token'] = $_COOKIE['auth_token'];
+//    }
 	if( isset($_POST['auth_token']) && $_POST['auth_token'] != '' ) {
 		$manage_config['auth_token'] = $_POST['auth_token'];
 	}
@@ -475,10 +479,17 @@ Javscript must be enabled for this application to work.
 					<table class="list noheader form" cellspacing='0' cellpadding='0'>
 						<tr class="textfield"><td class="input"><label style="display:none;" for="password">Password</label><input id="password" type="password" maxlength="50" name="password"></td></tr>
 					</table>
+
 				</div>
 				<input type="submit" value="Sign In" class="button"/>
-				<br/><br/>
-				<p class="right link"><a href="" onClick="M.hide('m_login'); M.show('m_forgot'); return false;">Forgot Password</a></p>
+                <table class="loginoptions list noheader form" cellspacing='0' cellpadding='0'>
+                    <tr class='checkbox'>
+                        <td class='checkbox'><input type="checkbox" id='rm' name='rm' value='yes' class='checkbox'/><label for='rm'>Remember me</label></td>
+                        <td>
+                            <p class="right link"><a href="" onClick="M.hide('m_login'); M.show('m_forgot'); return false;">Forgot Password</a></p>
+                        </td>
+                    </tr>
+                </table>
 			</form>
 		</div>
 	</div>

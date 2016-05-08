@@ -20,6 +20,10 @@ input, textarea {
 	-webkit-appearance: none;
 }
 
+input.checkbox {
+	-webkit-appearance: checkbox;
+}
+
 input:focus {
 	outline: none;
 }

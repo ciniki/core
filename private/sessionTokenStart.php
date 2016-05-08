@@ -2,8 +2,7 @@
 //
 // Description
 // -----------
-// This function will start a new session, destroying the old
-// one if it exists.
+// This will start a new session base on a user token
 //
 // Arguments
 // ---------
@@ -11,7 +10,7 @@
 // username:		The username to authenticate with the password.
 // password:		The password submitted to be used for authentication.
 //
-function ciniki_core_sessionStart(&$ciniki, $username, $password) {
+function ciniki_core_sessionTokenStart(&$ciniki, $selector, $token) {
 
 	//
 	// End any currently active sessions
@@ -25,35 +24,37 @@ function ciniki_core_sessionStart(&$ciniki, $username, $password) {
 	// Verify api_key is specified
 	//
 	if( !isset($ciniki['request']['api_key']) || $ciniki['request']['api_key'] == '' ) {
-		ciniki_users_logAuthFailure($ciniki, $username, 30);
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'30', 'msg'=>'No api_key specified'));
+		ciniki_users_logAuthFailure($ciniki, $token, 3394);
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'3394', 'msg'=>'No api_key specified'));
 	}
 
 	//
 	// Check username and password were passed to function
 	//
-	if( $username == '' || $password == '' ) {
-		ciniki_users_logAuthFailure($ciniki, $username, 31);
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'31', 'msg'=>'Invalid password'));
+	if( $token == '' ) {
+		ciniki_users_logAuthFailure($ciniki, $token, 3395);
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'3395', 'msg'=>'Invalid token'));
 	}
 
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQuote');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashQuery');
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbUpdate');
 
 	//
 	// Check the username and password in the database.
 	// Make sure only select active users (status = 2)
 	//
-	$strsql = "SELECT id, email, username, avatar_id, perms, status, timeout, login_attempts, display_name "
-		. "FROM ciniki_users "
-		. "WHERE (email = '" . ciniki_core_dbQuote($ciniki, $username) . "' "
-			. "OR username = '" . ciniki_core_dbQuote($ciniki, $username) . "') "
-		. "AND password = SHA1('" . ciniki_core_dbQuote($ciniki, $password) . "') ";
-
-	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashQuery');
-	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbUpdate');
+	$strsql = "SELECT ciniki_users.id, ciniki_users.email, ciniki_users.username, ciniki_users.avatar_id, "
+        . "ciniki_users.perms, ciniki_users.status, ciniki_users.timeout, ciniki_users.login_attempts, "
+        . "ciniki_users.display_name "
+		. "FROM ciniki_user_tokens, ciniki_users "
+		. "WHERE ciniki_user_tokens.selector = '" . ciniki_core_dbQuote($ciniki, $selector) . "' "
+		. "AND ciniki_user_tokens.token = '" . ciniki_core_dbQuote($ciniki, $token) . "' "
+        . "AND ciniki_user_tokens.user_id = ciniki_users.id "
+        . "";
 	$rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.users', 'user');
 	if( $rc['stat'] != 'ok' ) {
-		ciniki_users_logAuthFailure($ciniki, $username, $rc['err']['code']);
+		ciniki_users_logAuthFailure($ciniki, $token, $rc['err']['code']);
 		return $rc;
 	}
 
@@ -61,17 +62,17 @@ function ciniki_core_sessionStart(&$ciniki, $username, $password) {
 	// Perform an extra check to make sure only 1 row was found, other return error
 	//
 	if( $rc['num_rows'] != 1 ) {
-		ciniki_users_logAuthFailure($ciniki, $username, 33);
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'33', 'msg'=>'Invalid password'));
+		ciniki_users_logAuthFailure($ciniki, $token, 3396);
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'3396', 'msg'=>'Invalid password'));
 	}
 
 	if( !isset($rc['user']) ) {
-		ciniki_users_logAuthFailure($ciniki, $username, 34);
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'34', 'msg'=>'Invalid password'));
+		ciniki_users_logAuthFailure($ciniki, $token, 3397);
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'3397', 'msg'=>'Invalid password'));
 	}
 	if( $rc['user']['id'] <= 0 ) {
-		ciniki_users_logAuthFailure($ciniki, $username, 35);
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'35', 'msg'=>'Invalid password'));
+		ciniki_users_logAuthFailure($ciniki, $token, 3398);
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'3398', 'msg'=>'Invalid password'));
 	}
 	$user = $rc['user'];
 
@@ -85,20 +86,20 @@ function ciniki_core_sessionStart(&$ciniki, $username, $password) {
 	}
 	// Check if the account is locked
 	if( $user['status'] == 10 ) {
-		ciniki_users_logAuthFailure($ciniki, $username, 236);
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'236', 'msg'=>'Account locked'));
+		ciniki_users_logAuthFailure($ciniki, $token, 3399);
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'3399', 'msg'=>'Account locked'));
 	}
 	
 	// Check if the account is deleted
 	if( $user['status'] == 11 ) {
-		ciniki_users_logAuthFailure($ciniki, $username, 237);
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'237', 'msg'=>'Invalid password'));
+		ciniki_users_logAuthFailure($ciniki, $token, 4000);
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'4000', 'msg'=>'Invalid password'));
 	}
 
 	// Check if the account is active
 	if( $user['status'] < 1 || $user['status'] > 2 ) {
-		ciniki_users_logAuthFailure($ciniki, $username, 238);
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'238', 'msg'=>'Invalid password'));
+		ciniki_users_logAuthFailure($ciniki, $token, 4001);
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'4001', 'msg'=>'Invalid password'));
 	}
 
 	unset($user['login_attempts']);
@@ -106,7 +107,7 @@ function ciniki_core_sessionStart(&$ciniki, $username, $password) {
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbDetailsQueryHash');
 	$rc = ciniki_core_dbDetailsQueryHash($ciniki, 'ciniki_user_details', 'user_id', $user['id'], 'settings', 'ciniki.users');
 	if( $rc['stat'] != 'ok' ) {
-		ciniki_users_logAuthFailure($ciniki, $username, $rc['err']['code']);
+		ciniki_users_logAuthFailure($ciniki, $token, $rc['err']['code']);
 		return $rc;
 	}
 	if( isset($rc['details']['settings']) && $rc['details']['settings'] != null ) {
@@ -156,7 +157,7 @@ function ciniki_core_sessionStart(&$ciniki, $username, $password) {
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbInsert');
 	$rc = ciniki_core_dbInsert($ciniki, $strsql, 'ciniki.core');
 	if( $rc['stat'] != 'ok' ) {
-		ciniki_users_logAuthFailure($ciniki, $username, $rc['err']['code']);
+		ciniki_users_logAuthFailure($ciniki, $token, $rc['err']['code']);
 		return $rc;
 	}
 
@@ -166,7 +167,7 @@ function ciniki_core_sessionStart(&$ciniki, $username, $password) {
 	$strsql = "UPDATE ciniki_users SET login_attempts = 0, last_login = UTC_TIMESTAMP() WHERE id = '" . ciniki_core_dbQuote($ciniki, $user['id']) . "'";
 	$rc = ciniki_core_dbUpdate($ciniki, $strsql, 'ciniki.users');
 	if( $rc['stat'] != 'ok' ) {
-		ciniki_users_logAuthFailure($ciniki, $username, $rc['err']['code']);
+		ciniki_users_logAuthFailure($ciniki, $token, $rc['err']['code']);
 		return $rc;
 	}
 

@@ -13,7 +13,7 @@ window.M.api = {
 // r - The response code from Ciniki to check for the error
 //
 M.api.checkResult = function(r, m, p, c) {
-	if( r.stat == 'fail' && (r.err.code == '37' || r.err.code == '27') ) {
+	if( r.stat == 'fail' && (r.err.code == '37' || r.err.code == '27') && m != 'ciniki.users.auth' ) {
 		return M.api.expired(r);
 	}
 	if( r.stat == 'fail' ) {
@@ -453,10 +453,48 @@ M.api.postCb = function(m, p, c, cb) {
 				} catch(e) {
 					cb({'stat':'fail', 'err':{'pkg':'ciniki', 'code':'JSON-ERR', 'msg':'API Error', 'pmsg':'Unable to parse (' + this.responseText + ')'}});
 				}
-				if( r.stat != 'ok' && (r.err.code == 37 || r.err.code == 27)) {
+				if( r != null && r.stat != 'ok' && (r.err.code == 37 || r.err.code == 27)) {
 					M.reauth_apiresume = {'f':'postCb', 'm':m, 'p':p, 'c':c, 'cb':cb};
 					return M.api.expired(r);
 				} 
+				cb(r);
+			} else {
+				cb(this.responseXML);
+			}
+		} 
+		else if( this.readyState > 2 && this.status >= 300 ) {
+			M.stopLoad();
+			cb({'stat':'fail','err':{'code':'HTTP-' + this.status, 'msg':'Network error - unable to transfer.'}});
+		} 
+//		else if( M.browser != 'ie' && this.status == 0 ) {
+		else if( x.readyState == 4 && x.status == 0 ) {
+			M.stopLoad();
+			cb({'stat':'fail','err':{'code':'HTTP-' + this.status, 'msg':'API Error'}});
+		}
+	};
+	x.send(c);
+	return {'stat':'ok'};
+}
+
+M.api.postAuthCb = function(m, p, c, cb) {
+	M.startLoad();
+	var u = M.api.url + '?method=' + m + '&api_key=' + M.api.key + '&auth_token=' + M.api.token;
+	for(k in p) {
+		u += '&' + k + '=' + p[k];
+	}
+	M.api.lastCall = {'f':'postCb', 'm':m, 'p':p, 'c':c, 'cb':cb};
+	var x = M.xmlHttpCreate();
+	x.open("POST", u, true);
+	x.onreadystatechange = function() {
+//		if( x == null ) { return true; }
+		if( this.readyState == 4 && this.status == 200 ) {
+			M.stopLoad();
+			if(p.format == 'json') {
+				try {
+					var r = JSON.parse(this.responseText);
+				} catch(e) {
+					cb({'stat':'fail', 'err':{'pkg':'ciniki', 'code':'JSON-ERR', 'msg':'API Error', 'pmsg':'Unable to parse (' + this.responseText + ')'}});
+				}
 				cb(r);
 			} else {
 				cb(this.responseXML);
@@ -638,23 +676,30 @@ M.api.resume = function(apicall) {
 }
 
 M.api.expired = function(r) {
-	M.api.token = '';
-	M.expired = 'yes';
-	// Users will need to verify their password based on API timeout, but only if
-	// the code version they are using is no older than 12 hours.  This means users must
-	// relogin within 12 hours of a code update.
-	if( M.api.version != r.version && ((Math.round(+new Date()/1000))-M.startTime) > 43200 ) {
-		alert('Session expired, please login again');
-		M.oldUserId = M.userID;
-		M.userID = 0;
-		M.userPerms = 0;
-		M.logout();
-		M.businesses = null;
-		M.curBusinessID = 0;
-		M.reload();
-	} else {
-		M.show('m_relogin');
-		M.hide('m_container');
-	}
+    var s = M.cookieGet('_UTS');
+    var t = M.cookieGet('_UTK');
+    if( s != null && s != '' && t != null && t != '' ) {
+        M.reauthToken(s, t);
+    } else {
+        M.api.token = '';
+        M.expired = 'yes';
+        // Users will need to verify their password based on API timeout, but only if
+        // the code version they are using is no older than 12 hours.  This means users must
+        // relogin within 12 hours of a code update.
+        if( M.api.version != r.version && ((Math.round(+new Date()/1000))-M.startTime) > 43200 ) {
+            alert('Session expired, please login again');
+            M.oldUserId = M.userID;
+            M.userID = 0;
+            M.userPerms = 0;
+            M.logout();
+            M.businesses = null;
+            M.curBusinessID = 0;
+            M.reload();
+        } else {
+            M.show('m_relogin');
+            M.hide('m_container');
+        }
+    }
+
 	return {'stat':'fail'};
 }

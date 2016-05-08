@@ -23,6 +23,35 @@ html {
     -webkit-text-size-adjust: 100%; /* Prevent font scaling in landscape while allowing user zoom */
 }
 
+/******* Login panel ******/
+#mc_login table.loginoptions {
+    margin-top: 1.5em;
+}
+#mc_login table.loginoptions td {
+    padding: 0em 0.4em;
+    color: #777;
+}
+#mc_login table.loginoptions td:first-child {
+    padding-left: 0px;
+    width: 50%;
+}
+#mc_login table.loginoptions td:last-child {
+    padding-right: 0px;
+    border-left: 1px solid #ccc;
+}
+#mc_login table.list td input.checkbox {
+    border: 1px solid #333;
+    color: #333;
+    vertical-align: baseline;
+    width: auto;
+    line-height: auto;
+    padding: 0px;
+    border: 1px solid #ccc;
+    margin-right: 0.15em;
+    margin-bottom: 0;
+}
+
+
 /******* The top bar across the window ******/
 .headerbar {
 	width: 100%;
@@ -645,7 +674,6 @@ table.list tr.textfield > td > input.file {
     box-sizing: border-box;
     border: 0px;
 }
-
 
 table.list tr.textfield > td.select {
 	width: 100%;

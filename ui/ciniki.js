@@ -96,9 +96,15 @@ M.init = function(cfg) {
 	//
 	// Check if username and password were passed to script, and auto-login
 	//
+    var uts = M.cookieGet('_UTS');
+    var utk = M.cookieGet('_UTK');
 	if( cfg.auth_token != null ) {
-		M.auth(this, cfg.auth_token);
-	}
+		M.authToken(this, cfg.auth_token);
+	} else if( uts != null && uts != '' && utk != null && utk != '' ) {
+        M.authUserToken(this, uts, utk);
+    } else {
+        M.gE('m_login').style.display = ''; 
+    }
 
 	// Setup TinyMCE Editor
 	tinyMCE.init({
@@ -308,20 +314,145 @@ M.closeApp = function(aI, mF) {
 // This function will close all windows, and issue a reload
 //  
 M.logout = function() {
-	var r = M.api.getJSON('ciniki.users.logout', {});
-	M.api.token = ''; 
-	M.userID = 0; 
-	M.userPerms = 0;
+    
+    var uts = M.cookieGet('_UTS','');
+    var utk = M.cookieGet('_UTK','');
+    var c = '';
+    if( uts != null && uts != '' && utk != null && utk != '' ) { 
+        c = 'user_selector=' + encodeURIComponent(uts) + '&user_token=' + encodeURIComponent(utk);
+    } 
+    M.gE('m_container').style.display = 'none';
+    M.gE('m_loading').style.display = '';
+    M.api.postJSONCb('ciniki.users.logout', {}, c, function(rsp) {
+        // Don't reset UTS, it's out computer ID
+        M.cookieSet('_UTK','');
+        M.api.token = ''; 
+        M.userID = 0; 
+        M.userPerms = 0;
 
-	// Clear any business data
-	M.businesses = null;
-	M.curBusinessID = 0;
+        // Clear any business data
+        M.businesses = null;
+        M.curBusinessID = 0;
 
-	//  
-	// Issue a reload, which will reset all variables, and dump any open windows.
-	//  
-	M.reload();
-	// window.location.reload();
+        //  
+        // Issue a reload, which will reset all variables, and dump any open windows.
+        //  
+        M.reload();
+        // window.location.reload();
+    });
+}
+
+//
+// This function will authenticate a token
+//
+M.authUserToken = function(e, s, t) {
+    if( s != null && s != '' && t != null && t != '' ) {
+        M.api.postAuthCb('ciniki.users.auth', {'format':'json'}, 'user_selector=' + encodeURIComponent(s) + '&user_token=' + encodeURIComponent(t), function(r) {
+            if( r.stat == 'ok' ) {
+                // Store the time this session started, used when expiring sessions.
+                M.startTime = Math.round(+new Date()/1000);
+                M.api.version = r.version;	// Set only when UI is loaded/first login
+                M.api.token = r.auth.token;
+                M.userID = r.auth.id;
+                M.avatarID = r.auth.avatar_id;
+                M.userPerms = r.auth.perms;
+                M.userSettings = r.auth.settings;
+                if( r.auth.settings['ui-mode-guided'] != null 
+                    && r.auth.settings['ui-mode-guided'] == 'yes' ) {
+                    // Set to off, so toggle can switch on
+                    M.uiModeGuided = 'no';
+                    M.toggleGuidedMode();
+                } else {
+                    // Set to on, so toggle can switch off
+                    M.uiModeGuided = 'yes';
+                    M.toggleGuidedMode();
+                }
+                if( r.auth.settings['ui-mode-xhelp'] != null 
+                    && r.auth.settings['ui-mode-xhelp'] == 'yes' ) {
+                    // Set to off, so toggle can switch on
+                    M.uiModeXHelp = 'no';
+                    M.toggleXHelpMode();
+                } else {
+                    // Set to on, so toggle can switch off
+                    M.uiModeXHelp = 'yes';
+                    M.toggleXHelpMode();
+                }
+
+                if( M.oldUserId == M.userID ) {
+                    M.hide('m_login');
+                    return true;
+                }
+                M.oldUserId = 0;
+
+                M.hide('m_login');
+                M.loadAvatar();
+                // If they only have access to one business, go direct to that menu
+                if( r.business != null && r.business > 0 && M.businessMenu != null ) {
+                    M.startApp(M.businessMenu,null,null,'mc',{'id':r.business});
+                } else {
+                    M.startApp(M.startMenu);
+                }
+                
+            } else {
+                M.gE('m_login').style.display = '';
+            }
+        });
+    }
+}
+//
+// This function will authenticate a token
+//
+M.authToken = function(e, t) {
+    if( t != null && t != '' ) {
+        M.api.postAuthCb('ciniki.users.auth', {'format':'json'}, 'auth_token=' + encodeURIComponent(t), function(r) {
+            if( r.stat == 'ok' ) {
+                // Store the time this session started, used when expiring sessions.
+                M.startTime = Math.round(+new Date()/1000);
+                M.api.version = r.version;	// Set only when UI is loaded/first login
+                M.api.token = r.auth.token;
+                M.userID = r.auth.id;
+                M.avatarID = r.auth.avatar_id;
+                M.userPerms = r.auth.perms;
+                M.userSettings = r.auth.settings;
+                if( r.auth.settings['ui-mode-guided'] != null 
+                    && r.auth.settings['ui-mode-guided'] == 'yes' ) {
+                    // Set to off, so toggle can switch on
+                    M.uiModeGuided = 'no';
+                    M.toggleGuidedMode();
+                } else {
+                    // Set to on, so toggle can switch off
+                    M.uiModeGuided = 'yes';
+                    M.toggleGuidedMode();
+                }
+                if( r.auth.settings['ui-mode-xhelp'] != null 
+                    && r.auth.settings['ui-mode-xhelp'] == 'yes' ) {
+                    // Set to off, so toggle can switch on
+                    M.uiModeXHelp = 'no';
+                    M.toggleXHelpMode();
+                } else {
+                    // Set to on, so toggle can switch off
+                    M.uiModeXHelp = 'yes';
+                    M.toggleXHelpMode();
+                }
+
+                if( M.oldUserId == M.userID ) {
+                    M.hide('m_login');
+                    return true;
+                }
+                M.oldUserId = 0;
+
+                M.hide('m_login');
+                M.loadAvatar();
+                // If they only have access to one business, go direct to that menu
+                if( r.business != null && r.business > 0 && M.businessMenu != null ) {
+                    M.startApp(M.businessMenu,null,null,'mc',{'id':r.business});
+                } else {
+                    M.startApp(M.startMenu);
+                }
+                
+            }
+        });
+    }
 }
 
 //
@@ -345,7 +476,15 @@ M.auth = function(e, t) {
 		M.gE('password').value = '';
 	}
 
-	var r = M.api.postJSONCb('ciniki.users.auth', {}, c, function(r) {
+    var rm = M.gE('rm');
+    if( rm != null && rm.checked == true && document.cookie != null && document.cookie != '' ) {
+        c += '&rm=yes';
+    }
+
+	M.api.postJSONCb('ciniki.users.auth', {}, c, function(r) {
+        if( r == null ) {
+            return false;
+        }
 		if( r.stat != 'ok' ) {
 			M.api.err_alert(r);
 			return false;
@@ -354,6 +493,13 @@ M.auth = function(e, t) {
 		M.startTime = Math.round(+new Date()/1000);
 		M.api.version = r.version;	// Set only when UI is loaded/first login
 		M.api.token = r.auth.token;
+        var rm = M.gE('rm');
+        if( rm != null && rm.checked == true 
+            && r.auth.user_selector != null && r.auth.user_selector != ''
+            && r.auth.user_token != null && r.auth.user_token != '' ) {
+            M.cookieSet('_UTS', r.auth.user_selector, 10);
+            M.cookieSet('_UTK', r.auth.user_token, 10);
+        }
 		M.userID = r.auth.id;
 		M.avatarID = r.auth.avatar_id;
 		M.userPerms = r.auth.perms;
@@ -424,6 +570,27 @@ M.reauth = function() {
 			M.api.resume(M.reauth_apiresume);
 		}
 //		M.reauth_apiresume = null;
+	});
+	return false;
+}
+
+M.reauthToken = function(s, t) {
+	var c = 'user_selector=' + encodeURIComponent(s) + '&user_token=' + encodeURIComponent(t);
+
+	M.api.token = '';
+	M.api.postJSONCb('ciniki.users.auth', {}, c, function(r) {
+		if( r.stat != 'ok' ) {
+            M.cookieSet('_UTK', '');
+            return false;
+		}
+		if( M.api.version != r.version ) {
+			alert("We've updated Ciniki!  Please logout and sign in again to ensure you are using the current version.");
+		}
+		M.api.token = r.auth.token;
+		M.expired = 'no';
+		if( M.reauth_apiresume != null ) {
+			M.api.resume(M.reauth_apiresume);
+		}
 	});
 	return false;
 }
@@ -1497,8 +1664,9 @@ M.length = function(o) {
 
 // n = name, v = value, d = days
 M.cookieSet = function(n,v,d) {
-	if(d) { var date = new Date(); date.setTime(date.getTime()+(d*24*60*60*1000));var expires="; expires="+date.toGMTString();}
+	if(d) { var date = new Date(); date.setTime(date.getTime()+(d*24*60*60*1000));var expires="; expires="+date.toUTCString();}
 	else{var expires ='';}
+    // Path cannot be manager for IE11
 	document.cookie = n+'='+v+expires+'; path=/';
 }
 

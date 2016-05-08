@@ -92,14 +92,14 @@ function ciniki_core_sessionTokenStart(&$ciniki, $selector, $token) {
 	
 	// Check if the account is deleted
 	if( $user['status'] == 11 ) {
-		ciniki_users_logAuthFailure($ciniki, $token, 4000);
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'4000', 'msg'=>'Invalid password'));
+		ciniki_users_logAuthFailure($ciniki, $token, 3400);
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'3400', 'msg'=>'Invalid password'));
 	}
 
 	// Check if the account is active
 	if( $user['status'] < 1 || $user['status'] > 2 ) {
-		ciniki_users_logAuthFailure($ciniki, $token, 4001);
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'4001', 'msg'=>'Invalid password'));
+		ciniki_users_logAuthFailure($ciniki, $token, 3401);
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'3401', 'msg'=>'Invalid password'));
 	}
 
 	unset($user['login_attempts']);

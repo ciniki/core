@@ -3227,6 +3227,7 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
 		if( v != null ) {
 			f.value = v;
 		}
+        f.setAttribute('autocomplete', 'off');
 		if( field.livesearch != null && field.livesearch == 'yes' ) {
 //			if( field.livesearchempty == 'yes' ) {
 				f.setAttribute('onfocus', this.panelRef + '.liveSearchSection(\'' + s + '\',\'' + i + sFN + '\',this,event);');
@@ -3234,7 +3235,7 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
 				// f.setAttribute('onblur', this.panelRef + '.removeLiveSearch(\'' + i + '\');');
 //			}
 			f.setAttribute('onkeyup', this.panelRef + '.liveSearchSection(\'' + s + '\',\'' + i + sFN + '\',this,event);');
-			f.setAttribute('autocomplete', 'off');
+//			f.setAttribute('autocomplete', 'off');
 			this.lastSearches[i] = '';
 		}
 		if( field.enterFn != null && field.enterFn != '' ) {

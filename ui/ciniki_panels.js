@@ -347,6 +347,20 @@ M.panel.prototype.refreshSection = function(s) {
 	}
 };
 
+M.panel.prototype.showHideSection = function(s) {
+	// 
+	// Check if section is visible
+	//
+	if( typeof this.sections[s].visible == 'function' && this.sections[s].visible() == 'hidden') {
+        M.gE(this.panelUID + '_section_' + s).style.display = 'none';
+	} else if( this.sections[s].visible != null && this.sections[s].visible == 'hidden' ) {
+        M.gE(this.panelUID + '_section_' + s).style.display = 'none';
+	} else {
+        M.gE(this.panelUID + '_section_' + s).style.display = '';
+    }
+    
+};
+
 //
 // This function will create the sections for a panel
 //
@@ -3399,9 +3413,15 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
 			// If option_name is specified, then option is a complex object  
 			// These are the result of an object sent back through cinikiAPI
 			if( field.complex_options != null ) { 
-				n = o[j][field.complex_options.subname][field.complex_options.name];
-				v = o[j][field.complex_options.subname][field.complex_options.value];
-			} 
+                if( field.complex_options.subname != null ) {
+                    n = o[j][field.complex_options.subname][field.complex_options.name];
+                    v = o[j][field.complex_options.subname][field.complex_options.value];
+                } else {
+                    n = o[j][field.complex_options.name];
+                    v = o[j][field.complex_options.value];
+                }
+            }
+
 			//
 			// Add the options to the select, and choose which one to have selected
 			//

@@ -156,6 +156,7 @@ elseif( preg_match('/Mozilla\/5.*hp-tablet;.*U;.*AppleWebKit\/.*KHTML, like Geck
 	$touch = 'yes';
 	$browser = 'safari';
 	$engine = 'webkit';
+    $start_container = 'm_login';
 }
 
 // Mozilla/5.0 (PlayBook; U; RIM Tablet OS 1.0.0; en-US) AppleWebKit/534.11+ (KHTML, like Gecko) Version/7.1.0.7 Safari/534.11+

@@ -1750,3 +1750,7 @@ M.modFlags = function(m) {
 M.modFlagSet = function(m, f) {
 	return (M.modFlags(m)&f)==f?'yes':'no';
 }
+
+M.modFlagAny = function(m, f) {
+	return (M.modFlags(m)&f)>0?'yes':'no';
+}

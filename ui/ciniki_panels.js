@@ -348,15 +348,26 @@ M.panel.prototype.refreshSection = function(s) {
 };
 
 M.panel.prototype.showHideSection = function(s) {
+    if( this.sections[s] == null ) { 
+        return true;
+    }
+    if( this.sections[s].active != null && this.sections[s].active == 'no' ) {
+        return true;
+    }
+
 	// 
 	// Check if section is visible
 	//
+    var e = M.gE(this.panelUID + '_section_' + s);
+    if( e == null ) {
+        return true;
+    }
 	if( typeof this.sections[s].visible == 'function' && this.sections[s].visible() == 'hidden') {
-        M.gE(this.panelUID + '_section_' + s).style.display = 'none';
+        e.style.display = 'none';
 	} else if( this.sections[s].visible != null && this.sections[s].visible == 'hidden' ) {
-        M.gE(this.panelUID + '_section_' + s).style.display = 'none';
+        e.style.display = 'none';
 	} else {
-        M.gE(this.panelUID + '_section_' + s).style.display = '';
+        e.style.display = '';
     }
     
 };
@@ -2758,6 +2769,7 @@ M.panel.prototype.createPanelTabs = function(s, sc) {
 	}
 	var div = M.aE('div', null, 'buttons');
 	for(i in sc.tabs) {
+        if( sc.tabs[i].visible != null && typeof sc.tabs[i].visible == 'function' && sc.tabs[i].visible() == 'no' ) { continue; }
 		if( sc.tabs[i].visible != null && sc.tabs[i].visible == 'no' ) { continue; }
 		var e= null;
 		if( i == sc.selected ) {

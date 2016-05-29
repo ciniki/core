@@ -865,7 +865,7 @@ M.panel.prototype.createChart = function(s) {
 		var d = new Date();
 		var t = d.getTime();
 		// ciniki.users.prefs -> /ciniki-mods/users/ui/prefs.js
-        script.src = '/ciniki-mods/core/ui/Chart.min.js';
+        script.src = '/ciniki-mods/core/ui/Chart.min.js?v=2.1.4';
 		var done = false;
 		var head = document.getElementsByTagName('head')[0];
         var cb = this.panelRef + '.createChartContent("' + s + '");';

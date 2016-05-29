@@ -915,14 +915,42 @@ M.panel.prototype.createChartContent = function(s) {
         this.sections[s].chart_overlay.destroy();
     }
 
-    this.sections[s].chart_overlay = new Chart(document.getElementById(this.panelUID + '_' + s + '_canvas').getContext("2d")).Overlay(data, {
-        scaleBeginAtZero: (sc.scaleBeginAtZero!=null?sc.scaleBeginAtZero:false), 
-        populateSparseData: (sc.populateSparseData!=null?sc.populateSparseData:true), 
-        scaleLabel: (sc.scaleLabel!=null?sc.scaleLabel:"<%=value%>"), 
-        tooltipTemplate: (sc.tooltopTemplate!=null?sc.tooltopTemplate:"<%=value%>"),
-        multiTooltipTemplate: (sc.multiTooltipTemplate!=null?sc.multiTooltipTemplate:"<%=value%>"),
-        responsive: true,
-        datasetFill: false,
+    this.sections[s].chart_overlay = new Chart(document.getElementById(this.panelUID + '_' + s + '_canvas').getContext("2d"), {
+        type: 'line',
+        data: data,
+        options: {
+            responsive: true,
+            legend: {
+                display: false,
+            },
+            scales: {
+                xAxes: [{
+                    ticks:{
+                        beginAtZero: (sc.scaleBeginAtZero!=null?sc.scaleBeginAtZero:false),
+                        },
+                }],
+                yAxes: [{
+                    display: true,
+                    ticks: {
+                        beginAtZero: (sc.scaleBeginAtZero!=null?sc.scaleBeginAtZero:false),
+                        userCallback: function(dataLabel, index) { return dataLabel + '%';},
+                    }
+                }],
+            },
+            tooltips: {
+                mode: 'single',
+                callbacks: {
+                    label: function(tooltipItem, data) { return tooltipItem.yLabel + '%';},
+                },
+            },
+        }
+//        scaleBeginAtZero: (sc.scaleBeginAtZero!=null?sc.scaleBeginAtZero:false), 
+//        populateSparseData: (sc.populateSparseData!=null?sc.populateSparseData:true), 
+//        scaleLabel: (sc.scaleLabel!=null?sc.scaleLabel:"<%=value%>"), 
+//        tooltipTemplate: (sc.tooltopTemplate!=null?sc.tooltopTemplate:"<%=value%>"),
+//        multiTooltipTemplate: (sc.multiTooltipTemplate!=null?sc.multiTooltipTemplate:"<%=value%>"),
+//        responsive: true,
+//        datasetFill: false,
         });
 };
 

@@ -5559,6 +5559,7 @@ M.panel.prototype.showButtons = function(wID, buttons) {
 			case 'download': icn = '&#xf019;'; break;
 			case 'exit': 
 			case 'close': 
+			case 'print': icn = '&#xf02f;'; break;
 			case 'cancel': icn = '&#xf00d;'; break;
 			case 'more': icn = '&#xf141;'; break;
 			case 'tools': icn = '&#xf0ad;'; break;

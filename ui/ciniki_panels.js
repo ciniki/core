@@ -916,7 +916,7 @@ M.panel.prototype.createChartContent = function(s) {
     }
 
     this.sections[s].chart_overlay = new Chart(document.getElementById(this.panelUID + '_' + s + '_canvas').getContext("2d"), {
-        type: 'line',
+        type:'bar',
         data: data,
         options: {
             responsive: true,

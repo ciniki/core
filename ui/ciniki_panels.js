@@ -1485,6 +1485,11 @@ M.panel.prototype.liveSearchShow = function(s, f, inputElement, searchData) {
 		if( this.liveSearchResultRowStyle != null ) { 
 			tr.setAttribute('style', this.liveSearchResultRowStyle(s, f, i, searchData[i]));
 		}
+        var rcl = '';
+		if( this.liveSearchResultRowClass != null ) { 
+			rcl = ' ' + this.liveSearchResultRowClass(s, f, i, searchData[i]);
+			tr.className = rcl;
+		}
 		var nc = sc.livesearchcols;
 		if( f != null && sc.fields[f] != null && sc.fields[f].livesearchcols != null ) {
 			nc = sc.fields[f].livesearchcols;
@@ -1518,7 +1523,7 @@ M.panel.prototype.liveSearchShow = function(s, f, inputElement, searchData) {
 					tr.setAttribute('onclick', fn);
 					c.innerHTML = '<span class="icon">r</span>';
 					// c.innerHTML = '<img src=\'' + M.themes_root_url + '/default/img/arrow.png\'>';
-					tr.className = 'clickable';
+					tr.className = 'clickable' + rcl;
 				}
 				tr.appendChild(c);
 			}

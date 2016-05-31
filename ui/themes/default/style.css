@@ -1719,6 +1719,10 @@ table.simplegrid tr.statusred,
 table.simplegrid td.statusred {
 	background: #ffdddd;
 }
+table.simplegrid tr.statusgrey,
+table.simplegrid td.statusgrey {
+	background: #eeeeee;
+}
 /* Alert styles */
 table.list tr.severity50 {
 	background: #ffdddd;

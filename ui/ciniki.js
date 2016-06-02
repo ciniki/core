@@ -282,7 +282,9 @@ M.startApp = function(a, sF, cB, aP, args) {
 				// Attach the APP and run the start 
 				eval('M.' + func + ' = new ' + func + '();');
 				// eval('M.' + a + '.init();');
-				M[func].init();
+                if( M[func].init != null ) {
+                    M[func].init();
+                }
 				M[func].start(cB, aP, args);
 
 				// Handle memory leak in IE

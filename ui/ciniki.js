@@ -1749,6 +1749,17 @@ M.modFlags = function(m) {
 	return 0;
 }
 
+M.modOn = function(m, f) {
+	if( M.curBusiness != null && M.curBusiness.modules != null && M.curBusiness.modules[m] != null ) {
+        return true;
+    }
+    return false;
+}
+
+M.modFlagOn = function(m, f) {
+	return (M.modFlags(m)&f)==f?true:false;
+}
+
 M.modFlagSet = function(m, f) {
 	return (M.modFlags(m)&f)==f?'yes':'no';
 }

@@ -1011,7 +1011,11 @@ M.panel.prototype.createAudioList = function(s) {
 		ct++;
 	}
 	if( ct == 0 && this.noData != null ) {
-		var nd = this.noData(s);
+        if( typeof this.noData == 'function' ) {
+            var nd = this.noData(s);
+        } else {
+            var nd = this.noData;
+        }
 		if( nd != null && nd != '' ) {
 			var tr = M.aE('tr');
 			var td = M.aE('td', null, null, nd);
@@ -2316,11 +2320,14 @@ M.panel.prototype.createSectionGrid = function(s) {
 		tb.appendChild(tr);
 		ct++;
 	}
-//	if( ct == 0 && this.noData != null && sc.addFn == null ) {
-	if( ct == 0 && this.noData != null ) {
+	if( ct == 0 && (this.noData != null || sc.noData != null) ) {
 		// var t = M.addTable(null, 'list noheader border');
 		// var tb = M.aE('tbody');
-		var nd = this.noData(s);
+        if( this.noData != null ) {
+            var nd = this.noData(s);
+        } else {
+            var nd = sc.noData;
+        }
 		if( nd != null && nd != '' ) {
 			var tr = M.aE('tr');
 			var td = M.aE('td', null, null, nd);
@@ -2402,9 +2409,6 @@ M.panel.prototype.createSectionGrid = function(s) {
 		tr.appendChild(c);
 		tf.appendChild(tr);
 	}
-//	if( (sc.addFn != null && sc.addFn != '') 
-//		|| (sc.changeFn != null && sc.changeFn != '')
-//		) {
 	if( tf.childNodes.length > 0 ) {
 		t.appendChild(tf);
 	}
@@ -2553,10 +2557,11 @@ M.panel.prototype.createSimpleList = function(si, l, as) {
 		ct++;
 	}
 	if( ct == 0 && this.noData != null ) {
+        var nd = this.noData(si);
 		var t = M.addTable(null, 'list noheader border');
 		var tb = M.aE('tbody');
 		var tr = M.aE('tr');
-		tr.appendChild(M.aE('td', null, null, this.noData(si)));
+		tr.appendChild(M.aE('td', null, null, nd));
 		tb.appendChild(tr);
 	}
 	if( tb != null ) {
@@ -5746,6 +5751,35 @@ M.panel.prototype.serializeForm = function(fs) {
 
 
 	return c;
+};
+
+//
+// Go through the form fields and make sure required ones are filled in
+//
+M.panel.prototype.checkForm = function() {
+    // FIXME: Add check for required formtabs field_id
+
+    // FIXME: Add checks for required GridSection
+
+	for(i in this.sections) {
+        var s = this.sections[i];
+        // Skip multi sections, they need to be serialized another way
+        for(j in s.fields) {
+            var f = s.fields[j];
+            if( f.required != null && f.required == 'yes' ) {
+				var fid = j;
+				if( this.fieldID != null ) {
+					fid = this.fieldID(i, j, f);
+				}
+                var n = this.formFieldValue(f, fid);
+                if( n == null || n == '' ) {
+                    alert('You must enter ' + s.fields[j].label);
+                    return false;
+                }
+            }
+        }
+    }
+    return true;
 };
 
 //

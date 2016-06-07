@@ -5773,7 +5773,7 @@ M.panel.prototype.checkForm = function() {
 				}
                 var n = this.formFieldValue(f, fid);
                 if( n == null || n == '' ) {
-                    alert('You must enter ' + s.fields[j].label);
+                    alert('You must enter ' + f.label);
                     return false;
                 }
             }

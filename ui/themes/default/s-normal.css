@@ -248,6 +248,14 @@ table.list td div.calendar {
 		height: auto;
 		margin-top: 0px;
 	}
+	div.help-off.guided-on div.guided-disabled div.narrowaside div.panelsection.menutabs,
+/*	div.help-off.guided-off div.narrow.narrowaside div.panelsection.menutabs, */
+	div.help-off.guided-off div.narrow.narrowaside div.panelsection.menutabs,
+	div.help-off.guided-off div.medium.narrowaside div.panelsection.menutabs,
+	div.help-off.guided-off div.large.narrowaside div.panelsection.menutabs {
+        margin-left: 0px;
+        width: 100%;
+    }
 }
 
 @media screen and (min-width: 73em) {

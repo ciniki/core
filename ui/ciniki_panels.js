@@ -697,6 +697,8 @@ M.panel.prototype.createSection = function(i, s) {
 		var f = M.aE('div', this.panelUID + '_section_' + i, 'panelsection fullwidth');
 	} else if( type == 'paneltabs' ) {
 		var f = M.aE('div', this.panelUID + '_section_' + i, 'panelsection paneltabs');
+	} else if( type == 'menutabs' ) {
+		var f = M.aE('div', this.panelUID + '_section_' + i, 'panelsection menutabs');
 	} else {
 		var f = M.aE('div', this.panelUID + '_section_' + i, 'panelsection');
 	}
@@ -803,7 +805,7 @@ M.panel.prototype.createSection = function(i, s) {
 		st = this.createDailySchedule(i, s);
 	} else if( type == 'mwschedule' ) {
 		st = this.createMultiWeekSchedule(i, s);
-	} else if( type == 'paneltabs' ) {
+	} else if( type == 'paneltabs' || type == 'menutabs' ) {
 		st = this.createPanelTabs(i, this.sections[i]);
 	} else if( type == 'html' ) {
 		st = this.createHtml(i, this.sections[i]);

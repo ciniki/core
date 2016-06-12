@@ -684,7 +684,7 @@ Javscript must be enabled for this application to work.
 <?php } ?>
 	<table id="mc_header" class="headerbar" cellspacing="0" cellpadding="0">
 		<tr>
-		<td id="mc_home_button" class="homebutton" onClick="M.menuHome.show();"><div class="button home"><span class="faicon">&#xf015;</span><span class="label">Home</span></div></td>
+		<td id="mc_home_button" class="homebutton" onClick="M.home();"><div class="button home"><span class="faicon">&#xf015;</span><span class="label">Home</span></div></td>
 		<td id="mc_leftbuttons_0" class="leftbuttons hide"></td>
 		<td id="mc_leftbuttons_1" class="leftbuttons hide"></td>
 		<?php if( $size == 'compact' ) { ?>

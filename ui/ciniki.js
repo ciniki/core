@@ -127,6 +127,16 @@ M.preLoad = function(s) {
 	i.src=s;
 }
 
+M.home = function() {
+    if( M.curHelpUID == 'ciniki.businesses.main.menu' || M.curHelpUID == 'ciniki.core.menu.businesses' ) {
+        if( M.ciniki_core_menu.businesses != null ) {
+            M.ciniki_core_menu.businesses.show();
+        }
+    } else {
+        M.menuHome.show();
+    }
+}
+
 //
 // This function will clear a DOM element of all children
 //

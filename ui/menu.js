@@ -5,10 +5,7 @@
 function ciniki_core_menu() {
 	this.businesses = null;
 
-	this.init = function() {
-
-	}
-
+	this.init = function() {}
 
 	this.start = function(cb) {
 		//
@@ -58,9 +55,9 @@ function ciniki_core_menu() {
                 this.businesses.data = {};
             }
             this.businesses.curCategory = 0;
-            this.businesses.addButton('account', 'Account', 'M.startApp(\'ciniki.users.main\',null,\'M.menuHome.show();\');');
+            this.businesses.addButton('account', 'Account', 'M.startApp(\'ciniki.users.main\',null,\'M.ciniki_core_menu.businesses.show();\');');
             if( M.userID > 0 && (M.userPerms&0x01) == 0x01 ) {
-                this.businesses.addButton('admin', 'Admin', 'M.startApp(\'ciniki.sysadmin.main\',null,\'M.menuHome.show();\');');
+                this.businesses.addButton('admin', 'Admin', 'M.startApp(\'ciniki.sysadmin.main\',null,\'M.ciniki_core_menu.businesses.show();\');');
             }
 
             if( r.categories != null ) {
@@ -126,7 +123,7 @@ function ciniki_core_menu() {
             };
             this.businesses.addLeftButton('logout', 'Logout', 'M.logout();');
             if( M.userID > 0 && (M.userPerms&0x01) == 0x01 ) {
-                this.businesses.addLeftButton('bigboard', 'bigboard', 'M.startApp(\'ciniki.sysadmin.bigboard\',null,\'M.menuHome.show();\');');
+                this.businesses.addLeftButton('bigboard', 'bigboard', 'M.startApp(\'ciniki.sysadmin.bigboard\',null,\'M.ciniki_core_menu.businesses.show();\');');
             }
 
             // Add searching
@@ -148,8 +145,12 @@ function ciniki_core_menu() {
             this.businesses.liveSearchResultRowStyle = function(s, f, i, d) { return ''; };
 
             M.menuHome = this.businesses;
-
-            M.menuHome.show();
+            
+            if( typeof(localStorage) !== 'undefined' && localStorage.getItem('lastBusinessID') > 0 ) {
+                M.startApp(M.businessMenu,null,'M.ciniki_core_menu.businesses.show();','mc',{'id':localStorage.getItem('lastBusinessID')});
+            } else {
+                M.menuHome.show();
+            }
 
             //
             // Check if there is a set of login actions to perform

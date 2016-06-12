@@ -3786,7 +3786,7 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
 		}
 //		if( this.data['_' + fid] != null ) { var idlist = this.data['_' + fid]; } 
 		if( field.list != null ) { var idlist = field.list; }
-		var iname = (field.itemname!=null?field.itemname:'item');
+		var iname = (field.itemname!=null?field.itemname:'');
 		for(j in idlist) {
 			var f = M.aE('span', this.panelUID + '_' + fid + sFN + '_' + j);
 			f.setAttribute('onfocus', this.panelRef + '.clearLiveSearches(\''+s+'\',\''+i+sFN+'\');');
@@ -6054,7 +6054,7 @@ M.panel.prototype.formFieldValue = function(f,fid) {
 		n = '';
 		if( this.data['_' + fid] != null ) { var list = this.data['_' + fid]; } 
 		if( f.list != null ) { var list = f.list; }
-		var iname = (f.itemname!=null?f.itemname:'item');
+		var iname = (f.itemname!=null?f.itemname:'');
 		for(j in list) {
 			if( M.gE(this.panelUID + '_' + fid + '_' + j).className == 'toggle_on' ) {
                 if( iname != '' ) {

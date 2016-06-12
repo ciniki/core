@@ -662,6 +662,12 @@ M.panel.prototype.sectionType = function(i, s) {
 	return s.type;
 };
 
+M.panel.prototype.sectionData = function(i) {
+    if( (this.sections[i].type == null || this.sections[i].type == 'simplelist') && this.sections[i].list != null ) { return this.sections[i].list; }
+    if( this.data[i] != null ) { return this.data[i]; }
+    return {};
+};
+
 M.panel.prototype.createSection = function(i, s) {
 	// 
 	// Check if section is visible

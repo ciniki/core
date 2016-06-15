@@ -1294,7 +1294,7 @@ table.list > tbody > tr > td.multiline {
 table.list > tbody > tr > td.multiline span.subtext {
 	width: 100%;
 	font-size: 0.8em;
-	color: #999;
+	color: #888;
 /*	padding-top: 0.1em; */
 	display: block;
 }
@@ -1310,8 +1310,8 @@ table.list > tbody > tr > td.nobreak {
 
 table.list > tbody > tr > td.multiline span.subsubtext {
 	width: 100%;
-	font-size: 0.8em;
-	color: #999;
+	font-size: 0.75em;
+	color: #bbb;
 	padding-top: 0.1em;
 	display: block;
 }

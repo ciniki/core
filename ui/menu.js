@@ -3,24 +3,24 @@
 // change the details of their business
 //
 function ciniki_core_menu() {
-	this.businesses = null;
+    this.businesses = null;
 
-	this.init = function() {}
+    this.init = function() {}
 
-	this.start = function(cb) {
-		//
-		// Get the list of businesses the user has access to
-		//
-		var r = M.api.getJSONCb('ciniki.businesses.getUserBusinesses', {}, function(r) {
-			if( r.stat != 'ok' ) {
-				M.api.err(r);
-				return false;
-			}
-			M.ciniki_core_menu.setupMenu(cb, r);
-			});
-	}
+    this.start = function(cb) {
+        //
+        // Get the list of businesses the user has access to
+        //
+        var r = M.api.getJSONCb('ciniki.businesses.getUserBusinesses', {}, function(r) {
+            if( r.stat != 'ok' ) {
+                M.api.err(r);
+                return false;
+            }
+            M.ciniki_core_menu.setupMenu(cb, r);
+            });
+    }
 
-	this.setupMenu = function(cb, r) {
+    this.setupMenu = function(cb, r) {
         if( (r.categories == null && r.businesses == null) 
             || (r.categories != null && r.categories.length < 1)
             || (r.businesses != null && r.businesses.length < 1) ) {
@@ -87,7 +87,7 @@ function ciniki_core_menu() {
             } else {
                 // Display the master business at the top of the list
                 if( r.businesses[0].business.ismaster == 'yes' ) {
-                    this.businesses.sections = {	
+                    this.businesses.sections = {    
                         '_master':{'label':'', 'as':'no', 'list':{
                             'master':{'business':r.businesses[0].business}}
                             },
@@ -159,5 +159,5 @@ function ciniki_core_menu() {
                 eval(r.loginActions);
             }
         }
-	}
+    }
 }

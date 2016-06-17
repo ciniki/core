@@ -7,9 +7,9 @@
 M.xmlHttpCreate = function() {
     var req = null;
     try{
-		req=new XMLHttpRequest();
-	}catch(e){
-		req=null;
-	};
+        req=new XMLHttpRequest();
+    }catch(e){
+        req=null;
+    };
     return req; 
 };

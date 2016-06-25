@@ -16,29 +16,29 @@
 //
 // Info
 // ----
-// Status: 			beta
+// Status:          beta
 //
 // Arguments
 // ---------
-// ciniki:			The ciniki variable.
-// quote_flag:		Should the 
-// arg_info:		The array of arguments to be parsed.  The array should be in 
-//					the form of the following.
+// ciniki:          The ciniki variable.
+// quote_flag:      Should the 
+// arg_info:        The array of arguments to be parsed.  The array should be in 
+//                  the form of the following.
 //
-//					array(
-//						'business_id'=>array('required'=>'yes', 'blank'=>'no', 'errmsg'=>'No business specified'),
-//						'source'=>array('required'=>'no', 'default'=>'', 'blank'=>'yes', 'errmsg'=>''),
-//						...
-//					);
+//                  array(
+//                      'business_id'=>array('required'=>'yes', 'blank'=>'no', 'errmsg'=>'No business specified'),
+//                      'source'=>array('required'=>'no', 'default'=>'', 'blank'=>'yes', 'errmsg'=>''),
+//                      ...
+//                  );
 // 
 // Returns
 // -------
 //
 function ciniki_core_prepareArgs(&$ciniki, $quote_flag, $arg_info) {
-	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'parseArgs');
-	return ciniki_core_parseArgs($ciniki, 
-		(isset($ciniki['request']['args']['business_id'])?$ciniki['request']['args']['business_id']:0), 
-		(isset($ciniki['request']['args'])?$ciniki['request']['args']:array()), 
-		$arg_info);
+    ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'parseArgs');
+    return ciniki_core_parseArgs($ciniki, 
+        (isset($ciniki['request']['args']['business_id'])?$ciniki['request']['args']['business_id']:0), 
+        (isset($ciniki['request']['args'])?$ciniki['request']['args']:array()), 
+        $arg_info);
 }
 ?>

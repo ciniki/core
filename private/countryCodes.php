@@ -346,6 +346,6 @@ function ciniki_core_countryCodes($ciniki) {
             ),
         );
 
-	return array('stat'=>'ok', 'countries'=>$countries, 'provinces'=>$provinces);
+    return array('stat'=>'ok', 'countries'=>$countries, 'provinces'=>$provinces);
 }
 ?>

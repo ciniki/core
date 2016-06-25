@@ -6,26 +6,26 @@
 //
 // Info
 // ----
-// Status: 			beta
+// Status:          beta
 //
 // Arguments
 // ---------
 // ciniki:
-// str:				The string to escape.
+// str:             The string to escape.
 //
 function ciniki_core_dbQuote(&$ciniki, $str) {
 
-//	if( is_array($str) ) {
-//		error_log(print_r($str, true));
-//	}
+//  if( is_array($str) ) {
+//      error_log(print_r($str, true));
+//  }
 
-	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbConnect');
+    ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbConnect');
 
-	$rc = ciniki_core_dbConnect($ciniki, 'ciniki.core');
-	if( $rc['stat'] != 'ok' ) {
-		return $rc;
-	}
+    $rc = ciniki_core_dbConnect($ciniki, 'ciniki.core');
+    if( $rc['stat'] != 'ok' ) {
+        return $rc;
+    }
 
-	return mysqli_real_escape_string($rc['dh'], $str);
+    return mysqli_real_escape_string($rc['dh'], $str);
 }
 ?>

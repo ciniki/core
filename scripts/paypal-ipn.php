@@ -11,7 +11,7 @@
 global $ciniki_root;
 $ciniki_root = dirname(__FILE__);
 if( !file_exists($ciniki_root . '/ciniki-api.ini') ) {
-	$ciniki_root = dirname(dirname(dirname(dirname(__FILE__))));
+    $ciniki_root = dirname(dirname(dirname(dirname(__FILE__))));
 }
 // loadMethod is required by all function to ensure the functions are dynamically loaded
 require_once($ciniki_root . '/ciniki-mods/core/private/loadMethod.php');
@@ -23,10 +23,10 @@ require_once($ciniki_root . '/ciniki-mods/core/private/printResponse.php');
 
 $rc = ciniki_core_init($ciniki_root, 'rest');
 if( $rc['stat'] != 'ok' ) {
-	header("Content-Type: text/xml; charset=utf-8");
-	print "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n";
-	ciniki_core_printHashToXML('rsp', '', $rc);
-	exit;
+    header("Content-Type: text/xml; charset=utf-8");
+    print "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n";
+    ciniki_core_printHashToXML('rsp', '', $rc);
+    exit;
 }
 
 //
@@ -39,8 +39,8 @@ $ciniki = $rc['ciniki'];
 //
 $rc = ciniki_core_checkSecureConnection($ciniki);
 if( $rc['stat'] != 'ok' ) {
-	ciniki_core_printResponse($ciniki, $rc);
-	exit;
+    ciniki_core_printResponse($ciniki, $rc);
+    exit;
 }
 
 //
@@ -49,8 +49,8 @@ if( $rc['stat'] != 'ok' ) {
 require_once($ciniki_root . '/ciniki-mods/core/private/parseRestArguments.php');
 $rc = ciniki_core_parseRestArguments($ciniki);
 if( $rc['stat'] != 'ok' ) {
-	ciniki_core_printResponse($ciniki, $rc);
-	exit;
+    ciniki_core_printResponse($ciniki, $rc);
+    exit;
 }
 
 //

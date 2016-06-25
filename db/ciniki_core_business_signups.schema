@@ -6,26 +6,26 @@
 #
 # Fields
 # ------
-# id:				The id of the question.
-# uuid:				The Universal Unique ID.
-# business_id:		The business the question is for.
+# id:               The id of the question.
+# uuid:             The Universal Unique ID.
+# business_id:      The business the question is for.
 #
-# signup_key:		The token used during signup to track the session.
-# signup_data:		The serialized signup data.
+# signup_key:       The token used during signup to track the session.
+# signup_data:      The serialized signup data.
 #
-# date_added:		The date and time the domain was added to the table.
-# last_updated:		The date and time the domain was last updated.
+# date_added:       The date and time the domain was added to the table.
+# last_updated:     The date and time the domain was last updated.
 #
 create table ciniki_core_business_signups (
-	id int not null auto_increment,
-	uuid char(36) not null,
-	business_id int not null,
-	signup_key varchar(200) not null,
-	signup_data varchar(10000) not null,
-	date_added datetime not null,
-	last_updated datetime not null,
-	primary key (id),
-	index (signup_key),
-	index (business_id, uuid, last_updated)
+    id int not null auto_increment,
+    uuid char(36) not null,
+    business_id int not null,
+    signup_key varchar(200) not null,
+    signup_data varchar(10000) not null,
+    date_added datetime not null,
+    last_updated datetime not null,
+    primary key (id),
+    index (signup_key),
+    index (business_id, uuid, last_updated)
 ) ENGINE=InnoDB, COMMENT='v1.01';
 

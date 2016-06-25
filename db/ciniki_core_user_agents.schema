@@ -14,66 +14,66 @@
 #
 # Fields
 # ------
-# user_agent:		The user agent string sent from the remote device.
+# user_agent:       The user agent string sent from the remote device.
 #
-# type_status:		0 - unknown
+# type_status:      0 - unknown
 #
-#					0x01 - bot
-#					0x02 - browser
-#					...
-#					0x10 - blocked
-#					0x20 - spammer
-#					0x30 - future block reasons
-#					
+#                   0x01 - bot
+#                   0x02 - browser
+#                   ...
+#                   0x10 - blocked
+#                   0x20 - spammer
+#                   0x30 - future block reasons
+#                   
 #
-# size:				0 - unknown
-#					The first nibble is used to store the size of the requesting device.  The
-#					future devices can be added.
+# size:             0 - unknown
+#                   The first nibble is used to store the size of the requesting device.  The
+#                   future devices can be added.
 #
-#					0x01 - bot/crawler
-#					0x02 - text
-#					0x03 - tiny
-#					0x04 - small
-#					0x05 - medium
-#					0x06 - large
-#					0x07 - variable
-#					0x08 - 
-#					0x0f  - unknown
-#					0x10 - 
+#                   0x01 - bot/crawler
+#                   0x02 - text
+#                   0x03 - tiny
+#                   0x04 - small
+#                   0x05 - medium
+#                   0x06 - large
+#                   0x07 - variable
+#                   0x08 - 
+#                   0x0f  - unknown
+#                   0x10 - 
 #
-# flags:			0x01 - touch (touch enabled device, can activate onTouch events)
-#					0x02 - javascript (The device has the potential for javascript, might be turned off)
-#					0x04 - remote (TV screen, using remote control, no keyboard)
-#					0x08 - 
+# flags:            0x01 - touch (touch enabled device, can activate onTouch events)
+#                   0x02 - javascript (The device has the potential for javascript, might be turned off)
+#                   0x04 - remote (TV screen, using remote control, no keyboard)
+#                   0x08 - 
 #
-# engine:					generic, webkit, gecko, presto, trident
-# engine_version:			3.5, 433.1
-# os:  						iOS, Android, Windows, Mac, Linux
-# os_version:				XP, 7, Tiger, 10.6, Ubuntu, 4.3.3, XTC 2.3
-# browser:					firefox, chrome, opera, lynx, blackberry, safari, 
-# browser_version:			3.5, 4.0.3342
-# device: 					generic, iPad, iPhone, iPod Touch, Netbook, desktop, tablet, blackberry
-# device_version:			1, 2, alpha, beta, torch, 9800, pearl 9211,
-# device_manufacturer:		Apple, Acer, HTC, Samsung, HP
+# engine:                   generic, webkit, gecko, presto, trident
+# engine_version:           3.5, 433.1
+# os:                       iOS, Android, Windows, Mac, Linux
+# os_version:               XP, 7, Tiger, 10.6, Ubuntu, 4.3.3, XTC 2.3
+# browser:                  firefox, chrome, opera, lynx, blackberry, safari, 
+# browser_version:          3.5, 4.0.3342
+# device:                   generic, iPad, iPhone, iPod Touch, Netbook, desktop, tablet, blackberry
+# device_version:           1, 2, alpha, beta, torch, 9800, pearl 9211,
+# device_manufacturer:      Apple, Acer, HTC, Samsung, HP
 #
-# date_added:		The date and time the record was added.
-# last_updated:		The date and time anything but user_agent was changed.  This record
-#					can be used to fetch updates from a central server. 
+# date_added:       The date and time the record was added.
+# last_updated:     The date and time anything but user_agent was changed.  This record
+#                   can be used to fetch updates from a central server. 
 create table ciniki_core_user_agents (
-	user_agent varchar(255) not null,
-	type_status tinyint unsigned not null,
-	size tinyint unsigned not null,
-	flags tinyint unsigned not null,
-	engine varchar(50) not null,
-	engine_version varchar(50) not null,
-	os varchar(50) not null,
-	os_version varchar(50) not null,
-	browser varchar(50) not null,
-	browser_version varchar(50) not null,
-	device varchar(50) not null,
-	device_version varchar(50) not null,
-	device_manufacturer varchar(50) not null,
-	date_added datetime not null,
-	last_updated datetime not null,
-	primary key (user_agent)
+    user_agent varchar(255) not null,
+    type_status tinyint unsigned not null,
+    size tinyint unsigned not null,
+    flags tinyint unsigned not null,
+    engine varchar(50) not null,
+    engine_version varchar(50) not null,
+    os varchar(50) not null,
+    os_version varchar(50) not null,
+    browser varchar(50) not null,
+    browser_version varchar(50) not null,
+    device varchar(50) not null,
+    device_version varchar(50) not null,
+    device_manufacturer varchar(50) not null,
+    date_added datetime not null,
+    last_updated datetime not null,
+    primary key (user_agent)
 ) ENGINE=InnoDB, COMMENT='v1.01';

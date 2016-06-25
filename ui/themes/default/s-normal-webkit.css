@@ -5,16 +5,16 @@
 #m_recover button,
 #m_login input.button,
 #m_login button {
-	-webkit-box-shadow: #777 1px 1px 3px;
-	box-shadow: none;
+    -webkit-box-shadow: #777 1px 1px 3px;
+    box-shadow: none;
 }
 
 .subheaderbar td.title {
-	text-shadow: #000 1px 1px 0px;
-	text-shadow: none;
+    text-shadow: #000 1px 1px 0px;
+    text-shadow: none;
 }
 
 div.wide table.datepicker,
 div.wide table.simplegrid {
-	width: 100%;
+    width: 100%;
 }

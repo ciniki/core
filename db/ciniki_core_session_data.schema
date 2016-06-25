@@ -11,36 +11,36 @@
 #
 # Fields
 # ------
-# auth_token:		The 32 character auth_token passed back and for instead of username/password.
+# auth_token:       The 32 character auth_token passed back and for instead of username/password.
 #
-# api_key:			The 32 character key used by applications to access the api.
+# api_key:          The 32 character key used by applications to access the api.
 #
-# user_id:			The user who started the session.
+# user_id:          The user who started the session.
 #
-# session_key:		The session key created when the session is created.  The format is date formatted as YYMMDD.HHMMSS. 
-#					The session_key can be used to track what changes were made during a session, and also
-#					can be used to roll back the changes.
+# session_key:      The session key created when the session is created.  The format is date formatted as YYMMDD.HHMMSS. 
+#                   The session_key can be used to track what changes were made during a session, and also
+#                   can be used to roll back the changes.
 #
-# session_data:		The serialized session data from $ciniki['session'] variable.
+# session_data:     The serialized session data from $ciniki['session'] variable.
 #
-# date_added:		The date and time the record was added.
+# date_added:       The date and time the record was added.
 #
-# timeout:			The amount of time in seconds the session is to last.  This
-#					will be combined with last_updated to determine if the session
-#					has expired.
+# timeout:          The amount of time in seconds the session is to last.  This
+#                   will be combined with last_updated to determine if the session
+#                   has expired.
 #
-# last_saved:		The date the time the session was last saved.
+# last_saved:       The date the time the session was last saved.
 #
 create table ciniki_core_session_data (
-	auth_token varchar(32) not null,
-	api_key varchar(32) not null,
-	user_id int not null,
-	session_key varchar(50) not null,
-	session_data text,
-	date_added datetime not null,
-	timeout int not null,
-	last_saved datetime not null,
-	primary key (auth_token),
-	index (api_key, user_id),
-	index (last_saved)
+    auth_token varchar(32) not null,
+    api_key varchar(32) not null,
+    user_id int not null,
+    session_key varchar(50) not null,
+    session_data text,
+    date_added datetime not null,
+    timeout int not null,
+    last_saved datetime not null,
+    primary key (auth_token),
+    index (api_key, user_id),
+    index (last_saved)
 ) ENGINE=InnoDB, COMMENT='v1.02';

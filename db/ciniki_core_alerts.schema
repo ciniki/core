@@ -7,31 +7,31 @@
 #
 # Fields
 # ------
-# id:				The unique identifier for the alert.
-# code:				The code assigned within the code to each alert type.
-# msg:				The message describing the alert, will be used as subject line.
-# status:			The current status of the message.  * not implemented
-#					
-#					0 - unknown
-#					1 - 
-#					
-# var_alert:		The contents of the alert message.
-# var_ciniki:		The contents of the $ciniki variable.
-# var_rc:			The contents of any return code of the function called before the alert generated.
-# date_added:		The date and time the record was added.
-# last_updated:		The date and time the record was last updated.
+# id:               The unique identifier for the alert.
+# code:             The code assigned within the code to each alert type.
+# msg:              The message describing the alert, will be used as subject line.
+# status:           The current status of the message.  * not implemented
+#                   
+#                   0 - unknown
+#                   1 - 
+#                   
+# var_alert:        The contents of the alert message.
+# var_ciniki:       The contents of the $ciniki variable.
+# var_rc:           The contents of any return code of the function called before the alert generated.
+# date_added:       The date and time the record was added.
+# last_updated:     The date and time the record was last updated.
 #
 create table ciniki_core_alerts (
-	id int not null auto_increment,
-	code int not null,
-	msg varchar(255) not null,
-	status tinyint unsigned not null,
-	var_alert text,
-	var_ciniki text,
-	var_rc text,
-	date_added datetime not null,
-	last_updated datetime not null,
-	primary key (id),
-	index (status),
-	index (code, msg)
+    id int not null auto_increment,
+    code int not null,
+    msg varchar(255) not null,
+    status tinyint unsigned not null,
+    var_alert text,
+    var_ciniki text,
+    var_rc text,
+    date_added datetime not null,
+    last_updated datetime not null,
+    primary key (id),
+    index (status),
+    index (code, msg)
 ) ENGINE=InnoDB, COMMENT='v1.02';

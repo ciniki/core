@@ -7,35 +7,35 @@
 //
 // Info
 // ----
-// Status: 			beta
+// Status:          beta
 // 
 // Arguments
 // ---------
-// ciniki: 			The ciniki data structure
-// ciniki_root:		The root directory for the ciniki code.  This is where the config file will be.
+// ciniki:          The ciniki data structure
+// ciniki_root:     The root directory for the ciniki code.  This is where the config file will be.
 // 
 //
 //
 function ciniki_core_loadCinikiConfig(&$ciniki, $ciniki_root) {
-	
-	$config_file = $ciniki_root . "/ciniki-api.ini";
+    
+    $config_file = $ciniki_root . "/ciniki-api.ini";
 
-	if( is_file($config_file) ) {
-		$ciniki['config'] = parse_ini_file($config_file, true);
-	} else {
-		return false;
-	}
+    if( is_file($config_file) ) {
+        $ciniki['config'] = parse_ini_file($config_file, true);
+    } else {
+        return false;
+    }
 
-	if( $ciniki['config'] == false ) {
-		return false;
-	}
+    if( $ciniki['config'] == false ) {
+        return false;
+    }
 
-	if( !isset($ciniki['config']['ciniki.core']) || !isset($ciniki['config']['ciniki.core']['root_dir']) ) {
-		return false;
-	}
+    if( !isset($ciniki['config']['ciniki.core']) || !isset($ciniki['config']['ciniki.core']['root_dir']) ) {
+        return false;
+    }
 
-	$ciniki['config']['core'] = $ciniki['config']['ciniki.core'];
+    $ciniki['config']['core'] = $ciniki['config']['ciniki.core'];
 
-	return true;
+    return true;
 }
 ?>

@@ -1,6 +1,6 @@
 body {
-	background: #fff;
-	font-size: 80%;
+    background: #fff;
+    font-size: 80%;
 }
 
 .headerbar,
@@ -8,8 +8,8 @@ table.form td.htmlarea,
 table.form td.textarea,
 table.list,
 table.form td.input input {
-	box-shadow: none;
-	-webkit-border-radius: 0px;
+    box-shadow: none;
+    -webkit-border-radius: 0px;
 }
 
 #mc_home_button,
@@ -20,41 +20,41 @@ table.form td.input input {
 #mc_rightbuttons_1,
 #mc_rightbuttons_2,
 #mc_help_button {
-	display: none;
+    display: none;
 }
 
 .headerbar {
-	background: #fff;
-	border-bottom: 0px;
+    background: #fff;
+    border-bottom: 0px;
 }
 
 #mc_title {
-	color: #000;
-	text-shadow: none;
+    color: #000;
+    text-shadow: none;
 }
 
 .noprint {
-	display: none;
+    display: none;
 }
 
 .printborder {
-	border-right: 1px solid #bbb;
+    border-right: 1px solid #bbb;
 }
 
 table.list {
-	page-break-inside: avoid;
+    page-break-inside: avoid;
 }
 
 table tr td {
-	page-break-inside: avoid;
-	page-break-after: auto;
+    page-break-inside: avoid;
+    page-break-after: auto;
 }
 
 table.list thead {
-	display: table-header-group;
+    display: table-header-group;
 }
 table.list tfoot {
-	display: table-footer-group;
+    display: table-footer-group;
 }
 
 
@@ -64,8 +64,8 @@ table.form > tbody > tr table tbody,
 table.form > tbody > tr table tr:first-child > td:first-child,
 table.header > thead > tr:first-child > th:first-child,
 table.noheader > tbody > tr:first-child > td:first-child {
-	-moz-border-radius-topleft: 0px;
-	border-radius: 0px;
+    -moz-border-radius-topleft: 0px;
+    border-radius: 0px;
 }
 
 table.list > tbody > tr:first-child > td:last-child > textarea,
@@ -74,8 +74,8 @@ table.form > tbody > tr table tbody,
 table.form > tbody > tr table tr:first-child > td:last-child,
 table.header > thead > tr:first-child > th:last-child,
 table.noheader > tbody > tr:first-child > td:last-child {
-	-moz-border-radius-topright: 0px;
-	border-radius: 0px;
+    -moz-border-radius-topright: 0px;
+    border-radius: 0px;
 }
 
 table.list > tbody > tr:last-child > td:first-child > textarea,
@@ -83,16 +83,16 @@ table.form > tbody > tr table,
 table.form > tbody > tr table tbody,
 table.list > tbody > tr table tr:last-child > td:first-child,
 table.list > tbody > tr:last-child > td:first-child {
-	-moz-border-radius-bottomleft: 0px;
-	border-radius: 0px;
+    -moz-border-radius-bottomleft: 0px;
+    border-radius: 0px;
 }
 
 table.list > tbody > tr:last-child > td:last-child > textarea,
 table.list > tbody > tr table,
 table.list > tbody > tr table tr:last-child > td:last-child,
 table.list > tbody > tr:last-child > td:last-child {
-	-moz-border-radius-bottomright: 0px;
-	border-radius: 0px;
+    -moz-border-radius-bottomright: 0px;
+    border-radius: 0px;
 }
 
 html,
@@ -101,6 +101,6 @@ body,
 #mc_content,
 #mc_content_scroller,
 #mc_apps {
-	overflow: visible;
-	height: auto;
+    overflow: visible;
+    height: auto;
 }

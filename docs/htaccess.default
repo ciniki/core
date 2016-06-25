@@ -29,18 +29,18 @@ RewriteBase /
 #RewriteRule ^(.*/)?files/(.*) wp-includes/ms-files.php?file=$2 [L]
 
 AddType text/cache-manifest .manifest
-RewriteRule ^mossi$ manage/ [R,L]								# add the trailing slash so img references work
-#RewriteRule ^theme/(.*)$ www-themes/$1 [L]						# redirect to theme directory
-#RewriteRule ^content/(.*)$ www-cache/%{HTTP_HOST}/$1 [L]		# redirect to cache directory
+RewriteRule ^mossi$ manage/ [R,L]                               # add the trailing slash so img references work
+#RewriteRule ^theme/(.*)$ www-themes/$1 [L]                     # redirect to theme directory
+#RewriteRule ^content/(.*)$ www-cache/%{HTTP_HOST}/$1 [L]       # redirect to cache directory
 
 RewriteCond %{REQUEST_FILENAME} -f [OR]
 RewriteCond %{REQUEST_FILENAME} -d
-#RewriteRule ^(www-themes/.*)$ $1 [L]									# Allow theme content
-#RewriteRule ^(www-cache/.*)$ $1 [L]									# Allow cache content
-RewriteRule ^(manage/)$ ciniki-manage.php [L]							# allow all moss-admin
-RewriteRule ^(manage)$ ciniki-manage.php [L]							# allow all moss-admin
-RewriteRule ^(ciniki-manage/.*)$ $1 [L]									# Allow manage content
-RewriteRule ^(ciniki-manage-themes/.*)$ $1 [L]							# Allow manage-theme content
-RewriteRule ^(ciniki-login|ciniki-sync|ciniki-json|ciniki-rest|index|ciniki-manage).php$ $1.php [L]		# allow entrance php files
-RewriteRule  ^([_0-9a-zA-Z-]+/)(.*\.php)$ index.php [L]					# Redirect all other php requests to index
-RewriteRule . index.php [L]												# Redirect all other requests to index
+#RewriteRule ^(www-themes/.*)$ $1 [L]                                   # Allow theme content
+#RewriteRule ^(www-cache/.*)$ $1 [L]                                    # Allow cache content
+RewriteRule ^(manage/)$ ciniki-manage.php [L]                           # allow all moss-admin
+RewriteRule ^(manage)$ ciniki-manage.php [L]                            # allow all moss-admin
+RewriteRule ^(ciniki-manage/.*)$ $1 [L]                                 # Allow manage content
+RewriteRule ^(ciniki-manage-themes/.*)$ $1 [L]                          # Allow manage-theme content
+RewriteRule ^(ciniki-login|ciniki-sync|ciniki-json|ciniki-rest|index|ciniki-manage).php$ $1.php [L]     # allow entrance php files
+RewriteRule  ^([_0-9a-zA-Z-]+/)(.*\.php)$ index.php [L]                 # Redirect all other php requests to index
+RewriteRule . index.php [L]                                             # Redirect all other requests to index

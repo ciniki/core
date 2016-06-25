@@ -15,19 +15,19 @@
 // Arguments
 // ---------
 // ciniki:
-// module:			The name of the module for the transaction, which should include the 
-//					package in dot notation.  Example: ciniki.artcatalog
+// module:          The name of the module for the transaction, which should include the 
+//                  package in dot notation.  Example: ciniki.artcatalog
 //
 function ciniki_core_dbTransactionCommit(&$ciniki, $module) {
 
-	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbConnect');
-	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQuery');
+    ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbConnect');
+    ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQuery');
 
-	$rc = ciniki_core_dbConnect($ciniki, $module);
-	if( $rc['stat'] != 'ok' ) {
-		return $rc;
-	}
+    $rc = ciniki_core_dbConnect($ciniki, $module);
+    if( $rc['stat'] != 'ok' ) {
+        return $rc;
+    }
 
-	return ciniki_core_dbQuery($ciniki, "COMMIT", $module);
+    return ciniki_core_dbQuery($ciniki, "COMMIT", $module);
 }
 ?>

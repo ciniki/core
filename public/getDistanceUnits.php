@@ -11,17 +11,17 @@
 // Returns
 // -------
 // <units>
-//		<km name="Kilometers" />
-//		<mi name="Miles" />
+//      <km name="Kilometers" />
+//      <mi name="Miles" />
 // </units>
 //
 function ciniki_core_getDistanceUnits($ciniki) {
 
-	$units = array(
-		array('unit'=>array('id'=>'km', 'name'=>'Kilometers')),
-		array('unit'=>array('id'=>'mi', 'name'=>'Miles')),
-		);
+    $units = array(
+        array('unit'=>array('id'=>'km', 'name'=>'Kilometers')),
+        array('unit'=>array('id'=>'mi', 'name'=>'Miles')),
+        );
 
-	return array('stat'=>'ok', 'units'=>$units);
+    return array('stat'=>'ok', 'units'=>$units);
 }
 ?>

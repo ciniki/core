@@ -1,82 +1,82 @@
 body {
-	height: 100%;
+    height: 100%;
 }
 
 #m_login {
     height: 100%;
-	overflow: hidden;
+    overflow: hidden;
 }
 
 #m_container div.narrow {
-	width: 40em;
+    width: 40em;
 }
 
 #m_help {
-	height: 100%;
+    height: 100%;
 }
 
 table.form td.htmlarea,
 table.form td.textarea,
 table.form td.input input {
-	-webkit-border-radius: 3px;
-	border: 1px solid #777;
-	-webkit-box-shadow: none;
+    -webkit-border-radius: 3px;
+    border: 1px solid #777;
+    -webkit-box-shadow: none;
 }
 
 input {
-	border: 1px solid #777;
+    border: 1px solid #777;
 }
 
 input, textarea {
-	-webkit-appearance: textfield;
+    -webkit-appearance: textfield;
 }
 
 table.form span.flag_on {
-	-webkit-box-shadow: none;
+    -webkit-box-shadow: none;
 }
 
 #mc_header {
-	/* FIXME: Allow fixed header */
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
+    /* FIXME: Allow fixed header */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
 }
 
 #mh_header {
-	/* FIXME: Allow fixed header */
-	position: fixed;
-	top: 0;
-	right: 0;
-	width: 34%;
+    /* FIXME: Allow fixed header */
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 34%;
 }
 
 #mh_content,
 #mc_content {
-	/* FIXME: Allow fixed header */
-	padding-top: 2.5em;
+    /* FIXME: Allow fixed header */
+    padding-top: 2.5em;
 }
 
 #mc_pdf,
 #mc_website {
-	width:100%;
-	height:100%;
-	margin:0px;
-	border:0px;
-	padding:2.5em 0px 0px 0px;
+    width:100%;
+    height:100%;
+    margin:0px;
+    border:0px;
+    padding:2.5em 0px 0px 0px;
 }
 
 #mc_pdf #mc_pdf_iframe,
 #mc_website #mc_website_iframe {
-	margin:0px;
-	padding:0px;
-	border:0px;
+    margin:0px;
+    padding:0px;
+    border:0px;
 }
 
 div.mediumflex,
 div.large,
 div.xlarge {
-	max-width: 95%;
+    max-width: 95%;
 }
 
 

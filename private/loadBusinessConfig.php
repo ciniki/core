@@ -12,7 +12,7 @@
 //
 // Arguments
 // ---------
-// user_id: 		The user making the request
+// user_id:         The user making the request
 //
 function ciniki_core_loadBusinessConfig($ciniki, $args) {
 

@@ -9,14 +9,14 @@
 //
 // Arguments
 // ---------
-// user_id: 		The user making the request
+// user_id:         The user making the request
 // 
 // Returns
 // -------
 //
 function ciniki_core_logSecurity($ciniki, $strsql, $error_code, $method, $table, $data_id) {
-	
-	error_log("SECURITY: $error_code - $method - $table - $data_id");
-	error_log("SQLINFO: $strsql");
+    
+    error_log("SECURITY: $error_code - $method - $table - $data_id");
+    error_log("SQLINFO: $strsql");
 }
 ?>

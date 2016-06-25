@@ -1,15 +1,15 @@
 body {
-	overflow: hidden;
+    overflow: hidden;
 }
 
 #m_container {
-	overflow: hidden;
+    overflow: hidden;
 }
 
 #mc_content {
 }
 
 div.scrollable {
-	overflow: auto;
-	width: 100%;
+    overflow: auto;
+    width: 100%;
 }

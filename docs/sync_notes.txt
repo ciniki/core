@@ -26,139 +26,139 @@ remote end does the same process, if hash is the same, command accepted
 sync commands
 
 list - provides list of package, module, uuid, last_updated (UTC)
-	args: 
-		business_uuid - get the list of changes for this business
-		package - (optional)
-		module - (optional)
-		last_updated - (optional)search from this date forward, will only list module entities which have been added/modified since last time
-	returns:
-		package:{
-			module:{
-				tables:{
-					table_name:version
-				}
-				changes:{
-					table_name:last change log entry for each table in ciniki_core_change_logs
-				}
-				uuids:{
-					uuid:last_updated_utc_timestamp
-				}
-				settings:{
-				}
-			}
-		}
-		ciniki:{
-			users:{
-				uuid:
-			}
-			business:{
-				tables:{
-					ciniki_businesses:1.01
-					ciniki_business_users:1.01
-					...
-				}
-				changes:{
-					ciniki_businesses:839482934001
-					ciniki_business_users:839482934001
-					ciniki_business_modules:839482934001
-				}
-				uuids:{
-					939288dsdf-ksdfk-3234-sdffkks:928384839348
-				}
-			}
-			appointments:{
-				tables:{
-					ciniki_appointments:1.01
-				}
-				uuids:{
-					
-				}
-			}
-			wineproduction:{
-				tables:{
-					ciniki_wineproductions:1.07
-					ciniki_wineproduction_settings:1.02
-				}
-				changes:{
-					-- change log
-				}
-				uuids:{
-					-- order uuid's and last updated
-				}
-				settings:{
-					last_update:
-				}
-			}
+    args: 
+        business_uuid - get the list of changes for this business
+        package - (optional)
+        module - (optional)
+        last_updated - (optional)search from this date forward, will only list module entities which have been added/modified since last time
+    returns:
+        package:{
+            module:{
+                tables:{
+                    table_name:version
+                }
+                changes:{
+                    table_name:last change log entry for each table in ciniki_core_change_logs
+                }
+                uuids:{
+                    uuid:last_updated_utc_timestamp
+                }
+                settings:{
+                }
+            }
+        }
+        ciniki:{
+            users:{
+                uuid:
+            }
+            business:{
+                tables:{
+                    ciniki_businesses:1.01
+                    ciniki_business_users:1.01
+                    ...
+                }
+                changes:{
+                    ciniki_businesses:839482934001
+                    ciniki_business_users:839482934001
+                    ciniki_business_modules:839482934001
+                }
+                uuids:{
+                    939288dsdf-ksdfk-3234-sdffkks:928384839348
+                }
+            }
+            appointments:{
+                tables:{
+                    ciniki_appointments:1.01
+                }
+                uuids:{
+                    
+                }
+            }
+            wineproduction:{
+                tables:{
+                    ciniki_wineproductions:1.07
+                    ciniki_wineproduction_settings:1.02
+                }
+                changes:{
+                    -- change log
+                }
+                uuids:{
+                    -- order uuid's and last updated
+                }
+                settings:{
+                    last_update:
+                }
+            }
 
-		}
-		oasis:{
-		}
-		modules:{
-			
-		}
-		<modules>
-			<module name=>
-				<uuids>
-					<uuid uuid="" last_updated="UTC_unix_timestamp">
+        }
+        oasis:{
+        }
+        modules:{
+            
+        }
+        <modules>
+            <module name=>
+                <uuids>
+                    <uuid uuid="" last_updated="UTC_unix_timestamp">
 
 get - returns all the information for a package/module/uuid including core_change_logs
-	args: 
-		business_id - get the list of changes for this business
-		package - 
-		module - 
-		uuid - the uuid of the module element to retreive
-	returns content.
+    args: 
+        business_id - get the list of changes for this business
+        package - 
+        module - 
+        uuid - the uuid of the module element to retreive
+    returns content.
 
 push - send all the information for a package/module/uuid including core_change_logs
-	- the same process happens as if the information was requested
-	args:
-		business_id
-		package
-		module
-		uuid
-	POST content
+    - the same process happens as if the information was requested
+    args:
+        business_id
+        package
+        module
+        uuid
+    POST content
 
 
 Database
 
 
 ciniki_businesses_sync (
-	id
-	business_id
-	flags tinyint unsigned not null,
-		0x01 - push
-		0x02 - pull
-	direction varchar(10) not null, (push/pull/bi)
-	remote_url varchar(200) not null, (http://api.ciniki.ca/ciniki-sync.php -- http://silvermoon.ciniki.ca/ciniki-sync.php)
-	remote_uuid binary(16) not null, (ID of the instance: 23384-sdkdf)
-	date_added datetime not null,
-	last_updated datetime not null,
-	last_sync datetime not null,
-	primary key (id),
-	unique index (business_id, remote_url),
+    id
+    business_id
+    flags tinyint unsigned not null,
+        0x01 - push
+        0x02 - pull
+    direction varchar(10) not null, (push/pull/bi)
+    remote_url varchar(200) not null, (http://api.ciniki.ca/ciniki-sync.php -- http://silvermoon.ciniki.ca/ciniki-sync.php)
+    remote_uuid binary(16) not null, (ID of the instance: 23384-sdkdf)
+    date_added datetime not null,
+    last_updated datetime not null,
+    last_sync datetime not null,
+    primary key (id),
+    unique index (business_id, remote_url),
 );
 
 ciniki_businesses_sync_uuidmaps (
-	sync_id
-	type (ciniki_users) -- table name
-	remote_uuid (2344d-dkfs)
-	local_uuid (kkdrw-4492)
+    sync_id
+    type (ciniki_users) -- table name
+    remote_uuid (2344d-dkfs)
+    local_uuid (kkdrw-4492)
 );
 
 -- Send alert on problem
 ciniki_business_sync_problems (
-	sync_id
-	package
-	module
-	uuid
+    sync_id
+    package
+    module
+    uuid
 );
 
 ciniki_core_syncs (
 
 ciniki_sync_businesses
-	id int not null auto_increment,
-	business_id
-	remote_url (http://api.ciniki.ca/ciniki-sync.php)
+    id int not null auto_increment,
+    business_id
+    remote_url (http://api.ciniki.ca/ciniki-sync.php)
 
 
 
@@ -169,21 +169,21 @@ ciniki_users.uuid_maps (remote system, remote uuid,local uuid)
 get local uuid list
 
 foreach remote
-	get remote uuid list
+    get remote uuid list
 
-	if uuid does not exist, add all the information into the database
-		- done
-		- date_added, last_updated should be set from remote values
-		- change logs should be copied
+    if uuid does not exist, add all the information into the database
+        - done
+        - date_added, last_updated should be set from remote values
+        - change logs should be copied
 
-	if uuid does exist
-		- Compare last updated dates, if local is behind, 
-		- Compare fields, and update local with remote information
+    if uuid does exist
+        - Compare last updated dates, if local is behind, 
+        - Compare fields, and update local with remote information
 
 
-		- update change history
+        - update change history
 
-	
+    
 
 
 Order of Modules to Sync

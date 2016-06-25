@@ -7,50 +7,50 @@
 //
 // Info
 // ----
-// status:			beta
+// status:          beta
 //
 // Arguments
 // ---------
-// module:			The name of the module for the transaction, which should include the 
-//					package in dot notation.  Example: ciniki.artcatalog
-// user_id: 		The user making the request
+// module:          The name of the module for the transaction, which should include the 
+//                  package in dot notation.  Example: ciniki.artcatalog
+// user_id:         The user making the request
 // business_id:
-// table_name:		The table name that the data was inserted/replaced in.
-// table_key:		The key to be able to get back to the row that was 
-//					changed in the table_name.
-// table_field:		The field in the table_name that was updated.
-// value:			The new value for the field.
+// table_name:      The table name that the data was inserted/replaced in.
+// table_key:       The key to be able to get back to the row that was 
+//                  changed in the table_name.
+// table_field:     The field in the table_name that was updated.
+// value:           The new value for the field.
 //
 function ciniki_core_dbAddChangeLog(&$ciniki, $module, $business_id, $table_name, $table_key, $table_field, $value) {
-	//
-	// Open a connection to the database if one doesn't exist.  The
-	// dbConnect function will return an open connection if one 
-	// exists, otherwise open a new one
-	//
-	$rc = ciniki_core_dbConnect($ciniki, 'ciniki.core');
-	if( $rc['stat'] != 'ok' ) {
-		return $rc;
-	}
+    //
+    // Open a connection to the database if one doesn't exist.  The
+    // dbConnect function will return an open connection if one 
+    // exists, otherwise open a new one
+    //
+    $rc = ciniki_core_dbConnect($ciniki, 'ciniki.core');
+    if( $rc['stat'] != 'ok' ) {
+        return $rc;
+    }
 
-	$dh = $rc['dh'];
+    $dh = $rc['dh'];
 
-	$strsql = "INSERT INTO ciniki_core_change_logs (uuid, user_id, session, transaction, status, "
-		. "business_id, table_name, table_key, table_field, new_value, log_date) VALUES ("
-		. "uuid(), "
-		. "'" . ciniki_core_dbQuote($ciniki, $ciniki['session']['user']['id']) . "', "
-		. "'" . ciniki_core_dbQuote($ciniki, $ciniki['session']['change_log_id']) . "', "
-		. "'', 0, "
-		. "'" . ciniki_core_dbQuote($ciniki, $business_id) . "', "
-		. "'" . ciniki_core_dbQuote($ciniki, $table_name) . "', "
-		. "'" . ciniki_core_dbQuote($ciniki, $table_key) . "', ";
-	if( $table_field == 'NOW()' ) {
-		$strsql .= "NOW(), ";
-	} else {
-		$strsql .= "'" . ciniki_core_dbQuote($ciniki, $table_field) . "', ";
-	}
-	$strsql .= "'" . ciniki_core_dbQuote($ciniki, $value) . "', UTC_TIMESTAMP())";
+    $strsql = "INSERT INTO ciniki_core_change_logs (uuid, user_id, session, transaction, status, "
+        . "business_id, table_name, table_key, table_field, new_value, log_date) VALUES ("
+        . "uuid(), "
+        . "'" . ciniki_core_dbQuote($ciniki, $ciniki['session']['user']['id']) . "', "
+        . "'" . ciniki_core_dbQuote($ciniki, $ciniki['session']['change_log_id']) . "', "
+        . "'', 0, "
+        . "'" . ciniki_core_dbQuote($ciniki, $business_id) . "', "
+        . "'" . ciniki_core_dbQuote($ciniki, $table_name) . "', "
+        . "'" . ciniki_core_dbQuote($ciniki, $table_key) . "', ";
+    if( $table_field == 'NOW()' ) {
+        $strsql .= "NOW(), ";
+    } else {
+        $strsql .= "'" . ciniki_core_dbQuote($ciniki, $table_field) . "', ";
+    }
+    $strsql .= "'" . ciniki_core_dbQuote($ciniki, $value) . "', UTC_TIMESTAMP())";
 
-	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbInsert');
-	return ciniki_core_dbInsert($ciniki, $strsql, 'ciniki.core');
+    ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbInsert');
+    return ciniki_core_dbInsert($ciniki, $strsql, 'ciniki.core');
 }
 ?>

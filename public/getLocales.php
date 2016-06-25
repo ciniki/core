@@ -17,12 +17,12 @@
 // </countries>
 //
 function ciniki_core_getLocales($ciniki) {
-	$locales = array(
-		array('locale'=>array('id'=>'en_US', 'name'=>'United States - English')),
-		array('locale'=>array('id'=>'en_CA', 'name'=>'Canada - English')),
-		array('locale'=>array('id'=>'fr_US', 'name'=>'Canada - French')),
-		);
+    $locales = array(
+        array('locale'=>array('id'=>'en_US', 'name'=>'United States - English')),
+        array('locale'=>array('id'=>'en_CA', 'name'=>'Canada - English')),
+        array('locale'=>array('id'=>'fr_US', 'name'=>'Canada - French')),
+        );
 
-	return array('stat'=>'ok', 'locales'=>$locales);
+    return array('stat'=>'ok', 'locales'=>$locales);
 }
 ?>

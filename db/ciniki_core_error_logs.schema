@@ -6,44 +6,44 @@
 #
 # Fields
 # ------
-# id: 				The id of the log entry.
+# id:               The id of the log entry.
 #
-# status:			The status of the log entry.  
+# status:           The status of the log entry.  
 #
-#					0 - Unknown
-#					10 - Entered
-#					50 - Archived
+#                   0 - Unknown
+#                   10 - Entered
+#                   50 - Archived
 #
-# business_id:		The ID of the business the change happened on.  Every change
-#					must be tied to a business for security reasons.
+# business_id:      The ID of the business the change happened on.  Every change
+#                   must be tied to a business for security reasons.
 #
-# user_id:			The user who made the request.
+# user_id:          The user who made the request.
 #
-# session_key:		The id of the current session for the user.  A login starts a 
-#					session, a logout or timeout ends a session.
-#					 
-# method:			The method requested
+# session_key:      The id of the current session for the user.  A login starts a 
+#                   session, a logout or timeout ends a session.
+#                    
+# method:           The method requested
 #
-# request_array:	The serialized request variables, from $ciniki['request'].
+# request_array:    The serialized request variables, from $ciniki['request'].
 #
-# session_array:	The serialized session array variable from $ciniki['session']
+# session_array:    The serialized session array variable from $ciniki['session']
 #
-# err_array:		The serialized error array from $rc['err'].
+# err_array:        The serialized error array from $rc['err'].
 #
-# log_date: 		The date and time the change happened.
+# log_date:         The date and time the change happened.
 #
 create table ciniki_core_error_logs (
-	id bigint not null auto_increment,
-	status tinyint not null,
-	business_id int not null,
-	user_id	int not null,
-	session_key varchar(50) not null,
-	method varchar(150) not null,
-	request_array text not null,
-	session_array text not null,
-	err_array text not null,
-	log_date datetime not null,
-	primary key (id),
-	index (user_id, business_id, log_date),
-	index (method)
+    id bigint not null auto_increment,
+    status tinyint not null,
+    business_id int not null,
+    user_id int not null,
+    session_key varchar(50) not null,
+    method varchar(150) not null,
+    request_array text not null,
+    session_array text not null,
+    err_array text not null,
+    log_date datetime not null,
+    primary key (id),
+    index (user_id, business_id, log_date),
+    index (method)
 ) ENGINE=InnoDB, COMMENT='v1.01';

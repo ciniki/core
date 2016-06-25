@@ -1,72 +1,72 @@
 table.form td.textarea {
-	-webkit-box-shadow: #555 0px 0px 2px inset;
+    -webkit-box-shadow: #555 0px 0px 2px inset;
 }
 table.form td.search input,
 table.form td.htmlarea div.htmlarea,
 table.form td.multiselect input,
 table.form td.audiocontrols span.audio_filename,
 table.form td.input input {
-	-webkit-border-radius: 3px;
-/*	-webkit-box-shadow: #555 0px 0px 2px inset;*/
+    -webkit-border-radius: 3px;
+/*  -webkit-box-shadow: #555 0px 0px 2px inset;*/
 }
 
 table.simplelist input,
 table.datepicker input {
-	-webkit-border-radius: 3px;
-	-webkit-box-shadow: #eee 0px 1px 1px inset;
+    -webkit-border-radius: 3px;
+    -webkit-box-shadow: #eee 0px 1px 1px inset;
 }
 
 input, textarea {
-	-webkit-appearance: none;
+    -webkit-appearance: none;
 }
 
 input.checkbox {
-	-webkit-appearance: checkbox;
+    -webkit-appearance: checkbox;
 }
 
 input:focus {
-	outline: none;
+    outline: none;
 }
 
 table.list tr.textfield > td > input.readonly {
-	border: 0px;
-	background: inherit;
+    border: 0px;
+    background: inherit;
 }
 
 table.form tr.textfield > td > input.search {
-	height: 2.0em;
+    height: 2.0em;
 }
 
 tr.xhelp-text td p,
 tr.guided-text td p,
 p.guided-text {
-	-webkit-border-radius: 3px;
+    -webkit-border-radius: 3px;
 }
 div.guided-on tr.guided-title:first-child td p {
-	-webkit-border-top-left-radius: 3px;
-	-webkit-border-top-right-radius: 3px;
+    -webkit-border-top-left-radius: 3px;
+    -webkit-border-top-right-radius: 3px;
 }
 table.form td.input > select,
 table.form td.select > select,
 table.list {
-	-webkit-border-radius: 3px;
-	box-shadow: none;
+    -webkit-border-radius: 3px;
+    box-shadow: none;
 }
 
 table.simplegrid {
-	-webkit-border-radius: 3px;
+    -webkit-border-radius: 3px;
 }
 
 span.count {
-	border-radius: 5px;
-	text-shadow: #fff 1px 1px 0px;
+    border-radius: 5px;
+    text-shadow: #fff 1px 1px 0px;
 }
 
 button, input.button {
-	-webkit-border-radius: 3px;
-	border: 1px solid #ccc;
-	background: -webkit-gradient(linear, left top, left bottom, from(#eee), to(#bbb));
-	padding: 5px 15px 5px 15px;
+    -webkit-border-radius: 3px;
+    border: 1px solid #ccc;
+    background: -webkit-gradient(linear, left top, left bottom, from(#eee), to(#bbb));
+    padding: 5px 15px 5px 15px;
 }
 
 div.guided-on table.paneltabs .guided-selected div.buttons span,
@@ -74,7 +74,7 @@ span.button_on,
 span.button_off,
 span.rbutton_on,
 span.rbutton_off {
-	-webkit-border-radius: 3px;
+    -webkit-border-radius: 3px;
 }
 
 table.form td.joinedflags span.flag_on:first-child,
@@ -83,8 +83,8 @@ table.paneltabs td.joinedtabs div span.toggle_on:first-child,
 table.paneltabs td.joinedtabs div span.toggle_off:first-child,
 table.form td div span.toggle_on:first-child,
 table.form td div span.toggle_off:first-child {
-	-webkit-border-top-left-radius: 3px;
-	-webkit-border-bottom-left-radius: 3px;
+    -webkit-border-top-left-radius: 3px;
+    -webkit-border-bottom-left-radius: 3px;
 }
 
 table.form td.joinedflags span.flag_on:last-child,
@@ -93,8 +93,8 @@ table.paneltabs td.joinedtabs div span.toggle_on:last-child,
 table.paneltabs td.joinedtabs div span.toggle_off:last-child,
 table.form td div span.toggle_on:last-child,
 table.form td div span.toggle_off:last-child {
-	-webkit-border-top-right-radius: 3px;
-	-webkit-border-bottom-right-radius: 3px;
+    -webkit-border-top-right-radius: 3px;
+    -webkit-border-bottom-right-radius: 3px;
 }
 
 table.form tr.idlist td.multiselect span.toggle_on,
@@ -111,50 +111,50 @@ table.paneltabs td.tabs div span.toggle_on,
 table.paneltabs td.tabs div span.toggle_off,
 table.form td.flags span.flag_on,
 table.form td.flags span.flag_off {
-	-webkit-border-radius: 3px;
+    -webkit-border-radius: 3px;
 }
 
 div.guided-on .guided-selected table.formtabs div.buttons span {
-	-webkit-border-radius: 0px;
+    -webkit-border-radius: 0px;
 }
 div.guided-on .guided-selected table.formtabs div.buttons span:first-child {
-	-webkit-border-top-left-radius: 3px;
-	-webkit-border-top-right-radius: 3px;
+    -webkit-border-top-left-radius: 3px;
+    -webkit-border-top-right-radius: 3px;
 }
 
 div.guided-on .guided-selected table.formtabs div.buttons span:last-child {
-	-webkit-border-bottom-left-radius: 3px;
-	-webkit-border-bottom-right-radius: 3px;
+    -webkit-border-bottom-left-radius: 3px;
+    -webkit-border-bottom-right-radius: 3px;
 }
 
 span.button_on,
 span.rbutton_on,
 table.form td div span.toggle_on,
 table.form span.flag_on {
-	background: -webkit-gradient(linear, left top, left bottom, from(#555), to(#999));
-	-webkit-box-shadow: inset 1px 1px 0px 0px #555;
-	color: #ddd;
-	border: 1px solid #777;
+    background: -webkit-gradient(linear, left top, left bottom, from(#555), to(#999));
+    -webkit-box-shadow: inset 1px 1px 0px 0px #555;
+    color: #ddd;
+    border: 1px solid #777;
 }
 
 span.button_off,
 span.rbutton_off,
 table.form td div span.toggle_off,
 table.form span.flag_off {
-	background: -webkit-gradient(linear, left top, left bottom, from(#eee), to(#bbb));
-	color: #777;
-	border: 1px solid #777;
+    background: -webkit-gradient(linear, left top, left bottom, from(#eee), to(#bbb));
+    color: #777;
+    border: 1px solid #777;
 }
 
 table.list td > button {
-	-webkit-border-radius: 3px;
+    -webkit-border-radius: 3px;
 }
 
 table.form > tbody > tr > td.button,
 table.simplebuttons > tbody > tr > td.button {
-	border: 0px;
-	background: -webkit-gradient(linear, left top, left bottom, from(#999), to(#555));
-	text-decoration: none; 
+    border: 0px;
+    background: -webkit-gradient(linear, left top, left bottom, from(#999), to(#555));
+    text-decoration: none; 
 }
 
 
@@ -162,36 +162,36 @@ table.form > tbody > tr > td.delete,
 table.form > tbody > tr > td.remove,
 table.simplebuttons > tbody > tr > td.delete,
 table.simplebuttons > tbody > tr > td.remove {
-	border: 0px;
-	background: -webkit-gradient(linear,left top,left bottom,color-stop(0, #ec4a0b),color-stop(1, #ad390c));   
-	text-decoration: none; 
+    border: 0px;
+    background: -webkit-gradient(linear,left top,left bottom,color-stop(0, #ec4a0b),color-stop(1, #ad390c));   
+    text-decoration: none; 
 }
 
 textarea {
-	-webkit-appearance: none;
+    -webkit-appearance: none;
 }
 
 .headerbar td.avatar img {
-	/* FIXME: In the future this can have rounded corners */
+    /* FIXME: In the future this can have rounded corners */
 }
 
 .subheaderbar {
-	margin: 0em 0.5em 0em 0.5em;
-	padding: 5px 10px 5px 10px;
+    margin: 0em 0.5em 0em 0.5em;
+    padding: 5px 10px 5px 10px;
 }
 
 .subheaderbar {
-	-webkit-border-bottom-left-radius: 3px;
-	-webkit-border-bottom-right-radius: 3px;
+    -webkit-border-bottom-left-radius: 3px;
+    -webkit-border-bottom-right-radius: 3px;
 }
 
 
 input:-webkit-autofill {
-	background: #fff !important;
+    background: #fff !important;
 }
 
 table.list {
-	-webkit-border-radius: 3px;
+    -webkit-border-radius: 3px;
 }
 
 table.list > tbody:first-child > tr:first-child > td:first-child > textarea,
@@ -202,7 +202,7 @@ table.header > thead > tr:first-child > th:first-child,
 table.noheader > tbody:first-child > tr:first-child > td:first-child,
 table.list > tfoot:first-child > tr:first-child > th:first-child, 
 table.list > tfoot:first-child > tr:first-child > td:first-child {
-	-webkit-border-top-left-radius: 3px;
+    -webkit-border-top-left-radius: 3px;
 }
 
 table.list > tbody:first-child > tr:first-child > td:last-child > textarea,
@@ -213,7 +213,7 @@ table.header > thead > tr:first-child > th:last-child,
 table.noheader > tbody:first-child > tr:first-child > td:last-child,
 table.list > tfoot:first-child > tr:first-child > th:last-child, 
 table.list > tfoot:first-child > tr:first-child > td:last-child {
-	-webkit-border-top-right-radius: 3px;
+    -webkit-border-top-right-radius: 3px;
 }
 table.list > tbody:last-child > tr:last-child > td:first-child > textarea,
 table.list > tbody:last-child > tr table,
@@ -223,7 +223,7 @@ table.list > tbody:last-child > tr:last-child > th:first-child,
 table.list > tbody:last-child > tr:last-child > td:first-child,
 table.list > tfoot > tr:last-child > th:first-child, 
 table.list > tfoot > tr:last-child > td:first-child {
-	-webkit-border-bottom-left-radius: 3px;
+    -webkit-border-bottom-left-radius: 3px;
 }
 table.list > tbody:last-child > tr:last-child > td:last-child > textarea,
 table.list > tbody:last-child > tr table,
@@ -232,15 +232,15 @@ table.list > thead:last-child > tr:last-child > th:last-child,
 table.list > tbody:last-child > tr:last-child > td:last-child,
 table.list > tfoot > tr:last-child > th:last-child, 
 table.list > tfoot > tr:last-child > td:last-child {
-	-webkit-border-bottom-right-radius: 3px;
+    -webkit-border-bottom-right-radius: 3px;
 }
 
 table.list td > div.colourswatches > span.selected {
-	-webkit-box-shadow: #777 1px 1px 3px;
+    -webkit-box-shadow: #777 1px 1px 3px;
 }
 
 table.services td span.job {
-	-webkit-border-radius: 3px;
+    -webkit-border-radius: 3px;
 }
 
 div.fullwidth table.list,
@@ -263,7 +263,7 @@ div.fullwidth table.list > tbody:last-child > tr:last-child > th:first-child,
 div.fullwidth table.list > tfoot:first-child > tr:first-child > th:first-child,
 div.fullwidth table.list > tfoot:first-child > tr:first-child > th:last-child, 
 div.fullwidth table.list > tfoot > tr:last-child > td:last-child {
-	-webkit-border-radius: 0px;
+    -webkit-border-radius: 0px;
 }
 
 table.fieldhistory,
@@ -278,5 +278,5 @@ table.list > tbody:first-child > tr table.fieldhistory thead tr:last-child > td:
 table.list > tbody:first-child > tr table.fieldhistory tbody tr:last-child > td:first-child,
 table.list > tbody:first-child > tr table.fieldhistory thead tr:last-child > td:last-child,
 table.list > tbody:first-child > tr table.fieldhistory tbody tr:last-child > td:last-child {
-	border-radius: 0px;
+    border-radius: 0px;
 }

@@ -1,50 +1,50 @@
 body {
-	font-size: 100%;
-	color: #303030;
-	font-family: arial, helvetica;
-	padding: 0px;
-	margin: 0px;
-	border: 0px;
-	height: 100%;
-	/* overflow: hidden; */
+    font-size: 100%;
+    color: #303030;
+    font-family: arial, helvetica;
+    padding: 0px;
+    margin: 0px;
+    border: 0px;
+    height: 100%;
+    /* overflow: hidden; */
 }
 
 .headerbar {
-	border-bottom: 1px solid #667;
+    border-bottom: 1px solid #667;
 }
 /*
 .headerbar td.title {
-	width: 40%;
+    width: 40%;
 } 
 
 #mh_header.headerbar td.title {
-	width: 35%;
+    width: 35%;
 }
 
 .headerbar td.leftbuttons {
-	width: 30%;
+    width: 30%;
 }
 
 .headerbar td.rightbuttons {
-	width: 30%;
+    width: 30%;
 }
 
 #mh_header.headerbar td.leftbuttons,
 #mh_header.headerbar td.rightbuttons {
-	width: 45%;
+    width: 45%;
 }
 */
 #m_error table.list td {
-	background: #fff;
+    background: #fff;
 }
 
 #m_forgot,
 #m_recover,
 #m_relogin,
 #m_login {
-	width: 100%;
-	text-align: center;
-	padding-top: 2em;
+    width: 100%;
+    text-align: center;
+    padding-top: 2em;
 }
 
 #m_forgot img.logo,
@@ -56,122 +56,122 @@ body {
 }
 
 #m_container {
-	margin: 0px;
-	border: 0px;
-	padding: 0px;
-	width: 100%;
-	height: 100%;
-	/* overflow: hidden; */
+    margin: 0px;
+    border: 0px;
+    padding: 0px;
+    width: 100%;
+    height: 100%;
+    /* overflow: hidden; */
 }
 
 #mc_apps {
-	left: 0px;
-	width: 100%;
-	margin: 0px;
-	padding: 0px;
+    left: 0px;
+    width: 100%;
+    margin: 0px;
+    padding: 0px;
 }
 
 div.narrow {
-	width: 20em;
-	margin: 0 auto;
-	padding-top: 1em;
-	padding-bottom: 1em;
+    width: 20em;
+    margin: 0 auto;
+    padding-top: 1em;
+    padding-bottom: 1em;
 }
 
 div.medium {
-	width: 95%;
-	max-width: 40em;
-	margin: 0 auto;
+    width: 95%;
+    max-width: 40em;
+    margin: 0 auto;
 }
 
 div.mediumflex {
-	min-width: 30em;
-	max-width: 50em;
-	margin: 0 auto;
+    min-width: 30em;
+    max-width: 50em;
+    margin: 0 auto;
 }
 
 div.large {
     width: 50em;
-	max-width: 95%;
-	margin: 0 auto;
+    max-width: 95%;
+    margin: 0 auto;
 }
 div.large.narrowaside {
-	width: 95%;
+    width: 95%;
 }
 
 div.xlarge {
-	width: 60em;
-	max-width: 95%;
-	margin: 0 auto;
+    width: 60em;
+    max-width: 95%;
+    margin: 0 auto;
 }
 
 div.full {
-	max-width: 96%;
-	margin: 0 auto;
+    max-width: 96%;
+    margin: 0 auto;
 }
 
 div.narrowmulticol {
-	width: 100%;
+    width: 100%;
 }
 
 div.narrowmulti div.panelsection {
-	width: 20em;
-	margin: 0 auto;
-	display: inline-flex;
+    width: 20em;
+    margin: 0 auto;
+    display: inline-flex;
 }
 
 div.narrowmulti div.panelsection table {
-	width: 95%;
+    width: 95%;
 }
 
 div.panel {
-	text-align: center;
-	margin: 0 auto;
-	width: 100%;
+    text-align: center;
+    margin: 0 auto;
+    width: 100%;
 }
 
 div.wide {
-/*	display: inline-block; */
-	text-align: center;
-	margin: 0 auto;
-	padding-left: 1em;
-	padding-right: 1em;
+/*  display: inline-block; */
+    text-align: center;
+    margin: 0 auto;
+    padding-left: 1em;
+    padding-right: 1em;
 }
 
 div.narrow h2,
 div.mediumflex h2,
 div.medium h2 {
-	width: 100%;
+    width: 100%;
 }
 
 div.headerbar {
-	font-size: 1em;
-	margin: 0px;
-	padding: 0px;
-	height: 2.5em;
-	width: 100%;
-	border-bottom: 1px solid #ddd;
+    font-size: 1em;
+    margin: 0px;
+    padding: 0px;
+    height: 2.5em;
+    width: 100%;
+    border-bottom: 1px solid #ddd;
 }
 
 input {
-	padding: 0.2em;
+    padding: 0.2em;
 }
 
 #m_help {
-	float: right;
-	min-height: 100%;
+    float: right;
+    min-height: 100%;
 }
 
 table.list tr.textfield > td > input.datetime {
-	max-width: 12em;
+    max-width: 12em;
 }
 
 table.list tr.textfield > td > input.timeduration {
-	max-width: 6em;
+    max-width: 6em;
 }
 
 table.list tr.textfield > td.input input.tiny {
-	max-width: 5em;
+    max-width: 5em;
 }
 
 table.list tr.gridfields > td.input input.integer,
@@ -184,205 +184,205 @@ table.list tr > td input.small,
 table.list tr > td input.date,
 table.list tr > td input.hexcolour,
 table.list tr > td input.time {
-	max-width: 10em;
+    max-width: 10em;
 }
 
 table.list tr.textfield > td > input.medium {
-	max-width: 15em;
+    max-width: 15em;
 }
 
 table.list tr.textfield > td > input.large {
-	max-width: 45em;
+    max-width: 45em;
 }
 
 table.list > tbody > tr.followup > td.userdetails {
-	border-right: 1px dashed #bbb;
-	text-decoration: normal;
-	white-space: nowrap;
+    border-right: 1px dashed #bbb;
+    text-decoration: normal;
+    white-space: nowrap;
 }
 
 table.list > tbody > tr.followup > td.content {
-	text-decoration: normal;
-	white-space: pre-wrap;
+    text-decoration: normal;
+    white-space: pre-wrap;
 }
 
 table.list td div.calendar {
-	width: 33%;
+    width: 33%;
 }
 
 /* media queries to adjust screen based on width */
 @media screen and (min-width: 59em) {
-	div.help-off.guided-on div.guided-disabled div.narrowaside,
-	div.help-off.guided-off div.narrow.narrowaside,
-	div.help-off.guided-off div.medium.narrowaside,
-	div.help-off.guided-off div.large.narrowaside {
-		max-width: 59em;
-	}
+    div.help-off.guided-on div.guided-disabled div.narrowaside,
+    div.help-off.guided-off div.narrow.narrowaside,
+    div.help-off.guided-off div.medium.narrowaside,
+    div.help-off.guided-off div.large.narrowaside {
+        max-width: 59em;
+    }
 
-	div.help-off.guided-on div.guided-disabled div.narrowaside div.panelsection,
-/*	div.help-off.guided-off div.narrow.narrowaside div.panelsection, */
-	div.help-off.guided-off div.narrow.narrowaside div.panelsection,
-	div.help-off.guided-off div.medium.narrowaside div.panelsection,
-	div.help-off.guided-off div.large.narrowaside div.panelsection {
-		width: 35em;
-		margin-left: 21em;
-		margin-left: 22em;
-	}
-	div.help-off.guided-on div.guided-disabled div.narrowaside div.formtabs,
-	div.help-off.guided-off div.narrowaside div.formtabs {
-		margin-left: 0px;
-	}
+    div.help-off.guided-on div.guided-disabled div.narrowaside div.panelsection,
+/*  div.help-off.guided-off div.narrow.narrowaside div.panelsection, */
+    div.help-off.guided-off div.narrow.narrowaside div.panelsection,
+    div.help-off.guided-off div.medium.narrowaside div.panelsection,
+    div.help-off.guided-off div.large.narrowaside div.panelsection {
+        width: 35em;
+        margin-left: 21em;
+        margin-left: 22em;
+    }
+    div.help-off.guided-on div.guided-disabled div.narrowaside div.formtabs,
+    div.help-off.guided-off div.narrowaside div.formtabs {
+        margin-left: 0px;
+    }
 
-	div.help-off.guided-on div.guided-disabled div.narrowaside div.asideleft,
-	div.help-off.guided-off div.narrow.narrowaside div.asideleft,
-	div.help-off.guided-off div.medium.narrowaside div.asideleft,
-	div.help-off.guided-off div.large.narrowaside div.asideleft,
-	div.help-off.guided-off div.narrowaside div.asideleft {
-		float: left;
-		clear: left;
-		width: 20em;
-		max-width: 20em;
-		/* FIXME: needs to be 38 for date picker */
-		/* max-width: 38em; */
-		margin-left: 0px;
-		height: auto;
-		margin-top: 0px;
-	}
-	div.help-off.guided-on div.guided-disabled div.narrowaside div.panelsection.menutabs,
-/*	div.help-off.guided-off div.narrow.narrowaside div.panelsection.menutabs, */
-	div.help-off.guided-off div.narrow.narrowaside div.panelsection.menutabs,
-	div.help-off.guided-off div.medium.narrowaside div.panelsection.menutabs,
-	div.help-off.guided-off div.large.narrowaside div.panelsection.menutabs {
+    div.help-off.guided-on div.guided-disabled div.narrowaside div.asideleft,
+    div.help-off.guided-off div.narrow.narrowaside div.asideleft,
+    div.help-off.guided-off div.medium.narrowaside div.asideleft,
+    div.help-off.guided-off div.large.narrowaside div.asideleft,
+    div.help-off.guided-off div.narrowaside div.asideleft {
+        float: left;
+        clear: left;
+        width: 20em;
+        max-width: 20em;
+        /* FIXME: needs to be 38 for date picker */
+        /* max-width: 38em; */
+        margin-left: 0px;
+        height: auto;
+        margin-top: 0px;
+    }
+    div.help-off.guided-on div.guided-disabled div.narrowaside div.panelsection.menutabs,
+/*  div.help-off.guided-off div.narrow.narrowaside div.panelsection.menutabs, */
+    div.help-off.guided-off div.narrow.narrowaside div.panelsection.menutabs,
+    div.help-off.guided-off div.medium.narrowaside div.panelsection.menutabs,
+    div.help-off.guided-off div.large.narrowaside div.panelsection.menutabs {
         margin-left: 0px;
         width: 100%;
     }
 }
 
 @media screen and (min-width: 73em) {
-	div.help-off.guided-on div.guided-disabled div.mediumaside,
-	div.help-off.guided-off div.mediumaside,
-	div.help-off.guided-off div.large.narrowaside {
-		max-width: 70em;
-	}
+    div.help-off.guided-on div.guided-disabled div.mediumaside,
+    div.help-off.guided-off div.mediumaside,
+    div.help-off.guided-off div.large.narrowaside {
+        max-width: 70em;
+    }
 
-	div.help-off.guided-on div.guided-disabled div.mediumaside div.panelsection,
-	div.help-off.guided-off div.mediumaside div.panelsection {
-		width: 35em;
-		margin-left: 35em;
-	}
+    div.help-off.guided-on div.guided-disabled div.mediumaside div.panelsection,
+    div.help-off.guided-off div.mediumaside div.panelsection {
+        width: 35em;
+        margin-left: 35em;
+    }
 
-	div.help-off.guided-off div.large.narrowaside div.panelsection {
-		width: 47em;
-		margin-left: 22em;
-	}
+    div.help-off.guided-off div.large.narrowaside div.panelsection {
+        width: 47em;
+        margin-left: 22em;
+    }
 
-	div.help-off.guided-on div.guided-disabled div.mediumaside div.formtabs,
-	div.help-off.guided-off div.narrowaside div.formtabs,
-	div.help-off.guided-off div.mediumaside div.formtabs {
-		margin-left: 0px;
-	}
+    div.help-off.guided-on div.guided-disabled div.mediumaside div.formtabs,
+    div.help-off.guided-off div.narrowaside div.formtabs,
+    div.help-off.guided-off div.mediumaside div.formtabs {
+        margin-left: 0px;
+    }
 
-	div.help-off.guided-on div.guided-disabled div.mediumaside div.asideleft,
-	div.help-off.guided-off div.mediumaside div.asideleft {
-		float: left;
-		clear: left;
-		width: 34em;
-		max-width: 34em;
-		/* FIXME: needs to be 38 for date picker */
-		/* max-width: 38em; */
-		margin-left: 0px;
-		height: auto;
-		margin-top: 0px;
-	}
+    div.help-off.guided-on div.guided-disabled div.mediumaside div.asideleft,
+    div.help-off.guided-off div.mediumaside div.asideleft {
+        float: left;
+        clear: left;
+        width: 34em;
+        max-width: 34em;
+        /* FIXME: needs to be 38 for date picker */
+        /* max-width: 38em; */
+        margin-left: 0px;
+        height: auto;
+        margin-top: 0px;
+    }
 
-	div.help-off.guided-on div.guided-disabled div.aside,
-	div.help-off.guided-off div.aside {
-		float: right;
-		clear: right;
-		width: 20em;
-		max-width: 29em;
-		height: auto;
-		margin-top: 0px;
-	}
+    div.help-off.guided-on div.guided-disabled div.aside,
+    div.help-off.guided-off div.aside {
+        float: right;
+        clear: right;
+        width: 20em;
+        max-width: 29em;
+        height: auto;
+        margin-top: 0px;
+    }
 
-	div.help-off.guided-on div.guided-disabled div.mediumaside div.fullwidth,
-	div.help-off.guided-on div.guided-disabled div.mediumaside div.formtabs,
-	div.help-off.guided-off div.narrowaside div.fullwidth,
-	div.help-off.guided-off div.narrowaside div.formtabs,
-	div.help-off.guided-off div.mediumaside div.fullwidth,
-	div.help-off.guided-off div.mediumaside div.formtabs {
-		width: 100%;
-	}
-	div.help-off.guided-off div.large.narrowaside div.asideleft {
-		float: left;
-		clear: left;
-		width: 20em;
-		max-width: 20em;
-		/* FIXME: needs to be 38 for date picker */
-		/* max-width: 38em; */
-		margin-left: 0px;
-		height: auto;
-		margin-top: 0px;
-	}
+    div.help-off.guided-on div.guided-disabled div.mediumaside div.fullwidth,
+    div.help-off.guided-on div.guided-disabled div.mediumaside div.formtabs,
+    div.help-off.guided-off div.narrowaside div.fullwidth,
+    div.help-off.guided-off div.narrowaside div.formtabs,
+    div.help-off.guided-off div.mediumaside div.fullwidth,
+    div.help-off.guided-off div.mediumaside div.formtabs {
+        width: 100%;
+    }
+    div.help-off.guided-off div.large.narrowaside div.asideleft {
+        float: left;
+        clear: left;
+        width: 20em;
+        max-width: 20em;
+        /* FIXME: needs to be 38 for date picker */
+        /* max-width: 38em; */
+        margin-left: 0px;
+        height: auto;
+        margin-top: 0px;
+    }
 }
 
 /* media queries to adjust screen based on width */
 @media screen and (min-width: 84em) {
-	div.help-off.guided-on div.guided-disabled div.mediumaside,
-	div.help-off.guided-off div.mediumaside {
-		max-width: 80em;
-	}
-	div.help-off.guided-on div.guided-disabled div.narrowaside div.formtabs,
-	div.help-off.guided-on div.guided-disabled div.mediumaside div.formtabs,
-	div.help-off.guided-off div.narrowaside div.formtabs,
-	div.help-off.guided-off div.mediumaside div.formtabs {
-		margin-left: 0px;
-	}
-	div.help-off.guided-on div.guided-disabled div.mediumaside div.panelsection,
-	div.help-off.guided-off div.mediumaside div.panelsection {
-		width: 45em;
-	}
-	div.help-off.guided-on div.guided-disabled div.mediumaside div.fullwidth,
-	div.help-off.guided-on div.guided-disabled div.mediumaside div.formtabs,
-	div.help-off.guided-off div.narrowaside div.fullwidth,
-	div.help-off.guided-off div.narrowaside div.formtabs,
-	div.help-off.guided-off div.mediumaside div.fullwidth,
-	div.help-off.guided-off div.mediumaside div.formtabs {
-		width: 100%;
-	}
+    div.help-off.guided-on div.guided-disabled div.mediumaside,
+    div.help-off.guided-off div.mediumaside {
+        max-width: 80em;
+    }
+    div.help-off.guided-on div.guided-disabled div.narrowaside div.formtabs,
+    div.help-off.guided-on div.guided-disabled div.mediumaside div.formtabs,
+    div.help-off.guided-off div.narrowaside div.formtabs,
+    div.help-off.guided-off div.mediumaside div.formtabs {
+        margin-left: 0px;
+    }
+    div.help-off.guided-on div.guided-disabled div.mediumaside div.panelsection,
+    div.help-off.guided-off div.mediumaside div.panelsection {
+        width: 45em;
+    }
+    div.help-off.guided-on div.guided-disabled div.mediumaside div.fullwidth,
+    div.help-off.guided-on div.guided-disabled div.mediumaside div.formtabs,
+    div.help-off.guided-off div.narrowaside div.fullwidth,
+    div.help-off.guided-off div.narrowaside div.formtabs,
+    div.help-off.guided-off div.mediumaside div.fullwidth,
+    div.help-off.guided-off div.mediumaside div.formtabs {
+        width: 100%;
+    }
 }
 /*
 @media screen and (min-width: 110em) {
-	div.help-on.guided-on div.guided-disabled div.mediumaside,
-	div.help-on.guided-off div.mediumaside {
-		max-width: 59em;
-	}
-	div.help-on.guided-on div.guided-disabled div.mediumaside div.formtabs,
-	div.help-on.guided-off div.mediumaside div.formtabs {
-		margin-left: 0px;
-	}
-	div.help-on.guided-on div.guided-disabled div.mediumaside div.panelsection,
-	div.help-on.guided-off div.mediumaside div.panelsection {
-		width: 35em;
-		margin-left: 21em;
-		margin-left: 22em;
-	}
-	div.help-on.guided-on div.guided-disabled div.mediumaside div.fullwidth,
-	div.help-on.guided-on div.guided-disabled div.mediumaside div.formtabs,
-	div.help-on.guided-off div.mediumaside div.fullwidth,
-	div.help-on.guided-off div.mediumaside div.formtabs {
-		width: 100%;
-	}
+    div.help-on.guided-on div.guided-disabled div.mediumaside,
+    div.help-on.guided-off div.mediumaside {
+        max-width: 59em;
+    }
+    div.help-on.guided-on div.guided-disabled div.mediumaside div.formtabs,
+    div.help-on.guided-off div.mediumaside div.formtabs {
+        margin-left: 0px;
+    }
+    div.help-on.guided-on div.guided-disabled div.mediumaside div.panelsection,
+    div.help-on.guided-off div.mediumaside div.panelsection {
+        width: 35em;
+        margin-left: 21em;
+        margin-left: 22em;
+    }
+    div.help-on.guided-on div.guided-disabled div.mediumaside div.fullwidth,
+    div.help-on.guided-on div.guided-disabled div.mediumaside div.formtabs,
+    div.help-on.guided-off div.mediumaside div.fullwidth,
+    div.help-on.guided-off div.mediumaside div.formtabs {
+        width: 100%;
+    }
 
-	div.help-on.guided-on div.guided-disabled div.narrowaside div.asideleft,
-	div.help-on.guided-off div.narrowaside div.asideleft {
-		float: left;
-		clear: left;
-		width: 20em;
-		max-width: 20em;
-		margin-left: 0px;
-		height: auto;
-		margin-top: 0px;
-	}
+    div.help-on.guided-on div.guided-disabled div.narrowaside div.asideleft,
+    div.help-on.guided-off div.narrowaside div.asideleft {
+        float: left;
+        clear: left;
+        width: 20em;
+        max-width: 20em;
+        margin-left: 0px;
+        height: auto;
+        margin-top: 0px;
+    }
 }
 */

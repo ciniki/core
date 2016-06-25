@@ -12,7 +12,7 @@
 global $ciniki_root;
 $ciniki_root = dirname(__FILE__);
 if( !file_exists($ciniki_root . '/ciniki-api.ini') ) {
-	$ciniki_root = dirname(dirname(dirname(dirname(__FILE__))));
+    $ciniki_root = dirname(dirname(dirname(dirname(__FILE__))));
 }
 // loadMethod is required by all function to ensure the functions are dynamically loaded
 require_once($ciniki_root . '/ciniki-mods/core/private/loadMethod.php');
@@ -22,8 +22,8 @@ require_once($ciniki_root . '/ciniki-mods/core/private/init.php');
 
 $rc = ciniki_core_init($ciniki_root, 'rest');
 if( $rc['stat'] != 'ok' ) {
-	error_log("unable to initialize core");
-	exit(1);
+    error_log("unable to initialize core");
+    exit(1);
 }
 
 //
@@ -39,11 +39,11 @@ ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncUpgradeSystem'
 // Check first the code is up to date
 //
 if( isset($ciniki['config']['ciniki.core']['sync.code.url']) 
-	&& $ciniki['config']['ciniki.core']['sync.code.url'] != '' ) {
-	$rc = ciniki_core_syncUpgradeSystem($ciniki);
-	if( $rc['stat'] != 'ok' ) {
-		return $rc;
-	}
+    && $ciniki['config']['ciniki.core']['sync.code.url'] != '' ) {
+    $rc = ciniki_core_syncUpgradeSystem($ciniki);
+    if( $rc['stat'] != 'ok' ) {
+        return $rc;
+    }
 }
 
 //
@@ -51,13 +51,13 @@ if( isset($ciniki['config']['ciniki.core']['sync.code.url'])
 //
 $rc = ciniki_core_syncCronList($ciniki);
 if( $rc['stat'] != 'ok' ) {
-	error_log("SYNC-ERR: unable to get cron list");
-	exit(1);
+    error_log("SYNC-ERR: unable to get cron list");
+    exit(1);
 }
 
 if( !isset($rc['syncs']) ) {
-	error_log('No syncs');
-	exit(0);
+    error_log('No syncs');
+    exit(0);
 }
 
 $syncs = $rc['syncs'];
@@ -66,31 +66,31 @@ $cur_date = date_create('@' . $cur_time);
 $cur_hour = date_format($cur_date, 'G');
 $sync_full_hour = 6;
 if( isset($ciniki['config']['ciniki.core']['sync.full.hour']) ) {
-	$sync_full_hour = $ciniki['config']['ciniki.core']['sync.full.hour'];
+    $sync_full_hour = $ciniki['config']['ciniki.core']['sync.full.hour'];
 }
 $sync_partial_hour = 3;
 if( isset($ciniki['config']['ciniki.core']['sync.partial.hour']) ) {
-	$sync_partial_hour = $ciniki['config']['ciniki.core']['sync.partial.hour'];
+    $sync_partial_hour = $ciniki['config']['ciniki.core']['sync.partial.hour'];
 }
 $cmd = $ciniki['config']['ciniki.core']['php'] . " " . dirname(__FILE__) . "/sync-run.php ";
 foreach($rc['syncs'] as $sid => $sync) {
-	//
-	// For a copy of the script to handle each sync
-	//
-	// if time since last full > 150 hours, and time is currently 3 am, run full
-	if( $cur_hour == $sync_full_hour && $sync['full_age'] > 540000 ) {
-		exec($cmd . " " . $sync['business_id'] . " " . $sync['id'] . " full >> " . $ciniki['config']['ciniki.core']['sync.log_dir'] . "/sync_" . $sync['sitename'] . '_' . $sync['id'] . ".log 2>&1 &");
-	} 
-	// if time since last partial > 23 hours, and time is currently 3 am, run parital
-	elseif( $cur_hour == $sync_partial_hour && $sync['partial_age'] > 82800 ) {
-		exec($cmd . " " . $sync['business_id'] . " " . $sync['id'] . " partial >> " . $ciniki['config']['ciniki.core']['sync.log_dir'] . "/sync_" . $sync['sitename'] . '_' . $sync['id'] . ".log 2>&1 &");
-	}
-	// Default to a incremental sync
-	else {
-		exec($cmd . " " . $sync['business_id'] . " " . $sync['id'] . " incremental >> " . $ciniki['config']['ciniki.core']['sync.log_dir'] . "/sync_" . $sync['sitename'] . '_' . $sync['id'] . ".log 2>&1 &");
-	}
-	// Sleep for 1 seconds between each exec
-	sleep(1);
+    //
+    // For a copy of the script to handle each sync
+    //
+    // if time since last full > 150 hours, and time is currently 3 am, run full
+    if( $cur_hour == $sync_full_hour && $sync['full_age'] > 540000 ) {
+        exec($cmd . " " . $sync['business_id'] . " " . $sync['id'] . " full >> " . $ciniki['config']['ciniki.core']['sync.log_dir'] . "/sync_" . $sync['sitename'] . '_' . $sync['id'] . ".log 2>&1 &");
+    } 
+    // if time since last partial > 23 hours, and time is currently 3 am, run parital
+    elseif( $cur_hour == $sync_partial_hour && $sync['partial_age'] > 82800 ) {
+        exec($cmd . " " . $sync['business_id'] . " " . $sync['id'] . " partial >> " . $ciniki['config']['ciniki.core']['sync.log_dir'] . "/sync_" . $sync['sitename'] . '_' . $sync['id'] . ".log 2>&1 &");
+    }
+    // Default to a incremental sync
+    else {
+        exec($cmd . " " . $sync['business_id'] . " " . $sync['id'] . " incremental >> " . $ciniki['config']['ciniki.core']['sync.log_dir'] . "/sync_" . $sync['sitename'] . '_' . $sync['id'] . ".log 2>&1 &");
+    }
+    // Sleep for 1 seconds between each exec
+    sleep(1);
 }
 
 exit(0);

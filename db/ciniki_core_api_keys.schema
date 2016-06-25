@@ -5,55 +5,55 @@
 # which are valid for what purposes.
 #
 # *note* this table may be linked with users in the future 
-#	for ownership and management of keys
+#   for ownership and management of keys
 #
 # Fields
 # ------
-# api_key:			The 32 character key used by applications to access the api.
+# api_key:          The 32 character key used by applications to access the api.
 #
-# status:			The current status of the key, this can be used to disable keys.
+# status:           The current status of the key, this can be used to disable keys.
 #
-#					0 - unknown
-#					1 - active
-#					2 - deactivated
-#					3 - deleted (future)
+#                   0 - unknown
+#                   1 - active
+#                   2 - deactivated
+#                   3 - deleted (future)
 #
-# perms:			This field is for future use to allow
-#					certain api_keys to have more privileges
-#					than others.  This can be useful to allow
-#					trusted sites access to create businesses
-#					and users, etc
+# perms:            This field is for future use to allow
+#                   certain api_keys to have more privileges
+#                   than others.  This can be useful to allow
+#                   trusted sites access to create businesses
+#                   and users, etc
 #
-#					0x01 - create businesses
-#					0x02 - create users
+#                   0x01 - create businesses
+#                   0x02 - create users
 #
-# user_id:			The user who owns this key.
+# user_id:          The user who owns this key.
 #
-# appname:				The name to associate with the api_key, 
-#					typically information about what the key
-#					will be used for.
+# appname:              The name to associate with the api_key, 
+#                   typically information about what the key
+#                   will be used for.
 #
-# notes:			Extra notes for the api_key, not to be shown to public.
-#					
-# last_access:		The date the api was last accessed using this api key.
+# notes:            Extra notes for the api_key, not to be shown to public.
+#                   
+# last_access:      The date the api was last accessed using this api key.
 #
-# expiry_date:		The date the key is set to expire, or expired on.  
-#					If set to 0, then no expiry date.
+# expiry_date:      The date the key is set to expire, or expired on.  
+#                   If set to 0, then no expiry date.
 #
-# date_added:		The date and time the record was added.
-# last_updated:		The date and time the record was last updated.
+# date_added:       The date and time the record was added.
+# last_updated:     The date and time the record was last updated.
 #
 create table ciniki_core_api_keys (
-	api_key varchar(32) not null,
-	status tinyint unsigned not null,
-	perms tinyint unsigned not null,
-	user_id int not null,
-	appname varchar(100) not null,
-	notes varchar(255),
-	last_access datetime not null,
-	expiry_date datetime not null,
-	date_added datetime not null,
-	last_updated datetime not null,
-	primary key (api_key),
-	index (user_id)
+    api_key varchar(32) not null,
+    status tinyint unsigned not null,
+    perms tinyint unsigned not null,
+    user_id int not null,
+    appname varchar(100) not null,
+    notes varchar(255),
+    last_access datetime not null,
+    expiry_date datetime not null,
+    date_added datetime not null,
+    last_updated datetime not null,
+    primary key (api_key),
+    index (user_id)
 ) ENGINE=InnoDB, COMMENT='v1.01';

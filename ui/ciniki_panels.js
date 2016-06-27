@@ -3483,7 +3483,9 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
                     v = o[j][field.complex_options.subname][field.complex_options.value];
                 } else {
                     n = o[j][field.complex_options.name];
-                    v = o[j][field.complex_options.value];
+                    if( field.complex_options.value != null ) {
+                        v = o[j][field.complex_options.value];
+                    }
                 }
             }
 

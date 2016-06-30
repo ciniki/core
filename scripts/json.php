@@ -101,8 +101,9 @@ if( (isset($ciniki['syncqueue']) && count($ciniki['syncqueue']) > 0)
     } 
     // Run facebook refresh queue
     if( isset($ciniki['fbrefreshqueue']) && count($ciniki['fbrefreshqueue']) > 0 ) {
-        ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'fbRefreshQueueProcess');
-        ciniki_core_fbRefreshQueueProcess($ciniki);
+//          FIXME: Facebook is blocking requests direct to this script
+//        ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'fbRefreshQueueProcess');
+//        ciniki_core_fbRefreshQueueProcess($ciniki);
     } 
     // Run sync queue
     if( isset($ciniki['syncqueue']) && count($ciniki['syncqueue']) > 0 ) {

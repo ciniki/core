@@ -1758,6 +1758,12 @@ M.modFlags = function(m) {
     }
     return 0;
 }
+M.modFlags2 = function(m) {
+    if( M.curBusiness != null && M.curBusiness.modules != null && M.curBusiness.modules[m] != null && M.curBusiness.modules[m].flags2 != null ) {
+        return M.curBusiness.modules[m].flags2;
+    }
+    return 0;
+}
 
 M.modOn = function(m, f) {
     if( M.curBusiness != null && M.curBusiness.modules != null && M.curBusiness.modules[m] != null ) {
@@ -1767,13 +1773,28 @@ M.modOn = function(m, f) {
 }
 
 M.modFlagOn = function(m, f) {
+    if( f > 0xFFFFFFFF ) {
+        f = f.toString(16);
+        f = f.substr(0, f.length-8);
+        return (M.modFlags2(m)&f)==f?true:false;
+    }
     return (M.modFlags(m)&f)==f?true:false;
 }
 
 M.modFlagSet = function(m, f) {
+    if( f > 0xFFFFFFFF ) {
+        f = f.toString(16);
+        f = f.substr(0, f.length-8);
+        return (M.modFlags2(m)&f)==f?'yes':'no';
+    }
     return (M.modFlags(m)&f)==f?'yes':'no';
 }
 
 M.modFlagAny = function(m, f) {
+    if( f > 0xFFFFFFFF ) {
+        f2 = f.toString(16);
+        f2 = f2.substr(0, f2.length-8);
+        return ((M.modFlags2(m)&f2)>0 || (M.modFlags(m)&f))?'yes':'no';
+    }
     return (M.modFlags(m)&f)>0?'yes':'no';
 }

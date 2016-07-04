@@ -3559,12 +3559,19 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
         }
         var div = M.aE('div', this.panelUID + '_' + fid + sFN);
         var v = this.fieldValue(s, fid, field, mN);
+        // Javascript can't handle 64bit integers, need to split into hi and lo
+        var vhi = parseInt(v, 10).toString(16);
+        var vlo = vhi.substr(-8);
+        vhi = vhi.length > 8 ? vhi.substr(0, vhi.length - 8) : '';
+        vlo = parseInt(vlo, 16);
+        vhi = parseInt(vhi, 16);
         for(j in field.flags) {
             if( field.flags[j] == null ) { continue; }
             if( field.flags[j].active != null && field.flags[j].active == 'no' ) { continue; }
             var f = M.aE('span', this.panelUID + '_' + fid + sFN + '_' + j);
             f.setAttribute('onfocus', this.panelRef + '.clearLiveSearches(\''+s+'\',\''+i+sFN+'\');');
-            var bit_value = (v&Math.pow(2,j-1))==Math.pow(2,j-1)?1:0;
+//            var bit_value = (v&Math.pow(2,j-1))==Math.pow(2,j-1)?1:0;
+            var bit_value = j > 32 ? (vhi>>(j-33)&0x01) : (vlo>>(j-1)&0x01);
             if( bit_value == 1 ) {
                 f.className = 'flag_on';
             } else {
@@ -3610,12 +3617,19 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
         }
         var div = M.aE('div', this.panelUID + '_' + fid + sFN);
         var v = this.fieldValue(s, field.field, field, mN);
+        // Javascript can't handle 64bit integers, need to split into hi and lo
+        var vhi = parseInt(v, 10).toString(16);
+        var vlo = vhi.substr(-8);
+        vhi = vhi.length > 8 ? vhi.substr(0, vhi.length - 8) : '';
+        vlo = parseInt(vlo, 16);
+        vhi = parseInt(vhi, 16);
         for(j in field.flags) {
             if( field.flags[j] == null ) { continue; }
             if( field.flags[j].active != null && field.flags[j].active == 'no' ) { continue; }
             var f = M.aE('span', this.panelUID + '_' + fid + sFN + '_' + j);
             f.setAttribute('onfocus', this.panelRef + '.clearLiveSearches(\''+s+'\',\''+i+sFN+'\');');
-            var bit_value = (v&Math.pow(2,j-1))==Math.pow(2,j-1)?1:0;
+//            var bit_value = (v&Math.pow(2,j-1))==Math.pow(2,j-1)?1:0;
+            var bit_value = j > 32 ? (vhi>>(j-33)&0x01) : (vlo>>(j-1)&0x01);
             if( bit_value == 1 ) {
                 f.className = 'flag_on';
             } else {
@@ -4278,12 +4292,21 @@ M.panel.prototype.setFieldValue = function(field, v, vnum, hide, nM, action) {
             }
         }
     } else if( f.type == 'flags' ) {
-        if( typeof v == 'string' ) { v = parseInt(v, 10); }
+        if( typeof v == 'string' ) { 
+            v = parseInt(v, 10);
+        }
+        var vhi = v.toString(16);
+        var vlo = vhi.substr(-8);
+        vhi = vhi.length > 8 ? vhi.substr(0, vhi.length - 8) : '';
+        vlo = parseInt(vlo, 16);
+        vhi = parseInt(vhi, 16);
         for(j in f.flags) {
             if( f.flags[j] == null ) { continue; }
             if( f.flags[j].active != null && f.flags[j].active == 'no' ) { continue; }
             var e = M.gE(this.panelUID + '_' + field + sFN + '_' + j);
-            if( (v&Math.pow(2, j-1)) == Math.pow(2,j-1) ) {
+//            if( (v&Math.pow(2, j-1)) == Math.pow(2,j-1) ) {
+            var bit_value = j > 32 ? (vhi>>(j-33)&0x01) : (vlo>>(j-1)&0x01);
+            if( bit_value == 1 ) {
                 // Turn off all other options
                 if( f.toggle == 'yes' ) {
                     for(k in e.parentNode.children) {
@@ -6012,17 +6035,39 @@ M.panel.prototype.formFieldValue = function(f,fid) {
         // This was created for Members/Dealers/Distributors in customers
         var s = this.sections[this.formFieldSection(f)];
         n = this.fieldValue(s, fid, f);
+        if( typeof(n) == 'string' ) {
+            n = parseInt(n, 10);
+        }
         if( n == null || n == '' ) { n = 0; }
+        var nhi = n.toString(16);
+        var nlo = nhi.substr(-8);
+        nhi = nhi.length > 8 ? nhi.substr(0, nhi.length - 8) : '0';
+        nlo = parseInt(nlo, 16);
+        nhi = parseInt(nhi, 16);
         for(j in f.flags) {
             if( f.flags[j] == null ) { continue; }
             if( f.flags[j].active != null && f.flags[j].active == 'no' ) { continue; }
             if( M.gE(this.panelUID + '_' + fid + '_' + j).className == 'flag_on' ) {
                 // Toggle bit on
-                n |= Math.pow(2, j-1);
+                if( j > 32 ) {
+                    nhi |= Math.pow(2, j-33);
+                } else {
+                    nlo |= Math.pow(2, j-1);
+                }
             } else {
                 // Toggle bit off
-                if( (n&Math.pow(2, j-1)) > 0 ) { n ^= Math.pow(2, j-1); }
+                if( j > 32 ) {
+                    if( (nhi&Math.pow(2, j-33)) > 0 ) { nhi ^= Math.pow(2, j-33); }
+                } else {
+                    if( (nlo&Math.pow(2, j-1)) > 0 ) { nlo ^= Math.pow(2, j-1); }
+                }
             }
+        }
+        if( nhi > 0 ) {
+            var nhex = nhi.toString(16) + ('00000000' + nlo.toString(16)).substr(-8);
+            n = parseInt(nhex, 16).toString(10);
+        } else {
+            n = nlo.toString(10);
         }
     } else if( f.type == 'flagspiece' && f.mask != null ) {
         n = 0;
@@ -6031,16 +6076,42 @@ M.panel.prototype.formFieldValue = function(f,fid) {
         var s = this.sections[this.formFieldSection(f)];
         n = this.fieldValue(s, f.field, f);
         if( n == null || n == '' ) { n = 0; }
+        if( typeof(n) == 'string' ) {
+            n = parseInt(n, 10);
+        }
+        var nhi = n.toString(16);
+        var nlo = nhi.substr(-8);
+        nhi = nhi.length > 8 ? nhi.substr(0, nhi.length - 8) : '';
+        nlo = parseInt(nlo, 16);
+        nhi = parseInt(nhi, 16);
+//        nhi = n.toString(16);
+//        nhi;
         for(j in f.flags) {
             if( f.flags[j] == null ) { continue; }
             if( f.flags[j].active != null && f.flags[j].active == 'no' ) { continue; }
             if( M.gE(this.panelUID + '_' + fid + '_' + j).className == 'flag_on' ) {
                 // Toggle bit on
-                n |= Math.pow(2, j-1);
+                //n |= Math.pow(2, j-1);
+                if( j > 32 ) {
+                    nhi |= Math.pow(2, j-1);
+                } else {
+                    nlo |= Math.pow(2, j-33);
+                }
             } else {
                 // Toggle bit off
-                if( (n&Math.pow(2, j-1)) > 0 ) { n ^= Math.pow(2, j-1); }
+                //if( (n&Math.pow(2, j-1)) > 0 ) { n ^= Math.pow(2, j-1); }
+                if( j > 32 ) {
+                    if( (nhi&Math.pow(2, j-33)) > 0 ) { nhi ^= Math.pow(2, j-33); }
+                } else {
+                    if( (nlo&Math.pow(2, j-1)) > 0 ) { nlo ^= Math.pow(2, j-1); }
+                }
             }
+        }
+        if( nhi > 0 ) {
+            var nhex = nhi.toString(16) + ('00000000' + nlo.toString(16)).substr(-8);
+            n = parseInt(nhex, 16);
+        } else {
+            n = nlo;
         }
     } else if( f.type == 'multitoggle' || f.type == 'toggle' ) {
         n = 0;

@@ -73,9 +73,13 @@ body {
 
 div.narrow {
     width: 20em;
+    max-width: 20em;
     margin: 0 auto;
     padding-top: 1em;
     padding-bottom: 1em;
+}
+div.narrow.narrowaside {
+    width: 42em;
 }
 
 div.medium {
@@ -218,10 +222,12 @@ table.list td div.calendar {
     div.help-off.guided-off div.large.narrowaside {
         max-width: 59em;
     }
-
+    div.help-off.guided-off div.narrow.narrowaside div.panelsection {
+        width: 22em;
+        margin-left: 22em;
+    }
     div.help-off.guided-on div.guided-disabled div.narrowaside div.panelsection,
 /*  div.help-off.guided-off div.narrow.narrowaside div.panelsection, */
-    div.help-off.guided-off div.narrow.narrowaside div.panelsection,
     div.help-off.guided-off div.medium.narrowaside div.panelsection,
     div.help-off.guided-off div.large.narrowaside div.panelsection {
         width: 35em;

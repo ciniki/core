@@ -1175,7 +1175,8 @@ M.panel.prototype.thumbSrc = function(s, i, d) {
 
 M.panel.prototype.thumbTitle = function(s, i, d) {
     if( d.name != null ) { return d.name; }
-    if( d.image.name != null ) { return d.image.name; }
+    if( d.title != null ) { return d.title; }
+    if( d.image != null && d.image.name != null ) { return d.image.name; }
     return '';
 };
 

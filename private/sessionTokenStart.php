@@ -41,8 +41,7 @@ function ciniki_core_sessionTokenStart(&$ciniki, $selector, $token) {
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbUpdate');
 
     //
-    // Check the username and password in the database.
-    // Make sure only select active users (status = 2)
+    // Check the token in the database
     //
     $strsql = "SELECT ciniki_users.id, ciniki_users.email, ciniki_users.username, ciniki_users.avatar_id, "
         . "ciniki_users.perms, ciniki_users.status, ciniki_users.timeout, ciniki_users.login_attempts, "
@@ -165,6 +164,20 @@ function ciniki_core_sessionTokenStart(&$ciniki, $selector, $token) {
     // Update the last_login field for the user, and reset the login_attempts field.
     //
     $strsql = "UPDATE ciniki_users SET login_attempts = 0, last_login = UTC_TIMESTAMP() WHERE id = '" . ciniki_core_dbQuote($ciniki, $user['id']) . "'";
+    $rc = ciniki_core_dbUpdate($ciniki, $strsql, 'ciniki.users');
+    if( $rc['stat'] != 'ok' ) {
+        ciniki_users_logAuthFailure($ciniki, $token, $rc['err']['code']);
+        return $rc;
+    }
+
+    //
+    // Update the last_auth field for the user token
+    //
+    $strsql = "UPDATE ciniki_user_tokens SET last_auth = UTC_TIMESTAMP() "
+        . "WHERE user_id = '" . ciniki_core_dbQuote($ciniki, $user['id']) . "'"
+        . "AND ciniki_user_tokens.selector = '" . ciniki_core_dbQuote($ciniki, $selector) . "' "
+        . "AND ciniki_user_tokens.token = '" . ciniki_core_dbQuote($ciniki, $token) . "' "
+        . "";
     $rc = ciniki_core_dbUpdate($ciniki, $strsql, 'ciniki.users');
     if( $rc['stat'] != 'ok' ) {
         ciniki_users_logAuthFailure($ciniki, $token, $rc['err']['code']);

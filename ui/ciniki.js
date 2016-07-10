@@ -1765,7 +1765,7 @@ M.modFlags2 = function(m) {
     return 0;
 }
 
-M.modOn = function(m, f) {
+M.modOn = function(m) {
     if( M.curBusiness != null && M.curBusiness.modules != null && M.curBusiness.modules[m] != null ) {
         return true;
     }

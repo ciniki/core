@@ -96,8 +96,10 @@ M.init = function(cfg) {
     //
     // Check if username and password were passed to script, and auto-login
     //
-    var uts = M.cookieGet('_UTS');
-    var utk = M.cookieGet('_UTK');
+    var uts = localStorage.getItem("_UTS");
+    var utk = localStorage.getItem("_UTK");
+//    var uts = M.cookieGet('_UTS');
+//    var utk = M.cookieGet('_UTK');
     if( cfg.auth_token != null ) {
         M.authToken(this, cfg.auth_token);
     } else if( uts != null && uts != '' && utk != null && utk != '' ) {
@@ -327,8 +329,10 @@ M.closeApp = function(aI, mF) {
 //  
 M.logout = function() {
     
-    var uts = M.cookieGet('_UTS','');
-    var utk = M.cookieGet('_UTK','');
+//    var uts = M.cookieGet('_UTS','');
+//    var utk = M.cookieGet('_UTK','');
+    var uts = localStorage.getItem("_UTS", '');
+    var utk = localStorage.getItem("_UTK", '');
     var c = '';
     if( uts != null && uts != '' && utk != null && utk != '' ) { 
         c = 'user_selector=' + encodeURIComponent(uts) + '&user_token=' + encodeURIComponent(utk);
@@ -337,7 +341,9 @@ M.logout = function() {
     M.gE('m_loading').style.display = '';
     M.api.postJSONCb('ciniki.users.logout', {}, c, function(rsp) {
         // Don't reset UTS, it's out computer ID
-        M.cookieSet('_UTK','');
+//        M.cookieSet('_UTK','');
+        localStorage.setItem('_UTK','');
+        localStorage.setItem('_UTS','');
         M.api.token = ''; 
         M.userID = 0; 
         M.userPerms = 0;
@@ -489,7 +495,7 @@ M.auth = function(e, t) {
     }
 
     var rm = M.gE('rm');
-    if( rm != null && rm.checked == true && document.cookie != null && document.cookie != '' ) {
+    if( rm != null && rm.checked == true && localStorage != null ) {
         c += '&rm=yes';
     }
 
@@ -509,8 +515,10 @@ M.auth = function(e, t) {
         if( rm != null && rm.checked == true 
             && r.auth.user_selector != null && r.auth.user_selector != ''
             && r.auth.user_token != null && r.auth.user_token != '' ) {
-            M.cookieSet('_UTS', r.auth.user_selector, 10);
-            M.cookieSet('_UTK', r.auth.user_token, 10);
+            localStorage.setItem('_UTS', r.auth.user_selector);
+            localStorage.setItem('_UTK', r.auth.user_token);
+//            M.cookieSet('_UTS', r.auth.user_selector);
+//            M.cookieSet('_UTK', r.auth.user_token);
         }
         M.userID = r.auth.id;
         M.avatarID = r.auth.avatar_id;
@@ -592,7 +600,8 @@ M.reauthToken = function(s, t) {
     M.api.token = '';
     M.api.postJSONCb('ciniki.users.auth', {}, c, function(r) {
         if( r.stat != 'ok' ) {
-            M.cookieSet('_UTK', '');
+//            M.cookieSet('_UTK', '');
+            localStorage.setItem('_UTK', '');
             return false;
         }
         if( M.api.version != r.version ) {

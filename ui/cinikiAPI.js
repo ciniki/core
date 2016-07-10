@@ -676,8 +676,10 @@ M.api.resume = function(apicall) {
 }
 
 M.api.expired = function(r) {
-    var s = M.cookieGet('_UTS');
-    var t = M.cookieGet('_UTK');
+//    var s = M.cookieGet('_UTS');
+//    var t = M.cookieGet('_UTK');
+    var s = localStorage.getItem('_UTS');
+    var t = localStorage.getItem('_UTK');
     if( s != null && s != '' && t != null && t != '' ) {
         M.reauthToken(s, t);
     } else {

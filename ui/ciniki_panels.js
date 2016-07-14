@@ -5729,7 +5729,8 @@ M.panel.prototype.serializeForm = function(fs) {
             // Skip multi sections, they need to be serialized another way
             for(j in s.fields) {
                 var f = s.fields[j];
-                if( f.type == null || f.type == 'noedit' || (f.active != null && f.active == 'no') ) { continue; }
+                if( f.type == null || f.type == 'noedit' ) { continue; }
+                if( f.active != null && ((typeof f.active == 'function' && f.active() == 'no') || f.active == 'no') ) { continue; }
                 var fid = j;
                 if( this.fieldID != null ) {
                     fid = this.fieldID(i, j, f);
@@ -6076,17 +6077,15 @@ M.panel.prototype.formFieldValue = function(f,fid) {
         // This was created for Members/Dealers/Distributors in customers
         var s = this.sections[this.formFieldSection(f)];
         n = this.fieldValue(s, f.field, f);
-        if( n == null || n == '' ) { n = 0; }
         if( typeof(n) == 'string' ) {
             n = parseInt(n, 10);
         }
+        if( n == null || n == '' ) { n = 0; }
         var nhi = n.toString(16);
         var nlo = nhi.substr(-8);
-        nhi = nhi.length > 8 ? nhi.substr(0, nhi.length - 8) : '';
+        nhi = nhi.length > 8 ? nhi.substr(0, nhi.length - 8) : '0';
         nlo = parseInt(nlo, 16);
         nhi = parseInt(nhi, 16);
-//        nhi = n.toString(16);
-//        nhi;
         for(j in f.flags) {
             if( f.flags[j] == null ) { continue; }
             if( f.flags[j].active != null && f.flags[j].active == 'no' ) { continue; }
@@ -6094,9 +6093,9 @@ M.panel.prototype.formFieldValue = function(f,fid) {
                 // Toggle bit on
                 //n |= Math.pow(2, j-1);
                 if( j > 32 ) {
-                    nhi |= Math.pow(2, j-1);
+                    nhi |= Math.pow(2, j-33);
                 } else {
-                    nlo |= Math.pow(2, j-33);
+                    nlo |= Math.pow(2, j-1);
                 }
             } else {
                 // Toggle bit off
@@ -6110,9 +6109,9 @@ M.panel.prototype.formFieldValue = function(f,fid) {
         }
         if( nhi > 0 ) {
             var nhex = nhi.toString(16) + ('00000000' + nlo.toString(16)).substr(-8);
-            n = parseInt(nhex, 16);
+            n = parseInt(nhex, 16).toString(10);
         } else {
-            n = nlo;
+            n = nlo.toString(10);
         }
     } else if( f.type == 'multitoggle' || f.type == 'toggle' ) {
         n = 0;

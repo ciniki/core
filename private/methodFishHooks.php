@@ -61,4 +61,3 @@ function ciniki_core_methodFishHooks(&$ciniki, $business_id, $obj, $args) {
     return array('stat'=>'ok');
 }
 ?>
-

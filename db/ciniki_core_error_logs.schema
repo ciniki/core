@@ -14,8 +14,7 @@
 #                   10 - Entered
 #                   50 - Archived
 #
-# business_id:      The ID of the business the change happened on.  Every change
-#                   must be tied to a business for security reasons.
+# business_id:      The ID of the business the request happened on.
 #
 # user_id:          The user who made the request.
 #

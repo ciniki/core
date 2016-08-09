@@ -3152,9 +3152,15 @@ M.panel.prototype.createImageControls = function(i, field, img_id) {
         }
         // Show delete button
         if( field.deleteImage != null ) {
-            var btn = M.aE('span', null, 'toggle_off', '<span class="icon">V</span>');
-            btn.setAttribute('onclick', field.deleteImage + '(\'' + i + '\');');
-            btns.appendChild(btn);
+            if( typeof field.deleteImage == 'function' ) {
+                var btn = M.aE('span', null, 'toggle_off', '<span class="icon">V</span>');
+                btn.onclick = function() { field.deleteImage(i); };
+                btns.appendChild(btn);
+            } else {
+                var btn = M.aE('span', null, 'toggle_off', '<span class="icon">V</span>');
+                btn.setAttribute('onclick', field.deleteImage + '(\'' + i + '\');');
+                btns.appendChild(btn);
+            }
         } else if( this.deleteImage != null ) {
             var btn = M.aE('span', null, 'toggle_off', '<span class="icon">V</span>');
             btn.setAttribute('onclick', this.panelRef + '.deleteImage(\'' + i + '\');');

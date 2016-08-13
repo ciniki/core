@@ -282,7 +282,8 @@ M.startApp = function(a, sF, cB, aP, args) {
 
         script.onerror = function() {
             M.stopLoad();
-            alert("Unable to load, please report this bug.");
+            M.alert("We had a problem communicating with the server. Please try again or if the problem persists check your network connection.");
+//            alert("Unable to load, please report this bug.");
         }
 
         // Attach handlers for all browsers
@@ -1759,6 +1760,13 @@ M.showPDF = function(m, p) {
 
 M.printPDF = function() {
     window.print();
+}
+
+M.alert = function(msg) {
+    var e = M.gE('m_alert_msg');
+    e.innerHTML = '<td>' + msg + '</td>';
+    M.show('m_alert');
+    M.hide('m_container');
 }
 
 M.modFlags = function(m) {

@@ -612,6 +612,25 @@ Javscript must be enabled for this application to work.
         </div>
     </div>
 </div>
+<?php if( $start_container == 'm_alert' ) { ?>
+<div id="m_alert">
+<?php } else { ?>
+<div id="m_alert" style="display:none;">
+<?php } ?>
+    <div id="m_alert_content">
+        <div id="mc_content_wrap" class="narrow">
+            <p><br/><br/></p>
+            <table class="list noheader border" cellspacing='0' cellpadding='0'>
+                <tbody id="m_alert_msg">
+                </tbody>
+            </table>
+            <p><br/></p>
+            <table class="list simplebuttons noheader border">
+                <tr onclick="M.hide('m_alert');M.show('m_container');"><td class="button">Okay</td></tr>
+            </table>
+        </div>
+    </div>
+</div>
 <?php if( $start_container == 'm_help' ) { ?>
 <div id="m_help" class="guided-off">
 <?php } else { ?>

@@ -276,10 +276,10 @@ M.api.get = function(m, p) {
         return x.responseXML;
     } else if( x.readyState > 2 && (x.status >= 300) ) {
         M.stopLoad();
-        return {'stat':'fail','err':{'code':'HTTP-' + x.status, 'msg':'Unable to transfer.'}};
+        return {'stat':'fail','err':{'pkg':'ciniki', 'code':'HTTP-' + x.status, 'msg':'Unable to transfer.'}};
     }
     M.stopLoad();
-    return {'stat':'fail','err':{'code':'00','msg':'Server Error'}};
+    return {'stat':'fail','err':{'pkg':'ciniki', 'code':'00','msg':'Server Error'}};
 }
 
 //
@@ -305,9 +305,9 @@ M.api.getBg = function(m, p) {
         }
         return x.responseXML;
     } else if( x.readyState > 2 && (x.status >= 300) ) {
-        return {'stat':'fail','err':{'code':'HTTP-' + x.status, 'msg':'Unable to transfer.'}};
+        return {'stat':'fail','err':{'pkg':'ciniki', 'code':'HTTP-' + x.status, 'msg':'Unable to transfer.'}};
     }
-    return {'stat':'fail','err':{'code':'00','msg':'Server Error'}};
+    return {'stat':'fail','err':{'pkg':'ciniki', 'code':'00','msg':'Server Error'}};
 }
 
 //
@@ -342,7 +342,7 @@ M.api.getBgCb = function(m, p, c) {
         } 
         // alert(x.readyState + '--' + x.status);
         if( x.readyState > 2 && x.status >= 300 ) {
-            c({'stat':'fail','err':{'code':'HTTP-' + x.status, 'msg':'Unable to transfer.'}});
+            c({'stat':'fail','err':{'pkg':'ciniki', 'code':'HTTP-' + x.status, 'msg':'Unable to transfer.'}});
         } 
     };
     x.send(null);
@@ -389,12 +389,12 @@ M.api.getCb = function(m, p, c) {
         } 
         else if( x.readyState > 2 && x.status >= 300 ) {
             M.stopLoad();
-            c({'stat':'fail','err':{'code':'HTTP-' + x.status, 'msg':'Unable to transfer.'}});
+            c({'stat':'fail','err':{'pkg':'ciniki', 'code':'HTTP-' + x.status, 'msg':'Unable to transfer.'}});
         } 
         else if( x.readyState == 4 && x.status == 0 ) {
 //        else if( x.status == 0 ) {
             M.stopLoad();
-            c({'stat':'fail','err':{'code':'HTTP-' + x.status, 'msg':'API Error'}});
+            c({'stat':'fail','err':{'pkg':'ciniki', 'code':'network', 'msg':"We had a problem communicating with the server. Please try again or if the problem persists check your network connection."}});
         }
     };
     x.send(null);
@@ -623,24 +623,30 @@ M.api.err = function(r) {
         if( r.err.code == '37' || r.err.code == '27' ) {
             return M.api.expired(r);
         }
-        //
-        // Store the current return code so it can be used to submit a bug
-        //
-        M.api.curRC = r;
-        M.show('m_error');
-        var l = document.getElementById('me_error_list');
-        M.clr(l);
-        M.api.listErr(l, r.err);
-        //
-        // Make sure the m_error div will be large enough to cover the container
-        //
-        var e = document.getElementById('m_error');
-        var c = document.getElementById('m_container');
-        e.style.height = c.offsetHeight + 'px';
-        if( window.innerHeight > c.offsetHeight ) {
-            e.style.height = window.innerHeight + 'px';
+
+        if( r.err.code == 'network' ) {
+            M.alert(r.err.msg);
+        } else {
+            //
+            // Store the current return code so it can be used to submit a bug
+            //
+            M.api.curRC = r;
+            M.show('m_error');
+            var l = document.getElementById('me_error_list');
+            M.clr(l);
+            M.api.listErr(l, r.err);
+            var e = document.getElementById('m_error');
+
+            //
+            // Make sure the m_error div will be large enough to cover the container
+            //
+            var c = document.getElementById('m_container');
+            e.style.height = c.offsetHeight + 'px';
+            if( window.innerHeight > c.offsetHeight ) {
+                e.style.height = window.innerHeight + 'px';
+            }
+            window.scrollTo(0, 0);
         }
-        window.scrollTo(0, 0);
     }
 }
 

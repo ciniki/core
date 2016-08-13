@@ -6561,7 +6561,13 @@ M.panel.prototype.uploadDropImages = function(e, p, s) {
         }
         if( p._uploadCount > 0 ) {
             p.uploadDropImagesNext();
+        } else {
+            alert("I'm sorry, we couldn't add that photo, please use the Add Photo button."); 
+            M.stopLoad();
         }
+    } else {
+        alert("I'm sorry, we couldn't add that photo, please use the Add Photo button."); 
+        M.stopLoad();
     }
 };
 

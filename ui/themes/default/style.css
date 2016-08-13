@@ -2271,7 +2271,8 @@ div.xhelp-on tr.xhelp-text td p {
 
 
 /********** Error screen ********/
-#m_error {
+#m_error,
+#m_alert {
     position: absolute;
     top: 0;
     left: 0;
@@ -2280,7 +2281,8 @@ div.xhelp-on tr.xhelp-text td p {
     height: 90%;
 }
 
-#m_error input.button {
+#m_error input.button,
+#m_alert input.button {
     width: 10em;
     margin-top: 5px;
     margin-bottom: 5px;

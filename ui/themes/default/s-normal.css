@@ -34,7 +34,8 @@ body {
     width: 45%;
 }
 */
-#m_error table.list td {
+#m_error table.list td,
+#m_serror table.list td {
     background: #fff;
 }
 

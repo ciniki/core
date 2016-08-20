@@ -941,14 +941,16 @@ M.panel.prototype.createChartContent = function(s) {
                     display: true,
                     ticks: {
                         beginAtZero: (sc.scaleBeginAtZero!=null?sc.scaleBeginAtZero:false),
-                        userCallback: function(dataLabel, index) { return dataLabel + '%';},
+                        userCallback: (sc.scaleLabelCallback!=null?sc.scaleLabelCallback:false),
+//                        userCallback: function(dataLabel, index) { return dataLabel + '%';},
                     }
                 }],
             },
             tooltips: {
                 mode: 'single',
                 callbacks: {
-                    label: function(tooltipItem, data) { return tooltipItem.yLabel + '%';},
+                    label: (sc.tooltipLabelCallback!=null?sc.tooltipLabelCallback:false),
+//                    label: function(tooltipItem, data) { return tooltipItem.yLabel + '%';},
                 },
             },
         }

@@ -929,7 +929,8 @@ M.panel.prototype.createChartContent = function(s) {
         options: {
             responsive: true,
             legend: {
-                display: false,
+                display: true,
+                position: 'bottom',
             },
             scales: {
                 xAxes: [{

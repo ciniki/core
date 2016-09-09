@@ -215,7 +215,7 @@ M.api.openPDF = function(m, p) {
 }
 
 M.api.openFile = function(m, p) {
-    if( M.engine == 'trident' || M.engine == 'gecko' ) {
+    if( M.engine == 'trident' || M.engine == 'gecko' || M.engine == 'webkit' ) {
         window.open(M.api.getUploadURL(m, p));
     } else {
         var a = M.aE('a');

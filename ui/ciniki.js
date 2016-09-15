@@ -105,7 +105,9 @@ M.init = function(cfg) {
     } else if( uts != null && uts != '' && utk != null && utk != '' ) {
         M.authUserToken(this, uts, utk);
     } else {
-        M.gE('m_login').style.display = ''; 
+        if( M.gE('m_recover').style.display != '' ) {
+            M.gE('m_login').style.display = ''; 
+        }
     }
 
     // Setup TinyMCE Editor

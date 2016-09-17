@@ -738,16 +738,25 @@ M.panel.prototype.createSection = function(i, s) {
         }
         lE.className += ' guided-hide';
         f.appendChild(M.aE('h2', null, 'guided-title guided-show', (gt!=null&&gt!=''?gt:t)));
-        // Check if addFn exists and display link to right
-        if( s.addFn != null && s.addFn != '' && s.addTxt != null && s.addTxt != '' ) {
+        f.appendChild(lE);
+    } else if( gt != null ) {
+        f.appendChild(M.aE('h2', null, 'guided-title guided-show', (gt!=null&&gt!=''?gt:t)));
+    }
+
+    // Check if addFn exists and display link to right of header
+    if( lE != null && s.addFn != null && s.addFn != '' && s.addTxt != null && s.addTxt != '' ) {
+        var data = null;
+        if( this.sectionData != null ) {
+            data = this.sectionData(i);
+        } else if( sc.data != null ) {
+            data = this.sections[i].data;
+        }
+        if( data != null && data.length > 0 ) {
             var c = M.aE('span', null, 'addlink alignright clickable', '+ ' + s.addTxt);
             // Add arrow
             c.setAttribute('onclick', s.addFn);
             lE.appendChild(c);
         }
-        f.appendChild(lE);
-    } else if( gt != null ) {
-        f.appendChild(M.aE('h2', null, 'guided-title guided-show', (gt!=null&&gt!=''?gt:t)));
     }
 
     var gt = null;
@@ -828,7 +837,7 @@ M.panel.prototype.createSection = function(i, s) {
         console.log('Missing section type for: ' + s);
         st = document.createDocumentFragment();
     }
-    
+
     // Add the section table
     f.appendChild(st);
 

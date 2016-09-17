@@ -237,6 +237,7 @@ div.wide {
 
 
 h2 {
+    box-sizing: border-box;
     display: block;
     font-size: 1.1em;
     font-weight: normal;
@@ -396,6 +397,7 @@ table.list > tbody > tr {
 }
 
 table.border > thead:first-child > tr:first-child > th,
+table.border > thead:first-child > tr:first-child > td,
 table.border > tbody:first-child > tr:first-child > td,
 table.border > tfoot:first-child > tr:first-child > th,
 table.border > tfoot:first-child > tr:first-child > td {
@@ -403,6 +405,7 @@ table.border > tfoot:first-child > tr:first-child > td {
 }
 
 table.border > thead:last-child > tr:last-child > th,
+table.border > thead:last-child > tr:last-child > td,
 table.border > tbody:last-child > tr:last-child > td,
 table.border > tfoot:last-child > tr:last-child > th,
 table.border > tfoot:last-child > tr:last-child > td {
@@ -414,6 +417,7 @@ table.border {
 }
 
 table.border > thead > tr > th:first-child,
+table.border > thead > tr > td:first-child,
 table.border > tfoot > tr > th:first-child,
 table.border > tfoot > tr > td:first-child,
 table.border > tbody > tr > td:first-child {
@@ -421,6 +425,7 @@ table.border > tbody > tr > td:first-child {
 }
 
 table.border > thead > tr > th:last-child,
+table.border > thead > tr > td:last-child,
 table.border > tfoot > tr > th:last-child,
 table.border > tfoot > tr > td:last-child,
 table.border > tbody > tr > td:last-child {
@@ -435,6 +440,7 @@ table.border > tbody > tr > td:last-child {
     border-right: 0px; 
 } */
 
+table.list > thead > tr > td,
 table.list > tbody > tr > td,
 table.list > tfoot > tr > th,
 table.list > tfoot > tr > td {
@@ -444,6 +450,7 @@ table.list > tfoot > tr > td {
     padding: 0.6em 0.5em 0.5em 0.5em;
 } */
 
+table.border > thead > tr > td,
 table.border > tbody > tr > td,
 table.border > tfoot > tr > th, 
 table.border > tfoot > tr > td {
@@ -509,6 +516,7 @@ table.stepnav > tbody > tr > td.prev,
 table.stepnav > tbody > tr > td.next,
 table.datepicker > tbody > tr > td.prev,
 table.datepicker > tbody > tr > td.next,
+table.list > thead > tr > td.buttons,
 table.list > tbody > tr > td.buttons,
 table.list > tfoot > tr > td.buttons {
     text-align: center;
@@ -542,6 +550,7 @@ table.stepnav > tbody > tr > td.prev span.icon,
 table.stepnav > tbody > tr > td.next span.icon,
 table.datepicker > tbody > tr > td.prev span.icon,
 table.datepicker > tbody > tr > td.next span.icon,
+table.list > thead > tr > td.buttons span.icon,
 table.list > tbody > tr > td.buttons span.icon,
 table.list > tfoot > tr > td.buttons span.icon,
 table.list > tbody > tr > td.addbutton span.icon {
@@ -1322,6 +1331,7 @@ table.list > tfoot > tr > td.aligntop {
     vertical-align: top;
 }
 
+table.list > thead > tr > td.aligncenter,
 table.list > tbody > tr > td.aligncenter,
 table.list > tfoot > tr > th.aligncenter, 
 table.list > tfoot > tr > td.aligncenter {
@@ -2262,6 +2272,12 @@ div.xhelp-on tr.xhelp-text td p {
     background-color: rgba(255,253,213,1.0);
 }
 
+div.panelsection span.addlink {
+    float: right;
+    padding: 0.2em 0.5em 0em 0.5em;
+    font-size: 0.8em;
+    color: #aaa;
+}
 
 
 /**************  MOSSi App Styles **************/

@@ -738,6 +738,13 @@ M.panel.prototype.createSection = function(i, s) {
         }
         lE.className += ' guided-hide';
         f.appendChild(M.aE('h2', null, 'guided-title guided-show', (gt!=null&&gt!=''?gt:t)));
+        // Check if addFn exists and display link to right
+        if( s.addFn != null && s.addFn != '' && s.addTxt != null && s.addTxt != '' ) {
+            var c = M.aE('span', null, 'addlink alignright clickable', '+ ' + s.addTxt);
+            // Add arrow
+            c.setAttribute('onclick', s.addFn);
+            lE.appendChild(c);
+        }
         f.appendChild(lE);
     } else if( gt != null ) {
         f.appendChild(M.aE('h2', null, 'guided-title guided-show', (gt!=null&&gt!=''?gt:t)));
@@ -2041,6 +2048,23 @@ M.panel.prototype.createSectionGridHeaders = function(s, sc) {
         tr.appendChild(M.aE('th', null, 'noprint'));
     }
     th.appendChild(tr);
+/*    if( sc.addFn != null && sc.addFn != '' && sc.addTxt != null && sc.addTxt != '' ) {
+        var tr = M.aE('tr');
+        var td = M.aE('td', null, 'addlink aligncenter', sc.addTxt);
+        if( M.size == 'compact' && sc.compact_split_at != null ) {
+            td.colSpan = sc.compact_split_at;
+        } else {
+            td.colSpan = sc.num_cols;
+        }
+        tr.appendChild(td);
+        // Add arrow
+        c = M.aE('td', null, 'buttons noprint');
+        tr.setAttribute('onclick', sc.addFn);
+        c.innerHTML = '<span class="icon">r</span>';
+        tr.className = 'clickable';
+        tr.appendChild(c);
+        th.appendChild(tr);
+    } */
     t.appendChild(th);
 
     return t;

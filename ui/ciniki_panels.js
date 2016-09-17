@@ -751,7 +751,7 @@ M.panel.prototype.createSection = function(i, s) {
         } else if( sc.data != null ) {
             data = this.sections[i].data;
         }
-        if( data != null && (data.length > 0 || M.length(data) > 0) ) {
+        if( data != null && (data.length > 0 || M.length(data) > 0) || M.length(this.sections[i].fields) ) {
             var c = M.aE('span', null, 'addlink alignright clickable', '+ ' + s.addTxt);
             // Add arrow
             c.setAttribute('onclick', s.addFn);

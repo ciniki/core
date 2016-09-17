@@ -1674,6 +1674,9 @@ M.formatHtml = function(c) {
 }
 
 M.length = function(o) {
+    if( o == null ) {
+        return 0;
+    }
     if( o.keys ) {
         return o.keys.length;
     }

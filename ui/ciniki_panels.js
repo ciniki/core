@@ -751,7 +751,8 @@ M.panel.prototype.createSection = function(i, s) {
         } else if( sc.data != null ) {
             data = this.sections[i].data;
         }
-        if( data != null && data.length > 0 ) {
+        console.log(M.length(data));
+        if( data != null && (data.length > 0 || M.length(data) > 0) ) {
             var c = M.aE('span', null, 'addlink alignright clickable', '+ ' + s.addTxt);
             // Add arrow
             c.setAttribute('onclick', s.addFn);
@@ -2057,23 +2058,6 @@ M.panel.prototype.createSectionGridHeaders = function(s, sc) {
         tr.appendChild(M.aE('th', null, 'noprint'));
     }
     th.appendChild(tr);
-/*    if( sc.addFn != null && sc.addFn != '' && sc.addTxt != null && sc.addTxt != '' ) {
-        var tr = M.aE('tr');
-        var td = M.aE('td', null, 'addlink aligncenter', sc.addTxt);
-        if( M.size == 'compact' && sc.compact_split_at != null ) {
-            td.colSpan = sc.compact_split_at;
-        } else {
-            td.colSpan = sc.num_cols;
-        }
-        tr.appendChild(td);
-        // Add arrow
-        c = M.aE('td', null, 'buttons noprint');
-        tr.setAttribute('onclick', sc.addFn);
-        c.innerHTML = '<span class="icon">r</span>';
-        tr.className = 'clickable';
-        tr.appendChild(c);
-        th.appendChild(tr);
-    } */
     t.appendChild(th);
 
     return t;

@@ -744,14 +744,13 @@ M.panel.prototype.createSection = function(i, s) {
     }
 
     // Check if addFn exists and display link to right of header
-    if( lE != null && s.addFn != null && s.addFn != '' && s.addTxt != null && s.addTxt != '' ) {
+    if( lE != null && s.addFn != null && s.addFn != '' && s.addTxt != null && s.addTxt != '' && (s.changeTxt == null || s.changeTxt == '') ) {
         var data = null;
         if( this.sectionData != null ) {
             data = this.sectionData(i);
         } else if( sc.data != null ) {
             data = this.sections[i].data;
         }
-        console.log(M.length(data));
         if( data != null && (data.length > 0 || M.length(data) > 0) ) {
             var c = M.aE('span', null, 'addlink alignright clickable', '+ ' + s.addTxt);
             // Add arrow

@@ -822,6 +822,10 @@ table.list tr > td.historybutton {
     text-align: right;
 }
 
+table.list tr.idlist td.historybutton {
+    padding: 0.25em 0em;
+}
+
 table.list tr.htmlarea > td.historybutton,
 table.list tr.textarea > td.historybutton {
     vertical-align: top;

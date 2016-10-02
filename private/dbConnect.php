@@ -5,10 +5,6 @@
 // This function will check for an open connection to the database, 
 // and if not return a new connection.
 //
-// Info
-// ----
-// Status:          beta
-//
 // Arguments
 // ---------
 // ciniki:
@@ -40,8 +36,6 @@ function ciniki_core_dbConnect(&$ciniki, $module) {
     //
     // Check if database connection is already open
     //
-//  error_log(print_r($ciniki['databases'][$database_name], true));
-//  error_log(gettype($ciniki['databases'][$database_name]['connection']));
     if( isset($ciniki['databases'][$database_name]['connection']) && is_object($ciniki['databases'][$database_name]['connection']) ) {
     //  error_log('dbConnect: ' . $module . ' - cached');
         return array('stat'=>'ok', 'dh'=>$ciniki['databases'][$database_name]['connection']);
@@ -70,8 +64,6 @@ function ciniki_core_dbConnect(&$ciniki, $module) {
     // Open connection to the database requested,
     // and ensure a new connection is opened (TRUE).
     //
-//  error_log(print_r($ciniki['databases'], true));
-//  error_log('dbConnect: ' . $module . " - $database_name");
     $ciniki['databases'][$database_name]['connection'] = mysqli_connect(
         $ciniki['config']['ciniki.core']['database.' . $database_name . '.hostname'],
         $ciniki['config']['ciniki.core']['database.' . $database_name . '.username'],

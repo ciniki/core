@@ -276,10 +276,10 @@ M.api.get = function(m, p) {
         return x.responseXML;
     } else if( x.readyState > 2 && (x.status >= 300) ) {
         M.stopLoad();
-        return {'stat':'fail','err':{'pkg':'ciniki', 'code':'HTTP-' + x.status, 'msg':'Unable to transfer.'}};
+        return {'stat':'fail','err':{'code':'HTTP-' + x.status, 'msg':'Unable to transfer.'}};
     }
     M.stopLoad();
-    return {'stat':'fail','err':{'pkg':'ciniki', 'code':'00','msg':'Server Error'}};
+    return {'stat':'fail','err':{'code':'00','msg':'Server Error'}};
 }
 
 //
@@ -305,9 +305,9 @@ M.api.getBg = function(m, p) {
         }
         return x.responseXML;
     } else if( x.readyState > 2 && (x.status >= 300) ) {
-        return {'stat':'fail','err':{'pkg':'ciniki', 'code':'HTTP-' + x.status, 'msg':'Unable to transfer.'}};
+        return {'stat':'fail','err':{'code':'HTTP-' + x.status, 'msg':'Unable to transfer.'}};
     }
-    return {'stat':'fail','err':{'pkg':'ciniki', 'code':'00','msg':'Server Error'}};
+    return {'stat':'fail','err':{'code':'00','msg':'Server Error'}};
 }
 
 //
@@ -342,7 +342,7 @@ M.api.getBgCb = function(m, p, c) {
         } 
         // alert(x.readyState + '--' + x.status);
         if( x.readyState > 2 && x.status >= 300 ) {
-            c({'stat':'fail','err':{'pkg':'ciniki', 'code':'HTTP-' + x.status, 'msg':'Unable to transfer.'}});
+            c({'stat':'fail','err':{'code':'HTTP-' + x.status, 'msg':'Unable to transfer.'}});
         } 
     };
     x.send(null);
@@ -375,7 +375,7 @@ M.api.getCb = function(m, p, c) {
                 try {
                     var r = JSON.parse(x.responseText);
                 } catch(e) {
-                    c({'stat':'fail', 'err':{'pkg':'ciniki', 'code':'JSON-ERR', 'msg':'API Error', 'pmsg':'Unable to parse (' + x.responseText + ')'}});
+                    c({'stat':'fail', 'err':{'code':'JSON-ERR', 'msg':'API Error', 'pmsg':'Unable to parse (' + x.responseText + ')'}});
                 }
                 if( r.stat != 'ok' && (r.err.code == 37 || r.err.code == 27)) {
                     M.reauth_apiresume = {'f':'getCb', 'm':m,'p':p,'cb':c};
@@ -389,12 +389,12 @@ M.api.getCb = function(m, p, c) {
         } 
         else if( x.readyState > 2 && x.status >= 300 ) {
             M.stopLoad();
-            c({'stat':'fail','err':{'pkg':'ciniki', 'code':'HTTP-' + x.status, 'msg':'Unable to transfer.'}});
+            c({'stat':'fail','err':{'code':'HTTP-' + x.status, 'msg':'Unable to transfer.'}});
         } 
         else if( x.readyState == 4 && x.status == 0 ) {
 //        else if( x.status == 0 ) {
             M.stopLoad();
-            c({'stat':'fail','err':{'pkg':'ciniki', 'code':'network', 'msg':"We had a problem communicating with the server. Please try again or if the problem persists check your network connection."}});
+            c({'stat':'fail','err':{'code':'network', 'msg':"We had a problem communicating with the server. Please try again or if the problem persists check your network connection."}});
         }
     };
     x.send(null);
@@ -451,7 +451,7 @@ M.api.postCb = function(m, p, c, cb) {
                 try {
                     var r = JSON.parse(this.responseText);
                 } catch(e) {
-                    cb({'stat':'fail', 'err':{'pkg':'ciniki', 'code':'JSON-ERR', 'msg':'API Error', 'pmsg':'Unable to parse (' + this.responseText + ')'}});
+                    cb({'stat':'fail', 'err':{'code':'JSON-ERR', 'msg':'API Error', 'pmsg':'Unable to parse (' + this.responseText + ')'}});
                 }
                 if( r != null && r.stat != 'ok' && (r.err.code == 37 || r.err.code == 27)) {
                     M.reauth_apiresume = {'f':'postCb', 'm':m, 'p':p, 'c':c, 'cb':cb};
@@ -493,7 +493,7 @@ M.api.postAuthCb = function(m, p, c, cb) {
                 try {
                     var r = JSON.parse(this.responseText);
                 } catch(e) {
-                    cb({'stat':'fail', 'err':{'pkg':'ciniki', 'code':'JSON-ERR', 'msg':'API Error', 'pmsg':'Unable to parse (' + this.responseText + ')'}});
+                    cb({'stat':'fail', 'err':{'code':'JSON-ERR', 'msg':'API Error', 'pmsg':'Unable to parse (' + this.responseText + ')'}});
                 }
                 cb(r);
             } else {
@@ -652,7 +652,7 @@ M.api.err = function(r) {
 
 M.api.listErr = function(l, e) {
     var tr = M.aE('tr');
-    c = M.aE('td', null, 'label', e.msg + ' <span class="subdue">(' + e.pkg + '.' + e.code + ')</span>');
+    c = M.aE('td', null, 'label', e.msg + ' <span class="subdue">(' + e.code + ')</span>');
     tr.appendChild(c);
     l.appendChild(tr);
 

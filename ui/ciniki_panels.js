@@ -2233,6 +2233,8 @@ M.panel.prototype.createSectionGrid = function(s) {
                         c.sort_value = '';
                     } else if( (dfields = v.match(/([A-Za-z]+) ([0-9]+),? ([0-9][0-9][0-9][0-9])/)) != null ) {
                         c.sort_value = dfields[3] + monthMaps[dfields[1].toLowerCase()] + (dfields[2]<10?'0'+dfields[2]:dfields[2]);
+                    } else if( (dfields = v.match(/([A-Za-z]+) ([0-9][0-9][0-9][0-9])/)) != null ) {
+                        c.sort_value = dfields[2] + monthMaps[dfields[1].toLowerCase()];
                     } else {
                         c.sort_value = v;
                     }
@@ -2240,10 +2242,8 @@ M.panel.prototype.createSectionGrid = function(s) {
                 //
                 // Sort type to be used when complex number found within
                 //
-                if( sc.sortable != null && sc.sortable == 'yes' && sc.sortTypes != null && sc.sortTypes[j] == 'altnumber' ) {
-                    c.sort_value = this.cellSortValue(s, i, j, data[i]);
-                }
-                if( sc.sortable != null && sc.sortable == 'yes' && sc.sortTypes != null && sc.sortTypes[j] == 'alttext' ) {
+                if( sc.sortable != null && sc.sortable == 'yes' && sc.sortTypes != null 
+                    && (sc.sortTypes[j] == 'altnumber' || sc.sortTypes[j] == 'alttext') ) {
                     c.sort_value = this.cellSortValue(s, i, j, data[i]);
                 }
                 // Check if a sortable size field, where we need to store the real size

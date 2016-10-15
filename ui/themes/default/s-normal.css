@@ -268,13 +268,13 @@ table.list td div.calendar {
         margin-left: 0px;
         width: 100%;
     }
+
 }
 
 @media screen and (min-width: 73em) {
     div.help-off.guided-on div.guided-disabled div.mediumaside,
     div.help-off.guided-off div.mediumaside,
-    div.help-off.guided-off div.large.narrowaside,
-    div.help-off.guided-off div.xlarge.narrowaside {
+    div.help-off.guided-off div.large.narrowaside {
         max-width: 70em;
     }
 
@@ -284,8 +284,7 @@ table.list td div.calendar {
         margin-left: 35em;
     }
 
-    div.help-off.guided-off div.large.narrowaside div.panelsection,
-    div.help-off.guided-off div.xlarge.narrowaside div.panelsection {
+    div.help-off.guided-off div.large.narrowaside div.panelsection {
         width: 47em;
         margin-left: 22em;
     }
@@ -327,8 +326,7 @@ table.list td div.calendar {
     div.help-off.guided-off div.mediumaside div.formtabs {
         width: 100%;
     }
-    div.help-off.guided-off div.large.narrowaside div.asideleft,
-    div.help-off.guided-off div.xlarge.narrowaside div.asideleft {
+    div.help-off.guided-off div.large.narrowaside div.asideleft {
         float: left;
         clear: left;
         width: 20em;
@@ -339,15 +337,6 @@ table.list td div.calendar {
         height: auto;
         margin-top: 0px;
     }
-}
-
-/* media queries to adjust screen based on width */
-@media screen and (min-width: 84em) {
-    div.help-off.guided-on div.guided-disabled div.mediumaside,
-    div.help-off.guided-off div.mediumaside {
-        max-width: 80em;
-    }
-    
     div.help-off.guided-off div.xlarge.narrowaside {
         max-width: 98%;
     }
@@ -362,6 +351,15 @@ table.list td div.calendar {
         box-sizing: border-box;
         margin-left: 0;
     }
+}
+
+/* media queries to adjust screen based on width */
+@media screen and (min-width: 84em) {
+    div.help-off.guided-on div.guided-disabled div.mediumaside,
+    div.help-off.guided-off div.mediumaside {
+        max-width: 80em;
+    }
+    
     div.help-off.guided-on div.guided-disabled div.narrowaside div.formtabs,
     div.help-off.guided-on div.guided-disabled div.mediumaside div.formtabs,
     div.help-off.guided-off div.narrowaside div.formtabs,

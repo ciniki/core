@@ -63,7 +63,9 @@ function ciniki_core_menu() {
             if( r.categories != null ) {
                 if( r.categories.length > 1 ) {
                     this.businesses.data = r;
-                    this.businesses.sections['categories'] = {'label':'Categories', 'aside':'yes', 'type':'simplegrid', 'num_cols':1};
+                    this.businesses.sections['categories'] = {'label':'Categories', 
+                        'visible':function() { return M.size == 'compact' ? 'no' : 'yes'; }, 
+                        'aside':'yes', 'type':'simplegrid', 'num_cols':1};
                     this.businesses.sections['_'] = {'label':'',
                         'autofocus':'yes', 'type':'livesearchgrid', 'livesearchcols':1,
                         'hint':'Search', 

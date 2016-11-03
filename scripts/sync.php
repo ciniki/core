@@ -113,7 +113,7 @@ elseif( preg_match('/(.*)\.(.*)\.(.*)\.history\.(list|get|update)$/', $ciniki['r
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLoad');
     $rc = ciniki_core_syncObjectLoad($ciniki, $ciniki['sync'], $ciniki['sync']['business_id'], $ciniki['request']['method'], array());
     if( $rc['stat'] != 'ok' ) {
-        $response = array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1213', 'msg'=>'Object does not exist'));
+        $response = array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.391', 'msg'=>'Object does not exist'));
     } else {
         $o = $rc['object'];
         if( $matches[4] == 'list' ) {
@@ -126,7 +126,7 @@ elseif( preg_match('/(.*)\.(.*)\.(.*)\.history\.(list|get|update)$/', $ciniki['r
             ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectHistoryUpdate');
             $response = ciniki_core_syncObjectHistoryUpdate($ciniki, $ciniki['sync'], $ciniki['sync']['business_id'], $o, $ciniki['request']);
         } else {
-            $response = array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1214', 'msg'=>'Object does not exist'));
+            $response = array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.392', 'msg'=>'Object does not exist'));
         }
     }
 } 
@@ -138,7 +138,7 @@ elseif( preg_match('/(.*)\.(.*)\.(.*)\.(list|get|update|delete)$/', $ciniki['req
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLoad');
     $rc = ciniki_core_syncObjectLoad($ciniki, $ciniki['sync'], $ciniki['sync']['business_id'], $ciniki['request']['method'], array());
     if( $rc['stat'] != 'ok' ) {
-        $response = array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1216', 'msg'=>'Object does not exist', 'err'=>$rc['err']));
+        $response = array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.393', 'msg'=>'Object does not exist', 'err'=>$rc['err']));
     } else {
         $o = $rc['object'];
         if( $matches[4] == 'list' ) {
@@ -154,7 +154,7 @@ elseif( preg_match('/(.*)\.(.*)\.(.*)\.(list|get|update|delete)$/', $ciniki['req
             ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectDelete');
             $response = ciniki_core_syncObjectDelete($ciniki, $ciniki['sync'], $ciniki['sync']['business_id'], $o, $ciniki['request']);
         } else {
-            $response = array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1217', 'msg'=>'Object does not exist'));
+            $response = array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.394', 'msg'=>'Object does not exist'));
         }
     }
 } 
@@ -163,7 +163,7 @@ elseif( preg_match('/(.*)\.(.*)\.(.*)\.(list|get|update|delete)$/', $ciniki['req
 // When none of the commands are recognized, return an error
 //
 else {
-    $response = array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'547', 'msg'=>'Invalid method'));
+    $response = array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.395', 'msg'=>'Invalid method'));
 }
 
 //

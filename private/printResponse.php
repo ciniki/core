@@ -17,7 +17,7 @@
 function ciniki_core_printResponse($ciniki, $hash) {
 
     if( !is_array($hash) ) {
-        $rsp_hash = array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'38', 'msg'=>'Internal configuration error'));
+        $rsp_hash = array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.137', 'msg'=>'Internal configuration error'));
     } else {
         $rsp_hash = $hash;
     }

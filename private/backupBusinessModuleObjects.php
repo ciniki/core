@@ -19,7 +19,7 @@ function ciniki_core_backupBusinessModuleObjects(&$ciniki, $business, $pkg, $mod
     $backup_dir = $business['backup_dir'] . '/' . $module . '/_objects';
     if( !file_exists($backup_dir) ) {
         if( mkdir($backup_dir, 0755, true) === false ) {
-            return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1729', 'msg'=>'Unable to create backup directory for ' . $module));
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.12', 'msg'=>'Unable to create backup directory for ' . $module));
         }
     }
 
@@ -32,20 +32,20 @@ function ciniki_core_backupBusinessModuleObjects(&$ciniki, $business, $pkg, $mod
         $method_filename = $ciniki['config']['ciniki.core']['root_dir'] . "/$pkg-mods/$mod/private/objects.php";
         $method_function = "{$pkg}_{$mod}_objects";
         if( !file_exists($method_filename) ) {
-            return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1730', 'msg'=>'Unable to load object definitions for: ' . $pkg . '.' . $mod));
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.13', 'msg'=>'Unable to load object definitions for: ' . $pkg . '.' . $mod));
         }
 
         require_once($method_filename);
         if( !is_callable($method_function) ) {
-            return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1731', 'msg'=>'Unable to load object definitions for: ' . $pkg . '.' . $mod));
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.14', 'msg'=>'Unable to load object definitions for: ' . $pkg . '.' . $mod));
         }
 
         $rc = $method_function($ciniki);
         if( $rc['stat'] != 'ok' ) {
-            return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1732', 'msg'=>'Unable to load object definitions for: ' . $pkg . '.' . $mod));
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.15', 'msg'=>'Unable to load object definitions for: ' . $pkg . '.' . $mod));
         }
         if( !isset($rc['objects']) ) {
-            return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1733', 'msg'=>'Unable to load object definitions for: ' . $pkg . '.' . $mod));
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.16', 'msg'=>'Unable to load object definitions for: ' . $pkg . '.' . $mod));
         }
         $objects = $rc['objects'];
     

@@ -11,7 +11,7 @@
 function ciniki_core_sessionSave($ciniki) {
 
     if( !isset($ciniki['session']) || !is_array($ciniki['session']) ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'28', 'msg'=>'Internal configuration error', 'pmsg'=>'$ciniki[session] not set'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.151', 'msg'=>'Internal configuration error', 'pmsg'=>'$ciniki[session] not set'));
     }
 
     //
@@ -20,7 +20,7 @@ function ciniki_core_sessionSave($ciniki) {
     if( !isset($ciniki['session']['api_key']) || $ciniki['session']['api_key'] == '' 
         || !isset($ciniki['session']['auth_token']) || $ciniki['session']['auth_token'] == '' 
         || !isset($ciniki['session']['user']) ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'29', 'msg'=>'Internal configuration error', 'pmsg'=>'Required session variables not set.'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.152', 'msg'=>'Internal configuration error', 'pmsg'=>'Required session variables not set.'));
     }
 
     //
@@ -53,7 +53,7 @@ function ciniki_core_sessionSave($ciniki) {
 
 //  This was removed, because when no columns are changed, the num_affected returns 0.
 //  if( $rc['num_affected_rows'] < 1 ) {
-//      return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'36', 'msg'=>'Internal Error', 'pmsg'=>'No session data was updated.'));
+//      return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.153', 'msg'=>'Internal Error', 'pmsg'=>'No session data was updated.'));
 //  }
 
     return array('stat'=>'ok');

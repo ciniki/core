@@ -19,7 +19,7 @@ function ciniki_core_syncObjectLoad(&$ciniki, &$sync, $business_id, $object_ref,
         if( is_callable($object_function) ) {
             $rc = $object_function($ciniki, $sync, $business_id, $args);
             if( $rc['stat'] != 'ok' ) {
-                return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1180', 'msg'=>'Object does not exist'));
+                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.271', 'msg'=>'Object does not exist'));
             }
             if( isset($rc['objects']) && isset($rc['objects'][$obj[2]]) ) {
                 // Setup the object array
@@ -31,13 +31,13 @@ function ciniki_core_syncObjectLoad(&$ciniki, &$sync, $business_id, $object_ref,
                 
                 return array('stat'=>'ok', 'object'=>$o);
             } else {
-                return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1181', 'msg'=>'Object does not exist'));
+                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.272', 'msg'=>'Object does not exist'));
             }
         } else {
-            return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1182', 'msg'=>'Object does not exist'));
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.273', 'msg'=>'Object does not exist'));
         }
     } 
 
-    return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1183', 'msg'=>'Object does not exist'));
+    return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.274', 'msg'=>'Object does not exist'));
 }
 ?>

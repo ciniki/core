@@ -29,12 +29,12 @@ function ciniki_core_syncObjectFunction(&$ciniki, &$sync, $business_id, $method,
         } else {
             ciniki_core_syncLog($ciniki, 0, 'Not executable ' . $method . '(' . serialize($args) . ')', null);
 //          error_log('SYNC-ERR: Not executable ' . $method . '(' . serialize($args) . ')');
-            return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1176', 'msg'=>'Unable to call sync method'));
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.229', 'msg'=>'Unable to call sync method'));
         }
     } 
 
     ciniki_core_syncLog($ciniki, 0, 'Does not exist ' . $method . '(' . serialize($args) . ')', null);
 //  error_log('SYNC-ERR: Doesn\'t exist' . $method . '(' . serialize($args) . ')');
-    return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1177', 'msg'=>'Unable to call sync method'));
+    return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.230', 'msg'=>'Unable to call sync method'));
 }
 ?>

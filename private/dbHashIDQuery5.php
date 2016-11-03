@@ -36,7 +36,7 @@ function ciniki_core_dbHashIDQuery5(&$ciniki, $strsql, $module, $col_x, $col_y, 
     //
     $result = mysqli_query($dh, $strsql);
     if( $result == false ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'188', 'msg'=>'Database Error', 'pmsg'=>mysqli_error($dh)));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.59', 'msg'=>'Database Error', 'pmsg'=>mysqli_error($dh)));
     }
 
     //

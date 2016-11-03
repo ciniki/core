@@ -61,21 +61,21 @@ function ciniki_core_threadAdd(&$ciniki, $module, $object, $table, $history_tabl
     if( isset($args['business_id']) && $args['business_id'] != '' && $args['business_id'] > 0 ) {
         $strsql .= "'" . ciniki_core_dbQuote($ciniki, $args['business_id']) . "', ";
     } else {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'201', 'msg'=>'Required argument missing', 'pmsg'=>'No business_id'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.373', 'msg'=>'Required argument missing', 'pmsg'=>'No business_id'));
     }
 
     // user_id
     if( isset($args['user_id']) && $args['user_id'] != '' && $args['user_id'] > 0 ) {
         $strsql .= "'" . ciniki_core_dbQuote($ciniki, $args['user_id']) . "', ";
     } else {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'214', 'msg'=>'Required argument missing', 'pmsg'=>'No user_id'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.374', 'msg'=>'Required argument missing', 'pmsg'=>'No user_id'));
     }
 
     // subject
     if( isset($args['subject']) && $args['subject'] != '' ) {
         $strsql .= "'" . ciniki_core_dbQuote($ciniki, $args['subject']) . "', ";
     } else {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'210', 'msg'=>'Required argument missing', 'pmsg'=>'No subject'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.375', 'msg'=>'Required argument missing', 'pmsg'=>'No subject'));
     }
 
     // state - optional

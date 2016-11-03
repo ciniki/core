@@ -32,7 +32,7 @@ function ciniki_subscriptions_checkAccess($ciniki, $business_id, $method, $subsc
     }
 
     if( !isset($rc['ruleset']) ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'382', 'msg'=>'No permissions granted'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.1', 'msg'=>'No permissions granted'));
     }
     $modules = $rc['modules'];
 
@@ -53,7 +53,7 @@ function ciniki_subscriptions_checkAccess($ciniki, $business_id, $method, $subsc
     // Check to see if the ruleset is valid
     //
     if( !isset($rulesets[$rc['ruleset']]) ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'383', 'msg'=>'Access denied.'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.2', 'msg'=>'Access denied.'));
     }
     $ruleset = $rc['ruleset'];
 
@@ -66,7 +66,7 @@ function ciniki_subscriptions_checkAccess($ciniki, $business_id, $method, $subsc
     } elseif( isset($rulesets[$ruleset]['default']) ) {
         $rules = $rulesets[$ruleset]['default'];
     } else {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'384', 'msg'=>'Access denied.'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.3', 'msg'=>'Access denied.'));
     }
 
 
@@ -91,7 +91,7 @@ function ciniki_subscriptions_checkAccess($ciniki, $business_id, $method, $subsc
             || $rc['subscription']['business_id'] != $business_id 
             || $rc['subscription']['id'] != $subscription_id ) {
             // Access denied!
-            return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'388', 'msg'=>'Access denied'));
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.4', 'msg'=>'Access denied'));
         }
     }
 
@@ -114,7 +114,7 @@ function ciniki_subscriptions_checkAccess($ciniki, $business_id, $method, $subsc
             . "";
         $rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.businesses', 'user');
         if( $rc['stat'] != 'ok' ) {
-            return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'385', 'msg'=>'Access denied.', 'err'=>$rc['err']));
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.5', 'msg'=>'Access denied.', 'err'=>$rc['err']));
         }
         
         //
@@ -129,6 +129,6 @@ function ciniki_subscriptions_checkAccess($ciniki, $business_id, $method, $subsc
     //
     // Default, return fail
     //
-    return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'510', 'msg'=>'Access denied'));
+    return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.6', 'msg'=>'Access denied'));
 }
 ?>

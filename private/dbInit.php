@@ -18,7 +18,7 @@ function ciniki_core_dbInit(&$ciniki) {
     $ciniki['databases'] = array();
 
     if( !isset($ciniki['config']['ciniki.core']['database.names']) ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'10', 'msg'=>'Internal configuration error', 'pmsg'=>'missing core.database.name from config.'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.64', 'msg'=>'Internal configuration error', 'pmsg'=>'missing core.database.name from config.'));
     }
 
     $databases = preg_split('/\s*\,\s*/', $ciniki['config']['ciniki.core']['database.names']);

@@ -37,7 +37,7 @@ function ciniki_core_syncCheckVersions($ciniki, $sync, $business_id) {
         return $rc;
     }
     if( !isset($rc['modules']) ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'296', 'msg'=>'No modules enabled'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.200', 'msg'=>'No modules enabled'));
     }
 
     // 
@@ -119,15 +119,15 @@ function ciniki_core_syncCheckVersions($ciniki, $sync, $business_id) {
     }
 
     if( $missing_modules != '' ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'570', 'msg'=>"The following modules must be enabled before syncronization: $missing_modules", 'pmsg'=>"$errors."));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.201', 'msg'=>"The following modules must be enabled before syncronization: $missing_modules", 'pmsg'=>"$errors."));
     }
 
     if( $incompatible_versions != '' ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'287', 'msg'=>"The following modules must be updated before syncronization: $incompatible_versions", 'pmsg'=>"$errors."));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.202', 'msg'=>"The following modules must be updated before syncronization: $incompatible_versions", 'pmsg'=>"$errors."));
     }
 
     if( $errors != '' ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'572', 'msg'=>'System code must be updated before synchronization.', 'pmsg'=>"$errors"));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.203', 'msg'=>'System code must be updated before synchronization.', 'pmsg'=>"$errors"));
     }
 
     return array('stat'=>'ok', 'sync'=>$sync, 'modules'=>$local_modules, 'remote_modules'=>$r_modules);

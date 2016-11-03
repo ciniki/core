@@ -28,7 +28,7 @@ function ciniki_core_callPublicMethod(&$ciniki) {
     // Check if the api_key is specified
     //
     if( !isset($ciniki['request']['api_key']) || $ciniki['request']['api_key'] == '' ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'2', 'msg'=>'No api_key supplied'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.17', 'msg'=>'No api_key supplied'));
     }
 
     //
@@ -48,7 +48,7 @@ function ciniki_core_callPublicMethod(&$ciniki) {
     // Check if method has been specified
     //
     if( !isset($ciniki['request']['method']) || $ciniki['request']['method'] == '' ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'3', 'msg'=>'No method supplied'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.18', 'msg'=>'No method supplied'));
     }
 
     //
@@ -96,7 +96,7 @@ function ciniki_core_callPublicMethod(&$ciniki) {
         || !is_array($ciniki['session']['user']) || !isset($ciniki['session']['user']['id'])
         || $ciniki['session']['user']['id'] <= 0)
         ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'5', 'msg'=>'Not authenticated'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.19', 'msg'=>'Not authenticated'));
     }
 
     //
@@ -105,7 +105,7 @@ function ciniki_core_callPublicMethod(&$ciniki) {
     // function calls by probing.
     //
     if( $method_filename == '' || $method_function == '' || !file_exists($method_filename) ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'4', 'msg'=>'Method does not exist'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.20', 'msg'=>'Method does not exist'));
     }
 
     //
@@ -114,7 +114,7 @@ function ciniki_core_callPublicMethod(&$ciniki) {
     require_once($method_filename);
 
     if( !is_callable($method_function) ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1', 'msg'=>'Method does not exist'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.21', 'msg'=>'Method does not exist'));
     }
 
     // FIXME: Add failed requests to log

@@ -53,7 +53,7 @@ function ciniki_core_objectDelete(&$ciniki, $business_id, $obj_name, $oid, $ouui
             return $rc;
         }
         if( !isset($rc['object']) || !isset($rc['object']['uuid']) ) {
-            return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1064', 'msg'=>'Unable to lookup UUID for ' . $obj_name));
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.104', 'msg'=>'Unable to lookup UUID for ' . $obj_name));
         }
         $ouuid = $rc['object']['uuid'];
     }
@@ -93,7 +93,7 @@ function ciniki_core_objectDelete(&$ciniki, $business_id, $obj_name, $oid, $ouui
     }
     if( !isset($rc['num_affected_rows']) || $rc['num_affected_rows'] != 1 ) {
         if( ($tmsupdate&0x01) == 1 ) { ciniki_core_dbTransactionRollback($ciniki, $m); }
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1368', 'msg'=>'Unable to delete object'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.105', 'msg'=>'Unable to delete object'));
     }
 
     ciniki_core_dbAddModuleHistory($ciniki, $m, $o['history_table'], $business_id,

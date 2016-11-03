@@ -94,7 +94,7 @@ function ciniki_core_dbGetModuleHistoryLinkedToggle(&$ciniki, $module, $history_
         . "";
     $result = mysqli_query($dh, $strsql);
     if( $result == false ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'134', 'msg'=>'Database Error', 'pmsg'=>mysqli_error($dh)));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.51', 'msg'=>'Database Error', 'pmsg'=>mysqli_error($dh)));
     }
 
     //
@@ -134,7 +134,7 @@ function ciniki_core_dbGetModuleHistoryLinkedToggle(&$ciniki, $module, $history_
     ciniki_core_loadMethod($ciniki, 'ciniki', 'users', 'private', 'userListByID');
     $rc = ciniki_users_userListByID($ciniki, 'users', array_unique($user_ids), 'display_name');
     if( $rc['stat'] != 'ok' ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'135', 'msg'=>'Unable to merge user information', 'err'=>$rc['err']));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.52', 'msg'=>'Unable to merge user information', 'err'=>$rc['err']));
     }
     $users = $rc['users'];
 

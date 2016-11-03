@@ -32,7 +32,7 @@ function ciniki_core_geocodeAddressLookupLatLong(&$ciniki, $address) {
     if( $output->status != 'OK' ) {
 //      error_log(print_r($output, true));
         error_log("ERR: google map lookup failed for '$address':" . $output->status);
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1925', 'msg'=>'We were unable to determine where this address is, please try again.'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.92', 'msg'=>'We were unable to determine where this address is, please try again.'));
     } else {
         $latitude = $output->results[0]->geometry->location->lat;
         $longitude = $output->results[0]->geometry->location->lng;

@@ -56,7 +56,7 @@ function ciniki_core_dbGetChangeLogReformat(&$ciniki, $business_id, $table_name,
         . "";
     $result = mysqli_query($dh, $strsql);
     if( $result == false ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'187', 'msg'=>'Database Error', 'pmsg'=>mysqli_error($dh)));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.45', 'msg'=>'Database Error', 'pmsg'=>mysqli_error($dh)));
     }
 
     //
@@ -96,7 +96,7 @@ function ciniki_core_dbGetChangeLogReformat(&$ciniki, $business_id, $table_name,
     ciniki_core_loadMethod($ciniki, 'ciniki', 'users', 'private', 'userListByID');
     $rc = ciniki_users_userListByID($ciniki, 'users', array_unique($user_ids), 'display_name');
     if( $rc['stat'] != 'ok' ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'141', 'msg'=>'Unable to merge user information', 'err'=>$rc['err']));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.46', 'msg'=>'Unable to merge user information', 'err'=>$rc['err']));
     }
     $users = $rc['users'];
 

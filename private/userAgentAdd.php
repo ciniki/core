@@ -15,14 +15,14 @@ function ciniki_core_userAgentAdd($ciniki, $device) {
     // Check device is setup properly
     //
     if( !isset($device['user_agent']) ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'127', 'msg'=>'Invalid device specification'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.385', 'msg'=>'Invalid device specification'));
     }
     if( !isset($device) || !isset($device['user_agent']) 
         || !isset($device['type_status'])
         || !isset($device['size'])
         || !isset($device['engine'])
         || !isset($device['device']) ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'126', 'msg'=>'Invalid device specification'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.386', 'msg'=>'Invalid device specification'));
     }
 
     if( !isset($device['flags']) ) {

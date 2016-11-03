@@ -39,7 +39,7 @@ function ciniki_core_tagsDelete(&$ciniki, $module, $object, $business_id, $table
         . "";
     $rc = ciniki_core_dbHashQuery($ciniki, $strsql, $module, 'tag');
     if( $rc['stat'] != 'ok' ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'43', 'msg'=>'Unable to get tags', 'err'=>$rc['err']));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.372', 'msg'=>'Unable to get tags', 'err'=>$rc['err']));
     }
     $tags = $rc['rows'];
 

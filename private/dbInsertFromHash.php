@@ -34,6 +34,6 @@ function ciniki_core_dbInsertFromHash(&$ciniki, $fields, $record, $prefix, $midd
         return $new_db_record;
     } 
 
-    return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'70', 'msg'=>'Internal error', 'pmsg'=>'Unable to build SQL insert string'));
+    return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.68', 'msg'=>'Internal error', 'pmsg'=>'Unable to build SQL insert string'));
 }
 ?>

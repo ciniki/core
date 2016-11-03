@@ -45,7 +45,7 @@ function ciniki_core_threadNotifyUsers(&$ciniki, $module, $table, $prefix, $id, 
 
     $rc = ciniki_core_dbQueryList($ciniki, $strsql, $module, 'user_ids', 'user_id');
     if( $rc['stat'] != 'ok' || !isset($rc['user_ids']) || !is_array($rc['user_ids']) ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'208', 'msg'=>'Unable to find users', 'err'=>$rc['err']));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.384', 'msg'=>'Unable to find users', 'err'=>$rc['err']));
     }
 
     //

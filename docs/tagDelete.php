@@ -48,7 +48,7 @@ function ciniki_core_tagDelete($ciniki, $module, $business_id, $history_table, $
         return $rc;
     }
     if( !isset($rc['tag']) ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'577', 'msg'=>'No tag found'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.8', 'msg'=>'No tag found'));
     }
     $tag = $rc['tag'];
     $tag_id = $rc['tag']['id'];

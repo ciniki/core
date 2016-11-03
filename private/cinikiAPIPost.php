@@ -43,7 +43,7 @@ function ciniki_core_cinikiAPIPost($ciniki, $api, $method, $remote_args, $conten
     //
     $rsp = curl_exec($ch);
     if( $rsp === false ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'540', 'msg'=>'Unable to connect to remote system'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.27', 'msg'=>'Unable to connect to remote system'));
     }
     curl_close($ch);
 
@@ -52,6 +52,6 @@ function ciniki_core_cinikiAPIPost($ciniki, $api, $method, $remote_args, $conten
         return $rc;
     }
 
-    return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'548', 'msg'=>'Unable to understand the response'));
+    return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.28', 'msg'=>'Unable to understand the response'));
 }   
 ?>

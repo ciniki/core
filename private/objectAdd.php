@@ -46,7 +46,7 @@ function ciniki_core_objectAdd(&$ciniki, $business_id, $obj_name, $args, $tmsupd
         ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbUUID');
         $rc = ciniki_core_dbUUID($ciniki, $m);
         if( $rc['stat'] != 'ok' ) {
-            return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1370', 'msg'=>'Unable to get a new UUID', 'err'=>$rc['err']));
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.99', 'msg'=>'Unable to get a new UUID', 'err'=>$rc['err']));
         }
         $args['uuid'] = $rc['uuid'];
     }
@@ -80,7 +80,7 @@ function ciniki_core_objectAdd(&$ciniki, $business_id, $obj_name, $args, $tmsupd
             $values .= "'" . ciniki_core_dbQuote($ciniki, $options['default']) . "', ";
         } else {
             if( ($tmsupdate&0x01) == 1 ) { ciniki_core_dbTransactionRollback($ciniki, $m); }
-            return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1366', 'msg'=>'Missing object field: ' . $field));
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.100', 'msg'=>'Missing object field: ' . $field));
         }
     }
     $strsql .= "date_added, last_updated) VALUES (" . $values . " UTC_TIMESTAMP(), UTC_TIMESTAMP())";
@@ -96,7 +96,7 @@ function ciniki_core_objectAdd(&$ciniki, $business_id, $obj_name, $args, $tmsupd
     }
     if( !isset($rc['insert_id']) || $rc['insert_id'] < 1 ) {
         if( ($tmsupdate&0x01) == 1 ) { ciniki_core_dbTransactionRollback($ciniki, $m); }
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1367', 'msg'=>'Unable to add object'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.101', 'msg'=>'Unable to add object'));
     }
     $insert_id = $rc['insert_id'];
 

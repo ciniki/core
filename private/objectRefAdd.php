@@ -38,16 +38,16 @@ function ciniki_core_objectRefAdd(&$ciniki, $business_id, $obj_name, $args, $opt
     // Check to make sure all variable required were passed
     //
     if( !isset($args['ref_id']) || $args['ref_id'] == '' ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1362', 'msg'=>'No ref specified'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.112', 'msg'=>'No ref specified'));
     }
     if( !isset($args['object']) || $args['object'] == '' ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1361', 'msg'=>'No object specified'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.113', 'msg'=>'No object specified'));
     }
     if( !isset($args['object_id']) || $args['object_id'] == '' ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1359', 'msg'=>'No object ID specified'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.114', 'msg'=>'No object ID specified'));
     }
     if( !isset($args['object_field']) || $args['object_field'] == '' ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1358', 'msg'=>'No object field specified'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.115', 'msg'=>'No object field specified'));
     }
 
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'objectAdd');

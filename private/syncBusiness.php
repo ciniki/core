@@ -26,7 +26,7 @@ function ciniki_core_syncBusiness($ciniki, $sync, $business_id, $type, $module) 
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncCheckVersions');
     $rc = ciniki_core_syncCheckVersions($ciniki, $sync, $business_id);
     if( $rc['stat'] != 'ok' ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'567', 'msg'=>'Incompatible versions', 'err'=>$rc['err']));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.175', 'msg'=>'Incompatible versions', 'err'=>$rc['err']));
     }
     $modules = $rc['modules'];
     $remote_modules = $rc['remote_modules'];
@@ -57,7 +57,7 @@ function ciniki_core_syncBusiness($ciniki, $sync, $business_id, $type, $module) 
     if( $module != '' ) {
         $rc = ciniki_core_syncBusinessModule($ciniki, $sync, $business_id, $module, $type, '');
         if( $rc['stat'] != 'ok' ) {
-            return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'886', 'msg'=>'Unable to sync module ' . $module, 'err'=>$rc['err']));
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.176', 'msg'=>'Unable to sync module ' . $module, 'err'=>$rc['err']));
         }
         //
         // Return 
@@ -79,7 +79,7 @@ function ciniki_core_syncBusiness($ciniki, $sync, $business_id, $type, $module) 
             )) {
             $rc = ciniki_core_syncBusinessModule($ciniki, $sync, $business_id, $module, $type, '');
             if( $rc['stat'] != 'ok' ) {
-                return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'251', 'msg'=>'Unable to sync module ' . $module, 'err'=>$rc['err']));
+                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.177', 'msg'=>'Unable to sync module ' . $module, 'err'=>$rc['err']));
             }
             //
             // Update the module last_change timestamp if more recent on remote
@@ -117,7 +117,7 @@ function ciniki_core_syncBusiness($ciniki, $sync, $business_id, $type, $module) 
             ) {
             $rc = ciniki_core_syncBusinessModule($ciniki, $sync, $business_id, $module, $type, '');
             if( $rc['stat'] != 'ok' ) {
-                return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'276', 'msg'=>'Unable to sync module ' . $module, 'err'=>$rc['err']));
+                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.178', 'msg'=>'Unable to sync module ' . $module, 'err'=>$rc['err']));
             }
             //
             // Update the module last_change timestamp if more recent on remote
@@ -155,7 +155,7 @@ function ciniki_core_syncBusiness($ciniki, $sync, $business_id, $type, $module) 
             ) {
             $rc = ciniki_core_syncBusinessModule($ciniki, $sync, $business_id, $name, $type, '');
             if( $rc['stat'] != 'ok' ) {
-                return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'252', 'msg'=>'Unable to sync module ' . $name, 'err'=>$rc['err']));
+                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.179', 'msg'=>'Unable to sync module ' . $name, 'err'=>$rc['err']));
             }
             //
             // Update the module last_change timestamp if more recent on remote

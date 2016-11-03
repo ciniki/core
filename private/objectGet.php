@@ -74,7 +74,7 @@ function ciniki_core_objectGet(&$ciniki, $business_id, $obj_name, $oid) {
         return $rc;
     }
     if( !isset($rc[$container][$oid]) ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1757', 'msg'=>"Unable to load the " . lowercase($o['name']) . " you requested."));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.106', 'msg'=>"Unable to load the " . lowercase($o['name']) . " you requested."));
     }
     $object = $rc[$container][$oid];
 

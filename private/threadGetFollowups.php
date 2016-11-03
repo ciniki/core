@@ -36,7 +36,7 @@ function ciniki_core_threadGetFollowups($ciniki, $module, $table, $prefix, $id, 
     // Validate table and prefix
     if( preg_match('/[^_a-z]/', $table) ) {
 //      || preg_match('/[^_a_z]/', $prefix) ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1336', 'msg'=>'Invalid database parameters' . $table . $prefix));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.383', 'msg'=>'Invalid database parameters' . $table . $prefix));
     }
 
     // 

@@ -77,11 +77,11 @@ function ciniki_core_syncBusinessModule(&$ciniki, &$sync, $business_id, $module,
         //
         $rc = ciniki_core_syncRequest($ciniki, $sync, array('method'=>"$pkg.$mod.$name.list", 'type'=>$type, 'since_uts'=>$sync['last_sync']));
         if( $rc['stat'] != 'ok' ) {
-            return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'925', 'msg'=>"Unable to get the remote list: $pkg.$mod.$name", 'err'=>$rc['err']));
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.186', 'msg'=>"Unable to get the remote list: $pkg.$mod.$name", 'err'=>$rc['err']));
         }
 
         if( !isset($rc['list']) ) {
-            return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'274', 'msg'=>'Unable to get remote list'));
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.187', 'msg'=>'Unable to get remote list'));
         }
         $remote_list = $rc['list'];
         if( isset($rc['deleted']) ) {
@@ -95,10 +95,10 @@ function ciniki_core_syncBusinessModule(&$ciniki, &$sync, $business_id, $module,
         //
         $rc = ciniki_core_syncObjectList($ciniki, $sync, $business_id, $o, array('type'=>$type, 'since_uts'=>$sync['last_sync']));
         if( $rc['stat'] != 'ok' ) {
-            return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'913', 'msg'=>'Unable to get the local list', 'err'=>$rc['err']));
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.188', 'msg'=>'Unable to get the local list', 'err'=>$rc['err']));
         }
         if( !isset($rc['list']) ) {
-            return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'275', 'msg'=>'Unable to get local list'));
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.189', 'msg'=>'Unable to get local list'));
         }
         $local_list = $rc['list'];
         if( isset($rc['deleted']) ) {
@@ -118,7 +118,7 @@ function ciniki_core_syncBusinessModule(&$ciniki, &$sync, $business_id, $module,
                     //
                     $rc = ciniki_core_syncObjectDelete($ciniki, $sync, $business_id, $o, array('uuid'=>$uuid, 'history'=>$deleted_history));
                     if( $rc['stat'] != 'ok' ) {
-                        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1018', 'msg'=>"Unable to delete $name on local server", 'err'=>$rc['err']));;
+                        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.190', 'msg'=>"Unable to delete $name on local server", 'err'=>$rc['err']));;
                     }
                     unset($local_list[$uuid]);
                 }
@@ -132,7 +132,7 @@ function ciniki_core_syncBusinessModule(&$ciniki, &$sync, $business_id, $module,
                     //
                     $rc = ciniki_core_syncRequest($ciniki, $sync, array('method'=>"$pkg.$mod.$name.delete", 'uuid'=>$uuid, 'history'=>$deleted_history));
                     if( $rc['stat'] != 'ok' ) {
-                        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1019', 'msg'=>"Unable to delete $name($uuid) on remote server", 'err'=>$rc['err']));
+                        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.191', 'msg'=>"Unable to delete $name($uuid) on remote server", 'err'=>$rc['err']));
                     }
                     unset($remote_list[$uuid]);
                 }
@@ -156,7 +156,7 @@ function ciniki_core_syncBusinessModule(&$ciniki, &$sync, $business_id, $module,
                     //
                     $rc = ciniki_core_syncObjectUpdate($ciniki, $sync, $business_id, $o, array('uuid'=>$uuid));
                     if( $rc['stat'] != 'ok' ) {
-                        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'284', 'msg'=>"Unable to update $name($uuid) on local server", 'err'=>$rc['err']));;
+                        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.192', 'msg'=>"Unable to update $name($uuid) on local server", 'err'=>$rc['err']));;
                     }
                 } 
             }
@@ -174,14 +174,14 @@ function ciniki_core_syncBusinessModule(&$ciniki, &$sync, $business_id, $module,
                     && !isset($remote_deleted[$uuid]) ) {
                     $rc = ciniki_core_syncObjectGet($ciniki, $sync, $business_id, $o, array('uuid'=>$uuid));
                     if( $rc['stat'] != 'ok' ) {
-                        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1229', 'msg'=>"Unable to get $name($uuid) on local server", 'err'=>$rc['err']));
+                        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.193', 'msg'=>"Unable to get $name($uuid) on local server", 'err'=>$rc['err']));
                     }
                     //
                     // Update the remote object
                     //
                     $rc = ciniki_core_syncRequest($ciniki, $sync, array('method'=>"$pkg.$mod.$name.update", 'uuid'=>$uuid, "object"=>$rc['object']));
                     if( $rc['stat'] != 'ok' ) {
-                        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1015', 'msg'=>"Unable to update $name($uuid) on remote server", 'err'=>$rc['err']));
+                        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.194', 'msg'=>"Unable to update $name($uuid) on remote server", 'err'=>$rc['err']));
                     }
                 }
             }
@@ -199,7 +199,7 @@ function ciniki_core_syncBusinessModule(&$ciniki, &$sync, $business_id, $module,
         $rc = ciniki_core_syncObjectHistoryList($ciniki, $sync, $business_id, $o, 
             array('type'=>$type, 'since_uts'=>$sync['last_sync']));
         if( $rc['stat'] != 'ok' ) {
-            return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1239', 'msg'=>"Unable to get history list for $history_table", 'err'=>$rc['err']));
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.195', 'msg'=>"Unable to get history list for $history_table", 'err'=>$rc['err']));
         }
         if( !isset($rc['list']) ) {
             $local_list = array();
@@ -213,7 +213,7 @@ function ciniki_core_syncBusinessModule(&$ciniki, &$sync, $business_id, $module,
         $rc = ciniki_core_syncRequest($ciniki, $sync, array('method'=>"$pkg.$mod.$name.history.list", 
             'type'=>$type, 'since_uts'=>$sync['last_sync']));
         if( $rc['stat'] != 'ok' ) {
-            return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1240', 'msg'=>"Unable to get the remote list: $pkg.$mod.$name", 'err'=>$rc['err']));
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.196', 'msg'=>"Unable to get the remote list: $pkg.$mod.$name", 'err'=>$rc['err']));
         }
         if( !isset($rc['list']) ) {
             $remote_list = array();
@@ -237,7 +237,7 @@ function ciniki_core_syncBusinessModule(&$ciniki, &$sync, $business_id, $module,
                     //
                     $rc = ciniki_core_syncObjectHistoryUpdate($ciniki, $sync, $business_id, $o, array('uuid'=>$uuid));
                     if( $rc['stat'] != 'ok' ) {
-                        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1241', 'msg'=>"Unable to update $name($uuid) on local server", 'err'=>$rc['err']));;
+                        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.197', 'msg'=>"Unable to update $name($uuid) on local server", 'err'=>$rc['err']));;
                     }
                 } 
             }
@@ -254,14 +254,14 @@ function ciniki_core_syncBusinessModule(&$ciniki, &$sync, $business_id, $module,
                 if( ($type == 'full' || !isset($remote_list[$uuid]) || $remote_list[$uuid] != $last_updated) ) {
                     $rc = ciniki_core_syncObjectHistoryGet($ciniki, $sync, $business_id, $o, array('uuid'=>$uuid));
                     if( $rc['stat'] != 'ok' ) {
-                        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1037', 'msg'=>"Unable to get $name($uuid) on local server", 'err'=>$rc['err']));
+                        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.198', 'msg'=>"Unable to get $name($uuid) on local server", 'err'=>$rc['err']));
                     }
                     //
                     // Update the remote object
                     //
                     $rc = ciniki_core_syncRequest($ciniki, $sync, array('method'=>"$pkg.$mod.$name.history.update", 'uuid'=>$uuid, "object"=>$rc['object']));
                     if( $rc['stat'] != 'ok' ) {
-                        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1238', 'msg'=>"Unable to update $name($uuid) on remote server", 'err'=>$rc['err']));
+                        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.199', 'msg'=>"Unable to update $name($uuid) on remote server", 'err'=>$rc['err']));
                     }
                 }
             }

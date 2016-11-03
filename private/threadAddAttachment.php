@@ -48,7 +48,7 @@ function ciniki_core_threadAddAttachment(&$ciniki, $module, $object, $business_i
     if( $id != null && $id > 0 ) {
         $strsql .= "'" . ciniki_core_dbQuote($ciniki, $id) . "', ";
     } else {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'223', 'msg'=>'Required argument missing', 'pmsg'=>"No {$prefix}_id"));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.376', 'msg'=>'Required argument missing', 'pmsg'=>"No {$prefix}_id"));
     }
 
     $strsql .= "'1', "; // Primary attachment

@@ -89,7 +89,7 @@ function ciniki_core_objectUpdate(&$ciniki, $business_id, $obj_name, $oid, $args
         if( ($tmsupdate&0x01) == 1 ) { 
             ciniki_core_dbTransactionRollback($ciniki, $m); 
         }
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1344', 'msg'=>'Unable to update object'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.120', 'msg'=>'Unable to update object'));
     }
 
     //
@@ -129,7 +129,7 @@ function ciniki_core_objectUpdate(&$ciniki, $business_id, $obj_name, $oid, $args
                         'object_field'=>$field,         // The local object table field name of remote ID
                         ));
                     if( $rc['stat'] != 'ok' ) {
-                        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1547', 'msg'=>'Unable to add reference to ' . $options['ref'], 'err'=>$rc['err']));
+                        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.121', 'msg'=>'Unable to add reference to ' . $options['ref'], 'err'=>$rc['err']));
                     }
                 }
             }

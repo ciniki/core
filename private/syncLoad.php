@@ -34,7 +34,7 @@ function ciniki_core_syncLoad(&$ciniki, $business_id, $sync_id) {
         return $rc;
     }
     if( !isset($rc['sync']) || !is_array($rc['sync']) ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'113', 'msg'=>'Invalid sync'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.219', 'msg'=>'Invalid sync'));
     }
     $sync = $rc['sync'];
     $sync['type'] = 'business';

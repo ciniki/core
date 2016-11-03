@@ -27,18 +27,18 @@ function ciniki_core_recursiveRmdir($ciniki, $dir, $skip=array()) {
                     return $rc;
                 }
                 if( !rmdir($file) ) {
-                    return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'646', 'msg'=>'Unable to remove directory: ' . $file));
+                    return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.138', 'msg'=>'Unable to remove directory: ' . $file));
                 }
             }
             else {
                 if( !unlink($file) ) {
-                    return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'647', 'msg'=>'Unable to remove file: ' . $file));
+                    return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.139', 'msg'=>'Unable to remove file: ' . $file));
                 }
             }
         }
         closedir($fp);
     } else {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'648', 'msg'=>'Unable to open directory: ' . $dir));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.140', 'msg'=>'Unable to open directory: ' . $dir));
     }
 
     return array('stat'=>'ok');

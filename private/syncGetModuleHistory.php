@@ -10,10 +10,10 @@
 function ciniki_core_syncGetModuleHistory(&$ciniki, &$sync, $business_id, $args) {
 
     if( !isset($args['history_table']) || $args['history_table'] == '' ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1061', 'msg'=>'No history table specified'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.204', 'msg'=>'No history table specified'));
     }
     if( !isset($args['uuid']) || $args['uuid'] == '' ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1062', 'msg'=>'No uuid specified'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.205', 'msg'=>'No uuid specified'));
     }
 
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQuote');
@@ -45,10 +45,10 @@ function ciniki_core_syncGetModuleHistory(&$ciniki, &$sync, $business_id, $args)
                 'action', 'table_name', 'table_key', 'table_field', 'new_value', 'log_date')),
         ));
     if( $rc['stat'] != 'ok' ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'944', 'msg'=>"Unable to get " . $args['module'] . " history", 'err'=>$rc['err']));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.206', 'msg'=>"Unable to get " . $args['module'] . " history", 'err'=>$rc['err']));
     }
     if( !isset($rc['history'][$args['uuid']]) ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'106', 'msg'=>$args['module'] . " history does not exist: " . $args['uuid']));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.207', 'msg'=>$args['module'] . " history does not exist: " . $args['uuid']));
     }
     $history = $rc['history'][$args['uuid']];
 

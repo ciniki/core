@@ -21,11 +21,11 @@ function ciniki_core_syncObjectHistoryList(&$ciniki, &$sync, $business_id, $o, $
     //
     if( !isset($args['type']) ||
         ($args['type'] != 'partial' && $args['type'] != 'full' && $args['type'] != 'incremental') ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1190', 'msg'=>'No type specified'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.255', 'msg'=>'No type specified'));
     }
     if( $args['type'] == 'incremental' 
         && (!isset($args['since_uts']) || $args['since_uts'] == '') ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1191', 'msg'=>'No timestamp specified'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.256', 'msg'=>'No timestamp specified'));
     }
 
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQuote');
@@ -48,7 +48,7 @@ function ciniki_core_syncObjectHistoryList(&$ciniki, &$sync, $business_id, $o, $
         . "";
     $rc = ciniki_core_dbQueryList2($ciniki, $strsql, 'ciniki.customers', 'history');
     if( $rc['stat'] != 'ok' ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1192', 'msg'=>'Unable to get history list', 'err'=>$rc['err']));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.257', 'msg'=>'Unable to get history list', 'err'=>$rc['err']));
     }
 
     if( !isset($rc['history']) ) {

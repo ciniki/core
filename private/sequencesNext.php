@@ -23,7 +23,7 @@ function ciniki_core_sequencesNext($ciniki, $business_id, $obj_name, $id_field, 
     list($pkg, $mod, $obj) = explode('.', $obj_name);
     $rc = ciniki_core_objectLoad($ciniki, $obj_name);
     if( $rc['stat'] != 'ok' ) { 
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'2532', 'msg'=>'Invalid object'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.141', 'msg'=>'Invalid object'));
     }
     $object = $rc['object'];
     $m = "$pkg.$mod";

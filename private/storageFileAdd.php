@@ -26,7 +26,7 @@ function ciniki_core_storageFileAdd(&$ciniki, $business_id, $obj_name, $args) {
         return $rc;
     }
     if( !isset($rc['business']) ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1911', 'msg'=>'Unable to get business details'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.170', 'msg'=>'Unable to get business details'));
     }
     $business_uuid = $rc['business']['uuid'];
 
@@ -50,11 +50,11 @@ function ciniki_core_storageFileAdd(&$ciniki, $business_id, $obj_name, $args) {
     $storage_filename = $storage_dirname . '/' . $uuid;
     if( !is_dir($storage_dirname) ) {
         if( !mkdir($storage_dirname, 0700, true) ) {
-            return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1912', 'msg'=>'Unable to add file'));
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.171', 'msg'=>'Unable to add file'));
         }
     }
     if( !rename($_FILES['uploadfile']['tmp_name'], $storage_filename) ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1913', 'msg'=>'Unable to add file'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.172', 'msg'=>'Unable to add file'));
     }
 
     return array('stat'=>'ok', 'uuid'=>$uuid);

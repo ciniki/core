@@ -44,7 +44,7 @@ function ciniki_core_objectCheckExists(&$ciniki, $business_id, $object, $object_
         return $rc;
     }
     if( !isset($rc['object']) ) {
-        return array('stat'=>'noexist', 'err'=>array('pkg'=>'ciniki', 'code'=>'1546', 'msg'=>'Object does not exist'));
+        return array('stat'=>'noexist', 'err'=>array('code'=>'ciniki.core.102', 'msg'=>'Object does not exist'));
     }
 
     return array('stat'=>'ok');

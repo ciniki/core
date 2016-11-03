@@ -68,7 +68,7 @@ function ciniki_core_syncQueueProcess(&$ciniki, $business_id) {
                     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLoad');
                     $rc = ciniki_core_syncObjectLoad($ciniki, $sync, $business_id, $queue_item['push'], array());
                     if( $rc['stat'] != 'ok' ) {
-                        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1220', 'msg'=>'Unable to load object ' . $queue_item['push'], 'err'=>$rc['err']));
+                        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.318', 'msg'=>'Unable to load object ' . $queue_item['push'], 'err'=>$rc['err']));
                     }
                     $o = $rc['object'];
                     

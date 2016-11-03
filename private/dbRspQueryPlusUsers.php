@@ -35,7 +35,7 @@ function ciniki_core_dbRspQueryPlusUsers(&$ciniki, $strsql, $module, $container_
     //
     $result = mysqli_query($dh, $strsql);
     if( $result == false ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'148', 'msg'=>'Database Error', 'pmsg'=>mysqli_error($dh)));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.77', 'msg'=>'Database Error', 'pmsg'=>mysqli_error($dh)));
     }
 
     //
@@ -75,10 +75,10 @@ function ciniki_core_dbRspQueryPlusUsers(&$ciniki, $strsql, $module, $container_
 //  ciniki_core_loadMethod($ciniki, 'ciniki', 'users', 'private', 'userDisplayNames');
 //  $rc = ciniki_users_userDisplayNames($ciniki, 'users', $users);
 //  if( $rc['stat'] != 'ok' ) {
-//      return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'150', 'msg'=>'Unable to link users', 'err'=>$rc['err']));
+//      return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.78', 'msg'=>'Unable to link users', 'err'=>$rc['err']));
 //  }
 //  if( !isset($rc['users']) ) {
-//      return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'151', 'msg'=>'Unable to link users', 'err'=>$rc['err']));
+//      return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.79', 'msg'=>'Unable to link users', 'err'=>$rc['err']));
 //  }
 //  $rsp['users'] = $rc['users'];
 //
@@ -101,7 +101,7 @@ function ciniki_core_dbRspQueryPlusUsers(&$ciniki, $strsql, $module, $container_
         . "WHERE id IN (" . ciniki_core_dbQuote($ciniki, implode(',', array_keys($users))) . ") ";
     $result = mysqli_query($dh, $strsql);
     if( $result == false ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'149', 'msg'=>'Database Error', 'pmsg'=>mysqli_error($dh)));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.80', 'msg'=>'Database Error', 'pmsg'=>mysqli_error($dh)));
     }
 
     //

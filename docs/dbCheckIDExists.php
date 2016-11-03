@@ -38,6 +38,6 @@ function ciniki_core_dbCheckIDExists($ciniki, $module, $table, $id_field, $busin
         return array('stat'=>'ok');
     }
 
-    return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'50', 'msg'=>'ID not found'));
+    return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.7', 'msg'=>'ID not found'));
 }
 ?>

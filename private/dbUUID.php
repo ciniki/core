@@ -27,14 +27,14 @@ function ciniki_core_dbUUID(&$ciniki, $module) {
     $result = mysqli_query($dh, "SELECT UUID() AS uuid");
     if( $result == false ) {
         error_log("SQLERR: " . mysqli_error($dh) . " -- '$strsql'");
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'139', 'msg'=>'Database Error', 'pmsg'=>mysqli_error($dh)));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.82', 'msg'=>'Database Error', 'pmsg'=>mysqli_error($dh)));
     }
 
     if( ($row = mysqli_fetch_row($result)) ) {
         $uuid = $row[0];
     } else {
         mysqli_free_result($result);
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'138', 'msg'=>'Database Error'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.83', 'msg'=>'Database Error'));
     }
 
     mysqli_free_result($result);

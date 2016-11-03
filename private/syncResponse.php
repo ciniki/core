@@ -10,14 +10,14 @@
 //
 function ciniki_core_syncResponse($ciniki, $hash) {
     if( !is_array($hash) ) {
-        $rsp_hash = array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'68', 'msg'=>'Internal configuration error'));
+        $rsp_hash = array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.327', 'msg'=>'Internal configuration error'));
     } else {
         $rsp_hash = $hash;
     }
 
     if( !isset($ciniki['sync']['remote_public_key']) 
         || $ciniki['sync']['remote_public_key'] == '' ) {
-        $rsp_hash = array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'71', 'msg'=>'Internal configuration error'));
+        $rsp_hash = array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.328', 'msg'=>'Internal configuration error'));
     }
 
     //
@@ -29,7 +29,7 @@ function ciniki_core_syncResponse($ciniki, $hash) {
     // Encrypt the response, using the remote public key
     //
     if( !openssl_seal($unencrypted_response, $encrypted_response, $keys, array($ciniki['sync']['remote_public_key'])) ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'550', 'msg'=>'Invalid request'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.329', 'msg'=>'Invalid request'));
     }
 
     header("Content-Type: text/plain; charset=utf-8");

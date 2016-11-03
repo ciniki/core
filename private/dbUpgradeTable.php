@@ -47,7 +47,7 @@ function ciniki_core_dbUpgradeTable(&$ciniki, $package, $module, $table, $old_ve
         $old_major = $matches[1];
         $old_minor = $matches[2];
     } else {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'191', 'msg'=>"Unrecognized old table version: $old_version"));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.85', 'msg'=>"Unrecognized old table version: $old_version"));
     }
 
     $new_major = '';
@@ -56,7 +56,7 @@ function ciniki_core_dbUpgradeTable(&$ciniki, $package, $module, $table, $old_ve
         $new_major = $matches[1];
         $new_minor = $matches[2];
     } else {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'192', 'msg'=>"Unrecognized new table version: $new_version"));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.86', 'msg'=>"Unrecognized new table version: $new_version"));
     }
 
     for($i=$old_major;$i<=$new_major;$i++) {

@@ -49,7 +49,7 @@ function ciniki_core_dbCopyModuleHistory(&$ciniki, $module, $history_table, $bus
         . "";
     $result = mysqli_query($dh, $strsql);
     if( $result == false ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'767', 'msg'=>'Database Error', 'pmsg'=>mysqli_error($dh)));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.35', 'msg'=>'Database Error', 'pmsg'=>mysqli_error($dh)));
     }
     
     return array('stat'=>'ok');

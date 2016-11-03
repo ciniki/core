@@ -25,7 +25,7 @@ function ciniki_core_sessionTokenStart(&$ciniki, $selector, $token) {
     //
     if( !isset($ciniki['request']['api_key']) || $ciniki['request']['api_key'] == '' ) {
         ciniki_users_logAuthFailure($ciniki, $selector, 3394);
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'3394', 'msg'=>'No api_key specified'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.162', 'msg'=>'No api_key specified'));
     }
 
     //
@@ -33,7 +33,7 @@ function ciniki_core_sessionTokenStart(&$ciniki, $selector, $token) {
     //
     if( $token == '' ) {
         ciniki_users_logAuthFailure($ciniki, $selector, 3395);
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'3395', 'msg'=>'Invalid token'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.163', 'msg'=>'Invalid token'));
     }
 
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQuote');
@@ -62,16 +62,16 @@ function ciniki_core_sessionTokenStart(&$ciniki, $selector, $token) {
     //
     if( $rc['num_rows'] != 1 ) {
         ciniki_users_logAuthFailure($ciniki, $selector, 3396);
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'3396', 'msg'=>'Invalid password'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.164', 'msg'=>'Invalid password'));
     }
 
     if( !isset($rc['user']) ) {
         ciniki_users_logAuthFailure($ciniki, $selector, 3397);
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'3397', 'msg'=>'Invalid password'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.165', 'msg'=>'Invalid password'));
     }
     if( $rc['user']['id'] <= 0 ) {
         ciniki_users_logAuthFailure($ciniki, $selector, 3398);
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'3398', 'msg'=>'Invalid password'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.166', 'msg'=>'Invalid password'));
     }
     $user = $rc['user'];
 
@@ -86,19 +86,19 @@ function ciniki_core_sessionTokenStart(&$ciniki, $selector, $token) {
     // Check if the account is locked
     if( $user['status'] == 10 ) {
         ciniki_users_logAuthFailure($ciniki, $selector, 3399);
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'3399', 'msg'=>'Account locked'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.167', 'msg'=>'Account locked'));
     }
     
     // Check if the account is deleted
     if( $user['status'] == 11 ) {
         ciniki_users_logAuthFailure($ciniki, $selector, 3400);
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'3400', 'msg'=>'Invalid password'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.168', 'msg'=>'Invalid password'));
     }
 
     // Check if the account is active
     if( $user['status'] < 1 || $user['status'] > 2 ) {
         ciniki_users_logAuthFailure($ciniki, $selector, 3401);
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'3401', 'msg'=>'Invalid password'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.169', 'msg'=>'Invalid password'));
     }
 
     unset($user['login_attempts']);

@@ -56,10 +56,10 @@ function ciniki_core_syncUpdateTableElementHistory(&$ciniki, &$sync, $business_i
     //                  ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncRequest');
     //                  $rc = ciniki_core_syncRequest($ciniki, $sync, array('method'=>'ciniki.businesses.user.get', 'uuid'=>$history['user']));
     //                  if( $rc['stat'] != 'ok' ) {
-    //                      return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'982', 'msg'=>'Unable to get remote user: ' . $history['user'], 'err'=>$rc['err']));
+    //                      return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.357', 'msg'=>'Unable to get remote user: ' . $history['user'], 'err'=>$rc['err']));
     //                  }
     //                  if( !isset($rc['user']) ) {
-    //                      return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'920', 'msg'=>'User not found on remote server'));
+    //                      return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.358', 'msg'=>'User not found on remote server'));
     //                  }
     //                  $user = $rc['user'];
 
@@ -69,7 +69,7 @@ function ciniki_core_syncUpdateTableElementHistory(&$ciniki, &$sync, $business_i
                         ciniki_core_loadMethod($ciniki, 'ciniki', 'users', 'sync', 'user_update');
                         $rc = ciniki_users_user_update($ciniki, $sync, $business_id, array('uuid'=>$history['user']));
                         if( $rc['stat'] != 'ok' ) {
-                            return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'921', 'msg'=>'Unable to add user', 'err'=>$rc['err']));;
+                            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.359', 'msg'=>'Unable to add user', 'err'=>$rc['err']));;
                         }
                         $user_id = $rc['id'];
                     } else {
@@ -114,7 +114,7 @@ function ciniki_core_syncUpdateTableElementHistory(&$ciniki, &$sync, $business_i
 //                          return $rc;
 //                      }
 //                      if( !isset($rc['table_id']) ) {
-//                          return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'280', 'msg'=>'Unable to find reference'));
+//                          return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.360', 'msg'=>'Unable to find reference'));
 //                      } else {
 //                          $history['new_value'] = $rc['table_id']['id'];
 //                      }
@@ -137,7 +137,7 @@ function ciniki_core_syncUpdateTableElementHistory(&$ciniki, &$sync, $business_i
                     . ")";
                 $rc = ciniki_core_dbInsert($ciniki, $strsql, $module);
                 if( $rc['stat'] != 'ok' && $rc['err']['code'] != '73' ) {
-                    return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'279', 'msg'=>'Unable to add history'));
+                    return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.361', 'msg'=>'Unable to add history'));
                 }
             } elseif( $user_id > 0 ) {
                 //
@@ -153,7 +153,7 @@ function ciniki_core_syncUpdateTableElementHistory(&$ciniki, &$sync, $business_i
                     . "";
                 $rc = ciniki_core_dbUpdate($ciniki, $strsql, $module);
                 if( $rc['stat'] != 'ok' && $rc['err']['code'] != '73' ) {
-                    return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1017', 'msg'=>'Unable to update history'));
+                    return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.362', 'msg'=>'Unable to update history'));
                 }
 //          } elseif( $local_history['table_key'] == '' && $table_key != '' ) {
 //              //
@@ -166,7 +166,7 @@ function ciniki_core_syncUpdateTableElementHistory(&$ciniki, &$sync, $business_i
 //                  . "";
 //              $rc = ciniki_core_dbUpdate($ciniki, $strsql, $module);
 //              if( $rc['stat'] != 'ok' && $rc['err']['code'] != '73' ) {
-//                  return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'934', 'msg'=>'Unable to update history'));
+//                  return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.363', 'msg'=>'Unable to update history'));
 //              }
             }
 

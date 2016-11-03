@@ -35,7 +35,7 @@ function ciniki_core_dbRspQueryPlusUserIDs(&$ciniki, $strsql, $module, $containe
     //
     $result = mysqli_query($dh, $strsql);
     if( $result == false ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'147', 'msg'=>'Database Error', 'pmsg'=>mysqli_error($dh)));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.76', 'msg'=>'Database Error', 'pmsg'=>mysqli_error($dh)));
     }
 
     //

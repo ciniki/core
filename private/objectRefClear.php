@@ -36,10 +36,10 @@ function ciniki_core_objectRefClear(&$ciniki, $business_id, $obj_name, $args, $o
     $m = "$pkg.$mod";
 
     if( !isset($args['object']) || $args['object'] == '' ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1356', 'msg'=>'No reference object specified'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.116', 'msg'=>'No reference object specified'));
     }
     if( !isset($args['object_id']) || $args['object_id'] == '' ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1351', 'msg'=>'No reference object id specified'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.117', 'msg'=>'No reference object id specified'));
     }
 
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashQuery');
@@ -60,7 +60,7 @@ function ciniki_core_objectRefClear(&$ciniki, $business_id, $obj_name, $args, $o
         return $rc;
     }
     if( !isset($rc['rows']) || count($rc['rows']) == 0 ) {
-        return array('stat'=>'noexist', 'err'=>array('pkg'=>'ciniki', 'code'=>'1347', 'msg'=>'Reference does not exist'));
+        return array('stat'=>'noexist', 'err'=>array('code'=>'ciniki.core.118', 'msg'=>'Reference does not exist'));
     }
     $refs = $rc['rows'];
 
@@ -71,7 +71,7 @@ function ciniki_core_objectRefClear(&$ciniki, $business_id, $obj_name, $args, $o
             . "";
         $rc = ciniki_core_dbDelete($ciniki, $strsql, $m);
         if( $rc['stat'] != 'ok' ) {
-            return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1346', 'msg'=>'Unable to remove object reference', 'err'=>$rc['err'])); 
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.119', 'msg'=>'Unable to remove object reference', 'err'=>$rc['err'])); 
         }
         ciniki_core_dbAddModuleHistory($ciniki, $m, $o['history_table'], 
             $business_id, 3, $o['table'], $ref['id'], '*', '');

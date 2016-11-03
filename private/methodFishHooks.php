@@ -24,7 +24,7 @@ function ciniki_core_methodFishHooks(&$ciniki, $business_id, $obj, $args) {
     // Check to make sure the business modules were setup in the checkModuleAccess function
     //
     if( !isset($ciniki['business']['modules']) ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1537', 'msg'=>'Internal Error', 'pmsg'=>'Missing the modules definition in settings'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.96', 'msg'=>'Internal Error', 'pmsg'=>'Missing the modules definition in settings'));
     }
 
     //
@@ -43,14 +43,14 @@ function ciniki_core_methodFishHooks(&$ciniki, $business_id, $obj, $args) {
         }   
         $rc = ciniki_core_loadMethod($ciniki, $pkg, $mod, $c_mod, $c_obj);
         if( $rc['stat'] != 'noexist' && $rc['stat'] != 'ok' ) {
-            return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1539', 'msg'=>'Internal error', 'pmsg'=>'Unable to load fish hook'));
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.97', 'msg'=>'Internal error', 'pmsg'=>'Unable to load fish hook'));
         }
         if( $rc['stat'] == 'noexist' ) {
             continue;
         }
         $fn = $rc['function_call'];
         if( !is_callable($fn) ) {
-            return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1538', 'msg'=>'Internal Error', 'pmsg'=>'Unable to call fish hook, function does not exist'));;
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.98', 'msg'=>'Internal Error', 'pmsg'=>'Unable to call fish hook, function does not exist'));;
         }
         $rc = $fn($ciniki, $args['business_id'], $args);
         if( $rc['stat'] != 'ok' ) {

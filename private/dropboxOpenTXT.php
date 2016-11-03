@@ -28,7 +28,7 @@ function ciniki_core_dropboxOpenTXT($ciniki, $business_id, $client, $path) {
         //
         $file_contents = curl_exec($ch);
         if( $file_contents === false ) {
-            return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'2292', 'msg'=>'Unable to get file', 'pmsg'=>curl_error($ch)));
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.89', 'msg'=>'Unable to get file', 'pmsg'=>curl_error($ch)));
         }
     }
     curl_close($ch);

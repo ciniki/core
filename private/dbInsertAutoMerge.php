@@ -51,6 +51,6 @@ function ciniki_core_dbInsertAutoMerge(&$ciniki, $fields, $record, $prefix, $mid
         return $new_db_record;
     //}
 
-    return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'84', 'msg'=>'Internal error', 'pmsg'=>'Unable to build SQL insert string'));
+    return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.67', 'msg'=>'Internal error', 'pmsg'=>'Unable to build SQL insert string'));
 }
 ?>

@@ -25,12 +25,12 @@ function ciniki_core_syncModuleObjects(&$ciniki, $business_id, $module, $type) {
 
     require_once($method_filename);
     if( !is_callable($method_function) ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'253', 'msg'=>'Unable to sync module: ' . $module));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.222', 'msg'=>'Unable to sync module: ' . $module));
     }
 
     $rc = $method_function($ciniki, $sync, $business_id, array('type'=>$type));
     if( $rc['stat'] != 'ok' ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'981', 'msg'=>'Unable to sync module: ' . $module, 'err'=>$rc['err']));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.223', 'msg'=>'Unable to sync module: ' . $module, 'err'=>$rc['err']));
     }
     if( !isset($rc['objects']) ) {
         //

@@ -28,14 +28,14 @@ function ciniki_core_syncBusinessInfo($ciniki, $business_id) {
     // Check to make sure a business is specified
     //
     if( $business_id < 1 ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'557', 'msg'=>'No business specified'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.180', 'msg'=>'No business specified'));
     }
 
     //
     // Grab the _versions.ini info
     //
     if( !file_exists($ciniki['config']['ciniki.core']['root_dir'] . "/_versions.ini") ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'290', 'msg'=>'Unable to get module version information'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.181', 'msg'=>'Unable to get module version information'));
     }
     $modules_ini = parse_ini_file($ciniki['config']['ciniki.core']['root_dir'] . "/_versions.ini", true);
 
@@ -51,11 +51,11 @@ function ciniki_core_syncBusinessInfo($ciniki, $business_id) {
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashIDQuery');
     $rc = ciniki_core_dbHashIDQuery($ciniki, $strsql, 'ciniki.core', 'tables', 'Name');
     if( $rc['stat'] != 'ok' ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'404', 'msg'=>'Unable to get table versions', 'err'=>$rc['err']));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.182', 'msg'=>'Unable to get table versions', 'err'=>$rc['err']));
     }
 
     if( !isset($rc['tables']) ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'295', 'msg'=>'Unable to get table versions'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.183', 'msg'=>'Unable to get table versions'));
     }
     $db_tables = $rc['tables']; 
 
@@ -74,10 +74,10 @@ function ciniki_core_syncBusinessInfo($ciniki, $business_id) {
             'fields'=>array('package', 'name', 'last_change')),
         ));
     if( $rc['stat'] != 'ok' ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'574', 'msg'=>'Unable to get active modules', 'err'=>$rc['err']));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.184', 'msg'=>'Unable to get active modules', 'err'=>$rc['err']));
     }
     if( !isset($rc['modules']) ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'569', 'msg'=>'Unable to get active modules'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.185', 'msg'=>'Unable to get active modules'));
     }
     $modules = $rc['modules'];
 

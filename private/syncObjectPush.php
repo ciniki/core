@@ -30,10 +30,10 @@ function ciniki_core_syncObjectPush(&$ciniki, &$sync, $business_id, $o, $args) {
         ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectGet');
         $rc = ciniki_core_syncObjectGet($ciniki, $sync, $business_id, $o, $args);
         if( $rc['stat'] != 'ok' ) {
-            return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1166', 'msg'=>'Unable to get ' . $o['name']));
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.284', 'msg'=>'Unable to get ' . $o['name']));
         }
         if( !isset($rc['object']) ) {
-            return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1167', 'msg'=>$o['name'] . ' not found on remote server'));
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.285', 'msg'=>$o['name'] . ' not found on remote server'));
         }
         $object = $rc['object'];
 
@@ -43,7 +43,7 @@ function ciniki_core_syncObjectPush(&$ciniki, &$sync, $business_id, $o, $args) {
         ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncRequest');
         $rc = ciniki_core_syncRequest($ciniki, $sync, array('method'=>$o['pmod'] . '.' . $o['oname'] . '.update', 'object'=>$object));
         if( $rc['stat'] != 'ok' ) {
-            return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1175', 'msg'=>'Unable to sync ' . $o['name']));
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.286', 'msg'=>'Unable to sync ' . $o['name']));
         }
 
         return array('stat'=>'ok');
@@ -75,7 +75,7 @@ function ciniki_core_syncObjectPush(&$ciniki, &$sync, $business_id, $o, $args) {
                     . "LIMIT 1 ";
                 $rc = ciniki_core_dbHashQuery($ciniki, $strsql, $o['pmod'], 'history');
                 if( $rc['stat'] != 'ok' ) {
-                    return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1171', 'msg'=>'Unable to sync ' . $o['name'], 'err'=>$rc['err']));
+                    return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.287', 'msg'=>'Unable to sync ' . $o['name'], 'err'=>$rc['err']));
                 }
                 if( isset($rc['history']) ) {
                     $history = $rc['history'];
@@ -95,11 +95,11 @@ function ciniki_core_syncObjectPush(&$ciniki, &$sync, $business_id, $o, $args) {
         ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncRequest');
         $rc = ciniki_core_syncRequest($ciniki, $sync, array('method'=>$o['pmod'] . '.' . $o['oname'] . '.delete', 'uuid'=>$args['delete_uuid'], 'history'=>$history));
         if( $rc['stat'] != 'ok' ) {
-            return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1174', 'msg'=>'Unable to sync ' . $o['name']));
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.288', 'msg'=>'Unable to sync ' . $o['name']));
         }
         return array('stat'=>'ok');
     }
 
-    return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1173', 'msg'=>'Missing ID argument'));
+    return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.289', 'msg'=>'Missing ID argument'));
 }
 ?>

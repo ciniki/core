@@ -14,16 +14,16 @@ function ciniki_core_paypalPost($ciniki, $method, $args) {
     // Make sure paypal variables have been set in config
     //
     if( !isset($ciniki['config']['core']['paypal.url']) || $ciniki['config']['core']['paypal.url'] == '' ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'684', 'msg'=>'Paypal not configured'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.131', 'msg'=>'Paypal not configured'));
     }
     if( !isset($ciniki['config']['core']['paypal.username']) || $ciniki['config']['core']['paypal.username'] == '' ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'685', 'msg'=>'Paypal not configured'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.132', 'msg'=>'Paypal not configured'));
     }
     if( !isset($ciniki['config']['core']['paypal.password']) || $ciniki['config']['core']['paypal.password'] == '' ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'686', 'msg'=>'Paypal not configured'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.133', 'msg'=>'Paypal not configured'));
     }
     if( !isset($ciniki['config']['core']['paypal.signature']) || $ciniki['config']['core']['paypal.signature'] == '' ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'687', 'msg'=>'Paypal not configured'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.134', 'msg'=>'Paypal not configured'));
     }
 
     $reqargs = 'METHOD=' . urldecode($method) . '&version=' . urlencode('89.0') 
@@ -50,7 +50,7 @@ function ciniki_core_paypalPost($ciniki, $method, $args) {
 
     if( !$httpResponse) {
         error_log("PAYPAL-POST: $method failed: " . curl_error($ch) . '(' . curl_errno($ch) . ')');
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'688', 'msg'=>'Paypal error, please contact support.'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.135', 'msg'=>'Paypal error, please contact support.'));
     }
     error_log("PAYPAL-RSP: $httpResponse");
 
@@ -67,5 +67,5 @@ function ciniki_core_paypalPost($ciniki, $method, $args) {
         return array('stat'=>'ok', 'response'=>$rc);
     } 
 
-    return array('stat'=>'fail', 'response'=>$rc, 'err'=>array('pkg'=>'ciniki', 'code'=>'689', 'msg'=>'Paypal error, please contact support.'));
+    return array('stat'=>'fail', 'response'=>$rc, 'err'=>array('code'=>'ciniki.core.136', 'msg'=>'Paypal error, please contact support.'));
 }

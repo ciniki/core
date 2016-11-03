@@ -30,12 +30,12 @@ function ciniki_core_backupBusiness(&$ciniki, $business) {
         . $business['uuid'][0] . '/' . $business['uuid'] . '/data';
     if( !file_exists($business['backup_dir']) ) {
         if( mkdir($business['backup_dir'], 0755, true) === false ) {
-            return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1727', 'msg'=>'Unable to create backup directory'));
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.9', 'msg'=>'Unable to create backup directory'));
         }
     }
     if( !file_exists($zip_backup_dir) ) {
         if( mkdir($zip_backup_dir, 0755, true) === false ) {
-            return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1843', 'msg'=>'Unable to create backup directory'));
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.10', 'msg'=>'Unable to create backup directory'));
         }
     }
     
@@ -143,7 +143,7 @@ function ciniki_core_backupBusiness(&$ciniki, $business) {
     if( isset($final_backup_dir) ) {
         if( !file_exists($final_backup_dir) ) {
             if( mkdir($final_backup_dir, 0755, true) === false ) {
-                return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'2833', 'msg'=>'Unable to create backup directory: ' . $final_backup_dir));
+                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.11', 'msg'=>'Unable to create backup directory: ' . $final_backup_dir));
             }
         }
         copy("$zip_backup_dir/backup-$date.zip", "$final_backup_dir/backup-$date.zip");

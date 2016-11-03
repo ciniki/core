@@ -57,7 +57,7 @@ function ciniki_core_parseArgs(&$ciniki, $business_id, $raw_args, $arg_info) {
             // Check for a blank argument, and if it's allowed
             //
             if( $raw_args[$arg] == '' && isset($options['blank']) && $options['blank'] != 'yes' ) {
-                return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'239', 'msg'=>"$msg", 'pmsg'=>"Argument: $arg missing"));
+                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.122', 'msg'=>"$msg", 'pmsg'=>"Argument: $arg missing"));
             }
 
             if( isset($options['type']) && $options['type'] == 'idlist' ) {
@@ -96,7 +96,7 @@ function ciniki_core_parseArgs(&$ciniki, $business_id, $raw_args, $arg_info) {
                 } else {
                     $ts = strtotime($raw_args[$arg]);
                     if( $ts === FALSE ) { // Removed check for < 1 as negative timestamps work || $ts < 1 ) {
-                        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'234', 'msg'=>"$invalid_msg", 'pmsg'=>"Argument: $arg invalid date format $ts"));
+                        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.123', 'msg'=>"$invalid_msg", 'pmsg'=>"Argument: $arg invalid date format $ts"));
                         
                     } else {
                         $args[$arg] = strftime("%Y-%m-%d", $ts);
@@ -108,7 +108,7 @@ function ciniki_core_parseArgs(&$ciniki, $business_id, $raw_args, $arg_info) {
                 } else {
                     $ts = strtotime($raw_args[$arg]);
                     if( $ts === FALSE || $ts < 1 ) {    
-                        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'120', 'msg'=>"$invalid_msg", 'pmsg'=>"Argument: $arg invalid date format"));
+                        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.124', 'msg'=>"$invalid_msg", 'pmsg'=>"Argument: $arg invalid date format"));
                         
                     } else {
                         $args[$arg] = strftime("%H:%M:%S", $ts);
@@ -121,7 +121,7 @@ function ciniki_core_parseArgs(&$ciniki, $business_id, $raw_args, $arg_info) {
                 } else {
                     $ts = strtotime($raw_args[$arg]);
                     if( $ts === FALSE ) {
-                        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'235', 'msg'=>"$invalid_msg", 'pmsg'=>"Argument: $arg invalid datetime format"));
+                        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.125', 'msg'=>"$invalid_msg", 'pmsg'=>"Argument: $arg invalid datetime format"));
                     } else {
                         $args[$arg] = strftime("%Y-%m-%d %H:%M", $ts);
                     }
@@ -139,7 +139,7 @@ function ciniki_core_parseArgs(&$ciniki, $business_id, $raw_args, $arg_info) {
                 } else {
                     $ts = strtotime($raw_args[$arg]);
                     if( $ts === FALSE || $ts < 1 ) {
-                        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'331', 'msg'=>"$invalid_msg", 'pmsg'=>"Argument: $arg invalid datetime format"));
+                        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.126', 'msg'=>"$invalid_msg", 'pmsg'=>"Argument: $arg invalid datetime format"));
                     } else {
                         $date = new DateTime("@".$ts, new DateTimeZone($intl_timezone));
                         $args[$arg] = $date->format('Y-m-d H:i:s');
@@ -157,7 +157,7 @@ function ciniki_core_parseArgs(&$ciniki, $business_id, $raw_args, $arg_info) {
                     }
                     $amt = numfmt_parse_currency($intl_currency_fmt, $args[$arg], $intl_currency);
                     if( $amt === FALSE ) {
-                        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1425', 'msg'=>"$invalid_msg", 'pmsg'=>"Argument: $arg invalid currency format"));
+                        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.127', 'msg'=>"$invalid_msg", 'pmsg'=>"Argument: $arg invalid currency format"));
                     }
                     $args[$arg] = $amt;
                 }
@@ -183,7 +183,7 @@ function ciniki_core_parseArgs(&$ciniki, $business_id, $raw_args, $arg_info) {
 
             // Check if there is a list of valid options to accept
             if( isset($options['validlist']) && !in_array($args[$arg], $options['validlist']) ) {
-                return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'225', 'msg'=>"$invalid_msg", 'pmsg'=>"Argument: $arg not an acceptable input"));
+                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.128', 'msg'=>"$invalid_msg", 'pmsg'=>"Argument: $arg not an acceptable input"));
             }
         } 
         
@@ -195,7 +195,7 @@ function ciniki_core_parseArgs(&$ciniki, $business_id, $raw_args, $arg_info) {
             // Return an error if this argument is required
             //
             if( $options['required'] == 'yes' ) {
-                return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'226', 'msg'=>"$msg", 'pmsg'=>"Argument: $arg missing."));
+                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.129', 'msg'=>"$msg", 'pmsg'=>"Argument: $arg missing."));
             } 
         
             //

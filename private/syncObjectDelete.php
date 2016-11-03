@@ -23,7 +23,7 @@ function ciniki_core_syncObjectDelete(&$ciniki, &$sync, $business_id, $o, $args)
     //
     if( !isset($args['uuid']) || $args['uuid'] == '' 
         || !isset($args['history']) || $args['history'] == '' ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1086', 'msg'=>'No ' . $o['name'] . ' specified'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.224', 'msg'=>'No ' . $o['name'] . ' specified'));
     }
     $uuid = $args['uuid'];
     $remote_history = $args['history'];
@@ -37,7 +37,7 @@ function ciniki_core_syncObjectDelete(&$ciniki, &$sync, $business_id, $o, $args)
         ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectGet');
         $rc = ciniki_core_syncObjectGet($ciniki, $sync, $business_id, $o, array('uuid'=>$args['uuid'], 'translate'=>'no'));
         if( $rc['stat'] != 'ok' && $rc['stat'] != 'noexist' ) {
-            return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1087', 'msg'=>'Unable to get ' . $o['name'], 'err'=>$rc['err']));
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.225', 'msg'=>'Unable to get ' . $o['name'], 'err'=>$rc['err']));
         }
         if( !isset($rc['object']) ) {
             //
@@ -79,7 +79,7 @@ function ciniki_core_syncObjectDelete(&$ciniki, &$sync, $business_id, $o, $args)
         . "";
     $rc = ciniki_core_dbDelete($ciniki, $strsql, $o['pmod']);
     if( $rc['stat'] != 'ok' ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1088', 'msg'=>'Unable to delete the local ' . $o['name'], 'err'=>$rc['err']));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.226', 'msg'=>'Unable to delete the local ' . $o['name'], 'err'=>$rc['err']));
     }
     if( $rc['num_affected_rows'] > 0 ) {
         $db_updated = 1;
@@ -97,7 +97,7 @@ function ciniki_core_syncObjectDelete(&$ciniki, &$sync, $business_id, $o, $args)
     }
     if( $rc['stat'] != 'ok' ) {
         ciniki_core_dbTransactionRollback($ciniki, $o['pmod']);
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1159', 'msg'=>'Unable to update ' . $o['name'] . ' history', 'err'=>$rc['err']));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.227', 'msg'=>'Unable to update ' . $o['name'] . ' history', 'err'=>$rc['err']));
     }
 
     //
@@ -113,7 +113,7 @@ function ciniki_core_syncObjectDelete(&$ciniki, &$sync, $business_id, $o, $args)
             . "";
         $rc = ciniki_core_dbDelete($ciniki, $strsql, $o['pmod']);
         if( $rc['stat'] != 'ok' ) {
-            return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1089', 'msg'=>'Unable to delete ' . $o['name'] . ' details', 'err'=>$rc['err']));
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.228', 'msg'=>'Unable to delete ' . $o['name'] . ' details', 'err'=>$rc['err']));
         }
     }
 

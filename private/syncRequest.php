@@ -24,11 +24,11 @@ function ciniki_core_syncRequest(&$ciniki, &$sync, $request) {
     curl_setopt($ch, CURLOPT_URL, $request_url);
 
     if( !is_array($request) ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'549', 'msg'=>'Invalid request'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.319', 'msg'=>'Invalid request'));
     }
 
     if( !isset($request['method']) || $request['method'] == '' ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'541', 'msg'=>'Invalid request'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.320', 'msg'=>'Invalid request'));
     }
 
     // $request['ts'] = gmmktime();
@@ -45,7 +45,7 @@ function ciniki_core_syncRequest(&$ciniki, &$sync, $request) {
     //
 //  if( !openssl_public_encrypt($post_content, $encrypted_content, $sync['remote_public_key']) ) {
     if( !openssl_seal($post_content, $encrypted_content, $keys, array($sync['remote_public_key'])) ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'542', 'msg'=>'Invalid request'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.321', 'msg'=>'Invalid request'));
     }
 
     curl_setopt($ch, CURLOPT_POST, false);
@@ -60,7 +60,7 @@ function ciniki_core_syncRequest(&$ciniki, &$sync, $request) {
             $rsp = curl_exec($ch);
         }
         if( $rsp === false ) {
-            return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'543', 'msg'=>'Unable to connect to remote system (' . curl_errno($ch) . ':' . curl_error($ch) . ')'));
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.322', 'msg'=>'Unable to connect to remote system (' . curl_errno($ch) . ':' . curl_error($ch) . ')'));
         }
     }
     curl_close($ch);
@@ -72,16 +72,16 @@ function ciniki_core_syncRequest(&$ciniki, &$sync, $request) {
             if( $rc['stat'] == 'ok' ) {
                 return $rc;
             }
-            return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'573', 'msg'=>'Error response', 'err'=>$rc['err']));
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.323', 'msg'=>'Error response', 'err'=>$rc['err']));
         }
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'902', 'msg'=>'Invalid response'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.324', 'msg'=>'Invalid response'));
     }
 
     //
     // Decrypt the response
     //
     if( !openssl_open(base64_decode($arsp[1]), $decrypted_content, base64_decode($arsp[0]), $sync['local_private_key']) ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'544', 'msg'=>'Invalid response', 'pmsg'=>$rsp));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.325', 'msg'=>'Invalid response', 'pmsg'=>$rsp));
     }
 
     $rc = unserialize($decrypted_content);
@@ -89,6 +89,6 @@ function ciniki_core_syncRequest(&$ciniki, &$sync, $request) {
         return $rc;
     }
 
-    return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'545', 'msg'=>'Unable to understand the response'));
+    return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.326', 'msg'=>'Unable to understand the response'));
 }
 ?>

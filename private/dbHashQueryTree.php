@@ -42,7 +42,7 @@ function ciniki_core_dbHashQueryTree(&$ciniki, $strsql, $module, $tree) {
     $result = mysqli_query($dh, $strsql);
     if( $result == false ) {
         error_log("SQLERR: " . mysqli_error($dh) . " -- '$strsql'");
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'184', 'msg'=>'Database Error', 'pmsg'=>mysqli_error($dh)));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.63', 'msg'=>'Database Error', 'pmsg'=>mysqli_error($dh)));
     }
 
     //

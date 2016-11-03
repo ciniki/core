@@ -21,7 +21,7 @@ function ciniki_core_syncInit($ciniki_root) {
     //
     require_once($ciniki_root . '/ciniki-mods/core/private/loadCinikiConfig.php');
     if( ciniki_core_loadCinikiConfig($ciniki, $ciniki_root) == false ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'40', 'msg'=>'Internal configuration error'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.208', 'msg'=>'Internal configuration error'));
     }
 
     //
@@ -37,7 +37,7 @@ function ciniki_core_syncInit($ciniki_root) {
     // The synctype (type), business UUID (uuid) must be specifed in the URL
     //
     if( !isset($_GET) || !is_array($_GET)  ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'47', 'msg'=>'Internal configuration error'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.209', 'msg'=>'Internal configuration error'));
     }
 
     //
@@ -48,7 +48,7 @@ function ciniki_core_syncInit($ciniki_root) {
     if( !isset($_GET['type']) || $_GET['type'] != 'business' 
         || !isset($_GET['uuid']) || $_GET['uuid'] == '' 
         || !isset($_GET['from']) || $_GET['from'] == '' ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'48', 'msg'=>'Internal configuration error'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.210', 'msg'=>'Internal configuration error'));
     }
     $ciniki['sync'] = array('type'=>$_GET['type'], 'local_uuid'=>$_GET['uuid'], 'remote_uuid'=>$_GET['from']);
 
@@ -75,10 +75,10 @@ function ciniki_core_syncInit($ciniki_root) {
         return $rc;
     }
     if( !isset($rc['sync']) ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'51', 'msg'=>'Internal configuration error'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.211', 'msg'=>'Internal configuration error'));
     }
     if( $rc['sync']['status'] != '10' ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'903', 'msg'=>'Suspended sync'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.212', 'msg'=>'Suspended sync'));
     }
 
     $local_private_key = $rc['sync']['local_private_key'];
@@ -113,16 +113,16 @@ function ciniki_core_syncInit($ciniki_root) {
 //      if( !openssl_private_decrypt($encrypted_content, $decrypted_content, $local_private_key) ) {
         $arsp = preg_split('/:::/', $encrypted_content);
         if( count($arsp) != 2 || !isset($arsp[1]) ) {
-            return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'72', 'msg'=>'Invalid request'));
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.213', 'msg'=>'Invalid request'));
         }
         if( !openssl_open(base64_decode($arsp[1]), $decrypted_content, base64_decode($arsp[0]), $local_private_key) ) {
-            return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'52', 'msg'=>'Internal configuration error'));
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.214', 'msg'=>'Internal configuration error'));
         }
         
         // unserialize
         $request = unserialize($decrypted_content);
         if( !is_array($request) ) {
-            return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'53', 'msg'=>'Internal configuration error'));
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.215', 'msg'=>'Internal configuration error'));
         }
         $ciniki['request'] = $request;
 
@@ -135,15 +135,15 @@ function ciniki_core_syncInit($ciniki_root) {
         if( !isset($ciniki['request']['ts']) 
             || $ciniki['request']['ts'] <= 0 
             || abs(time() - $ciniki['request']['ts']) > 60 ) {
-            return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'54', 'msg'=>'System Clocks out of sync'));
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.216', 'msg'=>'System Clocks out of sync'));
         }
         if( !isset($ciniki['request']['method']) 
             || $ciniki['request']['method'] == ''
             ) {
-            return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'55', 'msg'=>'No action specified'));
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.217', 'msg'=>'No action specified'));
         }
     } else {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'49', 'msg'=>'Invalid request'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.218', 'msg'=>'Invalid request'));
     }
 
     return array('stat'=>'ok', 'ciniki'=>$ciniki);

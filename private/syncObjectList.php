@@ -23,11 +23,11 @@ function ciniki_core_syncObjectList($ciniki, &$sync, $business_id, $o, $args) {
     //
     if( !isset($args['type']) ||
         ($args['type'] != 'partial' && $args['type'] != 'full' && $args['type'] != 'incremental') ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'269', 'msg'=>'No type specified'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.267', 'msg'=>'No type specified'));
     }
     if( $args['type'] == 'incremental' 
         && (!isset($args['since_uts']) || $args['since_uts'] == '') ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'270', 'msg'=>'No timestamp specified'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.268', 'msg'=>'No timestamp specified'));
     }
 
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQuote');
@@ -51,7 +51,7 @@ function ciniki_core_syncObjectList($ciniki, &$sync, $business_id, $o, $args) {
         . "";
     $rc = ciniki_core_dbHashIDQuery($ciniki, $strsql, $o['pmod'], 'objects', $table_key);
     if( $rc['stat'] != 'ok' ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'271', 'msg'=>'Unable to get list', 'err'=>$rc['err']));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.269', 'msg'=>'Unable to get list', 'err'=>$rc['err']));
     }
 
     if( !isset($rc['objects']) ) {
@@ -100,7 +100,7 @@ function ciniki_core_syncObjectList($ciniki, &$sync, $business_id, $o, $args) {
         . "";
     $rc = ciniki_core_dbHashQuery($ciniki, $strsql, $o['pmod'], 'history');
     if( $rc['stat'] != 'ok' ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'907', 'msg'=>'Unable to find deleted ' . $o['name']));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.270', 'msg'=>'Unable to find deleted ' . $o['name']));
     }
     $prev_key = 0;
     foreach($rc['rows'] as $rid => $row) {

@@ -67,7 +67,7 @@ function ciniki_core_errorLogGet($ciniki) {
         return $rc;
     }
     if( !isset($rc['error']) ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'948', 'msg'=>'Unable to find error log'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.387', 'msg'=>'Unable to find error log'));
     }
 
     $rc['error']['request_array'] = unserialize($rc['error']['request_array']);

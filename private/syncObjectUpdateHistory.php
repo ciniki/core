@@ -28,7 +28,7 @@ function ciniki_core_syncObjectUpdateHistory(&$ciniki, &$sync, $business_id, $o,
         //
         if( !is_array($history) || !isset($history['user']) ) {
             ciniki_core_syncLog($ciniki, 0, 'Bad history (' . serialize($remote_history) . ')', null);
-            return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'164', 'msg'=>'Invalid history information'));
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.305', 'msg'=>'Invalid history information'));
         }
 
         if( !isset($local_history[$uuid]) 
@@ -65,7 +65,7 @@ function ciniki_core_syncObjectUpdateHistory(&$ciniki, &$sync, $business_id, $o,
                         ciniki_core_loadMethod($ciniki, 'ciniki', 'users', 'sync', 'user_update');
                         $rc = ciniki_users_user_update($ciniki, $sync, $business_id, array('uuid'=>$history['user']));
                         if( $rc['stat'] != 'ok' ) {
-                            return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1168', 'msg'=>'Unable to add user', 'err'=>$rc['err']));
+                            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.306', 'msg'=>'Unable to add user', 'err'=>$rc['err']));
                         }
                         $user_id = $rc['id'];
                     } else {
@@ -92,17 +92,17 @@ function ciniki_core_syncObjectUpdateHistory(&$ciniki, &$sync, $business_id, $o,
                         . "";
                     $rc = ciniki_core_dbHashQuery($ciniki, $strsql, $o['pmod'], 'object');
                     if( $rc['stat'] != 'ok' ) {
-                        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1140', 'msg'=>'Unable to find object ' . $o['pmod'] . '(' . $table_key . ')', 'err'=>$rc['err']));
+                        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.307', 'msg'=>'Unable to find object ' . $o['pmod'] . '(' . $table_key . ')', 'err'=>$rc['err']));
                     }
                     if( !isset($rc['object']) ) {
-                        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1139', 'msg'=>'Unable to find object ' . $o['pmod'] . '(' . $table_key . ')'));
+                        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.308', 'msg'=>'Unable to find object ' . $o['pmod'] . '(' . $table_key . ')'));
                     }
                     $ref = $rc['object'][$oref_field_name];
                     
                     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLoad');
                     $rc = ciniki_core_syncObjectLoad($ciniki, $sync, $business_id, $ref, array());
                     if( $rc['stat'] != 'ok' ) {
-                        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1138', 'msg'=>'Unable to load object ' . $ref, 'err'=>$rc['err']));
+                        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.309', 'msg'=>'Unable to load object ' . $ref, 'err'=>$rc['err']));
                     }
                     $ref_o = $rc['object'];
 
@@ -129,7 +129,7 @@ function ciniki_core_syncObjectUpdateHistory(&$ciniki, &$sync, $business_id, $o,
                     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLoad');
                     $rc = ciniki_core_syncObjectLoad($ciniki, $sync, $business_id, $ref, array());
                     if( $rc['stat'] != 'ok' ) {
-                        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1158', 'msg'=>'Unable to load object ' . $ref, 'err'=>$rc['err']));
+                        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.310', 'msg'=>'Unable to load object ' . $ref, 'err'=>$rc['err']));
                     }
                     $ref_o = $rc['object'];
 
@@ -160,7 +160,7 @@ function ciniki_core_syncObjectUpdateHistory(&$ciniki, &$sync, $business_id, $o,
                     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLoad');
                     $rc = ciniki_core_syncObjectLoad($ciniki, $sync, $business_id, $ref, array());
                     if( $rc['stat'] != 'ok' ) {
-                        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1169', 'msg'=>'Unable to load object ' . $ref, 'err'=>$rc['err']));
+                        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.311', 'msg'=>'Unable to load object ' . $ref, 'err'=>$rc['err']));
                     }
                     $ref_o = $rc['object'];
 
@@ -195,7 +195,7 @@ function ciniki_core_syncObjectUpdateHistory(&$ciniki, &$sync, $business_id, $o,
                     . ")";
                 $rc = ciniki_core_dbInsert($ciniki, $strsql, $o['pmod']);
                 if( $rc['stat'] != 'ok' && $rc['err']['code'] != '73' ) {
-                    return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1172', 'msg'=>'Unable to add history'));
+                    return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.312', 'msg'=>'Unable to add history'));
                 }
             } elseif( $user_id > 0 ) {
                 //
@@ -211,7 +211,7 @@ function ciniki_core_syncObjectUpdateHistory(&$ciniki, &$sync, $business_id, $o,
                     . "";
                 $rc = ciniki_core_dbUpdate($ciniki, $strsql, $o['pmod']);
                 if( $rc['stat'] != 'ok' && $rc['err']['code'] != '73' ) {
-                    return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1170', 'msg'=>'Unable to update history'));
+                    return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.313', 'msg'=>'Unable to update history'));
                 }
             }
 

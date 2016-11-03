@@ -12,10 +12,10 @@ function ciniki_core_syncUpdateModuleHistory(&$ciniki, &$sync, $business_id, $ar
     //
     if( (!isset($args['uuid']) || $args['uuid'] == '' ) ) {
 //      && (!isset($args['history']) || $args['history'] == '') ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'993', 'msg'=>'No uuid specified'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.351', 'msg'=>'No uuid specified'));
     }
     if( !isset($args['module']) || $args['module'] == '' ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1016', 'msg'=>'No module specified'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.352', 'msg'=>'No module specified'));
     }
     $a = preg_split('/\./', $args['module']);
     $pkg = $a[0];
@@ -29,10 +29,10 @@ function ciniki_core_syncUpdateModuleHistory(&$ciniki, &$sync, $business_id, $ar
         ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncRequest');
         $rc = ciniki_core_syncRequest($ciniki, $sync, array('method'=>$pkg . '.' . $mod . ".history.get", 'uuid'=>$args['uuid']));
         if( $rc['stat'] != 'ok' ) {
-            return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'987', 'msg'=>"Unable to get the remote history for " . $args['module'], 'err'=>$rc['err']));
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.353', 'msg'=>"Unable to get the remote history for " . $args['module'], 'err'=>$rc['err']));
         }
         if( !isset($rc['history']) ) {
-            return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'992', 'msg'=>$args['module'] . " history not found on remote server"));
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.354', 'msg'=>$args['module'] . " history not found on remote server"));
         }
         $remote_history = $rc['history'];
     } else {
@@ -46,7 +46,7 @@ function ciniki_core_syncUpdateModuleHistory(&$ciniki, &$sync, $business_id, $ar
     $get = $pkg . '_' . $mod . '_history_get';
     $rc = ciniki_customers_history_get($ciniki, $sync, $business_id, array('uuid'=>$remote_history['uuid']));
     if( $rc['stat'] != 'ok' && $rc['err']['code'] != 180 ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'990', 'msg'=>'Unable to get history', 'err'=>$rc['err']));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.355', 'msg'=>'Unable to get history', 'err'=>$rc['err']));
     }
     if( !isset($rc['history'])
         || ($rc['history']['user'] == '' && $remote_history['user'] != '') 
@@ -99,7 +99,7 @@ function ciniki_core_syncUpdateModuleHistory(&$ciniki, &$sync, $business_id, $ar
                 array($remote_history['uuid']=>$remote_history), array(), $args['new_value_maps']);
         }
         if( $rc['stat'] != 'ok' ) {
-            return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'991', 'msg'=>'Unable to update customer history', 'err'=>$rc['err']));
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.356', 'msg'=>'Unable to update customer history', 'err'=>$rc['err']));
         }
     }
     return array('stat'=>'ok');

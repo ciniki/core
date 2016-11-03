@@ -20,7 +20,7 @@ function ciniki_core_objectCheckUsed(&$ciniki, $business_id, $object, $object_id
     // Check to make sure the business modules were setup in the checkModuleAccess function
     //
     if( !isset($ciniki['business']['modules']) ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1537', 'msg'=>'Internal Error', 'pmsg'=>'Missing the modules definition in settings'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.103', 'msg'=>'Internal Error', 'pmsg'=>'Missing the modules definition in settings'));
     }
 
     //

@@ -104,7 +104,10 @@ function ciniki_core_dbGetModuleHistoryReformat(&$ciniki, $module, $history_tabl
     $num_history = 0;
     while( $row = mysqli_fetch_assoc($result) ) {
         $rsp['history'][$num_history] = array('action'=>array('user_id'=>$row['user_id'], 'date'=>$row['date'], 'value'=>$row['value']));
-        if( $format == 'utcdate' && $row['value'] != '' ) {
+        if( is_callable($format) ) {
+            $rsp['history'][$num_history]['action']['value'] = $format($row['value']);
+        }
+        elseif( $format == 'utcdate' && $row['value'] != '' ) {
             $date = new DateTime($row['value'], new DateTimeZone('UTC'));
             $date->setTimezone(new DateTimeZone($intl_timezone));
             $rsp['history'][$num_history]['action']['value'] = $date->format($php_date_format);
@@ -131,6 +134,9 @@ function ciniki_core_dbGetModuleHistoryReformat(&$ciniki, $module, $history_tabl
             }
             $rsp['history'][$num_history]['action']['value'] = numfmt_format_currency(
                 $intl_currency_fmt, $row['value'], $intl_currency);
+        }
+        elseif( $format == 'percent' ) {
+            $rsp['history'][$num_history]['action']['value'] = ($row['value'] * 100) . '%';
         }
         // Format the date
         $date = new DateTime($row['date'], new DateTimeZone('UTC'));

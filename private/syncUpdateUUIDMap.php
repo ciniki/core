@@ -23,7 +23,7 @@ function ciniki_core_syncUpdateUUIDMap(&$ciniki, &$sync, $business_id, $table_na
     //
     // Ignore error if a duplicate record warning
     //
-    if( $rc['stat'] != 'ok' && $rc['err']['code'] != 73 ) {
+    if( $rc['stat'] != 'ok' && $rc['err']['code'] != 'ciniki.core.73' ) {
         return $rc;
     }
 

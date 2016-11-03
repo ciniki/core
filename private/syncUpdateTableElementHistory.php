@@ -136,7 +136,7 @@ function ciniki_core_syncUpdateTableElementHistory(&$ciniki, &$sync, $business_i
                     . "FROM_UNIXTIME('" . ciniki_core_dbQuote($ciniki, $history['log_date']) . "') "
                     . ")";
                 $rc = ciniki_core_dbInsert($ciniki, $strsql, $module);
-                if( $rc['stat'] != 'ok' && $rc['err']['code'] != '73' ) {
+                if( $rc['stat'] != 'ok' && $rc['err']['code'] != 'ciniki.core.73' ) {
                     return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.361', 'msg'=>'Unable to add history'));
                 }
             } elseif( $user_id > 0 ) {
@@ -152,7 +152,7 @@ function ciniki_core_syncUpdateTableElementHistory(&$ciniki, &$sync, $business_i
                     . "AND uuid = '" . ciniki_core_dbQuote($ciniki, $uuid) . "' "
                     . "";
                 $rc = ciniki_core_dbUpdate($ciniki, $strsql, $module);
-                if( $rc['stat'] != 'ok' && $rc['err']['code'] != '73' ) {
+                if( $rc['stat'] != 'ok' && $rc['err']['code'] != 'ciniki.core.73' ) {
                     return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.362', 'msg'=>'Unable to update history'));
                 }
 //          } elseif( $local_history['table_key'] == '' && $table_key != '' ) {
@@ -165,7 +165,7 @@ function ciniki_core_syncUpdateTableElementHistory(&$ciniki, &$sync, $business_i
 //                  . "AND table_key = ''"
 //                  . "";
 //              $rc = ciniki_core_dbUpdate($ciniki, $strsql, $module);
-//              if( $rc['stat'] != 'ok' && $rc['err']['code'] != '73' ) {
+//              if( $rc['stat'] != 'ok' && $rc['err']['code'] != 'ciniki.core.73' ) {
 //                  return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.363', 'msg'=>'Unable to update history'));
 //              }
             }

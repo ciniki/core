@@ -44,8 +44,9 @@ function ciniki_core_syncUpdateModuleHistory(&$ciniki, &$sync, $business_id, $ar
     //
     ciniki_core_loadMethod($ciniki, $pkg, $mod, 'sync', 'history_get');
     $get = $pkg . '_' . $mod . '_history_get';
+    // BROKEN: This needs fixing!!!
     $rc = ciniki_customers_history_get($ciniki, $sync, $business_id, array('uuid'=>$remote_history['uuid']));
-    if( $rc['stat'] != 'ok' && $rc['err']['code'] != 180 ) {
+    if( $rc['stat'] != 'ok' && $rc['err']['code'] != 'ciniki.core.180' ) {
         return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.355', 'msg'=>'Unable to get history', 'err'=>$rc['err']));
     }
     if( !isset($rc['history'])

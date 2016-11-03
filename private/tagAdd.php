@@ -62,7 +62,7 @@ function ciniki_core_tagAdd(&$ciniki, $module, $object, $business_id, $table, $k
     // Only return the error if it was not a duplicate key problem.  Duplicate key error
     // just means the tag name is already assigned to the item.
     //
-    if( $rc['stat'] != 'ok' && $rc['err']['code'] != '73' ) {
+    if( $rc['stat'] != 'ok' && $rc['err']['code'] != 'ciniki.core.73' ) {
         return $rc;
     }
 

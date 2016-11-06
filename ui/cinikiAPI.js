@@ -13,7 +13,7 @@ window.M.api = {
 // r - The response code from Ciniki to check for the error
 //
 M.api.checkResult = function(r, m, p, c) {
-    if( r.stat == 'fail' && (r.err.code == '37' || r.err.code == '27') && m != 'ciniki.users.auth' ) {
+    if( r.stat == 'fail' && (r.err.code == 'ciniki.core.146' || r.err.code == 'ciniki.core.147') && m != 'ciniki.users.auth' ) {
         return M.api.expired(r);
     }
     if( r.stat == 'fail' ) {
@@ -330,7 +330,7 @@ M.api.getBgCb = function(m, p, c) {
         if( x.readyState == 4 && x.status == 200 ) {
             if(p.format == 'json') {
                 var r = eval('(' + x.responseText + ')');
-                if( r.stat != 'ok' && (r.err.code == 37 || r.err.code == 27)) {
+                if( r.stat != 'ok' && (r.err.code == 'ciniki.core.146' || r.err.code == 'ciniki.core.147')) {
                     M.reauth_apiresume = {'f':'getBgCb', 'm':m, 'p':p, 'cb':c};
                     return M.api.expired(r);
                 } else {
@@ -377,7 +377,7 @@ M.api.getCb = function(m, p, c) {
                 } catch(e) {
                     c({'stat':'fail', 'err':{'code':'JSON-ERR', 'msg':'API Error', 'pmsg':'Unable to parse (' + x.responseText + ')'}});
                 }
-                if( r.stat != 'ok' && (r.err.code == 37 || r.err.code == 27)) {
+                if( r.stat != 'ok' && (r.err.code == 'ciniki.core.146' || r.err.code == 'ciniki.core.147')) {
                     M.reauth_apiresume = {'f':'getCb', 'm':m,'p':p,'cb':c};
                     return M.api.expired(r);
                 } else {
@@ -453,7 +453,7 @@ M.api.postCb = function(m, p, c, cb) {
                 } catch(e) {
                     cb({'stat':'fail', 'err':{'code':'JSON-ERR', 'msg':'API Error', 'pmsg':'Unable to parse (' + this.responseText + ')'}});
                 }
-                if( r != null && r.stat != 'ok' && (r.err.code == 37 || r.err.code == 27)) {
+                if( r != null && r.stat != 'ok' && (r.err.code == 'ciniki.core.146' || r.err.code == 'ciniki.core.147')) {
                     M.reauth_apiresume = {'f':'postCb', 'm':m, 'p':p, 'c':c, 'cb':cb};
                     return M.api.expired(r);
                 } 
@@ -592,7 +592,7 @@ M.api.postFormData = function(m, p, f, c) {
             M.stopLoad();
             if(p.format == 'json') {
                 var r = eval('(' + x.responseText + ')');
-                if( r.stat != 'ok' && (r.err.code == 37 || r.err.code == 27)) {
+                if( r.stat != 'ok' && (r.err.code == 'ciniki.core.146' || r.err.code == 'ciniki.core.147')) {
                     M.reauth_apiresume = {'f':'postFormData', 'm':m, 'p':p, 'f':f, 'cb':c};
                     return M.api.expired(r);
                 } 
@@ -620,7 +620,7 @@ M.api.err = function(r) {
         //
         // Check if session has expired
         //
-        if( r.err.code == '37' || r.err.code == '27' ) {
+        if( r.err.code == 'ciniki.core.146' || r.err.code == 'ciniki.core.147' ) {
             return M.api.expired(r);
         }
 

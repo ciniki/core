@@ -6149,7 +6149,7 @@ M.panel.prototype.formFieldValue = function(f,fid) {
     } else if( f.type == 'flagtoggle' ) {
         n = 0;
         var on = M.gE(this.panelUID + '_' + fid + '_on');
-        if( on.className == 'toggle_on' ) {
+        if( on != null && on.className == 'toggle_on' ) {
             return 'on';
         } else {
             return 'off';

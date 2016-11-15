@@ -6,10 +6,6 @@
 // This allows the user to view what has happened to a data element, and if they
 // choose, revert to a previous version.
 //
-// Info
-// ----
-// Status:      beta
-//
 // Arguments
 // ---------
 // api_key:
@@ -20,7 +16,7 @@
 // Returns
 // -------
 //  <logs timestamp=''>
-//      <log id='' date="2011/02/03 00:03:00" value="Value field set to" user_id="1" display_name="" />
+//      <id='' date="2011/02/03 00:03:00" value="Value field set to" user_id="1" display_name="" />
 //  </logs>
 //
 function ciniki_core_monitorActionLogs($ciniki) {
@@ -91,7 +87,11 @@ function ciniki_core_monitorActionLogs($ciniki) {
     $strsql .= ""
         . "ORDER BY TS DESC "
         . "LIMIT 100 ";
-    $rsp = ciniki_core_dbRspQuery($ciniki, $strsql, 'ciniki.core', 'logs', 'log', array('stat'=>'ok', 'logs'=>array()));
+    ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashQueryArrayTree');
+    $rc = ciniki_core_dbHashQueryArrayTree($ciniki, $strsql, 'ciniki.core', array(
+        array('container'=>'logs', 'fname'=>'id', 'fields'=>array('id', 'log_date', 'age', 'TS', 'user_id', 'display_name', 'name', 'session_key', 'method', 'action')),
+        ));
+    $rsp = $rc;
     if( $rsp['stat'] == 'ok' ) {
         $rsp['timestamp'] = $ts['timestamp']['cur'];
     }

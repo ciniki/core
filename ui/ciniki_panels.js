@@ -347,6 +347,12 @@ M.panel.prototype.refreshSection = function(s) {
     }
 };
 
+M.panel.prototype.refreshSections = function(s) {
+    for(var i in s) {
+        this.refreshSection(s[i]);
+    }
+};
+
 M.panel.prototype.showHideSection = function(s) {
     if( this.sections[s] == null ) { 
         return true;
@@ -369,7 +375,12 @@ M.panel.prototype.showHideSection = function(s) {
     } else {
         e.style.display = '';
     }
-    
+};
+
+M.panel.prototype.showHideSections = function(s) {
+    for(var i in s) {
+        this.showHideSection(s[i]);
+    }
 };
 
 //
@@ -5746,7 +5757,16 @@ M.panel.prototype.serializeForm = function(fs) {
                 }
             }
         } 
-    
+        //
+        // Check if paneltabs is a form element
+        //
+        else if( s.type != null && s.type == 'paneltabs' && s.field_id != null && s.selected != null ) {
+            var o = this.fieldValue(s.field_id);
+            var n = s.selected;
+            if( o != n || fs == 'yes' ) {
+                c += encodeURIComponent(s.field_id) + '=' + encodeURIComponent(s.selected) + '&';
+            }
+        }
         //
         // All non-grid elements
         //
@@ -5861,6 +5881,13 @@ M.panel.prototype.serializeFormSection = function(fs, i, nM) {
     var c = '';    
 
     var s = this.sections[i];
+    //
+    // FIXME: Untested code from serializeForm...
+    // Check if paneltabs is a form element
+    //
+//    if( s.type != null && s.type == 'paneltabs' && s.field_id != null && s.selected != null ) {
+//        c += encodeURIComponent(s.field_id) + '=' + encodeURIComponent(s.selected) + '&';
+//    }
     for(j in s.fields) {
         var f = s.fields[j];
         if( f.type == null || f.type == 'noedit' || (f.active != null && f.active == 'no') ) { continue; }
@@ -5953,6 +5980,13 @@ M.panel.prototype.serializeFormData = function(fs) {
                 }
             }
         } 
+        //
+        // FIXME: Untested code from serializeForm...
+        // Check if paneltabs is a form element
+        //
+//      if( s.type != null && s.type == 'paneltabs' && s.field_id != null && s.selected != null ) {
+//          c += encodeURIComponent(s.field_id) + '=' + encodeURIComponent(s.selected) + '&';
+//      }
     
         //
         // All non-grid elements

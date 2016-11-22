@@ -102,7 +102,26 @@ function ciniki_core_dbHashQueryArrayTree(&$ciniki, $strsql, $module, $tree) {
                         //
                         // Items that are mapped to another value
                         //
-                        if( isset($tree[$i]['maps']) && isset($tree[$i]['maps'][$field]) ) {
+                        if( isset($tree[$i]['maps']) && isset($tree[$i]['maps'][$field_id]) ) {
+                            //
+                            // Check if the value is specified in the mapped array for this field
+                            // If no mapped value specified, check for blank index
+                            // Last resort, set it to current value
+                            //
+                            if( isset($tree[$i]['maps'][$field_id][$row[$field]])
+                                && is_array($tree[$i]['maps'][$field_id][$row[$field]])
+                                && isset($tree[$i]['maps'][$field_id][$row[$field]]['field']) ) {
+                                // if array of single/plural names, decide which it is
+                                $decision_field = $tree[$i]['maps'][$field_id][$row[$field]]['field'];
+                                $data[$tree[$i]['container']][$num_elements[$i]][$field_id] = $tree[$i]['maps'][$field_id][$row[$field]][($row[$decision_field]!=1?'p':'s')];
+                            } elseif( isset($tree[$i]['maps'][$field_id][$row[$field]]) ) {
+                                $data[$tree[$i]['container']][$num_elements[$i]][$field_id] = $tree[$i]['maps'][$field_id][$row[$field]];
+                            } elseif( isset($tree[$i]['maps'][$field_id]['']) ) {
+                                $data[$tree[$i]['container']][$num_elements[$i]][$field_id] = $tree[$i]['maps'][$field_id][''];
+                            } else {
+                                $data[$tree[$i]['container']][$num_elements[$i]][$field_id] = $row[$field];
+                            }
+                        } elseif( isset($tree[$i]['maps']) && isset($tree[$i]['maps'][$field]) ) {
                             //
                             // Check if the value is specified in the mapped array for this field
                             // If no mapped value specified, check for blank index
@@ -122,6 +141,12 @@ function ciniki_core_dbHashQueryArrayTree(&$ciniki, $strsql, $module, $tree) {
                                 $data[$tree[$i]['container']][$num_elements[$i]][$field_id] = $row[$field];
                             }
                         } 
+                        //
+                        // Check if currency should be formatted
+                        //
+                        elseif( isset($tree[$i]['currency']) && isset($tree[$i]['currency'][$field_id]['fmt']) && isset($tree[$i]['currency'][$field_id]['currency']) ) {
+                            $data[$tree[$i]['container']][$num_elements[$i]][$field_id] = numfmt_format_currency($tree[$i]['currency'][$field_id]['fmt'], $row[$field], $tree[$i]['currency'][$field_id]['currency']);
+                        }
                         //
                         // Check if utc dates should be converted to local timezone
                         //

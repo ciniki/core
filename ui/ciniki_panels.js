@@ -3040,6 +3040,7 @@ M.panel.prototype.createFormFields = function(s, nF, fI, fields, mN) {
         if( fields[i].hidelabel == null || fields[i].hidelabel != 'yes' ) {
             var l = M.aE('label');
             l.setAttribute('for', this.panelUID + '_' + i);
+            l.setAttribute('id', this.panelUID + '_' + i + '_formlabel');
             l.appendChild(document.createTextNode(fields[i].label));
             var c = M.aE('td');
             c.className = 'label';
@@ -3209,6 +3210,35 @@ M.panel.prototype.createImageControls = function(i, field, img_id) {
 M.panel.prototype.uploadFile = function(i) {
     var f = M.gE(this.panelUID + '_' + i + '_upload');
     if( f != null ) { f.click(); }
+};
+
+M.panel.prototype.refreshFormField = function(s, fid) {
+    var o = M.gE(this.panelUID + '_' + fid).parentNode;
+    var l = M.gE(this.panelUID + '_' + fid + '_formlabel');
+    if( l != null && l.innerHTML != null && l.innerHTML != this.sections[s].fields[fid].label ) {
+        l.innerHTML = this.sections[s].fields[fid].label;
+    }
+    if( this.sections[s].fields[fid].visible != null && this.sections[s].fields[fid].visible == 'no' ) {
+        o.parentNode.style.display = 'none';
+    } else {
+        o.parentNode.style.display = '';
+        var n = this.createFormField(s, fid, this.formField(fid), fid);
+        o.parentNode.insertBefore(n, o);
+        o.parentNode.removeChild(o);
+    }
+};
+
+M.panel.prototype.showHideFormField = function(s, fid) {
+    var o = M.gE(this.panelUID + '_' + fid).parentNode;
+    var l = M.gE(this.panelUID + '_' + fid + '_formlabel');
+    if( l != null && l.innerHTML != null && l.innerHTML != this.sections[s].fields[fid].label ) {
+        l.innerHTML = this.sections[s].fields[fid].label;
+    }
+    if( this.sections[s].fields[fid].visible != null && this.sections[s].fields[fid].visible == 'no' ) {
+        o.parentNode.style.display = 'none';
+    } else {
+        o.parentNode.style.display = '';
+    }
 };
 
 M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
@@ -3680,6 +3710,9 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
                     this.className = 'flag_on';
                 }
             };
+            if( field.onchange != null && field.onchange != '' ) {
+                f.onChangeCb = field.onchange + '(null,\'' + s + '\',\'' + fid + '\');';
+            }
             // Use a different onclick function if this is a toggle field, where only one can be active at a time
             if( field.toggle != null && field.toggle == 'yes' ) {
                 f.onclick = function(event) {
@@ -3692,12 +3725,18 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
                     } else if( field.none != null && field.none == 'yes' && e.className == 'flag_on' ) {
                         this.className = 'flag_off';
                     }
+                    if( this.onChangeCb != null ) {
+                        eval(this.onChangeCb);
+                    }
                 };
             } else {
                 f.onclick = function(event) { 
                     event.stopPropagation();
                     if( this.className == 'flag_on' ) { this.className = 'flag_off'; } 
                     else { this.className = 'flag_on'; }
+                    if( this.onChangeCb != null ) {
+                        eval(this.onChangeCb);
+                    }
                 };
             }
             div.appendChild(f);
@@ -6073,6 +6112,9 @@ M.panel.prototype.serializeFormData = function(fs) {
 //
 M.panel.prototype.formFieldValue = function(f,fid) {
     var n = null;
+    if( f == null ) { 
+        return null; 
+    }
     if( f.option_field != null && f.option_field == fid ) {
         // Get the secondary option field value
         for(var i in f.options) {

@@ -1608,7 +1608,7 @@ table.paneltabs td.joinedtabs div span.toggle_off,
 table.form td div span.toggle_on,
 table.form td div span.toggle_off {
     display: inline-block;
-    border: 1px solid #aaa;
+    border: 1px solid #777;
     padding: 0.4em 0.5em 0.4em 0.5em;
     margin: 0.3em 0 0.3em 0;
     cursor: pointer;

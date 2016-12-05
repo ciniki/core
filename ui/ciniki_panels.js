@@ -3213,7 +3213,11 @@ M.panel.prototype.uploadFile = function(i) {
 };
 
 M.panel.prototype.refreshFormField = function(s, fid) {
-    var o = M.gE(this.panelUID + '_' + fid).parentNode;
+    var o = M.gE(this.panelUID + '_' + fid);
+    if( o == null || o.parentNode == null ) {
+        return true;
+    }
+    o = o.parentNode;
     var l = M.gE(this.panelUID + '_' + fid + '_formlabel');
     if( l != null && l.innerHTML != null && l.innerHTML != this.sections[s].fields[fid].label ) {
         l.innerHTML = this.sections[s].fields[fid].label;
@@ -4121,10 +4125,14 @@ M.panel.prototype.updateFlagToggleFields = function(fid) {
     var v = this.formValue(fid);
     if( f.on_fields != null && f.on_fields.length > 0 ) {
         for(var i in f.on_fields) {
+            var field = this.formField(f.on_fields[i]);
             var e = M.gE(this.panelUID + '_' + f.on_fields[i]);
             if( e == null ) { continue; }
             e = e.parentNode.parentNode;
             if( v == 'on' ) {
+                if( field != null ) {
+                    field.visible = 'yes';
+                }
                 e.style.display = 'table-row';
                 if( e.previousSibling != null && e.previousSibling.className.match(/guided-title/) ) {
                     e.previousSibling.style.display = '';
@@ -4133,6 +4141,9 @@ M.panel.prototype.updateFlagToggleFields = function(fid) {
                     e.nextSibling.style.display = '';
                 }
             } else {
+                if( field != null ) {
+                    field.visible = 'no';
+                }
                 e.style.display = 'none';
                 if( e.previousSibling != null && e.previousSibling.className.match(/guided-title/) ) {
                     e.previousSibling.style.display = 'none';
@@ -4145,10 +4156,15 @@ M.panel.prototype.updateFlagToggleFields = function(fid) {
     }
     if( f.off_fields != null && f.off_fields.length > 0 ) {
         for(var i in f.off_fields) {
+            var field = this.formField(f.on_fields[i]);
+            var s = this.formFieldSection(i);
             var e = M.gE(this.panelUID + '_' + f.off_fields[i]);
             if( e == null ) { continue; }
             e = e.parentNode.parentNode;
             if( v == 'off' ) {
+                if( field != null ) {
+                    field.visible = 'yes';
+                }
                 e.style.display = 'table-row';
                 if( e.previousSibling != null && e.previousSibling.className.match(/guided-title/) ) {
                     e.previousSibling.style.display = '';
@@ -4157,6 +4173,9 @@ M.panel.prototype.updateFlagToggleFields = function(fid) {
                     e.nextSibling.style.display = '';
                 }
             } else {
+                if( field != null ) {
+                    field.visible = 'no';
+                }
                 e.style.display = 'none';
                 if( e.previousSibling != null && e.previousSibling.className.match(/guided-title/) ) {
                     e.previousSibling.style.display = 'none';
@@ -5800,7 +5819,7 @@ M.panel.prototype.serializeForm = function(fs) {
         // Check if paneltabs is a form element
         //
         else if( s.type != null && s.type == 'paneltabs' && s.field_id != null && s.selected != null ) {
-            var o = this.fieldValue(s.field_id);
+            var o = this.fieldValue(i, s.field_id);
             var n = s.selected;
             if( o != n || fs == 'yes' ) {
                 c += encodeURIComponent(s.field_id) + '=' + encodeURIComponent(s.selected) + '&';
@@ -6298,7 +6317,10 @@ M.panel.prototype.formFieldValue = function(f,fid) {
         n = n.replace(/<br \/>/g, "\n");
     } else {
 //        console.log(fid);
-        n = M.gE(this.panelUID + '_' + fid).value;
+        var e = M.gE(this.panelUID + '_' + fid);
+        if( e != null && e.value != null ) {
+            n = e.value;
+        }
     }
 
     return n;

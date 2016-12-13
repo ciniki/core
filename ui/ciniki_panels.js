@@ -5995,7 +5995,11 @@ M.panel.prototype.serializeFormSection = function(fs, i, nM) {
         }
         // Set to blank if not defined
         if( o == undefined ) { o = ''; }
-        var n = this.formFieldValue(f, fid);
+        if( nM != null ) {
+            var n = this.formFieldValue(f, fid + '_' + nM);
+        } else {
+            var n = this.formFieldValue(f, fid);
+        }
         if( f.type != 'flagtoggle' && f.type != 'flagspiece' && (n != o || fs == 'yes') ) {
             c += encodeURIComponent(fid) + '=' + encodeURIComponent(n) + '&';
         }

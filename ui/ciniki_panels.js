@@ -3792,7 +3792,10 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
                 v = 'off';
             }
         }
-
+        var onchangeFn = '';
+        if( field.onchange != null && field.onchange != '' ) {
+            onchangeFn = field.onchange + '(event,\'' + s + '\',\'' + fid + '\');';
+        }
         var updateFn = '';    
         if( field.on_fields != null || field.off_fields != null || field.on_sections != null || field.off_sections != null ) {
             updateFn = this.panelRef + '.updateFlagToggleFields(\'' + i + sFN + '\');';
@@ -3818,19 +3821,19 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
         if( field.reverse != null && field.reverse == 'yes' ) {
             var off = M.aE('span', this.panelUID + '_' + fid + sFN + '_off', 
                 (v=='off'?'toggle_on':'toggle_off'), (field.off!=null&&field.off!=''?field.off:'Yes'));
-            off.setAttribute('onclick', this.panelRef + '.setToggleField(this, \'' + i + sFN + '\',\'' + field.none + '\',\'' + field.fn + '\');' + updateFn);
+            off.setAttribute('onclick', this.panelRef + '.setToggleField(this, \'' + i + sFN + '\',\'' + field.none + '\',\'' + field.fn + '\');' + updateFn + onchangeFn);
             var on = M.aE('span', this.panelUID + '_' + fid + sFN + '_on', 
                 (v=='on'?'toggle_on':'toggle_off'), (field.on!=null&&field.on!=''?field.on:'No'));
-            on.setAttribute('onclick', this.panelRef + '.setToggleField(this, \'' + i + sFN + '\',\'' + field.none + '\',\'' + field.fn + '\');' + updateFn);
+            on.setAttribute('onclick', this.panelRef + '.setToggleField(this, \'' + i + sFN + '\',\'' + field.none + '\',\'' + field.fn + '\');' + updateFn + onchangeFn);
             div.appendChild(on);
             div.appendChild(off);
         } else {
             var off = M.aE('span', this.panelUID + '_' + fid + sFN + '_off', 
                 (v=='off'?'toggle_on':'toggle_off'), (field.off!=null&&field.off!=''?field.off:'No'));
-            off.setAttribute('onclick', this.panelRef + '.setToggleField(this, \'' + i + sFN + '\',\'' + field.none + '\',\'' + field.fn + '\');' + updateFn);
+            off.setAttribute('onclick', this.panelRef + '.setToggleField(this, \'' + i + sFN + '\',\'' + field.none + '\',\'' + field.fn + '\');' + updateFn + onchangeFn);
             var on = M.aE('span', this.panelUID + '_' + fid + sFN + '_on', 
                 (v=='on'?'toggle_on':'toggle_off'), (field.on!=null&&field.on!=''?field.on:'Yes'));
-            on.setAttribute('onclick', this.panelRef + '.setToggleField(this, \'' + i + sFN + '\',\'' + field.none + '\',\'' + field.fn + '\');' + updateFn);
+            on.setAttribute('onclick', this.panelRef + '.setToggleField(this, \'' + i + sFN + '\',\'' + field.none + '\',\'' + field.fn + '\');' + updateFn + onchangeFn);
             div.appendChild(off);
             div.appendChild(on);
         }
@@ -3890,7 +3893,9 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
         c.className = 'multiselect';
         var div = M.aE('div', this.panelUID + '_' + fid + sFN);
         var v = this.fieldValue(s, i, field, mN);
-        if( v != null && v != '' ) {
+        if( typeof v == 'object' ) {
+            vs = v;
+        } else if( v != null && v != '' ) {
             vs = v.split(',');
         } else {
             vs = [];
@@ -5943,10 +5948,7 @@ M.panel.prototype.serializeFormSection = function(fs, i, nM) {
     // FIXME: Untested code from serializeForm...
     // Check if paneltabs is a form element
     //
-//    if( s.type != null && s.type == 'paneltabs' && s.field_id != null && s.selected != null ) {
-//        c += encodeURIComponent(s.field_id) + '=' + encodeURIComponent(s.selected) + '&';
-//    }
-    for(j in s.fields) {
+/*    for(j in s.fields) {
         var f = s.fields[j];
         if( f.type == null || f.type == 'noedit' || (f.active != null && f.active == 'no') ) { continue; }
         var fid = j;
@@ -5977,7 +5979,69 @@ M.panel.prototype.serializeFormSection = function(fs, i, nM) {
                 c += encodeURIComponent(fid) + '=' + encodeURIComponent(n) + '&';
             }
         }
+    } */
+    var flags = {};
+    for(j in s.fields) {
+        var f = s.fields[j];
+        if( f.type == null || f.type == 'noedit' ) { continue; }
+        if( f.active != null && ((typeof f.active == 'function' && f.active() == 'no') || f.active == 'no') ) { continue; }
+        var fid = j;
+        if( this.fieldID != null ) {
+            fid = this.fieldID(i, j, f);
+        }
+        var o = '';
+        if( this.fieldValue != null ) {
+            o = this.fieldValue(i, fid, f);
+        }
+        // Set to blank if not defined
+        if( o == undefined ) { o = ''; }
+        var n = this.formFieldValue(f, fid);
+        if( f.type != 'flagtoggle' && f.type != 'flagspiece' && (n != o || fs == 'yes') ) {
+            c += encodeURIComponent(fid) + '=' + encodeURIComponent(n) + '&';
+        }
+        // Check if secondary field
+        if( f.option_field != null ) {
+            var o = '';
+            if( this.fieldValue != null ) { o = this.fieldValue(i, fid, f); }
+            if( o == undefined ) { o = ''; }
+            var n = this.formFieldValue(f, f.option_field);
+            if( n != o || fs == 'yes' ) {
+                c += encodeURIComponent(fid) + '=' + encodeURIComponent(n) + '&';
+            }
+        }
+        // Check if flagtoggle and field specified
+        if( f.type == 'flagtoggle' && f.field != null ) {
+            if( flags[f.field] == null ) {
+                flags[f.field] = {'f':f, 'v':this.fieldValue('', f.field, f)};
+            }
+            if( n == 'on' || (f.reverse != null && f.reverse == 'yes' && n == 'off') ) {
+                flags[f.field].v |= f.bit;
+            } else if( (flags[f.field].v&f.bit) > 0 ) {
+                flags[f.field].v ^= f.bit;
+            }
+        } else if( f.type == 'flagspiece' && f.field != null ) {
+            if( flags[f.field] == null ) {
+                flags[f.field] = {'f':f, 'v':this.fieldValue('', f.field, f)};
+            }
+            var n = this.formFieldValue(f, fid);
+            flags[f.field].v = flags[f.field].v ^ ((flags[f.field].v ^ n) & f.mask);
+        }
     }
+
+    //
+    // Check for flags that need to be updated
+    //
+    for(var i in flags) {
+        var o = 0;
+        if( this.fieldValue != null ) {
+            o = this.fieldValue('', flags[i].f.field, flags[i].f);
+        }
+        var n = flags[i].v;
+        if( n != o || fs == 'yes' ) {
+            c += encodeURIComponent(flags[i].f.field) + '=' + encodeURIComponent(n) + '&';
+        }
+    }
+
     return c;
 };
 

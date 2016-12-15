@@ -1330,6 +1330,7 @@ table.list > tbody > tr > td.multiline span.subsubtext {
 }
 
 table.list > tbody > tr > td.aligntop,
+table.list > tbody > tr > td.aligntop, 
 table.list > tfoot > tr > th.aligntop, 
 table.list > tfoot > tr > td.aligntop {
     vertical-align: top;

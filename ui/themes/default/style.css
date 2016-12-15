@@ -1723,8 +1723,9 @@ input.submit {
 }
 
 .highlight {
-    background: #FFFF00;
+    background: #00FF00;
     font-weight: bold;
+    font-size: 1.2em;
 }
 
 table.simplegrid tr.statusgreen,

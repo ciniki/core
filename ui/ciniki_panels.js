@@ -4595,7 +4595,7 @@ M.panel.prototype.setFieldValue = function(field, v, vnum, hide, nM, action) {
         M.gE(this.panelUID + '_' + field + sFN).value = v;
     }
 
-    if( f.type == 'fkid' ) {
+    if( f.type == 'fkid' && this.fieldHistories[field] != null ) {
         var v2 = this.fieldHistories[field].history[vnum].action.fkidstr_value;
         M.gE(this.panelUID + '_' + field + sFN + '_fkidstr').value = v2;
     }
@@ -6384,7 +6384,6 @@ M.panel.prototype.formFieldValue = function(f,fid) {
         n = tinymce.get(this.panelUID + '_' + fid).getContent();
         n = n.replace(/<br \/>/g, "\n");
     } else {
-//        console.log(fid);
         var e = M.gE(this.panelUID + '_' + fid);
         if( e != null && e.value != null ) {
             n = e.value;

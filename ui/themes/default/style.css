@@ -1723,8 +1723,10 @@ input.submit {
 }
 
 .highlight {
-    background: #FFFF00;
+    background: #b8ffb8;
     font-weight: bold;
+    font-size: 1.2em;
+    padding: 0.1em 0.2em;
 }
 
 table.simplegrid tr.statusgreen,

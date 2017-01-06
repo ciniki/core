@@ -845,7 +845,7 @@ M.panel.prototype.createSection = function(i, s) {
     } else if( type == 'chart' ) {
         st = this.createChart(i);
     } else {
-        console.log('Missing section type for: ' + s);
+        console.log('Missing section type for: ' + s.label);
         st = document.createDocumentFragment();
     }
 

@@ -1728,7 +1728,11 @@ input.submit {
     font-size: 1.2em;
     padding: 0.1em 0.2em;
 }
-
+table.simplegrid tr.highlight {
+    background: #ffa;
+    font-size: 1em;
+    font-weight: normal;
+}
 table.simplegrid tr.statusgreen,
 table.simplegrid td.statusgreen {
     background: #ddffdd;

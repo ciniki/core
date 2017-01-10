@@ -273,6 +273,7 @@ span.count {
     text-align: center;
 }
 
+table.list th span.count,
 table.list td span.count {
     font-size: 0.7em;
     position: relative;
@@ -829,6 +830,44 @@ table.list tr.idlist td.historybutton {
 table.list tr.htmlarea > td.historybutton,
 table.list tr.textarea > td.historybutton {
     vertical-align: top;
+}
+
+table.list span.pmbutton {
+    display: inline-block;
+    border: 1px solid #bbb;
+    border-radius: 3px;
+    box-sizing: border-box;
+}
+table.list span.pmbutton span.pm-down,
+table.list span.pmbutton span.pm-up {
+    display: inline-block;
+    background: #eee;
+    font-size: 1.2em;
+    padding: 0em 0.3em;
+    min-width: 1.5em;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+table.list span.pmbutton span.pm-down {
+    border-right: 1px solid #bbb;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+table.list span.pmbutton span.pm-value {
+    display: inline-block;
+    min-width: 2em;
+    text-align: center;
+    padding: 0.0em;
+    vertical-align: middle;
+    box-sizing: border-box;
+    height: 100%;
+}
+table.list span.pmbutton span.pm-up {
+    border-left: 1px solid #bbb;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
 }
 
 span.rating_on,

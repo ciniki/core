@@ -837,6 +837,7 @@ table.list span.pmbutton {
     border: 1px solid #bbb;
     border-radius: 3px;
     box-sizing: border-box;
+    min-width: 5.7em;
 }
 table.list span.pmbutton span.pm-down,
 table.list span.pmbutton span.pm-up {

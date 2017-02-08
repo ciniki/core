@@ -263,6 +263,7 @@ table.list td div.calendar {
 /*  div.help-off.guided-off div.narrow.narrowaside div.panelsection.menutabs, */
     div.help-off.guided-off div.narrow.narrowaside div.panelsection.menutabs,
     div.help-off.guided-off div.medium.narrowaside div.panelsection.menutabs,
+    div.help-off.guided-off div.medium.mediumaside div.panelsection.menutabs,
     div.help-off.guided-off div.large.narrowaside div.panelsection.menutabs,
     div.help-off.guided-off div.xlarge.narrowaside div.panelsection.menutabs {
         margin-left: 0px;

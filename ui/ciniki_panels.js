@@ -845,7 +845,7 @@ M.panel.prototype.createSection = function(i, s) {
     } else if( type == 'chart' ) {
         st = this.createChart(i);
     } else {
-        console.log('Missing section type for: ' + s);
+        console.log('Missing section type for: ' + s.label);
         st = document.createDocumentFragment();
     }
 
@@ -3040,6 +3040,7 @@ M.panel.prototype.createFormFields = function(s, nF, fI, fields, mN) {
         if( fields[i].hidelabel == null || fields[i].hidelabel != 'yes' ) {
             var l = M.aE('label');
             l.setAttribute('for', this.panelUID + '_' + i);
+            l.setAttribute('id', this.panelUID + '_' + i + '_formlabel');
             l.appendChild(document.createTextNode(fields[i].label));
             var c = M.aE('td');
             c.className = 'label';
@@ -3209,6 +3210,39 @@ M.panel.prototype.createImageControls = function(i, field, img_id) {
 M.panel.prototype.uploadFile = function(i) {
     var f = M.gE(this.panelUID + '_' + i + '_upload');
     if( f != null ) { f.click(); }
+};
+
+M.panel.prototype.refreshFormField = function(s, fid) {
+    var o = M.gE(this.panelUID + '_' + fid);
+    if( o == null || o.parentNode == null ) {
+        return true;
+    }
+    o = o.parentNode;
+    var l = M.gE(this.panelUID + '_' + fid + '_formlabel');
+    if( l != null && l.innerHTML != null && l.innerHTML != this.sections[s].fields[fid].label ) {
+        l.innerHTML = this.sections[s].fields[fid].label;
+    }
+    if( this.sections[s].fields[fid].visible != null && this.sections[s].fields[fid].visible == 'no' ) {
+        o.parentNode.style.display = 'none';
+    } else {
+        o.parentNode.style.display = '';
+        var n = this.createFormField(s, fid, this.formField(fid), fid);
+        o.parentNode.insertBefore(n, o);
+        o.parentNode.removeChild(o);
+    }
+};
+
+M.panel.prototype.showHideFormField = function(s, fid) {
+    var o = M.gE(this.panelUID + '_' + fid).parentNode;
+    var l = M.gE(this.panelUID + '_' + fid + '_formlabel');
+    if( l != null && l.innerHTML != null && l.innerHTML != this.sections[s].fields[fid].label ) {
+        l.innerHTML = this.sections[s].fields[fid].label;
+    }
+    if( this.sections[s].fields[fid].visible != null && this.sections[s].fields[fid].visible == 'no' ) {
+        o.parentNode.style.display = 'none';
+    } else {
+        o.parentNode.style.display = '';
+    }
 };
 
 M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
@@ -3680,6 +3714,9 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
                     this.className = 'flag_on';
                 }
             };
+            if( field.onchange != null && field.onchange != '' ) {
+                f.onChangeCb = field.onchange + '(null,\'' + s + '\',\'' + fid + '\');';
+            }
             // Use a different onclick function if this is a toggle field, where only one can be active at a time
             if( field.toggle != null && field.toggle == 'yes' ) {
                 f.onclick = function(event) {
@@ -3692,12 +3729,18 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
                     } else if( field.none != null && field.none == 'yes' && e.className == 'flag_on' ) {
                         this.className = 'flag_off';
                     }
+                    if( this.onChangeCb != null ) {
+                        eval(this.onChangeCb);
+                    }
                 };
             } else {
                 f.onclick = function(event) { 
                     event.stopPropagation();
                     if( this.className == 'flag_on' ) { this.className = 'flag_off'; } 
                     else { this.className = 'flag_on'; }
+                    if( this.onChangeCb != null ) {
+                        eval(this.onChangeCb);
+                    }
                 };
             }
             div.appendChild(f);
@@ -3749,7 +3792,10 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
                 v = 'off';
             }
         }
-
+        var onchangeFn = '';
+        if( field.onchange != null && field.onchange != '' ) {
+            onchangeFn = field.onchange + '(event,\'' + s + '\',\'' + fid + '\');';
+        }
         var updateFn = '';    
         if( field.on_fields != null || field.off_fields != null || field.on_sections != null || field.off_sections != null ) {
             updateFn = this.panelRef + '.updateFlagToggleFields(\'' + i + sFN + '\');';
@@ -3775,19 +3821,19 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
         if( field.reverse != null && field.reverse == 'yes' ) {
             var off = M.aE('span', this.panelUID + '_' + fid + sFN + '_off', 
                 (v=='off'?'toggle_on':'toggle_off'), (field.off!=null&&field.off!=''?field.off:'Yes'));
-            off.setAttribute('onclick', this.panelRef + '.setToggleField(this, \'' + i + sFN + '\',\'' + field.none + '\',\'' + field.fn + '\');' + updateFn);
+            off.setAttribute('onclick', this.panelRef + '.setToggleField(this, \'' + i + sFN + '\',\'' + field.none + '\',\'' + field.fn + '\');' + updateFn + onchangeFn);
             var on = M.aE('span', this.panelUID + '_' + fid + sFN + '_on', 
                 (v=='on'?'toggle_on':'toggle_off'), (field.on!=null&&field.on!=''?field.on:'No'));
-            on.setAttribute('onclick', this.panelRef + '.setToggleField(this, \'' + i + sFN + '\',\'' + field.none + '\',\'' + field.fn + '\');' + updateFn);
+            on.setAttribute('onclick', this.panelRef + '.setToggleField(this, \'' + i + sFN + '\',\'' + field.none + '\',\'' + field.fn + '\');' + updateFn + onchangeFn);
             div.appendChild(on);
             div.appendChild(off);
         } else {
             var off = M.aE('span', this.panelUID + '_' + fid + sFN + '_off', 
                 (v=='off'?'toggle_on':'toggle_off'), (field.off!=null&&field.off!=''?field.off:'No'));
-            off.setAttribute('onclick', this.panelRef + '.setToggleField(this, \'' + i + sFN + '\',\'' + field.none + '\',\'' + field.fn + '\');' + updateFn);
+            off.setAttribute('onclick', this.panelRef + '.setToggleField(this, \'' + i + sFN + '\',\'' + field.none + '\',\'' + field.fn + '\');' + updateFn + onchangeFn);
             var on = M.aE('span', this.panelUID + '_' + fid + sFN + '_on', 
                 (v=='on'?'toggle_on':'toggle_off'), (field.on!=null&&field.on!=''?field.on:'Yes'));
-            on.setAttribute('onclick', this.panelRef + '.setToggleField(this, \'' + i + sFN + '\',\'' + field.none + '\',\'' + field.fn + '\');' + updateFn);
+            on.setAttribute('onclick', this.panelRef + '.setToggleField(this, \'' + i + sFN + '\',\'' + field.none + '\',\'' + field.fn + '\');' + updateFn + onchangeFn);
             div.appendChild(off);
             div.appendChild(on);
         }
@@ -3847,7 +3893,9 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
         c.className = 'multiselect';
         var div = M.aE('div', this.panelUID + '_' + fid + sFN);
         var v = this.fieldValue(s, i, field, mN);
-        if( v != null && v != '' ) {
+        if( typeof v == 'object' ) {
+            vs = v;
+        } else if( v != null && v != '' ) {
             vs = v.split(',');
         } else {
             vs = [];
@@ -4082,10 +4130,14 @@ M.panel.prototype.updateFlagToggleFields = function(fid) {
     var v = this.formValue(fid);
     if( f.on_fields != null && f.on_fields.length > 0 ) {
         for(var i in f.on_fields) {
+            var field = this.formField(f.on_fields[i]);
             var e = M.gE(this.panelUID + '_' + f.on_fields[i]);
             if( e == null ) { continue; }
             e = e.parentNode.parentNode;
             if( v == 'on' ) {
+                if( field != null ) {
+                    field.visible = 'yes';
+                }
                 e.style.display = 'table-row';
                 if( e.previousSibling != null && e.previousSibling.className.match(/guided-title/) ) {
                     e.previousSibling.style.display = '';
@@ -4094,6 +4146,9 @@ M.panel.prototype.updateFlagToggleFields = function(fid) {
                     e.nextSibling.style.display = '';
                 }
             } else {
+                if( field != null ) {
+                    field.visible = 'no';
+                }
                 e.style.display = 'none';
                 if( e.previousSibling != null && e.previousSibling.className.match(/guided-title/) ) {
                     e.previousSibling.style.display = 'none';
@@ -4106,10 +4161,15 @@ M.panel.prototype.updateFlagToggleFields = function(fid) {
     }
     if( f.off_fields != null && f.off_fields.length > 0 ) {
         for(var i in f.off_fields) {
+            var field = this.formField(f.on_fields[i]);
+            var s = this.formFieldSection(i);
             var e = M.gE(this.panelUID + '_' + f.off_fields[i]);
             if( e == null ) { continue; }
             e = e.parentNode.parentNode;
             if( v == 'off' ) {
+                if( field != null ) {
+                    field.visible = 'yes';
+                }
                 e.style.display = 'table-row';
                 if( e.previousSibling != null && e.previousSibling.className.match(/guided-title/) ) {
                     e.previousSibling.style.display = '';
@@ -4118,6 +4178,9 @@ M.panel.prototype.updateFlagToggleFields = function(fid) {
                     e.nextSibling.style.display = '';
                 }
             } else {
+                if( field != null ) {
+                    field.visible = 'no';
+                }
                 e.style.display = 'none';
                 if( e.previousSibling != null && e.previousSibling.className.match(/guided-title/) ) {
                     e.previousSibling.style.display = 'none';
@@ -4532,7 +4595,7 @@ M.panel.prototype.setFieldValue = function(field, v, vnum, hide, nM, action) {
         M.gE(this.panelUID + '_' + field + sFN).value = v;
     }
 
-    if( f.type == 'fkid' ) {
+    if( f.type == 'fkid' && this.fieldHistories[field] != null ) {
         var v2 = this.fieldHistories[field].history[vnum].action.fkidstr_value;
         M.gE(this.panelUID + '_' + field + sFN + '_fkidstr').value = v2;
     }
@@ -5761,7 +5824,7 @@ M.panel.prototype.serializeForm = function(fs) {
         // Check if paneltabs is a form element
         //
         else if( s.type != null && s.type == 'paneltabs' && s.field_id != null && s.selected != null ) {
-            var o = this.fieldValue(s.field_id);
+            var o = this.fieldValue(i, s.field_id);
             var n = s.selected;
             if( o != n || fs == 'yes' ) {
                 c += encodeURIComponent(s.field_id) + '=' + encodeURIComponent(s.selected) + '&';
@@ -5885,10 +5948,7 @@ M.panel.prototype.serializeFormSection = function(fs, i, nM) {
     // FIXME: Untested code from serializeForm...
     // Check if paneltabs is a form element
     //
-//    if( s.type != null && s.type == 'paneltabs' && s.field_id != null && s.selected != null ) {
-//        c += encodeURIComponent(s.field_id) + '=' + encodeURIComponent(s.selected) + '&';
-//    }
-    for(j in s.fields) {
+/*    for(j in s.fields) {
         var f = s.fields[j];
         if( f.type == null || f.type == 'noedit' || (f.active != null && f.active == 'no') ) { continue; }
         var fid = j;
@@ -5919,7 +5979,73 @@ M.panel.prototype.serializeFormSection = function(fs, i, nM) {
                 c += encodeURIComponent(fid) + '=' + encodeURIComponent(n) + '&';
             }
         }
+    } */
+    var flags = {};
+    for(j in s.fields) {
+        var f = s.fields[j];
+        if( f.type == null || f.type == 'noedit' ) { continue; }
+        if( f.active != null && ((typeof f.active == 'function' && f.active() == 'no') || f.active == 'no') ) { continue; }
+        var fid = j;
+        if( this.fieldID != null ) {
+            fid = this.fieldID(i, j, f);
+        }
+        var o = '';
+        if( this.fieldValue != null ) {
+            o = this.fieldValue(i, fid, f);
+        }
+        // Set to blank if not defined
+        if( o == undefined ) { o = ''; }
+        if( nM != null ) {
+            var n = this.formFieldValue(f, fid + '_' + nM);
+        } else {
+            var n = this.formFieldValue(f, fid);
+        }
+        if( f.type != 'flagtoggle' && f.type != 'flagspiece' && (n != o || fs == 'yes') ) {
+            c += encodeURIComponent(fid) + '=' + encodeURIComponent(n) + '&';
+        }
+        // Check if secondary field
+        if( f.option_field != null ) {
+            var o = '';
+            if( this.fieldValue != null ) { o = this.fieldValue(i, fid, f); }
+            if( o == undefined ) { o = ''; }
+            var n = this.formFieldValue(f, f.option_field);
+            if( n != o || fs == 'yes' ) {
+                c += encodeURIComponent(fid) + '=' + encodeURIComponent(n) + '&';
+            }
+        }
+        // Check if flagtoggle and field specified
+        if( f.type == 'flagtoggle' && f.field != null ) {
+            if( flags[f.field] == null ) {
+                flags[f.field] = {'f':f, 'v':this.fieldValue('', f.field, f)};
+            }
+            if( n == 'on' || (f.reverse != null && f.reverse == 'yes' && n == 'off') ) {
+                flags[f.field].v |= f.bit;
+            } else if( (flags[f.field].v&f.bit) > 0 ) {
+                flags[f.field].v ^= f.bit;
+            }
+        } else if( f.type == 'flagspiece' && f.field != null ) {
+            if( flags[f.field] == null ) {
+                flags[f.field] = {'f':f, 'v':this.fieldValue('', f.field, f)};
+            }
+            var n = this.formFieldValue(f, fid);
+            flags[f.field].v = flags[f.field].v ^ ((flags[f.field].v ^ n) & f.mask);
+        }
     }
+
+    //
+    // Check for flags that need to be updated
+    //
+    for(var i in flags) {
+        var o = 0;
+        if( this.fieldValue != null ) {
+            o = this.fieldValue('', flags[i].f.field, flags[i].f);
+        }
+        var n = flags[i].v;
+        if( n != o || fs == 'yes' ) {
+            c += encodeURIComponent(flags[i].f.field) + '=' + encodeURIComponent(n) + '&';
+        }
+    }
+
     return c;
 };
 
@@ -6082,6 +6208,9 @@ M.panel.prototype.serializeFormData = function(fs) {
 //
 M.panel.prototype.formFieldValue = function(f,fid) {
     var n = null;
+    if( f == null ) { 
+        return null; 
+    }
     if( f.option_field != null && f.option_field == fid ) {
         // Get the secondary option field value
         for(var i in f.options) {
@@ -6264,8 +6393,10 @@ M.panel.prototype.formFieldValue = function(f,fid) {
         n = tinymce.get(this.panelUID + '_' + fid).getContent();
         n = n.replace(/<br \/>/g, "\n");
     } else {
-//        console.log(fid);
-        n = M.gE(this.panelUID + '_' + fid).value;
+        var e = M.gE(this.panelUID + '_' + fid);
+        if( e != null && e.value != null ) {
+            n = e.value;
+        }
     }
 
     return n;

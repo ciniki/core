@@ -6087,14 +6087,11 @@ M.panel.prototype.serializeFormData = function(fs) {
         // Grid elements
         //
         var s = this.sections[i];
-        //
-        // Check if section active
-        //
         if( s.active != null && typeof s.active == 'function' && s.active() == 'no' ) {
-            continue;
+            continue;   // Skip inactive sections
         }
         if( s.active != null && s.active == 'no' ) {
-            continue;    // Skip inactive sections
+            continue;   // Skip inactive sections
         }
         if( s.type != null && (s.type == 'gridform' || s.type == 'simplegrid') ) {
             for(j in s.fields) {

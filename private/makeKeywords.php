@@ -10,7 +10,7 @@
 // Returns
 // -------
 //
-function ciniki_core_makeKeywords($ciniki, $str) {
+function ciniki_core_makeKeywords($ciniki, $str, $arr=false) {
 
     $common_words = array(
         'a', 'i',
@@ -32,6 +32,9 @@ function ciniki_core_makeKeywords($ciniki, $str) {
         if( in_array($word, $common_words) ) {
             unset($words[$wid]);
         }
+        if( strlen($word) > 2 && substr($word, -1) == 's' ) {
+            $words[$wid] = rtrim($words[$wid], 's');
+        }
     }
 
     //
@@ -42,6 +45,10 @@ function ciniki_core_makeKeywords($ciniki, $str) {
     //
     // Remove duplicates, and join into single string
     //
+    if( $arr == true ) {
+        return $words;
+    }
+
     $keywords = implode(' ', array_unique($words));
 
     return $keywords;

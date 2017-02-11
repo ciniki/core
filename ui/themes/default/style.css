@@ -1377,6 +1377,7 @@ table.list > tfoot > tr > td.aligntop {
 }
 
 table.list > thead > tr > td.aligncenter,
+table.list > thead > tr > th.aligncenter,
 table.list > tbody > tr > td.aligncenter,
 table.list > tfoot > tr > th.aligncenter, 
 table.list > tfoot > tr > td.aligncenter {

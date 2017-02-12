@@ -31,6 +31,7 @@ function ciniki_core_makeKeywords($ciniki, $str, $arr=false) {
     foreach($words as $wid => $word) {
         if( in_array($word, $common_words) ) {
             unset($words[$wid]);
+            continue;
         }
         if( strlen($word) > 2 && substr($word, -1) == 's' ) {
             $words[$wid] = rtrim($words[$wid], 's');

@@ -524,6 +524,7 @@ table.list > tfoot > tr > td.buttons {
     vertical-align: middle;
     line-height: 1.0em;
     width: 1.9em;
+    min-width: 1.9em;
     padding-right: 0.0em;
     padding-left: 0.0em;
 }

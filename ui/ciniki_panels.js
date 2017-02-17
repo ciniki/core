@@ -3342,6 +3342,11 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
             c.appendChild(d2);
         }
     }
+    else if( field.type == 'info' ) {
+        var v = this.fieldValue(s, i, field, mN);
+        var f = M.aE('span', this.panelUID + '_' + i + sFN, field.type, v);
+        c.appendChild(f);
+    }
     else if( field.type == 'text' || field.type == 'email' 
         || field.type == 'integer'
         || field.type == 'number'

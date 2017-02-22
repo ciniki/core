@@ -3342,6 +3342,11 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
             c.appendChild(d2);
         }
     }
+    else if( field.type == 'info' ) {
+        var v = this.fieldValue(s, i, field, mN);
+        var f = M.aE('span', this.panelUID + '_' + i + sFN, field.type, v);
+        c.appendChild(f);
+    }
     else if( field.type == 'text' || field.type == 'email' 
         || field.type == 'integer'
         || field.type == 'number'
@@ -6087,6 +6092,12 @@ M.panel.prototype.serializeFormData = function(fs) {
         // Grid elements
         //
         var s = this.sections[i];
+        if( s.active != null && typeof s.active == 'function' && s.active() == 'no' ) {
+            continue;   // Skip inactive sections
+        }
+        if( s.active != null && s.active == 'no' ) {
+            continue;   // Skip inactive sections
+        }
         if( s.type != null && (s.type == 'gridform' || s.type == 'simplegrid') ) {
             for(j in s.fields) {
                 for(k in s.fields[j]) {
@@ -6133,7 +6144,7 @@ M.panel.prototype.serializeFormData = function(fs) {
                 if( o == undefined ) { o = ''; }
                 if( f.type == 'image' || f.type == 'file' ) {
                     var file = document.getElementById(this.panelUID + '_' + fid);
-                    if( file != null && file.files[0] != null ) {
+                    if( file != null && file.files != null && file.files[0] != null ) {
                         c.append(fid, file.files[0]);
                         count++;
                     }

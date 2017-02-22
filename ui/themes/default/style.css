@@ -524,6 +524,7 @@ table.list > tfoot > tr > td.buttons {
     vertical-align: middle;
     line-height: 1.0em;
     width: 1.9em;
+    min-width: 1.9em;
     padding-right: 0.0em;
     padding-left: 0.0em;
 }
@@ -837,6 +838,7 @@ table.list span.pmbutton {
     border: 1px solid #bbb;
     border-radius: 3px;
     box-sizing: border-box;
+    min-width: 5.7em;
 }
 table.list span.pmbutton span.pm-down,
 table.list span.pmbutton span.pm-up {
@@ -1376,6 +1378,7 @@ table.list > tfoot > tr > td.aligntop {
 }
 
 table.list > thead > tr > td.aligncenter,
+table.list > thead > tr > th.aligncenter,
 table.list > tbody > tr > td.aligncenter,
 table.list > tfoot > tr > th.aligncenter, 
 table.list > tfoot > tr > td.aligncenter {

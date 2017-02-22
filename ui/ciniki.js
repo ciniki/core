@@ -1828,3 +1828,12 @@ M.modFlagAny = function(m, f) {
     }
     return (M.modFlags(m)&f)>0?'yes':'no';
 }
+
+// Encode a string for passing as parameters
+M.eU = function(s) {
+    return encodeURIComponent(s);
+}
+// Decode string
+M.dU = function(s) {
+    return decodeURIComponent(s);
+}

@@ -4,7 +4,7 @@
 //
 
 window.M = {
-    'version':'150101.1134',
+    'version':'170222.0915',
     'menus':{},
     'curMenu':'',
     'startMenu':'ciniki.core.menu',
@@ -34,6 +34,7 @@ M.init = function(cfg) {
     M.size = cfg.size;
     M.uiModeGuided = 'no';
     M.uiModeXHelp = 'no';
+    M.uiAppOverrides = {};
     M.months = [
         {'shortname':'Jan'},
         {'shortname':'Feb'},
@@ -251,7 +252,14 @@ M.startApp = function(a, sF, cB, aP, args) {
 //        }
 //    }
 
+    //
+    // FIXME: Check for overrides for ui functions
+    //
     var func = a;
+    if( M.uiAppOverrides[a] != null && M.uiAppOverrides[a].method != null ) {
+        func = M.uiAppOverrides[a].method;
+    }
+
     func = func.replace(/(.*)\.(.*)\.(.*)/, "$1_$2_$3");
 
     //

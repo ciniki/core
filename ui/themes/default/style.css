@@ -1770,6 +1770,7 @@ input.submit {
     font-size: 1.2em;
     padding: 0.1em 0.2em;
 }
+table.list tr.highlight,
 table.simplegrid tr.highlight {
     background: #ffa;
     font-size: 1em;

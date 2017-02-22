@@ -383,6 +383,18 @@ M.panel.prototype.showHideSections = function(s) {
     }
 };
 
+M.panel.prototype.showHideSections = function(s) {
+    if( s == null ) {
+        for(var i in this.sections) {
+            this.showHideSection(i);
+        }
+    } else {
+        for(var i in s) {
+            this.showHideSection(s[i]);
+        }
+    }
+};
+
 //
 // This function will create the sections for a panel
 //
@@ -674,6 +686,8 @@ M.panel.prototype.sectionType = function(i, s) {
 };
 
 M.panel.prototype.sectionData = function(i) {
+    if( this.sections[i].type != null && this.sections[i].type == 'html' && this.sections[i].html != null ) { return this.sections[i].html; }
+    if( this.sections[i].type != null && this.sections[i].type == 'htmlcontent' && this.sections[i].html != null ) { return this.sections[i].html; }
     if( (this.sections[i].type == null || this.sections[i].type == 'simplelist') && this.sections[i].list != null ) { return this.sections[i].list; }
     if( this.data[i] != null ) { return this.data[i]; }
     return {};

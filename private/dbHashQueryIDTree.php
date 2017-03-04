@@ -169,24 +169,9 @@ function ciniki_core_dbHashQueryIDTree(&$ciniki, $strsql, $module, $tree) {
                             $data[$tree[$i]['container']][$row[$tree[$i]['fname']]][$field] = $row[$field];
                         }
                     }
-                    // 
-                    // Items can be in lists and summed at the same time
-                    //
-                    if( isset($tree[$i]['sums'][$field]) ) {
-                        //
-                        // Check if field was declared in fields array, if not it can be added now
-                        //
-                        if( isset($data[$tree[$i]['container']][$row[$tree[$i]['fname']]][$field]) ) {
-                            $data[$tree[$i]['container']][$row[$tree[$i]['fname']]][$field] += $row[$field];
-                        } else {
-                            $data[$tree[$i]['container']][$row[$tree[$i]['fname']]][$field] = $row[$field];
-                        }
-                    }
                 }
-
 //              $data = &$data[$tree[$i]['container']][$row[$tree[$i]['fname']]];
             }
-
 
             //
             // Check for subcontainers

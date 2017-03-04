@@ -159,13 +159,25 @@ function ciniki_core_dbHashQueryIDTree(&$ciniki, $strsql, $module, $tree) {
             }
             else {
                 foreach($tree[$i]['fields'] as $field) {
-                    if( isset($tree[$i]['dlists'][$field])
-                        && $prev_row != null && $prev_row[$field] != $row[$field] ) {
+                    if( isset($tree[$i]['dlists'][$field]) && $prev_row != null && $prev_row[$field] != $row[$field] ) {
                         //
                         // Check if field was declared in fields array, if not it can be added now
                         //
                         if( isset($data[$tree[$i]['container']][$row[$tree[$i]['fname']]][$field]) ) {
                             $data[$tree[$i]['container']][$row[$tree[$i]['fname']]][$field] .= $tree[$i]['dlists'][$field] . $row[$field];
+                        } else {
+                            $data[$tree[$i]['container']][$row[$tree[$i]['fname']]][$field] = $row[$field];
+                        }
+                    }
+                    // 
+                    // Items can be in lists and summed at the same time
+                    //
+                    if( isset($tree[$i]['sums'][$field]) ) {
+                        //
+                        // Check if field was declared in fields array, if not it can be added now
+                        //
+                        if( isset($data[$tree[$i]['container']][$row[$tree[$i]['fname']]][$field]) ) {
+                            $data[$tree[$i]['container']][$row[$tree[$i]['fname']]][$field] += $row[$field];
                         } else {
                             $data[$tree[$i]['container']][$row[$tree[$i]['fname']]][$field] = $row[$field];
                         }

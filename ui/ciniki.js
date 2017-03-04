@@ -256,10 +256,10 @@ M.startApp = function(a, sF, cB, aP, args) {
     // FIXME: Check for overrides for ui functions
     //
     var func = a;
-    if( M.uiAppOverrides[a] != null && M.uiAppOverrides[a].method != null ) {
-        func = M.uiAppOverrides[a].method;
+    if( M.curBusiness != null && M.curBusiness.settings != null && M.curBusiness.settings.uiAppOverrides != null && M.curBusiness.settings.uiAppOverrides[a] != null && M.curBusiness.settings.uiAppOverrides[a].method != null ) {
+        func = M.curBusiness.settings.uiAppOverrides[a].method;
+        a = M.curBusiness.settings.uiAppOverrides[a].method;
     }
-
     func = func.replace(/(.*)\.(.*)\.(.*)/, "$1_$2_$3");
 
     //

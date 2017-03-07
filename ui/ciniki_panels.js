@@ -5964,8 +5964,18 @@ M.panel.prototype.serializeFormSection = function(fs, i, nM) {
 
     var s = this.sections[i];
     //
-    // FIXME: Untested code from serializeForm...
+    //
     // Check if paneltabs is a form element
+    //
+    if( s.type != null && s.type == 'paneltabs' && s.field_id != null && s.selected != null ) {
+        var o = this.fieldValue(i, s.field_id);
+        var n = s.selected;
+        if( o != n || fs == 'yes' ) {
+            c += encodeURIComponent(s.field_id) + '=' + encodeURIComponent(s.selected) + '&';
+        }
+    }
+    //
+    // FIXME: Untested code from serializeForm...
     //
 /*    for(j in s.fields) {
         var f = s.fields[j];

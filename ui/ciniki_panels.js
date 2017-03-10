@@ -724,6 +724,8 @@ M.panel.prototype.createSection = function(i, s) {
         var f = M.aE('div', this.panelUID + '_section_' + i, 'panelsection paneltabs');
     } else if( type == 'menutabs' ) {
         var f = M.aE('div', this.panelUID + '_section_' + i, 'panelsection menutabs');
+    } else if( type == 'copytext' ) {
+        var f = M.aE('div', this.panelUID + '_section_' + i, 'panelsection copysection');
     } else {
         var f = M.aE('div', this.panelUID + '_section_' + i, 'panelsection');
     }
@@ -827,7 +829,7 @@ M.panel.prototype.createSection = function(i, s) {
         }
     } else if( type != null && type == 'gridform' ) {
         st = this.createFormGridFields(this.panelUID, i, s);
-    } else if( type == 'simpleform' || type == 'imageform' || (type == null && s.fields != null) ) {
+    } else if( type == 'simpleform' || type == 'imageform' || type == 'copytext' || (type == null && s.fields != null) ) {
         st = this.createSectionForm(i, s.fields);        
 //        tb = M.aE('tbody');
 //        var ct = this.createFormFields(i, tb, this.panelUID, s.fields);

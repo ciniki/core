@@ -2224,6 +2224,12 @@ table.text tr.text td pre:last-child {
     margin-bottom: 0px;
 }
 
+/* Select area */
+div.panelsection.copysection {
+    height: 1px;
+    overflow: hidden;
+}
+
 /******** Guided mode settings *******/
 div.guided-off .guided-show,
 div.guided-on .guided-hide {

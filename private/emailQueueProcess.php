@@ -62,7 +62,7 @@ function ciniki_core_emailQueueProcess(&$ciniki) {
                 $msg = array(
                     'from' => $settings['smtp-from-name'] . ' <' . $settings['smtp-from-address'] . '>',
                     'subject' => $email['subject'],
-                    'html' => $email['htmlmsg'],
+                    'html' => (isset($email['htmlmsg']) && $email['htmlmsg'] != '' ? $email['htmlmsg'] : $email['textmsg']),
                     'text' => $email['textmsg'],
                     );
                 if( isset($ciniki['config']['ciniki.mail']['force.mailto']) ) {

@@ -196,6 +196,17 @@ M.panel.setupFormFieldHistory = function(fieldID, field) {
 
             tr.appendChild(c3);
             tb.appendChild(tr);
+
+            //
+            // Check for notes
+            //
+            if( history[i].action.notes != null && history[i].action.notes != '' ) {
+                tr = M.aE('tr', null, '');
+                var c4 = M.aE('td', null, 'fieldnotes', history[i].action.notes);
+                c4.colSpan='2';
+                tr.appendChild(c4);
+                tb.appendChild(tr);
+            }
         }
         hC.appendChild(t);
     }

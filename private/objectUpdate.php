@@ -22,7 +22,7 @@
 // Returns
 // -------
 //
-function ciniki_core_objectUpdate(&$ciniki, $business_id, $obj_name, $oid, $args, $tmsupdate=0x07) {
+function ciniki_core_objectUpdate(&$ciniki, $business_id, $obj_name, $oid, $args, $tmsupdate=0x07, $history_notes='') {
     //
     // Break apart object name
     //
@@ -57,6 +57,7 @@ function ciniki_core_objectUpdate(&$ciniki, $business_id, $obj_name, $oid, $args
     //
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQuote');
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbAddModuleHistory');
+    ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbAddModuleHistoryNotes');
     $strsql = "UPDATE " . $o['table'] . " SET last_updated = UTC_TIMESTAMP()";
     $num_fields = 0;
     foreach($o['fields'] as $field => $options) {
@@ -100,8 +101,11 @@ function ciniki_core_objectUpdate(&$ciniki, $business_id, $obj_name, $oid, $args
         ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'objectRefClear');
         foreach($o['fields'] as $field => $options) {
             if( isset($args[$field]) && (!isset($options['history']) || $options['history'] == 'yes') ) {
-                ciniki_core_dbAddModuleHistory($ciniki, $m, $o['history_table'], $business_id,
-                    2, $o['table'], $oid, $field, $args[$field]);
+                if( isset($o['history_notes']) && $o['history_notes'] == 'yes' ) {
+                    ciniki_core_dbAddModuleHistoryNotes($ciniki, $m, $o['history_table'], $business_id, 2, $o['table'], $oid, $field, $args[$field], $history_notes);
+                } else {
+                    ciniki_core_dbAddModuleHistory($ciniki, $m, $o['history_table'], $business_id, 2, $o['table'], $oid, $field, $args[$field]);
+                }
             }
             //
             // Check if this column is a reference to another modules object, 

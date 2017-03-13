@@ -1222,6 +1222,14 @@ table.list table.fieldhistory td.fieldvalue {
     white-space: pre-line;
 }
 
+table.list table.fieldhistory td.fieldnotes {
+    border-top: 1px dashed #ccc;
+    text-align: right;
+    cursor: pointer;
+    white-space: pre-line;
+    background: #f5f5f5;
+}
+
 table.list td.searchresults {
     text-align: left;
     padding: 0em;

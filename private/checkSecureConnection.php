@@ -23,6 +23,12 @@ function ciniki_core_checkSecureConnection(&$ciniki) {
     if( isset($_SERVER['HTTP_CLUSTER_HTTPS']) && $_SERVER['HTTP_CLUSTER_HTTPS'] == 'on') {
         return array('stat'=>'ok');
     }
+    //
+    // AWS uses HTTP_X_FORWARDED_PROTO with elastic load balancers
+    //
+    if( isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https' ) {
+        return array('stat'=>'ok');
+    }
 
     //
     // If the connection was to port 443

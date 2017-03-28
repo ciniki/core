@@ -96,7 +96,8 @@ if( isset($ciniki['config']) && isset($ciniki['config']['ciniki.core']) && isset
     //
     if( (isset($_SERVER['HTTP_CLUSTER_HTTPS']) && $_SERVER['HTTP_CLUSTER_HTTPS'] == 'on') 
         || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https') 
-        || (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == '443' ) )  {
+        || (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == '443' ) 
+        )  {
         $apiurl = 'https://' . $_SERVER['HTTP_HOST'] . $config['ciniki.core']['json_url'];
     } else {
         header('Location: https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);

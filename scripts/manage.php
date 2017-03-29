@@ -31,6 +31,29 @@ if( $rc['stat'] != 'ok' ) {
 }
 $ciniki = $rc['ciniki'];
 
+//
+// Check if maintanence mode
+//
+if( isset($ciniki['config']['ciniki.core']['maintenance']) && $ciniki['config']['ciniki.core']['maintenance'] == 'on' ) {
+    if( isset($ciniki['config']['ciniki.core']['maintenance.message']) && $ciniki['config']['ciniki.core']['maintenance.message'] != '' ) {
+        $msg = $ciniki['config']['ciniki.core']['maintenance.message'];
+    } else {
+        $msg = "We are currently doing maintenance on the system and will be back soon.";
+    }
+    print "<html><head><title>Maintenance Mode</title>"
+        . "<style>"
+        . ".message { "
+            . "text-align: center; "
+            . "font-size: 3em; "
+            . "padding: 3em; "
+            . "}"
+        . "</style>"
+        . "</head>";
+    print "<body><div class='message'>$msg</div></body>";
+    print "</html>";
+    exit;
+}
+
 //$ciniki = array();
 //require_once($ciniki_root . '/ciniki-mods/core/private/loadCinikiConfig.php');
 //if( ciniki_core_loadCinikiConfig($ciniki, $ciniki_root) == false ) {

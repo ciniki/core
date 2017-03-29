@@ -57,6 +57,19 @@ if( $rc['stat'] != 'ok' ) {
 }
 
 //
+// Check if maintanence mode
+//
+if( isset($ciniki['config']['ciniki.core']['maintenance']) && $ciniki['config']['ciniki.core']['maintenance'] == 'on' ) {
+    if( isset($ciniki['config']['ciniki.core']['maintenance.message']) && $ciniki['config']['ciniki.core']['maintenance.message'] != '' ) {
+        $msg = $ciniki['config']['ciniki.core']['maintenance.message'];
+    } else {
+        $msg = "We are currently doing maintenance on the system and will be back soon.";
+    }
+    ciniki_core_printResponse($ciniki, array('stat'=>'fail', 'err'=>array('code'=>'', 'msg'=>$msg)));
+    exit;
+}
+
+//
 // Once the REST specific stuff is done, pass the control to
 // ciniki.core.callPublicMethod()
 //

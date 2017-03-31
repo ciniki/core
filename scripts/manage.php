@@ -32,6 +32,13 @@ if( $rc['stat'] != 'ok' ) {
 $ciniki = $rc['ciniki'];
 
 //
+// Check if an execution time override has been set
+//
+if( isset($ciniki['config']['ciniki.core']['max_execution_time']) && $ciniki['config']['ciniki.core']['max_execution_time'] != '' ) {
+    ini_set('max_execution_time', $ciniki['config']['ciniki.core']['max_execution_time']);
+}
+
+//
 // Check if maintanence mode
 //
 if( isset($ciniki['config']['ciniki.core']['maintenance']) && $ciniki['config']['ciniki.core']['maintenance'] == 'on' ) {

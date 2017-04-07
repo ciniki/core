@@ -69,7 +69,7 @@ function ciniki_core_parseRestArguments(&$ciniki) {
                 if( $pair == '' ) { continue; }
                 $nv = explode("=", $pair);
                 $arg_key = urldecode($nv[0]);
-                $arg_value = urldecode($nv[1]);
+                $arg_value = (isset($nv[1]) ? urldecode($nv[1]) : '');
                 if( in_array($arg_key, $request_keys) ) {
                     $ciniki['request'][$arg_key] = $arg_value;
                 } elseif( in_array($arg_key, $response_keys) ) {

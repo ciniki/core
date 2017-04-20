@@ -689,8 +689,9 @@ M.addSectionLabel = function(t, c, j) {
 // aP - appPrefix, the prefix for the DIV containers, 'mc' or 'mh'
 // aI - the app ID
 // cF - clearFlag, specifies if the container is already found, should it be cleared?
+// aM - The menu to display for the app
 //
-M.createContainer = function(aP, aI, cF) {
+M.createContainer = function(aP, aI, cF, aM) {
     //
     // FIXME: Replace this function with one that creates the container in a new draggable window "div"
     //
@@ -703,6 +704,13 @@ M.createContainer = function(aP, aI, cF) {
         if( cF == 'yes' ) {
             M.clr(aI);
         }
+    }
+    
+    //
+    // Display the application menu
+    //
+    if( aM != null ) {
+        
     }
 
     return c;

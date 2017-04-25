@@ -1755,7 +1755,7 @@ M.showWebsite = function(url) {
 }
 
 M.showPDF = function(m, p) {
-    if( M.device == 'ipad' && window.navigator != null && window.navigator.standalone == true ) {
+    if( (M.device == 'iphone' || M.device == 'ipad') && window.navigator != null && window.navigator.standalone == true ) {
         var e1 = M.gE('m_pdf');
         var e2 = M.gE('m_container');
         var iframe = M.gE('mc_pdf_iframe');

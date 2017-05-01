@@ -10,14 +10,14 @@
 // Returns
 // -------
 //
-function ciniki_core_storageFileDelete(&$ciniki, $business_id, $obj_name, $args) {
+function ciniki_core_storageFileLoad(&$ciniki, $business_id, $obj_name, $args) {
     //
     // Break apart object name
     //
     list($pkg, $mod, $obj) = explode('.', $obj_name);
 
     if( !isset($args['uuid']) || $args['uuid'] == '' ) {
-        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.173', 'msg'=>'No uuid specified to remove from storage.'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.396', 'msg'=>'No uuid specified to load from storage.'));
     }
 
     //
@@ -31,7 +31,7 @@ function ciniki_core_storageFileDelete(&$ciniki, $business_id, $obj_name, $args)
             return $rc;
         }
         if( !isset($rc['business']) ) {
-            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.174', 'msg'=>'Unable to get business details'));
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.397', 'msg'=>'Unable to get business details'));
         }
         $business_uuid = $rc['business']['uuid'];
     } else {
@@ -46,10 +46,13 @@ function ciniki_core_storageFileDelete(&$ciniki, $business_id, $obj_name, $args)
         . "/$pkg.$mod/"
         . (isset($args['subdir']) && $args['subdir'] != '' ? $args['subdir'] . '/' : '')
         . $args['uuid'][0] . '/' . $args['uuid'];
-    if( file_exists($storage_filename) ) {
-        unlink($storage_filename);
+    if( !file_exists($storage_filename) ) {
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.398', 'msg'=>'File does not exist'));
     }
 
-    return array('stat'=>'ok');
+    $rsp = array('stat'=>'ok');
+    $rsp['binary_content'] = file_get_contents($storage_filename);
+
+    return $rsp;
 }
 ?>

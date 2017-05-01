@@ -46,8 +46,10 @@ function ciniki_core_storageFileAdd(&$ciniki, $business_id, $obj_name, $args) {
     $storage_dirname = $ciniki['config']['ciniki.core']['storage_dir'] . '/'
         . $business_uuid[0] . '/' . $business_uuid
         . "/$pkg.$mod/"
+        . (isset($args['subdir']) && $args['subdir'] != '' ? $args['subdir'] . '/' : '')
         . $uuid[0];
     $storage_filename = $storage_dirname . '/' . $uuid;
+
     if( !is_dir($storage_dirname) ) {
         if( !mkdir($storage_dirname, 0700, true) ) {
             return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.171', 'msg'=>'Unable to add file'));

@@ -195,6 +195,17 @@ html {
 
 /************* Panel Markups      **************/
 
+/**** Panel Menu ***/
+div.menutabs {
+    text-align: center;
+    padding-top: 1em;
+    padding-bottom: 0em;
+}
+
+div.menutabs table.paneltabs {
+    margin: 0 auto 0; 
+}
+
 /* These can be specific for help or apps by add #m_container or #m_help in front */
 
 div.narrow {
@@ -1658,6 +1669,8 @@ table.form td.flags span.flag_on,
 table.form td.flags span.flag_off, 
 table.form td.joinedflags span.flag_on,
 table.form td.joinedflags span.flag_off, 
+table.menutabs td.joinedtabs div span.toggle_on,
+table.menutabs td.joinedtabs div span.toggle_off,
 table.paneltabs td.joinedtabs div span.toggle_on,
 table.paneltabs td.joinedtabs div span.toggle_off,
 table.form td div span.toggle_on,
@@ -1678,6 +1691,8 @@ table td.tags span.rbutton_off {
 
 table.form td.flags span.flag_on,
 table.form td.flags span.flag_off,
+table.menutabs td.tabs div span.toggle_on,
+table.menutabs td.tabs div span.toggle_off,
 table.paneltabs td.tabs div span.toggle_on,
 table.paneltabs td.tabs div span.toggle_off,
 table.form tr.idlist td.multiselect div span.toggle_on,
@@ -1715,6 +1730,7 @@ table.paneltabs {
     margin-bottom: 0.5em;
 }
 
+table.menutabs > tbody > tr > td,
 table.formtabs > tbody > tr > td,
 table.paneltabs > tbody > tr > td {
     padding: 0em;
@@ -1722,12 +1738,16 @@ table.paneltabs > tbody > tr > td {
 
 table.formtabs td div span.toggle_on,
 table.formtabs td div span.toggle_off,
+table.menutabs td.joinedtabs div span.toggle_on,
+table.menutabs td.joinedtabs div span.toggle_off,
 table.paneltabs td.joinedtabs div span.toggle_on,
 table.paneltabs td.joinedtabs div span.toggle_off {
     font-size: 1.0em;
     margin: 0em;
 }
 
+table.menutabs td.joinedtabs div span.toggle_on span.faicon,
+table.menutabs td.joinedtabs div span.toggle_off span.faicon,
 table.paneltabs td.joinedtabs div span.toggle_on span.faicon,
 table.paneltabs td.joinedtabs div span.toggle_off span.faicon {
     display: inline-block;
@@ -1836,6 +1856,10 @@ table.services tr td.jobs span.job {
     margin: 0.1em 0.3em 0.1em 0.0em;
     min-width: 4em;
 }
+
+/*************** Menu Tabs section ***********/
+div.:w
+
 
 /***************  Appointments section ****************/
 table.dayschedule {

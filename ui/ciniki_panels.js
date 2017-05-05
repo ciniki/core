@@ -265,6 +265,38 @@ M.panel.prototype.addPanel = function() {
     } else {
         var w = M.aE('div', '', this.size);
     }
+
+    //
+    // Check for any menu tabs
+    //
+    if( this.menutabs != null && (this.menutabs.visible == null || this.menutabs.visible != 'no') ) {
+        var pm = M.aE('div', null, 'menutabs');
+        var t = M.addTable(this.panelUID + '_menutabs', 'list form paneltabs noheader');
+        var tb = M.aE('tbody');
+        var tr = M.aE('tr');
+        var c = M.aE('td',null,'textfield aligncenter joinedtabs');
+        var div = M.aE('div', null, 'buttons');
+        for(i in this.menutabs.tabs) {
+            if( this.menutabs.tabs[i].visible != null && this.menutabs.tabs[i].visible == 'no' ) {
+                continue;
+            }
+            var e = null;
+            var lt = this.menutabs.tabs[i].label;
+            if( i == this.menutabs.selected ) {
+                e = M.aE('span', null, 'toggle_on', lt);
+            } else {
+                e = M.aE('span', null, 'toggle_off', lt, this.panelRef + '.menutabSwitch("' + i + '");');
+            }
+            div.appendChild(e);
+        }
+        c.appendChild(div);
+        tr.appendChild(c);
+        tb.appendChild(tr);
+        t.appendChild(tb);
+        pm.appendChild(t);
+        p.appendChild(pm);
+    }
+
     
     if( this.type == 'sectioned' ) {
         // This is the new (Dec 2011) master section, which should convert the way panels are handled
@@ -580,6 +612,11 @@ M.panel.prototype.createSections = function() {
 
     return f;
 };
+
+M.panel.prototype.menutabSwitch = function(t) {
+    this.menutabs.selected = t;
+    eval(this.menutabs.tabs[t].fn);
+}
 
 M.panel.prototype.gstepPrev = function() {
     this.gstep--;

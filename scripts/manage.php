@@ -61,6 +61,33 @@ if( isset($ciniki['config']['ciniki.core']['maintenance']) && $ciniki['config'][
     exit;
 }
 
+//
+// Check if reset requested
+//
+if( isset($_SERVER['QUERY_STRING']) && $_SERVER['QUERY_STRING'] == 'reset' ) {
+    print "<html><head><title>Manager Reset</title>"
+        . "<style>"
+        . ".message { "
+            . "text-align: center; "
+            . "font-size: 2em; "
+            . "padding: 3em; "
+            . "}"
+        . "</style>"
+        . "</head>";
+    print "<body>"
+        . "<script type='text/javascript'>"
+        . "localStorage.removeItem('lastBusinessID');"
+        . "localStorage.removeItem('_UTK');"
+        . "localStorage.removeItem('_UTS');"
+        . "</script>\n"
+        . "<div class='message'>Your client has been reset, <a href='/manager'>click to login</a></div>"
+        . "";
+    print "</body>";
+    print "</html>";
+    exit;
+}
+
+
 //$ciniki = array();
 //require_once($ciniki_root . '/ciniki-mods/core/private/loadCinikiConfig.php');
 //if( ciniki_core_loadCinikiConfig($ciniki, $ciniki_root) == false ) {

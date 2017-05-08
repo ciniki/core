@@ -1857,10 +1857,6 @@ table.services tr td.jobs span.job {
     min-width: 4em;
 }
 
-/*************** Menu Tabs section ***********/
-div.:w
-
-
 /***************  Appointments section ****************/
 table.dayschedule {
     table-layout: auto;

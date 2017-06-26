@@ -198,6 +198,10 @@ html {
 /**** Panel Menu ***/
 div.menutabs {
     text-align: center;
+    padding-top: 1em;
+    padding-bottom: 0em;
+}
+div.panelsection.menutabs {
     padding-top: 0em;
     padding-bottom: 1em;
 }

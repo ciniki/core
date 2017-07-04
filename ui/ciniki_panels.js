@@ -3977,6 +3977,9 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
                 f.innerHTML = idlist[j].name;
             }
             f.setAttribute('onclick', this.panelRef + '.setSelectField(this, \'' + i + sFN + '\',\'yes\',\'' + field.fn + '\');');
+            if( idlist[j].hovertxt != null && idlist[j].hovertxt != '' ) {
+                f.setAttribute('title', idlist[j].hovertxt);
+            }
             div.appendChild(f);
         }
         c.appendChild(div);

@@ -2244,6 +2244,10 @@ table.text tr.text td pre {
     overflow-x: scroll;
     white-space: pre-wrap;
 }
+table.text tr.text td pre.pretext {
+    overflow-x: auto;
+    white-space: pre;
+}
 
 table.text tr.text td p:first-child,
 table.text tr.text td pre:first-child {

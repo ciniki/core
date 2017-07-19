@@ -4488,6 +4488,14 @@ M.panel.prototype.setFieldValue = function(field, v, vnum, hide, nM, action) {
                 e.className = 'toggle_off';
             }
         }
+    } else if( f.type == 'flagtoggle' ) {
+        if( (v&f.bit) == f.bit ) {
+            M.gE(this.panelUID + '_' + field + sFN + '_off').className = 'toggle_off';
+            M.gE(this.panelUID + '_' + field + sFN + '_on').className = 'toggle_on';
+        } else {
+            M.gE(this.panelUID + '_' + field + sFN + '_off').className = 'toggle_on';
+            M.gE(this.panelUID + '_' + field + sFN + '_on').className = 'toggle_off';
+        }
     } else if( f.type == 'multiselect' ) {
         if( v != '' ) {
             var vs = v.split(',');

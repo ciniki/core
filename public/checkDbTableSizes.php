@@ -19,7 +19,6 @@ function ciniki_core_checkDbTableSizes($ciniki) {
     if( $rc['stat'] != 'ok' ) {
         return $rc;
     }
-    error_log(print_r($ciniki['config']['ciniki.core'], true));
     $strsql = "SELECT table_name, "
         . "ROUND(((data_length + index_length) / 1024 / 1024), 2) AS mb "
         . "FROM information_schema.TABLES "

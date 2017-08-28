@@ -13,7 +13,7 @@ function ciniki_core_recursiveRmdir($ciniki, $dir, $skip=array()) {
 
     $fp = opendir($dir);
     if( $fp ) {
-        while( $f = readdir($fp)) {
+        while (false !== ($f = readdir($fp))) {
             $file = $dir . '/' . $f;
             if( $f == '.' || $f == '..' ) { 
                 continue; 

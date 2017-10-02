@@ -157,6 +157,12 @@ if( isset($ciniki['config']) && isset($ciniki['config']['ciniki.core']) && isset
         )  {
         $apiurl = 'https://' . $_SERVER['HTTP_HOST'] . $config['ciniki.core']['json_url'];
     } else {
+        if( !isset($_SERVER['HTTP_HOST']) ) {
+            error_log('HTTP_HOST not defined');
+            error_log(print_r($_SERVER, true));
+            print_unsupported();
+            exit;
+        }
         header('Location: https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
         exit;
     }

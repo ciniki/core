@@ -1772,6 +1772,15 @@ M.showPDF = function(m, p) {
             e1.style.display = 'block';
             var url = M.api.getUploadURL(m, p);
             iframe.src = url;
+            //iframe.print();
+//            window.frames["mc_pdf_iframe"].print();
+            iframe.onload = function() {
+                var w = ( this.contentWindow || this.contentDocument.defaultView );
+                w.focus();
+                w.print();
+//                window.frames["mc_pdf_iframe"].print();
+//                //this.print();
+            }
         }
         M.resize();
     } else {
@@ -1780,7 +1789,14 @@ M.showPDF = function(m, p) {
 }
 
 M.printPDF = function() {
-    window.print();
+    //window.print();
+    var iframe = M.gE('mc_pdf_iframe');
+//    iframe.contentWindow.print();
+//    window.frames['mc_pdf_iframe'].focus();
+//    window.frames['mc_pdf_iframe'].print();
+//    iframe.print();
+//    iframe.contentWindow.print();
+
 }
 
 M.alert = function(msg) {

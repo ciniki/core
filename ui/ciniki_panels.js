@@ -5747,7 +5747,7 @@ M.panel.prototype.showButtons = function(wID, buttons) {
     // Create the menu buttons
     //
     var c = 0;
-    for(i in buttons) {
+    for(var i in buttons) {
         var icn = '';
         switch(buttons[i].icon) {
 //            case 'rewind': icn = 'B'; break;

@@ -149,7 +149,7 @@ if( isset($ciniki['config']) && isset($ciniki['config']['ciniki.core']) && isset
     //
     // Check if secure connection
     // Rackspace cloudsites uses HTTP_CLUSTER_HTTPS
-    // AWS ELB uses HTTP_X_FORWARDD_PROTO
+    // AWS ELB uses HTTP_X_FORWARDED_PROTO
     //
     if( (isset($_SERVER['HTTP_CLUSTER_HTTPS']) && $_SERVER['HTTP_CLUSTER_HTTPS'] == 'on') 
         || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https') 

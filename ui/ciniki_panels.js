@@ -2277,7 +2277,11 @@ M.panel.prototype.createSectionGrid = function(s) {
                 tr.appendChild(c);
             } else {
                 var v = this.cellValue(s, i, j, data[i]);
-                c = M.aE('td',null,cl,v);
+                if( this.cellId != null ) {
+                    c = M.aE('td',this.cellId(s, i, j, data[i]),cl,v);
+                } else {
+                    c = M.aE('td',null,cl,v);
+                }
                 tr.appendChild(c);
 
                 if( this.cellStyle != null ) {
@@ -3459,7 +3463,7 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
 //            if( field.type == 'fkid' ) {
 //                c.appendChild(f2);
 //            }
-        if( field.type == 'date' ) {
+        if( field.type == 'date' && (field.editable == null || field.editable == 'yes') ) {
             c.appendChild(M.aE('span',null,'rbutton_off','D','M.' + this.appID + '.' + this.name + '.toggleFormFieldCalendar(\'' + fid + sFN + '\');'));
             //var img = M.aE('img', null, 'calendarbutton');
             //img.src = '' + M.themes_root_url + '/default/img/calendarA.png';

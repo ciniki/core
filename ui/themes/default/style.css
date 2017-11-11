@@ -650,7 +650,6 @@ table.border tr > td.input {
     border-left: 1px solid #bbb;    
 }
 
-
 table.list tr > td.input {
     font-size: 1em;
     width: 100%;
@@ -665,7 +664,10 @@ table.outline tr > td.input {
     margin: 0px;
     vertical-align: center;
 }
-
+table.form.simplegrid tr > td.input {
+    border-left: 0px;
+    width: auto;
+}
 
 table.imageform tr > td.input {
     padding: 0;

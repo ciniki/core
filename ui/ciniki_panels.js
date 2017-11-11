@@ -808,7 +808,10 @@ M.panel.prototype.createSection = function(i, s) {
     }
 
     // Check if addFn exists and display link to right of header
-    if( lE != null && s.addFn != null && s.addFn != '' && s.addTxt != null && s.addTxt != '' && (s.changeTxt == null || s.changeTxt == '') ) {
+    if( lE != null && (
+        (s.addTopFn != null && s.addTopFn != '') 
+        || (s.addFn != null && s.addFn != '' && s.addTxt != null && s.addTxt != '' && (s.changeTxt == null || s.changeTxt == ''))
+        ) ) {
         var data = null;
         if( this.sectionData != null ) {
             data = this.sectionData(i);

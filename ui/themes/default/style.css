@@ -668,6 +668,10 @@ table.form.simplegrid tr > td.input {
     border-left: 0px;
     width: auto;
 }
+table.form.simplegrid tr > td.input input.alignright {
+    text-align: right;
+    padding-right: 0.4em;
+}
 
 table.imageform tr > td.input {
     padding: 0;

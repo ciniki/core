@@ -167,6 +167,9 @@ function ciniki_core_parseArgs(&$ciniki, $business_id, $raw_args, $arg_info) {
             } 
             elseif( isset($options['type']) && $options['type'] == 'float' && preg_match('/^\d+(\.\d+)?$/',$raw_args[$arg]) ) {
                 $args[$arg] = (float)$raw_args[$arg];
+            }
+            elseif( isset($options['type']) && $options['type'] == 'number' ) {
+                $args[$arg] = preg_replace("/[^0-9\.]/", '', $raw_args[$arg]);
             } 
             else {
                 $args[$arg] = $raw_args[$arg];

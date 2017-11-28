@@ -822,7 +822,11 @@ M.panel.prototype.createSection = function(i, s) {
         if( s.addTopFn != null || (data != null && (data.length > 0 || M.length(data) > 0) || M.length(this.sections[i].fields)) ) {
             var c = M.aE('span', null, 'addlink alignright clickable', '+ ' + s.addTxt);
             // Add arrow
-            c.setAttribute('onclick', s.addFn);
+            if( s.addTopFn != null ) {
+                c.setAttribute('onclick', s.addTopFn);
+            } else {
+                c.setAttribute('onclick', s.addFn);
+            }
             lE.appendChild(c);
         }
     }

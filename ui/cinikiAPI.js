@@ -700,8 +700,8 @@ M.api.expired = function(r) {
             M.userID = 0;
             M.userPerms = 0;
             M.logout();
-            M.businesses = null;
-            M.curBusinessID = 0;
+            M.tenants = null;
+            M.curTenantID = 0;
             M.reload();
         } else {
             M.show('m_relogin');

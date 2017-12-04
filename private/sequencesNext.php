@@ -12,7 +12,7 @@
 // =======
 // <rsp stat="ok" />
 //
-function ciniki_core_sequencesNext($ciniki, $business_id, $obj_name, $id_field, $id_value) {
+function ciniki_core_sequencesNext($ciniki, $tnid, $obj_name, $id_field, $id_value) {
 
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbUpdate');
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'objectLoad');
@@ -33,7 +33,7 @@ function ciniki_core_sequencesNext($ciniki, $business_id, $obj_name, $id_field, 
     //
     $strsql = "SELECT MAX(sequence) AS max_sequence "
         . "FROM " . $object['table'] . " "
-        . "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+        . "WHERE tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
         . "AND $id_field = '" . ciniki_core_dbQuote($ciniki, $id_value) . "' "
         . "";
     $rc = ciniki_core_dbHashQuery($ciniki, $strsql, $m, 'seq');

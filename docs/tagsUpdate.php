@@ -8,7 +8,7 @@
 // ---------
 // ciniki:
 // module:              The package.module the tag is located in.
-// business_id:         The ID of the business the tag belongs to.
+// tnid:         The ID of the tenant the tag belongs to.
 // history_table:       The database table which stores the modules history.
 // table:               The database table that stores the tags.
 // key_name:            The name of the ID field that links to the item the tag is for.
@@ -25,7 +25,7 @@
 // -------
 // <rsp stat="ok" />
 //
-function ciniki_core_tagsUpdate($ciniki, $module, $business_id, $history_table, $table, $key_name, $key_value, $type, $list) {
+function ciniki_core_tagsUpdate($ciniki, $module, $tnid, $history_table, $table, $key_name, $key_value, $type, $list) {
     //
     // All arguments are assumed to be un-escaped, and will be passed through dbQuote to
     // ensure they are safe to insert.
@@ -77,9 +77,9 @@ function ciniki_core_tagsUpdate($ciniki, $module, $business_id, $history_table, 
             //
             // Update history
             //
-            $rc = ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $business_id, 3, $table, $tag['id'], $key_name, $tag[$key_name]);
-            $rc = ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $business_id, 3, $table, $tag['id'], 'type', $tag['type']);
-            $rc = ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $business_id, 3, $table, $tag['id'], 'name', $tag['name']);
+            $rc = ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $tnid, 3, $table, $tag['id'], $key_name, $tag[$key_name]);
+            $rc = ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $tnid, 3, $table, $tag['id'], 'type', $tag['type']);
+            $rc = ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $tnid, 3, $table, $tag['id'], 'name', $tag['name']);
         }
     }
 
@@ -113,9 +113,9 @@ function ciniki_core_tagsUpdate($ciniki, $module, $business_id, $history_table, 
                 //
                 // Update module history
                 //
-                $rc = ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $business_id, 1, $table, $tag_id, $key_name, $key_value);
-                $rc = ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $business_id, 1, $table, $tag_id, 'type', $type);
-                $rc = ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $business_id, 1, $table, $tag_id, 'name', $tag);
+                $rc = ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $tnid, 1, $table, $tag_id, $key_name, $key_value);
+                $rc = ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $tnid, 1, $table, $tag_id, 'type', $type);
+                $rc = ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $tnid, 1, $table, $tag_id, 'name', $tag);
             }
             
         }

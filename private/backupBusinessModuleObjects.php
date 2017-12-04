@@ -2,21 +2,21 @@
 //
 // Description
 // -----------
-// This method will backup a business to the ciniki-backups folder
+// This method will backup a tenant to the ciniki-backups folder
 //
 // Arguments
 // ---------
 // ciniki:
-// business_id:     The ID of the business on the local side to check sync.
+// tnid:     The ID of the tenant on the local side to check sync.
 //
 //
-function ciniki_core_backupBusinessModuleObjects(&$ciniki, $business, $pkg, $mod) {
+function ciniki_core_backupTenantModuleObjects(&$ciniki, $tenant, $pkg, $mod) {
     $module = $pkg . '.' . $mod;
 
     //
     // Setup the backup directory for this module
     //
-    $backup_dir = $business['backup_dir'] . '/' . $module . '/_objects';
+    $backup_dir = $tenant['backup_dir'] . '/' . $module . '/_objects';
     if( !file_exists($backup_dir) ) {
         if( mkdir($backup_dir, 0755, true) === false ) {
             return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.12', 'msg'=>'Unable to create backup directory for ' . $module));
@@ -61,9 +61,9 @@ function ciniki_core_backupBusinessModuleObjects(&$ciniki, $business, $pkg, $mod
             //
             // FIXME: Backup the object
             //
-            $rc = ciniki_core_backupBusinessModuleObject($ciniki, $business, $pkg, $mod, $obj);
+            $rc = ciniki_core_backupTenantModuleObject($ciniki, $tenant, $pkg, $mod, $obj);
             if( $rc['stat'] != 'ok' ) {
-                error_log('BACKUP-ERR[' . $business['name'] . ']: ' . $rc['err']['code'] . ' - ' . $rc['err']['msg']);
+                error_log('BACKUP-ERR[' . $tenant['name'] . ']: ' . $rc['err']['code'] . ' - ' . $rc['err']['msg']);
             }
         }
     }

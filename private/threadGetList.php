@@ -12,7 +12,7 @@
 // Arguments
 // ---------
 // module:              The package.module the thread is located in.
-// business_id:         The business to get the threads for.
+// tnid:         The tenant to get the threads for.
 // state:               (optional) Find threads with the matching state.
 // user_id:             (optional) Find threads that were opened by this user.
 // subject:             (optional) Find threads with the matching subject.
@@ -36,7 +36,7 @@ function ciniki_core_threadGetList($ciniki, $module, $table, $container_name, $r
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbRspQueryPlusDisplayNames');
 
     //
-    // FIXME: Add timezone information from business settings
+    // FIXME: Add timezone information from tenant settings
     //
     ciniki_core_loadMethod($ciniki, 'ciniki', 'users', 'private', 'timezoneOffset');
     $utc_offset = ciniki_users_timezoneOffset($ciniki);
@@ -47,12 +47,12 @@ function ciniki_core_threadGetList($ciniki, $module, $table, $container_name, $r
     // 
     // Setup the SQL statement to insert the new thread
     //
-    $strsql = "SELECT id, business_id, user_id, subject, state, "
+    $strsql = "SELECT id, tnid, user_id, subject, state, "
         . "source, source_link, "
         . "DATE_FORMAT(CONVERT_TZ(date_added, '+00:00', '" . ciniki_core_dbQuote($ciniki, $utc_offset) . "'), '" . ciniki_core_dbQuote($ciniki, $datetime_format) . "') AS date_added, "
         . "DATE_FORMAT(CONVERT_TZ(last_updated, '+00:00', '" . ciniki_core_dbQuote($ciniki, $utc_offset) . "'), '" . ciniki_core_dbQuote($ciniki, $datetime_format) . "') AS last_updated "
         . "FROM " . ciniki_core_dbQuote($ciniki, $table) . " "
-        . "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $args['business_id']) . "' ";
+        . "WHERE tnid = '" . ciniki_core_dbQuote($ciniki, $args['tnid']) . "' ";
 
     // state - optional
     if( isset($args['state']) ) {

@@ -13,7 +13,7 @@
 // Arguments
 // ---------
 // ciniki:
-// business_id:         The ID of the business the request is for.
+// tnid:         The ID of the tenant the request is for.
 // method:              The requested method.
 // subscription_id:     The ID of the subscription the request is for.  Only checked if 
 //                      subscription_id is specified and greater than zero.
@@ -21,12 +21,12 @@
 // Returns
 // -------
 //
-function ciniki_subscriptions_checkAccess($ciniki, $business_id, $method, $subscription_id) {
+function ciniki_subscriptions_checkAccess($ciniki, $tnid, $method, $subscription_id) {
     //
-    // Check if the business is active and the module is enabled
+    // Check if the tenant is active and the module is enabled
     //
-    ciniki_core_loadMethod($ciniki, 'ciniki', 'businesses', 'private', 'checkModuleAccess');
-    $rc = ciniki_businesses_checkModuleAccess($ciniki, $business_id, 'ciniki', 'subscriptions');
+    ciniki_core_loadMethod($ciniki, 'ciniki', 'tenants', 'private', 'checkModuleAccess');
+    $rc = ciniki_tenants_checkModuleAccess($ciniki, $tnid, 'ciniki', 'subscriptions');
     if( $rc['stat'] != 'ok' ) {
         return $rc;
     }
@@ -71,11 +71,11 @@ function ciniki_subscriptions_checkAccess($ciniki, $business_id, $method, $subsc
 
 
     //
-    // Check the subscription_id is attached to the business
+    // Check the subscription_id is attached to the tenant
     //
     if( $subscription_id > 0 ) {
-        $strsql = "SELECT id, business_id FROM ciniki_subscriptions "
-            . "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+        $strsql = "SELECT id, tnid FROM ciniki_subscriptions "
+            . "WHERE tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
             . "AND id = '" . ciniki_core_dbQuote($ciniki, $subscription_id) . "' "
             . "";
         $rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.subscriptions', 'subscription');
@@ -84,11 +84,11 @@ function ciniki_subscriptions_checkAccess($ciniki, $business_id, $method, $subsc
         }
         //
         // If nothing was returned, deny
-        // if business_id is not the same, deny (extra check)
+        // if tnid is not the same, deny (extra check)
         // if subscription id is not the same, deny (extra check)
         //
         if( !isset($rc['subscription']) 
-            || $rc['subscription']['business_id'] != $business_id 
+            || $rc['subscription']['tnid'] != $tnid 
             || $rc['subscription']['id'] != $subscription_id ) {
             // Access denied!
             return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.4', 'msg'=>'Access denied'));
@@ -100,19 +100,19 @@ function ciniki_subscriptions_checkAccess($ciniki, $business_id, $method, $subsc
     //
 
     //
-    // If business_group specified, check the session user in the business_users table.
+    // If tenant_group specified, check the session user in the tenant_users table.
     //
     if( isset($rules['permission_groups']) && $rules['permission_groups'] > 0 ) {
         //
-        // If the user is attached to the business AND in the one of the accepted permissions group, they will be granted access
+        // If the user is attached to the tenant AND in the one of the accepted permissions group, they will be granted access
         //
-        $strsql = "SELECT business_id, user_id FROM ciniki_business_users "
-            . "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+        $strsql = "SELECT tnid, user_id FROM ciniki_tenant_users "
+            . "WHERE tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
             . "AND user_id = '" . ciniki_core_dbQuote($ciniki, $ciniki['session']['user']['id']) . "' "
             . "AND status = 10 "
             . "AND CONCAT_WS('.', package, permission_group) IN ('" . implode("','", $rules['permission_groups']) . "') "
             . "";
-        $rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.businesses', 'user');
+        $rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.tenants', 'user');
         if( $rc['stat'] != 'ok' ) {
             return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.5', 'msg'=>'Access denied.', 'err'=>$rc['err']));
         }

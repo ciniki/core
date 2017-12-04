@@ -12,7 +12,7 @@
 // =======
 // <rsp stat="ok" />
 //
-function ciniki_core_sequencesUpdate($ciniki, $business_id, $obj_name, $id_field, $id_value, $new_seq, $old_seq) {
+function ciniki_core_sequencesUpdate($ciniki, $tnid, $obj_name, $id_field, $id_value, $new_seq, $old_seq) {
 
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbUpdate');
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'objectLoad');
@@ -34,7 +34,7 @@ function ciniki_core_sequencesUpdate($ciniki, $business_id, $obj_name, $id_field
     $strsql = "SELECT id, sequence AS number "
         . "FROM " . $object['table'] . " "
         . "WHERE $id_field = '" . ciniki_core_dbQuote($ciniki, $id_value) . "' "
-        . "AND business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+        . "AND tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
         . "";
     // Use the last_updated to determine which is in the proper position for duplicate numbers
     if( $new_seq < $old_seq || $old_seq == -1) {
@@ -58,14 +58,14 @@ function ciniki_core_sequencesUpdate($ciniki, $business_id, $obj_name, $id_field
                 $strsql = "UPDATE " . $object['table'] . " SET "
                     . "sequence = '" . ciniki_core_dbQuote($ciniki, $cur_number) . "' "
                     . ", last_updated = UTC_TIMESTAMP() "
-                    . "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+                    . "WHERE tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
                     . "AND id = '" . ciniki_core_dbQuote($ciniki, $seq['id']) . "' "
                     . "";
                 $rc = ciniki_core_dbUpdate($ciniki, $strsql, $m);
                 if( $rc['stat'] != 'ok' ) {
                     ciniki_core_dbTransactionRollback($ciniki, $m);
                 }
-                ciniki_core_dbAddModuleHistory($ciniki, $m, $object['history_table'], $business_id, 
+                ciniki_core_dbAddModuleHistory($ciniki, $m, $object['history_table'], $tnid, 
                     2, $object['table'], $seq['id'], 'sequence', $cur_number);
                 $ciniki['syncqueue'][] = array('push'=>$obj_name, 'args'=>array('id'=>$seq['id']));
                 

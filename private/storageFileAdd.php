@@ -10,25 +10,25 @@
 // Returns
 // -------
 //
-function ciniki_core_storageFileAdd(&$ciniki, $business_id, $obj_name, $args) {
+function ciniki_core_storageFileAdd(&$ciniki, $tnid, $obj_name, $args) {
     //
     // Break apart object name
     //
     list($pkg, $mod, $obj) = explode('.', $obj_name);
 
     //
-    // Get the business UUID
+    // Get the tenant UUID
     //
-    $strsql = "SELECT uuid FROM ciniki_businesses "
-        . "WHERE id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' ";
-    $rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.businesses', 'business');
+    $strsql = "SELECT uuid FROM ciniki_tenants "
+        . "WHERE id = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' ";
+    $rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.tenants', 'tenant');
     if( $rc['stat'] != 'ok' ) {
         return $rc;
     }
-    if( !isset($rc['business']) ) {
-        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.170', 'msg'=>'Unable to get business details'));
+    if( !isset($rc['tenant']) ) {
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.170', 'msg'=>'Unable to get tenant details'));
     }
-    $business_uuid = $rc['business']['uuid'];
+    $tenant_uuid = $rc['tenant']['uuid'];
 
     //
     // Get a new UUID
@@ -44,7 +44,7 @@ function ciniki_core_storageFileAdd(&$ciniki, $business_id, $obj_name, $args) {
     // Move the file to ciniki-storage
     //
     $storage_dirname = $ciniki['config']['ciniki.core']['storage_dir'] . '/'
-        . $business_uuid[0] . '/' . $business_uuid
+        . $tenant_uuid[0] . '/' . $tenant_uuid
         . "/$pkg.$mod/"
         . (isset($args['subdir']) && $args['subdir'] != '' ? $args['subdir'] . '/' : '')
         . $uuid[0];

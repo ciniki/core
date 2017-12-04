@@ -22,7 +22,7 @@
 // Returns
 // -------
 //
-function ciniki_core_objectUpdate(&$ciniki, $business_id, $obj_name, $oid, $args, $tmsupdate=0x07, $history_notes='') {
+function ciniki_core_objectUpdate(&$ciniki, $tnid, $obj_name, $oid, $args, $tmsupdate=0x07, $history_notes='') {
     //
     // Break apart object name
     //
@@ -66,7 +66,7 @@ function ciniki_core_objectUpdate(&$ciniki, $business_id, $obj_name, $oid, $args
             $strsql .= ", $field = '" . ciniki_core_dbQuote($ciniki, $args[$field]) . "' ";
         }
     }
-    $strsql .= " WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+    $strsql .= " WHERE tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
         . "AND id = '" . ciniki_core_dbQuote($ciniki, $oid) . "' "
         . "";
 
@@ -102,9 +102,9 @@ function ciniki_core_objectUpdate(&$ciniki, $business_id, $obj_name, $oid, $args
         foreach($o['fields'] as $field => $options) {
             if( isset($args[$field]) && (!isset($options['history']) || $options['history'] == 'yes') ) {
                 if( isset($o['history_notes']) && $o['history_notes'] == 'yes' ) {
-                    ciniki_core_dbAddModuleHistoryNotes($ciniki, $m, $o['history_table'], $business_id, 2, $o['table'], $oid, $field, $args[$field], $history_notes);
+                    ciniki_core_dbAddModuleHistoryNotes($ciniki, $m, $o['history_table'], $tnid, 2, $o['table'], $oid, $field, $args[$field], $history_notes);
                 } else {
-                    ciniki_core_dbAddModuleHistory($ciniki, $m, $o['history_table'], $business_id, 2, $o['table'], $oid, $field, $args[$field]);
+                    ciniki_core_dbAddModuleHistory($ciniki, $m, $o['history_table'], $tnid, 2, $o['table'], $oid, $field, $args[$field]);
                 }
             }
             //
@@ -115,7 +115,7 @@ function ciniki_core_objectUpdate(&$ciniki, $business_id, $obj_name, $oid, $args
                 //
                 // Clear any old refs
                 //
-                $rc = ciniki_core_objectRefClear($ciniki, $business_id, $options['ref'], array(
+                $rc = ciniki_core_objectRefClear($ciniki, $tnid, $options['ref'], array(
                     'object'=>$obj_name,            // The local object ref (this objects ref)
                     'object_id'=>$oid,              // The local object ID
                     ));
@@ -126,7 +126,7 @@ function ciniki_core_objectUpdate(&$ciniki, $business_id, $obj_name, $oid, $args
                 // Add the new ref 
                 //
                 if( $args[$field] != '' && $args[$field] > 0 ) {
-                    $rc = ciniki_core_objectRefAdd($ciniki, $business_id, $options['ref'], array(
+                    $rc = ciniki_core_objectRefAdd($ciniki, $tnid, $options['ref'], array(
                         'ref_id'=>$args[$field],        // The remote ID (other modules object id)
                         'object'=>$obj_name,            // The local object ref (this objects ref)
                         'object_id'=>$oid,      // The local object ID
@@ -154,8 +154,8 @@ function ciniki_core_objectUpdate(&$ciniki, $business_id, $obj_name, $oid, $args
     // Update the last change date of the module
     //
     if( ($tmsupdate&0x02) == 2 ) {
-        ciniki_core_loadMethod($ciniki, 'ciniki', 'businesses', 'private', 'updateModuleChangeDate');
-        ciniki_businesses_updateModuleChangeDate($ciniki, $business_id, $pkg, $mod);
+        ciniki_core_loadMethod($ciniki, 'ciniki', 'tenants', 'private', 'updateModuleChangeDate');
+        ciniki_tenants_updateModuleChangeDate($ciniki, $tnid, $pkg, $mod);
     }
 
     //

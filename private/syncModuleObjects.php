@@ -7,10 +7,10 @@
 // Arguments
 // ---------
 // ciniki:
-// business_id:     The ID of the business on the local side to check sync.
+// tnid:     The ID of the tenant on the local side to check sync.
 // module:          The module to sync.
 //
-function ciniki_core_syncModuleObjects(&$ciniki, $business_id, $module, $type) {
+function ciniki_core_syncModuleObjects(&$ciniki, $tnid, $module, $type) {
     //
     // Load the objects for this module
     //
@@ -28,7 +28,7 @@ function ciniki_core_syncModuleObjects(&$ciniki, $business_id, $module, $type) {
         return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.222', 'msg'=>'Unable to sync module: ' . $module));
     }
 
-    $rc = $method_function($ciniki, $sync, $business_id, array('type'=>$type));
+    $rc = $method_function($ciniki, $sync, $tnid, array('type'=>$type));
     if( $rc['stat'] != 'ok' ) {
         return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.223', 'msg'=>'Unable to sync module: ' . $module, 'err'=>$rc['err']));
     }

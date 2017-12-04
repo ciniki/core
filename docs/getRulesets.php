@@ -19,7 +19,7 @@ function ciniki_subscriptions_getRulesets($ciniki) {
     //
     // permission_groups rules are OR'd together with customers rules
     //
-    // - customers - 'any', (any customers of the business)
+    // - customers - 'any', (any customers of the tenant)
     // - customers - 'self', (the session user_id must be the same as requested user_id)
     //
     // *note* A function can only be allowed to customers, if there is no permission_groups rule.
@@ -45,7 +45,7 @@ function ciniki_subscriptions_getRulesets($ciniki) {
         // the default permissions, will automatically be applied to all methods.
         //
         'employees'=>array('label'=>'Employees', 
-            'description'=>'This permission setting allows all owners and employees of the business to manage wineproduction',
+            'description'=>'This permission setting allows all owners and employees of the tenant to manage wineproduction',
             'details'=>array(
                 'owners'=>'all tasks',
                 'employees'=>'all tasks',

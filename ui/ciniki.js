@@ -8,12 +8,12 @@ window.M = {
     'menus':{},
     'curMenu':'',
     'startMenu':'ciniki.core.menu',
-    'businessMenu':'ciniki.businesses.main',
+    'tenantMenu':'ciniki.tenants.main',
     'menuHome':null,
     'menuHistory':[],
-    'masterBusinessID':0,
-    'curBusinessID':0,
-    'curBusiness':null,
+    'masterTenantID':0,
+    'curTenantID':0,
+    'curTenant':null,
     'curHelpUID':'',
     'loadCounter':0,
     'apps':{},
@@ -61,16 +61,16 @@ M.init = function(cfg) {
     // M.hideChildren('m_body', 'm_login');
     M.api.url = cfg.api_url;
     M.api.key = cfg.api_key;
-    M.masterBusinessID = cfg.master_id;
+    M.masterTenantID = cfg.master_id;
     M.manage_root_url = cfg.root_url;
     M.themes_root_url = cfg.themes_root_url;
     if( cfg.start_menu != null && cfg.start_menu != '' ) {
         M.startMenu = cfg.start_menu;
     }
-    if( cfg.business_menu != null && cfg.business_menu != '' ) {
-        M.businessMenu = cfg.business_menu;
+    if( cfg.tenant_menu != null && cfg.tenant_menu != '' ) {
+        M.tenantMenu = cfg.tenant_menu;
     }
-    M.defaultBusinessColours = M.gE('business_colours').innerHTML;
+    M.defaultTenantColours = M.gE('tenant_colours').innerHTML;
     if( cfg.modules != null ) {
         M.cfg = cfg.modules;
     } else {
@@ -133,9 +133,9 @@ M.preLoad = function(s) {
 }
 
 M.home = function() {
-    if( M.curHelpUID == 'ciniki.businesses.main.menu' || M.curHelpUID == 'ciniki.core.menu.businesses' ) {
-        if( M.ciniki_core_menu.businesses != null ) {
-            M.ciniki_core_menu.businesses.show();
+    if( M.curHelpUID == 'ciniki.tenants.main.menu' || M.curHelpUID == 'ciniki.core.menu.tenants' ) {
+        if( M.ciniki_core_menu.tenants != null ) {
+            M.ciniki_core_menu.tenants.show();
         }
     } else {
         M.menuHome.show();
@@ -212,7 +212,7 @@ M.hideChildren = function(i,e) {
 //
 // ciniki_startAppCallback = function(app, startFunction, callback) {
 // Arguments:
-// a - The application name 'mapp_businessOwners', etc...
+// a - The application name 'mapp_tenantOwners', etc...
 // sF - The starting function, if different from .start().
 // cB - The call back to issue when the app closes, this is used to return to another app instead of the menu.
 //
@@ -228,7 +228,7 @@ M.startModalApp = function(a, sF, cB) {
 //
 // ciniki_startAppCallback = function(app, startFunction, callback) {
 // Arguments:
-// a - The application name 'mapp_businessOwners', etc...
+// a - The application name 'mapp_tenantOwners', etc...
 // sF - The starting function, if different from .start().
 // cB - The call back to issue when the app closes, this is used to return to another app instead of the menu.
 // aP - The appPrefix to start with
@@ -256,9 +256,9 @@ M.startApp = function(a, sF, cB, aP, args) {
     // FIXME: Check for overrides for ui functions
     //
     var func = a;
-    if( M.curBusiness != null && M.curBusiness.settings != null && M.curBusiness.settings.uiAppOverrides != null && M.curBusiness.settings.uiAppOverrides[a] != null && M.curBusiness.settings.uiAppOverrides[a].method != null ) {
-        func = M.curBusiness.settings.uiAppOverrides[a].method;
-        a = M.curBusiness.settings.uiAppOverrides[a].method;
+    if( M.curTenant != null && M.curTenant.settings != null && M.curTenant.settings.uiAppOverrides != null && M.curTenant.settings.uiAppOverrides[a] != null && M.curTenant.settings.uiAppOverrides[a].method != null ) {
+        func = M.curTenant.settings.uiAppOverrides[a].method;
+        a = M.curTenant.settings.uiAppOverrides[a].method;
     }
     func = func.replace(/(.*)\.(.*)\.(.*)/, "$1_$2_$3");
 
@@ -359,9 +359,9 @@ M.logout = function() {
         M.userID = 0; 
         M.userPerms = 0;
 
-        // Clear any business data
-        M.businesses = null;
-        M.curBusinessID = 0;
+        // Clear any tenant data
+        M.tenants = null;
+        M.curTenantID = 0;
 
         //  
         // Issue a reload, which will reset all variables, and dump any open windows.
@@ -415,9 +415,9 @@ M.authUserToken = function(e, s, t) {
 
                 M.hide('m_login');
                 M.loadAvatar();
-                // If they only have access to one business, go direct to that menu
-                if( r.business != null && r.business > 0 && M.businessMenu != null ) {
-                    M.startApp(M.businessMenu,null,null,'mc',{'id':r.business});
+                // If they only have access to one tenant, go direct to that menu
+                if( r.tenant != null && r.tenant > 0 && M.tenantMenu != null ) {
+                    M.startApp(M.tenantMenu,null,null,'mc',{'id':r.tenant});
                 } else {
                     M.startApp(M.startMenu);
                 }
@@ -472,9 +472,9 @@ M.authToken = function(e, t) {
 
                 M.hide('m_login');
                 M.loadAvatar();
-                // If they only have access to one business, go direct to that menu
-                if( r.business != null && r.business > 0 && M.businessMenu != null ) {
-                    M.startApp(M.businessMenu,null,null,'mc',{'id':r.business});
+                // If they only have access to one tenant, go direct to that menu
+                if( r.tenant != null && r.tenant > 0 && M.tenantMenu != null ) {
+                    M.startApp(M.tenantMenu,null,null,'mc',{'id':r.tenant});
                 } else {
                     M.startApp(M.startMenu);
                 }
@@ -564,9 +564,9 @@ M.auth = function(e, t) {
 
         M.hide('m_login');
         M.loadAvatar();
-        // If they only have access to one business, go direct to that menu
-        if( r.business != null && r.business > 0 && M.businessMenu != null ) {
-            M.startApp(M.businessMenu,null,null,'mc',{'id':r.business});
+        // If they only have access to one tenant, go direct to that menu
+        if( r.tenant != null && r.tenant > 0 && M.tenantMenu != null ) {
+            M.startApp(M.tenantMenu,null,null,'mc',{'id':r.tenant});
         } else {
             M.startApp(M.startMenu);
         }
@@ -737,8 +737,8 @@ M.submitErrBug = function() {
 
     if( M.api.curRC.stat != 'ok' && M.api.curRC.err != null ) {
         followup += 'An error has occured while calling the API.\n\n';
-        followup += 'Business ID: ' + M.curBusinessID + '\n';
-        followup += 'Business Name: ' + M.curBusiness.name + '\n';
+        followup += 'Tenant ID: ' + M.curTenantID + '\n';
+        followup += 'Tenant Name: ' + M.curTenant.name + '\n';
         followup += 'UI Panel: ' + M.curHelpUID + '\n';
         if( M.api.curRC.method != null ) {
             followup += 'API method: ' + M.api.curRC.method + '\n';
@@ -774,7 +774,7 @@ M.submitErrBug = function() {
     // Submit the bug
     //
     var rsp = M.api.postJSONCb('ciniki.bugs.bugAdd',
-        {'business_id':M.masterBusinessID, 'status':'1', 'source':'ciniki-manage', 'source_link':M.curHelpUID},
+        {'tnid':M.masterTenantID, 'status':'1', 'source':'ciniki-manage', 'source_link':M.curHelpUID},
         'subject=' + encodeURIComponent(subject) + '&followup=' + encodeURIComponent(followup), function(rsp) {
             if( rsp.stat != 'ok' ) {
                 alert("Now we had an error submitting the bug, please contact support.  " + "Error #" + rsp.err.code + ' -- ' + rsp.err.msg);
@@ -1748,7 +1748,7 @@ M.showWebsite = function(url) {
                 }
             }
         };
-        var url = '/preview/' + M.curBusiness.modules['ciniki.web'].settings.sitename + url;
+        var url = '/preview/' + M.curTenant.modules['ciniki.web'].settings.sitename + url;
         iframe.src = url;
     }
     M.resize();
@@ -1807,20 +1807,20 @@ M.alert = function(msg) {
 }
 
 M.modFlags = function(m) {
-    if( M.curBusiness != null && M.curBusiness.modules != null && M.curBusiness.modules[m] != null && M.curBusiness.modules[m].flags != null ) {
-        return M.curBusiness.modules[m].flags;
+    if( M.curTenant != null && M.curTenant.modules != null && M.curTenant.modules[m] != null && M.curTenant.modules[m].flags != null ) {
+        return M.curTenant.modules[m].flags;
     }
     return 0;
 }
 M.modFlags2 = function(m) {
-    if( M.curBusiness != null && M.curBusiness.modules != null && M.curBusiness.modules[m] != null && M.curBusiness.modules[m].flags2 != null ) {
-        return M.curBusiness.modules[m].flags2;
+    if( M.curTenant != null && M.curTenant.modules != null && M.curTenant.modules[m] != null && M.curTenant.modules[m].flags2 != null ) {
+        return M.curTenant.modules[m].flags2;
     }
     return 0;
 }
 
 M.modOn = function(m) {
-    if( M.curBusiness != null && M.curBusiness.modules != null && M.curBusiness.modules[m] != null ) {
+    if( M.curTenant != null && M.curTenant.modules != null && M.curTenant.modules[m] != null ) {
         return true;
     }
     return false;

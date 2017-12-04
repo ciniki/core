@@ -76,7 +76,7 @@ if( isset($_SERVER['QUERY_STRING']) && $_SERVER['QUERY_STRING'] == 'reset' ) {
         . "</head>";
     print "<body>"
         . "<script type='text/javascript'>"
-        . "localStorage.removeItem('lastBusinessID');"
+        . "localStorage.removeItem('lastTenantID');"
         . "localStorage.removeItem('_UTK');"
         . "localStorage.removeItem('_UTS');"
         . "</script>\n"
@@ -113,12 +113,12 @@ if( preg_match('/^email=(.*)\&p=(.*)$/', $_SERVER['QUERY_STRING'], $matches) ) {
 }
 
 //
-// The business which stores the ciniki-manage bugs
+// The tenant which stores the ciniki-manage bugs
 //
-$master_id = $ciniki['config']['ciniki.core']['master_business_id'];
+$master_id = $ciniki['config']['ciniki.core']['master_tnid'];
 
 //
-// FIXME: Grab the master business domain, and redirect if 
+// FIXME: Grab the master tenant domain, and redirect if 
 //        the user requested ciniki-manage from their domain instead of master.
 //
 
@@ -428,11 +428,11 @@ print "<script type='text/javascript' src='$manage_js/tinymce/tinymce.min.js'></
 //
 if( $minimized == 'yes' && file_exists("$themes_root/default/$device-$engine.min.css") ) {
     print "<link rel='stylesheet' type='text/css' href='$manage_themes/default/$device-$engine.min.css?ts=$ts' />\n";
-    // print "<link id='business_colours' rel='stylesheet' type='text/css' href='$manage_themes/default/colors.css' />\n";
+    // print "<link id='tenant_colours' rel='stylesheet' type='text/css' href='$manage_themes/default/colors.css' />\n";
 } else {
     // Include the basic stylesheet
     print "<link rel='stylesheet' type='text/css' href='$manage_themes/default/style.css?ts=$ts' />\n";
-    // print "<link id='business_colours' rel='stylesheet' type='text/css' href='$manage_themes/default/colors.css' />\n";
+    // print "<link id='tenant_colours' rel='stylesheet' type='text/css' href='$manage_themes/default/colors.css' />\n";
 
     //
     // Decide which stylesheets to include
@@ -454,12 +454,12 @@ if( $minimized == 'yes' && file_exists("$themes_root/default/$device-$engine.min
     }
 }
 //
-// Check for default business colours
+// Check for default tenant colours
 //
 if( file_exists("$themes_root/default/colors.css") ) {
-    print "<style id='business_colours' type='text/css'>" . file_get_contents("$themes_root/default/colors.css") . "</style>";
+    print "<style id='tenant_colours' type='text/css'>" . file_get_contents("$themes_root/default/colors.css") . "</style>";
 } else {
-    print "<style id='business_colours' type='text/css'></style>";
+    print "<style id='tenant_colours' type='text/css'></style>";
 }
 
 print "<link rel='stylesheet' type='text/css' href='$manage_themes/default/print.css' media='print' />\n";
@@ -489,7 +489,7 @@ if( $browser == 'unsupported' ) {
         'root_url'=>$config['ciniki.core']['manage_root_url'],
         'themes_root_url'=>$config['ciniki.core']['themes_root_url'],
         'start_menu'=>'ciniki.core.menu',
-        'business_menu'=>'ciniki.businesses.main',
+        'tenant_menu'=>'ciniki.tenants.main',
         'modules'=>array(),
         );
     //
@@ -524,8 +524,8 @@ if( $browser == 'unsupported' ) {
     if( isset($config['ciniki.core']['start_menu']) && $config['ciniki.core']['start_menu'] != '' ) {
         $manage_config['start_menu'] = $config['ciniki.core']['start_menu'];
     }
-    if( isset($config['ciniki.core']['business_menu']) && $config['ciniki.core']['business_menu'] != '' ) {
-        $manage_config['business_menu'] = $config['ciniki.core']['business_menu'];
+    if( isset($config['ciniki.core']['tenant_menu']) && $config['ciniki.core']['tenant_menu'] != '' ) {
+        $manage_config['tenant_menu'] = $config['ciniki.core']['tenant_menu'];
     }
     
 ?>

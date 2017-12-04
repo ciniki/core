@@ -5,7 +5,7 @@
 #
 # The session data is not tied to a domain, because we want the session
 # to work across all domains and websites without having to relogin.  This
-# will allow a business owner to work on multiple businesses, or allow
+# will allow a tenant owner to work on multiple tenants, or allow
 # a website customer to login once and have their session data transfer
 # between stores so they don't have to re-login.
 #

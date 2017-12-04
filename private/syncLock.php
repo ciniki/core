@@ -6,10 +6,10 @@
 // Arguments
 // ---------
 // ciniki:
-// business_id:     The ID of the business on the local side to check sync.
+// tnid:     The ID of the tenant on the local side to check sync.
 // sync_id:         The ID of the sync to check compatibility with.
 //
-function ciniki_core_syncLock($ciniki, $business_id, $sync_id) {
+function ciniki_core_syncLock($ciniki, $tnid, $sync_id) {
 
     if( !isset($ciniki['config']['ciniki.core']['sync.lock_dir']) ) {
         return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.220', 'msg'=>'No sync lock dir specified'));

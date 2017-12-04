@@ -7,14 +7,14 @@
 // Arguments
 // ---------
 // ciniki:
-// business_id:     The ID of the business.
+// tnid:     The ID of the tenant.
 // object:          The name of the object to check.
 // object_id:       The ID of the object to check for existence.
 //
 // Returns
 // -------
 //
-function ciniki_core_objectCheckExists(&$ciniki, $business_id, $object, $object_id) {
+function ciniki_core_objectCheckExists(&$ciniki, $tnid, $object, $object_id) {
     //
     // Break apart object
     //
@@ -37,7 +37,7 @@ function ciniki_core_objectCheckExists(&$ciniki, $business_id, $object, $object_
     $strsql = "SELECT id "
         . "FROM " . $o['table'] . " "
         . "WHERE id = '" . ciniki_core_dbQuote($ciniki, $object_id) . "' "
-        . "AND business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+        . "AND tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
         . "";
     $rc = ciniki_core_dbHashQuery($ciniki, $strsql, $m, 'object');
     if( $rc['stat'] != 'ok' ) {

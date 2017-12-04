@@ -15,7 +15,7 @@
 // Returns
 // -------
 //
-function ciniki_core_objectGet(&$ciniki, $business_id, $obj_name, $oid) {
+function ciniki_core_objectGet(&$ciniki, $tnid, $obj_name, $oid) {
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashQueryIDTree');
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'objectLoad');
 
@@ -34,8 +34,8 @@ function ciniki_core_objectGet(&$ciniki, $business_id, $obj_name, $oid) {
     $o = $rc['object'];
     $m = "$pkg.$mod";
 
-    ciniki_core_loadMethod($ciniki, 'ciniki', 'businesses', 'private', 'intlSettings');
-    $rc = ciniki_businesses_intlSettings($ciniki, $business_id);
+    ciniki_core_loadMethod($ciniki, 'ciniki', 'tenants', 'private', 'intlSettings');
+    $rc = ciniki_tenants_intlSettings($ciniki, $tnid);
     if( $rc['stat'] != 'ok' ) {
         return $rc;
     }
@@ -60,7 +60,7 @@ function ciniki_core_objectGet(&$ciniki, $business_id, $obj_name, $oid) {
     }
     $strsql .= "FROM " . $o['table'] . " "
         . "WHERE id = '" . ciniki_core_dbQuote($ciniki, $oid) . "' "
-        . "AND business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+        . "AND tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
         . "";
     $container = isset($o['o_container'])?$o['o_container']:'objects';
     $name = isset($o['o_name'])?$o['o_name']:'object';

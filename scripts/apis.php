@@ -46,7 +46,7 @@ if( !isset($_COOKIE['auth_token']) || $_COOKIE['auth_token'] == '' ) {
     print_error('1-13', 'There is currently a configuration problem, please try again later.');
     exit;
 }
-if( !isset($_COOKIE['business_id']) || $_COOKIE['business_id'] == '' ) {
+if( !isset($_COOKIE['tnid']) || $_COOKIE['tnid'] == '' ) {
     print_error('1-14', 'There is currently a configuration problem, please try again later.');
     exit;
 }
@@ -79,15 +79,15 @@ if( $rc['stat'] != 'ok' ) {
 }
 
 //
-// Check user has access to business
+// Check user has access to tenant
 //
-ciniki_core_loadMethod($ciniki, 'ciniki', 'businesses', 'private', 'checkAccess');
-$rc = ciniki_businesses_checkAccess($ciniki, $_COOKIE['business_id'], 'ciniki.businesses.settingsAPIsUpdate');
+ciniki_core_loadMethod($ciniki, 'ciniki', 'tenants', 'private', 'checkAccess');
+$rc = ciniki_tenants_checkAccess($ciniki, $_COOKIE['tnid'], 'ciniki.tenants.settingsAPIsUpdate');
 if( $rc['stat'] != 'ok' ) {
     print_error($rc['err']['code'], $rc['err']['msg']);
     exit;
 }
-$business_id = $_COOKIE['business_id'];
+$tnid = $_COOKIE['tnid'];
 
 ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbInsert');
 ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQuote');
@@ -137,23 +137,23 @@ if( isset($_COOKIE['dropbox']) && $_COOKIE['dropbox'] != '' ) {
     // Save the token
     //
     if( isset($rc['access_token']) && $rc['access_token'] != '' ) {
-        $strsql = "INSERT INTO ciniki_business_details (business_id, "
+        $strsql = "INSERT INTO ciniki_tenant_details (tnid, "
             . "detail_key, detail_value, date_added, last_updated) "
-            . "VALUES ('" . ciniki_core_dbQuote($ciniki, $business_id) . "'"
+            . "VALUES ('" . ciniki_core_dbQuote($ciniki, $tnid) . "'"
             . ", 'apis-dropbox-access-token' "
             . ", '" . ciniki_core_dbQuote($ciniki, $rc['access_token']) . "'"
             . ", UTC_TIMESTAMP(), UTC_TIMESTAMP()) "
             . "ON DUPLICATE KEY UPDATE detail_value = '" . ciniki_core_dbQuote($ciniki, $rc['access_token']) . "' "
             . ", last_updated = UTC_TIMESTAMP() "
             . "";
-        $rc = ciniki_core_dbInsert($ciniki, $strsql, 'ciniki.businesses');
+        $rc = ciniki_core_dbInsert($ciniki, $strsql, 'ciniki.tenants');
         if( $rc['stat'] != 'ok' ) {
-            ciniki_core_dbTransactionRollback($ciniki, 'ciniki.businesses');
+            ciniki_core_dbTransactionRollback($ciniki, 'ciniki.tenants');
             return $rc;
         }
-        ciniki_core_dbAddModuleHistory($ciniki, 'ciniki.businesses', 'ciniki_business_history', 
-            $business_id, 2, 'ciniki_business_details', 'apis-dropbox-access-token', 'detail_value', $rc['access_token']);
-        $ciniki['syncqueue'][] = array('push'=>'ciniki.businesses.details', 'args'=>array('id'=>'apis-dropbox-access-token'));
+        ciniki_core_dbAddModuleHistory($ciniki, 'ciniki.tenants', 'ciniki_tenant_history', 
+            $tnid, 2, 'ciniki_tenant_details', 'apis-dropbox-access-token', 'detail_value', $rc['access_token']);
+        $ciniki['syncqueue'][] = array('push'=>'ciniki.tenants.details', 'args'=>array('id'=>'apis-dropbox-access-token'));
 
         print_success();
         exit;

@@ -14,14 +14,14 @@
 // module:          The name of the module for the transaction, which should include the 
 //                  package in dot notation.  Example: ciniki.artcatalog
 // user_id:         The user making the request
-// business_id:
+// tnid:
 // table_name:      The table name that the data was inserted/replaced in.
 // table_key:       The key to be able to get back to the row that was 
 //                  changed in the table_name.
 // table_field:     The field in the table_name that was updated.
 // value:           The new value for the field.
 //
-function ciniki_core_dbAddModuleHistoryNotes(&$ciniki, $module, $history_table, $business_id, $action, $table_name, $table_key, $table_field, $value, $notes) {
+function ciniki_core_dbAddModuleHistoryNotes(&$ciniki, $module, $history_table, $tnid, $action, $table_name, $table_key, $table_field, $value, $notes) {
     //
     // Open a connection to the database if one doesn't exist.  The
     // dbConnect function will return an open connection if one 
@@ -35,10 +35,10 @@ function ciniki_core_dbAddModuleHistoryNotes(&$ciniki, $module, $history_table, 
 //  $dh = $rc['dh'];
 
     $strsql = "INSERT INTO " . ciniki_core_dbQuote($ciniki, $history_table) . " "
-        . "(uuid, business_id, user_id, session, action, "
+        . "(uuid, tnid, user_id, session, action, "
         . "table_name, table_key, table_field, new_value, log_date, notes) VALUES ("
         . "uuid(), "
-        . "'" . ciniki_core_dbQuote($ciniki, $business_id) . "', "
+        . "'" . ciniki_core_dbQuote($ciniki, $tnid) . "', "
         . "'" . ciniki_core_dbQuote($ciniki, $ciniki['session']['user']['id']) . "', "
         . "'" . ciniki_core_dbQuote($ciniki, $ciniki['session']['change_log_id']) . "', "
         . "'" . ciniki_core_dbQuote($ciniki, $action) . "', "

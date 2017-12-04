@@ -7,13 +7,13 @@
 // Arguments
 // ---------
 //
-function ciniki_core_syncObjectHistoryList(&$ciniki, &$sync, $business_id, $o, $args) {
+function ciniki_core_syncObjectHistoryList(&$ciniki, &$sync, $tnid, $o, $args) {
     //
     // Check for custom history list function
     //
     if( isset($o['history_list']) && $o['history_list'] != '' ) {
         ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectFunction');
-        return ciniki_core_syncObjectFunction($ciniki, $sync, $business_id, $o['history_list'], $args);
+        return ciniki_core_syncObjectFunction($ciniki, $sync, $tnid, $o['history_list'], $args);
     }
     
     //
@@ -37,7 +37,7 @@ function ciniki_core_syncObjectHistoryList(&$ciniki, &$sync, $business_id, $o, $
     $history_table = $o['history_table'];
     $strsql = "SELECT uuid, UNIX_TIMESTAMP(log_date) AS log_date "  
         . "FROM $history_table "
-        . "WHERE $history_table.business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+        . "WHERE $history_table.tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
         . "AND $history_table.table_name = '" . ciniki_core_dbQuote($ciniki, $o['table']) . "' "
         . "";
 

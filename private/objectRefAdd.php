@@ -9,7 +9,7 @@
 // Returns
 // -------
 //
-function ciniki_core_objectRefAdd(&$ciniki, $business_id, $obj_name, $args, $options=0x07) {
+function ciniki_core_objectRefAdd(&$ciniki, $tnid, $obj_name, $args, $options=0x07) {
     //
     // Break apart object name
     //
@@ -51,6 +51,6 @@ function ciniki_core_objectRefAdd(&$ciniki, $business_id, $obj_name, $args, $opt
     }
 
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'objectAdd');
-    return ciniki_core_objectAdd($ciniki, $business_id, "$pkg.$mod.ref", $args, $options);
+    return ciniki_core_objectAdd($ciniki, $tnid, "$pkg.$mod.ref", $args, $options);
 }
 ?>

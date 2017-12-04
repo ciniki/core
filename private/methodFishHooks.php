@@ -12,18 +12,18 @@
 // Arguments
 // ---------
 // ciniki:
-// business_id:     The ID of the business
+// tnid:     The ID of the tenant
 // obj_name:        The calling object name.
 // args:            The arguments array to be passed to the hook function.
 //
 // Returns
 // -------
 //
-function ciniki_core_methodFishHooks(&$ciniki, $business_id, $obj, $args) {
+function ciniki_core_methodFishHooks(&$ciniki, $tnid, $obj, $args) {
     //
-    // Check to make sure the business modules were setup in the checkModuleAccess function
+    // Check to make sure the tenant modules were setup in the checkModuleAccess function
     //
-    if( !isset($ciniki['business']['modules']) ) {
+    if( !isset($ciniki['tenant']['modules']) ) {
         return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.96', 'msg'=>'Internal Error', 'pmsg'=>'Missing the modules definition in settings'));
     }
 
@@ -35,7 +35,7 @@ function ciniki_core_methodFishHooks(&$ciniki, $business_id, $obj, $args) {
     //
     // Check for modules hooks
     //
-    foreach($ciniki['business']['modules'] as $module => $m) {
+    foreach($ciniki['tenant']['modules'] as $module => $m) {
         list($pkg, $mod) = explode('.', $module);
         if( $c_pkg != $pkg ) { 
             // Skip any modules that aren't in the same package
@@ -52,7 +52,7 @@ function ciniki_core_methodFishHooks(&$ciniki, $business_id, $obj, $args) {
         if( !is_callable($fn) ) {
             return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.98', 'msg'=>'Internal Error', 'pmsg'=>'Unable to call fish hook, function does not exist'));;
         }
-        $rc = $fn($ciniki, $args['business_id'], $args);
+        $rc = $fn($ciniki, $args['tnid'], $args);
         if( $rc['stat'] != 'ok' ) {
             return $rc;
         }

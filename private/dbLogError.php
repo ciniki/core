@@ -31,17 +31,17 @@ function ciniki_core_dbLogError(&$ciniki, $err) {
         return array('stat'=>'ok');
     }
 
-    $business_id = 0;
-    if( isset($ciniki['request']['args']['business_id']) ) {
-        $business_id = $ciniki['request']['args']['business_id'];
+    $tnid = 0;
+    if( isset($ciniki['request']['args']['tnid']) ) {
+        $tnid = $ciniki['request']['args']['tnid'];
     }
     $strsql = "INSERT INTO ciniki_core_error_logs ("
-        . "status, business_id, user_id, "
+        . "status, tnid, user_id, "
         . "session_key, method, "
         . "request_array, session_array, err_array, "
         . "log_date) VALUES ("
         . "10, "
-        . "'" . ciniki_core_dbQuote($ciniki, $business_id) . "', "
+        . "'" . ciniki_core_dbQuote($ciniki, $tnid) . "', "
         . "'" . ciniki_core_dbQuote($ciniki, $ciniki['session']['user']['id']) . "', "
         . "'" . ciniki_core_dbQuote($ciniki, $ciniki['session']['change_log_id']) . "', "
         . "'" . ciniki_core_dbQuote($ciniki, $ciniki['request']['method']) . "', "

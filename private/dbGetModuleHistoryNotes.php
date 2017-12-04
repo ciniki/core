@@ -12,7 +12,7 @@
 //                  package in dot notation.  Example: ciniki.artcatalog
 //
 //
-function ciniki_core_dbGetModuleHistoryNotes(&$ciniki, $module, $history_table, $business_id, $table_name, $table_key, $table_field) {
+function ciniki_core_dbGetModuleHistoryNotes(&$ciniki, $module, $history_table, $tnid, $table_name, $table_key, $table_field) {
     //
     // Open a connection to the database if one doesn't exist.  The
     // dbConnect function will return an open connection if one 
@@ -26,10 +26,10 @@ function ciniki_core_dbGetModuleHistoryNotes(&$ciniki, $module, $history_table, 
     $dh = $rc['dh'];
 
     //
-    // Get the time information for business and user
+    // Get the time information for tenant and user
     //
-    ciniki_core_loadMethod($ciniki, 'ciniki', 'businesses', 'private', 'intlSettings');
-    $rc = ciniki_businesses_intlSettings($ciniki, $business_id);
+    ciniki_core_loadMethod($ciniki, 'ciniki', 'tenants', 'private', 'intlSettings');
+    $rc = ciniki_tenants_intlSettings($ciniki, $tnid);
     if( $rc['stat'] != 'ok' ) {
         return $rc;
     }
@@ -55,7 +55,7 @@ function ciniki_core_dbGetModuleHistoryNotes(&$ciniki, $module, $history_table, 
         . "new_value as value, "
         . "notes "
         . " FROM " . ciniki_core_dbQuote($ciniki, $history_table) . " "
-        . " WHERE business_id ='" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+        . " WHERE tnid ='" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
         . " AND table_name = '" . ciniki_core_dbQuote($ciniki, $table_name) . "' ";
     if( is_array($table_key) ) {
         $strsql .= " AND table_key IN (" . ciniki_core_dbQuoteList($ciniki, $table_key) . ") ";

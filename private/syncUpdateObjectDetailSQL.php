@@ -6,7 +6,7 @@
 // Arguments
 // ---------
 //
-function ciniki_core_syncUpdateObjectDetailSQL($ciniki, $sync, $business_id, $detail_key, $remote_object, $local_object, $fields) {
+function ciniki_core_syncUpdateObjectDetailSQL($ciniki, $sync, $tnid, $detail_key, $remote_object, $local_object, $fields) {
     //
     // Go through all the fields and build the SQL string
     //

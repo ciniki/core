@@ -1,6 +1,6 @@
 //
-// This class will display the form to allow admins and business owners to 
-// change the details of their business
+// This class will display the form to allow admins and tenant owners to 
+// change the details of their tenant
 //
 function ciniki_core_help() {
     //
@@ -175,7 +175,7 @@ function ciniki_core_help() {
         }
 
         var rsp = M.api.postJSONCb('ciniki.bugs.bugAdd',
-            {'business_id':M.masterBusinessID, 'source':'ciniki-manage', 'source_link':M.ciniki_core_help.curHelpUID},
+            {'tnid':M.masterTenantID, 'source':'ciniki-manage', 'source_link':M.ciniki_core_help.curHelpUID},
             c, function(rsp) {
                 if( rsp.stat != 'ok' ) {
                     M.api.err(rsp);
@@ -192,7 +192,7 @@ function ciniki_core_help() {
 
     this.loadBugs = function() {
         var r = M.api.getJSONCb('ciniki.bugs.bugList', 
-            {'business_id':M.masterBusinessID, 'status':'1',
+            {'tnid':M.masterTenantID, 'status':'1',
                 'source':'ciniki-manage', 'source_link':M.ciniki_core_help.curHelpUID}, function(rsp) {
                     if( rsp.stat != 'ok' ) { 
                         M.api.err(rsp);
@@ -226,7 +226,7 @@ function ciniki_core_help() {
         // Setup the details for the question
         //  
         var r = M.api.getJSONCb('ciniki.bugs.bugGetFollowups', 
-            {'business_id':M.masterBusinessID, 
+            {'tnid':M.masterTenantID, 
                 'bug_id':this.list.data.bugs[bNUM].bug.id}, function(rsp) {
                     if( rsp.stat != 'ok' ) { 
                         M.api.err(rsp);
@@ -246,7 +246,7 @@ function ciniki_core_help() {
 
         if( c != '' ) {
             var rsp = M.api.postJSONCb('ciniki.bugs.bugAddFollowup', 
-                {'business_id':M.masterBusinessID, 'bug_id':this.bug.bug_id}, c, function(rsp) {
+                {'tnid':M.masterTenantID, 'bug_id':this.bug.bug_id}, c, function(rsp) {
                     if( rsp.stat != 'ok' ) { 
                         M.api.err(rsp);
                         return false;

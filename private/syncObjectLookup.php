@@ -9,15 +9,15 @@
 // Returns
 // -------
 //
-function ciniki_core_syncObjectLookup(&$ciniki, &$sync, $business_id, $o, $args) {
+function ciniki_core_syncObjectLookup(&$ciniki, &$sync, $tnid, $o, $args) {
     //
     // Check for custom lookup function
     //
-//  error_log("SYNC-INFO: [$business_id] Lookup " . $o['oname'] . '(' . serialize($args) . ')');
+//  error_log("SYNC-INFO: [$tnid] Lookup " . $o['oname'] . '(' . serialize($args) . ')');
     ciniki_core_syncLog($ciniki, 4, "Lookup " . $o['oname'] . '(' . serialize($args) . ')', null);
     if( isset($o['lookup']) && $o['lookup'] != '' ) {
         ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectFunction');
-        return ciniki_core_syncObjectFunction($ciniki, $sync, $business_id, $o['lookup'], $args);
+        return ciniki_core_syncObjectFunction($ciniki, $sync, $tnid, $o['lookup'], $args);
     }
     
     //
@@ -46,7 +46,7 @@ function ciniki_core_syncObjectLookup(&$ciniki, &$sync, $business_id, $o, $args)
             return array('stat'=>'ok', 'id'=>$sync['uuidcache'][$table][$args['remote_uuid']]);
         }
         $strsql = "SELECT id FROM $table "
-            . "WHERE $table.business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+            . "WHERE $table.tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
             . "AND $table.uuid = '" . ciniki_core_dbQuote($ciniki, $args['remote_uuid']) . "' "
             . "";
         $rc = ciniki_core_dbHashQuery($ciniki, $strsql, $o['pmod'], 'object');
@@ -68,7 +68,7 @@ function ciniki_core_syncObjectLookup(&$ciniki, &$sync, $business_id, $o, $args)
         // If the id was not found in the objects table, try looking up in the history
         //
         $strsql = "SELECT table_key FROM $history_table "
-            . "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+            . "WHERE tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
             . "AND action = 1 "
             . "AND table_name = '" . ciniki_core_dbQuote($ciniki, $table) . "' "
             . "AND new_value = '" . ciniki_core_dbQuote($ciniki, $args['remote_uuid']) . "' "
@@ -92,7 +92,7 @@ function ciniki_core_syncObjectLookup(&$ciniki, &$sync, $business_id, $o, $args)
         }
 
         if( isset($rc['object']) ) {
-            $rc = ciniki_core_syncObjectUpdate($ciniki, $sync, $business_id, $o, array('object'=>$rc['object']));
+            $rc = ciniki_core_syncObjectUpdate($ciniki, $sync, $tnid, $o, array('object'=>$rc['object']));
             if( $rc['stat'] != 'ok' ) {
                 return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.278', 'msg'=>'Unable to add ' . $o['name'] . ' to local server', 'err'=>$rc['err']));
             }
@@ -117,7 +117,7 @@ function ciniki_core_syncObjectLookup(&$ciniki, &$sync, $business_id, $o, $args)
             return array('stat'=>'ok', 'uuid'=>$sync['idcache'][$table][$args['local_id']]);
         }
         $strsql = "SELECT uuid FROM $table "
-            . "WHERE $table.business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+            . "WHERE $table.tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
             . "AND $table.id = '" . ciniki_core_dbQuote($ciniki, $args['local_id']) . "' "
             . "";
         $rc = ciniki_core_dbHashQuery($ciniki, $strsql, $o['pmod'], 'object');
@@ -139,7 +139,7 @@ function ciniki_core_syncObjectLookup(&$ciniki, &$sync, $business_id, $o, $args)
         // If the id was not found in the customers table, try looking up in the history from when it was added
         //
         $strsql = "SELECT new_value FROM $history_table "
-            . "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+            . "WHERE tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
             . "AND action = 1 "
             . "AND table_name = '$table' "
             . "AND table_key = '" . ciniki_core_dbQuote($ciniki, $args['local_id']) . "' "

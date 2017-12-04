@@ -10,7 +10,7 @@
 # from, and if they need to update their browser to use the admin section.
 #
 # This table can be used for both website generation to the general public,
-# and the business admin website for clients.
+# and the tenant admin website for clients.
 #
 # Fields
 # ------

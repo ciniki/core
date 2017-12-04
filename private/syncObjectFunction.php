@@ -9,7 +9,7 @@
 // Returns
 // -------
 //
-function ciniki_core_syncObjectFunction(&$ciniki, &$sync, $business_id, $method, $args) {
+function ciniki_core_syncObjectFunction(&$ciniki, &$sync, $tnid, $method, $args) {
     //
     // Check for custom sync function (get, list, lookup, update, delete, push)
     //
@@ -18,9 +18,9 @@ function ciniki_core_syncObjectFunction(&$ciniki, &$sync, $business_id, $method,
     if( file_exists($method_filename) ) {
         require_once($method_filename);
         if( is_callable($method_function) ) {
-//          error_log("SYNC-INFO: [$business_id] " . $method . '(' . serialize($args) . ')');
+//          error_log("SYNC-INFO: [$tnid] " . $method . '(' . serialize($args) . ')');
             ciniki_core_syncLog($ciniki, 3, $method . '--(' . serialize($args) . ')', null);
-            $rc = $method_function($ciniki, $sync, $business_id, $args);
+            $rc = $method_function($ciniki, $sync, $tnid, $args);
             if( $rc['stat'] != 'ok' ) {
                 ciniki_core_syncLog($ciniki, 0, $method . '(' . serialize($args) . ')', $rc['err']);
 //              error_log('SYNC-ERR: ' . $method . '(' . serialize($args) . ') - (' . serialize($rc['err']) . ')');

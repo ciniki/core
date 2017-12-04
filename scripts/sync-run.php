@@ -3,7 +3,7 @@
 // Description
 // -----------
 // This script should be executed from cron every 5 minutes to run
-// an incremental sync on all businesses.
+// an incremental sync on all tenants.
 // 
 
 //
@@ -29,7 +29,7 @@ if( $rc['stat'] != 'ok' ) {
 //
 $ciniki = $rc['ciniki'];
 
-ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncBusiness');
+ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncTenant');
 ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncLock');
 ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncUnlock');
 
@@ -40,7 +40,7 @@ if( isset($argv[1]) && $argv[1] != ''
         error_log('Unrecognized sync type');
         exit(1);
     }
-    $business_id = $argv[1];
+    $tnid = $argv[1];
     $sync_id = $argv[2];
     $type = $argv[3];
 
@@ -48,13 +48,13 @@ if( isset($argv[1]) && $argv[1] != ''
     // Load sync
     //
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncLoad');
-    $rc = ciniki_core_syncLoad($ciniki, $business_id, $sync_id);
+    $rc = ciniki_core_syncLoad($ciniki, $tnid, $sync_id);
     if( $rc['stat'] != 'ok' ) {
         return $rc;
     }
     $sync = $rc['sync'];
 
-    $rc = ciniki_core_syncLock($ciniki, $business_id, $sync_id);
+    $rc = ciniki_core_syncLock($ciniki, $tnid, $sync_id);
     if( $rc['stat'] == 'lockexists' ) {
         return array('stat'=>'ok');
     }
@@ -62,13 +62,13 @@ if( isset($argv[1]) && $argv[1] != ''
         return $rc;
     }
     ciniki_core_syncLog($ciniki, 1, "Syncing $type", null);
-    $rc = ciniki_core_syncBusiness($ciniki, $sync, $business_id, $type, '');
+    $rc = ciniki_core_syncTenant($ciniki, $sync, $tnid, $type, '');
     if( $rc['stat'] != 'ok' ) {
-        ciniki_core_syncLog($ciniki, 0, "Unable to sync business (" . serialize($rc['err']) . ")", $rc['err']);
-        ciniki_core_syncUnlock($ciniki, $business_id, $sync_id);
+        ciniki_core_syncLog($ciniki, 0, "Unable to sync tenant (" . serialize($rc['err']) . ")", $rc['err']);
+        ciniki_core_syncUnlock($ciniki, $tnid, $sync_id);
         exit(2);
     }
-    ciniki_core_syncUnlock($ciniki, $business_id, $sync_id);
+    ciniki_core_syncUnlock($ciniki, $tnid, $sync_id);
     ciniki_core_syncLog($ciniki, 1, "Sync done", null);
 } else {
     error_log("SYNC-ERR: Unrecognized args");

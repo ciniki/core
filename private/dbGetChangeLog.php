@@ -8,12 +8,12 @@
 // Arguments
 // ---------
 // ciniki:
-// business_id:     The ID of the business to get the changes for.
+// tnid:     The ID of the tenant to get the changes for.
 // module:          The name of the module for the transaction, which should include the 
 //                  package in dot notation.  Example: ciniki.artcatalog
 //
 //
-function ciniki_core_dbGetChangeLog(&$ciniki, $business_id, $table_name, $table_key, $table_field, $module) {
+function ciniki_core_dbGetChangeLog(&$ciniki, $tnid, $table_name, $table_key, $table_field, $module) {
     //
     // Open a connection to the database if one doesn't exist.  The
     // dbConnect function will return an open connection if one 
@@ -40,7 +40,7 @@ function ciniki_core_dbGetChangeLog(&$ciniki, $business_id, $table_name, $table_
         . "table_key, "
         . "new_value as value "
         . " FROM ciniki_core_change_logs "
-        . " WHERE business_id ='" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+        . " WHERE tnid ='" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
         . " AND table_name = '" . ciniki_core_dbQuote($ciniki, $table_name) . "' ";
     if( is_array($table_key) ) {
         $strsql .= " AND table_key IN (" . ciniki_core_dbQuoteList($ciniki, $table_key) . ") ";

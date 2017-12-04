@@ -6,7 +6,7 @@
 // Arguments
 // ---------
 //
-function ciniki_core_dropboxParseRTFToText($ciniki, $business_id, $client, $path) {
+function ciniki_core_dropboxParseRTFToText($ciniki, $tnid, $client, $path) {
 
     //
     // Get the file contents

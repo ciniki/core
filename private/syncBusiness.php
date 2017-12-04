@@ -2,13 +2,13 @@
 //
 // Description
 // -----------
-// This function will sync the data for a business from the remote
+// This function will sync the data for a tenant from the remote
 // server to the local server.
 //
 // Arguments
 // ---------
 // ciniki:
-// business_id:     The ID of the business on the local side to check sync.
+// tnid:     The ID of the tenant on the local side to check sync.
 // sync_id:         The ID of the sync to check compatibility with.
 // type:            The type of sync.
 //
@@ -18,24 +18,24 @@
 //
 // module:          If the sync should only do one module.
 //
-function ciniki_core_syncBusiness($ciniki, $sync, $business_id, $type, $module) {
+function ciniki_core_syncTenant($ciniki, $sync, $tnid, $type, $module) {
 
     //
     // Check the versions of tables and modules enabled are the same between servers
     //
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncCheckVersions');
-    $rc = ciniki_core_syncCheckVersions($ciniki, $sync, $business_id);
+    $rc = ciniki_core_syncCheckVersions($ciniki, $sync, $tnid);
     if( $rc['stat'] != 'ok' ) {
         return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.175', 'msg'=>'Incompatible versions', 'err'=>$rc['err']));
     }
     $modules = $rc['modules'];
     $remote_modules = $rc['remote_modules'];
 
-    ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncBusinessModule');
+    ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncTenantModule');
 
 //  $last_sync_time = date('U');
     $strsql = "SELECT UNIX_TIMESTAMP() AS last_sync_time ";
-    $rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.businesses', 'sync');
+    $rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.tenants', 'sync');
     if( $rc['stat'] != 'ok' ) {
         return $rc;
     }
@@ -55,7 +55,7 @@ function ciniki_core_syncBusiness($ciniki, $sync, $business_id, $type, $module) 
     // Don't update sync times, as not all modules syncd
     //
     if( $module != '' ) {
-        $rc = ciniki_core_syncBusinessModule($ciniki, $sync, $business_id, $module, $type, '');
+        $rc = ciniki_core_syncTenantModule($ciniki, $sync, $tnid, $module, $type, '');
         if( $rc['stat'] != 'ok' ) {
             return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.176', 'msg'=>'Unable to sync module ' . $module, 'err'=>$rc['err']));
         }
@@ -68,7 +68,7 @@ function ciniki_core_syncBusiness($ciniki, $sync, $business_id, $type, $module) 
     //
     // Sync the core modules first
     //
-    $core_modules = array('ciniki.users', 'ciniki.businesses', 'ciniki.images');
+    $core_modules = array('ciniki.users', 'ciniki.tenants', 'ciniki.images');
     foreach($core_modules as $module) {
         if( $type == 'full' || $type == 'partial' 
             || ($type == 'incremental'
@@ -77,7 +77,7 @@ function ciniki_core_syncBusiness($ciniki, $sync, $business_id, $type, $module) 
                         || $modules[$module]['last_change'] >= $sync['last_sync'])
                     )
             )) {
-            $rc = ciniki_core_syncBusinessModule($ciniki, $sync, $business_id, $module, $type, '');
+            $rc = ciniki_core_syncTenantModule($ciniki, $sync, $tnid, $module, $type, '');
             if( $rc['stat'] != 'ok' ) {
                 return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.177', 'msg'=>'Unable to sync module ' . $module, 'err'=>$rc['err']));
             }
@@ -85,9 +85,9 @@ function ciniki_core_syncBusiness($ciniki, $sync, $business_id, $type, $module) 
             // Update the module last_change timestamp if more recent on remote
             //
             $mname = preg_split('/\./', $module);
-            $strsql = "UPDATE ciniki_business_modules "
+            $strsql = "UPDATE ciniki_tenant_modules "
                 . "SET last_change = FROM_UNIXTIME('" . ciniki_core_dbQuote($ciniki, $remote_modules[$module]['last_change']) . "') "
-                . "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+                . "WHERE tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
                 . "AND package = '" . ciniki_core_dbQuote($ciniki, $mname[0]) . "' "
                 . "AND module = '" . ciniki_core_dbQuote($ciniki, $mname[1]) . "' "
                 . "AND last_change < FROM_UNIXTIME('" . ciniki_core_dbQuote($ciniki, $remote_modules[$module]['last_change']) . "') "
@@ -105,7 +105,7 @@ function ciniki_core_syncBusiness($ciniki, $sync, $business_id, $type, $module) 
     //
     $priority_modules = array('ciniki.customers');
     foreach($priority_modules as $module) {
-        // Check if module is enabled for the business
+        // Check if module is enabled for the tenant
         // and only run an incmental if the last_change dates for the modules don't match
         if( isset($modules[$module]) 
             && ($type == 'full' || $type == 'partial' || 
@@ -115,7 +115,7 @@ function ciniki_core_syncBusiness($ciniki, $sync, $business_id, $type, $module) 
                         || $modules[$module]['last_change'] >= $sync['last_sync'])
                     )) 
             ) {
-            $rc = ciniki_core_syncBusinessModule($ciniki, $sync, $business_id, $module, $type, '');
+            $rc = ciniki_core_syncTenantModule($ciniki, $sync, $tnid, $module, $type, '');
             if( $rc['stat'] != 'ok' ) {
                 return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.178', 'msg'=>'Unable to sync module ' . $module, 'err'=>$rc['err']));
             }
@@ -123,9 +123,9 @@ function ciniki_core_syncBusiness($ciniki, $sync, $business_id, $type, $module) 
             // Update the module last_change timestamp if more recent on remote
             //
             $mname = preg_split('/\./', $module);
-            $strsql = "UPDATE ciniki_business_modules "
+            $strsql = "UPDATE ciniki_tenant_modules "
                 . "SET last_change = FROM_UNIXTIME('" . ciniki_core_dbQuote($ciniki, $remote_modules[$module]['last_change']) . "') "
-                . "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+                . "WHERE tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
                 . "AND package = '" . ciniki_core_dbQuote($ciniki, $mname[0]) . "' "
                 . "AND module = '" . ciniki_core_dbQuote($ciniki, $mname[1]) . "' "
                 . "AND last_change < FROM_UNIXTIME('" . ciniki_core_dbQuote($ciniki, $remote_modules[$module]['last_change']) . "') "
@@ -139,7 +139,7 @@ function ciniki_core_syncBusiness($ciniki, $sync, $business_id, $type, $module) 
     }
 
     //
-    // Go through the optional modules configured for the business
+    // Go through the optional modules configured for the tenant
     //
     foreach($modules as $name => $module) {
         //
@@ -153,7 +153,7 @@ function ciniki_core_syncBusiness($ciniki, $sync, $business_id, $type, $module) 
                     || $modules[$name]['last_change'] >= $sync['last_sync'])
                 )) 
             ) {
-            $rc = ciniki_core_syncBusinessModule($ciniki, $sync, $business_id, $name, $type, '');
+            $rc = ciniki_core_syncTenantModule($ciniki, $sync, $tnid, $name, $type, '');
             if( $rc['stat'] != 'ok' ) {
                 return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.179', 'msg'=>'Unable to sync module ' . $name, 'err'=>$rc['err']));
             }
@@ -161,9 +161,9 @@ function ciniki_core_syncBusiness($ciniki, $sync, $business_id, $type, $module) 
             // Update the module last_change timestamp if more recent on remote
             //
             $mname = preg_split('/\./', $name);
-            $strsql = "UPDATE ciniki_business_modules "
+            $strsql = "UPDATE ciniki_tenant_modules "
                 . "SET last_change = FROM_UNIXTIME('" . ciniki_core_dbQuote($ciniki, $remote_modules[$name]['last_change']) . "') "
-                . "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+                . "WHERE tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
                 . "AND package = '" . ciniki_core_dbQuote($ciniki, $mname[0]) . "' "
                 . "AND module = '" . ciniki_core_dbQuote($ciniki, $mname[1]) . "' "
                 . "AND last_change < FROM_UNIXTIME('" . ciniki_core_dbQuote($ciniki, $remote_modules[$name]['last_change']) . "') "
@@ -180,7 +180,7 @@ function ciniki_core_syncBusiness($ciniki, $sync, $business_id, $type, $module) 
     // Updated the last sync time
     //
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncUpdateLastTime');
-    $rc = ciniki_core_syncUpdateLastTime($ciniki, $business_id, $sync['id'], $type, $last_sync_time);
+    $rc = ciniki_core_syncUpdateLastTime($ciniki, $tnid, $sync['id'], $type, $last_sync_time);
     if( $rc['stat'] != 'ok' ) {
         return $rc;
     }

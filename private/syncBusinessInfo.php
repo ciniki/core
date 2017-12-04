@@ -2,14 +2,14 @@
 //
 // Description
 // -----------
-// This function will return the info about a business.  This information is used
+// This function will return the info about a tenant.  This information is used
 // to compare with the remote system to determine if the two are compatitable for 
 // a sync.
 //
 // Arguments
 // ---------
 // ciniki:
-// business_id:     The ID of the business to get the sync information for.
+// tnid:     The ID of the tenant to get the sync information for.
 //
 // Returns
 // -------
@@ -22,13 +22,13 @@
 //      </module>
 // </modules>
 //
-function ciniki_core_syncBusinessInfo($ciniki, $business_id) {
+function ciniki_core_syncTenantInfo($ciniki, $tnid) {
 
     //
-    // Check to make sure a business is specified
+    // Check to make sure a tenant is specified
     //
-    if( $business_id < 1 ) {
-        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.180', 'msg'=>'No business specified'));
+    if( $tnid < 1 ) {
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.180', 'msg'=>'No tenant specified'));
     }
 
     //
@@ -42,7 +42,7 @@ function ciniki_core_syncBusinessInfo($ciniki, $business_id) {
     //
     // Result array
     //
-    $rsp = array('stat'=>'ok', 'tables'=>array(), 'business'=>array('modules'=>array()));
+    $rsp = array('stat'=>'ok', 'tables'=>array(), 'tenant'=>array('modules'=>array()));
 
     //
     // Get all the table versions
@@ -60,16 +60,16 @@ function ciniki_core_syncBusinessInfo($ciniki, $business_id) {
     $db_tables = $rc['tables']; 
 
     //
-    // Get modules which are enabled for the business, and their checksums
+    // Get modules which are enabled for the tenant, and their checksums
     //
     $strsql = "SELECT CONCAT_WS('.', package, module) AS fname, "
         . "package, module AS name, UNIX_TIMESTAMP(last_change) AS last_change "
-        . "FROM ciniki_business_modules "
-        . "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+        . "FROM ciniki_tenant_modules "
+        . "WHERE tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
         . "AND (status = 1 OR status = 2) "
         . "";
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashQueryTree');
-    $rc = ciniki_core_dbHashQueryTree($ciniki, $strsql, 'ciniki.businesses', array(
+    $rc = ciniki_core_dbHashQueryTree($ciniki, $strsql, 'ciniki.tenants', array(
         array('container'=>'modules', 'fname'=>'fname', 'name'=>'module',
             'fields'=>array('package', 'name', 'last_change')),
         ));
@@ -91,8 +91,8 @@ function ciniki_core_syncBusinessInfo($ciniki, $business_id) {
     if( !isset($mods['ciniki.images']) ) {
         $modules[] = array('module'=>array('package'=>'ciniki', 'name'=>'images', 'last_change'=>0));
     }
-    if( !isset($mods['ciniki.businesses']) ) {
-        $modules[] = array('module'=>array('package'=>'ciniki', 'name'=>'businesses', 'last_change'=>0));
+    if( !isset($mods['ciniki.tenants']) ) {
+        $modules[] = array('module'=>array('package'=>'ciniki', 'name'=>'tenants', 'last_change'=>0));
     }
 
     //

@@ -26,7 +26,7 @@
 //                  the form of the following.
 //
 //                  array(
-//                      'business_id'=>array('required'=>'yes', 'blank'=>'no', 'errmsg'=>'No business specified'),
+//                      'tnid'=>array('required'=>'yes', 'blank'=>'no', 'errmsg'=>'No tenant specified'),
 //                      'source'=>array('required'=>'no', 'default'=>'', 'blank'=>'yes', 'errmsg'=>''),
 //                      ...
 //                  );
@@ -37,7 +37,7 @@
 function ciniki_core_prepareArgs(&$ciniki, $quote_flag, $arg_info) {
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'parseArgs');
     return ciniki_core_parseArgs($ciniki, 
-        (isset($ciniki['request']['args']['business_id'])?$ciniki['request']['args']['business_id']:0), 
+        (isset($ciniki['request']['args']['tnid'])?$ciniki['request']['args']['tnid']:0), 
         (isset($ciniki['request']['args'])?$ciniki['request']['args']:array()), 
         $arg_info);
 }

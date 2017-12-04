@@ -7,7 +7,7 @@
 // Arguments
 // ---------
 // ciniki:
-// business_id:     The ID of the business on the local side to check sync.
+// tnid:     The ID of the tenant on the local side to check sync.
 //
 function ciniki_core_fbRefreshQueueProcess(&$ciniki) {
 
@@ -20,12 +20,12 @@ function ciniki_core_fbRefreshQueueProcess(&$ciniki) {
 
     foreach($ciniki['fbrefreshqueue'] as $fb) {
         //
-        // Get the business web information
+        // Get the tenant web information
         //
-        ciniki_core_loadMethod($ciniki, 'ciniki', 'web', 'private', 'lookupBusinessURL');
-        $rc = ciniki_web_lookupBusinessURL($ciniki, $fb['business_id']);
+        ciniki_core_loadMethod($ciniki, 'ciniki', 'web', 'private', 'lookupTenantURL');
+        $rc = ciniki_web_lookupTenantURL($ciniki, $fb['tnid']);
         if( $rc['stat'] != 'ok' ) {
-            error_log("FB: Invalid business: " . print_r($fb, true));
+            error_log("FB: Invalid tenant: " . print_r($fb, true));
         }
         $base_url = $rc['url'];
 

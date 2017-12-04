@@ -12,7 +12,7 @@
 // type:        The type of method (public, private).
 // name:        The name of the function.
 //
-function ciniki_core_hookExec($ciniki, $business_id, $package, $module, $name, $args) {
+function ciniki_core_hookExec($ciniki, $tnid, $package, $module, $name, $args) {
     $type = 'hooks';
     if( !file_exists($ciniki['config']['ciniki.core']['root_dir'] . '/' . $package . '-mods/' . $module . '/' . $type . '/' . $name . '.php') ) {
         return array('stat'=>'noexist', 'err'=>array('code'=>'ciniki.core.93', 'msg'=>'Internal Error', 'pmsg'=>'Requested method does not exist'));
@@ -22,6 +22,6 @@ function ciniki_core_hookExec($ciniki, $business_id, $package, $module, $name, $
 
     $fn = $package . '_' . $module . '_hooks_' . $name;
 
-    return $fn($ciniki, $business_id, $args);
+    return $fn($ciniki, $tnid, $args);
 }
 ?>

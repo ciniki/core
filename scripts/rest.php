@@ -106,12 +106,12 @@ if( (isset($ciniki['syncqueue']) && count($ciniki['syncqueue']) > 0)
     } 
     // Run sync queue
     if( isset($ciniki['syncqueue']) && count($ciniki['syncqueue']) > 0 ) {
-        if( isset($ciniki['syncbusinesses']) && count($ciniki['syncbusinesses']) > 0 ) {
-            foreach($ciniki['syncbusinesses'] as $business_id) {
-                ciniki_core_syncQueueProcess($ciniki, $business_id);
+        if( isset($ciniki['synctenants']) && count($ciniki['synctenants']) > 0 ) {
+            foreach($ciniki['synctenants'] as $tnid) {
+                ciniki_core_syncQueueProcess($ciniki, $tnid);
             }
-        } elseif( isset($ciniki['request']['args']['business_id']) ) {
-            ciniki_core_syncQueueProcess($ciniki, $ciniki['request']['args']['business_id']);
+        } elseif( isset($ciniki['request']['args']['tnid']) ) {
+            ciniki_core_syncQueueProcess($ciniki, $ciniki['request']['args']['tnid']);
         } 
     }
 } else {

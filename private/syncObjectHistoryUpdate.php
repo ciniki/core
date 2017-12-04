@@ -9,13 +9,13 @@
 // Returns
 // -------
 //
-function ciniki_core_syncObjectHistoryUpdate(&$ciniki, &$sync, $business_id, $o, $args) {
+function ciniki_core_syncObjectHistoryUpdate(&$ciniki, &$sync, $tnid, $o, $args) {
     //
     // Check for custom history update function
     //
     if( isset($o['history_update']) && $o['history_update'] != '' ) {
         ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectFunction');
-        return ciniki_core_syncObjectFunction($ciniki, $sync, $business_id, $o['history_update'], $args);
+        return ciniki_core_syncObjectFunction($ciniki, $sync, $tnid, $o['history_update'], $args);
     }
     
     //
@@ -69,7 +69,7 @@ function ciniki_core_syncObjectHistoryUpdate(&$ciniki, &$sync, $business_id, $o,
         && $remote_history['table_key'] != '' 
         && strncmp($remote_history['table_key'], 'uuid-', 5) != 0 ) {
         ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLookup');
-        $rc = ciniki_core_syncObjectLookup($ciniki, $sync, $business_id, $o, array('remote_uuid'=>$remote_history['table_key']));
+        $rc = ciniki_core_syncObjectLookup($ciniki, $sync, $tnid, $o, array('remote_uuid'=>$remote_history['table_key']));
         if( $rc['stat'] != 'ok' ) {
             //
             // If the object does not exist local in the history or on remote as an object, then it must have been deleted,
@@ -90,13 +90,13 @@ function ciniki_core_syncObjectHistoryUpdate(&$ciniki, &$sync, $business_id, $o,
 //      && $remote_history['new_value'] != '' && strncmp($remote_history['new_value'], 'uuid-', 5) != 0 && $remote_history['new_value'] != '0' ) {
 //      $ref = $o['fields'][$remote_history['table_field']]['ref'];
 //      ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLoad');
-//      $rc = ciniki_core_syncObjectLoad($ciniki, $sync, $business_id, $ref, array());
+//      $rc = ciniki_core_syncObjectLoad($ciniki, $sync, $tnid, $ref, array());
 //      if( $rc['stat'] != 'ok' ) {
 //          return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.263', 'msg'=>'Unable to load object ' . $ref));
 //      }
 //      $ref_o = $rc['object'];
 //      ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLookup');
-//      $rc = ciniki_core_syncObjectLookup($ciniki, $sync, $business_id, $ref_o, 
+//      $rc = ciniki_core_syncObjectLookup($ciniki, $sync, $tnid, $ref_o, 
 //          array('remote_uuid'=>$remote_history['new_value']));
 //      if( $rc['stat'] != 'ok' ) {
 //          //
@@ -111,17 +111,17 @@ function ciniki_core_syncObjectHistoryUpdate(&$ciniki, &$sync, $business_id, $o,
     // Get the local history
     //
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectHistoryGet');
-    $rc = ciniki_core_syncObjectHistoryGet($ciniki, $sync, $business_id, $o, array('uuid'=>$remote_history['uuid'], 'translate'=>'no'));
+    $rc = ciniki_core_syncObjectHistoryGet($ciniki, $sync, $tnid, $o, array('uuid'=>$remote_history['uuid'], 'translate'=>'no'));
     if( $rc['stat'] != 'ok' && $rc['stat'] != 'noexist' ) {
         return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.265', 'msg'=>'Unable to get ' . $o['name'] . ' history', 'err'=>$rc['err']));
     }
     if( isset($rc['object']) ) {
         $local_history = $rc['object'];
-        $rc = ciniki_core_syncObjectUpdateHistory($ciniki, $sync, $business_id, $o, $local_history['table_key'], 
+        $rc = ciniki_core_syncObjectUpdateHistory($ciniki, $sync, $tnid, $o, $local_history['table_key'], 
             array($remote_history['uuid']=>$remote_history), array($local_history['uuid']=>$local_history));
     } else {
         // Remote table key should be a uuid
-        $rc = ciniki_core_syncObjectUpdateHistory($ciniki, $sync, $business_id, $o, $remote_history['table_key'], 
+        $rc = ciniki_core_syncObjectUpdateHistory($ciniki, $sync, $tnid, $o, $remote_history['table_key'], 
             array($remote_history['uuid']=>$remote_history), array());
     }
 

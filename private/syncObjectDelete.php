@@ -9,13 +9,13 @@
 // Returns
 // -------
 //
-function ciniki_core_syncObjectDelete(&$ciniki, &$sync, $business_id, $o, $args) {
+function ciniki_core_syncObjectDelete(&$ciniki, &$sync, $tnid, $o, $args) {
     //
     // Check for custom delete function
     //
     if( isset($o['delete']) && $o['delete'] != '' ) {
         ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectFunction');
-        return ciniki_core_syncObjectFunction($ciniki, $sync, $business_id, $o['delete'], $args);
+        return ciniki_core_syncObjectFunction($ciniki, $sync, $tnid, $o['delete'], $args);
     }
 
     //
@@ -35,7 +35,7 @@ function ciniki_core_syncObjectDelete(&$ciniki, &$sync, $business_id, $o, $args)
         // Get the local object to delete
         //
         ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectGet');
-        $rc = ciniki_core_syncObjectGet($ciniki, $sync, $business_id, $o, array('uuid'=>$args['uuid'], 'translate'=>'no'));
+        $rc = ciniki_core_syncObjectGet($ciniki, $sync, $tnid, $o, array('uuid'=>$args['uuid'], 'translate'=>'no'));
         if( $rc['stat'] != 'ok' && $rc['stat'] != 'noexist' ) {
             return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.225', 'msg'=>'Unable to get ' . $o['name'], 'err'=>$rc['err']));
         }
@@ -75,7 +75,7 @@ function ciniki_core_syncObjectDelete(&$ciniki, &$sync, $business_id, $o, $args)
     $table = $o['table'];
     $strsql = "DELETE FROM $table "
         . "WHERE uuid = '" . ciniki_core_dbQuote($ciniki, $args['uuid']) . "' "
-        . "AND business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+        . "AND tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
         . "";
     $rc = ciniki_core_dbDelete($ciniki, $strsql, $o['pmod']);
     if( $rc['stat'] != 'ok' ) {
@@ -89,10 +89,10 @@ function ciniki_core_syncObjectDelete(&$ciniki, &$sync, $business_id, $o, $args)
     // Update history
     //
     if( isset($local_object['history']) ) {
-        $rc = ciniki_core_syncObjectUpdateHistory($ciniki, $sync, $business_id, $o, $local_object['id'], 
+        $rc = ciniki_core_syncObjectUpdateHistory($ciniki, $sync, $tnid, $o, $local_object['id'], 
             array($remote_history['uuid']=>$remote_history), array());
     } else {
-        $rc = ciniki_core_syncObjectUpdateHistory($ciniki, $sync, $business_id, $o, $local_object['id'], 
+        $rc = ciniki_core_syncObjectUpdateHistory($ciniki, $sync, $tnid, $o, $local_object['id'], 
             array($remote_history['uuid']=>$remote_history), $local_object['history']);
     }
     if( $rc['stat'] != 'ok' ) {
@@ -109,7 +109,7 @@ function ciniki_core_syncObjectDelete(&$ciniki, &$sync, $business_id, $o, $args)
         $table = $o['details']['table'];
         $strsql = "DELETE FROM $table "
             . "WHERE $key = '" . ciniki_core_dbQuote($ciniki, $local_object['id']) . "' "
-            . "AND business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+            . "AND tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
             . "";
         $rc = ciniki_core_dbDelete($ciniki, $strsql, $o['pmod']);
         if( $rc['stat'] != 'ok' ) {

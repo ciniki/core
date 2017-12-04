@@ -3,7 +3,7 @@
 // Description
 // -----------
 // This script should be executed from cron every 5 minutes to run
-// an incremental sync on all businesses.
+// an incremental sync on all tenants.
 // 
 
 //
@@ -32,7 +32,7 @@ if( $rc['stat'] != 'ok' ) {
 $ciniki = $rc['ciniki'];
 
 ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncCronList');
-ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncBusiness');
+ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncTenant');
 ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncUpgradeSystem');
 
 //
@@ -79,15 +79,15 @@ foreach($rc['syncs'] as $sid => $sync) {
     //
     // if time since last full > 150 hours, and time is currently 3 am, run full
     if( $cur_hour == $sync_full_hour && $sync['full_age'] > 540000 ) {
-        exec($cmd . " " . $sync['business_id'] . " " . $sync['id'] . " full >> " . $ciniki['config']['ciniki.core']['sync.log_dir'] . "/sync_" . $sync['sitename'] . '_' . $sync['id'] . ".log 2>&1 &");
+        exec($cmd . " " . $sync['tnid'] . " " . $sync['id'] . " full >> " . $ciniki['config']['ciniki.core']['sync.log_dir'] . "/sync_" . $sync['sitename'] . '_' . $sync['id'] . ".log 2>&1 &");
     } 
     // if time since last partial > 23 hours, and time is currently 3 am, run parital
     elseif( $cur_hour == $sync_partial_hour && $sync['partial_age'] > 82800 ) {
-        exec($cmd . " " . $sync['business_id'] . " " . $sync['id'] . " partial >> " . $ciniki['config']['ciniki.core']['sync.log_dir'] . "/sync_" . $sync['sitename'] . '_' . $sync['id'] . ".log 2>&1 &");
+        exec($cmd . " " . $sync['tnid'] . " " . $sync['id'] . " partial >> " . $ciniki['config']['ciniki.core']['sync.log_dir'] . "/sync_" . $sync['sitename'] . '_' . $sync['id'] . ".log 2>&1 &");
     }
     // Default to a incremental sync
     else {
-        exec($cmd . " " . $sync['business_id'] . " " . $sync['id'] . " incremental >> " . $ciniki['config']['ciniki.core']['sync.log_dir'] . "/sync_" . $sync['sitename'] . '_' . $sync['id'] . ".log 2>&1 &");
+        exec($cmd . " " . $sync['tnid'] . " " . $sync['id'] . " incremental >> " . $ciniki['config']['ciniki.core']['sync.log_dir'] . "/sync_" . $sync['sitename'] . '_' . $sync['id'] . ".log 2>&1 &");
     }
     // Sleep for 1 seconds between each exec
     sleep(1);

@@ -6,7 +6,7 @@
 // Arguments
 // ---------
 //
-function ciniki_core_syncObjectLoad(&$ciniki, &$sync, $business_id, $object_ref, $args) {
+function ciniki_core_syncObjectLoad(&$ciniki, &$sync, $tnid, $object_ref, $args) {
 
     //
     // Load the objects file
@@ -17,7 +17,7 @@ function ciniki_core_syncObjectLoad(&$ciniki, &$sync, $business_id, $object_ref,
         require_once($objects_filename);
         $object_function = $obj[0] . '_' . $obj[1] . '_sync_objects';
         if( is_callable($object_function) ) {
-            $rc = $object_function($ciniki, $sync, $business_id, $args);
+            $rc = $object_function($ciniki, $sync, $tnid, $args);
             if( $rc['stat'] != 'ok' ) {
                 return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.271', 'msg'=>'Object does not exist'));
             }

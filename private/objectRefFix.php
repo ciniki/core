@@ -9,7 +9,7 @@
 // Arguments
 // ---------
 // ciniki:
-// business_id:     The ID of the business the reference is for.
+// tnid:     The ID of the tenant the reference is for.
 //
 // args:            The arguments for adding the reference.
 //
@@ -20,7 +20,7 @@
 // -------
 // <rsp stat="ok" id="45" />
 //
-function ciniki_core_objectRefFix(&$ciniki, $business_id, $obj_name, $options=0) {
+function ciniki_core_objectRefFix(&$ciniki, $tnid, $obj_name, $options=0) {
     //
     // Break apart object name
     //
@@ -62,7 +62,7 @@ function ciniki_core_objectRefFix(&$ciniki, $business_id, $obj_name, $options=0)
                 //
                 $strsql = "SELECT id, uuid, ref_id, object_id "
                     . "FROM " . $ref_o['table'] . " "
-                    . "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+                    . "WHERE tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
                     . "AND object = '" . ciniki_core_dbQuote($ciniki, $obj_name) . "' "
                     . "AND object_field = '" . ciniki_core_dbQuote($ciniki, $fname) . "' "
                     . "";
@@ -77,7 +77,7 @@ function ciniki_core_objectRefFix(&$ciniki, $business_id, $obj_name, $options=0)
                 //
                 $strsql = "SELECT id, $fname "
                     . "FROM " . $o['table'] . " "
-                    . "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+                    . "WHERE tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
                     . "AND $fname > 0 "
                     . "";
                 $rc = ciniki_core_dbHashIDQuery($ciniki, $strsql, $m, 'objects', 'id');
@@ -93,7 +93,7 @@ function ciniki_core_objectRefFix(&$ciniki, $business_id, $obj_name, $options=0)
                 foreach($refs as $oid => $ref) {
                     if( !isset($objs[$oid]) ) {
 //                      error_log("Removing reference " . $ref['id'] . ' from ' . $ref_o['table']);
-                        $rc = ciniki_core_objectRefClear($ciniki, $business_id, $field['ref'], array(
+                        $rc = ciniki_core_objectRefClear($ciniki, $tnid, $field['ref'], array(
                             'object'=>$obj_name,
                             'object_id'=>$oid
                             ), $options);
@@ -109,7 +109,7 @@ function ciniki_core_objectRefFix(&$ciniki, $business_id, $obj_name, $options=0)
                 foreach($objs as $oid => $object) {
                     if( !isset($refs[$oid]) ) {
 //                      error_log('Add reference ' . $object[$fname] . ',' . $obj_name . ',' . $oid . ',' . $fname);
-                        $rc = ciniki_core_objectRefAdd($ciniki, $business_id, $field['ref'], array(
+                        $rc = ciniki_core_objectRefAdd($ciniki, $tnid, $field['ref'], array(
                             'ref_id'=>$object[$fname],
                             'object'=>$obj_name,
                             'object_id'=>$oid,
@@ -141,7 +141,7 @@ function ciniki_core_objectRefFix(&$ciniki, $business_id, $obj_name, $options=0)
                 //
                 $strsql = "SELECT id, uuid, ref_id, object_id "
                     . "FROM " . $ref_o['table'] . " "
-                    . "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+                    . "WHERE tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
                     . "AND object = '" . ciniki_core_dbQuote($ciniki, $obj_name) . "' "
                     . "AND object_id = '" . ciniki_core_dbQuote($ciniki, $fname) . "' "
                     . "";
@@ -156,7 +156,7 @@ function ciniki_core_objectRefFix(&$ciniki, $business_id, $obj_name, $options=0)
                 //
                 $strsql = "SELECT detail_key, detail_value "
                     . "FROM " . $o['table'] . " "
-                    . "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+                    . "WHERE tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
                     . "AND detail_key = '" . ciniki_core_dbQuote($ciniki, $fname) . "' "
                     . "AND detail_value <> '' "
                     . "AND detail_value > 0 "
@@ -174,7 +174,7 @@ function ciniki_core_objectRefFix(&$ciniki, $business_id, $obj_name, $options=0)
                 foreach($refs as $oid => $ref) {
                     if( !isset($objs[$oid]) ) {
 //                      error_log("Removing reference " . $ref['id'] . ' from ' . $ref_o['table']);
-                        $rc = ciniki_core_objectRefClear($ciniki, $business_id, $field['ref'], array(
+                        $rc = ciniki_core_objectRefClear($ciniki, $tnid, $field['ref'], array(
                             'object'=>$obj_name,
                             'object_id'=>$oid
                             ), $options);
@@ -190,7 +190,7 @@ function ciniki_core_objectRefFix(&$ciniki, $business_id, $obj_name, $options=0)
                 foreach($objs as $oid => $object) {
                     if( !isset($refs[$oid]) ) {
 //                      error_log('Add reference ' . $object['detail_value'] . ',' . $obj_name . ',' . $oid . ',' . $fname);
-                        $rc = ciniki_core_objectRefAdd($ciniki, $business_id, $field['ref'], array(
+                        $rc = ciniki_core_objectRefAdd($ciniki, $tnid, $field['ref'], array(
                             'ref_id'=>$object['detail_value'],
                             'object'=>$obj_name,
                             'object_id'=>$oid,

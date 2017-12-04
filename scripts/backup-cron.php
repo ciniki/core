@@ -2,7 +2,7 @@
 //
 // Description
 // -----------
-// This script should be executed once a day to backup each businesses information
+// This script should be executed once a day to backup each tenants information
 // to the ciniki-backups folder.
 // 
 
@@ -37,10 +37,10 @@ if( isset($argv[1]) && $argv[1] != '' ) {
 
 ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashQuery');
 ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQuote');
-ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'backupBusinessList');
-ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'backupBusiness');
-ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'backupBusinessModuleObjects');
-ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'backupBusinessModuleObject');
+ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'backupTenantList');
+ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'backupTenant');
+ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'backupTenantModuleObjects');
+ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'backupTenantModuleObject');
 ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'backupZipAddDir');
 ciniki_core_loadMethod($ciniki, 'ciniki', 'images', 'private', 'loadImage');
 
@@ -50,23 +50,23 @@ require($ciniki['config']['core']['lib_dir'] . '/PHPExcel/PHPExcel.php');
 //
 // Get list of cron jobs
 //
-$rc = ciniki_core_backupBusinessList($ciniki);
+$rc = ciniki_core_backupTenantList($ciniki);
 if( $rc['stat'] != 'ok' ) {
-    error_log("BACKUP-ERR: unable to get business list");
+    error_log("BACKUP-ERR: unable to get tenant list");
     exit(1);
 }
 
-if( !isset($rc['businesses']) ) {
-    error_log('No businesses to backup');
+if( !isset($rc['tenants']) ) {
+    error_log('No tenants to backup');
     exit(0);
 }
 
-$businesses = $rc['businesses'];
+$tenants = $rc['tenants'];
 
-foreach($businesses as $bid => $business) {
+foreach($tenants as $bid => $tenant) {
 
-    error_log("Backing up business: " . $business['name']);
-    $rc = ciniki_core_backupBusiness($ciniki, $business);
+    error_log("Backing up tenant: " . $tenant['name']);
+    $rc = ciniki_core_backupTenant($ciniki, $tenant);
     if( $rc['stat'] != 'ok' ) {
         error_log('BACKUP-ERR: ' . $rc['err']['code'] . ' - ' . $rc['err']['msg']);
     }

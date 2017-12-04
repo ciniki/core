@@ -16,7 +16,7 @@
 // -------
 // <rsp stat="ok" />
 //
-function ciniki_core_tagsDelete(&$ciniki, $module, $object, $business_id, $table, $history_table, $key_name, $key_value) {
+function ciniki_core_tagsDelete(&$ciniki, $module, $object, $tnid, $table, $history_table, $key_name, $key_value) {
     //
     // All arguments are assumed to be un-escaped, and will be passed through dbQuote to
     // ensure they are safe to insert.
@@ -35,7 +35,7 @@ function ciniki_core_tagsDelete(&$ciniki, $module, $object, $business_id, $table
     //
     $strsql = "SELECT id, uuid FROM $table "
         . "WHERE $key_name = '" . ciniki_core_dbQuote($ciniki, $key_value) . "' "
-        . "AND business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+        . "AND tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
         . "";
     $rc = ciniki_core_dbHashQuery($ciniki, $strsql, $module, 'tag');
     if( $rc['stat'] != 'ok' ) {
@@ -48,7 +48,7 @@ function ciniki_core_tagsDelete(&$ciniki, $module, $object, $business_id, $table
     //
     $strsql = "DELETE FROM $table "
         . "WHERE $key_name = '" . ciniki_core_dbQuote($ciniki, $key_value) . "' "
-        . "AND business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+        . "AND tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
         . "";
     $rc = ciniki_core_dbDelete($ciniki, $strsql, $module);
     if( $rc['stat'] != 'ok' ) { 
@@ -56,7 +56,7 @@ function ciniki_core_tagsDelete(&$ciniki, $module, $object, $business_id, $table
     }
 
     foreach($tags as $tid => $tag) {
-        ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $business_id,
+        ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $tnid,
             3, $table, $tag['id'], '*', '');
         //
         // Sync push delete

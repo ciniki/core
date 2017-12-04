@@ -12,7 +12,7 @@
 //                  package in dot notation.  Example: ciniki.artcatalog
 //
 //
-function ciniki_core_dbGetModuleHistoryTags(&$ciniki, $module, $history_table, $business_id, $table_name, $table_key, $table_field, $table_id_field, $tag_type) {
+function ciniki_core_dbGetModuleHistoryTags(&$ciniki, $module, $history_table, $tnid, $table_name, $table_key, $table_field, $table_id_field, $tag_type) {
     //
     // Open a connection to the database if one doesn't exist.  The
     // dbConnect function will return an open connection if one 
@@ -40,7 +40,7 @@ function ciniki_core_dbGetModuleHistoryTags(&$ciniki, $module, $history_table, $
     //
     $strsql = "SELECT DISTINCT table_key "
         . "FROM $history_table "
-        . "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+        . "WHERE tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
         . "AND table_field = '" . ciniki_core_dbQuote($ciniki, $table_id_field) . "' "
         . "AND new_value = '" . ciniki_core_dbQuote($ciniki, $table_key) . "' "
         . "";
@@ -58,7 +58,7 @@ function ciniki_core_dbGetModuleHistoryTags(&$ciniki, $module, $history_table, $
     //
     $strsql = "SELECT DISTINCT table_key "
             . "FROM $history_table "
-            . "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+            . "WHERE tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
             . "AND table_field = 'tag_type' "
             . "AND new_value = '" . ciniki_core_dbQuote($ciniki, $tag_type) . "' "
             . "AND table_key IN (" . ciniki_core_dbQuoteList($ciniki, $keys) . ") "
@@ -85,7 +85,7 @@ function ciniki_core_dbGetModuleHistoryTags(&$ciniki, $module, $history_table, $
         . "new_value as value "
         . "FROM " . ciniki_core_dbQuote($ciniki, $history_table) . " "
         . "LEFT JOIN ciniki_users ON ($history_table.user_id = ciniki_users.id) "
-        . "WHERE business_id ='" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+        . "WHERE tnid ='" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
         . "AND table_name = '" . ciniki_core_dbQuote($ciniki, $table_name) . "' "
         . "AND (table_field = 'tag_name' OR table_field = '*') "
         . "AND table_key IN (" . ciniki_core_dbQuoteList($ciniki, $keys) . ") "

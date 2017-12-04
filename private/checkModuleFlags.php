@@ -11,7 +11,7 @@
 // -------
 //
 function ciniki_core_checkModuleFlags($ciniki, $module, $flags) {
-    if( isset($ciniki['business']['modules'][$module]['flags']) && ($ciniki['business']['modules'][$module]['flags']&$flags) > 0 ) {
+    if( isset($ciniki['tenant']['modules'][$module]['flags']) && ($ciniki['tenant']['modules'][$module]['flags']&$flags) > 0 ) {
         return true;
     }
     return false;

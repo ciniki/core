@@ -16,7 +16,7 @@
 //                  package in dot notation.  Example: ciniki.artcatalog
 //
 //
-function ciniki_core_dbGetChangeLogReformat(&$ciniki, $business_id, $table_name, $table_key, $table_field, $module, $format) {
+function ciniki_core_dbGetChangeLogReformat(&$ciniki, $tnid, $table_name, $table_key, $table_field, $module, $format) {
     //
     // Open a connection to the database if one doesn't exist.  The
     // dbConnect function will return an open connection if one 
@@ -48,7 +48,7 @@ function ciniki_core_dbGetChangeLogReformat(&$ciniki, $business_id, $table_name,
         $strsql .= ", DATE_FORMAT(new_value, '" . ciniki_core_dbQuote($ciniki, $datetime_format) . "') as formatted_value ";
     }
     $strsql .= " FROM ciniki_core_change_logs "
-        . " WHERE business_id ='" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+        . " WHERE tnid ='" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
         . " AND table_name = '" . ciniki_core_dbQuote($ciniki, $table_name) . "' "
         . " AND table_key = '" . ciniki_core_dbQuote($ciniki, $table_key) . "' "
         . " AND table_field = '" . ciniki_core_dbQuote($ciniki, $table_field) . "' "

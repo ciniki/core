@@ -2,8 +2,8 @@
 //
 // Description
 // -----------
-// The loadBusinessConfig is a place holder for the future
-// so the additional config parameters for a business could
+// The loadTenantConfig is a place holder for the future
+// so the additional config parameters for a tenant could
 // be loaded from the database.
 //
 // Info
@@ -14,7 +14,7 @@
 // ---------
 // user_id:         The user making the request
 //
-function ciniki_core_loadBusinessConfig($ciniki, $args) {
+function ciniki_core_loadTenantConfig($ciniki, $args) {
 
 }
 ?>

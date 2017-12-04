@@ -40,9 +40,9 @@ function ciniki_core_init($ciniki_root, $output_format) {
     $ciniki['objects'] = array();
     
     //
-    // Initialize the business variable.  This is used to store settings for the business
+    // Initialize the tenant variable.  This is used to store settings for the tenant
     //
-    $ciniki['business'] = array('settings'=>array(), 'modules'=>array(), 'user'=>array('perms'=>0));
+    $ciniki['tenant'] = array('settings'=>array(), 'modules'=>array(), 'user'=>array('perms'=>0));
 
     //
     // Initialize the request variables

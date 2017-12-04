@@ -22,7 +22,7 @@
 // Returns
 // -------
 //
-function ciniki_core_objectAdd(&$ciniki, $business_id, $obj_name, $args, $tmsupdate=0x07) {
+function ciniki_core_objectAdd(&$ciniki, $tnid, $obj_name, $args, $tmsupdate=0x07) {
     //
     // Break apart object name
     //
@@ -68,9 +68,9 @@ function ciniki_core_objectAdd(&$ciniki, $business_id, $obj_name, $args, $tmsupd
     // Build the SQL string to insert object
     //
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQuote');
-    $strsql = "INSERT INTO " . $o['table'] . " (uuid, business_id, ";
+    $strsql = "INSERT INTO " . $o['table'] . " (uuid, tnid, ";
     $values = "'" . ciniki_core_dbQuote($ciniki, $args['uuid']) . "', "
-        . "'" . ciniki_core_dbQuote($ciniki, $business_id) . "', ";
+        . "'" . ciniki_core_dbQuote($ciniki, $tnid) . "', ";
     foreach($o['fields'] as $field => $options) {
         $strsql .= $field . ', ';
         if( isset($args[$field]) ) {
@@ -106,14 +106,14 @@ function ciniki_core_objectAdd(&$ciniki, $business_id, $obj_name, $args, $tmsupd
     if( isset($o['history_table']) ) {
         ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbAddModuleHistory');
         ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'objectRefAdd');
-        ciniki_core_dbAddModuleHistory($ciniki, $m, $o['history_table'], $business_id,
+        ciniki_core_dbAddModuleHistory($ciniki, $m, $o['history_table'], $tnid,
             1, $o['table'], $insert_id, 'uuid', $args['uuid']);
         foreach($o['fields'] as $field => $options) {
             //
             // Some field we don't store the history for, like binary content of files
             //
             if( !isset($options['history']) || $options['history'] == 'yes' ) {
-                ciniki_core_dbAddModuleHistory($ciniki, $m, $o['history_table'], $business_id,
+                ciniki_core_dbAddModuleHistory($ciniki, $m, $o['history_table'], $tnid,
                     1, $o['table'], $insert_id, $field, $args[$field]);
             }
             //
@@ -121,7 +121,7 @@ function ciniki_core_objectAdd(&$ciniki, $business_id, $obj_name, $args, $tmsupd
             // and see if there should be a reference added
             //
             if( isset($options['ref']) && $options['ref'] != '' && $args[$field] != '' && $args[$field] > 0 ) {
-                $rc = ciniki_core_objectRefAdd($ciniki, $business_id, $options['ref'], array(
+                $rc = ciniki_core_objectRefAdd($ciniki, $tnid, $options['ref'], array(
                     'ref_id'=>$args[$field],        // The remote ID (other modules object id)
                     'object'=>$obj_name,            // The local object ref (this objects ref)
                     'object_id'=>$insert_id,        // The local object ID
@@ -148,8 +148,8 @@ function ciniki_core_objectAdd(&$ciniki, $business_id, $obj_name, $args, $tmsupd
     // Update the last change date of the module
     //
     if( ($tmsupdate&0x02) == 2 ) {
-        ciniki_core_loadMethod($ciniki, 'ciniki', 'businesses', 'private', 'updateModuleChangeDate');
-        ciniki_businesses_updateModuleChangeDate($ciniki, $business_id, $pkg, $mod);
+        ciniki_core_loadMethod($ciniki, 'ciniki', 'tenants', 'private', 'updateModuleChangeDate');
+        ciniki_tenants_updateModuleChangeDate($ciniki, $tnid, $pkg, $mod);
     }
 
     //

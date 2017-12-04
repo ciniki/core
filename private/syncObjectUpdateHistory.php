@@ -7,7 +7,7 @@
 // Arguments
 // ---------
 //
-function ciniki_core_syncObjectUpdateHistory(&$ciniki, &$sync, $business_id, $o, $table_key, $remote_history, $local_history) {
+function ciniki_core_syncObjectUpdateHistory(&$ciniki, &$sync, $tnid, $o, $table_key, $remote_history, $local_history) {
 
     //
     // All transaction locking should be taken care of by a calling function
@@ -63,7 +63,7 @@ function ciniki_core_syncObjectUpdateHistory(&$ciniki, &$sync, $business_id, $o,
                         // Add to the local database
                         //
                         ciniki_core_loadMethod($ciniki, 'ciniki', 'users', 'sync', 'user_update');
-                        $rc = ciniki_users_user_update($ciniki, $sync, $business_id, array('uuid'=>$history['user']));
+                        $rc = ciniki_users_user_update($ciniki, $sync, $tnid, array('uuid'=>$history['user']));
                         if( $rc['stat'] != 'ok' ) {
                             return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.306', 'msg'=>'Unable to add user', 'err'=>$rc['err']));
                         }
@@ -87,7 +87,7 @@ function ciniki_core_syncObjectUpdateHistory(&$ciniki, &$sync, $business_id, $o,
                     $oref_field_name = $o['fields'][$history['table_field']]['oref'];
                     $strsql = "SELECT " . $oref_field_name . " "
                         . "FROM " . $o['table'] . " "
-                        . "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+                        . "WHERE tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
                         . "AND id = '" . ciniki_core_dbQuote($ciniki, $table_key) . "' "
                         . "";
                     $rc = ciniki_core_dbHashQuery($ciniki, $strsql, $o['pmod'], 'object');
@@ -100,7 +100,7 @@ function ciniki_core_syncObjectUpdateHistory(&$ciniki, &$sync, $business_id, $o,
                     $ref = $rc['object'][$oref_field_name];
                     
                     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLoad');
-                    $rc = ciniki_core_syncObjectLoad($ciniki, $sync, $business_id, $ref, array());
+                    $rc = ciniki_core_syncObjectLoad($ciniki, $sync, $tnid, $ref, array());
                     if( $rc['stat'] != 'ok' ) {
                         return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.309', 'msg'=>'Unable to load object ' . $ref, 'err'=>$rc['err']));
                     }
@@ -111,7 +111,7 @@ function ciniki_core_syncObjectUpdateHistory(&$ciniki, &$sync, $business_id, $o,
                     //
                     if( !isset($ref_o['type']) || $ref_o['type'] != 'settings' ) {
                         ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLookup');
-                        $rc = ciniki_core_syncObjectLookup($ciniki, $sync, $business_id, $ref_o, 
+                        $rc = ciniki_core_syncObjectLookup($ciniki, $sync, $tnid, $ref_o, 
                             array('remote_uuid'=>$history['new_value']));
                         if( $rc['stat'] != 'ok' ) {
                             ciniki_core_syncLog($ciniki, 0, "Unable to locate local new value for " . $ref_o['pmod'] . '.' . $ref_o['oname'] . '(' . $history['new_value'] . ')', $rc['err']);
@@ -127,7 +127,7 @@ function ciniki_core_syncObjectUpdateHistory(&$ciniki, &$sync, $business_id, $o,
 //                  ciniki_core_syncLog($ciniki, 5, "Checking ref $ref(" . $history['new_value'] . ")", null);
 
                     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLoad');
-                    $rc = ciniki_core_syncObjectLoad($ciniki, $sync, $business_id, $ref, array());
+                    $rc = ciniki_core_syncObjectLoad($ciniki, $sync, $tnid, $ref, array());
                     if( $rc['stat'] != 'ok' ) {
                         return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.310', 'msg'=>'Unable to load object ' . $ref, 'err'=>$rc['err']));
                     }
@@ -137,7 +137,7 @@ function ciniki_core_syncObjectUpdateHistory(&$ciniki, &$sync, $business_id, $o,
                     // Lookup the object
                     //
                     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLookup');
-                    $rc = ciniki_core_syncObjectLookup($ciniki, $sync, $business_id, $ref_o, 
+                    $rc = ciniki_core_syncObjectLookup($ciniki, $sync, $tnid, $ref_o, 
                         array('remote_uuid'=>$history['new_value']));
                     if( $rc['stat'] != 'ok' ) {
                         ciniki_core_syncLog($ciniki, 0, "Unable to locate local new value for " . $o['oname'] . '(' . $history['new_value'] . ')', $rc['err']);
@@ -158,7 +158,7 @@ function ciniki_core_syncObjectUpdateHistory(&$ciniki, &$sync, $business_id, $o,
 //                  ciniki_core_syncLog($ciniki, 5, "Checking ref $ref(" . $history['new_value'] . ")", null);
 
                     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLoad');
-                    $rc = ciniki_core_syncObjectLoad($ciniki, $sync, $business_id, $ref, array());
+                    $rc = ciniki_core_syncObjectLoad($ciniki, $sync, $tnid, $ref, array());
                     if( $rc['stat'] != 'ok' ) {
                         return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.311', 'msg'=>'Unable to load object ' . $ref, 'err'=>$rc['err']));
                     }
@@ -168,7 +168,7 @@ function ciniki_core_syncObjectUpdateHistory(&$ciniki, &$sync, $business_id, $o,
                     // Lookup the object
                     //
                     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLookup');
-                    $rc = ciniki_core_syncObjectLookup($ciniki, $sync, $business_id, $ref_o, 
+                    $rc = ciniki_core_syncObjectLookup($ciniki, $sync, $tnid, $ref_o, 
                         array('remote_uuid'=>$history['new_value']));
                     if( $rc['stat'] != 'ok' ) {
                         ciniki_core_syncLog($ciniki, 0, "Unable to locate local new value for " . $history['table_name'] . '(' . $history['new_value'] . ')', $rc['err']);
@@ -179,11 +179,11 @@ function ciniki_core_syncObjectUpdateHistory(&$ciniki, &$sync, $business_id, $o,
                     }
                 }
 
-                $strsql = "INSERT INTO $history_table (uuid, business_id, user_id, "    
+                $strsql = "INSERT INTO $history_table (uuid, tnid, user_id, "    
                     . "session, action, table_name, table_key, table_field, "
                     . "new_value, log_date) VALUES ("
                     . "'" . ciniki_core_dbQuote($ciniki, $uuid) . "', "
-                    . "'" . ciniki_core_dbQuote($ciniki, $business_id) . "', "
+                    . "'" . ciniki_core_dbQuote($ciniki, $tnid) . "', "
                     . "'" . ciniki_core_dbQuote($ciniki, $user_id) . "', "
                     . "'" . ciniki_core_dbQuote($ciniki, $history['session']) . "', "
                     . "'" . ciniki_core_dbQuote($ciniki, $history['action']) . "', "
@@ -206,7 +206,7 @@ function ciniki_core_syncObjectUpdateHistory(&$ciniki, &$sync, $business_id, $o,
 //                  $strsql .= ", table_key = '" . ciniki_core_dbQuote($ciniki, $table_key) . "' "
 //                      . "";
 //              }
-                $strsql .= "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+                $strsql .= "WHERE tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
                     . "AND uuid = '" . ciniki_core_dbQuote($ciniki, $uuid) . "' "
                     . "";
                 $rc = ciniki_core_dbUpdate($ciniki, $strsql, $o['pmod']);

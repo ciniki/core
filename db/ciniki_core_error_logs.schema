@@ -14,7 +14,7 @@
 #                   10 - Entered
 #                   50 - Archived
 #
-# business_id:      The ID of the business the request happened on.
+# tnid:             The ID of the tenant the request happened on.
 #
 # user_id:          The user who made the request.
 #
@@ -34,7 +34,7 @@
 create table ciniki_core_error_logs (
     id bigint not null auto_increment,
     status tinyint not null,
-    business_id int not null,
+    tnid int not null,
     user_id int not null,
     session_key varchar(50) not null,
     method varchar(150) not null,
@@ -43,6 +43,6 @@ create table ciniki_core_error_logs (
     err_array text not null,
     log_date datetime not null,
     primary key (id),
-    index (user_id, business_id, log_date),
+    index (user_id, tnid, log_date),
     index (method)
 ) ENGINE=InnoDB, COMMENT='v1.01';

@@ -7,29 +7,29 @@
 // Arguments
 // ---------
 // ciniki:
-// business_id:     The ID of the business on the local side to check sync.
+// tnid:     The ID of the tenant on the local side to check sync.
 // sync_id:         The ID of the sync to check compatibility with.
 //
-function ciniki_core_syncLoad(&$ciniki, $business_id, $sync_id) {
+function ciniki_core_syncLoad(&$ciniki, $tnid, $sync_id) {
 
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQuote');
     //
     // Get the sync information required to send the request
     //
-    $strsql = "SELECT ciniki_business_syncs.id, ciniki_businesses.uuid AS local_uuid, "
-        . "ciniki_businesses.sitename, "
-        . "ciniki_business_syncs.status, "
-        . "ciniki_business_syncs.flags, local_private_key, "
-        . "ciniki_business_syncs.remote_name, ciniki_business_syncs.remote_uuid, "
-        . "ciniki_business_syncs.remote_url, ciniki_business_syncs.remote_public_key, "
+    $strsql = "SELECT ciniki_tenant_syncs.id, ciniki_tenants.uuid AS local_uuid, "
+        . "ciniki_tenants.sitename, "
+        . "ciniki_tenant_syncs.status, "
+        . "ciniki_tenant_syncs.flags, local_private_key, "
+        . "ciniki_tenant_syncs.remote_name, ciniki_tenant_syncs.remote_uuid, "
+        . "ciniki_tenant_syncs.remote_url, ciniki_tenant_syncs.remote_public_key, "
         . "UNIX_TIMESTAMP(last_sync) AS last_sync "
-        . "FROM ciniki_businesses, ciniki_business_syncs "
-        . "WHERE ciniki_businesses.id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
-        . "AND ciniki_businesses.id = ciniki_business_syncs.business_id "
-        . "AND ciniki_business_syncs.id = '" . ciniki_core_dbQuote($ciniki, $sync_id) . "' "
+        . "FROM ciniki_tenants, ciniki_tenant_syncs "
+        . "WHERE ciniki_tenants.id = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
+        . "AND ciniki_tenants.id = ciniki_tenant_syncs.tnid "
+        . "AND ciniki_tenant_syncs.id = '" . ciniki_core_dbQuote($ciniki, $sync_id) . "' "
         . "";
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashQuery');
-    $rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.businesses', 'sync');
+    $rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.tenants', 'sync');
     if( $rc['stat'] != 'ok' ) {
         return $rc;
     }
@@ -37,7 +37,7 @@ function ciniki_core_syncLoad(&$ciniki, $business_id, $sync_id) {
         return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.219', 'msg'=>'Invalid sync'));
     }
     $sync = $rc['sync'];
-    $sync['type'] = 'business';
+    $sync['type'] = 'tenant';
     
     //
     // Setup logging
@@ -52,12 +52,12 @@ function ciniki_core_syncLoad(&$ciniki, $business_id, $sync_id) {
     // Get the user uuidmaps
     //
     $strsql = "SELECT remote_uuid, local_id "
-        . "FROM ciniki_business_sync_uuidmaps "
-        . "WHERE ciniki_business_sync_uuidmaps.sync_id = '" . ciniki_core_dbQuote($ciniki, $sync['id']) . "' "
+        . "FROM ciniki_tenant_sync_uuidmaps "
+        . "WHERE ciniki_tenant_sync_uuidmaps.sync_id = '" . ciniki_core_dbQuote($ciniki, $sync['id']) . "' "
         . "AND table_name = 'ciniki_users' "
         . "";
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQueryList2');
-    $rc = ciniki_core_dbQueryList2($ciniki, $strsql, 'ciniki.businesses', 'uuids');
+    $rc = ciniki_core_dbQueryList2($ciniki, $strsql, 'ciniki.tenants', 'uuids');
     if( $rc['stat'] != 'ok' ) {
         return $rc;
     }

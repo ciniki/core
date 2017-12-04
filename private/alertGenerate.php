@@ -5,7 +5,7 @@
 // The alertGenerate function will add an alert to the database, and 
 // send an email to alerts.notify from the config file.  These
 // alerts are for system administrators of the Ciniki system, not
-// business owners.
+// tenant owners.
 //
 // Info
 // ----

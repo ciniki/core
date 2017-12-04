@@ -22,7 +22,7 @@
 // Returns
 // -------
 //
-function ciniki_core_objectDelete(&$ciniki, $business_id, $obj_name, $oid, $ouuid, $tmsupdate=0x07) {
+function ciniki_core_objectDelete(&$ciniki, $tnid, $obj_name, $oid, $ouuid, $tmsupdate=0x07) {
     //
     // Break apart object name
     //
@@ -45,7 +45,7 @@ function ciniki_core_objectDelete(&$ciniki, $business_id, $obj_name, $oid, $ouui
     if( $ouuid == NULL ) {
         $strsql = "SELECT uuid "
             . "FROM " . $o['table'] . " "
-            . " WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+            . " WHERE tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
             . "AND id = '" . ciniki_core_dbQuote($ciniki, $oid) . "' "
             . "";
         $rc = ciniki_core_dbHashQuery($ciniki, $strsql, $m, 'object');
@@ -78,7 +78,7 @@ function ciniki_core_objectDelete(&$ciniki, $business_id, $obj_name, $oid, $ouui
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'objectRefClear');
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbAddModuleHistory');
     $strsql = "DELETE FROM " . $o['table'] . " "
-        . " WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+        . " WHERE tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
         . "AND id = '" . ciniki_core_dbQuote($ciniki, $oid) . "' "
         . "";
 
@@ -96,7 +96,7 @@ function ciniki_core_objectDelete(&$ciniki, $business_id, $obj_name, $oid, $ouui
         return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.105', 'msg'=>'Unable to delete object'));
     }
 
-    ciniki_core_dbAddModuleHistory($ciniki, $m, $o['history_table'], $business_id,
+    ciniki_core_dbAddModuleHistory($ciniki, $m, $o['history_table'], $tnid,
         3, $o['table'], $oid, '*', ''); 
 
     //
@@ -108,7 +108,7 @@ function ciniki_core_objectDelete(&$ciniki, $business_id, $obj_name, $oid, $ouui
         // and see if there should be a reference added
         //
         if( isset($options['ref']) && $options['ref'] != '' ) {
-            $rc = ciniki_core_objectRefClear($ciniki, $business_id, $options['ref'], array(
+            $rc = ciniki_core_objectRefClear($ciniki, $tnid, $options['ref'], array(
                 'object'=>$obj_name,            // The local object ref (this objects ref)
                 'object_id'=>$oid,      // The local object ID
                 ));
@@ -132,8 +132,8 @@ function ciniki_core_objectDelete(&$ciniki, $business_id, $obj_name, $oid, $ouui
     // Update the last change date of the module
     //
     if( ($tmsupdate&0x02) == 2 ) {
-        ciniki_core_loadMethod($ciniki, 'ciniki', 'businesses', 'private', 'updateModuleChangeDate');
-        ciniki_businesses_updateModuleChangeDate($ciniki, $business_id, $pkg, $mod);
+        ciniki_core_loadMethod($ciniki, 'ciniki', 'tenants', 'private', 'updateModuleChangeDate');
+        ciniki_tenants_updateModuleChangeDate($ciniki, $tnid, $pkg, $mod);
     }
 
     //

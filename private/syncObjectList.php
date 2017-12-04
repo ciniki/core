@@ -9,13 +9,13 @@
 // Returns
 // -------
 //
-function ciniki_core_syncObjectList($ciniki, &$sync, $business_id, $o, $args) {
+function ciniki_core_syncObjectList($ciniki, &$sync, $tnid, $o, $args) {
     //
     // Check for custom list function
     //
     if( isset($o['list']) && $o['list'] != '' ) {
         ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectFunction');
-        return ciniki_core_syncObjectFunction($ciniki, $sync, $business_id, $o['list'], $args);
+        return ciniki_core_syncObjectFunction($ciniki, $sync, $tnid, $o['list'], $args);
     }
 
     //
@@ -43,7 +43,7 @@ function ciniki_core_syncObjectList($ciniki, &$sync, $business_id, $o, $args) {
     }
     $strsql = "SELECT $table_key, UNIX_TIMESTAMP(last_updated) AS last_updated "    
         . "FROM $table "
-        . "WHERE $table.business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' ";
+        . "WHERE $table.tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' ";
     if( $args['type'] == 'incremental' ) {
         $strsql .= "AND UNIX_TIMESTAMP($table.last_updated) >= '" . ciniki_core_dbQuote($ciniki, $args['since_uts']) . "' ";
     }
@@ -82,13 +82,13 @@ function ciniki_core_syncObjectList($ciniki, &$sync, $business_id, $o, $args) {
         . "UNIX_TIMESTAMP(h1.log_date) AS log_date, h2.new_value AS uuid "
         . "FROM $history_table AS h1 "
         . "LEFT JOIN $history_table AS h2 ON (h1.table_key = h2.table_key "
-            . "AND h2.business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+            . "AND h2.tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
             . "AND h2.table_field = 'uuid') "
         . "LEFT JOIN ciniki_users ON (h1.user_id = ciniki_users.id) "
-        . "WHERE h1.business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+        . "WHERE h1.tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
         . "AND h1.table_name = '$table' "
         . "AND h1.table_key IN (SELECT DISTINCT table_key FROM $history_table "
-            . "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+            . "WHERE tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
             . "AND action = 3 "
             . "AND table_name = '$table' "
             . "AND table_field = '*' ";

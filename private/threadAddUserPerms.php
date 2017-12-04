@@ -18,7 +18,7 @@
 // Returns
 // -------
 //
-function ciniki_core_threadAddUserPerms(&$ciniki, $module, $object, $business_id, $table, $history_table, $prefix, $id, $user_id, $perms) {
+function ciniki_core_threadAddUserPerms(&$ciniki, $module, $object, $tnid, $table, $history_table, $prefix, $id, $user_id, $perms) {
     //
     // All arguments are assumed to be un-escaped, and will be passed through dbQuote to
     // ensure they are safe to insert.
@@ -45,10 +45,10 @@ function ciniki_core_threadAddUserPerms(&$ciniki, $module, $object, $business_id
     // Setup the SQL statement to insert the new thread
     //
     $strsql = "INSERT INTO " . ciniki_core_dbQuote($ciniki, $table) 
-        . " (uuid, business_id, " . ciniki_core_dbQuote($ciniki, "{$prefix}_id") . ", "
+        . " (uuid, tnid, " . ciniki_core_dbQuote($ciniki, "{$prefix}_id") . ", "
         . "user_id, perms, date_added, last_updated"
         . ") VALUES ('" . ciniki_core_dbQuote($ciniki, $uuid) . "', "
-        . "'" . ciniki_core_dbQuote($ciniki, $business_id) . "', "
+        . "'" . ciniki_core_dbQuote($ciniki, $tnid) . "', "
         . "";
 
     // $prefix_id (bug_id, help_id, comment_id, etc...
@@ -99,7 +99,7 @@ function ciniki_core_threadAddUserPerms(&$ciniki, $module, $object, $business_id
                     return $rc;
                 }
 
-                ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $business_id,
+                ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $tnid,
                     2, $table, $user['id'], 'perms', $user['perms'] | $perms);
 
                 $ciniki['syncqueue'][] = array('push'=>$module . '.' . $object, 
@@ -113,13 +113,13 @@ function ciniki_core_threadAddUserPerms(&$ciniki, $module, $object, $business_id
     //
     // Add history
     //
-    ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $business_id,
+    ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $tnid,
         1, $table, $uid, 'uuid', $uuid);
-    ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $business_id,
+    ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $tnid,
         1, $table, $uid, $prefix . '_id', $id);
-    ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $business_id,
+    ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $tnid,
         1, $table, $uid, 'user_id', $user_id);
-    ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $business_id,
+    ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $tnid,
         1, $table, $uid, 'perms', $perms);
 
     //

@@ -7,7 +7,7 @@
 // Arguments
 // ---------
 //
-function ciniki_core_syncUpdateTableElementHistory(&$ciniki, &$sync, $business_id, $module, $history_table, $table_key, $table_name, $remote_history, $local_history, $maps) {
+function ciniki_core_syncUpdateTableElementHistory(&$ciniki, &$sync, $tnid, $module, $history_table, $table_key, $table_name, $remote_history, $local_history, $maps) {
     //
     // All transaction locking should be taken care of by a calling function
     //
@@ -54,7 +54,7 @@ function ciniki_core_syncUpdateTableElementHistory(&$ciniki, &$sync, $business_i
     //                  // Get the remote user
     //                  //
     //                  ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncRequest');
-    //                  $rc = ciniki_core_syncRequest($ciniki, $sync, array('method'=>'ciniki.businesses.user.get', 'uuid'=>$history['user']));
+    //                  $rc = ciniki_core_syncRequest($ciniki, $sync, array('method'=>'ciniki.tenants.user.get', 'uuid'=>$history['user']));
     //                  if( $rc['stat'] != 'ok' ) {
     //                      return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.357', 'msg'=>'Unable to get remote user: ' . $history['user'], 'err'=>$rc['err']));
     //                  }
@@ -67,7 +67,7 @@ function ciniki_core_syncUpdateTableElementHistory(&$ciniki, &$sync, $business_i
                         // Add to the local database
                         //
                         ciniki_core_loadMethod($ciniki, 'ciniki', 'users', 'sync', 'user_update');
-                        $rc = ciniki_users_user_update($ciniki, $sync, $business_id, array('uuid'=>$history['user']));
+                        $rc = ciniki_users_user_update($ciniki, $sync, $tnid, array('uuid'=>$history['user']));
                         if( $rc['stat'] != 'ok' ) {
                             return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.359', 'msg'=>'Unable to add user', 'err'=>$rc['err']));;
                         }
@@ -91,7 +91,7 @@ function ciniki_core_syncUpdateTableElementHistory(&$ciniki, &$sync, $business_i
                     //
                     ciniki_core_loadMethod($ciniki, $details['package'], $details['module'], 'sync', $details['lookup']);
                     $lookup = $details['package'] . '_' . $details['module'] . '_' . $details['lookup'];
-                    $rc = $lookup($ciniki, $sync, $business_id, array('remote_uuid'=> $history['new_value']));
+                    $rc = $lookup($ciniki, $sync, $tnid, array('remote_uuid'=> $history['new_value']));
                     if( $rc['stat'] != 'ok' ) {
                         ciniki_core_syncLog($ciniki, 0, 'Unable to locate local new value for ' . $history['table_name'] . '(' . $history['new_value'] . ')', $rc['err']);
                         $history['table_key'] = '';
@@ -106,7 +106,7 @@ function ciniki_core_syncUpdateTableElementHistory(&$ciniki, &$sync, $business_i
 //                  } else {
 //                      $strsql = "SELECT id "
 //                          . "FROM $map_table "
-//                          . "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+//                          . "WHERE tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
 //                          . "AND uuid = '" . ciniki_core_dbQuote($ciniki, $history['new_value']) . "' "
 //                          . "";
 //                      $rc = ciniki_core_dbHashQuery($ciniki, $strsql, $map_module, 'table_id');
@@ -121,11 +121,11 @@ function ciniki_core_syncUpdateTableElementHistory(&$ciniki, &$sync, $business_i
 //                  }
                 }
 
-                $strsql = "INSERT INTO $history_table (uuid, business_id, user_id, "    
+                $strsql = "INSERT INTO $history_table (uuid, tnid, user_id, "    
                     . "session, action, table_name, table_key, table_field, "
                     . "new_value, log_date) VALUES ("
                     . "'" . ciniki_core_dbQuote($ciniki, $uuid) . "', "
-                    . "'" . ciniki_core_dbQuote($ciniki, $business_id) . "', "
+                    . "'" . ciniki_core_dbQuote($ciniki, $tnid) . "', "
                     . "'" . ciniki_core_dbQuote($ciniki, $user_id) . "', "
                     . "'" . ciniki_core_dbQuote($ciniki, $history['session']) . "', "
                     . "'" . ciniki_core_dbQuote($ciniki, $history['action']) . "', "
@@ -148,7 +148,7 @@ function ciniki_core_syncUpdateTableElementHistory(&$ciniki, &$sync, $business_i
 //                  $strsql .= ", table_key = '" . ciniki_core_dbQuote($ciniki, $table_key) . "' "
 //                      . "";
 //              }
-                $strsql .= "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+                $strsql .= "WHERE tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
                     . "AND uuid = '" . ciniki_core_dbQuote($ciniki, $uuid) . "' "
                     . "";
                 $rc = ciniki_core_dbUpdate($ciniki, $strsql, $module);
@@ -160,7 +160,7 @@ function ciniki_core_syncUpdateTableElementHistory(&$ciniki, &$sync, $business_i
 //              // Update history user_id
 //              //
 //              $strsql = "UPDATE $history_table SET table_key = '" . ciniki_core_dbQuote($ciniki, $table_key) . "' "
-//                  . "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+//                  . "WHERE tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
 //                  . "AND uuid = '" . ciniki_core_dbQuote($ciniki, $uuid) . "' "
 //                  . "AND table_key = ''"
 //                  . "";

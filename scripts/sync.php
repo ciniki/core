@@ -3,7 +3,7 @@
 // Description
 // -----------
 // This script is the entry point for the syncronization subsystem, which 
-// allows business information to be syncronized between installations.
+// allows tenant information to be syncronized between installations.
 // This can provide both migrations and backup services.
 //
 // The sync system doesn't require the same api-key, but instead uses a sync key (future).
@@ -26,7 +26,7 @@ require_once($ciniki_root . '/ciniki-mods/core/private/syncResponse.php');
 
 //
 // The syncInit function will initialize the ciniki structure, and check
-// the security for the request to the business
+// the security for the request to the tenant
 //
 $rc = ciniki_core_syncInit($ciniki_root);
 if( $rc['stat'] != 'ok' ) {
@@ -56,7 +56,7 @@ ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncLog');
 //if( isset($ciniki['config']['ciniki.core']['sync.log_dir']) ) {
 //  $ciniki['synclogfile'] = $ciniki['config']['ciniki.core']['sync.log_dir'] . "/sync-$sync_id.log";
 //}
-//$ciniki['synclogprefix'] = "[$business_id-$sync_id]";
+//$ciniki['synclogprefix'] = "[$tnid-$sync_id]";
 
 //
 // Find out the command being requested
@@ -71,30 +71,30 @@ if( $ciniki['request']['method'] == 'ciniki.core.ping' ) {
 } 
 
 //
-// The info command will return the business info for the local business.  This
+// The info command will return the tenant info for the local tenant.  This
 // is used to check versions between the systems.
 //
 elseif( $ciniki['request']['method'] == 'ciniki.core.info' ) {
-    ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncBusinessInfo');
-    $response = ciniki_core_syncBusinessInfo($ciniki, $ciniki['sync']['business_id']);
+    ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncTenantInfo');
+    $response = ciniki_core_syncTenantInfo($ciniki, $ciniki['sync']['tnid']);
 } 
 
 //
 // The tables command will return the list of tables and the current number
-// of rows for the business.  The tables are organized by module
+// of rows for the tenant.  The tables are organized by module
 //
 elseif( $ciniki['request']['method'] == 'ciniki.core.rowCounts' ) {
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbGetRowCounts');
-    $response = ciniki_core_dbGetRowCounts($ciniki, $ciniki['sync']['business_id']);
+    $response = ciniki_core_dbGetRowCounts($ciniki, $ciniki['sync']['tnid']);
 } 
 
 //
-// If the sync is to be removed, this will remove it from the local business
+// If the sync is to be removed, this will remove it from the local tenant
 //
 elseif( $ciniki['request']['method'] == 'ciniki.core.delete' ) {
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncDelete');
     $response = ciniki_core_syncDelete($ciniki, 
-        $ciniki['sync']['business_id'], $ciniki['sync']['id']);
+        $ciniki['sync']['tnid'], $ciniki['sync']['id']);
 } 
 
 //
@@ -102,7 +102,7 @@ elseif( $ciniki['request']['method'] == 'ciniki.core.delete' ) {
 //
 elseif( $ciniki['request']['method'] == 'ciniki.core.syncUpdateLastTime' ) {
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncUpdateLastTime');
-    $response = ciniki_core_syncUpdateLastTime($ciniki, $ciniki['sync']['business_id'],
+    $response = ciniki_core_syncUpdateLastTime($ciniki, $ciniki['sync']['tnid'],
         $ciniki['sync']['id'], $ciniki['request']['type'], $ciniki['request']['time']);
 }
 
@@ -111,20 +111,20 @@ elseif( $ciniki['request']['method'] == 'ciniki.core.syncUpdateLastTime' ) {
 //
 elseif( preg_match('/(.*)\.(.*)\.(.*)\.history\.(list|get|update)$/', $ciniki['request']['method'], $matches) ) {
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLoad');
-    $rc = ciniki_core_syncObjectLoad($ciniki, $ciniki['sync'], $ciniki['sync']['business_id'], $ciniki['request']['method'], array());
+    $rc = ciniki_core_syncObjectLoad($ciniki, $ciniki['sync'], $ciniki['sync']['tnid'], $ciniki['request']['method'], array());
     if( $rc['stat'] != 'ok' ) {
         $response = array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.391', 'msg'=>'Object does not exist'));
     } else {
         $o = $rc['object'];
         if( $matches[4] == 'list' ) {
             ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectHistoryList');
-            $response = ciniki_core_syncObjectHistoryList($ciniki, $ciniki['sync'], $ciniki['sync']['business_id'], $o, $ciniki['request']);
+            $response = ciniki_core_syncObjectHistoryList($ciniki, $ciniki['sync'], $ciniki['sync']['tnid'], $o, $ciniki['request']);
         } elseif( $matches[4] == 'get' ) {
             ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectHistoryGet');
-            $response = ciniki_core_syncObjectHistoryGet($ciniki, $ciniki['sync'], $ciniki['sync']['business_id'], $o, $ciniki['request']);
+            $response = ciniki_core_syncObjectHistoryGet($ciniki, $ciniki['sync'], $ciniki['sync']['tnid'], $o, $ciniki['request']);
         } elseif( $matches[4] == 'update' ) {
             ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectHistoryUpdate');
-            $response = ciniki_core_syncObjectHistoryUpdate($ciniki, $ciniki['sync'], $ciniki['sync']['business_id'], $o, $ciniki['request']);
+            $response = ciniki_core_syncObjectHistoryUpdate($ciniki, $ciniki['sync'], $ciniki['sync']['tnid'], $o, $ciniki['request']);
         } else {
             $response = array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.392', 'msg'=>'Object does not exist'));
         }
@@ -136,23 +136,23 @@ elseif( preg_match('/(.*)\.(.*)\.(.*)\.history\.(list|get|update)$/', $ciniki['r
 //
 elseif( preg_match('/(.*)\.(.*)\.(.*)\.(list|get|update|delete)$/', $ciniki['request']['method'], $matches) ) {
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLoad');
-    $rc = ciniki_core_syncObjectLoad($ciniki, $ciniki['sync'], $ciniki['sync']['business_id'], $ciniki['request']['method'], array());
+    $rc = ciniki_core_syncObjectLoad($ciniki, $ciniki['sync'], $ciniki['sync']['tnid'], $ciniki['request']['method'], array());
     if( $rc['stat'] != 'ok' ) {
         $response = array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.393', 'msg'=>'Object does not exist', 'err'=>$rc['err']));
     } else {
         $o = $rc['object'];
         if( $matches[4] == 'list' ) {
             ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectList');
-            $response = ciniki_core_syncObjectList($ciniki, $ciniki['sync'], $ciniki['sync']['business_id'], $o, $ciniki['request']);
+            $response = ciniki_core_syncObjectList($ciniki, $ciniki['sync'], $ciniki['sync']['tnid'], $o, $ciniki['request']);
         } elseif( $matches[4] == 'get' ) {
             ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectGet');
-            $response = ciniki_core_syncObjectGet($ciniki, $ciniki['sync'], $ciniki['sync']['business_id'], $o, $ciniki['request']);
+            $response = ciniki_core_syncObjectGet($ciniki, $ciniki['sync'], $ciniki['sync']['tnid'], $o, $ciniki['request']);
         } elseif( $matches[4] == 'update' ) {
             ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectUpdate');
-            $response = ciniki_core_syncObjectUpdate($ciniki, $ciniki['sync'], $ciniki['sync']['business_id'], $o, $ciniki['request']);
+            $response = ciniki_core_syncObjectUpdate($ciniki, $ciniki['sync'], $ciniki['sync']['tnid'], $o, $ciniki['request']);
         } elseif( $matches[4] == 'delete' ) {
             ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectDelete');
-            $response = ciniki_core_syncObjectDelete($ciniki, $ciniki['sync'], $ciniki['sync']['business_id'], $o, $ciniki['request']);
+            $response = ciniki_core_syncObjectDelete($ciniki, $ciniki['sync'], $ciniki['sync']['tnid'], $o, $ciniki['request']);
         } else {
             $response = array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.394', 'msg'=>'Object does not exist'));
         }
@@ -202,9 +202,9 @@ if( (isset($ciniki['syncqueue']) && count($ciniki['syncqueue']) > 0)
         ciniki_core_fbRefreshQueueProcess($ciniki);
     } 
     // Run queue
-    if( isset($ciniki['sync']['business_id']) ) {
+    if( isset($ciniki['sync']['tnid']) ) {
         ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncQueueProcess');
-        ciniki_core_syncQueueProcess($ciniki, $ciniki['sync']['business_id']);
+        ciniki_core_syncQueueProcess($ciniki, $ciniki['sync']['tnid']);
     }
 } else {
     //

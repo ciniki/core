@@ -11,7 +11,7 @@
 // Arguments
 // ---------
 // ciniki:
-// business_id:         The id of the business to get the tags for.
+// tnid:         The id of the tenant to get the tags for.
 // module:              The package.module the thread is located in.
 // prefix:              The table prefix used in the query.
 // container:           The name of the xml container to hold the return values.
@@ -28,10 +28,10 @@
 //      <$row_name field=value ... />
 // </$container_name>
 //
-function ciniki_core_threadGetTags($ciniki, $business_id, $module, $prefix, $container, $row_name, $no_row_err, $options) {
+function ciniki_core_threadGetTags($ciniki, $tnid, $module, $prefix, $container, $row_name, $no_row_err, $options) {
 
     $strsql = "SELECT DISTINCT tag FROM " . ciniki_core_dbQuote($ciniki, "{$prefix}s") . ", " . ciniki_core_dbQuote($ciniki, "{$prefix}_tags") . " "
-        . "WHERE " . ciniki_core_dbQuote($ciniki, "{$prefix}s.business_id") . " = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' ";
+        . "WHERE " . ciniki_core_dbQuote($ciniki, "{$prefix}s.tnid") . " = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' ";
 
     //
     // Check if there was state specified

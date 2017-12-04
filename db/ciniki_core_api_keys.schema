@@ -21,10 +21,10 @@
 # perms:            This field is for future use to allow
 #                   certain api_keys to have more privileges
 #                   than others.  This can be useful to allow
-#                   trusted sites access to create businesses
+#                   trusted sites access to create tenants
 #                   and users, etc
 #
-#                   0x01 - create businesses
+#                   0x01 - create tenants
 #                   0x02 - create users
 #
 # user_id:          The user who owns this key.

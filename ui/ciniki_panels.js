@@ -2644,8 +2644,8 @@ M.panel.prototype.createSimpleList = function(si, l, as) {
         }
         // Check if click tracker is turned on
         var cltr = '';
-        if( M.curBusiness != null && M.curBusiness.modules['ciniki.clicktracker'] != null ) {
-            cltr = 'M.api.getBg(\'ciniki.clicktracker.add\', {\'business_id\':M.curBusinessID, \'panel_id\':\'' + this.panelID + '\', \'item\':\'' + cltrl.replace(/ <span .*/, '') + '\'});';
+        if( M.curTenant != null && M.curTenant.modules['ciniki.clicktracker'] != null ) {
+            cltr = 'M.api.getBg(\'ciniki.clicktracker.add\', {\'tnid\':M.curTenantID, \'panel_id\':\'' + this.panelID + '\', \'item\':\'' + cltrl.replace(/ <span .*/, '') + '\'});';
         }
         if( fn != null ) {
             var c = M.aE('td', null, 'buttons');
@@ -3265,7 +3265,7 @@ M.panel.prototype.createImageControls = function(i, field, img_id) {
         // Show download button
         if( field.controls == 'all' ) {
             var btn = M.aE('span', null, 'toggle_off', '<span class="icon">G</span>');
-            btn.setAttribute('onclick', 'M.api.openFile(\'ciniki.images.get\', {\'business_id\':M.curBusinessID, \'image_id\':\'' + img_id + '\', \'version\':\'original\', \'attachment\':\'yes\'});');
+            btn.setAttribute('onclick', 'M.api.openFile(\'ciniki.images.get\', {\'tnid\':M.curTenantID, \'image_id\':\'' + img_id + '\', \'version\':\'original\', \'attachment\':\'yes\'});');
             btns.appendChild(btn);
         }
     }
@@ -4096,9 +4096,9 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
         var img_id = this.fieldValue(s, i, field, mN);
         if( img_id != null && img_id != '' && img_id > 0 ) {
             if( field.size != null && field.size == 'large' ) {
-                d.innerHTML = '<img src=\'' + M.api.getBinaryURL('ciniki.images.get', {'business_id':M.curBusinessID, 'image_id':img_id, 'version':'original', 'maxwidth':'0', 'maxheight':'600'}) + '&ts=' + new Date().getTime() + '\' />';
+                d.innerHTML = '<img src=\'' + M.api.getBinaryURL('ciniki.images.get', {'tnid':M.curTenantID, 'image_id':img_id, 'version':'original', 'maxwidth':'0', 'maxheight':'600'}) + '&ts=' + new Date().getTime() + '\' />';
             } else {
-                d.innerHTML = '<img src=\'' + M.api.getBinaryURL('ciniki.images.get', {'business_id':M.curBusinessID, 'image_id':img_id, 'version':'original', 'maxwidth':'0', 'maxheight':'300'}) + '&ts=' + new Date().getTime() + '\' />';
+                d.innerHTML = '<img src=\'' + M.api.getBinaryURL('ciniki.images.get', {'tnid':M.curTenantID, 'image_id':img_id, 'version':'original', 'maxwidth':'0', 'maxheight':'300'}) + '&ts=' + new Date().getTime() + '\' />';
             }
         } else {
             d.innerHTML = '<img src=\'/ciniki-mods/core/ui/themes/default/img/noimage_200.jpg\' />';
@@ -4170,7 +4170,7 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
         d.controls=true;
         if( aid != null && aid != '' && aid > 0 ) {
             d.style.display = 'inline-block';
-            d.src = M.api.getBinaryURL('ciniki.audio.download', {'business_id':M.curBusinessID, 'audio_id':aid}) + '&ts=' + new Date().getTime();
+            d.src = M.api.getBinaryURL('ciniki.audio.download', {'tnid':M.curTenantID, 'audio_id':aid}) + '&ts=' + new Date().getTime();
         } else {
             d.style.display = 'none';
         }
@@ -4294,9 +4294,9 @@ M.panel.prototype.updateImgPreview = function(fid, img_id) {
     var d = M.gE(this.panelUID + '_' + fid + '_preview');
     if( img_id != null && img_id != '' ) {
         if( f != null && f.size == 'large' ) {
-            d.innerHTML = '<img src=\'' + M.api.getBinaryURL('ciniki.images.get', {'business_id':M.curBusinessID, 'image_id':img_id, 'version':'original', 'maxwidth':'0', 'maxheight':'600'}) + '&ts=' + new Date().getTime() + '\' />';
+            d.innerHTML = '<img src=\'' + M.api.getBinaryURL('ciniki.images.get', {'tnid':M.curTenantID, 'image_id':img_id, 'version':'original', 'maxwidth':'0', 'maxheight':'600'}) + '&ts=' + new Date().getTime() + '\' />';
         } else {
-            d.innerHTML = '<img src=\'' + M.api.getBinaryURL('ciniki.images.get', {'business_id':M.curBusinessID, 'image_id':img_id, 'version':'original', 'maxwidth':'0', 'maxheight':'300'}) + '&ts=' + new Date().getTime() + '\' />';
+            d.innerHTML = '<img src=\'' + M.api.getBinaryURL('ciniki.images.get', {'tnid':M.curTenantID, 'image_id':img_id, 'version':'original', 'maxwidth':'0', 'maxheight':'300'}) + '&ts=' + new Date().getTime() + '\' />';
         }
     } else {
         d.innerHTML = '<img src=\'/ciniki-mods/core/ui/themes/default/img/noimage_200.jpg\' />';
@@ -4317,7 +4317,7 @@ M.panel.prototype.updateAudioPreview = function(fid, aid) {
         abtns.style.display = 'none';
         ebtns.style.display = 'inline-block';
         filename.style.display = 'inline-block';
-        d.src = M.api.getBinaryURL('ciniki.audio.download', {'business_id':M.curBusinessID, 'audio_id':aid}) + '&ts=' + new Date().getTime();
+        d.src = M.api.getBinaryURL('ciniki.audio.download', {'tnid':M.curTenantID, 'audio_id':aid}) + '&ts=' + new Date().getTime();
     } else {
         abtns.style.display = 'inline-block';
         ebtns.style.display = 'none';
@@ -6873,7 +6873,7 @@ M.panel.prototype.uploadDropImagesNext = function() {
         p.addDropImageAPI = 'ciniki.images.add';
     }
     var rsp = M.api.postJSONFile(p.addDropImageAPI, 
-        {'business_id':M.curBusinessID}, 
+        {'tnid':M.curTenantID}, 
         p._uploadFiles[p._uploadCurrent],  // File
         function(rsp) {
             if( rsp.stat != 'ok' ) {
@@ -7000,7 +7000,7 @@ M.panel.prototype.uploadDropFilesNext = function() {
         p.addDropFileAPI = 'ciniki.audio.add';
     }
     var rsp = M.api.postJSONFile(p.addDropFileAPI, 
-        {'business_id':M.curBusinessID}, 
+        {'tnid':M.curTenantID}, 
         p._uploadFiles[p._uploadCurrent],  // File
         function(rsp) {
             if( rsp.stat != 'ok' ) {
@@ -7030,7 +7030,7 @@ M.panel.prototype.uploadDropFilesNext = function() {
 M.panel.prototype.rotateImg = function(fid, dir) {
     var iid = this.formValue(fid);
     var p = this;
-    var rsp = M.api.getJSONCb('ciniki.images.rotate', {'business_id':M.curBusinessID,
+    var rsp = M.api.getJSONCb('ciniki.images.rotate', {'tnid':M.curTenantID,
         'image_id':iid, 'direction':dir}, function(rsp) {
             if( rsp.stat != 'ok' ) {
                 M.api.err(rsp);

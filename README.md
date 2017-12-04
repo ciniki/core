@@ -1,4 +1,4 @@
-Ciniki - Small Business Management Platform
+Ciniki - Multitenant Cloud Platform
 ===========================================
 
 The core module provides a set of common methods required by all other modules.

@@ -94,7 +94,7 @@ function ciniki_core_dbHashQueryArrayTree(&$ciniki, $strsql, $module, $tree) {
                 if( isset($tree[$i]['fields']) ) {
                     foreach($tree[$i]['fields'] as $field_id => $field) {
                         // Check if the field name from the SQL should be translated to another name in the array
-                        // This is used when business_id should become id in the data structure (example).
+                        // This is used when tnid should become id in the data structure (example).
                         if( !is_string($field_id) && is_int($field_id) ) {
                             // Field is in integer and should not be mapped
                             $field_id = $field;

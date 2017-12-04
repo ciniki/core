@@ -12,7 +12,7 @@
 //                  the form of the following.
 //
 //                  array(
-//                      'business_id'=>array('required'=>'yes', 'blank'=>'no', 'errmsg'=>'No business specified'),
+//                      'tnid'=>array('required'=>'yes', 'blank'=>'no', 'errmsg'=>'No tenant specified'),
 //                      'source'=>array('required'=>'no', 'default'=>'', 'blank'=>'yes', 'errmsg'=>''),
 //                      ...
 //                  );
@@ -20,15 +20,15 @@
 // Returns
 // -------
 //
-function ciniki_core_parseArgs(&$ciniki, $business_id, $raw_args, $arg_info) {
+function ciniki_core_parseArgs(&$ciniki, $tnid, $raw_args, $arg_info) {
     $args = array();
 
     //
-    // Check if business_id is specified, and if so, load the business settings
+    // Check if tnid is specified, and if so, load the tenant settings
     //
-    if( $business_id > 0 ) {
-        ciniki_core_loadMethod($ciniki, 'ciniki', 'businesses', 'private', 'intlSettings');
-        $rc = ciniki_businesses_intlSettings($ciniki, $business_id);
+    if( $tnid > 0 ) {
+        ciniki_core_loadMethod($ciniki, 'ciniki', 'tenants', 'private', 'intlSettings');
+        $rc = ciniki_tenants_intlSettings($ciniki, $tnid);
         if( $rc['stat'] != 'ok' ) {
             return $rc;
         }
@@ -128,9 +128,9 @@ function ciniki_core_parseArgs(&$ciniki, $business_id, $raw_args, $arg_info) {
                 }
             } 
             elseif( isset($options['type']) && $options['type'] == 'datetimetoutc' && $raw_args[$arg] != '' ) {
-//              ciniki_core_loadMethod($ciniki, 'ciniki', 'businesses', 'private', 'timezoneOffset');
+//              ciniki_core_loadMethod($ciniki, 'ciniki', 'tenants', 'private', 'timezoneOffset');
 //              // UTC timezone offset in seconds
-//              $utc_offset = ciniki_businesses_timezoneOffset($ciniki, 'seconds');
+//              $utc_offset = ciniki_tenants_timezoneOffset($ciniki, 'seconds');
 //              date_default_timezone_set('America/Toronto');
                 if( $raw_args[$arg] == 'now' ) {
                     $date = new DateTime('now', new DateTimeZone('UTC'));

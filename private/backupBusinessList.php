@@ -2,28 +2,28 @@
 //
 // Description
 // -----------
-// This method will return the list of businesses to backup.
+// This method will return the list of tenants to backup.
 //
 // Arguments
 // ---------
 // ciniki:
-// business_id:     The ID of the business on the local side to check sync.
+// tnid:     The ID of the tenant on the local side to check sync.
 //
 //
-function ciniki_core_backupBusinessList($ciniki) {
+function ciniki_core_backupTenantList($ciniki) {
 
-    $strsql = "SELECT ciniki_businesses.id, ciniki_businesses.uuid, ciniki_businesses.name "
-        . "FROM ciniki_businesses, ciniki_business_modules "
-        . "WHERE ciniki_businesses.status = 1 "
-        . "AND ciniki_businesses.id = ciniki_business_modules.business_id "
-        . "AND ciniki_business_modules.package = 'ciniki' "
-        . "AND ciniki_business_modules.module = 'businesses' "
-        . "AND (ciniki_business_modules.flags&0x020000) > 0 "
+    $strsql = "SELECT ciniki_tenants.id, ciniki_tenants.uuid, ciniki_tenants.name "
+        . "FROM ciniki_tenants, ciniki_tenant_modules "
+        . "WHERE ciniki_tenants.status = 1 "
+        . "AND ciniki_tenants.id = ciniki_tenant_modules.tnid "
+        . "AND ciniki_tenant_modules.package = 'ciniki' "
+        . "AND ciniki_tenant_modules.module = 'tenants' "
+        . "AND (ciniki_tenant_modules.flags&0x020000) > 0 "
         . "";
 
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashQueryIDTree');
-    $rc = ciniki_core_dbHashQueryIDTree($ciniki, $strsql, 'ciniki.businesses', array(
-        array('container'=>'businesses', 'fname'=>'id',
+    $rc = ciniki_core_dbHashQueryIDTree($ciniki, $strsql, 'ciniki.tenants', array(
+        array('container'=>'tenants', 'fname'=>'id',
             'fields'=>array('id', 'uuid', 'name')),
             ));
     if( $rc['stat'] != 'ok' ) {

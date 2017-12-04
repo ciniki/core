@@ -11,13 +11,13 @@
 // Arguments
 // ---------
 // ciniki:
-// business_id:         The business ID to check the session user against.
+// tnid:         The tenant ID to check the session user against.
 //
 // Returns
 // -------
 // <rsp stat='ok' />
 //
-function ciniki_core_checkAccess($ciniki, $business_id, $method) {
+function ciniki_core_checkAccess($ciniki, $tnid, $method) {
     //
     // Methods which don't require authentication
     //

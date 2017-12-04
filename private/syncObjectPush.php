@@ -9,13 +9,13 @@
 // Returns
 // -------
 //
-function ciniki_core_syncObjectPush(&$ciniki, &$sync, $business_id, $o, $args) {
+function ciniki_core_syncObjectPush(&$ciniki, &$sync, $tnid, $o, $args) {
     //
     // Check for custom push function
     //
     if( isset($o['push']) && $o['push'] != '' ) {
         ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectFunction');
-        return ciniki_core_syncObjectFunction($ciniki, $sync, $business_id, $o['push'], $args);
+        return ciniki_core_syncObjectFunction($ciniki, $sync, $tnid, $o['push'], $args);
     }
 
     if( isset($ciniki['config']['ciniki.core']['sync.push']) && $ciniki['config']['ciniki.core']['sync.push'] == 'off' ) {
@@ -28,7 +28,7 @@ function ciniki_core_syncObjectPush(&$ciniki, &$sync, $business_id, $o, $args) {
     //
     if( isset($args['id']) && $args['id'] != '' ) {
         ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectGet');
-        $rc = ciniki_core_syncObjectGet($ciniki, $sync, $business_id, $o, $args);
+        $rc = ciniki_core_syncObjectGet($ciniki, $sync, $tnid, $o, $args);
         if( $rc['stat'] != 'ok' ) {
             return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.284', 'msg'=>'Unable to get ' . $o['name']));
         }
@@ -66,7 +66,7 @@ function ciniki_core_syncObjectPush(&$ciniki, &$sync, $business_id, $o, $args) {
                     . "UNIX_TIMESTAMP($history_table.log_date) AS log_date "
                     . "FROM $history_table "
                     . "LEFT JOIN ciniki_users ON ($history_table.user_id = ciniki_users.id) "
-                    . "WHERE $history_table.business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+                    . "WHERE $history_table.tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
                     . "AND $history_table.table_name = '" . ciniki_core_dbQuote($ciniki, $o['table']) . "' "
                     . "AND $history_table.action = 3 "
                     . "AND $history_table.table_key = '" . ciniki_core_dbQuote($ciniki, $args['delete_id']) . "' "

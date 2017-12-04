@@ -6,25 +6,25 @@
 // Arguments
 // ---------
 // ciniki:
-// business_id:     The ID of the business to get the table row counts for.
+// tnid:     The ID of the tenant to get the table row counts for.
 //
-function ciniki_core_dbGetRowCounts(&$ciniki, $business_id) {
+function ciniki_core_dbGetRowCounts(&$ciniki, $tnid) {
 
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQuote');
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQuoteList');
 
     //
-    // Get modules which are enabled for the business, and their checksums
+    // Get modules which are enabled for the tenant, and their checksums
     //
     $strsql = "SELECT CONCAT_WS('.', package, module) AS fname, "
         . "package, module AS name, UNIX_TIMESTAMP(last_change) AS last_change "
-        . "FROM ciniki_business_modules "
-        . "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+        . "FROM ciniki_tenant_modules "
+        . "WHERE tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
         . "AND (status = 1 OR status = 2) "
         . "ORDER BY fname "
         . "";
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashQueryIDTree');
-    $rc = ciniki_core_dbHashQueryIDTree($ciniki, $strsql, 'ciniki.businesses', array(
+    $rc = ciniki_core_dbHashQueryIDTree($ciniki, $strsql, 'ciniki.tenants', array(
         array('container'=>'modules', 'fname'=>'fname',
             'fields'=>array('package', 'name', 'last_change')),
         ));
@@ -33,8 +33,8 @@ function ciniki_core_dbGetRowCounts(&$ciniki, $business_id) {
     }
     $modules = $rc['modules'];
 
-    if( !isset($modules['ciniki.businesses']) ) {
-        $modules['ciniki.businesses'] = array('package'=>'ciniki', 'name'=>'businesses');
+    if( !isset($modules['ciniki.tenants']) ) {
+        $modules['ciniki.tenants'] = array('package'=>'ciniki', 'name'=>'tenants');
     }
     if( !isset($modules['ciniki.images']) ) {
         $modules['ciniki.images'] = array('package'=>'ciniki', 'name'=>'images');
@@ -47,7 +47,7 @@ function ciniki_core_dbGetRowCounts(&$ciniki, $business_id) {
     //
     foreach($modules as $mid => $module) {
         $modules[$mid]['tables'] = array();
-        $rc = ciniki_core_syncModuleObjects($ciniki, $business_id, $mid, 'full');
+        $rc = ciniki_core_syncModuleObjects($ciniki, $tnid, $mid, 'full');
         if( $rc['stat'] != 'ok' ) {
             return $rc;
         }
@@ -65,12 +65,12 @@ function ciniki_core_dbGetRowCounts(&$ciniki, $business_id) {
         // Store the table name to lookup in history
         $tables = array();
         foreach($objects as $oid => $obj) {
-            if( $obj['table'] == 'ciniki_businesses' ) {
+            if( $obj['table'] == 'ciniki_tenants' ) {
                 continue;
             }
             $strsql = "SELECT COUNT(*) AS count "
                 . "FROM " . ciniki_core_dbQuote($ciniki, $obj['table']) . " "
-                . "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+                . "WHERE tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
                 . "";
             $rc = ciniki_core_dbHashQuery($ciniki, $strsql, $mid, 'rowcount');
             if( $rc['stat'] != 'ok' ) {
@@ -85,7 +85,7 @@ function ciniki_core_dbGetRowCounts(&$ciniki, $business_id) {
         if( $history_table != '' ) {
             $strsql = "SELECT COUNT(*) AS count "
                 . "FROM " . ciniki_core_dbQuote($ciniki, $history_table) . " "
-                . "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+                . "WHERE tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
                 . "AND table_name IN (" . ciniki_core_dbQuoteList($ciniki, $tables) . ") "
                 . "";
             $rc = ciniki_core_dbHashQuery($ciniki, $strsql, $mid, 'rowcount');

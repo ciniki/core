@@ -2,12 +2,12 @@
 //
 // Description
 // -----------
-// This method will backup a business to the ciniki-backups folder
+// This method will backup a tenant to the ciniki-backups folder
 //
 // Arguments
 // ---------
 // ciniki:
-// business_id:     The ID of the business on the local side to check sync.
+// tnid:     The ID of the tenant on the local side to check sync.
 //
 //
 function ciniki_core_backupZipAddDir(&$ciniki, &$zip, $dir, $base) {

@@ -15,7 +15,7 @@
 // table:               The database table that stores the thread information.
 // args:                Additional arguments provided function.
 //
-//                      business_id - The business to attach the thread to.
+//                      tnid - The tenant to attach the thread to.
 //                      state - The opening state of the thread.
 //                      subject - The subject for the thread.
 //                      source - The source of the thread.
@@ -51,17 +51,17 @@ function ciniki_core_threadAdd(&$ciniki, $module, $object, $table, $history_tabl
     // 
     // Setup the SQL statement to insert the new thread
     //
-    $strsql = "INSERT INTO $table (uuid, business_id, user_id, subject, state, "
+    $strsql = "INSERT INTO $table (uuid, tnid, user_id, subject, state, "
         . "source, source_link, options, "
         . "date_added, last_updated) VALUES ("
         . "'" . ciniki_core_dbQuote($ciniki, $uuid) . "', "
         . "";
 
-    // business_id
-    if( isset($args['business_id']) && $args['business_id'] != '' && $args['business_id'] > 0 ) {
-        $strsql .= "'" . ciniki_core_dbQuote($ciniki, $args['business_id']) . "', ";
+    // tnid
+    if( isset($args['tnid']) && $args['tnid'] != '' && $args['tnid'] > 0 ) {
+        $strsql .= "'" . ciniki_core_dbQuote($ciniki, $args['tnid']) . "', ";
     } else {
-        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.373', 'msg'=>'Required argument missing', 'pmsg'=>'No business_id'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.373', 'msg'=>'Required argument missing', 'pmsg'=>'No tnid'));
     }
 
     // user_id
@@ -114,30 +114,30 @@ function ciniki_core_threadAdd(&$ciniki, $module, $object, $table, $history_tabl
     }
     $thread_id = $rc['insert_id'];
 
-    ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $business_id,
+    ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $tnid,
         1, $table, $thread_id, 'uuid', $uuid);
     if( isset($args['user_id']) && $args['user_id'] != '' && $args['user_id'] > 0 ) {
-        ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $business_id,
+        ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $tnid,
             1, $table, $thread_id, 'user_id', $args['user_id']);
     }
     if( isset($args['subject']) && $args['subject'] != '' ) {
-        ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $business_id,
+        ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $tnid,
             1, $table, $thread_id, 'subject', $args['subject']);
     }
     if( isset($args['state']) && $args['state'] != '' ) {
-        ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $business_id,
+        ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $tnid,
             1, $table, $thread_id, 'state', $args['state']);
     }
     if( isset($args['source']) && $args['source'] != '' ) {
-        ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $business_id,
+        ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $tnid,
             1, $table, $thread_id, 'source', $args['source']);
     }
     if( isset($args['source_link']) && $args['source_link'] != '' ) {
-        ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $business_id,
+        ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $tnid,
             1, $table, $thread_id, 'source_link', $args['source_link']);
     }
     if( isset($args['options']) && $args['options'] != '' ) {
-        ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $business_id,
+        ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $tnid,
             1, $table, $thread_id, 'options', $args['options']);
     }
     //

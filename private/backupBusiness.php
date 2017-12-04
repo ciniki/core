@@ -2,34 +2,34 @@
 //
 // Description
 // -----------
-// This method will backup a business to the ciniki-backups folder
+// This method will backup a tenant to the ciniki-backups folder
 //
 // Arguments
 // ---------
 // ciniki:
-// business_id:     The ID of the business on the local side to check sync.
+// tnid:     The ID of the tenant on the local side to check sync.
 //
 //
-function ciniki_core_backupBusiness(&$ciniki, $business) {
+function ciniki_core_backupTenant(&$ciniki, $tenant) {
 
     //
     // Check the backup directory exists
     //
     if( isset($ciniki['config']['ciniki.core']['zip_backup_dir']) ) {
         $zip_backup_dir = $ciniki['config']['ciniki.core']['zip_backup_dir'] . '/'
-            . $business['uuid'][0] . '/' . $business['uuid'];
+            . $tenant['uuid'][0] . '/' . $tenant['uuid'];
     } else {
         $zip_backup_dir = $ciniki['config']['ciniki.core']['backup_dir'] . '/'
-            . $business['uuid'][0] . '/' . $business['uuid'];
+            . $tenant['uuid'][0] . '/' . $tenant['uuid'];
     }
     if( isset($ciniki['config']['ciniki.core']['final_backup_dir']) ) {
         $final_backup_dir = $ciniki['config']['ciniki.core']['final_backup_dir'] . '/'
-            . $business['uuid'][0] . '/' . $business['uuid'];
+            . $tenant['uuid'][0] . '/' . $tenant['uuid'];
     }
-    $business['backup_dir'] = $ciniki['config']['ciniki.core']['backup_dir'] . '/'
-        . $business['uuid'][0] . '/' . $business['uuid'] . '/data';
-    if( !file_exists($business['backup_dir']) ) {
-        if( mkdir($business['backup_dir'], 0755, true) === false ) {
+    $tenant['backup_dir'] = $ciniki['config']['ciniki.core']['backup_dir'] . '/'
+        . $tenant['uuid'][0] . '/' . $tenant['uuid'] . '/data';
+    if( !file_exists($tenant['backup_dir']) ) {
+        if( mkdir($tenant['backup_dir'], 0755, true) === false ) {
             return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.9', 'msg'=>'Unable to create backup directory'));
         }
     }
@@ -40,20 +40,20 @@ function ciniki_core_backupBusiness(&$ciniki, $business) {
     }
     
     //
-    // Get the list of modules for the business
+    // Get the list of modules for the tenant
     //
     $strsql = "SELECT package, module, flags "
-        . "FROM ciniki_business_modules "
-        . "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $business['id']) . "' "
+        . "FROM ciniki_tenant_modules "
+        . "WHERE tnid = '" . ciniki_core_dbQuote($ciniki, $tenant['id']) . "' "
         . "AND status > 0 "
         . "";
-    $rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.businesses', 'module');
+    $rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.tenants', 'module');
     if( $rc['stat'] != 'ok' ) {
         return $rc;
     }
     $modules = $rc['rows'];
 
-    $skip_modules = array('ciniki.businesses', 
+    $skip_modules = array('ciniki.tenants', 
         'ciniki.calendars', 
         'ciniki.systemdocs', 
         'ciniki.cron', 
@@ -76,20 +76,20 @@ function ciniki_core_backupBusiness(&$ciniki, $business) {
         // Backup the objects in XML format first.
         // Check if there is a custom backup for this module, otherwise use the default backup.
         //
-        $rc = ciniki_core_loadMethod($ciniki, $mod['package'], $mod['module'], 'private', 'backupBusinessModuleObjects');
+        $rc = ciniki_core_loadMethod($ciniki, $mod['package'], $mod['module'], 'private', 'backupTenantModuleObjects');
         if( $rc['stat'] == 'ok' ) {
             $fn = $rc['function_call'];
-            $rc = $fn($ciniki, $business);
+            $rc = $fn($ciniki, $tenant);
             if( $rc['stat'] != 'ok' ) {
-                error_log('BACKUP-ERR[' . $business['name'] . ']: ' . $rc['err']['code'] . ' - ' . $rc['err']['msg']);
+                error_log('BACKUP-ERR[' . $tenant['name'] . ']: ' . $rc['err']['code'] . ' - ' . $rc['err']['msg']);
             }
         } else {
             //
             // Backup the module
             //
-            $rc = ciniki_core_backupBusinessModuleObjects($ciniki, $business, $mod['package'], $mod['module']);
+            $rc = ciniki_core_backupTenantModuleObjects($ciniki, $tenant, $mod['package'], $mod['module']);
             if( $rc['stat'] != 'ok' ) {
-                error_log('BACKUP-ERR[' . $business['name'] . ']: ' . $rc['err']['code'] . ' - ' . $rc['err']['msg']);
+                error_log('BACKUP-ERR[' . $tenant['name'] . ']: ' . $rc['err']['code'] . ' - ' . $rc['err']['msg']);
             }
         }
 */
@@ -99,9 +99,9 @@ function ciniki_core_backupBusiness(&$ciniki, $business) {
         $rc = ciniki_core_loadMethod($ciniki, $mod['package'], $mod['module'], 'private', 'backupModule');
         if( $rc['stat'] == 'ok' ) {
             $fn = $mod['package'] . '_' . $mod['module'] . '_backupModule';
-            $rc = $fn($ciniki, $business);
+            $rc = $fn($ciniki, $tenant);
             if( $rc['stat'] != 'ok' ) {
-                error_log('BACKUP-ERR[' . $business['name'] . ']: ' . $rc['err']['code'] . ' - ' . $rc['err']['msg']);
+                error_log('BACKUP-ERR[' . $tenant['name'] . ']: ' . $rc['err']['code'] . ' - ' . $rc['err']['msg']);
             }
         }   
     }
@@ -124,14 +124,14 @@ function ciniki_core_backupBusiness(&$ciniki, $business) {
     $date = date('Ymd-Hi');
     $zip = new ZipArchive;
     if( $zip->open($zip_backup_dir . "/backup-$date.zip", ZipArchive::CREATE) === TRUE ) {
-        $rc = ciniki_core_backupZipAddDir($ciniki, $zip, $business['backup_dir'], "/backup-$date");
+        $rc = ciniki_core_backupZipAddDir($ciniki, $zip, $tenant['backup_dir'], "/backup-$date");
         if( $rc['stat'] != 'ok' ) {
             return $rc;
         }
         $zip->close();
     } else {
         error_log($zip->getStatusString());
-        error_log('BACKUP-ERR[' . $business['name'] . ']: Unable to create zip file: ' . $zip_backup_dir . '/backup.zip');
+        error_log('BACKUP-ERR[' . $tenant['name'] . ']: Unable to create zip file: ' . $zip_backup_dir . '/backup.zip');
     }
     
     //

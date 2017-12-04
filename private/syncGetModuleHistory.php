@@ -7,7 +7,7 @@
 // Arguments
 // ---------
 //
-function ciniki_core_syncGetModuleHistory(&$ciniki, &$sync, $business_id, $args) {
+function ciniki_core_syncGetModuleHistory(&$ciniki, &$sync, $tnid, $args) {
 
     if( !isset($args['history_table']) || $args['history_table'] == '' ) {
         return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.204', 'msg'=>'No history table specified'));
@@ -35,7 +35,7 @@ function ciniki_core_syncGetModuleHistory(&$ciniki, &$sync, $business_id, $args)
         . "UNIX_TIMESTAMP($history_table.log_date) AS log_date "
         . "FROM $history_table "
         . "LEFT JOIN ciniki_users ON ($history_table.user_id = ciniki_users.id) "
-        . "WHERE $history_table.business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+        . "WHERE $history_table.tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
         . "AND $history_table.uuid = '" . ciniki_core_dbQuote($ciniki, $args['uuid']) . "' "
         . "ORDER BY log_date "
         . "";
@@ -65,7 +65,7 @@ function ciniki_core_syncGetModuleHistory(&$ciniki, &$sync, $business_id, $args)
         if( $history['table_key'] != '' ) {
             ciniki_core_loadMethod($ciniki, $details['package'], $details['module'], 'sync', $details['lookup']);
             $lookup = $details['package'] . '_' . $details['module'] . '_' . $details['lookup'];
-            $rc = $lookup($ciniki, $sync, $business_id, array('local_id'=>$history['table_key']));
+            $rc = $lookup($ciniki, $sync, $tnid, array('local_id'=>$history['table_key']));
             if( $rc['stat'] != 'ok' ) {
                 ciniki_core_syncLog($ciniki, 0, "Unable to locate local table key for $history_table(" . $history['table_key'] . ')', $rc['err']);
                 $history['table_key'] = '';
@@ -82,7 +82,7 @@ function ciniki_core_syncGetModuleHistory(&$ciniki, &$sync, $business_id, $args)
         //
         ciniki_core_loadMethod($ciniki, $details['package'], $details['module'], 'sync', $details['lookup']);
         $lookup = $details['package'] . '_' . $details['module'] . '_' . $details['lookup'];
-        $rc = $lookup($ciniki, $sync, $business_id, array('local_id'=>$history['new_value']));
+        $rc = $lookup($ciniki, $sync, $tnid, array('local_id'=>$history['new_value']));
         if( $rc['stat'] != 'ok' ) {
             ciniki_core_syncLog($ciniki, 0, 'Unable to locate local new_value (' . $history['table_name'] . ' - ' . $history['table_field'] . ':' . $history['new_value'] . ')', $rc['err']);
             $history['new_value'] = '';

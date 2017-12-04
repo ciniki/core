@@ -8,14 +8,14 @@
 // Arguments
 // ---------
 // ciniki:
-// business_id:     The ID of the business on the local side to check sync.
+// tnid:     The ID of the tenant on the local side to check sync.
 //
 function ciniki_core_smsQueueProcess(&$ciniki) {
 
     foreach($ciniki['smsqueue'] as $sms) {
         if( isset($sms['sms_id']) ) {
             ciniki_core_loadMethod($ciniki, 'ciniki', 'sms', 'private', 'sendMessage');
-            $rc = ciniki_sms_sendMessage($ciniki, $sms['business_id'], $sms['sms_id'], null);
+            $rc = ciniki_sms_sendMessage($ciniki, $sms['tnid'], $sms['sms_id'], null);
             if( $rc['stat'] != 'ok' ) {
                 error_log("MAIL-ERR: Error sending sms: " . $sms['sms_id'] . " (" . serialize($rc) . ")");
             }

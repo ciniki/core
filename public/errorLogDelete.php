@@ -37,7 +37,7 @@ function ciniki_core_errorLogDelete($ciniki) {
         . "";
 
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbDelete');
-    $rc = ciniki_core_dbDelete($ciniki, $strsql, 'ciniki.businesses');
+    $rc = ciniki_core_dbDelete($ciniki, $strsql, 'ciniki.tenants');
     if( $rc['stat'] != 'ok' ) {
         return $rc;
     }

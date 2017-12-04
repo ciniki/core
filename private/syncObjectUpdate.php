@@ -9,19 +9,19 @@
 // Returns
 // -------
 //
-function ciniki_core_syncObjectUpdate(&$ciniki, &$sync, $business_id, $o, $args) {
+function ciniki_core_syncObjectUpdate(&$ciniki, &$sync, $tnid, $o, $args) {
     //
     // Check for custom update function
     //
     ciniki_core_syncLog($ciniki, 4, "Update " . $o['oname'] . '(' . serialize($args) . ')', null);
     if( isset($o['update']) && $o['update'] != '' ) {
         ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectFunction');
-        return ciniki_core_syncObjectFunction($ciniki, $sync, $business_id, $o['update'], $args);
+        return ciniki_core_syncObjectFunction($ciniki, $sync, $tnid, $o['update'], $args);
     }
 
     if( isset($o['type']) && $o['type'] == 'settings' ) {
         ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncSettingUpdate');
-        return ciniki_core_syncSettingUpdate($ciniki, $sync, $business_id, $o, $args);
+        return ciniki_core_syncSettingUpdate($ciniki, $sync, $tnid, $o, $args);
     }
     
     //
@@ -69,7 +69,7 @@ function ciniki_core_syncObjectUpdate(&$ciniki, &$sync, $business_id, $o, $args)
     // Get the local object
     //
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectGet');
-    $rc = ciniki_core_syncObjectGet($ciniki, $sync, $business_id, $o, array('uuid'=>$remote_object['uuid'], 'translate'=>'no'));
+    $rc = ciniki_core_syncObjectGet($ciniki, $sync, $tnid, $o, array('uuid'=>$remote_object['uuid'], 'translate'=>'no'));
     if( $rc['stat'] != 'ok' && $rc['stat'] != 'noexist' ) {
         return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.293', 'msg'=>'Unable to get ' . $o['name'], 'err'=>$rc['err']));
     }
@@ -82,20 +82,20 @@ function ciniki_core_syncObjectUpdate(&$ciniki, &$sync, $business_id, $o, $args)
         //
         // Create the object record
         //
-        $strsql = "INSERT INTO $table (uuid, business_id, ";
+        $strsql = "INSERT INTO $table (uuid, tnid, ";
         foreach($o['fields'] as $fid => $finfo) {
             $strsql .= "$fid, ";
         }
         $strsql .= "date_added, last_updated) VALUES (";
         
         $strsql .= "'" . ciniki_core_dbQuote($ciniki, $remote_object['uuid']) . "', "
-            . "'" . ciniki_core_dbQuote($ciniki, $business_id) . "', ";
+            . "'" . ciniki_core_dbQuote($ciniki, $tnid) . "', ";
         foreach($o['fields'] as $fid => $finfo) {
             if( isset($finfo['oref']) && $finfo['oref'] != '' && $remote_object[$fid] != '0' 
                 && isset($remote_object[$finfo['oref']]) && $remote_object[$finfo['oref']] != '' 
                 ) {
                 ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLoad');
-                $rc = ciniki_core_syncObjectLoad($ciniki, $sync, $business_id, $remote_object[$finfo['oref']], array());
+                $rc = ciniki_core_syncObjectLoad($ciniki, $sync, $tnid, $remote_object[$finfo['oref']], array());
                 if( $rc['stat'] != 'ok' ) {
                     return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.294', 'msg'=>'Unable to load object ' . $remote_object[$finfo['oref']], 'err'=>$rc['err']));
                 }
@@ -106,7 +106,7 @@ function ciniki_core_syncObjectUpdate(&$ciniki, &$sync, $business_id, $o, $args)
                 //
                 if( !isset($ref_o['type']) || $ref_o['type'] != 'settings' ) {
                     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLookup');
-                    $rc = ciniki_core_syncObjectLookup($ciniki, $sync, $business_id, $ref_o, 
+                    $rc = ciniki_core_syncObjectLookup($ciniki, $sync, $tnid, $ref_o, 
                         array('remote_uuid'=>$remote_object[$fid]));
                     if( $rc['stat'] != 'ok' ) {
                         return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.295', 'msg'=>'Unable to find ' . $o['name'], 'err'=>$rc['err']));
@@ -118,7 +118,7 @@ function ciniki_core_syncObjectUpdate(&$ciniki, &$sync, $business_id, $o, $args)
             }
             elseif( isset($finfo['ref']) && $finfo['ref'] != '' && $remote_object[$fid] != '0' ) {
                 ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLoad');
-                $rc = ciniki_core_syncObjectLoad($ciniki, $sync, $business_id, $finfo['ref'], array());
+                $rc = ciniki_core_syncObjectLoad($ciniki, $sync, $tnid, $finfo['ref'], array());
                 if( $rc['stat'] != 'ok' ) {
                     return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.296', 'msg'=>'Unable to load object ' . $finfo['ref'], 'err'=>$rc['err']));
                 }
@@ -128,7 +128,7 @@ function ciniki_core_syncObjectUpdate(&$ciniki, &$sync, $business_id, $o, $args)
                 // Lookup the object
                 //
                 ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncObjectLookup');
-                $rc = ciniki_core_syncObjectLookup($ciniki, $sync, $business_id, $ref_o, 
+                $rc = ciniki_core_syncObjectLookup($ciniki, $sync, $tnid, $ref_o, 
                     array('remote_uuid'=>$remote_object[$fid]));
                 if( $rc['stat'] != 'ok' ) {
                     return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.297', 'msg'=>'Unable to find ' . $o['name'], 'err'=>$rc['err']));
@@ -160,8 +160,8 @@ function ciniki_core_syncObjectUpdate(&$ciniki, &$sync, $business_id, $o, $args)
         //
         // Compare basic elements of object
         //
-        $rc = ciniki_core_syncObjectUpdateSQL($ciniki, $sync, $business_id, $o, $remote_object, $local_object);
-//      $rc = ciniki_core_syncUpdateObjectSQL($ciniki, $sync, $business_id, $remote_customer, $local_customer, array(
+        $rc = ciniki_core_syncObjectUpdateSQL($ciniki, $sync, $tnid, $o, $remote_object, $local_object);
+//      $rc = ciniki_core_syncUpdateObjectSQL($ciniki, $sync, $tnid, $remote_customer, $local_customer, array(
 //          'cid'=>array(),
 //          'type'=>array(),
 //          'prefix'=>array(),
@@ -187,7 +187,7 @@ function ciniki_core_syncObjectUpdate(&$ciniki, &$sync, $business_id, $o, $args)
         if( isset($rc['strsql']) && $rc['strsql'] != '' ) {
             $strsql = "UPDATE $table SET " . $rc['strsql'] . " "
                 . "WHERE id = '" . ciniki_core_dbQuote($ciniki, $local_object['id']) . "' "
-                . "AND business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+                . "AND tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
                 . "";
             $rc = ciniki_core_dbUpdate($ciniki, $strsql, $o['pmod']);
             if( $rc['stat'] != 'ok' ) {
@@ -203,14 +203,14 @@ function ciniki_core_syncObjectUpdate(&$ciniki, &$sync, $business_id, $o, $args)
     //
     if( isset($remote_object['history']) ) {
         if( isset($local_object['history']) ) {
-            $rc = ciniki_core_syncObjectUpdateHistory($ciniki, $sync, $business_id, $o, $object_id, 
+            $rc = ciniki_core_syncObjectUpdateHistory($ciniki, $sync, $tnid, $o, $object_id, 
                 $remote_object['history'], $local_object['history']);
-//          $rc = ciniki_core_syncUpdateTableElementHistory($ciniki, $sync, $business_id, 'ciniki.customers',
+//          $rc = ciniki_core_syncUpdateTableElementHistory($ciniki, $sync, $tnid, 'ciniki.customers',
 //              'ciniki_customer_history', $customer_id, 'ciniki_customers', $remote_customer['history'], $local_customer['history'], array());
         } else {
-            $rc = ciniki_core_syncObjectUpdateHistory($ciniki, $sync, $business_id, $o, $object_id, 
+            $rc = ciniki_core_syncObjectUpdateHistory($ciniki, $sync, $tnid, $o, $object_id, 
                 $remote_object['history'], array());
-//          $rc = ciniki_core_syncUpdateTableElementHistory($ciniki, $sync, $business_id, 'ciniki.customers',
+//          $rc = ciniki_core_syncUpdateTableElementHistory($ciniki, $sync, $tnid, 'ciniki.customers',
 //              'ciniki_customer_history', $customer_id, 'ciniki_customers', $remote_customer['history'], array(), array());
         }
         if( $rc['stat'] != 'ok' ) {
@@ -234,9 +234,9 @@ function ciniki_core_syncObjectUpdate(&$ciniki, &$sync, $business_id, $o, $args)
             // Check if detail already exists
             //
             if( !isset($local_object['details'][$detail_key]) ) {
-                $strsql = "INSERT INTO $table (business_id, $key, detail_key, detail_value, "
+                $strsql = "INSERT INTO $table (tnid, $key, detail_key, detail_value, "
                     . "date_added, last_updated) VALUES ("
-                    . "'" . ciniki_core_dbQuote($ciniki, $business_id) . "', "
+                    . "'" . ciniki_core_dbQuote($ciniki, $tnid) . "', "
                     . "'" . ciniki_core_dbQuote($ciniki, $object_id) . "', "
                     . "'" . ciniki_core_dbQuote($ciniki, $detail_key) . "', "
                     . "'" . ciniki_core_dbQuote($ciniki, $remote_detail['detail_value']) . "', "
@@ -258,7 +258,7 @@ function ciniki_core_syncObjectUpdate(&$ciniki, &$sync, $business_id, $o, $args)
                 $strsql = "UPDATE $table SET "
                     . "detail_value = '" . ciniki_core_dbQuote($ciniki, $remote_detail['detail_value']) . "' "
                     . ", last_updated = FROM_UNIXTIME('" . ciniki_core_dbQuote($ciniki, $remote_detail['last_updated']) . "') "
-                    . "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+                    . "WHERE tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
                     . "AND $key = '" . ciniki_core_dbQuote($ciniki, $object_id) . "' "
                     . "AND detail_key = '" . ciniki_core_dbQuote($ciniki, $detail_key) . "' "
                     . "";
@@ -275,11 +275,11 @@ function ciniki_core_syncObjectUpdate(&$ciniki, &$sync, $business_id, $o, $args)
             //
             if( isset($details['history']) ) {
                 if( isset($local_object['details'][$detail_key]['history']) ) {
-                    $rc = ciniki_core_syncUpdateTableElementHistory($ciniki, $sync, $business_id,
+                    $rc = ciniki_core_syncUpdateTableElementHistory($ciniki, $sync, $tnid,
                         $o['pmod'], $o['history_table'], $detail_key, $table,
                         $details['history'], $local_object['details'][$detail_key]['history']);
                 } else {
-                    $rc = ciniki_core_syncUpdateTableElementHistory($ciniki, $sync, $business_id,
+                    $rc = ciniki_core_syncUpdateTableElementHistory($ciniki, $sync, $tnid,
                         $o['pmod'], $o['history_table'], $detail_key, $table,
                         $details['history'], array());
                 }

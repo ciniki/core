@@ -36,11 +36,11 @@ function ciniki_core_errorLogList($ciniki) {
     $datetime_format = ciniki_users_datetimeFormat($ciniki);
 
     //
-    // Get the list of syncs setup for this business
+    // Get the list of syncs setup for this tenant
     //
     $strsql = "SELECT ciniki_core_error_logs.id, ciniki_core_error_logs.status, "
-        . "ciniki_core_error_logs.business_id, "
-        . "IFNULL(ciniki_businesses.name, '--System--') AS business_name, "
+        . "ciniki_core_error_logs.tnid, "
+        . "IFNULL(ciniki_tenants.name, '--System--') AS tenant_name, "
         . "ciniki_core_error_logs.user_id, "
         . "CONCAT_WS(' ', ciniki_users.firstname, ciniki_users.lastname) AS user_name, "
         . "ciniki_core_error_logs.method, "
@@ -48,7 +48,7 @@ function ciniki_core_errorLogList($ciniki) {
         . "DATE_FORMAT(log_date, '" . ciniki_core_dbQuote($ciniki, $datetime_format) . "') AS log_date, "
         . "CAST((UNIX_TIMESTAMP(UTC_TIMESTAMP())-UNIX_TIMESTAMP(log_date)) as DECIMAL(12,0)) AS age "
         . "FROM ciniki_core_error_logs "
-        . "LEFT JOIN ciniki_businesses ON (ciniki_core_error_logs.business_id = ciniki_businesses.id) "
+        . "LEFT JOIN ciniki_tenants ON (ciniki_core_error_logs.tnid = ciniki_tenants.id) "
         . "LEFT JOIN ciniki_users ON (ciniki_core_error_logs.user_id = ciniki_users.id) "
         . "";
     if( isset($args['status']) && $args['status'] != '' ) {
@@ -58,9 +58,9 @@ function ciniki_core_errorLogList($ciniki) {
         . "";
 
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashQueryTree');
-    $rc = ciniki_core_dbHashQueryTree($ciniki, $strsql, 'ciniki.businesses', array(
+    $rc = ciniki_core_dbHashQueryTree($ciniki, $strsql, 'ciniki.tenants', array(
         array('container'=>'errors', 'fname'=>'id', 'name'=>'error',
-            'fields'=>array('id', 'status', 'business_id', 'business_name', 
+            'fields'=>array('id', 'status', 'tnid', 'tenant_name', 
                 'user_id', 'user_name', 'method', 'session_key', 'log_date', 'age'),
             'maps'=>array('status'=>array('10'=>'Entered', '50'=>'Archived')),
             ),

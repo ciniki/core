@@ -74,10 +74,10 @@ function ciniki_core_monitorActionLogs($ciniki) {
         . ", CAST(UNIX_TIMESTAMP(UTC_TIMESTAMP())-UNIX_TIMESTAMP(log_date) as DECIMAL(12,0)) as age "
         . ", UNIX_TIMESTAMP(log_date) as TS"
         . ", ciniki_core_api_logs.id, user_id, ciniki_users.display_name, "
-        . "IFNULL(ciniki_businesses.name, 'System Admin') AS name, session_key, method, action "
+        . "IFNULL(ciniki_tenants.name, 'System Admin') AS name, session_key, method, action "
         . "FROM ciniki_core_api_logs "
         . "LEFT JOIN ciniki_users ON (ciniki_core_api_logs.user_id = ciniki_users.id) "
-        . "LEFT JOIN ciniki_businesses ON (ciniki_core_api_logs.business_id = ciniki_businesses.id) ";
+        . "LEFT JOIN ciniki_tenants ON (ciniki_core_api_logs.tnid = ciniki_tenants.id) ";
     if( isset($args['session_key']) && $args['session_key'] != '' ) {
         $strsql .= "WHERE session_key = '" . ciniki_core_dbQuote($ciniki, $args['session_key']) . "' ";
     } else {

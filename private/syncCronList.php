@@ -2,7 +2,7 @@
 //
 // Description
 // -----------
-// This function will return the list of syncs for all businesses.
+// This function will return the list of syncs for all tenants.
 //
 // Arguments
 // ---------
@@ -21,17 +21,17 @@ function ciniki_core_syncCronList($ciniki) {
     //
     // Get the sync information required to send the request
     //
-    $strsql = "SELECT ciniki_business_syncs.id, ciniki_business_syncs.business_id, "
-        . "ciniki_businesses.sitename, "
-        . "(UNIX_TIMESTAMP(UTC_TIMESTAMP()) - UNIX_TIMESTAMP(ciniki_business_syncs.last_sync)) AS incremental_age, "
-        . "(UNIX_TIMESTAMP(UTC_TIMESTAMP()) - UNIX_TIMESTAMP(ciniki_business_syncs.last_partial)) AS partial_age, "
-        . "(UNIX_TIMESTAMP(UTC_TIMESTAMP()) - UNIX_TIMESTAMP(ciniki_business_syncs.last_full)) AS full_age "
-        . "FROM ciniki_business_syncs, ciniki_businesses "
-        . "WHERE ciniki_business_syncs.business_id = ciniki_businesses.id "
-        . "AND ciniki_business_syncs.status = 10 "
+    $strsql = "SELECT ciniki_tenant_syncs.id, ciniki_tenant_syncs.tnid, "
+        . "ciniki_tenants.sitename, "
+        . "(UNIX_TIMESTAMP(UTC_TIMESTAMP()) - UNIX_TIMESTAMP(ciniki_tenant_syncs.last_sync)) AS incremental_age, "
+        . "(UNIX_TIMESTAMP(UTC_TIMESTAMP()) - UNIX_TIMESTAMP(ciniki_tenant_syncs.last_partial)) AS partial_age, "
+        . "(UNIX_TIMESTAMP(UTC_TIMESTAMP()) - UNIX_TIMESTAMP(ciniki_tenant_syncs.last_full)) AS full_age "
+        . "FROM ciniki_tenant_syncs, ciniki_tenants "
+        . "WHERE ciniki_tenant_syncs.tnid = ciniki_tenants.id "
+        . "AND ciniki_tenant_syncs.status = 10 "
         . "";
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashIDQuery');
-    $rc = ciniki_core_dbHashIDQuery($ciniki, $strsql, 'ciniki.businesses', 'syncs', 'id');
+    $rc = ciniki_core_dbHashIDQuery($ciniki, $strsql, 'ciniki.tenants', 'syncs', 'id');
     if( $rc['stat'] != 'ok' ) {
         return $rc;
     }

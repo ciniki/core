@@ -34,7 +34,7 @@ function ciniki_core_syncInit($ciniki_root) {
     }
 
     //
-    // The synctype (type), business UUID (uuid) must be specifed in the URL
+    // The synctype (type), tenant UUID (uuid) must be specifed in the URL
     //
     if( !isset($_GET) || !is_array($_GET)  ) {
         return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.209', 'msg'=>'Internal configuration error'));
@@ -42,10 +42,10 @@ function ciniki_core_syncInit($ciniki_root) {
 
     //
     // Check the request, make sure it's valid
-    // We only allow the sync type of business right now.
-    // The remote end must pass their business uuid, so we know which sync connection to use.
+    // We only allow the sync type of tenant right now.
+    // The remote end must pass their tenant uuid, so we know which sync connection to use.
     //
-    if( !isset($_GET['type']) || $_GET['type'] != 'business' 
+    if( !isset($_GET['type']) || $_GET['type'] != 'tenant' 
         || !isset($_GET['uuid']) || $_GET['uuid'] == '' 
         || !isset($_GET['from']) || $_GET['from'] == '' ) {
         return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.210', 'msg'=>'Internal configuration error'));
@@ -56,21 +56,21 @@ function ciniki_core_syncInit($ciniki_root) {
     // Get the local_private_key to decode the request
     //
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQuote');
-    $strsql = "SELECT ciniki_business_syncs.id AS sync_id, "
-        . "ciniki_businesses.id AS business_id, ciniki_businesses.uuid, "
-        . "ciniki_businesses.sitename, "
-        . "ciniki_business_syncs.status, "
-        . "ciniki_business_syncs.flags, "
+    $strsql = "SELECT ciniki_tenant_syncs.id AS sync_id, "
+        . "ciniki_tenants.id AS tnid, ciniki_tenants.uuid, "
+        . "ciniki_tenants.sitename, "
+        . "ciniki_tenant_syncs.status, "
+        . "ciniki_tenant_syncs.flags, "
         . "local_private_key, "
-        . "ciniki_business_syncs.remote_name, ciniki_business_syncs.remote_uuid, "
-        . "ciniki_business_syncs.remote_url, ciniki_business_syncs.remote_public_key "
-        . "FROM ciniki_businesses, ciniki_business_syncs "
-        . "WHERE ciniki_businesses.uuid = '" . ciniki_core_dbQuote($ciniki, $ciniki['sync']['local_uuid']) . "' "
-        . "AND ciniki_businesses.id = ciniki_business_syncs.business_id "
-        . "AND ciniki_business_syncs.remote_uuid = '" . ciniki_core_dbQuote($ciniki, $ciniki['sync']['remote_uuid']) . "' "
+        . "ciniki_tenant_syncs.remote_name, ciniki_tenant_syncs.remote_uuid, "
+        . "ciniki_tenant_syncs.remote_url, ciniki_tenant_syncs.remote_public_key "
+        . "FROM ciniki_tenants, ciniki_tenant_syncs "
+        . "WHERE ciniki_tenants.uuid = '" . ciniki_core_dbQuote($ciniki, $ciniki['sync']['local_uuid']) . "' "
+        . "AND ciniki_tenants.id = ciniki_tenant_syncs.tnid "
+        . "AND ciniki_tenant_syncs.remote_uuid = '" . ciniki_core_dbQuote($ciniki, $ciniki['sync']['remote_uuid']) . "' "
         . "";
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashQuery');
-    $rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.businesses', 'sync');
+    $rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.tenants', 'sync');
     if( $rc['stat'] != 'ok' ) {
         return $rc;
     }
@@ -87,7 +87,7 @@ function ciniki_core_syncInit($ciniki_root) {
     $ciniki['sync']['remote_uuid'] = $rc['sync']['remote_uuid'];
     $ciniki['sync']['remote_url'] = $rc['sync']['remote_url'];
     $ciniki['sync']['remote_public_key'] = $rc['sync']['remote_public_key'];
-    $ciniki['sync']['business_id'] = $rc['sync']['business_id'];
+    $ciniki['sync']['tnid'] = $rc['sync']['tnid'];
     $ciniki['sync']['sitename'] = $rc['sync']['sitename'];
     $ciniki['sync']['id'] = $rc['sync']['sync_id'];
     // uuidmaps stores the mappings from remote to local uuid

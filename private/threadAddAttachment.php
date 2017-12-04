@@ -13,7 +13,7 @@
 // Returns
 // -------
 //
-function ciniki_core_threadAddAttachment(&$ciniki, $module, $object, $business_id, $table, $history_table, $prefix, $id, $package, $a_module, $element, $element_id) {
+function ciniki_core_threadAddAttachment(&$ciniki, $module, $object, $tnid, $table, $history_table, $prefix, $id, $package, $a_module, $element, $element_id) {
     //
     // All arguments are assumed to be un-escaped, and will be passed through dbQuote to
     // ensure they are safe to insert.
@@ -38,10 +38,10 @@ function ciniki_core_threadAddAttachment(&$ciniki, $module, $object, $business_i
     // 
     // Setup the SQL statement to insert the new thread
     //
-    $strsql = "INSERT INTO " . ciniki_core_dbQuote($ciniki, $table) . " (uuid, business_id, " . ciniki_core_dbQuote($ciniki, "{$prefix}_id") . ", "
+    $strsql = "INSERT INTO " . ciniki_core_dbQuote($ciniki, $table) . " (uuid, tnid, " . ciniki_core_dbQuote($ciniki, "{$prefix}_id") . ", "
         . "flags, package, module, element, element_id, date_added, last_updated"
         . ") VALUES ('" . ciniki_core_dbQuote($ciniki, $uuid) . "', "
-        . "'" . ciniki_core_dbQuote($ciniki, $business_id) . "', "
+        . "'" . ciniki_core_dbQuote($ciniki, $tnid) . "', "
         . "";
 
     // $prefix_id (bug_id, help_id, comment_id, etc...
@@ -79,19 +79,19 @@ function ciniki_core_threadAddAttachment(&$ciniki, $module, $object, $business_i
     }
     $attachment_id = $rc['insert_id'];
 
-    ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $business_id,
+    ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $tnid,
         1, $table, $attachment_id, 'uuid', $uuid);
-    ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $business_id,
+    ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $tnid,
         1, $table, $attachment_id, $prefix . '_id', $id);
-    ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $business_id,
+    ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $tnid,
         1, $table, $attachment_id, 'flags', 1);
-    ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $business_id,
+    ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $tnid,
         1, $table, $attachment_id, 'package', $package);
-    ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $business_id,
+    ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $tnid,
         1, $table, $attachment_id, 'module', $a_module);
-    ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $business_id,
+    ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $tnid,
         1, $table, $attachment_id, 'element', $element);
-    ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $business_id,
+    ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $tnid,
         1, $table, $attachment_id, 'element_id', $element_id);
 
     //

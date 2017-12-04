@@ -67,8 +67,8 @@ $ciniki['session']['change_log_id'] = date('ymd.His');
 //
 // Handle transaction types
 //
-require_once($ciniki_root . '/ciniki-mods/businesses/private/processPaypalIPN.php');
-$rc = ciniki_businesses_processPaypalIPN($ciniki);
+require_once($ciniki_root . '/ciniki-mods/tenants/private/processPaypalIPN.php');
+$rc = ciniki_tenants_processPaypalIPN($ciniki);
 ciniki_core_printResponse($ciniki, $rc);
 
 exit;

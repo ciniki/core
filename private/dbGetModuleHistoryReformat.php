@@ -15,7 +15,7 @@
 // module:          The name of the module for the transaction, which should include the 
 //                  package in dot notation.  Example: ciniki.artcatalog
 //
-function ciniki_core_dbGetModuleHistoryReformat(&$ciniki, $module, $history_table, $business_id, $table_name, $table_key, $table_field, $format) {
+function ciniki_core_dbGetModuleHistoryReformat(&$ciniki, $module, $history_table, $tnid, $table_name, $table_key, $table_field, $format) {
     //
     // Open a connection to the database if one doesn't exist.  The
     // dbConnect function will return an open connection if one 
@@ -39,10 +39,10 @@ function ciniki_core_dbGetModuleHistoryReformat(&$ciniki, $module, $history_tabl
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbParseAge');
 
     //
-    // Load business intl settings
+    // Load tenant intl settings
     //
-    ciniki_core_loadMethod($ciniki, 'ciniki', 'businesses', 'private', 'intlSettings');
-    $rc = ciniki_businesses_intlSettings($ciniki, $business_id);
+    ciniki_core_loadMethod($ciniki, 'ciniki', 'tenants', 'private', 'intlSettings');
+    $rc = ciniki_tenants_intlSettings($ciniki, $tnid);
     if( $rc['stat'] != 'ok' ) {
         return $rc;
     }
@@ -81,7 +81,7 @@ function ciniki_core_dbGetModuleHistoryReformat(&$ciniki, $module, $history_tabl
         $strsql .= ", DATE_FORMAT(new_value, '" . ciniki_core_dbQuote($ciniki, $datetime_format) . "') AS formatted_value ";
     }
     $strsql .= " FROM $history_table "
-        . " WHERE business_id ='" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+        . " WHERE tnid ='" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
         . " AND table_name = '" . ciniki_core_dbQuote($ciniki, $table_name) . "' "
         . " AND table_key = '" . ciniki_core_dbQuote($ciniki, $table_key) . "' "
         . " AND table_field = '" . ciniki_core_dbQuote($ciniki, $table_field) . "' "

@@ -8,7 +8,7 @@ function ciniki_core_logAPIRequest($ciniki) {
     //
     // Log a API request 
     //
-    $strsql = "INSERT INTO ciniki_core_api_logs (uuid, user_id, business_id, session_key, method, action, ip_address, "
+    $strsql = "INSERT INTO ciniki_core_api_logs (uuid, user_id, tnid, session_key, method, action, ip_address, "
         . "log_date ) VALUES (uuid(), "
         . "";
     if( isset($ciniki['session']['user']['id']) ) {
@@ -16,8 +16,8 @@ function ciniki_core_logAPIRequest($ciniki) {
     } else {
         $strsql .= "0, ";
     }
-    if( isset($ciniki['request']['args']['business_id']) ) {
-        $strsql .= "'" . ciniki_core_dbQuote($ciniki, $ciniki['request']['args']['business_id']) . "', ";
+    if( isset($ciniki['request']['args']['tnid']) ) {
+        $strsql .= "'" . ciniki_core_dbQuote($ciniki, $ciniki['request']['args']['tnid']) . "', ";
     } else {
         $strsql .= "0, ";
     }

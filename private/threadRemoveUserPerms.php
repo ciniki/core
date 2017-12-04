@@ -17,7 +17,7 @@
 // Returns
 // -------
 //
-function ciniki_core_threadRemoveUserPerms(&$ciniki, $module, $object, $business_id, $table, $history_table, $prefix, $id, $user_id, $perms) {
+function ciniki_core_threadRemoveUserPerms(&$ciniki, $module, $object, $tnid, $table, $history_table, $prefix, $id, $user_id, $perms) {
     //
     // All arguments are assumed to be un-escaped, and will be passed through dbQuote to
     // ensure they are safe to insert.
@@ -59,7 +59,7 @@ function ciniki_core_threadRemoveUserPerms(&$ciniki, $module, $object, $business
         }
         if( isset($rc['user']) ) {
             $user = $rc['user'];
-            ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $business_id,
+            ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $tnid,
                 2, $table, $user['id'], 'perms', $user['perms']);
 
             $ciniki['syncqueue'][] = array('push'=>$module . '.' . $object, 

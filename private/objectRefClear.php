@@ -6,7 +6,7 @@
 // Arguments
 // ---------
 // ciniki:
-// business_id:     The ID of the business the reference is for.
+// tnid:     The ID of the tenant the reference is for.
 //
 // args:            The arguments for adding the reference.
 //
@@ -17,7 +17,7 @@
 // -------
 // <rsp stat="ok" id="45" />
 //
-function ciniki_core_objectRefClear(&$ciniki, $business_id, $obj_name, $args, $options=0) {
+function ciniki_core_objectRefClear(&$ciniki, $tnid, $obj_name, $args, $options=0) {
     //
     // Break apart object name
     //
@@ -51,7 +51,7 @@ function ciniki_core_objectRefClear(&$ciniki, $business_id, $obj_name, $args, $o
     // Grab the uuid of the reference
     //
     $strsql = "SELECT id, uuid FROM " . $o['table'] . " "
-        . "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+        . "WHERE tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
         . "AND object = '" . ciniki_core_dbQuote($ciniki, $args['object']) . "' "
         . "AND object_id = '" . ciniki_core_dbQuote($ciniki, $args['object_id']) . "' "
         . "";
@@ -66,7 +66,7 @@ function ciniki_core_objectRefClear(&$ciniki, $business_id, $obj_name, $args, $o
 
     foreach($refs as $rowid => $ref) {
         $strsql = "DELETE FROM " . $o['table'] . " "
-            . "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+            . "WHERE tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
             . "AND id = '" . ciniki_core_dbQuote($ciniki, $ref['id']) . "' "
             . "";
         $rc = ciniki_core_dbDelete($ciniki, $strsql, $m);
@@ -74,7 +74,7 @@ function ciniki_core_objectRefClear(&$ciniki, $business_id, $obj_name, $args, $o
             return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.119', 'msg'=>'Unable to remove object reference', 'err'=>$rc['err'])); 
         }
         ciniki_core_dbAddModuleHistory($ciniki, $m, $o['history_table'], 
-            $business_id, 3, $o['table'], $ref['id'], '*', '');
+            $tnid, 3, $o['table'], $ref['id'], '*', '');
         $ciniki['syncqueue'][] = array('push'=>"$pkg.$mod.ref",
             'args'=>array('delete_uuid'=>$ref['uuid'], 'delete_id'=>$ref['id']));
         
@@ -84,11 +84,11 @@ function ciniki_core_objectRefClear(&$ciniki, $business_id, $obj_name, $args, $o
     }
 
     //
-    // Update the last_change date in the business modules
+    // Update the last_change date in the tenant modules
     // Ignore the result, as we don't want to stop user updates if this fails.
     //
-    ciniki_core_loadMethod($ciniki, 'ciniki', 'businesses', 'private', 'updateModuleChangeDate');
-    ciniki_businesses_updateModuleChangeDate($ciniki, $business_id, $pkg, $mod);
+    ciniki_core_loadMethod($ciniki, 'ciniki', 'tenants', 'private', 'updateModuleChangeDate');
+    ciniki_tenants_updateModuleChangeDate($ciniki, $tnid, $pkg, $mod);
 
     return array('stat'=>'ok');
 }

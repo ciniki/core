@@ -13,7 +13,7 @@
 // module:          The name of the module for the transaction, which should include the 
 //                  package in dot notation.  Example: ciniki.artcatalog
 //
-function ciniki_core_dbGetModuleHistoryFkId(&$ciniki, $module, $history_table, $business_id, $table_name, $table_key, $table_field, $fk_table, $fk_id_field, $fk_value_field) {
+function ciniki_core_dbGetModuleHistoryFkId(&$ciniki, $module, $history_table, $tnid, $table_name, $table_key, $table_field, $fk_table, $fk_id_field, $fk_value_field) {
     //
     // Open a connection to the database if one doesn't exist.  The
     // dbConnect function will return an open connection if one 
@@ -43,8 +43,8 @@ function ciniki_core_dbGetModuleHistoryFkId(&$ciniki, $module, $history_table, $
         . " ";
     $strsql .= " FROM " . ciniki_core_dbQuote($ciniki, $history_table) . " "
         . "LEFT JOIN " . ciniki_core_dbQuote($ciniki, $fk_table) . " ON ($history_table.new_value = " . ciniki_core_dbQuote($ciniki, $fk_table) . "." . ciniki_core_dbQuote($ciniki, $fk_id_field) . " "
-            . " AND " . ciniki_core_dbQuote($ciniki, $fk_table) . ".business_id ='" . ciniki_core_dbQuote($ciniki, $business_id) . "') "
-        . " WHERE $history_table.business_id ='" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+            . " AND " . ciniki_core_dbQuote($ciniki, $fk_table) . ".tnid ='" . ciniki_core_dbQuote($ciniki, $tnid) . "') "
+        . " WHERE $history_table.tnid ='" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
         . " AND table_name = '" . ciniki_core_dbQuote($ciniki, $table_name) . "' "
         . " AND table_key = '" . ciniki_core_dbQuote($ciniki, $table_key) . "' "
         . " AND table_field = '" . ciniki_core_dbQuote($ciniki, $table_field) . "' "

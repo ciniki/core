@@ -15,7 +15,7 @@
 // Returns
 // -------
 //
-function ciniki_core_objectGetSubs(&$ciniki, $business_id, $obj_name, $oid, $sub_obj_name) {
+function ciniki_core_objectGetSubs(&$ciniki, $tnid, $obj_name, $oid, $sub_obj_name) {
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashQueryTree');
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'objectLoad');
     //
@@ -55,7 +55,7 @@ function ciniki_core_objectGetSubs(&$ciniki, $business_id, $obj_name, $oid, $sub
         }
     }
     $strsql .= "FROM " . $s_o['table'] . " "
-        . "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+        . "WHERE tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
         . $obj_strsql
         . "";
     if( isset($s_o['listsort']) && $s_o['listsort'] != '' ) {

@@ -23,7 +23,7 @@
 // -------
 // <rsp stat="ok" />
 //
-function ciniki_core_tagAdd(&$ciniki, $module, $object, $business_id, $table, $key_name, $key_value, $type, $name) {
+function ciniki_core_tagAdd(&$ciniki, $module, $object, $tnid, $table, $key_name, $key_value, $type, $name) {
     //
     // All arguments are assumed to be un-escaped, and will be passed through dbQuote to
     // ensure they are safe to insert.
@@ -50,9 +50,9 @@ function ciniki_core_tagAdd(&$ciniki, $module, $object, $business_id, $table, $k
     // 
     // Setup the SQL statement to insert the new thread
     //
-    $strsql = "INSERT INTO $table (uuid, business_id, $key_name, tag_type, tag_name, date_added, last_updated) VALUES ("
+    $strsql = "INSERT INTO $table (uuid, tnid, $key_name, tag_type, tag_name, date_added, last_updated) VALUES ("
         . "'" . ciniki_core_dbQuote($ciniki, $uuid) . "', "
-        . "'" . ciniki_core_dbQuote($ciniki, $business_id) . "', "
+        . "'" . ciniki_core_dbQuote($ciniki, $tnid) . "', "
         . "'" . ciniki_core_dbQuote($ciniki, $key_value) . "', "
         . "'" . ciniki_core_dbQuote($ciniki, $type) . "', "
         . "'" . ciniki_core_dbQuote($ciniki, $name) . "', "
@@ -71,13 +71,13 @@ function ciniki_core_tagAdd(&$ciniki, $module, $object, $business_id, $table, $k
     //
     if( $rc['stat'] == 'ok' && $rc['num_affected_rows'] == 1 ) {
         $tag_id = $rc['insert_id'];
-        ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $business_id,
+        ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $tnid,
             1, $table, $tag_id, 'uuid', $uuid);
-        ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $business_id,
+        ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $tnid,
             1, $table, $tag_id, $key_name, $key_value);
-        ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $business_id,
+        ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $tnid,
             1, $table, $tag_id, 'tag_type', $type);
-        ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $business_id,
+        ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $tnid,
             1, $table, $tag_id, 'tag_name', $tag);
         //
         // Sync push

@@ -17,7 +17,7 @@
 // Returns
 // -------
 //
-function ciniki_core_threadAddFollowup(&$ciniki, $module, $object, $business_id, $table, $history_table, $prefix, $id, $args) {
+function ciniki_core_threadAddFollowup(&$ciniki, $module, $object, $tnid, $table, $history_table, $prefix, $id, $args) {
     //
     // All arguments are assumed to be un-escaped, and will be passed through dbQuote to
     // ensure they are safe to insert.
@@ -42,11 +42,11 @@ function ciniki_core_threadAddFollowup(&$ciniki, $module, $object, $business_id,
     // 
     // Setup the SQL statement to insert the new thread
     //
-    $strsql = "INSERT INTO " . ciniki_core_dbQuote($ciniki, $table) . " (uuid, business_id, "
+    $strsql = "INSERT INTO " . ciniki_core_dbQuote($ciniki, $table) . " (uuid, tnid, "
         . "" . ciniki_core_dbQuote($ciniki, "{$prefix}_id") . ", "
         . "user_id, content, date_added, last_updated"
         . ") VALUES ('" . ciniki_core_dbQuote($ciniki, $uuid) . "', "
-        . "'" . ciniki_core_dbQuote($ciniki, $business_id) . "', "
+        . "'" . ciniki_core_dbQuote($ciniki, $tnid) . "', "
         . "";
 
     // $prefix_id (bug_id, help_id, comment_id, etc...
@@ -84,13 +84,13 @@ function ciniki_core_threadAddFollowup(&$ciniki, $module, $object, $business_id,
     //
     // Add history
     //
-    ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $business_id,
+    ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $tnid,
         1, $table, $followup_id, 'uuid', $uuid);
-    ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $business_id,
+    ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $tnid,
         1, $table, $followup_id, $prefix . '_id', $id);
-    ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $business_id,
+    ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $tnid,
         1, $table, $followup_id, 'user_id', $args['user_id']);
-    ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $business_id,
+    ciniki_core_dbAddModuleHistory($ciniki, $module, $history_table, $tnid,
         1, $table, $followup_id, 'content', $args['content']);
 
     //

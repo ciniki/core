@@ -2,7 +2,7 @@
 //
 // Description
 // -----------
-// This function will check the local and remote business information
+// This function will check the local and remote tenant information
 // for compatibility.  The tables must all be at the same version on
 // either side of the sync, and the modules must be enabled and the 
 // same version.  
@@ -13,13 +13,13 @@
 // Arguments
 // ---------
 // ciniki:
-// business_id:     The ID of the business on the local side to check sync.
+// tnid:     The ID of the tenant on the local side to check sync.
 // sync_id:         The ID of the sync to check compatibility with.
 //
-function ciniki_core_syncCheckVersions($ciniki, $sync, $business_id) {
+function ciniki_core_syncCheckVersions($ciniki, $sync, $tnid) {
 
     //
-    // Make the request for the remote business information
+    // Make the request for the remote tenant information
     //
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncRequest');
     $rc = ciniki_core_syncRequest($ciniki, $sync, array('method'=>'ciniki.core.info'));
@@ -29,10 +29,10 @@ function ciniki_core_syncCheckVersions($ciniki, $sync, $business_id) {
     $remote_modules = $rc['modules'];
 
     // 
-    // Get the local business information
+    // Get the local tenant information
     //
-    ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncBusinessInfo');
-    $rc = ciniki_core_syncBusinessInfo($ciniki, $business_id);
+    ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncTenantInfo');
+    $rc = ciniki_core_syncTenantInfo($ciniki, $tnid);
     if( $rc['stat'] != 'ok' ) {
         return $rc;
     }
@@ -60,7 +60,7 @@ function ciniki_core_syncCheckVersions($ciniki, $sync, $business_id) {
     }
 
     //
-    // Compare local and remote business information
+    // Compare local and remote tenant information
     //
     $errors = '';
     $missing_modules = '';

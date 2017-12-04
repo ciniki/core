@@ -8,25 +8,25 @@
 // Arguments
 // ---------
 // ciniki:
-// business_id:     The ID of the business on the local side to check sync.
+// tnid:     The ID of the tenant on the local side to check sync.
 //
 function ciniki_core_emailQueueProcess(&$ciniki) {
 
     foreach($ciniki['emailqueue'] as $email) {
         if( isset($email['mail_id']) ) {
             //
-            // Load the settings for the business
+            // Load the settings for the tenant
             //
             ciniki_core_loadMethod($ciniki, 'ciniki', 'mail', 'private', 'getSettings');
-            $rc = ciniki_mail_getSettings($ciniki, $email['business_id']);
+            $rc = ciniki_mail_getSettings($ciniki, $email['tnid']);
             if( $rc['stat'] != 'ok' ) {
-                error_log("MAIL-ERR: Unable to load business mail settings for $business_id (" . serialize($rc) . ")");
+                error_log("MAIL-ERR: Unable to load tenant mail settings for $tnid (" . serialize($rc) . ")");
                 continue;
             }
             $settings = $rc['settings'];    
 
             ciniki_core_loadMethod($ciniki, 'ciniki', 'mail', 'private', 'sendMail');
-            $rc = ciniki_mail_sendMail($ciniki, $email['business_id'], $settings, $email['mail_id']);
+            $rc = ciniki_mail_sendMail($ciniki, $email['tnid'], $settings, $email['mail_id']);
             if( $rc['stat'] != 'ok' ) {
                 error_log("MAIL-ERR: Error sending mail: " . $email['mail_id'] . " (" . serialize($rc) . ")");
             }
@@ -41,11 +41,11 @@ function ciniki_core_emailQueueProcess(&$ciniki) {
         }
         elseif( isset($email['to']) ) {
             //
-            // Get the business mail settings
+            // Get the tenant mail settings
             //
-            if( isset($email['business_id']) ) {
+            if( isset($email['tnid']) ) {
                 ciniki_core_loadMethod($ciniki, 'ciniki', 'mail', 'private', 'getSettings');
-                $rc = ciniki_mail_getSettings($ciniki, $email['business_id']);
+                $rc = ciniki_mail_getSettings($ciniki, $email['tnid']);
                 if( $rc['stat'] == 'ok' && isset($rc['settings']) ) {
                     $settings = $rc['settings'];
                 }
@@ -130,7 +130,7 @@ function ciniki_core_emailQueueProcess(&$ciniki) {
                 $mail->IsSMTP();
 
                 $use_config = 'yes';
-                if( isset($email['business_id']) 
+                if( isset($email['tnid']) 
                     && isset($settings['smtp-servers']) && $settings['smtp-servers'] != ''
                     && isset($settings['smtp-username']) && $settings['smtp-username'] != ''
                     && isset($settings['smtp-password']) && $settings['smtp-password'] != ''

@@ -39,9 +39,9 @@ system.email.name='Ciniki Robot'
 ;ssl='off'
 
 ;
-; The master business must be specified, so things like ciniki-manage help work
+; The master tenant must be specified, so things like ciniki-manage help work
 ;
-master_business_id=1
+master_tnid=1
 
 [users]
 password.forgot.notify = anybody@nobody.com
@@ -55,7 +55,7 @@ help.notify=anybody@nobody.com
 
 [users]
 
-[businesses]
+[tenants]
 
 
 [locations]

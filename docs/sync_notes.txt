@@ -27,7 +27,7 @@ sync commands
 
 list - provides list of package, module, uuid, last_updated (UTC)
     args: 
-        business_uuid - get the list of changes for this business
+        tenant_uuid - get the list of changes for this tenant
         package - (optional)
         module - (optional)
         last_updated - (optional)search from this date forward, will only list module entities which have been added/modified since last time
@@ -51,16 +51,16 @@ list - provides list of package, module, uuid, last_updated (UTC)
             users:{
                 uuid:
             }
-            business:{
+            tenant:{
                 tables:{
-                    ciniki_businesses:1.01
-                    ciniki_business_users:1.01
+                    ciniki_tenants:1.01
+                    ciniki_tenant_users:1.01
                     ...
                 }
                 changes:{
-                    ciniki_businesses:839482934001
-                    ciniki_business_users:839482934001
-                    ciniki_business_modules:839482934001
+                    ciniki_tenants:839482934001
+                    ciniki_tenant_users:839482934001
+                    ciniki_tenant_modules:839482934001
                 }
                 uuids:{
                     939288dsdf-ksdfk-3234-sdffkks:928384839348
@@ -103,7 +103,7 @@ list - provides list of package, module, uuid, last_updated (UTC)
 
 get - returns all the information for a package/module/uuid including core_change_logs
     args: 
-        business_id - get the list of changes for this business
+        tnid - get the list of changes for this tenant
         package - 
         module - 
         uuid - the uuid of the module element to retreive
@@ -112,7 +112,7 @@ get - returns all the information for a package/module/uuid including core_chang
 push - send all the information for a package/module/uuid including core_change_logs
     - the same process happens as if the information was requested
     args:
-        business_id
+        tnid
         package
         module
         uuid
@@ -122,9 +122,9 @@ push - send all the information for a package/module/uuid including core_change_
 Database
 
 
-ciniki_businesses_sync (
+ciniki_tenants_sync (
     id
-    business_id
+    tnid
     flags tinyint unsigned not null,
         0x01 - push
         0x02 - pull
@@ -135,10 +135,10 @@ ciniki_businesses_sync (
     last_updated datetime not null,
     last_sync datetime not null,
     primary key (id),
-    unique index (business_id, remote_url),
+    unique index (tnid, remote_url),
 );
 
-ciniki_businesses_sync_uuidmaps (
+ciniki_tenants_sync_uuidmaps (
     sync_id
     type (ciniki_users) -- table name
     remote_uuid (2344d-dkfs)
@@ -146,7 +146,7 @@ ciniki_businesses_sync_uuidmaps (
 );
 
 -- Send alert on problem
-ciniki_business_sync_problems (
+ciniki_tenant_sync_problems (
     sync_id
     package
     module
@@ -155,9 +155,9 @@ ciniki_business_sync_problems (
 
 ciniki_core_syncs (
 
-ciniki_sync_businesses
+ciniki_sync_tenants
     id int not null auto_increment,
-    business_id
+    tnid
     remote_url (http://api.ciniki.ca/ciniki-sync.php)
 
 
@@ -188,7 +188,7 @@ foreach remote
 
 Order of Modules to Sync
 - users
-x businesses
+x tenants
 x appointments
 x customers
 x products

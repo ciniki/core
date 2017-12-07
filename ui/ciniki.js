@@ -1107,7 +1107,6 @@ M.sortTreeGrid = function(tid, col, type, o, save, d) {
         // Sort from the top, a is the top element, b is second element
         //
         for(i=s;i < l;i++) {
-            // console.log('sort-s: ' + i);
             // Skip blank entries
             if( tb.children[i].children[col].innerHTML == '' && tb.children[i].children[col].sort_value != '' ) { continue; }
             //
@@ -1131,10 +1130,8 @@ M.sortTreeGrid = function(tid, col, type, o, save, d) {
                 b = tb.children[i+oa].children[col].sort_value;
             }
 
-            //console.log("compare-s: " + a + ' > ' + b + ' : (' + (i) + ',' + (i+oa) + ') - ' + s +',' + l + ',' + i + ',' + oa + ',' + ob);
             if( (o == 'asc' && sorter_fn(a, b) > 0) || (o == 'desc' && sorter_fn(b, a) > 0) ) {
                 for(j=0;j<ob;j++) {
-                    //console.log("swap: " + (i+oa+j) + ',' + (i+j));
                     tb.insertBefore(tb.children[i+oa+j], tb.children[i+j]);
                 }
                 swap = true;
@@ -1149,9 +1146,7 @@ M.sortTreeGrid = function(tid, col, type, o, save, d) {
         //
         // Sort from the bottom, a is the bottom element, b is top element
         //
-        //console.log('swap-l: ' + l);
         for(var i = l; i > s; i--) {
-            // console.log('sort-l: ' + i);
             // Skip blank entries
             if( tb.children[i].children[col].innerHTML == '' && tb.children[i].children[col].sort_value != '' ) { continue; }
             // Find blank cells after if any
@@ -1171,10 +1166,8 @@ M.sortTreeGrid = function(tid, col, type, o, save, d) {
             if( type == 'text' && b == '' && tb.children[i-ob].children[col].sort_value != '' ) {
                 b = tb.children[i-ob].children[col].sort_value;
             }
-            //console.log("compare-l: " + b + ' > ' + a + ' : (' + (i) + ',' + (i-ob) + ') - ' + s +',' + l + ',' + i + ',' + oa + ',' + ob);
             if( (o == 'asc' && sorter_fn(b, a) > 0) || (o == 'desc' && sorter_fn(a, b) > 0) ) {
                 for(j=0;j<oa;j++) {
-                    //console.log("swap: " + (i+j) + ',' + (i-ob+j));
                     tb.insertBefore(tb.children[i+j], tb.children[i-ob+j]);
                 }
                 swap = true;
@@ -1205,7 +1198,6 @@ M.sortTreeGrid = function(tid, col, type, o, save, d) {
 // s:        The saveSort function to call to save settings
 // d:        null, lookup table in document, otherwise sort the table in this object
 M.sortGrid = function(tid, col, type, o, save, d) {
-    console.log('sort');
     // This function is called whenever a sortable table is first displayed, 
     // to check if there are any predisplay sort settings
     if( (col == null || type == null) && M.gridSorting[tid] == null) {
@@ -1226,7 +1218,6 @@ M.sortGrid = function(tid, col, type, o, save, d) {
     if( tb == null || tb.children == null || tb.children.length == 0 || tb.children.length == 1 ) {
         return true;
     }
-    console.log(M.gridSorting);
 
     var o = 'asc';
     if( col == null ) {
@@ -1248,7 +1239,6 @@ M.sortGrid = function(tid, col, type, o, save, d) {
 
     // Check if we are sorted the same column
     if( tb.last_sorted_col != null && tb.last_sorted_col == col ) {
-        console.log('previous sort');
         if( tb.last_sorted_order == 'asc' ) {
             o = 'desc';    
         } else {
@@ -1265,7 +1255,6 @@ M.sortGrid = function(tid, col, type, o, save, d) {
             }
         }
         tb.last_sorted_order = o;
-    console.log('Save order: ' + o);
         M.gridSorting[tid] = {'col':col, 'type':type, 'order':o};
         return true;
     }
@@ -1379,7 +1368,6 @@ M.sortGrid = function(tid, col, type, o, save, d) {
 //    if( save != null ) {
 //        save(tid, col, type, o);
 //    } else {
-    console.log('Save order: ' + o);
         M.gridSorting[tid] = {'col':col, 'type':type, 'order':o};
 //    }
 }

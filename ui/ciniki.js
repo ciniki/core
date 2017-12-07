@@ -1205,6 +1205,7 @@ M.sortTreeGrid = function(tid, col, type, o, save, d) {
 // s:        The saveSort function to call to save settings
 // d:        null, lookup table in document, otherwise sort the table in this object
 M.sortGrid = function(tid, col, type, o, save, d) {
+    console.log('sort');
     // This function is called whenever a sortable table is first displayed, 
     // to check if there are any predisplay sort settings
     if( (col == null || type == null) && M.gridSorting[tid] == null) {
@@ -1225,6 +1226,7 @@ M.sortGrid = function(tid, col, type, o, save, d) {
     if( tb == null || tb.children == null || tb.children.length == 0 || tb.children.length == 1 ) {
         return true;
     }
+    console.log(M.gridSorting);
 
     var o = 'asc';
     if( col == null ) {
@@ -1233,29 +1235,6 @@ M.sortGrid = function(tid, col, type, o, save, d) {
     }
     if( type == null ) {
         type = M.gridSorting[tid].type;
-    }
-
-    if( type == 'text' || type == 'alttext' || type == 'undefined' ) {
-        var sorter_fn = function(a, b) {
-//            console.log('sort:'+a+'--'+b);
-            if( a == b ) return 0;
-            if( a < b ) return -1;
-            return 1;
-        }
-    } else if( type == 'date' || type == 'size' ) {
-        var sorter_fn = function(a, b) {
-            if( a == b ) return 0;
-            if( a < b ) return -1;
-            return 1;
-        }
-    } else if( type == 'number' || type == 'altnumber' ) {
-        var sorter_fn = function(a, b) {
-            if(isNaN(a)) {aa = parseFloat(a.replace(/[^0-9.-]/g,''));} else {aa = a;}
-            if(isNaN(aa)) aa = 0;
-            if(isNaN(b)) {bb = parseFloat(b.replace(/[^0-9.-]/g,'')); } else {bb = b;}
-            if(isNaN(bb)) bb = 0;
-            return aa-bb;
-        }
     }
 
     var s = 0;
@@ -1269,6 +1248,7 @@ M.sortGrid = function(tid, col, type, o, save, d) {
 
     // Check if we are sorted the same column
     if( tb.last_sorted_col != null && tb.last_sorted_col == col ) {
+        console.log('previous sort');
         if( tb.last_sorted_order == 'asc' ) {
             o = 'desc';    
         } else {
@@ -1285,7 +1265,57 @@ M.sortGrid = function(tid, col, type, o, save, d) {
             }
         }
         tb.last_sorted_order = o;
+    console.log('Save order: ' + o);
+        M.gridSorting[tid] = {'col':col, 'type':type, 'order':o};
         return true;
+    }
+
+    if( type == 'text' || type == 'alttext' || type == 'undefined' ) {
+        if( o == 'asc' ) {
+            var sorter_fn = function(a, b) {
+                if( a == b ) return 0;
+                if( a < b ) return -1;
+                return 1;
+            }
+        } else {
+            var sorter_fn = function(a, b) {
+                if( a == b ) return 0;
+                if( a < b ) return 1;
+                return -1;
+            }
+        }
+    } else if( type == 'date' || type == 'size' ) {
+        if( o == 'asc' ) {
+            var sorter_fn = function(a, b) {
+                if( a == b ) return 0;
+                if( a < b ) return -1;
+                return 1;
+            }
+        } else {
+            var sorter_fn = function(a, b) {
+                if( a == b ) return 0;
+                if( a < b ) return 1;
+                return -1;
+            }
+        }
+    } else if( type == 'number' || type == 'altnumber' ) {
+        if( o == 'asc' ) {
+            var sorter_fn = function(a, b) {
+                if(isNaN(a)) {aa = parseFloat(a.replace(/[^0-9.-]/g,''));} else {aa = a;}
+                if(isNaN(aa)) aa = 0;
+                if(isNaN(b)) {bb = parseFloat(b.replace(/[^0-9.-]/g,'')); } else {bb = b;}
+                if(isNaN(bb)) bb = 0;
+                return aa-bb;
+            }
+        } else {
+            var sorter_fn = function(a, b) {
+                if(isNaN(a)) {aa = parseFloat(a.replace(/[^0-9.-]/g,''));} else {aa = a;}
+                if(isNaN(aa)) aa = 0;
+                if(isNaN(b)) {bb = parseFloat(b.replace(/[^0-9.-]/g,'')); } else {bb = b;}
+                if(isNaN(bb)) bb = 0;
+                return bb-aa;
+            }
+        }
     }
 
     while(swap) {
@@ -1346,11 +1376,12 @@ M.sortGrid = function(tid, col, type, o, save, d) {
     //
     // Save the sort order for the panel for next time
     //
-    if( save != null ) {
-        save(tid, col, type, o);
-    } else {
+//    if( save != null ) {
+//        save(tid, col, type, o);
+//    } else {
+    console.log('Save order: ' + o);
         M.gridSorting[tid] = {'col':col, 'type':type, 'order':o};
-    }
+//    }
 }
 
 M.loadAvatar = function() {

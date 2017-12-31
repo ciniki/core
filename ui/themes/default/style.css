@@ -2273,6 +2273,40 @@ div.panelsection.copysection {
     overflow: hidden;
 }
 
+/**** Heatmaps ***/
+table.heatmap {
+    
+}
+table.heatmap td {
+    padding: 2px;
+}
+table.heatmap th.ylabel { 
+    border-top: 1px solid #ddd;
+    font-size: 0.8em;
+    vertical-align: top;
+    padding: 0.25em;
+    color: #aaa;
+}
+table.heatmap th.xlabel { 
+    border-left: 1px solid #ddd;
+    font-size: 0.8em;
+    text-align: left;
+    padding: 0.25em;
+    color: #aaa;
+}
+table.heatmap td.nodata { background: #eee; }
+table.heatmap td.data-1 { background: #fff; }
+table.heatmap td.data-2 { background: #fef; }
+table.heatmap td.data-3 { background: #fdf; }
+table.heatmap td.data-4 { background: #fcf; }
+table.heatmap td.data-5 { background: #fbf; }
+table.heatmap td.data-6 { background: #faf; }
+table.heatmap td.data-7 { background: #f9f; }
+table.heatmap td.data-8 { background: #f8f; }
+table.heatmap td.data-9 { background: #f7f; }
+table.heatmap td.data-10 { background: #f6f; }
+
+
 /******** Guided mode settings *******/
 div.guided-off .guided-show,
 div.guided-on .guided-hide {

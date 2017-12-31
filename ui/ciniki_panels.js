@@ -905,6 +905,8 @@ M.panel.prototype.createSection = function(i, s) {
         st = this.createAudioList(i);
     } else if( type == 'chart' ) {
         st = this.createChart(i);
+    } else if( type == 'heatmap' ) {
+        st = this.createHeatmap(i);
     } else {
         console.log('Missing section type for: ' + s.label);
         st = document.createDocumentFragment();
@@ -938,6 +940,77 @@ M.panel.prototype.createSection = function(i, s) {
     if( gt != null ) { f.appendChild(M.aE('p', null, 'guided-text guided-show', gt)); }
     return f;
 };
+
+M.panel.prototype.createHeatmap = function(s) {
+    var f = document.createDocumentFragment();
+
+    var t = M.addTable(this.panelUID + '_' + s, 'heatmap');
+    var tb = M.aE('tbody');
+
+    // Load the heatmap data
+    var hm = this.heatmapData(s); 
+    var range = hm.min - hm.max;
+    var yscale = 10;
+    var xscale = 20;
+
+    if( hm.xlabels != null ) {
+        var tr = M.aE('tr');
+        var c = M.aE('th',null,'', '');
+        tr.appendChild(c);
+        for(var j in hm.xlabels) {
+            if( (j%xscale) == 0 ) {
+                if( (parseInt(j)+xscale) > hm.xlabels.length ) {
+                    break;
+                }
+                var c = M.aE('th',null,'xlabel');
+                c.innerHTML = hm.xlabels[j];
+                c.colSpan = xscale;
+                tr.appendChild(c);
+            }
+        }
+        tb.appendChild(tr);
+    }
+    
+    for(var i in hm.data) {
+        var tr = M.aE('tr');
+        if( (i%yscale) == 0 ) {
+            var c = M.aE('th',null,'ylabel');
+            c.innerHTML = hm.data[i].time;
+            c.rowSpan = yscale;
+            tr.appendChild(c);
+        }
+
+        for(var j in hm.data[i].samples) {
+            if( hm.data[i].samples[j] == 0 ) {
+                tr.appendChild(M.aE('td',null,'nodata','')); //hm.data[i].samples[j]));
+            } else if( hm.data[i].samples[j] == 1 ) {
+                tr.appendChild(M.aE('td',null,'scrubbed','')); //hm.data[i].samples[j]));
+            } else {
+                //
+                // max -6287
+                // min -6955
+                // val -6500
+                
+                var n = Math.abs(((hm.data[i].samples[j] - hm.min)/range)*10);
+                tr.appendChild(M.aE('td',null,'data-'+n.toFixed(0),'')); //n.toFixed(0)));
+            }
+        }
+        tb.appendChild(tr);
+    }
+     
+   /* 
+
+    var tr = M.aE('tr');
+    var c = M.aE('td',null,'');
+    c.innerHTML = '<canvas id="' + this.panelUID + '_' + s + '_canvas"></canvas>';
+    tr.appendChild(c);
+    tb.appendChild(tr);
+   */
+    t.appendChild(tb);
+
+    f.appendChild(t);
+    return f;
+}
 
 M.panel.prototype.createChart = function(s) {
     var f = document.createDocumentFragment();

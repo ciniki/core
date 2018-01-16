@@ -232,7 +232,7 @@ M.api.openFile = function(m, p) {
 M.api.getUploadURL = function(m, p) {
     var u = M.api.url + '?method=' + m + '&api_key=' + M.api.key + '&auth_token=' + M.api.token;
     for(k in p) {
-        u += '&' + k + '=' + p[k];
+        u += '&' + k + '=' + encodeURIComponent(p[k]);
     }
     return u;
 }

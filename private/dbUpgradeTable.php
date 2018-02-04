@@ -34,6 +34,9 @@ function ciniki_core_dbUpgradeTable(&$ciniki, $package, $module, $table, $old_ve
     //
     if( $old_version == '-' ) {
         $schema = file_get_contents($ciniki['config']['ciniki.core']['root_dir'] . '/' . $package . '-mods/' . $module . "/db/$table.schema");
+        if( isset($ciniki['config']['ciniki.core']['database.engine']) && $ciniki['config']['ciniki.core']['database.engine'] == 'Aria' ) {
+            $schema = str_replace("ENGINE='InnoDB'", "ENGINE='" . $ciniki['config']['ciniki.core']['database.engine'] . "'", $schema);
+        }
         $rc = ciniki_core_dbUpdate($ciniki, $schema, "$package.$module");
         return $rc;
     }

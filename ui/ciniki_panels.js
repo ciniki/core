@@ -2771,7 +2771,11 @@ M.panel.prototype.createSimpleButtons = function(si, l, as) {
 
     
         // Add the list item
-        tr.appendChild(M.aE('td', null, 'button ' + i, l[i].label));
+        var cl = 'button ' + i;
+        if( l[i].class != null && l[i].class != '' ) {
+            cl += ' ' + l[i].class;
+        }
+        tr.appendChild(M.aE('td', null, cl, l[i].label));
 
         // Add the onclick function
         if( l[i].fn != null ) {

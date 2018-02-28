@@ -150,7 +150,9 @@ function ciniki_core_parseArgs(&$ciniki, $tnid, $raw_args, $arg_info) {
             elseif( isset($options['type']) && $options['type'] == 'currency' && $raw_args[$arg] != '' ) {
                 $args[$arg] = preg_replace('/ /', '', $raw_args[$arg]);
                 if( $args[$arg] != '' ) {
-                    if( ($intl_currency == 'CAD' || $intl_currency == 'USD') && $args[$arg][0] != '$' ) {
+                    if( ($intl_currency == 'CAD' || $intl_currency == 'USD') && $args[$arg][0] == '-' && $args[$arg][1] != '$' ) {
+                        $args[$arg] = str_replace('-', '-$', $args[$arg]);
+                    } elseif( ($intl_currency == 'CAD' || $intl_currency == 'USD') && $args[$arg][0] != '$' ) {
                         $args[$arg] = '$' . $args[$arg];
                     } else {
                         $args[$arg] = $args[$arg];

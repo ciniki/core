@@ -1330,7 +1330,7 @@ M.panel.prototype.createSimpleThumbnails = function(s) {
 M.panel.prototype.thumbSrc = function(s, i, d) {
     if( d.image_id > 0 && d.image_data != null && d.image_data != '' ) {
         return d.image_data;
-    } else if( d.image.image_id > 0 && d.image.image_data != null && d.image.image_data != '' ) {
+    } else if( d.image != null && d.image.image_id > 0 && d.image.image_data != null && d.image.image_data != '' ) {
         return d.image.image_data;
     } else {
         return '/ciniki-mods/core/ui/themes/default/img/noimage_75.jpg';

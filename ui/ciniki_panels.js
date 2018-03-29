@@ -3313,15 +3313,22 @@ M.panel.prototype.createImageControls = function(i, field, img_id) {
             btn.setAttribute('onclick', this.panelRef + '.rotateImage(\'' + i + '\');');
             btns.appendChild(btn);
         } 
-        if( field.controls == 'all' ) {
-            var btn = M.aE('span', null, 'toggle_off', '<span class="icon">I</span>');
-            btn.setAttribute('onclick', this.panelRef + '.rotateImg(\'' + i + '\',\'left\');');
+        // Show Edit button
+        if( M.modFlagOn('ciniki.images', 0x01) && field.controls == 'all' ) {
+            var btn = M.aE('span', null, 'toggle_off', 'Edit');
+            btn.setAttribute('onclick', 'M.startApp(\'ciniki.images.editor\',null,\'' + this.panelRef + '.updateImage("' + i + '");\',\'mc\',{\'tnid\':M.curTenantID, \'image_id\':\'' + img_id + '\'});');
             btns.appendChild(btn);
-        }
-        if( field.controls == 'all' ) {
-            var btn = M.aE('span', null, 'toggle_off', '<span class="icon">J</span>');
-            btn.setAttribute('onclick', this.panelRef + '.rotateImg(\'' + i + '\',\'right\');');
-            btns.appendChild(btn);
+        } else {
+            if( field.controls == 'all' ) {
+                var btn = M.aE('span', null, 'toggle_off', '<span class="icon">I</span>');
+                btn.setAttribute('onclick', this.panelRef + '.rotateImg(\'' + i + '\',\'left\');');
+                btns.appendChild(btn);
+            }
+            if( field.controls == 'all' ) {
+                var btn = M.aE('span', null, 'toggle_off', '<span class="icon">J</span>');
+                btn.setAttribute('onclick', this.panelRef + '.rotateImg(\'' + i + '\',\'right\');');
+                btns.appendChild(btn);
+            }
         }
         // Show delete button
         if( field.deleteImage != null ) {
@@ -3347,6 +3354,12 @@ M.panel.prototype.createImageControls = function(i, field, img_id) {
         }
     }
     return btns;
+}
+
+//
+// Placeholder for return from image edit. Could
+M.panel.prototype.updateImage = function(field) {
+    this.show();
 }
 
 M.panel.prototype.uploadFile = function(i) {
@@ -4173,9 +4186,9 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
         var img_id = this.fieldValue(s, i, field, mN);
         if( img_id != null && img_id != '' && img_id > 0 ) {
             if( field.size != null && field.size == 'large' ) {
-                d.innerHTML = '<img src=\'' + M.api.getBinaryURL('ciniki.images.get', {'tnid':M.curTenantID, 'image_id':img_id, 'version':'original', 'maxwidth':'0', 'maxheight':'600'}) + '&ts=' + new Date().getTime() + '\' />';
+                d.innerHTML = '<img src=\'' + M.api.getBinaryURL('ciniki.images.get', {'tnid':M.curTenantID, 'image_id':img_id, 'version':(field.version != null ? field.version : 'original'), 'maxwidth':'0', 'maxheight':'600'}) + '&ts=' + new Date().getTime() + '\' />';
             } else {
-                d.innerHTML = '<img src=\'' + M.api.getBinaryURL('ciniki.images.get', {'tnid':M.curTenantID, 'image_id':img_id, 'version':'original', 'maxwidth':'0', 'maxheight':'300'}) + '&ts=' + new Date().getTime() + '\' />';
+                d.innerHTML = '<img src=\'' + M.api.getBinaryURL('ciniki.images.get', {'tnid':M.curTenantID, 'image_id':img_id, 'version':(field.version != null ? field.version : 'original'), 'maxwidth':'0', 'maxheight':'300'}) + '&ts=' + new Date().getTime() + '\' />';
             }
         } else {
             d.innerHTML = '<img src=\'/ciniki-mods/core/ui/themes/default/img/noimage_200.jpg\' />';

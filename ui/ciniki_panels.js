@@ -905,6 +905,8 @@ M.panel.prototype.createSection = function(i, s) {
         st = this.createAudioList(i);
     } else if( type == 'chart' ) {
         st = this.createChart(i);
+    } else if( type == 'metricsgraphics' ) {
+        st = this.createMetricsGraphics(i);
     } else if( type == 'heatmap' ) {
         st = this.createHeatmap(i);
     } else {
@@ -1010,6 +1012,103 @@ M.panel.prototype.createHeatmap = function(s) {
 
     f.appendChild(t);
     return f;
+}
+
+M.panel.prototype.createMetricsGraphics = function(s) {
+    var f = document.createDocumentFragment();
+
+    var data = null;
+    if( this.sectionData != null ) {
+        data = this.sectionData(s);
+    } else if( sc.data != null ) {
+        data = sc.data;
+    } 
+
+    var t = M.addTable(this.panelUID + '_' + s, 'list metricsgraphics border noheader');
+    var tb = M.aE('tbody');
+    var tr = M.aE('tr');
+    var c = M.aE('td',null,'');
+    c.innerHTML = '<div id="' + this.panelUID + '_' + s + '_canvas"></div><div id="' + this.panelUID + '_' + s + '_legend" class="legend"></div>';
+    tr.appendChild(c);
+    tb.appendChild(tr);
+    t.appendChild(tb);
+    f.appendChild(t);
+
+    if( typeof MG == "undefined" ) {
+        M.startLoad();
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = '/ciniki-mods/core/ui/d3.v5.metricsgraphics.min.js?v=2.11.0';
+        var done = false;
+        var head = document.getElementsByTagName('head')[0];
+        var cb = this.panelRef + '.createMetricsGraphicsContent("' + s + '");';
+
+        script.onerror = function() {
+            M.stopLoad();
+            alert("Unable to load, please report this bug.");
+        };
+
+        // Attach handlers for all browsers
+        script.onload = script.onreadystatechange = function() {
+            M.stopLoad();
+            if(!done&&(!this.readyState||this.readyState==="loaded"||this.readyState==="complete")){
+                done = true;
+                
+                eval(cb);
+               
+                // Handle memory leak in IE
+                script.onload = script.onreadystatechange = null;
+                if(head&&script.parentNode){
+                    head.removeChild( script );
+                }    
+            }    
+        };
+        head.appendChild(script);
+    } else {
+        this.onShowCbs.push(this.panelRef + '.createMetricsGraphicsContent("' + s + '");');
+    }
+
+    return f;
+}
+
+M.panel.prototype.createMetricsGraphicsContent = function(s) {
+
+    var sc = this.sections[s];
+    var data = null;
+    if( this.sectionData != null ) {
+        data = this.sectionData(s);
+    } else if( sc.data != null ) {
+        data = sc.data;
+    } 
+    if( data == null ) {
+        console.log('No data for chart');
+        return false;
+    }
+
+    if( sc.graphtype != null && sc.graphtype == 'multiline' ) {
+        for(var i = 0;i < data.length; i++) {
+            data[i] = MG.convert.date(data[i], 'date', '%Y-%m-%d %H:%M:%S');
+        }
+    } else {
+        data = MG.convert.date(data, 'date', '%Y-%m-%d %H:%M:%S');
+    }
+    var dt = new Date();
+    console.log(dt);
+   
+    console.log(this.sections[s].legend);
+    console.log(data);
+    console.log(document.getElementById(this.panelUID + '_' + s + '_canvas'));
+    MG.data_graphic({
+        data:data,
+        width: 700,
+        height: 200,
+        right: 40,
+        missing_is_hidden: true,
+        target: '#' + this.panelUID + '_' + s + '_canvas',
+        legend: this.sections[s].legend,
+        legend_target: '#' + this.panelUID + '_' + s + '_legend',
+        });
+
 }
 
 M.panel.prototype.createChart = function(s) {

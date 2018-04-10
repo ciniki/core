@@ -1958,7 +1958,7 @@ table.metricsgraphics .mg-x-axis text,
 table.metricsgraphics .mg-y-axis text,
 table.metricsgraphics .mg-histogram .axis text {
     fill: black;
-    font-size: 0.7rem;
+    font-size: 0.9rem;
     opacity: 0.6;
 }
 
@@ -1973,7 +1973,7 @@ table.metricsgraphics .mg-axis .label {
 table.metricsgraphics .mg-x-axis-small text,
 table.metricsgraphics .mg-y-axis-small text,
 table.metricsgraphics .mg-active-datapoint-small {
-    font-size: 0.5rem;
+    font-size: 0.6rem;
 }
 
 table.metricsgraphics .mg-x-axis-small .label,

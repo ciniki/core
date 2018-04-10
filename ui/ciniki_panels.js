@@ -1092,17 +1092,14 @@ M.panel.prototype.createMetricsGraphicsContent = function(s) {
     } else {
         data = MG.convert.date(data, 'date', '%Y-%m-%d %H:%M:%S');
     }
-    var dt = new Date();
-    console.log(dt);
-   
-    console.log(this.sections[s].legend);
-    console.log(data);
-    console.log(document.getElementById(this.panelUID + '_' + s + '_canvas'));
+//    var dt = new Date();
     MG.data_graphic({
         data:data,
         width: 700,
         height: 200,
-        right: 40,
+        right: 0,
+        top: 20,
+        full_width: true,
         missing_is_hidden: true,
         target: '#' + this.panelUID + '_' + s + '_canvas',
         legend: this.sections[s].legend,

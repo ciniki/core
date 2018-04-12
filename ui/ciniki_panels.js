@@ -4420,7 +4420,7 @@ M.panel.prototype.updateFlagToggleFields = function(fid) {
     }
     if( f.off_fields != null && f.off_fields.length > 0 ) {
         for(var i in f.off_fields) {
-            var field = this.formField(f.on_fields[i]);
+            var field = this.formField(f.off_fields[i]);
             var s = this.formFieldSection(i);
             var e = M.gE(this.panelUID + '_' + f.off_fields[i]);
             if( e == null ) { continue; }

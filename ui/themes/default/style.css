@@ -384,6 +384,10 @@ table.outline {
     padding: 0.1em 0.1em 0.1em 0.1em;
     padding: 0px;
     background: #fff;
+    border-collapse: collapse;
+}
+table.outline tr.separator {
+    border-top: 1px solid #ccc;
 }
 
 a.website,
@@ -695,6 +699,9 @@ table.list tr > td input {
     text-overflow: ellipsis;
     white-space: nowrap;
     box-sizing: border-box;
+}
+table.list tr > td input::placeholder {
+    color: #aaa;
 }
 
 table.livesearch tr > td.search {

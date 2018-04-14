@@ -3204,6 +3204,9 @@ M.panel.prototype.createFormFields = function(s, nF, fI, fields, mN) {
 //            r.setAttribute('onclick', fields[i].editFn);
             r.className += ' clickable';
         }
+        if( fields[i].separator != null && fields[i].separator == 'yes' ) {
+            r.className += ' separator';
+        }
         r.appendChild(this.createFormField(s, i, fields[i], fid, mN));
         nF.appendChild(r);
 
@@ -4324,7 +4327,7 @@ M.panel.prototype.updateFlagToggleFields = function(fid) {
     }
     if( f.off_fields != null && f.off_fields.length > 0 ) {
         for(var i in f.off_fields) {
-            var field = this.formField(f.on_fields[i]);
+            var field = this.formField(f.off_fields[i]);
             var s = this.formFieldSection(i);
             var e = M.gE(this.panelUID + '_' + f.off_fields[i]);
             if( e == null ) { continue; }

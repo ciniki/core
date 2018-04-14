@@ -1477,6 +1477,539 @@ table.chart td canvas {
     height: 300px;
 }
 
+/* MetricsGraphics styles */
+table.metricsgraphics svg {
+}
+table.metricsgraphics svg path.mg-main-line {
+    fill: none;
+    opacity: 0.8;
+    stroke-width: 1.1px;
+}
+table.metricsgraphics .mg-x-axis {
+    text-align: center;
+}
+table.metricsgraphics .mg-x-axis line,
+table.metricsgraphics .mg-y-axis line {
+    opacity: 1;
+    shape-rendering: auto;
+    stroke: #b3b2b2;
+    stroke-width: 1px;
+}
+table.metricsgraphics .mg-x-axis text,
+table.metricsgraphics .mg-y-axis text {
+    fill: black;
+    font-size: 0.7em;
+    opacity: 0.6;
+    color: #555;
+}
+table.metricsgraphics .mg-active-datapoint {
+    fill: black;
+    font-size: 0.9rem;
+    font-weight: 400;
+    opacity: 0.8;
+}
+table.metricsgraphics .legend {
+    text-align: center;
+}
+table.metricsgraphics .mg-area-color {
+    fill: #000;
+}
+
+table.metricsgraphics .mg-area1-color {
+    fill: #0000ff;
+}
+
+table.metricsgraphics .mg-area2-color {
+    fill: #05b378;
+}
+
+table.metricsgraphics .mg-area3-color {
+    fill: #db4437;
+}
+
+table.metricsgraphics .mg-area4-color {
+    fill: #f8b128;
+}
+
+table.metricsgraphics .mg-area5-color {
+    fill: #5c5c5c;
+}
+
+table.metricsgraphics .mg-area6-color {
+    fill: steelblue;
+}
+
+table.metricsgraphics .mg-area7-color {
+    fill: #f673bf;
+}
+
+table.metricsgraphics .mg-area8-color {
+    fill: #0b73b0;
+}
+
+table.metricsgraphics .mg-area9-color {
+    fill: #006400;
+}
+
+table.metricsgraphics .mg-area10-color {
+    fill: #92514f;
+}
+
+table.metricsgraphics text.mg-barplot-group-label {
+    font-weight:900;
+}
+
+table.metricsgraphics .mg-barplot rect.mg-bar {
+    shape-rendering: auto;
+}
+
+table.metricsgraphics .mg-barplot rect.mg-bar.default-bar {
+    fill: #b6b6fc;
+}
+
+table.metricsgraphics .mg-barplot rect.mg-bar.default-active {
+    fill: #9e9efc;
+}
+
+table.metricsgraphics .mg-barplot .mg-bar-prediction {
+    fill: #5b5b5b;
+}
+
+table.metricsgraphics .mg-barplot .mg-bar-baseline {
+    stroke: #5b5b5b;
+    stroke-width: 2;
+}
+
+table.metricsgraphics .mg-bar-target-element {
+    font-size:11px;
+    padding-left:5px;
+    padding-right:5px;
+    font-weight:300;
+}
+
+table.metricsgraphics .mg-baselines line {
+    opacity: 1;
+    shape-rendering: auto;
+    stroke: #b3b2b2;
+    stroke-width: 1px;
+}
+
+table.metricsgraphics .mg-baselines text {
+    fill: black;
+    font-size: 0.8rem;
+    opacity: 0.6;
+    stroke: none;
+}
+
+table.metricsgraphics .mg-baselines-small text {
+    font-size: 0.5rem;
+}
+
+table.metricsgraphics .mg-category-guides line {
+    stroke: #b3b2b2;
+}
+
+table.metricsgraphics .mg-header {
+    cursor: default;
+    font-size: 1.1rem;
+}
+
+table.metricsgraphics .mg-header .mg-chart-description {
+    fill: #ccc;
+    font-family: FontAwesome;
+    font-size: 1.1rem;
+}
+
+table.metricsgraphics .mg-header .mg-warning {
+    fill: #ccc;
+    font-family: FontAwesome;
+    font-size: 1.2rem;
+}
+
+table.metricsgraphics .mg-points circle {
+    opacity: 0.65;
+}
+
+table.metricsgraphics .mg-popover {
+    font-size: 0.95rem;
+}
+
+table.metricsgraphics .mg-popover-content {
+    cursor: auto;
+    line-height: 17px;
+}
+
+table.metricsgraphics .mg-data-table {
+    margin-top: 10px;
+}
+
+table.metricsgraphics .mg-data-table thead tr th {
+    border-bottom: 1px solid darkgray;
+    cursor: default;
+    font-size: 1.1rem;
+    font-weight: normal;
+    padding: 5px 5px 8px 5px;
+    text-align: right;
+}
+
+table.metricsgraphics .mg-data-table thead tr th .fa {
+    color: #ccc;
+    padding-left: 4px;
+}
+
+table.metricsgraphics .mg-data-table thead tr th .popover {
+    font-size: 1rem;
+    font-weight: normal;
+}
+
+table.metricsgraphics .mg-data-table .secondary-title {
+    color: darkgray;
+}
+
+table.metricsgraphics .mg-data-table tbody tr td {
+    margin: 2px;
+    padding: 5px;
+    vertical-align: top;
+}
+
+table.metricsgraphics .mg-data-table  tbody tr td.table-text {
+    opacity: 0.8;
+    padding-left: 30px;
+}
+
+table.metricsgraphics .mg-y-axis line.mg-extended-yax-ticks {
+    opacity: 0.4;
+}
+
+table.metricsgraphics .mg-x-axis line.mg-extended-xax-ticks {
+    opacity: 0.4;
+}
+
+table.metricsgraphics .mg-histogram .axis path,
+table.metricsgraphics .mg-histogram .axis line {
+    fill: none;
+    opacity: 0.7;
+    shape-rendering: auto;
+    stroke: #ccc;
+}
+
+table.metricsgraphics tspan.hist-symbol {
+    fill: #9e9efc;
+}
+
+table.metricsgraphics .mg-histogram .mg-bar rect {
+    fill: #b6b6fc;
+    shape-rendering: auto;
+}
+
+table.metricsgraphics .mg-histogram .mg-bar rect.active {
+    fill: #9e9efc;
+}
+
+table.metricsgraphics .mg-least-squares-line {
+    stroke: red;
+    stroke-width: 1px;
+}
+
+table.metricsgraphics .mg-lowess-line {
+    fill: none;
+    stroke: red;
+}
+
+table.metricsgraphics .mg-line-color {
+    stroke: #000;
+}
+
+table.metricsgraphics .mg-hover-line-color {
+    fill: #000;
+}
+
+table.metricsgraphics .mg-line1-color {
+    stroke: #4040e8;
+}
+
+table.metricsgraphics .mg-hover-line1-color {
+    fill: #4040e8;
+}
+
+table.metricsgraphics .mg-line2-color {
+    stroke: #05b378;
+}
+
+table.metricsgraphics .mg-hover-line2-color {
+    fill: #05b378;
+}
+
+table.metricsgraphics .mg-line3-color {
+    stroke: #db4437;
+}
+
+table.metricsgraphics .mg-hover-line3-color {
+    fill: #db4437;
+}
+
+table.metricsgraphics .mg-line4-color {
+    stroke: #f8b128;
+}
+
+table.metricsgraphics .mg-hover-line4-color {
+    fill: #f8b128;
+}
+
+table.metricsgraphics .mg-line5-color {
+    stroke: #5c5c5c;
+}
+
+table.metricsgraphics .mg-hover-line5-color {
+    fill: #5c5c5c;
+}
+
+table.metricsgraphics .mg-line6-color {
+    stroke: steelblue;
+}
+
+table.metricsgraphics .mg-hover-line6-color {
+    fill: steelblue;
+}
+
+table.metricsgraphics .mg-line7-color {
+    stroke: #f673bf;
+}
+
+table.metricsgraphics .mg-hover-line7-color {
+    fill: #f673bf;
+}
+
+table.metricsgraphics .mg-line8-color {
+    stroke: #0b73b0;
+}
+
+table.metricsgraphics .mg-hover-line8-color {
+    fill: #0b73b0;
+}
+
+table.metricsgraphics .mg-line9-color {
+    stroke: #006400;
+}
+
+table.metricsgraphics .mg-hover-line9-color {
+    fill: #006400;
+}
+
+table.metricsgraphics .mg-line10-color {
+    stroke: #92514f;
+}
+
+table.metricsgraphics .mg-hover-line10-color {
+    fill: #92514f ;
+}
+
+table.metricsgraphics .mg-line-legend text {
+    font-size: 0.5rem;
+    font-weight: 300;
+    stroke: none;
+}
+
+table.metricsgraphics .mg-line-legend-color {
+    color: #000;
+    fill: #000;
+}
+
+table.metricsgraphics .mg-line1-legend-color {
+    color: #4040e8;
+    fill: #4040e8;
+}
+
+table.metricsgraphics .mg-line2-legend-color {
+    color: #05b378;
+    fill: #05b378;
+}
+
+table.metricsgraphics .mg-line3-legend-color {
+    color: #db4437;
+    fill: #db4437;
+}
+
+table.metricsgraphics .mg-line4-legend-color {
+    color: #f8b128;
+    fill: #f8b128;
+}
+
+table.metricsgraphics .mg-line5-legend-color {
+    color: #5c5c5c;
+    fill: #5c5c5c;
+}
+
+table.metricsgraphics .mg-line6-legend-color {
+    color: steelblue;
+    fill: steelblue;
+}
+
+table.metricsgraphics .mg-line7-legend-color {
+    color: #f673bf;
+    fill: #f673bf;
+}
+
+table.metricsgraphics .mg-line8-legend-color {
+    color: #0b73b0;
+    fill: #0b73b0;
+}
+
+table.metricsgraphics .mg-line9-legend-color {
+    color: #006400;
+    fill: #006400;
+}
+
+table.metricsgraphics .mg-line10-legend-color {
+    color: #92514f;
+    fill: #92514f;
+}
+
+table.metricsgraphics .mg-main-area-solid svg .mg-main-area {
+    fill: #ccccff;
+    opacity: 1;
+}
+
+table.metricsgraphics .mg-markers line {
+    opacity: 1;
+    shape-rendering: auto;
+    stroke: #b3b2b2;
+    stroke-width: 1px;
+}
+
+table.metricsgraphics .mg-markers text {
+    fill: black;
+    font-size: 0.7rem;
+    opacity: 0.6;
+}
+
+table.metricsgraphics .mg-missing-text {
+    opacity: 0.9;
+}
+
+table.metricsgraphics .mg-missing-background {
+    stroke: blue;
+    fill: none;
+    stroke-dasharray: 10,5;
+    stroke-opacity: 0.05;
+    stroke-width: 2;
+}
+
+table.metricsgraphics .mg-missing .mg-main-line {
+    opacity: 0.1;
+}
+
+table.metricsgraphics .mg-missing .mg-main-area {
+    opacity: 0.03;
+}
+
+table.metricsgraphics path.mg-main-area {
+    opacity: 0.2;
+    stroke: none;
+}
+
+table.metricsgraphics path.mg-confidence-band {
+    fill: #ccc;
+    opacity: 0.4;
+    stroke: none;
+}
+
+table.metricsgraphics path.mg-main-line {
+    fill: none;
+    opacity: 0.8;
+    stroke-width: 1.1px;
+}
+
+table.metricsgraphics .mg-points circle {
+    fill-opacity: 0.4;
+    stroke-opacity: 1;
+}
+
+table.metricsgraphics circle.mg-points-mono {
+    fill: #0000ff;
+    stroke: #0000ff;
+}
+
+table.metricsgraphics tspan.mg-points-mono {
+    fill: #0000ff;
+    stroke: #0000ff;
+}
+
+/* a selected point in a scatterplot */
+table.metricsgraphics .mg-points circle.selected {
+    fill-opacity: 1;
+    stroke-opacity: 1;
+}
+
+table.metricsgraphics .mg-voronoi path {
+    fill: none;
+    pointer-events: all;
+    stroke: none;
+    stroke-opacity: 0.1;
+}
+
+table.metricsgraphics .mg-x-rug-mono,
+table.metricsgraphics .mg-y-rug-mono {
+    stroke: black;
+}
+
+table.metricsgraphics .mg-x-axis line,
+table.metricsgraphics .mg-y-axis line {
+    opacity: 1;
+    shape-rendering: auto;
+    stroke: #b3b2b2;
+    stroke-width: 1px;
+}
+
+table.metricsgraphics .mg-x-axis text,
+table.metricsgraphics .mg-y-axis text,
+table.metricsgraphics .mg-histogram .axis text {
+    fill: black;
+    font-size: 0.9rem;
+    opacity: 0.6;
+}
+
+table.metricsgraphics .mg-x-axis .label,
+table.metricsgraphics .mg-y-axis .label,
+table.metricsgraphics .mg-axis .label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    font-weight: 400;
+}
+
+table.metricsgraphics .mg-x-axis-small text,
+table.metricsgraphics .mg-y-axis-small text,
+table.metricsgraphics .mg-active-datapoint-small {
+    font-size: 0.6rem;
+}
+
+table.metricsgraphics .mg-x-axis-small .label,
+table.metricsgraphics .mg-y-axis-small .label {
+    font-size: 0.6rem;
+}
+
+table.metricsgraphics .mg-european-hours {
+}
+
+table.metricsgraphics .mg-year-marker text {
+    fill: black;
+    font-size: 0.6rem;
+    opacity: 0.6;
+}
+
+table.metricsgraphics .mg-year-marker line {
+    opacity: 1;
+    shape-rendering: auto;
+    stroke: #b3b2b2;
+    stroke-width: 1px;
+}
+
+table.metricsgraphics .mg-year-marker-small text {
+    font-size: 0.5rem;
+}
+
+
+
 /*****  MEDIA display styles ****/
 div.media {
     display: block;

@@ -2166,6 +2166,7 @@ table.form > tbody > tr > td.audiocontrols span.audio_filename {
     padding: 0.4em;
     font-size: 1.0em;
     margin: 0px;
+    box-sizing: border-box;
 }
 
 table.form > tbody > tr > td.audiocontrols > audio {

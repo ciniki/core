@@ -2576,6 +2576,17 @@ M.panel.prototype.createSectionGrid = function(s) {
             }
         }
 
+        // Add the edit button to click on
+        if( this.editFn != null && this.editFn(s, i, data[i]) != null ) {
+            c = M.aE('td', null, 'buttons noprint');
+            var fn = this.editFn(s, i, data[i]);
+            if( fn != '' ) {
+                ptr.setAttribute('onclick', this.editFn(s, i, data[i]));
+                c.innerHTML = '<span class="faicon">&#xf044;</span>';
+                ptr.className = 'clickable' + rcl;
+            }
+            ptr.appendChild(c);
+        }
         // Add the arrow to click on
         if( this.rowFn != null && this.rowFn(s, i, data[i]) != null ) {
             c = M.aE('td', null, 'buttons noprint');
@@ -2653,6 +2664,11 @@ M.panel.prototype.createSectionGrid = function(s) {
             td.colSpan = num_cols;
         }
         tr.appendChild(td);
+        // Add blank for edit
+        if( sc.editFn != null ) {
+            c = M.aE('td', null, 'buttons noprint');
+            tr.appendChild(c);
+        }
         // Add arrow
         c = M.aE('td', null, 'buttons noprint');
         tr.setAttribute('onclick', sc.addFn);
@@ -2674,6 +2690,11 @@ M.panel.prototype.createSectionGrid = function(s) {
             td.colSpan = num_cols;
         }
         tr.appendChild(td);
+        // Add blank for edit
+        if( sc.editFn != null ) {
+            c = M.aE('td', null, 'buttons noprint');
+            tr.appendChild(c);
+        }
         // Add arrow
         c = M.aE('td', null, 'buttons noprint');
         tr.setAttribute('onclick', sc.changeFn);

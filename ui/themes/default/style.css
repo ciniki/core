@@ -573,10 +573,15 @@ table.datepicker > tbody > tr > td.prev span.icon,
 table.datepicker > tbody > tr > td.next span.icon,
 table.list > thead > tr > td.buttons span.icon,
 table.list > tbody > tr > td.buttons span.icon,
+table.list > tbody > tr > td.buttons span.faicon,
+table.list > tbody > tr > td.buttons span.icon,
 table.list > tfoot > tr > td.buttons span.icon,
 table.list > tbody > tr > td.addbutton span.icon {
     font-size: 0.9em;
     color: #aaa; 
+}
+table.list > tbody > tr > td.buttons span.faicon {
+    font-size: 1em;
 }
 
 table.border tr > td.label {

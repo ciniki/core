@@ -582,6 +582,7 @@ table.list > tbody > tr > td.addbutton span.icon {
 }
 table.list > tbody > tr > td.buttons span.faicon {
     font-size: 1em;
+    -webkit-font-smoothing: antialiased;
 }
 
 table.border tr > td.label {

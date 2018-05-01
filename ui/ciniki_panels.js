@@ -2582,7 +2582,7 @@ M.panel.prototype.createSectionGrid = function(s) {
             var fn = sc.editFn(s, i, data[i]);
             if( fn != '' ) {
                 c.setAttribute('onclick', 'event.stopPropagation();' + sc.editFn(s, i, data[i]));
-                c.innerHTML = '<span class="faicon">&#xf044;</span>';
+                c.innerHTML = '<span class="faicon">&#xf040;</span>';
                 ptr.className = 'clickable' + rcl;
             }
             ptr.appendChild(c);

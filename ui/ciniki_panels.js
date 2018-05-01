@@ -2577,11 +2577,11 @@ M.panel.prototype.createSectionGrid = function(s) {
         }
 
         // Add the edit button to click on
-        if( this.editFn != null && this.editFn(s, i, data[i]) != null ) {
+        if( sc.editFn != null && sc.editFn(s, i, data[i]) != null ) {
             c = M.aE('td', null, 'buttons noprint');
-            var fn = this.editFn(s, i, data[i]);
+            var fn = sc.editFn(s, i, data[i]);
             if( fn != '' ) {
-                ptr.setAttribute('onclick', this.editFn(s, i, data[i]));
+                c.setAttribute('onclick', 'event.stopPropagation();' + sc.editFn(s, i, data[i]));
                 c.innerHTML = '<span class="faicon">&#xf044;</span>';
                 ptr.className = 'clickable' + rcl;
             }

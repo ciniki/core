@@ -80,6 +80,26 @@ function ciniki_core_help() {
         this.list.listValue = function(s, i, d) { return d.bug.subject; }
         this.list.listFn = function(s, i, d) { return 'M.ciniki_core_help.showBug(\'' + i + '\');'; }
         this.list.addButton('exit', 'Close', 'M.toggleHelp(null);'); 
+
+        //
+        // Questions listing panel, includes bugs and features
+        //
+        this.online = new M.panel('Help', 'ciniki_core_help', 'online', 'mh', 'medium', 'sectioned', 'ciniki.core.help.online');
+        this.online.data = {};
+        this.online.sections = {
+            '_msg':{'label':'', 'type':'html', 'html':'All help is available at <a target=_blank href="' + M.helpURL + '">' + M.helpURL + '</a>.'},
+        };
+        this.online.sectionData = function(s) { 
+            if( s == '_msg' ) {
+                return this.sections[s].html;
+            }
+            return this.data[s]; 
+        };
+        this.online.open = function(cb) {
+            this.refresh();
+            this.show();
+        }
+        this.online.addButton('exit', 'Close', 'M.toggleHelp(null);'); 
     }
     
     //
@@ -107,15 +127,15 @@ function ciniki_core_help() {
             this.curHelpUID = args['helpUID'];
         }
 
-//        if( (M.userPerms&0x01) > 0 ) {
-            this.list.sections._ui_options.visible = 'yes';
-            this.list.data['ui-mode-guided'] = M.uiModeGuided;
-            this.list.data['ui-mode-xhelp'] = M.uiModeXHelp;
-//        } else {
-//            this.list.sections._ui_options.visible = 'no';
-//        }
-    
-        this.loadBugs();
+        this.list.sections._ui_options.visible = 'yes';
+        this.list.data['ui-mode-guided'] = M.uiModeGuided;
+        this.list.data['ui-mode-xhelp'] = M.uiModeXHelp;
+
+        if( M.helpMode != null && M.helpMode == 'online' && M.helpURL != null ) {
+            this.online.open(cb);
+        } else {
+            this.loadBugs();
+        }
     }
 
     this.reset = function() {
@@ -144,7 +164,9 @@ function ciniki_core_help() {
         // if feature, display feature requests
         // if menu, ask, report or request, leave along
         //
-        if( this.bug.isVisible() == true || this.list.isVisible() == true ) {
+        if( M.helpMode != null && M.helpMode == 'online' && M.helpURL != null ) {
+            this.online.open();
+        } else if( this.bug.isVisible() == true || this.list.isVisible() == true ) {
             this.loadBugs(helpUID);    
             if( M.ciniki_help_bugs != null ) { M.ciniki_help_bugs.reset(); }
             if( M.ciniki_help_features != null ) { M.ciniki_help_features.reset(); }

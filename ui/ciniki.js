@@ -24,7 +24,10 @@ window.M = {
     'scroller':null,
     'startTime':0,
     'reauth_apiresume':null,
-    'helpScroller':null}
+    'helpScroller':null,
+    'helpMode':'local',
+    'helpURL':'',
+    }
 
 M.init = function(cfg) {
     M.device = cfg.device;
@@ -49,6 +52,10 @@ M.init = function(cfg) {
         {'shortname':'Nov'},
         {'shortname':'Dec'}
         ];
+    if( cfg.helpMode != null && cfg.helpMode == 'online' && cfg.helpURL != null ) {
+        M.helpMode = cfg.helpMode;
+        M.helpURL = cfg.helpURL
+    }
 
 //    if( window.navigator.standalone ) {
 //        var m = M.gE('apple_sbarstyle');

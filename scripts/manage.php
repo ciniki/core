@@ -518,6 +518,18 @@ if( $browser == 'unsupported' ) {
             $manage_config['modules'][$module] = $mod_config;
         }
     }
+
+    //
+    // Check for the current help mode
+    //
+    if( isset($config['ciniki.core']['help.mode']) 
+        && $config['ciniki.core']['help.mode'] == 'online' 
+        && isset($config['ciniki.core']['help.url']) 
+        ) {
+        $manage_config['helpMode'] = 'online';
+        $manage_config['helpURL'] = $config['ciniki.core']['help.url'];
+    }
+
     //
     // Check for override in config for the mainmenu
     //

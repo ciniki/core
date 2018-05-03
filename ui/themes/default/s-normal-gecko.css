@@ -1,5 +1,5 @@
 table.list {
-    -moz-border-radius: 3px;
+    border-radius: 3px;
 }
 
 table.form {
@@ -7,5 +7,5 @@ table.form {
 }
 
 table.simplegrid {
-    -moz-border-radius: 3px;
+    border-radius: 3px;
 }

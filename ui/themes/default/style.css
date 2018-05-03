@@ -44,7 +44,7 @@ html {
     color: #333;
     vertical-align: baseline;
     width: auto;
-    line-height: auto;
+    line-height: normal;
     padding: 0px;
     border: 1px solid #ccc;
     margin-right: 0.15em;
@@ -86,7 +86,6 @@ html {
 .headerbar td.rightbuttons {
     text-align:right;
     margin: 0px;
-    align: right;
     height: 100%;
     cursor: pointer;
     vertical-align: bottom;
@@ -665,14 +664,14 @@ table.list tr > td.input {
     width: 100%;
     padding: 0.4em 0em 0.4em 0em;
     margin: 0px;
-    vertical-align: center;
+    vertical-align: middle;
 }
 table.outline tr > td.input {
     font-size: 1em;
     width: 100%;
     padding: 0.4em 0.2em 0.4em 0.2em;
     margin: 0px;
-    vertical-align: center;
+    vertical-align: middle;
 }
 table.form.simplegrid tr > td.input {
     border-left: 0px;
@@ -1382,7 +1381,7 @@ table.list > tbody > tr > td.multiline span.maintext {
 
 table.list > tbody > tr > td span.subdue {
     font-size: 0.9em;
-    font-decoration: normal;
+    text-decoration: none;
     font-weight: normal;
     color: #999;
 }

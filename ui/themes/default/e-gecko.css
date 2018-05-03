@@ -51,15 +51,8 @@ table.form td.input > select {
     border-radius: 3px; 
     box-shadow: none;
     -moz-appearance: none;
-    appearance: none;
     outline: none;
     background: #fff url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAXVBMVEUAAAD////b/P//99rW8f/Q7///6crI5/344cK70fG2yeboybXdxLOuvNLYv66qqqqqqqyqqq+qqrGqqrqqrLiqr8Cqr8KqtMisqqq0qqq9qqq9rKrFsanItKmqqqoIE0bBAAAAHnRSTlMAAAsLFiY2PExibW13goKSkpKSkpKSkpKSkpKSkpI5c4RGAAAAXklEQVR42u3KNw6AQAxEUYacFpMzc/9jsitaQ4mExC/sKZ7398mqtcJVuR0aEMoWAwh2uzTQCzkXSBeSrQYwWSGrO0OoAuQ1XWIAHSDphGwy3ALAtGOEJwD/et7f650H7gTyBVEsTQAAAABJRU5ErkJggg==) no-repeat right center;
-}
-select::-ms-expand {
-    display: none;
-}
-table.form td.input > select::-ms-expand {
-    display: none;
 }
 table.imageform td.input div.image_preview img {
     max-width: 32em;

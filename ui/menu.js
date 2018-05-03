@@ -124,7 +124,7 @@ function ciniki_core_menu() {
                 }
             };
             this.tenants.addLeftButton('logout', 'Logout', 'M.logout();');
-            if( M.userID > 0 && (M.userPerms&0x01) == 0x01 ) {
+            if( r.bigboard != null && r.bigboard == 'yes' && M.userID > 0 && (M.userPerms&0x01) == 0x01 ) {
                 this.tenants.addLeftButton('bigboard', 'bigboard', 'M.startApp(\'ciniki.sysadmin.bigboard\',null,\'M.ciniki_core_menu.tenants.show();\');');
             }
 

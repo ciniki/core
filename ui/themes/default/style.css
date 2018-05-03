@@ -384,6 +384,10 @@ table.outline {
     padding: 0.1em 0.1em 0.1em 0.1em;
     padding: 0px;
     background: #fff;
+    border-collapse: collapse;
+}
+table.outline tr.separator {
+    border-top: 1px solid #ccc;
 }
 
 a.website,
@@ -569,10 +573,16 @@ table.datepicker > tbody > tr > td.prev span.icon,
 table.datepicker > tbody > tr > td.next span.icon,
 table.list > thead > tr > td.buttons span.icon,
 table.list > tbody > tr > td.buttons span.icon,
+table.list > tbody > tr > td.buttons span.faicon,
+table.list > tbody > tr > td.buttons span.icon,
 table.list > tfoot > tr > td.buttons span.icon,
 table.list > tbody > tr > td.addbutton span.icon {
     font-size: 0.9em;
     color: #aaa; 
+}
+table.list > tbody > tr > td.buttons span.faicon {
+    font-size: 1em;
+    -webkit-font-smoothing: antialiased;
 }
 
 table.border tr > td.label {
@@ -695,6 +705,9 @@ table.list tr > td input {
     text-overflow: ellipsis;
     white-space: nowrap;
     box-sizing: border-box;
+}
+table.list tr > td input::placeholder {
+    color: #aaa;
 }
 
 table.livesearch tr > td.search {
@@ -2159,6 +2172,7 @@ table.form > tbody > tr > td.audiocontrols span.audio_filename {
     padding: 0.4em;
     font-size: 1.0em;
     margin: 0px;
+    box-sizing: border-box;
 }
 
 table.form > tbody > tr > td.audiocontrols > audio {

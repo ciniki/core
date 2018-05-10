@@ -516,6 +516,7 @@ table.list > tbody > tr > td.addbutton {
     padding-right: 0px;
     vertical-align: middle;
     line-height: 1.0em;
+    cursor: pointer;
 /*  font-size: 1.5em; 
     margin-top: 0px;
     margin-bottom: 0px;

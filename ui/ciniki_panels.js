@@ -2618,7 +2618,11 @@ M.panel.prototype.createSectionGrid = function(s) {
             if( M.size == 'compact' && sc.compact_split_at != null ) {
                 td.colSpan = sc.compact_split_at + 1;
             } else {
-                td.colSpan = num_cols + 1;
+                if( sc.editFn != null ) {
+                    td.colSpan = num_cols + 2;
+                } else {
+                    td.colSpan = num_cols + 1;
+                }
             }
             tr.appendChild(td);
             tb.appendChild(tr);

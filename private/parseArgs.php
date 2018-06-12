@@ -173,6 +173,15 @@ function ciniki_core_parseArgs(&$ciniki, $tnid, $raw_args, $arg_info) {
             elseif( isset($options['type']) && $options['type'] == 'number' ) {
                 $args[$arg] = preg_replace("/[^0-9\.]/", '', $raw_args[$arg]);
             } 
+            elseif( isset($options['type']) && $options['type'] == 'percent' ) {
+                $args[$arg] = preg_replace("/[^0-9\.]/", '', $raw_args[$arg]);
+                //
+                // Convert to decimal value from percent value
+                //
+                if( $args[$arg] != '' && $args[$arg] != 0 ) {
+                    $args[$arg] = ($args[$arg]/100);
+                }
+            } 
             else {
                 $args[$arg] = $raw_args[$arg];
             }

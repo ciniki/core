@@ -148,6 +148,12 @@ function ciniki_core_dbHashQueryArrayTree(&$ciniki, $strsql, $module, $tree) {
                             $data[$tree[$i]['container']][$num_elements[$i]][$field_id] = numfmt_format_currency($tree[$i]['currency'][$field_id]['fmt'], $row[$field], $tree[$i]['currency'][$field_id]['currency']);
                         }
                         //
+                        // Check if North American price format
+                        //
+                        elseif( isset($tree[$i]['naprices']) && in_array($field_id, $tree[$i]['naprices']) ) {
+                            $data[$tree[$i]['container']][$num_elements[$i]][$field_id] = '$' . number_format($row[$field], 2);
+                        }
+                        //
                         // Check if utc dates should be converted to local timezone
                         //
                         elseif( isset($tree[$i]['utctotz']) && isset($tree[$i]['utctotz'][$field_id]) ) {
@@ -176,6 +182,12 @@ function ciniki_core_dbHashQueryArrayTree(&$ciniki, $strsql, $module, $tree) {
                                 $data[$tree[$i]['container']][$num_elements[$i]][$field_id] = 
                                     $date->format('U');
                             }
+                        }
+                        //
+                        // Check if field is percent value
+                        //
+                        elseif( isset($tree[$i]['percents']) && in_array($field_id, $tree[$i]['percents']) ) {
+                            $data[$tree[$i]['container']][$num_elements[$i]][$field_id] = (float)($row[$field]*100) . '%';
                         }
                         elseif( $field == 'age' || substr($field, 0, 4) == 'age_' ) {
                             $data[$tree[$i]['container']][$num_elements[$i]][$field_id] = ciniki_core_dbParseAge($ciniki, $row[$field]);

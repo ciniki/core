@@ -74,6 +74,12 @@ if( isset($ciniki['config']['ciniki.core']['maintenance']) && $ciniki['config'][
 // ciniki.core.callPublicMethod()
 //
 $rc = ciniki_core_callPublicMethod($ciniki);
+if( isset($ciniki['config']['ciniki.core']['api.log.errors']) 
+    && $ciniki['config']['ciniki.core']['api.log.errors'] == 1
+    && $rc['stat'] != 'ok' && isset($rc['err'])
+    ) {
+    error_log(print_r($rc['err'], true));
+}
 
 //
 // Check if there is a sync queue to process or email queue to process

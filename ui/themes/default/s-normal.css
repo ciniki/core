@@ -100,6 +100,8 @@ div.large {
     max-width: 95%;
     margin: 0 auto;
 }
+div.xlarge.mediumaside,
+div.large.mediumaside,
 div.xlarge.narrowaside,
 div.large.narrowaside {
     width: 95%;
@@ -225,6 +227,10 @@ table.list td div.calendar {
     div.help-off.guided-off div.xlarge.narrowaside {
         max-width: 59em;
     }
+    div.help-off.guided-off div.large.mediumaside,
+    div.help-off.guided-off div.xlarge.mediumaside {
+        max-width: 100%;
+    }
     div.help-off.guided-off div.narrow.narrowaside div.panelsection {
         width: 22em;
         margin-left: 22em;
@@ -235,8 +241,12 @@ table.list td div.calendar {
     div.help-off.guided-off div.large.narrowaside div.panelsection,
     div.help-off.guided-off div.xlarge.narrowaside div.panelsection {
         width: 35em;
-        margin-left: 21em;
         margin-left: 22em;
+    }
+    div.help-off.guided-off div.large.mediumaside div.panelsection,
+    div.help-off.guided-off div.xlarge.mediumaside div.panelsection {
+        width: 64%;
+        margin-left: 37%;
     }
     div.help-off.guided-on div.guided-disabled div.narrowaside div.formtabs,
     div.help-off.guided-off div.narrowaside div.formtabs {
@@ -259,23 +269,35 @@ table.list td div.calendar {
         height: auto;
         margin-top: 0px;
     }
+    div.help-off.guided-off div.large.mediumaside div.asideleft,
+    div.help-off.guided-off div.xlarge.mediumaside div.asideleft {
+        float: left;
+        clear: left;
+        width: 35%;
+        max-width: 35%;
+        margin-left: 0px;
+        height: auto;
+        margin-top: 0px;
+    }
     div.help-off.guided-on div.guided-disabled div.narrowaside div.panelsection.menutabs,
 /*  div.help-off.guided-off div.narrow.narrowaside div.panelsection.menutabs, */
     div.help-off.guided-off div.narrow.narrowaside div.panelsection.menutabs,
     div.help-off.guided-off div.medium.narrowaside div.panelsection.menutabs,
     div.help-off.guided-off div.medium.mediumaside div.panelsection.menutabs,
     div.help-off.guided-off div.large.narrowaside div.panelsection.menutabs,
-    div.help-off.guided-off div.xlarge.narrowaside div.panelsection.menutabs {
+    div.help-off.guided-off div.large.mediumaside div.panelsection.menutabs,
+    div.help-off.guided-off div.xlarge.narrowaside div.panelsection.menutabs,
+    div.help-off.guided-off div.xlarge.mediumaside div.panelsection.menutabs {
         margin-left: 0px;
         width: 100%;
     }
-
 }
 
 @media screen and (min-width: 73em) {
     div.help-off.guided-on div.guided-disabled div.mediumaside,
     div.help-off.guided-off div.mediumaside,
-    div.help-off.guided-off div.large.narrowaside {
+    div.help-off.guided-off div.large.narrowaside, 
+    div.help-off.guided-off div.xlarge.narrowaside {
         max-width: 70em;
     }
 
@@ -285,7 +307,8 @@ table.list td div.calendar {
         margin-left: 35em;
     }
 
-    div.help-off.guided-off div.large.narrowaside div.panelsection {
+    div.help-off.guided-off div.large.narrowaside div.panelsection,
+    div.help-off.guided-off div.xlarge.narrowaside div.panelsection {
         width: 47em;
         margin-left: 22em;
     }
@@ -359,6 +382,10 @@ table.list td div.calendar {
     div.help-off.guided-on div.guided-disabled div.mediumaside,
     div.help-off.guided-off div.mediumaside {
         max-width: 80em;
+    }
+    div.help-off.guided-off div.large.mediumaside,
+    div.help-off.guided-off div.xlarge.mediumaside {
+        max-width: 82em;
     }
     
     div.help-off.guided-on div.guided-disabled div.narrowaside div.formtabs,

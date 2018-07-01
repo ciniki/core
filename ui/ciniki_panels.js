@@ -505,25 +505,41 @@ M.panel.prototype.createSections = function() {
         }
     }
 
+    var panelcol = 0;
     for(var i in this.sections) {
         var r = this.createSection(i, this.sections[i]);
         if( r != null ) {
-            // Guided access mode - determine visibility of section
-            if( this.sections[i].gstep != null && this.sections[i].gstep != 'hide' ) {
-                if( this.gsteps[this.sections[i].gstep] == null ) {
-                    this.gsteps[this.sections[i].gstep] = {'elements':[]};
+            if( this.sections[i].panelcolumn != null ) {
+                if( panelcol == 0 ) {
+                    var columns = M.aE('div',null,'panelcolumns');            
+                    f.appendChild(columns);
                 }
-                this.gsteps[this.sections[i].gstep].elements.push({'e':this.panelUID + '_section_' + i});
-            }
-            if( this.gstep > 0 ) {
-                glast = this.sections[i].gstep;
-                if( (gstepfound == 'yes' && this.gstep == this.sections[i].gstep)
-                    || (gstepfound == 'no' && this.gstep <= this.sections[i].gstep) ) {
-                    gstepfound = 'yes';
+                if( this.sections[i].panelcolumn != panelcol ) {
+                    var column = M.aE('div',null,'panelcolumn');
+                    columns.appendChild(column);
                 }
+
+                panelcol = this.sections[i].panelcolumn;
+                var r = this.createSection(i, this.sections[i]);
+                column.appendChild(r);
+            } else {
+                // Guided access mode - determine visibility of section
+                if( this.sections[i].gstep != null && this.sections[i].gstep != 'hide' ) {
+                    if( this.gsteps[this.sections[i].gstep] == null ) {
+                        this.gsteps[this.sections[i].gstep] = {'elements':[]};
+                    }
+                    this.gsteps[this.sections[i].gstep].elements.push({'e':this.panelUID + '_section_' + i});
+                }
+                if( this.gstep > 0 ) {
+                    glast = this.sections[i].gstep;
+                    if( (gstepfound == 'yes' && this.gstep == this.sections[i].gstep)
+                        || (gstepfound == 'no' && this.gstep <= this.sections[i].gstep) ) {
+                        gstepfound = 'yes';
+                    }
+                }
+                // Add the panel
+                f.appendChild(r);
             }
-            // Add the panel
-            f.appendChild(r);
         }
     }
 
@@ -746,8 +762,11 @@ M.panel.prototype.createSection = function(i, s) {
     }
         
     var type = this.sectionType(i, s);
-    
-    if( s.aside != null ) {
+   
+    if( s.panelcolumn != null ) {
+        var f = M.aE('div', this.panelUID + '_section_' + i, 'columnsection');
+        
+    } else if( s.aside != null ) {
         if( s.aside == 'yes' || s.aside == 'left' ) {
             var f = M.aE('div', this.panelUID + '_section_' + i, 'panelsection asideleft');
         } else if( s.aside == 'left' ) {
@@ -2414,192 +2433,8 @@ M.panel.prototype.createSectionGrid = function(s) {
         if( sc.limit != null && sc.limit != '' ) {
             if( ct >= sc.limit ) { break; }
         }
-        var tr = M.aE('tr');
-        var ptr = tr;
-        if( this.rowStyle != null ) { 
-            tr.setAttribute('style', this.rowStyle(s, i, data[i]));
-        }
-        var rcl = '';
-        if( this.rowClass != null ) {
-            rcl = ' ' + this.rowClass(s, i, data[i]);
-            tr.className = rcl;
-        }
 
-        for(var j=0;j<num_cols;j++) {
-            var cl = null;
-            if( this.cellClass != null ) { cl = this.cellClass(s, i, j, data[i]); }
-            //
-            // Check if the table is split
-            //
-            if( M.size == 'compact' && sc.compact_split_at != null && j >= sc.compact_split_at  ) {
-                if( sc.compact_split_at == j ) {
-                    rcl += ' split';
-                    tr.className = rcl;
-                    tb.appendChild(tr);
-                    ptr = tr;
-                } 
-
-                var tr = M.aE('tr', null, 'split_element');
-                if( sc.headerValues != null ) {
-                    tr.appendChild(this.createSectionGridHeader(s, j, sc));
-                }
-            }
-
-            //
-            // Check if this should be a form field
-            //
-            var c = null;
-            if( sc.fields != null && sc.fields[i] != null && sc.fields[i][j] != null ) {
-                var c = this.createFormField(i, i, sc.fields[i][j], sc.fields[i][j]['id']);
-                tr.appendChild(c);
-            } else {
-                var v = this.cellValue(s, i, j, data[i]);
-                if( this.cellId != null ) {
-                    c = M.aE('td',this.cellId(s, i, j, data[i]),cl,v);
-                } else {
-                    c = M.aE('td',null,cl,v);
-                }
-                tr.appendChild(c);
-
-                if( this.cellStyle != null ) {
-                    var st = this.cellStyle(s, i, j, data[i]);
-                    if( st != '' ) {
-                        c.setAttribute('style', st);
-                    }
-                }
-
-                //
-                // Check if sortable, and a date field
-                //
-                if( sc.sortable != null && sc.sortable == 'yes' && sc.sortTypes != null && sc.sortTypes[j] == 'date' ) {
-                    // Parse date
-                    var monthMaps = {'jan':'01','feb':'02','mar':'03','apr':'04','may':'05','jun':'06','jul':'07','aug':'08','sep':'09','oct':'10','nov':'11','dec':'12'};
-                    if( v == null ) {
-                        c.sort_value = '';
-                    } else if( (dfields = v.match(/([A-Za-z]+) ([0-9]+),? ([0-9][0-9][0-9][0-9])/)) != null ) {
-                        c.sort_value = dfields[3] + monthMaps[dfields[1].toLowerCase()] + (dfields[2]<10?'0'+dfields[2]:dfields[2]);
-                    } else if( (dfields = v.match(/([A-Za-z]+) ([0-9][0-9][0-9][0-9])/)) != null ) {
-                        c.sort_value = dfields[2] + monthMaps[dfields[1].toLowerCase()];
-                    } else {
-                        c.sort_value = v;
-                    }
-                }
-                //
-                // Sort type to be used when complex number found within
-                //
-                if( sc.sortable != null && sc.sortable == 'yes' && sc.sortTypes != null 
-                    && (sc.sortTypes[j] == 'altnumber' || sc.sortTypes[j] == 'alttext') ) {
-                    c.sort_value = this.cellSortValue(s, i, j, data[i]);
-                }
-                // Check if a sortable size field, where we need to store the real size
-//                if( sc.sortable != null && sc.sortable == 'yes' && sc.sortTypes != null && sc.sortTypes[j] == 'date' ) {
-//                    c.sort_value = v;
-//                }
-                
-                if( this.cellFn != null ) {
-                    var fn = this.cellFn(s, i, j, data[i]);
-                    if( fn != null && fn != '' ) {
-                        c.setAttribute('onclick', fn);
-                        c.className = cl + ' clickable';
-                    }
-                }
-
-                if( this.cellUpdateFn != null ) {
-                    var fn = this.cellUpdateFn(s, i, j, data[i]);
-                    if( fn != null ) {
-                        c.cell_section = s;
-                        c.cell_row = i;
-                        c.cell_col = j;
-                        c.updateFn = fn;    
-                        // Put cell content in DIV so it can be draggable
-                        var d = M.aE('div', null, 'dragdrop_cell', this.cellValue(s, i, j, data[i]));
-                        d.id = this.panelUID + '_' + s + '_' + i + '_' + j + '_draggable';
-                        c.innerHTML = '';
-                        c.appendChild(d);
-                        if( M.device == 'ipad' ) {
-                            var drag = new webkit_draggable(d, {revert:'always'});
-                            webkit_drop.add(c, {revert:'always', onDrop:function(s, r, e, t) { 
-                                // The droppable is attached to the cell.
-                                // Copy the dragged content to the dropped cell's div.  
-                                t.updateFn(t.cell_section, t.cell_row, t.cell_col, r.innerHTML);
-                                // Don't need to copy info, it is refreshed with the call to updateFn
-                                // t.children[0].innerHTML = r.innerHTML;
-                                }
-                            });
-                            d.setAttribute('onclick', 'event.stopPropagation(); ' + this.panelRef + '.editSectionGridCell(\'' + s + '\',' + i + ',' + j + ',this.innerHTML);');
-                        } else {
-                            d.setAttribute('onclick', 'event.stopPropagation(); ' + this.panelRef + '.editSectionGridCell(\'' + s + '\',' + i + ',' + j + ',this.innerHTML);');
-                            d.setAttribute('draggable', 'true');
-                            d.addEventListener('dragstart', function(e) {
-                                e.dataTransfer.effectAllowed = 'move';
-                                e.dataTransfer.setData('src_grid_content', this.innerHTML);
-                                this.style.opacity = '0.5';
-                                return false;
-                                }, false);
-                            d.addEventListener('dragend', function(e) { this.style.opacity = '1.0'; return false;}, false);
-                            c.addEventListener('dragover', function(e) {
-                                if( e.preventDefault ) {
-                                    e.preventDefault(); // required for Chrome bug
-                                }
-                                return false;
-                                }, false);
-                            c.addEventListener('drop', function(e) {
-                                if( e != null && e.dataTransfer != null && e.dataTransfer.getData != null && e.dataTransfer.getData('src_grid_content') != null ) {
-                                    e.stopPropagation();
-                                    e.preventDefault();
-                                    this.updateFn(this.cell_section, this.cell_row, this.cell_col, e.dataTransfer.getData('src_grid_content'));
-                                    return false;
-                                }
-                                }, false);
-                        }
-                    }
-                }
-            }
-
-            if( this.cellColour != null ) {
-                c.bgColor = this.cellColour(s, i, j, data[i]);
-            }
-
-            //
-            // Check if we need to split at this row
-            //
-            if( M.size == 'compact' && sc.compact_split_at != null && j >= sc.compact_split_at ) {
-                if( sc.headerValues == null ) {
-                    c.colSpan = sc.compact_split_at+1;
-                } else {
-                    c.colSpan = sc.compact_split_at;
-                }
-                if( j == (num_cols-1) ) {
-                    tr.className += ' split_last';
-                }
-                tb.appendChild(tr);
-            }
-        }
-
-        // Add the edit button to click on
-        if( sc.editFn != null && sc.editFn(s, i, data[i]) != null ) {
-            c = M.aE('td', null, 'buttons noprint');
-            var fn = sc.editFn(s, i, data[i]);
-            if( fn != '' ) {
-                c.setAttribute('onclick', 'event.stopPropagation();' + sc.editFn(s, i, data[i]));
-                c.innerHTML = '<span class="faicon">&#xf040;</span>';
-                ptr.className = 'clickable' + rcl;
-            }
-            ptr.appendChild(c);
-        }
-        // Add the arrow to click on
-        if( this.rowFn != null && this.rowFn(s, i, data[i]) != null ) {
-            c = M.aE('td', null, 'buttons noprint');
-            var fn = this.rowFn(s, i, data[i]);
-            if( fn != '' ) {
-                ptr.setAttribute('onclick', this.rowFn(s, i, data[i]));
-                c.innerHTML = '<span class="icon">r</span>';
-                ptr.className = 'clickable' + rcl;
-            }
-            ptr.appendChild(c);
-        } else if( sc.addFn != null && sc.addFn != '' && sc.addTxt != null && sc.addTxt != '' ) {
-            ptr.appendChild(M.aE('td', null, 'noprint'));
-        }
+        var tr = this.createSectionGridRow(s, i, sc, num_cols, data[i]);
 
         tb.appendChild(tr);
         ct++;
@@ -2731,6 +2566,197 @@ M.panel.prototype.createSectionGrid = function(s) {
 
     return f;
 };
+
+M.panel.prototype.createSectionGridRow = function(s, i, sc, num_cols, rowdata) {
+    var tr = M.aE('tr');
+    var ptr = tr;
+    if( this.rowStyle != null ) { 
+        tr.setAttribute('style', this.rowStyle(s, i, rowdata));
+    }
+    var rcl = '';
+    if( this.rowClass != null ) {
+        rcl = ' ' + this.rowClass(s, i, rowdata);
+        tr.className = rcl;
+    }
+
+    for(var j=0;j<num_cols;j++) {
+        var cl = null;
+        if( this.cellClass != null ) { cl = this.cellClass(s, i, j, rowdata); }
+        //
+        // Check if the table is split
+        //
+        if( M.size == 'compact' && sc.compact_split_at != null && j >= sc.compact_split_at  ) {
+            if( sc.compact_split_at == j ) {
+                rcl += ' split';
+                tr.className = rcl;
+                tb.appendChild(tr);
+                ptr = tr;
+            } 
+
+            var tr = M.aE('tr', null, 'split_element');
+            if( sc.headerValues != null ) {
+                tr.appendChild(this.createSectionGridHeader(s, j, sc));
+            }
+        }
+
+        //
+        // Check if this should be a form field
+        //
+        var c = null;
+        if( sc.fields != null && sc.fields[i] != null && sc.fields[i][j] != null ) {
+            var c = this.createFormField(i, i, sc.fields[i][j], sc.fields[i][j]['id']);
+            tr.appendChild(c);
+        } else {
+            var v = this.cellValue(s, i, j, rowdata);
+            if( this.cellId != null ) {
+                c = M.aE('td',this.cellId(s, i, j, rowdata),cl,v);
+            } else {
+                c = M.aE('td',null,cl,v);
+            }
+            tr.appendChild(c);
+
+            if( this.cellStyle != null ) {
+                var st = this.cellStyle(s, i, j, rowdata);
+                if( st != '' ) {
+                    c.setAttribute('style', st);
+                }
+            }
+
+            //
+            // Check if sortable, and a date field
+            //
+            if( sc.sortable != null && sc.sortable == 'yes' && sc.sortTypes != null && sc.sortTypes[j] == 'date' ) {
+                // Parse date
+                var monthMaps = {'jan':'01','feb':'02','mar':'03','apr':'04','may':'05','jun':'06','jul':'07','aug':'08','sep':'09','oct':'10','nov':'11','dec':'12'};
+                if( v == null ) {
+                    c.sort_value = '';
+                } else if( (dfields = v.match(/([A-Za-z]+) ([0-9]+),? ([0-9][0-9][0-9][0-9])/)) != null ) {
+                    c.sort_value = dfields[3] + monthMaps[dfields[1].toLowerCase()] + (dfields[2]<10?'0'+dfields[2]:dfields[2]);
+                } else if( (dfields = v.match(/([A-Za-z]+) ([0-9][0-9][0-9][0-9])/)) != null ) {
+                    c.sort_value = dfields[2] + monthMaps[dfields[1].toLowerCase()];
+                } else {
+                    c.sort_value = v;
+                }
+            }
+            //
+            // Sort type to be used when complex number found within
+            //
+            if( sc.sortable != null && sc.sortable == 'yes' && sc.sortTypes != null 
+                && (sc.sortTypes[j] == 'altnumber' || sc.sortTypes[j] == 'alttext') ) {
+                c.sort_value = this.cellSortValue(s, i, j, rowdata);
+            }
+            // Check if a sortable size field, where we need to store the real size
+//                if( sc.sortable != null && sc.sortable == 'yes' && sc.sortTypes != null && sc.sortTypes[j] == 'date' ) {
+//                    c.sort_value = v;
+//                }
+            
+            if( this.cellFn != null ) {
+                var fn = this.cellFn(s, i, j, rowdata);
+                if( fn != null && fn != '' ) {
+                    c.setAttribute('onclick', fn);
+                    c.className = cl + ' clickable';
+                }
+            }
+
+            if( this.cellUpdateFn != null ) {
+                var fn = this.cellUpdateFn(s, i, j, rowdata);
+                if( fn != null ) {
+                    c.cell_section = s;
+                    c.cell_row = i;
+                    c.cell_col = j;
+                    c.updateFn = fn;    
+                    // Put cell content in DIV so it can be draggable
+                    var d = M.aE('div', null, 'dragdrop_cell', this.cellValue(s, i, j, rowdata));
+                    d.id = this.panelUID + '_' + s + '_' + i + '_' + j + '_draggable';
+                    c.innerHTML = '';
+                    c.appendChild(d);
+                    if( M.device == 'ipad' ) {
+                        var drag = new webkit_draggable(d, {revert:'always'});
+                        webkit_drop.add(c, {revert:'always', onDrop:function(s, r, e, t) { 
+                            // The droppable is attached to the cell.
+                            // Copy the dragged content to the dropped cell's div.  
+                            t.updateFn(t.cell_section, t.cell_row, t.cell_col, r.innerHTML);
+                            // Don't need to copy info, it is refreshed with the call to updateFn
+                            // t.children[0].innerHTML = r.innerHTML;
+                            }
+                        });
+                        d.setAttribute('onclick', 'event.stopPropagation(); ' + this.panelRef + '.editSectionGridCell(\'' + s + '\',' + i + ',' + j + ',this.innerHTML);');
+                    } else {
+                        d.setAttribute('onclick', 'event.stopPropagation(); ' + this.panelRef + '.editSectionGridCell(\'' + s + '\',' + i + ',' + j + ',this.innerHTML);');
+                        d.setAttribute('draggable', 'true');
+                        d.addEventListener('dragstart', function(e) {
+                            e.dataTransfer.effectAllowed = 'move';
+                            e.dataTransfer.setData('src_grid_content', this.innerHTML);
+                            this.style.opacity = '0.5';
+                            return false;
+                            }, false);
+                        d.addEventListener('dragend', function(e) { this.style.opacity = '1.0'; return false;}, false);
+                        c.addEventListener('dragover', function(e) {
+                            if( e.preventDefault ) {
+                                e.preventDefault(); // required for Chrome bug
+                            }
+                            return false;
+                            }, false);
+                        c.addEventListener('drop', function(e) {
+                            if( e != null && e.dataTransfer != null && e.dataTransfer.getData != null && e.dataTransfer.getData('src_grid_content') != null ) {
+                                e.stopPropagation();
+                                e.preventDefault();
+                                this.updateFn(this.cell_section, this.cell_row, this.cell_col, e.dataTransfer.getData('src_grid_content'));
+                                return false;
+                            }
+                            }, false);
+                    }
+                }
+            }
+        }
+
+        if( this.cellColour != null ) {
+            c.bgColor = this.cellColour(s, i, j, rowdata);
+        }
+
+        //
+        // Check if we need to split at this row
+        //
+        if( M.size == 'compact' && sc.compact_split_at != null && j >= sc.compact_split_at ) {
+            if( sc.headerValues == null ) {
+                c.colSpan = sc.compact_split_at+1;
+            } else {
+                c.colSpan = sc.compact_split_at;
+            }
+            if( j == (num_cols-1) ) {
+                tr.className += ' split_last';
+            }
+            tb.appendChild(tr);
+        }
+    }
+
+    // Add the edit button to click on
+    if( sc.editFn != null && sc.editFn(s, i, rowdata) != null ) {
+        c = M.aE('td', null, 'buttons noprint');
+        var fn = sc.editFn(s, i, rowdata);
+        if( fn != '' ) {
+            c.setAttribute('onclick', 'event.stopPropagation();' + sc.editFn(s, i, rowdata));
+            c.innerHTML = '<span class="faicon">&#xf040;</span>';
+            ptr.className = 'clickable' + rcl;
+        }
+        ptr.appendChild(c);
+    }
+    // Add the arrow to click on
+    if( this.rowFn != null && this.rowFn(s, i, rowdata) != null ) {
+        c = M.aE('td', null, 'buttons noprint');
+        var fn = this.rowFn(s, i, rowdata);
+        if( fn != '' ) {
+            ptr.setAttribute('onclick', this.rowFn(s, i, rowdata));
+            c.innerHTML = '<span class="icon">r</span>';
+            ptr.className = 'clickable' + rcl;
+        }
+        ptr.appendChild(c);
+    } else if( sc.addFn != null && sc.addFn != '' && sc.addTxt != null && sc.addTxt != '' ) {
+        ptr.appendChild(M.aE('td', null, 'noprint'));
+    }
+
+    return tr;
+}
 
 M.panel.prototype.editSectionGridCell = function(s, i, j, data) {
     var new_data = prompt("Enter new information for cell", data);

@@ -1397,6 +1397,14 @@ table.list > tbody > tr > td span.subdue {
     color: #999;
 }
 
+table.list > tbody > tr > td span.faicon.edit {
+    font-size: 0.9em;
+    text-decoration: none;
+    font-weight: normal;
+    color: #bbb;
+    margin-left: 1em;
+}
+
 table.list > tbody > tr > td.multiline {
     padding: 0.5em 0.5em 0.45em 0.5em;
 }

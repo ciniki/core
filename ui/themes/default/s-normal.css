@@ -385,9 +385,11 @@ table.list td div.calendar {
     div.help-off.guided-off div.mediumaside {
         max-width: 80em;
     }
-    div.help-off.guided-off div.large.mediumaside,
+    div.help-off.guided-off div.large.mediumaside {
+        max-width: 90em;
+    }
     div.help-off.guided-off div.xlarge.mediumaside {
-        max-width: 82em;
+        max-width: 120em;
     }
     
     div.help-off.guided-on div.guided-disabled div.narrowaside div.formtabs,

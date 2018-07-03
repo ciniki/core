@@ -1197,6 +1197,35 @@ M.sortTreeGrid = function(tid, col, type, o, save, d) {
     }
 }
 
+// 
+// The resortGrid is used when an element is added back to a table, and should be sorted into it
+//
+// tid:     table ID
+// d:        null, lookup table in document, otherwise sort the table in this object
+M.resortGrid = function(tid, col, types, save, d) {
+    if( d == null ) {
+        var t = M.gE(tid);
+        var tb = t.getElementsByTagName('tbody')[0];
+    } else {
+        var t = d;
+        var tb = t.getElementsByTagName('tbody')[0];
+    }
+
+    col = 0;
+    type = types != null && types[col] != null ? types[col] : 'text';
+    o = 'asc';
+    if( M.gridSorting[tid] != null ) {
+        col = M.gridSorting[tid].col;
+        type = M.gridSorting[tid].type;
+        o = M.gridSorting[tid].order;
+    }
+
+    // Reverse the last sorted order, so when calling sortGrid it reverses 
+    // it again and ends up sorting in the same way
+    tb.last_sorted_col = null;
+    tb.last_sorted_order = null;
+    return M.sortGrid(tid, col, type, o, save, d);
+}
 
 // tid:     table ID
 // col:     The column number in the table to sort

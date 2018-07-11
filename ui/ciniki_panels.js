@@ -2670,7 +2670,7 @@ M.panel.prototype.createSectionGridRow = function(s, i, sc, num_cols, rowdata) {
                     d.id = this.panelUID + '_' + s + '_' + i + '_' + j + '_draggable';
                     c.innerHTML = '';
                     c.appendChild(d);
-                    if( M.device == 'ipad' ) {
+/*                    if( M.device == 'ipad' ) {
                         var drag = new webkit_draggable(d, {revert:'always'});
                         webkit_drop.add(c, {revert:'always', onDrop:function(s, r, e, t) { 
                             // The droppable is attached to the cell.
@@ -2681,7 +2681,7 @@ M.panel.prototype.createSectionGridRow = function(s, i, sc, num_cols, rowdata) {
                             }
                         });
                         d.setAttribute('onclick', 'event.stopPropagation(); ' + this.panelRef + '.editSectionGridCell(\'' + s + '\',' + i + ',' + j + ',this.innerHTML);');
-                    } else {
+                    } else { */
                         d.setAttribute('onclick', 'event.stopPropagation(); ' + this.panelRef + '.editSectionGridCell(\'' + s + '\',' + i + ',' + j + ',this.innerHTML);');
                         d.setAttribute('draggable', 'true');
                         d.addEventListener('dragstart', function(e) {
@@ -2705,7 +2705,7 @@ M.panel.prototype.createSectionGridRow = function(s, i, sc, num_cols, rowdata) {
                                 return false;
                             }
                             }, false);
-                    }
+                    /* } */
                 }
             }
         }

@@ -31,6 +31,7 @@ M.panel = function(title, appID, panelID, appPrefix, size, type, helpUID) {
     this.cbStack = [];
     this.cbStacked = 'no';
     this.liveSearchTables = [];
+    this.liveSearchTimer = null;
     this.autofocus = '';
     this.tinymce = [];
     this.gstep = 0;
@@ -1736,7 +1737,13 @@ M.panel.prototype.liveSearchSection = function(s, i, inputElement, event) {
         //
         // Call the live search function, with a callback
         //
-        this.liveSearchCb(s, i, inputElement.value);    // This then should call liveSearchShow 
+        if( this.liveSearchTimer != null ) {
+            clearTimeout(this.liveSearchTimer);
+        }
+        // Set the Timeout, so if using barcode scanner or other input, it only searches once.
+        var p = this;
+        this.liveSearchTimer = setTimeout(function() {p.liveSearchCb(s, i, inputElement.value);}, 150);
+//        this.liveSearchCb(s, i, inputElement.value);    // This then should call liveSearchShow 
     } 
     //
     // Decide if the search box should be displayed when an empty search string

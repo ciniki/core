@@ -721,8 +721,9 @@ table.list tr > td input::placeholder {
 }
 
 table.livesearch tr > td.search {
-    padding-left: 0px;
-    padding-right: 0px;
+    padding: 0px;
+/*    padding-left: 0px;
+    padding-right: 0px;*/
 }
 
 table.list tr.textfield > td > input.file {

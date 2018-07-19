@@ -1560,7 +1560,8 @@ M.panel.prototype.createLiveSearchGrid = function(s, sd) {
 //        } else {
 //            f.setAttribute('onfocus', this.panelRef + '.clearLiveSearches(\''+s+'\',null);');
         }
-        f.setAttribute('onkeyup', this.panelRef + '.liveSearchSection(\'' + s + '\',null,this,event);');
+//        f.setAttribute('onkeydown', 'event.stopPropagation();');
+        f.setAttribute('onkeyup', 'event.stopPropagation();' + this.panelRef + '.liveSearchSection(\'' + s + '\',null,this,event);');
         f.setAttribute('onclick', this.panelRef + '.liveSearchSection(\'' + s + '\',null,this,event);');
         //f.setAttribute('onblur', this.panelRef + '.removeLiveSearch(\'' + s + '\',null);');
         f.setAttribute('autocomplete', 'off');
@@ -1690,6 +1691,7 @@ M.panel.prototype.liveSearchResultsTable = function(s, f, sd) {
 // The liveSearchSection is used for both searching from fields or sections
 //
 M.panel.prototype.liveSearchSection = function(s, i, inputElement, event) {
+    event.stopPropagation();
     // Don't clear live searches if it's for a section
     if( i != null ) { this.clearLiveSearches(s, i); }
     var t = null;
@@ -1723,6 +1725,7 @@ M.panel.prototype.liveSearchSection = function(s, i, inputElement, event) {
     if( event.which == 13 && this.liveSearchSubmitFn != null && inputElement.value != '' ) {
         // Remove search results
         this.liveSearchSubmitFn(s, inputElement.value);
+        return;
     }
 
 //    if( (inputElement.value == '' && ((i != null && (sc.fields[i] != null && sc.fields[i].livesearchempty != null && sc.fields[i].livesearchempty == 'yes'))

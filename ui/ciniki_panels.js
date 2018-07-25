@@ -104,6 +104,8 @@ M.panel.prototype.close = function(data) {
         }
     }
 
+    // Reset position
+    this.lastY = 0;
     //
     // Remove any hooks
     //
@@ -293,7 +295,7 @@ M.panel.prototype.addPanel = function() {
             if( i == this.menutabs.selected ) {
                 e = M.aE('span', null, 'toggle_on', lt);
             } else {
-                e = M.aE('span', null, 'toggle_off', lt, this.panelRef + '.menutabSwitch("' + i + '");');
+                e = M.aE('span', null, 'toggle_off', lt, this.panelRef + '.savePos();' + this.panelRef + '.menutabSwitch("' + i + '");');
             }
             div.appendChild(e);
         }
@@ -3169,7 +3171,7 @@ M.panel.prototype.createPanelTabs = function(s, sc) {
         if( i == sc.selected ) {
             e = M.aE('span', null, 'toggle_on', lt);
         } else {
-            e = M.aE('span', null, 'toggle_off', lt, sc.tabs[i].fn);
+            e = M.aE('span', null, 'toggle_off', lt, this.panelRef + '.savePos();' + sc.tabs[i].fn);
         }
         div.appendChild(e);
     }
@@ -6081,7 +6083,7 @@ M.panel.prototype.showButtons = function(wID, buttons) {
         }
         if( bfn != null ) {
             l.appendChild(M.aE('div', null, 'button ' + i, '<span class="faicon">' + icn + '</span><span class="label">' + buttons[i].label + '</span>'));
-            l.setAttribute('onclick', bfn + 'return false;');
+            l.setAttribute('onclick', this.panelRef + '.savePos();' + bfn + 'return false;');
             l.className = wID;
             c++;
         }

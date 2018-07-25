@@ -34,6 +34,7 @@ M.panel = function(title, appID, panelID, appPrefix, size, type, helpUID) {
     this.liveSearchTimer = null;
     this.autofocus = '';
     this.tinymce = [];
+    this.lastY = 0;
     this.gstep = 0;
     this.gstep_number = 0;
     this.gsteps = [];
@@ -251,6 +252,12 @@ M.panel.prototype.show = function(cb) {
         for(var i in this.onShowCbs) {
             eval(this.onShowCbs[i]);
         }
+    }
+    //
+    // Check if there was a last scroll position
+    //
+    if( this.lastY > 0 ) {
+        window.scrollTo(0,this.lastY);
     }
 };
 
@@ -1288,7 +1295,8 @@ M.panel.prototype.createAudioList = function(s) {
             c = M.aE('td', null, 'buttons noprint');
             var fn = this.rowFn(s, i, data[i]);
             if( fn != '' ) {
-                ptr.setAttribute('onclick', this.rowFn(s, i, data[i]));
+                ptr.setAttribute('onclick', this.panelRef + '.savePos();' + fn);//this.rowFn(s, i, rowdata));
+//                ptr.setAttribute('onclick', this.rowFn(s, i, data[i]));
                 c.innerHTML = '<span class="icon">r</span>';
                 ptr.className = 'clickable' + rcl;
             }
@@ -2756,7 +2764,7 @@ M.panel.prototype.createSectionGridRow = function(s, i, sc, num_cols, rowdata) {
         c = M.aE('td', null, 'buttons noprint');
         var fn = this.rowFn(s, i, rowdata);
         if( fn != '' ) {
-            ptr.setAttribute('onclick', this.rowFn(s, i, rowdata));
+            ptr.setAttribute('onclick', this.panelRef + '.savePos();' + fn);//this.rowFn(s, i, rowdata));
             c.innerHTML = '<span class="icon">r</span>';
             ptr.className = 'clickable' + rcl;
         }
@@ -2766,6 +2774,9 @@ M.panel.prototype.createSectionGridRow = function(s, i, sc, num_cols, rowdata) {
     }
 
     return tr;
+}
+M.panel.prototype.savePos = function() {
+    this.lastY = window.scrollY;
 }
 
 M.panel.prototype.editSectionGridCell = function(s, i, j, data) {

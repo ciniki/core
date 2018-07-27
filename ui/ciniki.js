@@ -140,6 +140,15 @@ M.preLoad = function(s) {
 }
 
 M.home = function() {
+    for(var i in M) {
+        if( M[i] != null && M[i].start != null ) {
+            for(var j in M[i]) {
+                if( M[i][j] != null && M[i][j].panelRef != null && M[i][j].lastY != null ) {
+                    M[i][j].lastY = 0;
+                }
+            }
+        }
+    }
     if( M.curHelpUID == 'ciniki.tenants.main.menu' || M.curHelpUID == 'ciniki.core.menu.tenants' ) {
         if( M.ciniki_core_menu.tenants != null ) {
             M.ciniki_core_menu.tenants.show();

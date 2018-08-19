@@ -2779,6 +2779,7 @@ M.panel.prototype.createSectionGridRow = function(s, i, sc, num_cols, rowdata) {
 }
 M.panel.prototype.savePos = function() {
     this.lastY = window.scrollY;
+    return true;
 }
 
 M.panel.prototype.editSectionGridCell = function(s, i, j, data) {

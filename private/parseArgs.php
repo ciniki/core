@@ -133,16 +133,16 @@ function ciniki_core_parseArgs(&$ciniki, $tnid, $raw_args, $arg_info) {
 //              $utc_offset = ciniki_tenants_timezoneOffset($ciniki, 'seconds');
 //              date_default_timezone_set('America/Toronto');
                 if( $raw_args[$arg] == 'now' ) {
-                    $date = new DateTime('now', new DateTimeZone('UTC'));
-                    $args[$arg] = $date->format('Y-m-d H:i:s');
+                    $dt = new DateTime('now', new DateTimeZone('UTC'));
+                    $args[$arg] = $dt->format('Y-m-d H:i:s');
 //                  $args[$arg] = strftime("%Y-%m-%d %H:%M:%S");
                 } else {
                     $ts = strtotime($raw_args[$arg]);
                     if( $ts === FALSE || $ts < 1 ) {
                         return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.126', 'msg'=>"$invalid_msg", 'pmsg'=>"Argument: $arg invalid datetime format"));
                     } else {
-                        $date = new DateTime("@".$ts, new DateTimeZone($intl_timezone));
-                        $args[$arg] = $date->format('Y-m-d H:i:s');
+                        $dt = new DateTime("@".$ts, new DateTimeZone($intl_timezone));
+                        $args[$arg] = $dt->format('Y-m-d H:i:s');
 //                      $args[$arg] = strftime("%Y-%m-%d %H:%M:%S", $ts - $utc_offset);
                     }
                 }
@@ -218,16 +218,16 @@ function ciniki_core_parseArgs(&$ciniki, $tnid, $raw_args, $arg_info) {
             if( isset($options['default']) ) {
                 if( isset($options['type']) && $options['type'] == 'date' 
                     && ($options['default'] == 'now' || $options['default'] == 'today') ) {
-                    $date = new DateTime('now', new DateTimeZone($intl_timezone));
-                    $args[$arg] = $date->format('Y-m-d');
+                    $dt = new DateTime('now', new DateTimeZone($intl_timezone));
+                    $args[$arg] = $dt->format('Y-m-d');
                 } elseif( isset($options['type']) && $options['type'] == 'datetime' 
                     && ($options['default'] == 'now' || $options['default'] == 'today') ) {
-                    $date = new DateTime('now', new DateTimeZone($intl_timezone));
-                    $args[$arg] = $date->format('Y-m-d H:i');
+                    $dt = new DateTime('now', new DateTimeZone($intl_timezone));
+                    $args[$arg] = $dt->format('Y-m-d H:i');
                 } elseif( isset($options['type']) && $options['type'] == 'datetimetoutc' 
                     && ($options['default'] == 'now' || $options['default'] == 'today') ) {
-                    $date = new DateTime('now', new DateTimeZone('UTC'));
-                    $args[$arg] = $date->format('Y-m-d H:i:s');
+                    $dt = new DateTime('now', new DateTimeZone('UTC'));
+                    $args[$arg] = $dt->format('Y-m-d H:i:s');
                 } else {
                     $args[$arg] = $options['default'];
                 }

@@ -2454,7 +2454,7 @@ M.panel.prototype.createSectionGrid = function(s) {
             if( ct >= sc.limit ) { break; }
         }
 
-        var tr = this.createSectionGridRow(s, i, sc, num_cols, data[i]);
+        var tr = this.createSectionGridRow(s, i, sc, num_cols, data[i], tb);
 
         tb.appendChild(tr);
         ct++;
@@ -2587,7 +2587,7 @@ M.panel.prototype.createSectionGrid = function(s) {
     return f;
 };
 
-M.panel.prototype.createSectionGridRow = function(s, i, sc, num_cols, rowdata) {
+M.panel.prototype.createSectionGridRow = function(s, i, sc, num_cols, rowdata, tb) {
     var tr = M.aE('tr');
     var ptr = tr;
     if( this.rowStyle != null ) { 

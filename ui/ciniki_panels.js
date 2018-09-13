@@ -2333,6 +2333,9 @@ M.panel.prototype.createSectionGridHeaders = function(s, sc) {
         tr.appendChild(this.createSectionGridHeader(s, i, sc));
     }
     // If there's the possiblity of row being clickable, then add extra column to header for > (arrow).
+    if( sc.editFn != null ) {
+        tr.appendChild(M.aE('th', null, 'noprint'));
+    }
     if( this.rowFn != null || this.rowTreeFn != null ) {
         tr.appendChild(M.aE('th', null, 'noprint'));
     }

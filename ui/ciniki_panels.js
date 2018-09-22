@@ -4109,6 +4109,9 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
             }
             f.innerHTML = field.toggles[j];
             f.setAttribute('onclick', 'event.stopPropagation();' + this.panelRef + '.setToggleField(this, \'' + i + sFN + '\',\'' + field.none + '\',\'' + field.fn + '\');' + onchange + '(event,\'' + s + '\',\'' + fid + '\');');
+            if( field.size != null && field.size != '' ) {
+                f.setAttribute('style', 'min-width: ' + field.size + 'em;text-align:center;');
+            }
             div.appendChild(f);
         }
         c.appendChild(div)

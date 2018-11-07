@@ -159,6 +159,6 @@ function ciniki_core_objectAdd(&$ciniki, $tnid, $obj_name, $args, $tmsupdate=0x0
         $ciniki['syncqueue'][] = array('push'=>$obj_name, 'args'=>array('id'=>$insert_id));
     }   
 
-    return array('stat'=>'ok', 'id'=>$insert_id);
+    return array('stat'=>'ok', 'id'=>$insert_id, 'uuid'=>$args['uuid']);
 }
 ?>

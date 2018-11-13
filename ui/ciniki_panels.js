@@ -446,6 +446,7 @@ M.panel.prototype.createSections = function() {
     //
     var f = M.aE('form', null, null);
     f.setAttribute('onsubmit', 'return false;');
+    f.setAttribute('autocomplete', 'off');
     f.setAttribute('target', '_blank');
 
     var gstepfound = 'no';
@@ -3686,7 +3687,7 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
         || field.type == 'hexcolour' 
         || field.type == 'date' ) {
         var f = M.aE('input', this.panelUID + '_' + i + sFN, field.type);
-        f.setAttribute('name', i);
+//        f.setAttribute('name', i);
         if( field.autofocus != null && field.autofocus == 'yes' ) {
 //            f.setAttribute('autofocus', '');
             this.autofocus = this.panelUID + '_' + i + sFN;
@@ -3714,7 +3715,11 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
         if( v != null ) {
             f.value = v;
         }
-        f.setAttribute('autocomplete', 'off');
+        if( M.engine == 'webkit' ) {
+            f.setAttribute('autocomplete', 'new-password');
+        } else {
+            f.setAttribute('autocomplete', 'new-password');
+        }
         if( field.livesearch != null && field.livesearch == 'yes' ) {
 //            if( field.livesearchempty == 'yes' ) {
                 f.setAttribute('onfocus', this.panelRef + '.liveSearchSection(\'' + s + '\',\'' + i + sFN + '\',this,event);');

@@ -3877,6 +3877,8 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
         sel.setAttribute('onfocus', this.panelRef + '.clearLiveSearches(\''+s+'\',\''+fid+sFN+'\');');
         if( field.onchangeFn != null && field.onchangeFn != '' ) {
             sel.setAttribute('onchange', field.onchangeFn + '(\'' + s + '\',\'' + i+sFN+'\');');
+        } else if( field.onchange != null && field.onchange != '' ) {
+            sel.setAttribute('onchange', field.onchange + '(\'' + s + '\',\'' + i+sFN+'\');');
         }
         var o = field.options;
         var fv = this.fieldValue(s, i, field, mN);

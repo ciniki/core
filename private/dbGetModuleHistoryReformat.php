@@ -104,7 +104,7 @@ function ciniki_core_dbGetModuleHistoryReformat(&$ciniki, $module, $history_tabl
     $num_history = 0;
     while( $row = mysqli_fetch_assoc($result) ) {
         $rsp['history'][$num_history] = array('action'=>array('user_id'=>$row['user_id'], 'date'=>$row['date'], 'value'=>$row['value']));
-        if( is_callable($format) ) {
+        if( $format != 'date' && $format != 'time' && is_callable($format) ) {
             $rsp['history'][$num_history]['action']['value'] = $format($row['value']);
         }
         elseif( $format == 'utcdate' && $row['value'] != '' ) {

@@ -1047,13 +1047,13 @@ M.panel.prototype.createHeatmap = function(s) {
 M.panel.prototype.createMetricsGraphics = function(s) {
     var f = document.createDocumentFragment();
 
-    var data = null;
+/*    var data = null;
     if( this.sectionData != null ) {
         data = this.sectionData(s);
     } else if( sc.data != null ) {
         data = sc.data;
     } 
-
+*/
     var t = M.addTable(this.panelUID + '_' + s, 'list metricsgraphics border noheader');
     var tb = M.aE('tbody');
     var tr = M.aE('tr');
@@ -1065,7 +1065,7 @@ M.panel.prototype.createMetricsGraphics = function(s) {
     f.appendChild(t);
 
     if( typeof MG == "undefined" ) {
-        M.startLoad();
+//        M.startLoad();
         var script = document.createElement('script');
         script.type = 'text/javascript';
         script.src = '/ciniki-mods/core/ui/d3.v5.metricsgraphics.min.js?v=2.11.0';
@@ -1074,13 +1074,13 @@ M.panel.prototype.createMetricsGraphics = function(s) {
         var cb = this.panelRef + '.createMetricsGraphicsContent("' + s + '");';
 
         script.onerror = function() {
-            M.stopLoad();
+//            M.stopLoad();
             alert("Unable to load, please report this bug.");
         };
 
         // Attach handlers for all browsers
         script.onload = script.onreadystatechange = function() {
-            M.stopLoad();
+//            M.stopLoad();
             if(!done&&(!this.readyState||this.readyState==="loaded"||this.readyState==="complete")){
                 done = true;
                 
@@ -1105,6 +1105,10 @@ M.panel.prototype.createMetricsGraphicsContent = function(s) {
 
     var sc = this.sections[s];
     var data = null;
+    if( sc.dataLoaded == 'no' && sc.dataFn != null ) {
+        sc.dataFn(s);
+        return true;
+    }
     if( this.sectionData != null ) {
         data = this.sectionData(s);
     } else if( sc.data != null ) {
@@ -1130,7 +1134,7 @@ M.panel.prototype.createMetricsGraphicsContent = function(s) {
         right: 0,
         top: 20,
         full_width: true,
-        missing_is_hidden: true,
+        missing_is_hidden: (sc.missing_is_hidden != null ? sc.missing_is_hidden : true),
         target: '#' + this.panelUID + '_' + s + '_canvas',
         legend: this.sections[s].legend,
         legend_target: '#' + this.panelUID + '_' + s + '_legend',

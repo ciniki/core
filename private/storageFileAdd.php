@@ -33,12 +33,16 @@ function ciniki_core_storageFileAdd(&$ciniki, $tnid, $obj_name, $args) {
     //
     // Get a new UUID
     //
-    ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbUUID');
-    $rc = ciniki_core_dbUUID($ciniki, "$pkg.$mod");
-    if( $rc['stat'] != 'ok' ) {
-        return $rc;
+    if( !isset($args['uuid']) ) {
+        ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbUUID');
+        $rc = ciniki_core_dbUUID($ciniki, "$pkg.$mod");
+        if( $rc['stat'] != 'ok' ) {
+            return $rc;
+        }
+        $uuid = $rc['uuid'];
+    } else {
+        $uuid = $args['uuid'];
     }
-    $uuid = $rc['uuid'];
 
     //
     // Move the file to ciniki-storage

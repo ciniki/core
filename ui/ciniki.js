@@ -1925,3 +1925,19 @@ M.eU = function(s) {
 M.dU = function(s) {
     return decodeURIComponent(s);
 }
+// Weather functions
+M.formatCelsius = function(t) {
+    return t + (t != '' ? '&deg;' : '');
+}
+M.formatHumidity = function(h) {
+    return h + (h != '' ? '%' : '');
+}
+M.formatMillibars = function(m) {
+    return m;
+}
+M.formatWind = function(s,d) {
+    return (s != '' ? s + '' : '') + (s != '' && d != '' ? ' ' : '') + (d != '' ? '@' + d + '&deg;' : '');
+}
+M.formatRain = function(v) {
+    return v + (v != '' ? '&nbsp;mm' : '');
+}

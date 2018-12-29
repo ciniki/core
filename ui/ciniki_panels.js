@@ -1134,6 +1134,8 @@ M.panel.prototype.createMetricsGraphicsContent = function(s) {
         right: 0,
         top: 20,
         full_width: true,
+        max_y: (sc.max_y != null ? sc.max_y : null),
+        min_y: (sc.min_y != null ? sc.min_y : null),
         area: (sc.area != null ? sc.area : null),
         missing_is_hidden: (sc.missing_is_hidden != null ? sc.missing_is_hidden : true),
         target: '#' + this.panelUID + '_' + s + '_canvas',

@@ -45,6 +45,7 @@ M.panel = function(title, appID, panelID, appPrefix, size, type, helpUID) {
     // and present the information differently for the different sized devices.
     //
     this.setupFormFieldHistory = M.panel.setupFormFieldHistory;
+    this.setupGridHistory = M.panel.setupGridHistory;
     this.setupFormFieldCalendar = M.panel.setupFormFieldCalendar;
     this.setupThreadFollowup = null;
 };
@@ -2342,6 +2343,9 @@ M.panel.prototype.createSectionGridHeaders = function(s, sc) {
     if( sc.editFn != null ) {
         tr.appendChild(M.aE('th', null, 'noprint'));
     }
+    if( sc.history != null && sc.history == 'yes' ) {
+        tr.appendChild(M.aE('th', null, 'noprint'));
+    }
     if( this.rowFn != null || this.rowTreeFn != null ) {
         tr.appendChild(M.aE('th', null, 'noprint'));
     }
@@ -2768,6 +2772,15 @@ M.panel.prototype.createSectionGridRow = function(s, i, sc, num_cols, rowdata, t
             c.innerHTML = '<span class="faicon">&#xf040;</span>';
             ptr.className = 'clickable' + rcl;
         }
+        ptr.appendChild(c);
+    }
+    // Add history button if specified
+    if( sc.history != null && sc.history == 'yes' ) {
+        c = M.aE('td', this.panelUID + '_' + s + '_' + i, 'historybutton');
+        c.setAttribute('onclick', 'event.stopPropagation();M.' + this.appID + '.' + this.name + '.toggleSimpleGridHistory(event, \'' + s + '\',\'' + i + '\');');
+//        c.innerHTML = '<span class="faicon">&#xf0e2;</span>';
+        c.innerHTML = '<span class="rbutton_off">H</span>';
+        ptr.className = 'clickable' + rcl;
         ptr.appendChild(c);
     }
     // Add the arrow to click on
@@ -4989,18 +5002,33 @@ M.panel.prototype.removeFormFieldHistory = function(field) {
     //
     // Toggle image
     //
-    //h.previousSibling.children[h.previousSibling.children.length-1].children[0].src ='' + M.themes_root_url + '/default/img/historyA.png';
     var r = h.previousSibling.getElementsByClassName('historybutton');
     r[0].children[0].className = 'rbutton_off';
-
-
-//    h.previousSibling.children[h.previousSibling.children.length-1].children[0].className = 'rbutton_off';
 
     //
     // Remove element, and delete the history object to save memory
     //
     h.parentNode.removeChild(h);
     delete(this.fieldHistories[field]);
+};
+
+//
+// Field history should be removed and not hidden, so next update will
+// fetch  new values from database
+//
+M.panel.prototype.removeGridHistory = function(s,i) {
+    var h = M.gE(this.panelUID + '_' + s + '_' + i + '_history');
+    //
+    // Toggle image
+    //
+    var r = h.previousSibling.getElementsByClassName('historybutton');
+    r[0].children[0].className = 'rbutton_off';
+
+    //
+    // Remove element, and delete the history object to save memory
+    //
+    h.parentNode.removeChild(h);
+    delete(this.fieldHistories[s + '_' + i]);
 };
 
 //
@@ -5180,12 +5208,6 @@ M.panel.prototype.toggleFormFieldHistory = function(e, s, field) {
                 // Setup the history on the screen.  This function is size dependent
                 //
                 p.setupFormFieldHistory(field, p.formField(field));
-                
-                //
-                // Toggle the image
-                //
-//                var h = M.gE(p.panelUID + '_' + field + '_history');
-//                h.previousSibling.children[h.previousSibling.children.length-1].children[0].className = 'rbutton_on';
             });
         } else {
             this.fieldHistories[field] = this.fieldHistory(s,field);
@@ -5194,14 +5216,38 @@ M.panel.prototype.toggleFormFieldHistory = function(e, s, field) {
             // Setup the history on the screen.  This function is size dependent
             //
             this.setupFormFieldHistory(field, this.formField(field));
-            
-            //
-            // Toggle the image
-            //
-//            var h = M.gE(this.panelUID + '_' + field + '_history');
-//            h.previousSibling.children[h.previousSibling.children.length-1].children[0].className = 'rbutton_on';
-            // h.previousSibling.children[h.previousSibling.children.length-1].innerHTML = '<img name=\'history\' src=\'' + M.themes_root_url + '/default/img/historyB.png\' />';
             }
+    }
+};
+
+M.panel.prototype.toggleSimpleGridHistory = function(e, s, i) {
+    e.stopPropagation();
+    var h = M.gE(this.panelUID + '_' + s + '_' + i + '_history');
+    if( h != null ) {
+        this.removeGridHistory(s,i);
+    } else {
+        //
+        // Issue callback to get the history for this field
+        //
+        if( e.target.nodeName == 'SPAN' ) {
+            e.target.className = 'rbutton_on';
+        } else {
+            e.target.firstChild.className = 'rbutton_on';
+        }
+        if( this.fieldHistoryArgs != null ) {
+            var r = this.fieldHistoryArgs(s,i);
+            var p = this;
+            M.api.getJSONCb(r.method, r.args, function(r) {
+                if( r.stat != 'ok' ) {
+                    return false;
+                }
+                p.fieldHistories[s + '_' + i] = r;
+                //
+                // Setup the history on the screen.  This function is size dependent
+                //
+                p.setupGridHistory(s, i);
+            });
+        }
     }
 };
 

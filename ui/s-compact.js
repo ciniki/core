@@ -222,6 +222,95 @@ M.panel.setupFormFieldHistory = function(fieldID, field) {
 }
 
 //
+// This function will display the history information associated with 
+// a simple grid element.
+//
+M.panel.setupGridHistory = function(s, i) {
+    
+    //
+    // Get the form field, and find the parent row
+    //
+    var fD = M.gE(this.panelUID + '_' + s + '_' + i).parentNode;
+    var hD = M.aE('tr', this.panelUID + '_' + s + '_' + i + '_history', 'fieldhistory');
+    var hC = M.aE('td', null, 'history');
+
+    //
+    // Get the number of cells from the field row in the table.
+    //
+    hC.colSpan = fD.children.length;
+
+    var history = this.fieldHistories[s + '_' + i].history;
+    var users = this.fieldHistories[s + '_' + i].users;
+
+    var t = M.addTable(null, 'fieldhistory noheader');
+    var tb = M.aE('tbody');
+    if( history.length == 0 ) {
+        var tr = M.aE('tr');
+        var c1 = M.aE('td', null, 'fieldvalue', 'No history');
+        tr.appendChild(c1);
+        tb.appendChild(tr);
+    } else {
+        for(i in history) {
+            var tr = M.aE('tr', null, 'singleline');
+            //
+            // Create the cell for username and age
+            //
+            var c1 = M.aE('td');
+            var age = '';
+            if( M.userSettings == null || M.userSettings['ui-history-date-display'] == null || M.userSettings['ui-history-date-display'] == 'age' ) {
+                age = ', <span class=\'age\'>' + history[i].action.age + ' ago</span>';
+            } else if( M.userSettings['ui-history-date-display'] == 'datetime' ) {
+                age = ', <span class=\'age\'>' + history[i].action.date + '</span>';
+            } else if( M.userSettings['ui-history-date-display'] == 'datetimeage' ) {
+                age = ', <span class=\'age\'>' + history[i].action.date + ' (' + history[i].action.age + ' ago)</span>';
+            }
+            c1.innerHTML = '<span class=\'username\'>' 
+                + history[i].action.user_display_name + '</span>'
+                + age;
+
+            //
+            // Create cell for the value from the history
+            //
+            var c3 = M.aE('td', null, 'fieldvalue');
+        
+            c3.innerHTML = history[i].action.value;
+
+            if( history[i].action.label != null ) {
+                c3.innerHTML = history[i].action.label + c3.innerHTML;
+            }
+            //
+            // Append cells and row
+            //
+            tr.appendChild(c1);
+            tr.appendChild(c3);
+            tb.appendChild(tr);
+
+            //
+            // Check for notes
+            //
+            if( history[i].action.notes != null && history[i].action.notes != '' ) {
+                tr = M.aE('tr', null, '');
+                var c4 = M.aE('td', null, 'fieldnotes', history[i].action.notes);
+                c4.colSpan='2';
+                tr.appendChild(c4);
+                tb.appendChild(tr);
+            }
+        }
+    }
+
+    t.appendChild(tb);
+    hC.appendChild(t);
+
+    hD.appendChild(hC);
+    fD.parentNode.insertBefore(hD, fD.nextSibling);
+
+    if( M.scroller != null ) {
+        M.scroller.refresh();
+    }
+}
+
+
+//
 // This function will return the DOM elements required for a thread followup
 //
 // Arguments:

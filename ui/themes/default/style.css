@@ -1215,6 +1215,10 @@ table.border td.history {
     border-right: 0px solid #bbb;   
     border-bottom: 1px solid #ddd;  
 }
+table.border.simplegrid td.history {
+    border-left: 1px solid #bbb;
+    border-right: 1px solid #bbb;
+}
 
 table.list td.colourpicker,
 table.list td.history {
@@ -1239,10 +1243,12 @@ table.list > tbody > tr.followup > td {
 }
 
 
+table.simplegrid table.fieldhistory,
 table.form table.fieldhistory {
     padding: 0em;
     width: 100%;
     empty-cells: show;
+    margin: 0px;
     margin-bottom: 10px;
 }
 
@@ -1260,6 +1266,10 @@ table.list table.fieldhistory tr:last-child td {
 
 table.list table.fieldhistory td {
     border-top: 1px solid #ccc;
+}
+
+table.grid table.fieldhistory td {
+    border-radius: 0px;
 }
 
 table.list table.fieldhistory td.fieldvalue {

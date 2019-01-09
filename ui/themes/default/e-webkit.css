@@ -275,14 +275,16 @@ div.fullwidth table.list > tfoot > tr:last-child > td:last-child {
 table.fieldhistory,
 table.fieldhistory tr,
 table.fieldhistory td,
-table.list > tbody:first-child > tr table.fieldhistory,
-table.list > tbody:first-child > tr table.fieldhistory thead tr:first-child > td:first-child,
-table.list > tbody:first-child > tr table.fieldhistory tbody tr:first-child > td:first-child,
-table.list > tbody:first-child > tr table.fieldhistory thead tr:first-child > td:last-child,
-table.list > tbody:first-child > tr table.fieldhistory tbody tr:first-child > td:last-child,
-table.list > tbody:first-child > tr table.fieldhistory thead tr:last-child > td:first-child,
-table.list > tbody:first-child > tr table.fieldhistory tbody tr:last-child > td:first-child,
-table.list > tbody:first-child > tr table.fieldhistory thead tr:last-child > td:last-child,
-table.list > tbody:first-child > tr table.fieldhistory tbody tr:last-child > td:last-child {
+table.simplegrid table.fieldhistory.noheader > tbody:first-child > tr:first-child > td:first-child,
+table.simplegrid table.fieldhistory.noheader > tbody:first-child > tr:first-child > td:last-child,
+table  > tbody:first-child > tr table.fieldhistory,
+table  > tbody:first-child > tr table.fieldhistory thead tr:first-child > td:first-child,
+table  > tbody:first-child > tr table.fieldhistory tbody tr:first-child > td:first-child,
+table  > tbody:first-child > tr table.fieldhistory thead tr:first-child > td:last-child,
+table  > tbody:first-child > tr table.fieldhistory tbody tr:first-child > td:last-child,
+table  > tbody:first-child > tr table.fieldhistory thead tr:last-child > td:first-child,
+table  > tbody:first-child > tr table.fieldhistory tbody tr:last-child > td:first-child,
+table  > tbody:first-child > tr table.fieldhistory thead tr:last-child > td:last-child,
+table  > tbody:first-child > tr table.fieldhistory tbody tr:last-child > td:last-child {
     border-radius: 0px;
 }

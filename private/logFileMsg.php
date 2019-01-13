@@ -20,7 +20,7 @@ function ciniki_core_logFileMsg($ciniki, $tnid, $file, $msg) {
             $ip = $_SERVER['REMOTE_ADDR'] . ' ';
         }
         $date = '[' . date('d/M/Y:H:i:s O') . '] ';
-        $filename = $ciniki['config']['ciniki.core']['log_dir'] . '/' . $file . '-' . date('Y-m-d') . '.log';
+        $filename = $ciniki['config']['ciniki.core']['log_dir'] . '/' . $file . '-' . date('Y-m') . '.log';
         if( file_put_contents($filename, $ip . $date . $msg . "\n", FILE_APPEND) === FALSE ) {
             error_log($msg);
         }

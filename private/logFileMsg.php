@@ -14,6 +14,11 @@
 //
 function ciniki_core_logFileMsg($ciniki, $tnid, $file, $msg) {
 
+    //
+    // Include the tenant id in the message
+    //
+    $msg = '[' . $tnid . '] ' . $msg;
+
     if( isset($ciniki['config']['ciniki.core']['log_dir']) && $ciniki['config']['ciniki.core']['log_dir'] != '' ) {
         $ip = '- ';
         if( isset($_SERVER['REMOTE_ADDR']) ) {

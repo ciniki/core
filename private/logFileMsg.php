@@ -21,7 +21,9 @@ function ciniki_core_logFileMsg($ciniki, $tnid, $file, $msg) {
 
     if( isset($ciniki['config']['ciniki.core']['log_dir']) && $ciniki['config']['ciniki.core']['log_dir'] != '' ) {
         $ip = '- ';
-        if( isset($_SERVER['REMOTE_ADDR']) ) {
+        if( isset($_SERVER['X-Forwarded-For']) ) {
+            $ip = $_SERVER['X-Forwarded-For'] . ' ';
+        } elseif( isset($_SERVER['REMOTE_ADDR']) ) {
             $ip = $_SERVER['REMOTE_ADDR'] . ' ';
         }
         $date = '[' . date('d/M/Y:H:i:s O') . '] ';

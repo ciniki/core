@@ -12,6 +12,18 @@
 //
 function ciniki_core_checkDbTableSizes($ciniki) {
     //
+    // Get the database name
+    //
+    $database_name = '';
+    if( isset($ciniki['config'][$module]['database']) ) {
+        $database_name = $ciniki['config'][$module]['database'];
+    } elseif( isset($ciniki['config']['ciniki.core']['database']) ) {
+        $database_name = $ciniki['config']['ciniki.core']['database'];
+    } else {
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.401', 'msg'=>'Internal Error', 'pmsg'=>'database name not default for requested module'));
+    }
+
+    //
     // Check access restrictions to checkAPIKey
     //
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'checkAccess');
@@ -22,7 +34,7 @@ function ciniki_core_checkDbTableSizes($ciniki) {
     $strsql = "SELECT table_name, "
         . "ROUND(((data_length + index_length) / 1024 / 1024), 2) AS mb "
         . "FROM information_schema.TABLES "
-        . "WHERE table_schema = '" . ciniki_core_dbQuote($ciniki, $ciniki['config']['ciniki.core']['database.ciniki.database']) . "' "
+        . "WHERE table_schema = '" . ciniki_core_dbQuote($ciniki, $ciniki['config']['ciniki.core']['database.' . $database_name . '.database']) . "' "
         . "ORDER BY mb DESC "
         . "";
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashQueryArrayTree');

@@ -341,6 +341,15 @@ table.list {
 span.faicon {
     font-family: 'FontAwesome';
 }
+button.faicon {
+    font-family: 'FontAwesome';
+    font-size: 1.0em;
+    padding: 0px 7px;
+    border: 0px;
+    background: transparent;
+    color: #777;
+    cursor: pointer;
+}
 
 table.form {
     table-layout: auto;

@@ -20,19 +20,13 @@ function ciniki_core_gpsDDtoDDM(&$ciniki, $tnid, $args) {
         $dir = $args['latitude'] < 0 ? 'S' : 'N';
         $deg = (int)(abs($args['latitude']));
         $min = ((abs($args['latitude']) - $deg) * 60);
-        $rsp['latitude'] = sprintf("%02d%02.02f%s", $deg, $min, $dir);
-//        $min = (int)((abs($args['latitude']) - $deg) * 60);
-//        $sec = (int)((abs($args['latitude']) - $deg - ($min/60)) * 3600);
-//        $rsp['latitude'] = sprintf("%02d%02d.%02d%s", $deg, $min, $sec, $dir);
+        $rsp['latitude'] = sprintf("%02d%05.02f%s", $deg, $min, $dir);
     }
     if( isset($args['longitude']) ) {
-        $dir = $args['longitude'] < 0 ? 'E' : 'W';
+        $dir = $args['longitude'] < 0 ? 'W' : 'E';
         $deg = (int)(abs($args['longitude']));
         $min = ((abs($args['longitude']) - $deg) * 60);
-        $rsp['longitude'] = sprintf("%03d%02.02f%s", $deg, $min, $dir);
-//        $min = (int)((abs($args['longitude']) - $deg) * 60);
-//        $sec = (int)((abs($args['longitude']) - $deg - ($min/60)) * 3600);
-//        $rsp['longitude'] = sprintf("%03d%02d.%02d%s", $deg, $min, $sec, $dir);
+        $rsp['longitude'] = sprintf("%03d%05.02f%s", $deg, $min, $dir);
     }
 
     return $rsp;

@@ -3737,11 +3737,16 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
         if( v != null ) {
             f.value = v;
         }
-        if( M.engine == 'webkit' ) {
+/*        if( M.engine == 'webkit' ) {
             f.setAttribute('autocomplete', 'new-password');
         } else {
             f.setAttribute('autocomplete', 'new-password');
-        }
+        } */
+        //
+        // Mar 25, 2019: Set new autocomplete field to get rid of kasperksy password manager on every field
+        // Tested on Chrome & Firefox on Linux
+        //
+        f.setAttribute('autocomplete', 'stop-chrome-autofill');
         if( field.livesearch != null && field.livesearch == 'yes' ) {
 //            if( field.livesearchempty == 'yes' ) {
                 f.setAttribute('onfocus', this.panelRef + '.liveSearchSection(\'' + s + '\',\'' + i + sFN + '\',this,event);');

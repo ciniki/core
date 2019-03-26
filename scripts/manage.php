@@ -135,6 +135,7 @@ if( $config == false || !isset($config['ciniki.core']['api_key']) ) {
 $apikey = $config['ciniki.core']['api_key'];
 $manage_js = $config['ciniki.core']['manage_root_url'] . "/core/ui";
 $manage_themes = $config['ciniki.core']['themes_root_url'];
+$manage_theme = 'default';
 
 //
 // If SSL is turned off in the config, then this is a development machine,

@@ -4398,11 +4398,15 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
     else if( field.type == 'image_id' ) {
         var d = M.aE('div', this.panelUID + '_' + i + sFN + '_preview', 'image_preview');
         var img_id = this.fieldValue(s, i, field, mN);
+        var onclick = '';
+        if( field.onclick != null && field.onclick != '' ) {
+            onclick = 'onclick="' + field.onclick + '(event);" ';
+        }
         if( img_id != null && img_id != '' && img_id > 0 ) {
             if( field.size != null && field.size == 'large' ) {
-                d.innerHTML = '<img src=\'' + M.api.getBinaryURL('ciniki.images.get', {'tnid':M.curTenantID, 'image_id':img_id, 'version':(field.version != null ? field.version : 'original'), 'maxwidth':'0', 'maxheight':'600'}) + '&ts=' + new Date().getTime() + '\' />';
+                d.innerHTML = '<img src=\'' + M.api.getBinaryURL('ciniki.images.get', {'tnid':M.curTenantID, 'image_id':img_id, 'version':(field.version != null ? field.version : 'original'), 'maxwidth':'0', 'maxheight':'600'}) + '&ts=' + new Date().getTime() + '\' ' + onclick + '/>';
             } else {
-                d.innerHTML = '<img src=\'' + M.api.getBinaryURL('ciniki.images.get', {'tnid':M.curTenantID, 'image_id':img_id, 'version':(field.version != null ? field.version : 'original'), 'maxwidth':'0', 'maxheight':'300'}) + '&ts=' + new Date().getTime() + '\' />';
+                d.innerHTML = '<img src=\'' + M.api.getBinaryURL('ciniki.images.get', {'tnid':M.curTenantID, 'image_id':img_id, 'version':(field.version != null ? field.version : 'original'), 'maxwidth':'0', 'maxheight':'300'}) + '&ts=' + new Date().getTime() + '\' ' + onclick + '/>';
             }
         } else {
             d.innerHTML = '<img src=\'/ciniki-mods/core/ui/themes/default/img/noimage_200.jpg\' />';

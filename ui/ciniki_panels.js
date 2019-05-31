@@ -3766,6 +3766,9 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
         if( field.onkeyupFn != null && field.onkeyupFn != '' ) {
             f.setAttribute('onkeyup', field.onkeyupFn + '(\'' + s + '\',\'' + i+sFN+'\');');
         }
+        if( field.onkeyup != null && field.onkeyup != '' ) {
+            f.setAttribute('onkeyup', field.onkeyup + '(event,\'' + s + '\',\'' + i+sFN+'\');');
+        }
         c.appendChild(f);
 //            if( field.type == 'fkid' ) {
 //                c.appendChild(f2);

@@ -24,6 +24,10 @@ function ciniki_core_dbInsert(&$ciniki, $strsql, $module) {
 
     $dh = $rc['dh'];
 
+    if( isset($ciniki['config']['ciniki.core']['database.defaults.fix']) && $ciniki['config']['ciniki.core']['database.defaults.fix'] == 'yes' ) {
+        mysqli_query($dh, "SET SESSION sql_mode='NO_ENGINE_SUBSTITUTION'");
+    }
+
     //
     // Prepare and Execute Query
     //

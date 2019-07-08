@@ -103,12 +103,12 @@ function ciniki_core_syncUpgradeSystem($ciniki) {
     $versions = ""; 
     $dir = opendir($ciniki['config']['ciniki.core']['root_dir']);
     while( ($file = readdir($dir)) !== false ) {
-        if( preg_match('/^(ciniki)-(api|lib|manage)$/', $file, $matches) ) {
+        if( preg_match('/^(.*)-(mods)$/', $file, $matches) ) {
             $mdir = opendir($ciniki['config']['ciniki.core']['root_dir'] . "/$file");
             while( ($mfile = readdir($mdir)) != false ) {
                 $vfilename = $ciniki['config']['ciniki.core']['root_dir'] . "/$file/$mfile/_version.ini";
                 if( file_exists($vfilename) ) {
-                    $versions .= '[' . $matches[1] . '.' . $matches[2] . '.' . $mfile . "]\n";
+                    $versions .= '[' . $matches[1] . '.' . $mfile . "]\n";
                     $versions .= file_get_contents($vfilename);
                     $versions .= "\n";
                 }

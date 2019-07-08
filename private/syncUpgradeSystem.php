@@ -80,7 +80,7 @@ function ciniki_core_syncUpgradeSystem($ciniki) {
             $res = $zip->open($zipfilename);
             if ($res === TRUE) {
                 $mpieces = preg_split('/\./', $mod_name);
-                $zip->extractTo($ciniki['config']['ciniki.core']['root_dir'] . '/' . $mpieces[0] . '-mods/' . $mpieces[2]);
+                $zip->extractTo($ciniki['config']['ciniki.core']['root_dir'] . '/' . $mpieces[0] . '-mods/' . $mpieces[1]);
                 $zip->close();
             } else {
                 return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.369', 'msg'=>"Unable to extract $mod_name.zip"));

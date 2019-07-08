@@ -51,11 +51,12 @@ function ciniki_core_sessionOpen(&$ciniki) {
     }
 
     $version_file = $ciniki['config']['ciniki.core']['root_dir'] . "/_versions.ini";
+    $version = '';
     if( is_file($version_file) ) {
         $version_info = parse_ini_file($version_file, true);
-        $version = $version_info['package']['version'];
-    } else {
-        $version = '';
+        if( isset($version_info['package']['version']) ) {
+            $version = $version_info['package']['version'];
+        }
     }
     if( $rc['num_rows'] != 1 ) {
         return array('stat'=>'fail', 'version'=>$version, 'err'=>array('code'=>'ciniki.core.146', 'msg'=>'Session expired'));

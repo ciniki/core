@@ -21,6 +21,7 @@ function ciniki_core_syncUpgradeSystem($ciniki) {
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'logMsg');
 
     $url = $ciniki['config']['ciniki.core']['sync.code.url'];
+    $code_dir = isset($ciniki['config']['ciniki.core']['code_dir']) ? $ciniki['config']['ciniki.core']['code_dir'] : $ciniki['config']['ciniki.core']['root_dir'] . '/ciniki-code';
 
     //
     // Get the version information from the remote system
@@ -67,9 +68,9 @@ function ciniki_core_syncUpgradeSystem($ciniki) {
             if( $remote_zip === false ) {
                 return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.367', 'msg'=>"Unable to get remote $mod_name.zip"));
             }
-            $zipfilename = $ciniki['config']['ciniki.core']['root_dir'] . "/ciniki-code/$mod_name.zip";
+            $zipfilename = $code_dir . "/$mod_name.zip";
             if( file_put_contents($zipfilename, $remote_zip) === false ) {
-                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.368', 'msg'=>"Unable to write ciniki-code/$mod_name.zip"));
+                return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.368', 'msg'=>"Unable to write $code_dir/$mod_name.zip"));
             }
 
             //
@@ -120,7 +121,7 @@ function ciniki_core_syncUpgradeSystem($ciniki) {
         return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.370', 'msg'=>'Unable to write new versions file'));
     }
 
-    if( !file_put_contents($ciniki['config']['ciniki.core']['root_dir'] . '/ciniki-code/_versions.ini', $versions) ) {
+    if( !file_put_contents($code_dir . '/_versions.ini', $versions) ) {
         return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.371', 'msg'=>'Unable to write new versions file'));
     }
 

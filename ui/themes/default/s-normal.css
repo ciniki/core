@@ -388,6 +388,9 @@ table.list td div.calendar {
     div.help-off.guided-off div.large.mediumaside {
         max-width: 90em;
     }
+    div.help-off.guided-off div.xlarge.narrowaside {
+        max-width: 110em;
+    }
     div.help-off.guided-off div.xlarge.mediumaside {
         max-width: 120em;
     }

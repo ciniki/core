@@ -56,6 +56,9 @@ M.init = function(cfg) {
         M.helpMode = cfg.helpMode;
         M.helpURL = cfg.helpURL
     }
+    if( cfg.blackbox != null && cfg.blackbox == 'yes' ) {
+        M.blackbox = 'yes';
+    }
 
 //    if( window.navigator.standalone ) {
 //        var m = M.gE('apple_sbarstyle');

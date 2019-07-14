@@ -133,7 +133,7 @@ div.narrowmulti div.panelsection table {
 }
 
 div.panel {
-/*    text-align: center; */
+    text-align: center;
     margin: 0 auto;
     width: 100%;
 }

@@ -43,15 +43,15 @@ function ciniki_core_logAPIRequest($ciniki) {
         }
 
         if( isset($ciniki['config']['ciniki.core']['logging.api.dir']) ) {
-            $log_dir = $ciniki['config']['ciniki.core']['logging.api.dir'] . '/ciniki.core.api';
+            $log_dir = $ciniki['config']['ciniki.core']['logging.api.dir'] . '/ciniki.core';
         } else {
-            $log_dir = $ciniki['config']['ciniki.core']['log_dir'] . '/ciniki.core.api';
+            $log_dir = $ciniki['config']['ciniki.core']['log_dir'] . '/ciniki.core';
         }
         if( !file_exists($log_dir) ) {
             mkdir($log_dir);
         }
 
-        file_put_contents($log_dir . '/' . $dt->format('Y-m') . '.log', $msg . "\n", FILE_APPEND);
+        file_put_contents($log_dir . '/api.' . $dt->format('Y-m') . '.log', $msg . "\n", FILE_APPEND);
     }
 
     //

@@ -46,9 +46,9 @@ ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbDetailsQueryDash
 ciniki_core_loadMethod($ciniki, 'ciniki', 'cron', 'private', 'logMsg');
 
 if( isset($ciniki['config']['ciniki.core']['logging.api.dir']) ) {
-    $log_dir = $ciniki['config']['ciniki.core']['logging.api.dir'] . '/ciniki.core.api';
+    $log_dir = $ciniki['config']['ciniki.core']['logging.api.dir'] . '/ciniki.core';
 } else {
-    $log_dir = $ciniki['config']['ciniki.core']['log_dir'] . '/ciniki.core.api';
+    $log_dir = $ciniki['config']['ciniki.core']['log_dir'] . '/ciniki.core';
 }
 if( !file_exists($log_dir) ) {
     mkdir($log_dir);
@@ -88,7 +88,7 @@ for($year = 2010; $year <= $dt->format('Y'); $year++) {
         $msg .= " " . ($row['method'] != '' ? $row['method'] : '-');
         $msg .= " " . ($row['action'] != '' ? $row['action'] : '-');
 
-        file_put_contents($log_dir . '/' . $row['logfile'] . '.log',
+        file_put_contents($log_dir . '/api.' . $row['logfile'] . '.log',
             $msg . "\n", 
             FILE_APPEND);
     }

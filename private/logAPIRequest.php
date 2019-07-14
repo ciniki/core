@@ -15,7 +15,9 @@ function ciniki_core_logAPIRequest($ciniki) {
 //        $logfile = $ciniki['config']['ciniki.core']['log_dir'] . '/api.
         $dt = new DateTime('now', new DateTimezone('UTC'));
         $msg = '[' . $dt->format('d/m/Y:H:i:s O') . ']';
-        if( isset($_SERVER['REMOTE_ADDR']) ) {
+        if( isset($_SERVER['HTTP_X_FORWARDED_FOR']) && $_SERVER['HTTP_X_FORWARDED_FOR'] != '' ) {
+            $msg .= " " . ciniki_core_dbQuote($ciniki, $_SERVER['HTTP_X_FORWARDED_FOR']);
+        } elseif( isset($_SERVER['REMOTE_ADDR']) ) {
             $msg .= " " . ciniki_core_dbQuote($ciniki, $_SERVER['REMOTE_ADDR']);
         } else {
             $msg .= " LOCALHOST";
@@ -85,7 +87,9 @@ function ciniki_core_logAPIRequest($ciniki) {
         } else {
             $strsql .= "'', ";
         }
-        if( isset($_SERVER['REMOTE_ADDR']) ) {
+        if( isset($_SERVER['HTTP_X_FORWARDED_FOR']) && $_SERVER['HTTP_X_FORWARDED_FOR'] != '' ) {
+            $strsql .= "'" . ciniki_core_dbQuote($ciniki, $_SERVER['HTTP_X_FORWARDED_FOR']) . "', ";
+        } elseif( isset($_SERVER['REMOTE_ADDR']) ) {
             $strsql .= "'" . ciniki_core_dbQuote($ciniki, $_SERVER['REMOTE_ADDR']) . "', ";
         } else {
             $strsql .= "'localhost', ";

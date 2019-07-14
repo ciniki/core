@@ -9,13 +9,12 @@ function ciniki_core_logAPIRequest($ciniki) {
     //
     // Check if request should be logged to the file
     //
-    if( isset($ciniki['config']['ciniki.core']['log_dir']) 
-        && isset($ciniki['config']['ciniki.core']['logging.api.file']) 
+    if( isset($ciniki['config']['ciniki.core']['logging.api.file']) 
         && $ciniki['config']['ciniki.core']['logging.api.file'] == 'yes'
         ) {
 //        $logfile = $ciniki['config']['ciniki.core']['log_dir'] . '/api.
         $dt = new DateTime('now', new DateTimezone('UTC'));
-        $msg = '[' . $dt->format('d/M/Y:H:i:s O') . ']';
+        $msg = '[' . $dt->format('d/m/Y:H:i:s O') . ']';
         if( isset($_SERVER['REMOTE_ADDR']) ) {
             $msg .= " " . ciniki_core_dbQuote($ciniki, $_SERVER['REMOTE_ADDR']);
         } else {
@@ -27,9 +26,9 @@ function ciniki_core_logAPIRequest($ciniki) {
             $msg .= " 0";
         }
         if( isset($ciniki['session']['user']['id']) ) {
-            $msg .= " " . ciniki_core_dbQuote($ciniki, $ciniki['session']['user']['id']);
+            $msg .= " (" . ciniki_core_dbQuote($ciniki, $ciniki['session']['user']['id']) . ")";
         } else {
-            $msg .= " 0";
+            $msg .= " (0)";
         }
         if( isset($ciniki['session']['change_log_id']) ) {
             $msg .= " " . ciniki_core_dbQuote($ciniki, $ciniki['session']['change_log_id']);
@@ -43,9 +42,16 @@ function ciniki_core_logAPIRequest($ciniki) {
             $msg .= " -";
         }
 
-        file_put_contents($ciniki['config']['ciniki.core']['log_dir'] . '/ciniki.core.api.' . $dt->format('Y-m') . '.log',
-            $msg . "\n", 
-            FILE_APPEND);
+        if( isset($ciniki['config']['ciniki.core']['logging.api.dir']) ) {
+            $log_dir = $ciniki['config']['ciniki.core']['logging.api.dir'] . '/ciniki.core.api';
+        } else {
+            $log_dir = $ciniki['config']['ciniki.core']['log_dir'] . '/ciniki.core.api';
+        }
+        if( !file_exists($log_dir) ) {
+            mkdir($log_dir);
+        }
+
+        file_put_contents($log_dir . '/' . $dt->format('Y-m') . '.log', $msg . "\n", FILE_APPEND);
     }
 
     //

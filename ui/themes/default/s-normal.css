@@ -152,6 +152,33 @@ div.medium h2 {
     width: 100%;
 } 
 
+div.fiftyfifty {
+    width: 100%;
+}
+div.fiftyfifty div.panelsection {
+    width: 50vw;
+    margin: 0px;
+    margin-left: 50vw;
+    padding: 0.5em;
+    padding-right: 1em;
+    box-sizing: border-box;
+}
+div.fiftyfifty div.panelsection.menutabs {
+    width: 95%;
+    margin-left: 0px;
+}
+div.fiftyfifty div.panelsection table {
+    width: 100%;
+}
+div.fiftyfifty div.asideleft {
+    float: left;
+    clear: left;
+    width: 50vw;
+    max-width: 50vw;
+    margin: 0px;
+    padding-left: 1em;
+}
+
 div.headerbar {
     font-size: 1em;
     margin: 0px;

@@ -781,6 +781,8 @@ M.panel.prototype.createSection = function(i, s) {
     } else if( s.aside != null ) {
         if( s.aside == 'yes' || s.aside == 'left' ) {
             var f = M.aE('div', this.panelUID + '_section_' + i, 'panelsection asideleft');
+        } else if( s.aside == 'full' ) {
+            var f = M.aE('div', this.panelUID + '_section_' + i, 'panelsection asideleft asidefull');
         } else if( s.aside == 'left' ) {
             var f = M.aE('div', this.panelUID + '_section_' + i, 'panelsection aside'); 
         } else {
@@ -938,6 +940,8 @@ M.panel.prototype.createSection = function(i, s) {
         st = this.createChart(i);
     } else if( type == 'metricsgraphics' ) {
         st = this.createMetricsGraphics(i);
+    } else if( type == 'svg' ) {
+        st = this.createSectionSVG(i);
     } else if( type == 'heatmap' ) {
         st = this.createHeatmap(i);
     } else {
@@ -1042,6 +1046,31 @@ M.panel.prototype.createHeatmap = function(s) {
     t.appendChild(tb);
 
     f.appendChild(t);
+    return f;
+}
+
+M.panel.prototype.createSectionSVG = function(s) {
+    var sc = this.sections[s];
+
+    var f = document.createDocumentFragment();
+    
+    var t = M.addTable(this.panelUID + '_' + s, 'list svg border noheader');
+    var tb = M.aE('tbody');
+    var tr = M.aE('tr');
+    var c = M.aE('td',null,'');
+    c.innerHTML = '<div id="' + this.panelUID + '_' + s + '_svg" style=""></div>';
+
+    tr.appendChild(c);
+    tb.appendChild(tr);
+    t.appendChild(tb);
+    f.appendChild(t);
+
+    if( sc.loadData != null && typeof(sc.loadData) == 'function' ) {
+        sc.loadData();
+    } else if( this.loadSVG != null ) {
+        this.loadSVG(s);
+    }
+   
     return f;
 }
 

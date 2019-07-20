@@ -95,6 +95,9 @@ M.panel.prototype.addBack = function(l) {
 };
 
 M.panel.prototype.close = function(data) {
+    if( this.refreshTimer != null ) {
+        clearTimeout(this.refreshTimer);
+    }
     //
     // Remove the panel
     //

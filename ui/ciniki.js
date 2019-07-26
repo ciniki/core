@@ -59,6 +59,9 @@ M.init = function(cfg) {
     if( cfg.blackbox != null && cfg.blackbox == 'yes' ) {
         M.blackbox = 'yes';
     }
+    if( cfg.stMode != null && cfg.stMode == 'yes' ) {
+        M.stMode = 'yes';
+    }
 
 //    if( window.navigator.standalone ) {
 //        var m = M.gE('apple_sbarstyle');

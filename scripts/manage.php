@@ -496,6 +496,9 @@ if( $browser == 'unsupported' ) {
     if( file_exists(dirname($ciniki['config']['ciniki.core']['root_dir']) . '/.blackbox') ) {
         $manage_config['blackbox'] = 'yes';
     }
+    if( isset($ciniki['config']['ciniki.core']['single_tenant_mode']) && $ciniki['config']['ciniki.core']['single_tenant_mode'] == 'yes' ) {
+        $manage_config['stMode'] = 'yes';
+    }
     //
     // Check if submiting form authorized user
     //

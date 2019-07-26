@@ -156,7 +156,7 @@ M.home = function() {
         }
     }
     if( M.curHelpUID == 'ciniki.tenants.main.menu' || M.curHelpUID == 'ciniki.core.menu.tenants' ) {
-        if( M.ciniki_core_menu.tenants != null ) {
+        if( M.ciniki_core_menu != null && M.ciniki_core_menu.tenants != null ) {
             M.ciniki_core_menu.tenants.show();
         }
     } else {

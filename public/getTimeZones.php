@@ -22,9 +22,7 @@ function ciniki_core_getTimeZones($ciniki) {
     foreach($zones as $zone) {
         $e_zone = explode('/', $zone); // 0 => Continent, 1 => City
         
-        if( $e_zone[0] == 'America' ) {
-            $timezones[] = array('timezone'=>array('id'=>"$zone"));
-        }
+        $timezones[] = array('timezone'=>array('id'=>"$zone"));
     }
 
     return array('stat'=>'ok', 'timezones'=>$timezones);

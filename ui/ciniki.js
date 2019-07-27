@@ -1932,7 +1932,7 @@ M.dU = function(s) {
     return decodeURIComponent(s);
 }
 // Weather functions
-M.formatCelsius = function(t) {
+M.formatTemp = function(t) {
     return t + (t != '' ? '&deg;' : '');
 }
 M.formatHumidity = function(h) {

@@ -534,6 +534,7 @@ table.border > tbody > tr > td:last-child {
 
 table.list > thead > tr > td,
 table.list > tbody > tr > td,
+table.list > tbody > tr > th,
 table.list > tfoot > tr > th,
 table.list > tfoot > tr > td {
     padding: 0.7em 0.5em 0.7em 0.5em;

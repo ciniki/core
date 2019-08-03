@@ -1,15 +1,1 @@
-ui/android-webkit.min.js
-ui/blackberry-webkit.min.js
-ui/generic-gecko.min.js
-ui/generic-presto.min.js
-ui/generic-webkit.min.js
-ui/ipad-webkit.min.js
-ui/iphone-webkit.min.js
-ui/themes/default/android-webkit.min.css
-ui/themes/default/blackberry-webkit.min.css
-ui/themes/default/generic-gecko.min.css
-ui/themes/default/generic-presto.min.css
-ui/themes/default/generic-trident.min.css
-ui/themes/default/generic-webkit.min.css
-ui/themes/default/ipad-webkit.min.css
-ui/themes/default/iphone-webkit.min.css
+ui/themes/default/img/stripe_checkout.jpg

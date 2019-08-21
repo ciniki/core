@@ -3260,6 +3260,9 @@ div.panelsection span.addlink {
     text-align: left;
     padding: 0;
     margin: 0;
+    box-sizing: border-box;
+}
+#m_help .internal {
     background: #fff;
 }
 
@@ -3298,7 +3301,7 @@ div.panelsection span.addlink {
     width: 1.4em;
     vertical-align: middle;
 }
-#m_help h2 {
+#m_help.internal h2 {
     color: #000;
     border-bottom: 1px solid #555;
     padding-left: 0px;
@@ -3307,8 +3310,8 @@ div.panelsection span.addlink {
 #m_help h2.guided-show {
     display: none;
 }
-#m_help table.html,
-#m_help table.list.html tbody tr td {
+#m_help.internal table.html,
+#m_help.internal table.list.html tbody tr td {
     border: 0px;
     background: transparent;
     color: #555;

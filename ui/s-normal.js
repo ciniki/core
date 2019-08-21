@@ -12,10 +12,10 @@ M.resize = function(e) {
     var mc = document.getElementById('m_container');
     if( mh.style.display == 'block' ) {
         if( mh.className == 'noborder' ) {
-            M.setWidth('m_help', (mh.parentNode.offsetWidth - document.getElementById('m_container').offsetWidth) + 'px');
+//            M.setWidth('m_help', (mh.parentNode.offsetWidth - document.getElementById('m_container').offsetWidth) + 'px');
         } else {
-            M.setWidth('m_help', (mh.parentNode.offsetWidth - document.getElementById('m_container').offsetWidth - 2) + 'px');
-            M.setWidth('mh_header', (mh.parentNode.offsetWidth - document.getElementById('m_container').offsetWidth - 1) + 'px');
+//            M.setWidth('m_help', (mh.parentNode.offsetWidth - document.getElementById('m_container').offsetWidth - 2) + 'px');
+//            M.setWidth('mh_header', (mh.parentNode.offsetWidth - document.getElementById('m_container').offsetWidth - 1) + 'px');
         }
         var h = document.getElementById('mh_header').offsetHeight;
         if( mh.offsetHeight < window.innerHeight ) {
@@ -102,7 +102,8 @@ M.toggleHelp = function(helpUID) {
             M.setWidth('m_container', '66%');
             M.setWidth('mc_header', '66%');
             M.setWidth('mh_header', '34%');
-            M.setWidth('m_help', (window.innerWidth - document.getElementById('m_container').offsetWidth - 1) + 'px');
+            M.setWidth('m_help', '34%');
+//            M.setWidth('m_help', (window.innerWidth - document.getElementById('m_container').offsetWidth - 1) + 'px');
             document.getElementById('m_help').className = 'leftborder guided-off';
         }
         M.show('m_help');

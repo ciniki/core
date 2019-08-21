@@ -108,25 +108,21 @@ function ciniki_core_help() {
         '_msg':{'label':'', 'type':'html', 'html':'INTERNAL HELP'},
     };
     this.internal.open = function(cb) {
-        if( M.curHelpUID == 'ciniki.tenants.main.menu' ) {
-            this.sections = M.ciniki_tenants_main.helpContentSections;
-            this.sections['_msg'] = {'label':'Additional Help', 'type':'htmlcontent', 'html':'More help is available at <a target=_blank href="' + M.helpURL + '">' + M.helpURL + '</a>.'};
-        } else {
-            this.sections = {};
-            var pieces = M.curHelpUID.split('.');
-            var p = M[pieces[0] + '_' + pieces[1] + '_' + pieces[2]];
-            if( p != null && p[pieces[3]] != null ) {
-                p = p[pieces[3]];
-            }
-            if( p != null && p.helpSections != null ) {
-                if( typeof p.helpSections == 'function' ) {
-                    this.sections = p.helpSections();
-                } else {
-                    this.sections = p.helpSections;
-                }
-            }
-            this.sections['_msg'] = {'label':'Additional Help', 'type':'htmlcontent', 'html':'More help is available at <a target=_blank href="' + M.helpURL + '">' + M.helpURL + '</a>.'};
+        this.sections = {};
+        var pieces = M.curHelpUID.split('.');
+        var p = M[pieces[0] + '_' + pieces[1] + '_' + pieces[2]];
+        if( p != null && p[pieces[3]] != null ) {
+            p = p[pieces[3]];
         }
+        console.log(p);
+        if( p != null && p.helpSections != null ) {
+            if( typeof p.helpSections == 'function' ) {
+                this.sections = p.helpSections();
+            } else {
+                this.sections = p.helpSections;
+            }
+        }
+        this.sections['_msg'] = {'label':'Additional Help', 'type':'htmlcontent', 'html':'More help is available at <a target=_blank href="' + M.helpURL + '">' + M.helpURL + '</a>.'};
         this.refresh();
         this.show();
     }

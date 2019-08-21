@@ -52,9 +52,11 @@ M.init = function(cfg) {
         {'shortname':'Nov'},
         {'shortname':'Dec'}
         ];
-    if( cfg.helpMode != null && cfg.helpMode == 'online' && cfg.helpURL != null ) {
+    if( cfg.helpMode != null && cfg.helpMode != '' ) {
         M.helpMode = cfg.helpMode;
-        M.helpURL = cfg.helpURL
+        if( cfg.helpURL != null ) {
+            M.helpURL = cfg.helpURL
+        }
     }
     if( cfg.blackbox != null && cfg.blackbox == 'yes' ) {
         M.blackbox = 'yes';

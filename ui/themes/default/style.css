@@ -3260,6 +3260,7 @@ div.panelsection span.addlink {
     text-align: left;
     padding: 0;
     margin: 0;
+    background: #fff;
 }
 
 #m_help.leftborder {
@@ -3269,6 +3270,12 @@ div.panelsection span.addlink {
 #m_help div.narrow {
     width: 20em;
     margin: 0 auto;
+}
+#m_help div.medium {
+    width: 100%;
+    padding-left: 1em;
+    padding-right: 1em;
+    box-sizing: border-box;
 }
 
 #mc_help_scroller {
@@ -3291,5 +3298,20 @@ div.panelsection span.addlink {
     width: 1.4em;
     vertical-align: middle;
 }
-
-
+#m_help h2 {
+    color: #000;
+    border-bottom: 1px solid #555;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+#m_help h2.guided-show {
+    display: none;
+}
+#m_help table.html,
+#m_help table.list.html tbody tr td {
+    border: 0px;
+    background: transparent;
+    color: #555;
+    padding-left: 0px;
+    padding-right: 0px;
+}

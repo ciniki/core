@@ -87,7 +87,7 @@ function ciniki_core_help() {
         this.online = new M.panel('Help', 'ciniki_core_help', 'online', 'mh', 'medium', 'sectioned', 'ciniki.core.help.online');
         this.online.data = {};
         this.online.sections = {
-            '_msg':{'label':'', 'type':'html', 'html':'All help is available at <a target=_blank href="' + M.helpURL + '">' + M.helpURL + '</a>.'},
+            '_msg':{'label':'', 'type':'htmlcontent', 'html':'All help is available at <a target=_blank href="' + M.helpURL + '">' + M.helpURL + '</a>.'},
         };
         this.online.sectionData = function(s) { 
             if( s == '_msg' ) {
@@ -101,6 +101,37 @@ function ciniki_core_help() {
         }
         this.online.addButton('exit', 'Close', 'M.toggleHelp(null);'); 
     }
+
+    this.internal = new M.panel('Help', 'ciniki_core_help', 'internal', 'mh', 'medium', 'sectioned', 'ciniki.core.help.internal');
+    this.internal.data = {};
+    this.internal.sections = {
+        '_msg':{'label':'', 'type':'html', 'html':'INTERNAL HELP'},
+    };
+    this.internal.open = function(cb) {
+        if( M.curHelpUID == 'ciniki.tenants.main.menu' ) {
+            this.sections = M.ciniki_tenants_main.helpContentSections;
+            this.sections['_msg'] = {'label':'Additional Help', 'type':'htmlcontent', 'html':'More help is available at <a target=_blank href="' + M.helpURL + '">' + M.helpURL + '</a>.'};
+        } else {
+            this.sections = {};
+            var pieces = M.curHelpUID.split('.');
+            var p = M[pieces[0] + '_' + pieces[1] + '_' + pieces[2]];
+            if( p != null && p[pieces[3]] != null ) {
+                p = p[pieces[3]];
+            }
+            if( p != null && p.helpSections != null ) {
+                if( typeof p.helpSections == 'function' ) {
+                    this.sections = p.helpSections();
+                } else {
+                    this.sections = p.helpSections;
+                }
+            }
+            this.sections['_msg'] = {'label':'Additional Help', 'type':'htmlcontent', 'html':'More help is available at <a target=_blank href="' + M.helpURL + '">' + M.helpURL + '</a>.'};
+        }
+        this.refresh();
+        this.show();
+    }
+    this.internal.addButton('exit', 'Close', 'M.toggleHelp(null);'); 
+
     
     //
     // Arguments:
@@ -130,8 +161,10 @@ function ciniki_core_help() {
         this.list.sections._ui_options.visible = 'yes';
         this.list.data['ui-mode-guided'] = M.uiModeGuided;
         this.list.data['ui-mode-xhelp'] = M.uiModeXHelp;
-
-        if( M.helpMode != null && M.helpMode == 'online' && M.helpURL != null ) {
+       
+        if( M.helpMode != null && M.helpMode == 'internal' ) {
+            this.internal.open(cb);
+        } else if( M.helpMode != null && M.helpMode == 'online' && M.helpURL != null ) {
             this.online.open(cb);
         } else {
             this.loadBugs();
@@ -164,7 +197,9 @@ function ciniki_core_help() {
         // if feature, display feature requests
         // if menu, ask, report or request, leave along
         //
-        if( M.helpMode != null && M.helpMode == 'online' && M.helpURL != null ) {
+        if( M.helpMode != null && M.helpMode == 'internal' ) {
+            this.internal.open();
+        } else if( M.helpMode != null && M.helpMode == 'online' && M.helpURL != null ) {
             this.online.open();
         } else if( this.bug.isVisible() == true || this.list.isVisible() == true ) {
             this.loadBugs(helpUID);    
@@ -196,7 +231,7 @@ function ciniki_core_help() {
             return false;
         }
 
-        var rsp = M.api.postJSONCb('ciniki.bugs.bugAdd',
+        M.api.postJSONCb('ciniki.bugs.bugAdd',
             {'tnid':M.masterTenantID, 'source':'ciniki-manage', 'source_link':M.ciniki_core_help.curHelpUID},
             c, function(rsp) {
                 if( rsp.stat != 'ok' ) {
@@ -213,23 +248,22 @@ function ciniki_core_help() {
     }
 
     this.loadBugs = function() {
-        var r = M.api.getJSONCb('ciniki.bugs.bugList', 
-            {'tnid':M.masterTenantID, 'status':'1',
-                'source':'ciniki-manage', 'source_link':M.ciniki_core_help.curHelpUID}, function(rsp) {
-                    if( rsp.stat != 'ok' ) { 
-                        M.api.err(rsp);
-                        return false;
-                    }
-                    var p = M.ciniki_core_help.list;
-                    if( rsp.bugs != null && rsp.bugs.length > 0 ) {
-                        p.sections.bugs.visible = 'yes';
-                    } else {
-                        p.sections.bugs.visible = 'no';
-                    }
-                    p.data = rsp;
-                    p.refresh();
-                    p.show();
-                });
+        M.api.getJSONCb('ciniki.bugs.bugList', {'tnid':M.masterTenantID, 'status':'1',
+            'source':'ciniki-manage', 'source_link':M.ciniki_core_help.curHelpUID}, function(rsp) {
+                if( rsp.stat != 'ok' ) { 
+                    M.api.err(rsp);
+                    return false;
+                }
+                var p = M.ciniki_core_help.list;
+                if( rsp.bugs != null && rsp.bugs.length > 0 ) {
+                    p.sections.bugs.visible = 'yes';
+                } else {
+                    p.sections.bugs.visible = 'no';
+                }
+                p.data = rsp;
+                p.refresh();
+                p.show();
+            });
     }   
 
     this.showBug = function(bNUM) {

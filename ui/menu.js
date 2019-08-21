@@ -11,7 +11,7 @@ function ciniki_core_menu() {
         //
         // Get the list of tenants the user has access to
         //
-        var r = M.api.getJSONCb('ciniki.tenants.getUserTenants', {}, function(r) {
+        M.api.getJSONCb('ciniki.tenants.getUserTenants', {}, function(r) {
             if( r.stat != 'ok' ) {
                 M.api.err(r);
                 return false;

@@ -2740,6 +2740,27 @@ M.panel.prototype.createSectionGridRow = function(s, i, sc, num_cols, rowdata, t
                 }
             }
 
+            // Check if drag/drop enabled for cell
+            if( this.cellDragStart != null ) {
+                var fn = this.cellDragStart(s, i, j, rowdata);
+                if( fn != null ) {
+                    c.setAttribute('draggable', true);
+                    tr.setAttribute('ondragstart', fn);
+                }
+            }
+            if( this.cellDragStop != null ) {
+                var fn = this.cellDragStop(s, i, j, rowdata);
+                if( fn != null ) {
+                    tr.setAttribute('ondragend', fn);
+                }
+            }
+            if( this.cellDrop != null ) {
+                var fn = this.cellDrop(s, i, j, rowdata);
+                if( fn != null ) {
+                    tr.setAttribute('ondrop', fn);
+                }
+            }
+
             if( this.cellUpdateFn != null ) {
                 var fn = this.cellUpdateFn(s, i, j, rowdata);
                 if( fn != null ) {
@@ -3946,6 +3967,12 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
             f.setAttribute('onkeyup', this.panelRef + '.liveSearchSection(\'' + s + '\',\'' + i + sFN + '\',this, event);');
             f.setAttribute('autocomplete', 'off');
             this.lastSearches[i] = '';
+        }
+        if( field.onkeydown != null && field.onkeydown != '' ) {
+            f.setAttribute('onkeydown', field.onkeydown + '(event,\'' + s + '\',\'' + i+sFN+'\');');
+        }
+        if( field.onkeyup != null && field.onkeyup != '' ) {
+            f.setAttribute('onkeyup', field.onkeyup + '(event,\'' + s + '\',\'' + i+sFN+'\');');
         }
         c.className = field.type; // 'textarea';
         c.appendChild(f);

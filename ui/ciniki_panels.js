@@ -2467,6 +2467,13 @@ M.panel.prototype.cellClass = function(s, i, j, d) {
     return '';
 };
 
+M.panel.prototype.seqDragStart = function(e, s, i) {
+    M.curdragging = i;
+};
+M.panel.prototype.seqDrop = function(e, s, i) {
+    this.sections[s].seqDrop(e,M.curdragging,i);
+};
+
 M.panel.prototype.createSectionGrid = function(s) {
     //
     // FIXME: Check the size of the data, and decide if there should be a search box
@@ -2504,6 +2511,12 @@ M.panel.prototype.createSectionGrid = function(s) {
         }
 
         var tr = this.createSectionGridRow(s, i, sc, num_cols, data[i], tb);
+    
+        if( sc.seqDrop != null ) {
+            tr.setAttribute('draggable', true);
+            tr.setAttribute('ondragstart', this.panelRef + '.seqDragStart(event,"' + s + '","' + i + '")');
+            tr.setAttribute('ondrop', this.panelRef + '.seqDrop(event,"' + s + '","' + i + '")');
+        }
 
         tb.appendChild(tr);
         ct++;

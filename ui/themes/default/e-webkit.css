@@ -1,5 +1,9 @@
 table.form td.textarea {
     -webkit-box-shadow: #555 0px 0px 2px inset;
+    -webkit-box-shadow: none;
+}
+table.form td.textarea:nth-child(2) {
+    -webkit-box-shadow: none;
 }
 table.form td.search input,
 table.form td.htmlarea div.htmlarea,

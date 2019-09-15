@@ -114,6 +114,21 @@ M.api.postJSONCb = function(m, p, c, cb) {
 // Arguments:
 // m - public API method
 // p - Arguments to be passed to the method via REST URL
+// c - Arguments to be passed in POST
+//
+M.api.postJSONBgCb = function(m, p, c, cb) {
+    // Check if session is already expired, and only allow auth call
+    if( M.expired == 'yes' && m != 'ciniki.users.auth' ) {
+        return {'stat':'fail'};
+    }
+    p.format = 'json';
+    return M.api.checkResult(M.api.postBgCb(m, p, c, cb), m, p, c);
+}
+
+//
+// Arguments:
+// m - public API method
+// p - Arguments to be passed to the method via REST URL
 // f - file to be uploaded
 //
 M.api.postJSONFile = function(m, p, f, c) {
@@ -469,6 +484,47 @@ M.api.postCb = function(m, p, c, cb) {
 //        else if( M.browser != 'ie' && this.status == 0 ) {
         else if( x.readyState == 4 && x.status == 0 ) {
             M.stopLoad();
+            cb({'stat':'fail','err':{'code':'HTTP-' + this.status, 'msg':'API Error'}});
+        }
+    };
+    x.send(c);
+    return {'stat':'ok'};
+}
+
+//
+// This function will make the api call and fetch the results
+//
+M.api.postBgCb = function(m, p, c, cb) {
+    var u = M.api.url + '?method=' + m + '&api_key=' + M.api.key + '&auth_token=' + M.api.token;
+    for(k in p) {
+        u += '&' + k + '=' + p[k];
+    }
+    M.api.lastCall = {'f':'postCb', 'm':m, 'p':p, 'c':c, 'cb':cb};
+    var x = M.xmlHttpCreate();
+    x.open("POST", u, true);
+    x.onreadystatechange = function() {
+//        if( x == null ) { return true; }
+        if( this.readyState == 4 && this.status == 200 ) {
+            if(p.format == 'json') {
+                try {
+                    var r = JSON.parse(this.responseText);
+                } catch(e) {
+                    cb({'stat':'fail', 'err':{'code':'JSON-ERR', 'msg':'API Error', 'pmsg':'Unable to parse (' + this.responseText + ')'}});
+                }
+                if( r != null && r.stat != 'ok' && (r.err.code == 'ciniki.core.146' || r.err.code == 'ciniki.core.147')) {
+                    M.reauth_apiresume = {'f':'postCb', 'm':m, 'p':p, 'c':c, 'cb':cb};
+                    return M.api.expired(r);
+                } 
+                cb(r);
+            } else {
+                cb(this.responseXML);
+            }
+        } 
+        else if( this.readyState > 2 && this.status >= 300 ) {
+            cb({'stat':'fail','err':{'code':'HTTP-' + this.status, 'msg':'Network error - unable to transfer.'}});
+        } 
+//        else if( M.browser != 'ie' && this.status == 0 ) {
+        else if( x.readyState == 4 && x.status == 0 ) {
             cb({'stat':'fail','err':{'code':'HTTP-' + this.status, 'msg':'API Error'}});
         }
     };

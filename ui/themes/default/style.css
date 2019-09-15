@@ -857,7 +857,10 @@ table.list tr.textfield > td.textarea {
     background: #fff;
     padding: 0 0em 0 0em;
     margin: 0px;
-    padding: 0.4em; 
+    padding: 0.4em 0.2em 0.4em 0.2em;
+}
+table.list tr.textfield > td:nth-child(2) {
+    border-left: 0px;
 }
 
 table.list tr.textarea td.historybutton {
@@ -874,6 +877,9 @@ table.list tr.textfield > td > textarea {
     margin: 0em;
     border: 0px;
     outline: none;
+    padding: 0.4em;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
 }
 
 table.list tr.textfield > td.htmlarea {
@@ -3093,6 +3099,7 @@ div.xhelp-on tr.xhelp-text td p {
     background-color: rgba(255,253,213,1.0);
 }
 
+div.panelcolumn span.addlink,
 div.panelsection span.addlink {
     float: right;
     padding: 0.2em 0.5em 0em 0.5em;
@@ -3260,6 +3267,9 @@ div.panelsection span.addlink {
     text-align: left;
     padding: 0;
     margin: 0;
+    box-sizing: border-box;
+}
+#m_help .internal {
     background: #fff;
 }
 
@@ -3298,7 +3308,7 @@ div.panelsection span.addlink {
     width: 1.4em;
     vertical-align: middle;
 }
-#m_help h2 {
+#m_help.internal h2 {
     color: #000;
     border-bottom: 1px solid #555;
     padding-left: 0px;
@@ -3307,8 +3317,8 @@ div.panelsection span.addlink {
 #m_help h2.guided-show {
     display: none;
 }
-#m_help table.html,
-#m_help table.list.html tbody tr td {
+#m_help.internal table.html,
+#m_help.internal table.list.html tbody tr td {
     border: 0px;
     background: transparent;
     color: #555;

@@ -2467,6 +2467,13 @@ M.panel.prototype.cellClass = function(s, i, j, d) {
     return '';
 };
 
+M.panel.prototype.seqDragStart = function(e, s, i) {
+    M.curdragging = i;
+};
+M.panel.prototype.seqDrop = function(e, s, i) {
+    this.sections[s].seqDrop(e,M.curdragging,i);
+};
+
 M.panel.prototype.createSectionGrid = function(s) {
     //
     // FIXME: Check the size of the data, and decide if there should be a search box
@@ -2504,6 +2511,12 @@ M.panel.prototype.createSectionGrid = function(s) {
         }
 
         var tr = this.createSectionGridRow(s, i, sc, num_cols, data[i], tb);
+    
+        if( sc.seqDrop != null ) {
+            tr.setAttribute('draggable', true);
+            tr.setAttribute('ondragstart', this.panelRef + '.seqDragStart(event,"' + s + '","' + i + '")');
+            tr.setAttribute('ondrop', this.panelRef + '.seqDrop(event,"' + s + '","' + i + '")');
+        }
 
         tb.appendChild(tr);
         ct++;
@@ -2724,6 +2737,27 @@ M.panel.prototype.createSectionGridRow = function(s, i, sc, num_cols, rowdata, t
                 if( fn != null && fn != '' ) {
                     c.setAttribute('onclick', fn);
                     c.className = cl + ' clickable';
+                }
+            }
+
+            // Check if drag/drop enabled for cell
+            if( this.cellDragStart != null ) {
+                var fn = this.cellDragStart(s, i, j, rowdata);
+                if( fn != null ) {
+                    c.setAttribute('draggable', true);
+                    tr.setAttribute('ondragstart', fn);
+                }
+            }
+            if( this.cellDragStop != null ) {
+                var fn = this.cellDragStop(s, i, j, rowdata);
+                if( fn != null ) {
+                    tr.setAttribute('ondragend', fn);
+                }
+            }
+            if( this.cellDrop != null ) {
+                var fn = this.cellDrop(s, i, j, rowdata);
+                if( fn != null ) {
+                    tr.setAttribute('ondrop', fn);
                 }
             }
 
@@ -3933,6 +3967,12 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
             f.setAttribute('onkeyup', this.panelRef + '.liveSearchSection(\'' + s + '\',\'' + i + sFN + '\',this, event);');
             f.setAttribute('autocomplete', 'off');
             this.lastSearches[i] = '';
+        }
+        if( field.onkeydown != null && field.onkeydown != '' ) {
+            f.setAttribute('onkeydown', field.onkeydown + '(event,\'' + s + '\',\'' + i+sFN+'\');');
+        }
+        if( field.onkeyup != null && field.onkeyup != '' ) {
+            f.setAttribute('onkeyup', field.onkeyup + '(event,\'' + s + '\',\'' + i+sFN+'\');');
         }
         c.className = field.type; // 'textarea';
         c.appendChild(f);

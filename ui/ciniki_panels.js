@@ -7065,15 +7065,13 @@ M.panel.prototype.switchForm = function(form, fv) {
                     }
                 }
             } else {
+                // Regular form used most places
                 if( this.data[j] != null ) {
                     org_data[j] = this.data[j];
                 }
                 if( s.fields[j].type == 'flagtoggle' ) {
                     if( org_data[s.fields[j].field] == null ) {
-                        org_data[s.fields[j].field] = 0;
-                    }
-                    if( n == 'on' ) {
-                        org_data[s.fields[j].field] |= s.fields[j].bit;
+                        org_data[s.fields[j].field] = this.data[s.fields[j].field];
                     }
                 }
                 // Get the new data if the field is active
@@ -7142,13 +7140,12 @@ M.panel.prototype.switchForm = function(form, fv) {
                     }
                 }
             } else {
-                if( org_data[j] != null ) {
-                    this.data[j] = org_data[j];
-                }
                 if( s.fields[j].type == 'flagtoggle' ) {
                     this.data[s.fields[j].field] = org_data[s.fields[j].field];
                 } else if( s.fields[j].type == 'flagspiece' && f.field != null ) {
                     this.data[s.fields[j].field] = org_data[s.fields[j].field];
+                } else {
+                    this.data[j] = org_data[j];
                 }
             }
         }

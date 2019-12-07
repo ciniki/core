@@ -4488,9 +4488,9 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
         }
         if( img_id != null && img_id != '' && img_id > 0 ) {
             if( field.size != null && field.size == 'large' ) {
-                d.innerHTML = '<img src=\'' + url + new Date().getTime() + '\' ' + onclick + '/>';
+                d.innerHTML = '<img src=\'' + url + '&t=' + new Date().getTime() + '\' ' + onclick + '/>';
             } else {
-                d.innerHTML = '<img src=\'' + url + new Date().getTime() + '\' ' + onclick + '/>';
+                d.innerHTML = '<img src=\'' + url + '&t=' + new Date().getTime() + '\' ' + onclick + '/>';
             }
         } else {
             d.innerHTML = '<img src=\'/ciniki-mods/core/ui/themes/default/img/noimage_200.jpg\' />';

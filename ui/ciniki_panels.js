@@ -6228,6 +6228,7 @@ M.panel.prototype.showButtons = function(wID, buttons) {
             case 'mwcalendar': icn = '&#xf073;'; break;
             case 'daycalendar': icn = '&#xf0c9;'; break;
             case 'beacon': icn = '&#xf2ce;'; break;
+            case 'refresh': icn = '&#xf021;'; break;
         }
         switch(buttons[i].label) {
             case 'Home': icn = '&#xf015;';break;

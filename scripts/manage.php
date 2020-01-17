@@ -705,10 +705,18 @@ Javscript must be enabled for this application to work.
             <p><br/></p>
             <p>If you don't understand why you encountered the error, please click the Submit Bug button.</p>
             <p><br/></p>
-            <table width="100%" cellspacing="0" cellpadding="0">
-                <tr><td><input type="submit" value="Close" class="button" onclick="M.hide('m_error');"/></td>
-                <td style="text-align:right;"><input type="submit" value="Submit Bug" class="button" onclick="M.submitErrBug();"/></td></tr>
-            </table>
+            <div class="panelsection">
+                <table class="list simplebuttons noheader border" cellpadding="0" cellspacing="0">
+                <tbody><tr onclick="M.hide('m_error');"><td class="button">Close</td></tr></tbody>
+                </table>
+                <table class="list simplebuttons noheader border" cellpadding="0" cellspacing="0">
+                <tbody><tr onclick="M.submitErrBug();"><td class="button">Submit Bug</td></tr></tbody>
+                </table>
+            </div>
+<?php /*            <table width="100%" cellspacing="0" cellpadding="0">
+                <tr><td><input style="width:100%" type="submit" value="Close" class="button" onclick="M.hide('m_error');"/></td></tr>
+                <tr><td><input style="width: 100%" type="submit" value="Submit Bug" class="button" onclick="M.submitErrBug();"/></td></tr>
+            </table> */ ?>
         </div>
     </div>
 </div>

@@ -34,10 +34,6 @@ body {
     width: 45%;
 }
 */
-#m_error table.list td,
-#m_serror table.list td {
-    background: #fff;
-}
 
 #m_forgot,
 #m_recover,

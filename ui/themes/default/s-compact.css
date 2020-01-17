@@ -137,12 +137,6 @@ body {
     height: 100%;
 }
 
-#m_error table.list td,
-#m_serror table.list td {
-    background: #fff;
-}
-
-
 #mc_apps {
     width: 100%;
     margin: 0px;

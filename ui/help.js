@@ -114,7 +114,6 @@ function ciniki_core_help() {
         if( p != null && p[pieces[3]] != null ) {
             p = p[pieces[3]];
         }
-        console.log(p);
         if( p != null && p.helpSections != null ) {
             if( typeof p.helpSections == 'function' ) {
                 this.sections = p.helpSections();

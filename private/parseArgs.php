@@ -91,6 +91,7 @@ function ciniki_core_parseArgs(&$ciniki, $tnid, $raw_args, $arg_info) {
             } elseif( isset($options['type']) && $options['type'] == 'json' ) {
                 $args[$arg] = json_decode($raw_args[$arg], true);
             } elseif( isset($options['type']) && $options['type'] == 'date' && $raw_args[$arg] != '' ) {
+                $raw_args[$arg] = preg_replace('/Janurary/', 'January', $raw_args[$arg]);
                 if( $raw_args[$arg] == 'now' || $raw_args[$arg] == 'today' ) {
                     $args[$arg] = strftime("%Y-%m-%d");
                 } elseif( $raw_args[$arg] == 'tomorrow' ) {
@@ -118,6 +119,7 @@ function ciniki_core_parseArgs(&$ciniki, $tnid, $raw_args, $arg_info) {
                 }
             } 
             elseif( isset($options['type']) && $options['type'] == 'datetime' && $raw_args[$arg] != '' ) {
+                $raw_args[$arg] = preg_replace('/Janurary/', 'January', $raw_args[$arg]);
                 if( $raw_args[$arg] == 'now' ) {
                     $args[$arg] = strftime("%Y-%m-%d %H:%M");
                 } else {
@@ -134,6 +136,7 @@ function ciniki_core_parseArgs(&$ciniki, $tnid, $raw_args, $arg_info) {
 //              // UTC timezone offset in seconds
 //              $utc_offset = ciniki_tenants_timezoneOffset($ciniki, 'seconds');
 //              date_default_timezone_set('America/Toronto');
+                $raw_args[$arg] = preg_replace('/Janurary/', 'January', $raw_args[$arg]);
                 if( $raw_args[$arg] == 'now' ) {
                     $dt = new DateTime('now', new DateTimeZone('UTC'));
                     $args[$arg] = $dt->format('Y-m-d H:i:s');

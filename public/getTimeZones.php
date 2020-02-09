@@ -8,12 +8,6 @@
 // Arguments
 // ---------
 //
-// Returns
-// -------
-// <timezones>
-//      <timezone name="America/Toronto" />
-// </timezones>
-//
 function ciniki_core_getTimeZones($ciniki) {
 
     $zones = timezone_identifiers_list();
@@ -22,7 +16,7 @@ function ciniki_core_getTimeZones($ciniki) {
     foreach($zones as $zone) {
         $e_zone = explode('/', $zone); // 0 => Continent, 1 => City
         
-        $timezones[] = array('timezone'=>array('id'=>"$zone"));
+        $timezones[] = array('id'=>"$zone");
     }
 
     return array('stat'=>'ok', 'timezones'=>$timezones);

@@ -3991,6 +3991,9 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
         }
         var o = field.options;
         var fv = this.fieldValue(s, i, field, mN);
+        if( fv == null && field.default != null ) {
+            fv = field.default
+        }
         for(j in o) {
             var n = o[j];
             var v = j;

@@ -3991,6 +3991,9 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
         }
         var o = field.options;
         var fv = this.fieldValue(s, i, field, mN);
+        if( fv == null && field.default != null ) {
+            fv = field.default
+        }
         for(j in o) {
             var n = o[j];
             var v = j;
@@ -4057,7 +4060,7 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
         }
         c.appendChild(d);
     }
-    else if( field.type == 'colour' ) {
+    else if( field.type == 'colour' || field.type == 'color' ) {
         var d = M.aE('span', this.panelUID + '_' + fid + sFN, 'colourswatch', '&nbsp;');
         d.setAttribute('onclick', 'M.' + this.appID + '.' + this.name + '.toggleFormColourPicker(\'' + fid + sFN + '\');');
         d.setAttribute('name', fid);
@@ -4065,6 +4068,8 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
         var v = this.fieldValue(s, fid, field, mN);
         if( v != null ) {
             d.style.backgroundColor = v;
+        } else if( field.default != null && field.default != '' ) {
+            d.style.backgroundColor = field.default;
         } else {
             d.style.backgroundColor = '#ffffff';
         }

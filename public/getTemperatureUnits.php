@@ -8,18 +8,11 @@
 // Arguments
 // ---------
 //
-// Returns
-// -------
-// <units>
-//      <km name="Kilometers" />
-//      <mi name="Miles" />
-// </units>
-//
-function ciniki_core_getDistanceUnits($ciniki) {
+function ciniki_core_getTemperatureUnits($ciniki) {
 
     $units = array(
-        array('id'=>'km', 'name'=>'Kilometers'),
-        array('id'=>'mi', 'name'=>'Miles'),
+        array('id'=>'C', 'name'=>'Celcius'),
+        array('id'=>'F', 'name'=>'Farhenheit'),
         );
 
     return array('stat'=>'ok', 'units'=>$units);

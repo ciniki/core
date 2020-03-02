@@ -8,18 +8,12 @@
 // Arguments
 // ---------
 //
-// Returns
-// -------
-// <units>
-//      <km name="Kilometers" />
-//      <mi name="Miles" />
-// </units>
 //
-function ciniki_core_getDistanceUnits($ciniki) {
+function ciniki_core_getWindSpeedUnits($ciniki) {
 
     $units = array(
-        array('id'=>'km', 'name'=>'Kilometers'),
-        array('id'=>'mi', 'name'=>'Miles'),
+        array('id'=>'kph', 'name'=>'Kilometers/Hour'),
+        array('id'=>'mph', 'name'=>'Miles/Hour'),
         );
 
     return array('stat'=>'ok', 'units'=>$units);

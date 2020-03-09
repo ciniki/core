@@ -26,7 +26,7 @@ function ciniki_core_dbUUID(&$ciniki, $module) {
     //
     $result = mysqli_query($dh, "SELECT UUID() AS uuid");
     if( $result == false ) {
-        error_log("SQLERR: " . mysqli_error($dh) . " -- '$strsql'");
+        error_log("SQLERR: [" . mysqli_errno($dh) . "] " . mysqli_error($dh) . " - SELECT UUID()");
         return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.82', 'msg'=>'Database Error', 'pmsg'=>mysqli_error($dh)));
     }
 

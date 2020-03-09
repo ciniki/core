@@ -36,7 +36,7 @@ function ciniki_core_dbDetailsQueryDash(&$ciniki, $table, $key, $key_value, $mod
     }
     $result = mysqli_query($dh, $strsql);
     if( $result == false ) {
-        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.38', 'msg'=>'Database Error', 'pmsg'=>mysqli_error($dh)));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.38', 'msg'=>'Database Error', 'pmsg'=>mysqli_errno($dh) . " - " . mysqli_error($dh)));
     }
 
     //

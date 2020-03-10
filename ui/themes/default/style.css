@@ -851,6 +851,8 @@ div.xlarge table.list tr.textfield > td.textarea,
 div.full table.list tr.textfield > td.textarea,
 div.wide table.list tr.textfield > td.textarea {
     width: 100%;
+    font-family: arial;
+    font-size: 1em;
 }
 
 table.list tr.textfield > td.textarea {
@@ -880,6 +882,8 @@ table.list tr.textfield > td > textarea {
     padding: 0.4em;
     border: 1px solid #ccc;
     box-sizing: border-box;
+    font-family: arial;
+    font-size: 1em;
 }
 
 table.list tr.textfield > td.htmlarea {

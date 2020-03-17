@@ -1569,6 +1569,7 @@ table.simplegrid td.lightborderright {
 table.simplegrid td.thumbnail {
     padding: 0.5em;
     width: 2em;
+    line-height: 0px;
 }
 
 table.simplegrid td.thumbnail img {

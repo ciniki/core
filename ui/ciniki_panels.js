@@ -7234,6 +7234,8 @@ M.panel.prototype.uploadDropImages = function(e, p, s) {
                 p._uploadAddDropImage = field.addDropImage;
             }
         }
+    } else if( typeof(e) == 'object' ) {
+        files = e.files;
     } else if( e.dataTransfer != null ) {
         // Photos dropped on browser
         e.stopPropagation();

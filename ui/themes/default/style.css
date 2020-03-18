@@ -2513,6 +2513,10 @@ table.simplegrid tr.statusorange,
 table.simplegrid td.statusorange {
     background: #ffefdd;
 }
+table.simplegrid tr.statusyellow,
+table.simplegrid td.statusyellow {
+    background: #fffdc5;
+}
 table.simplegrid tr.statusred,
 table.simplegrid td.statusred {
     background: #ffdddd;

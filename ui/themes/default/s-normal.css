@@ -411,25 +411,75 @@ table.list td div.calendar {
     }
 }
 @media screen and (min-width: 100em) {
-    div.help-off.guided-off div.large.mediumaside.columns,
-    div.help-off.guided-off div.xlarge.mediumaside.columns {
+    div.help-off div.large.mediumaside.columns,
+    div.help-off div.xlarge.mediumaside.columns {
         max-width: 120em;
     }
-    div.help-off.guided-off div.large.mediumaside.columns div.panelcolumns,
-    div.help-off.guided-off div.large.mediumaside.columns div.panelsection,
-    div.help-off.guided-off div.xlarge.mediumaside.columns div.panelsection {
+    div.help-off div.large.mediumaside.columns div.panelcolumns,
+    div.help-off div.large.mediumaside.columns div.panelsection,
+    div.help-off div.xlarge.mediumaside.columns div.panelsection {
         width: 74%;
         max-width: 74%;
         margin-left: 26%;
     }
-    div.help-off.guided-off div.large.mediumaside.columns div.panelcolumns div.panelcolumn {
+    div.help-off div.large.mediumaside.columns div.panelcolumns div.panelcolumn {
         vertical-align: top;
         display: inline-block;
         width: 49%;
         margin-right: 1%;
     }
-    div.help-off.guided-off div.large.mediumaside.columns div.asideleft,
-    div.help-off.guided-off div.xlarge.mediumaside.columns div.asideleft {
+    div.help-off div.large.mediumaside.columns div.asideleft,
+    div.help-off div.xlarge.mediumaside.columns div.asideleft {
+        float: left;
+        clear: left;
+        width: 25%;
+        max-width: 25%;
+        margin-left: 0px;
+        height: auto;
+        margin-top: 0px;
+    }
+    div.help-on div.large.mediumaside.columns,
+    div.help-on div.xlarge.mediumaside.columns {
+        max-width: 100em;
+    }
+    div.help-on div.large.mediumaside.columns div.panelcolumns,
+    div.help-on div.large.mediumaside.columns div.panelsection,
+    div.help-on div.xlarge.mediumaside.columns div.panelsection {
+        width: 70%;
+        max-width: 70%;
+        margin-left: 30%;
+    }
+    div.help-on div.large.mediumaside.columns div.asideleft,
+    div.help-on div.xlarge.mediumaside.columns div.asideleft {
+        float: left;
+        clear: left;
+        width: 28%;
+        max-width: 28%;
+        margin-left: 0px;
+        height: auto;
+        margin-top: 0px;
+    }
+}
+@media screen and (min-width: 120em) {
+    div.help-on div.large.mediumaside.columns,
+    div.help-on div.xlarge.mediumaside.columns {
+        max-width: 120em;
+    }
+    div.help-on div.large.mediumaside.columns div.panelcolumns,
+    div.help-on div.large.mediumaside.columns div.panelsection,
+    div.help-on div.xlarge.mediumaside.columns div.panelsection {
+        width: 74%;
+        max-width: 74%;
+        margin-left: 26%;
+    }
+    div.help-on div.large.mediumaside.columns div.panelcolumns div.panelcolumn {
+        vertical-align: top;
+        display: inline-block;
+        width: 49%;
+        margin-right: 1%;
+    }
+    div.help-on div.large.mediumaside.columns div.asideleft,
+    div.help-on div.xlarge.mediumaside.columns div.asideleft {
         float: left;
         clear: left;
         width: 25%;

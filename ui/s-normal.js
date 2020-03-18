@@ -98,12 +98,17 @@ M.toggleHelp = function(helpUID) {
             document.getElementById('m_help').className = 'noborder ' + M.helpMode;
             M.setWidth('m_help', '100%');
             M.setWidth('mh_header', '100%');
-        } else {
+        } else if( window.innerWidth < 1600 ) {
             M.setWidth('m_container', '66%');
             M.setWidth('mc_header', '66%');
             M.setWidth('mh_header', '34%');
             M.setWidth('m_help', '34%');
-//            M.setWidth('m_help', (window.innerWidth - document.getElementById('m_container').offsetWidth - 1) + 'px');
+            document.getElementById('m_help').className = 'leftborder guided-off ' + M.helpMode;
+        } else {
+            M.setWidth('m_container', '76%');
+            M.setWidth('mc_header', '76%');
+            M.setWidth('mh_header', '24%');
+            M.setWidth('m_help', '24%');
             document.getElementById('m_help').className = 'leftborder guided-off ' + M.helpMode;
         }
         M.show('m_help');

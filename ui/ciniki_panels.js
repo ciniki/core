@@ -952,9 +952,6 @@ M.panel.prototype.createSection = function(i, s) {
         st = document.createDocumentFragment();
     }
 
-    // Add the section table
-    f.appendChild(st);
-
     //
     // Check if section is collapsable
     //
@@ -963,11 +960,12 @@ M.panel.prototype.createSection = function(i, s) {
         lE.setAttribute('onclick', 'M.toggleSection(this, \'' + tid + '\');');
         if( s.collapse != null && ((M.size == 'compact' && s.collapse == 'compact') || s.collapse == 'all') ) {
             lE.innerHTML = '<span class="icon">+</span> ' + lE.innerHTML;
-            st.style.display = 'none';
         } else {
             lE.innerHTML = '<span class="icon">-</span> ' + lE.innerHTML;
         }
     }
+    // Add the section table
+    f.appendChild(st);
 
     var gt = null;
     if( s.gmore != null && typeof s.gmore == 'function' ) {
@@ -1340,7 +1338,7 @@ M.panel.prototype.createAudioList = function(s) {
             c = M.aE('td', null, 'buttons noprint');
             var fn = this.rowFn(s, i, data[i]);
             if( fn != '' ) {
-                ptr.setAttribute('onclick', this.panelRef + '.savePos();' + fn);//this.rowFn(s, i, rowdata));
+                ptr.setAttribute('onclick', this.panelRef + '.savePos(\'' + s + '\');' + fn);//this.rowFn(s, i, rowdata));
 //                ptr.setAttribute('onclick', this.rowFn(s, i, data[i]));
                 c.innerHTML = '<span class="icon">r</span>';
                 ptr.className = 'clickable' + rcl;
@@ -2357,9 +2355,9 @@ M.panel.prototype.createSectionGridHeaders = function(s, sc) {
     }
     if( this.headerValue(s, 0, sc) == null ) {
         if( sc.fields != null ) {
-            return M.addTable(null, 'form list ' + cl + ' noheader');
+            return M.addTable(this.panelUID + '_' + s + '_grid', 'form list ' + cl + ' noheader');
         }
-        return M.addTable(null, 'list ' + cl + ' noheader');
+        return M.addTable(this.panelUID + '_' + s + '_grid', 'list ' + cl + ' noheader');
     }
     if( sc.fields != null ) {
         var t = M.addTable(this.panelUID + '_' + s + '_grid', 'form list ' + cl + ' header');
@@ -2499,6 +2497,9 @@ M.panel.prototype.createSectionGrid = function(s) {
     //
     var num_cols = sc.num_cols;
     var t = this.createSectionGridHeaders(s, sc);
+    if( sc.collapsable == 'yes' && sc.collapse == 'all' ) {
+        t.style.display = 'none';
+    }
 
     //
     // Table body
@@ -2858,7 +2859,7 @@ M.panel.prototype.createSectionGridRow = function(s, i, sc, num_cols, rowdata, t
         c = M.aE('td', null, 'buttons noprint');
         var fn = this.rowFn(s, i, rowdata);
         if( fn != '' ) {
-            ptr.setAttribute('onclick', this.panelRef + '.savePos();' + fn);//this.rowFn(s, i, rowdata));
+            ptr.setAttribute('onclick', this.panelRef + '.savePos(\'' + s + '\');' + fn);//this.rowFn(s, i, rowdata));
             c.innerHTML = '<span class="icon">r</span>';
             ptr.className = 'clickable' + rcl;
         }
@@ -3264,7 +3265,7 @@ M.panel.prototype.createPanelTabs = function(s, sc) {
         if( i == sc.selected ) {
             e = M.aE('span', null, 'toggle_on', lt);
         } else {
-            e = M.aE('span', null, 'toggle_off', lt, this.panelRef + '.savePos();' + sc.tabs[i].fn);
+            e = M.aE('span', null, 'toggle_off', lt, this.panelRef + '.savePos(\'' + s + '\');' + sc.tabs[i].fn);
         }
         div.appendChild(e);
     }

@@ -2346,7 +2346,12 @@ M.panel.prototype.headerValue = function(s, c, sc) {
     return null;
 };
 
-M.panel.prototype.createSectionGridHeaders = function(s, sc) {
+M.panel.prototype.createSectionGridHeaders = function(s, sc, data) {
+    var d = {};
+    for(i in data) {
+        var d = data[i];
+        break;
+    }
     var cl = 'simplegrid';
     if( sc.class != null ) {
         cl = sc.class;
@@ -2380,7 +2385,7 @@ M.panel.prototype.createSectionGridHeaders = function(s, sc) {
     if( sc.history != null && sc.history == 'yes' ) {
         tr.appendChild(M.aE('th', null, 'noprint'));
     }
-    if( this.rowFn != null || this.rowTreeFn != null ) {
+    if( (this.rowFn != null && this.rowFn(s,0,d) != null) || this.rowTreeFn != null ) {
         tr.appendChild(M.aE('th', null, 'noprint'));
     }
     th.appendChild(tr);
@@ -2436,7 +2441,7 @@ M.panel.prototype.createSectionGridFooters = function(s, sc) {
         tr.appendChild(this.createSectionGridFooter(s, i, sc));
     }
     // If there's the possiblity of row being clickable, then add extra column to header for > (arrow).
-    if( this.rowFn != null || this.rowTreeFn != null ) {
+    if( (this.rowFn != null && this.rowFn(s,0,null) != null) || this.rowTreeFn != null ) {
         tr.appendChild(M.aE('th', null, 'noprint'));
     }
 
@@ -2496,7 +2501,7 @@ M.panel.prototype.createSectionGrid = function(s) {
     // Table header
     //
     var num_cols = sc.num_cols;
-    var t = this.createSectionGridHeaders(s, sc);
+    var t = this.createSectionGridHeaders(s, sc, data);
     if( sc.collapsable == 'yes' && sc.collapse == 'all' ) {
         t.style.display = 'none';
     }
@@ -6216,6 +6221,7 @@ M.panel.prototype.showButtons = function(wID, buttons) {
             case 'next': icn = '&#xf054;'; break;
             case 'add': icn = '&#xf067;'; break;
             case 'settings': icn = '&#xf013;'; break;
+            case 'expand': icn = '&#xf065;'; break;
             case 'save': icn = '&#xf0c7;'; break;
             case 'edit': icn = '&#xf040;'; break;
             case 'download': icn = '&#xf019;'; break;
@@ -6722,6 +6728,10 @@ M.panel.prototype.serializeFormData = function(fs) {
 
     return c;
 };
+
+M.panel.prototype.fieldValue = function(s, i, d) {
+    return this.data[i];
+}
 
 //
 // Arguments:  f - the form element from the panel

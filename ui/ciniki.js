@@ -1949,3 +1949,6 @@ M.formatWind = function(s,d) {
 M.formatRain = function(v) {
     return v + (v != '' ? '&nbsp;mm' : '');
 }
+M.multiline = function(m,s) {
+    return '<span class="maintext">' + m + '</span><span class="subtext">' + s + '</span>';
+}

@@ -173,6 +173,7 @@ if( isset($ciniki['config']) && isset($ciniki['config']['ciniki.core']) && isset
 <?php
 if( !isset($_SERVER['HTTP_USER_AGENT']) ) {
     print_unsupported();
+    exit;
 }
 //
 // Default to a generic device and browser.  Try to find a better set

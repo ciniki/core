@@ -2385,7 +2385,8 @@ M.panel.prototype.createSectionGridHeaders = function(s, sc, data) {
     if( sc.history != null && sc.history == 'yes' ) {
         tr.appendChild(M.aE('th', null, 'noprint'));
     }
-    if( (this.rowFn != null && this.rowFn(s,0,d) != null) || this.rowTreeFn != null ) {
+//FIXME:    if( (this.rowFn != null && this.rowFn(s,0,d) != null) || this.rowTreeFn != null ) {
+    if( (this.rowFn != null) || this.rowTreeFn != null ) {
         tr.appendChild(M.aE('th', null, 'noprint'));
     }
     th.appendChild(tr);
@@ -2441,7 +2442,8 @@ M.panel.prototype.createSectionGridFooters = function(s, sc) {
         tr.appendChild(this.createSectionGridFooter(s, i, sc));
     }
     // If there's the possiblity of row being clickable, then add extra column to header for > (arrow).
-    if( (this.rowFn != null && this.rowFn(s,0,null) != null) || this.rowTreeFn != null ) {
+//FIXME:    if( (this.rowFn != null && this.rowFn(s,0,null) != null) || this.rowTreeFn != null ) {
+    if( (this.rowFn != null) || this.rowTreeFn != null ) {
         tr.appendChild(M.aE('th', null, 'noprint'));
     }
 

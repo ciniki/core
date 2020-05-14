@@ -2385,8 +2385,7 @@ M.panel.prototype.createSectionGridHeaders = function(s, sc, data) {
         tr.appendChild(M.aE('th', null, 'noprint'));
     }
     // If there's the possiblity of row being clickable, then add extra column to header for > (arrow).
-//FIXME:    if( (this.rowFn != null && this.rowFn(s,0,d) != null) || this.rowTreeFn != null ) {
-    if( (this.rowFn != null) || this.rowTreeFn != null ) {
+    if( sc.rowFn != null || this.rowFn != null || this.rowTreeFn != null ) {
         tr.appendChild(M.aE('th', null, 'noprint'));
     }
     th.appendChild(tr);
@@ -2442,8 +2441,7 @@ M.panel.prototype.createSectionGridFooters = function(s, sc) {
         tr.appendChild(this.createSectionGridFooter(s, i, sc));
     }
     // If there's the possiblity of row being clickable, then add extra column to header for > (arrow).
-//FIXME:    if( (this.rowFn != null && this.rowFn(s,0,null) != null) || this.rowTreeFn != null ) {
-    if( (this.rowFn != null) || this.rowTreeFn != null ) {
+    if( sc.rowFn != null || this.rowFn != null || this.rowTreeFn != null ) {
         tr.appendChild(M.aE('th', null, 'noprint'));
     }
 
@@ -2862,7 +2860,17 @@ M.panel.prototype.createSectionGridRow = function(s, i, sc, num_cols, rowdata, t
         ptr.appendChild(c);
     }
     // Add the arrow to click on
-    if( this.rowFn != null && this.rowFn(s, i, rowdata) != null ) {
+    if( sc.rowFn != null && sc.rowFn(i, rowdata) != null ) {
+        c = M.aE('td', null, 'buttons noprint');
+        var fn = sc.rowFn(i, rowdata);
+        if( fn != '' ) {
+            ptr.setAttribute('onclick', this.panelRef + '.savePos(\'' + s + '\');' + fn);
+            c.innerHTML = '<span class="icon">r</span>';
+            ptr.className = 'clickable' + rcl;
+        }
+        ptr.appendChild(c);
+
+    } else if( this.rowFn != null && this.rowFn(s, i, rowdata) != null ) {
         c = M.aE('td', null, 'buttons noprint');
         var fn = this.rowFn(s, i, rowdata);
         if( fn != '' ) {

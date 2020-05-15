@@ -7237,6 +7237,8 @@ M.panel.prototype.reset = function() {
 // Handle drag/drop images into simplethumbs gallery
 //
 M.panel.prototype.uploadDropImages = function(e, p, s) {
+    console.log(e);
+    console.log(p);
     if( p == null ) {
         p = this;
     }
@@ -7259,8 +7261,6 @@ M.panel.prototype.uploadDropImages = function(e, p, s) {
                 p._uploadAddDropImage = field.addDropImage;
             }
         }
-    } else if( typeof(e) == 'object' ) {
-        files = e.files;
     } else if( e.dataTransfer != null ) {
         // Photos dropped on browser
         e.stopPropagation();
@@ -7274,6 +7274,8 @@ M.panel.prototype.uploadDropImages = function(e, p, s) {
                 }
             }
         }
+    } else if( typeof(e) == 'object' ) {
+        files = e.files;
     }
 
     // Build the list of files to be uploaded.
@@ -7289,7 +7291,7 @@ M.panel.prototype.uploadDropImages = function(e, p, s) {
 //                && files[i].fileName.match(/.JPG$/) == null
 //                && files[i].fileName.match(/.jpg$/) == null
                 ) {
-                alert("I'm sorry, we only allow jpeg images to be uploaded.");
+                alert("I'm sorry, we only allow jpeg and png images to be uploaded.");
                 M.stopLoad();
                 return false;
             }
@@ -7303,7 +7305,7 @@ M.panel.prototype.uploadDropImages = function(e, p, s) {
             M.stopLoad();
         }
     } else {
-        alert("I'm sorry, we couldn't add that photo, please use the Add Photo button."); 
+        alert("I'm sorry, we couldn't add that image, please use the Add Photo button."); 
         M.stopLoad();
     }
 };

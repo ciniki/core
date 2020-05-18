@@ -1873,9 +1873,30 @@ M.printPDF = function() {
 
 M.alert = function(msg) {
     var e = M.gE('m_alert_msg');
-    e.innerHTML = '<td>' + msg + '</td>';
+    e.innerHTML = '<tr><td>' + msg + '</td></tr>';
     M.show('m_alert');
     /* M.hide('m_container'); */
+}
+
+M.confirm = function(msg, btntxt, fn) {
+    if( btntxt == null || btntxt == '' ) {
+        btntxt = 'Ok';
+    }
+    var e = M.gE('m_confirm_msg');
+    e.innerHTML = '<tr><td>' + msg + '</td></tr>';
+    var e = M.gE('m_confirm_btn');
+    e.innerHTML = '';
+    e.confirmFn = fn;
+    var td = M.aE('td', null, 'button delete', btntxt);
+    var tr = M.aE('tr',null,null,null,'M.confirmFn();');
+    tr.appendChild(td);
+    e.appendChild(tr);
+    M.show('m_confirm');
+}
+M.confirmFn = function() {
+    M.hide('m_confirm');
+    var e = M.gE('m_confirm_btn');
+    e.confirmFn();
 }
 
 M.modFlags = function(m) {

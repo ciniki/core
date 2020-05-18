@@ -731,8 +731,28 @@ Javscript must be enabled for this application to work.
                 </tbody>
             </table>
             <p><br/></p>
-            <table class="list simplebuttons noheader border">
+            <table class="list simplebuttons noheader border" cellpadding="0" cellspacing="0">
                 <tr onclick="M.hide('m_alert');M.show('m_container');"><td class="button">Okay</td></tr>
+            </table>
+        </div>
+    </div>
+</div>
+<div id="m_confirm" style="display:none;">
+    <div id="m_confirm_content">
+        <div id="mc_content_wrap" class="medium">
+            <table class="list noheader border" cellspacing='0' cellpadding='0'>
+                <tbody id="m_confirm_msg">
+                </tbody>
+            </table>
+            <p><br/></p>
+            <table class="list simplebuttons noheader border" cellpadding="0" cellspacing="0">
+                <tbody id="m_confirm_btn">
+                </tbody>
+            </table>
+            <table class="list simplebuttons noheader border" cellpadding="0" cellspacing="0">
+                <tbody>
+                <tr onclick="M.hide('m_confirm');"><td class="button">Cancel</td></tr>
+                </tbody>
             </table>
         </div>
     </div>

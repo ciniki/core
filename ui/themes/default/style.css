@@ -3147,14 +3147,14 @@ div.panelsection span.addlink {
 #me_content #mc_content_wrap,
 #m_alert_content #mc_content_wrap {
     background: #f0f0f0;
-    padding: 1em 1em 0.5em 1em;
+    padding: 1em 1em 0em 1em;
     border: 1px solid;
     box-sizing: border-box;
 }
 @media screen and (min-width: 40em) {
     #me_content #mc_content_wrap,
     #m_alert_content #mc_content_wrap {
-        padding: 2em 2em 1.5em 2em;
+        padding: 2em 2em 1em 2em;
     }
 }
 #m_alert_content #m_alert_msg td {

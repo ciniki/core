@@ -317,7 +317,7 @@ M.startApp = function(a, sF, cB, aP, args) {
         script.onerror = function() {
             M.stopLoad();
             M.alert("We had a problem communicating with the server. Please try again or if the problem persists check your network connection.");
-//            alert("Unable to load, please report this bug.");
+//            M.alert("Unable to load, please report this bug.");
         }
 
         // Attach handlers for all browsers
@@ -615,7 +615,7 @@ M.reauth = function() {
         }
         if( M.api.version != r.version ) {
             M.alert("We've updated Ciniki!  Please logout and sign in again to ensure you are using the current version.");
-//            alert('Please login again to ensure you are using the current version of Ciniki');
+//            M.alert('Please login again to ensure you are using the current version of Ciniki');
         }
         M.api.token = r.auth.token;
         M.expired = 'no';

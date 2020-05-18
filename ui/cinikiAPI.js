@@ -355,7 +355,7 @@ M.api.getBgCb = function(m, p, c) {
                 c(x.responseXML);
             }
         } 
-        // alert(x.readyState + '--' + x.status);
+        // M.alert(x.readyState + '--' + x.status);
         if( x.readyState > 2 && x.status >= 300 ) {
             c({'stat':'fail','err':{'code':'HTTP-' + x.status, 'msg':'Unable to transfer.'}});
         } 

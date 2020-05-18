@@ -697,13 +697,11 @@ Javscript must be enabled for this application to work.
     <div id="me_content">
         <div id="mc_content_wrap" class="medium">
             <p>Oops, we seem to have hit a snag.</p>
-            <p><br/></p>
             <h2></h2>
             <table class="list noheader border" cellspacing='0' cellpadding='0'>
                 <tbody id="me_error_list">
                 </tbody>
             </table>
-            <p><br/></p>
             <p>If you don't understand why you encountered the error, please click the Submit Bug button.</p>
             <p><br/></p>
             <div class="panelsection">
@@ -727,7 +725,7 @@ Javscript must be enabled for this application to work.
 <div id="m_alert" style="display:none;">
 <?php } ?>
     <div id="m_alert_content">
-        <div id="mc_content_wrapasdfadsfsdaf" class="medium">
+        <div id="mc_content_wrap" class="medium">
             <table class="list noheader border" cellspacing='0' cellpadding='0'>
                 <tbody id="m_alert_msg">
                 </tbody>

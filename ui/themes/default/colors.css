@@ -2,6 +2,7 @@ body {
     background: #fafafa;
 }
 
+#m_alert,
 #m_error {
-    background: #fff;
+    /* background: #fff; */
 }

@@ -683,6 +683,8 @@ M.api.err = function(r) {
 
         if( r.err.code == 'network' ) {
             M.alert(r.err.msg);
+        } else if( r.stat == 'warn' ) {
+            M.alert(r.err.msg);
         } else {
             //
             // Store the current return code so it can be used to submit a bug
@@ -709,7 +711,7 @@ M.api.err = function(r) {
 
 M.api.listErr = function(l, e) {
     var tr = M.aE('tr');
-    c = M.aE('td', null, 'label', e.msg + ' <span class="subdue">(' + e.code + ')</span>');
+    c = M.aE('td', null, '', e.msg + ' <span class="subdue">(' + e.code + ')</span>');
     tr.appendChild(c);
     l.appendChild(tr);
 

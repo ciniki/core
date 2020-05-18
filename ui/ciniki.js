@@ -1875,7 +1875,7 @@ M.alert = function(msg) {
     var e = M.gE('m_alert_msg');
     e.innerHTML = '<td>' + msg + '</td>';
     M.show('m_alert');
-    M.hide('m_container');
+    /* M.hide('m_container'); */
 }
 
 M.modFlags = function(m) {

@@ -3126,13 +3126,39 @@ div.panelsection span.addlink {
 /********** Error screen ********/
 #m_error,
 #m_alert {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     z-index: 98;
     width: 100%;
-    height: 90%;
-    background-color: rgba(255,253,213,1.0);
+    height: 100%;
+    height: 100vh;
+    overflow: hidden;
+    background-color: rgba(255,255,255,0.75);
+    box-sizing: border-box;
+}
+#me_content,
+#m_alert_content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+#me_content #mc_content_wrap,
+#m_alert_content #mc_content_wrap {
+    background: #fafafa;
+    padding: 1em 1em 0.5em 1em;
+    border: 1px solid;
+    box-sizing: border-box;
+}
+@media screen and (min-width: 40em) {
+    #me_content #mc_content_wrap,
+    #m_alert_content #mc_content_wrap {
+        padding: 2em 2em 1.5em 2em;
+    }
+}
+#m_alert_content #m_alert_msg td {
+    padding: 1.0em 0.5em;
 }
 
 #m_error input.button,

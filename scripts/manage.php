@@ -727,8 +727,7 @@ Javscript must be enabled for this application to work.
 <div id="m_alert" style="display:none;">
 <?php } ?>
     <div id="m_alert_content">
-        <div id="mc_content_wrap" class="narrow">
-            <p><br/><br/></p>
+        <div id="mc_content_wrapasdfadsfsdaf" class="medium">
             <table class="list noheader border" cellspacing='0' cellpadding='0'>
                 <tbody id="m_alert_msg">
                 </tbody>

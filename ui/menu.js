@@ -24,7 +24,7 @@ function ciniki_core_menu() {
         if( (r.categories == null && r.tenants == null) 
             || (r.categories != null && r.categories.length < 1)
             || (r.tenants != null && r.tenants.length < 1) ) {
-            alert('Error - no tenants found');
+            M.alert('Error - no tenants found');
             return false;
         } else if( r.tenants != null && r.tenants.length == 1 ) {
             //
@@ -38,7 +38,7 @@ function ciniki_core_menu() {
             //
             var appContainer = M.createContainer('mc', 'ciniki_core_menu', 'yes');
             if( appContainer == null ) {
-                alert('App Error');
+                M.alert('App Error');
                 return false;
             } 
         

@@ -142,7 +142,7 @@ function ciniki_core_help() {
         //
         var appContainer = M.createContainer(appPrefix, 'ciniki_core_help', 'yes');
         if( appContainer == null ) {
-            alert('App Error');
+            M.alert('App Error');
             return false;
         } 
 
@@ -222,7 +222,7 @@ function ciniki_core_help() {
     this.submitBug = function() {
         var c = this.list.serializeForm('yes');
         if( c == '' ) {
-            alert("Nothing specified");
+            M.alert("Nothing specified");
             return false;
         }
 

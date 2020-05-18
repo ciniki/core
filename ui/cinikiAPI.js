@@ -726,7 +726,7 @@ M.api.listErr = function(l, e) {
 //
 M.api.err_alert = function(r) {
     if( r.err != null ) {
-        alert("Error: #" + r.err.code + ' - ' + r.err.msg);
+        M.alert("Error: #" + r.err.code + ' - ' + r.err.msg);
     }
 }
 
@@ -754,7 +754,7 @@ M.api.expired = function(r) {
         // the code version they are using is no older than 12 hours.  This means users must
         // relogin within 12 hours of a code update.
         if( M.api.version != r.version && ((Math.round(+new Date()/1000))-M.startTime) > 43200 ) {
-            alert('Session expired, please login again');
+            M.alert('Session expired, please login again');
             M.oldUserId = M.userID;
             M.userID = 0;
             M.userPerms = 0;

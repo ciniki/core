@@ -134,7 +134,7 @@ M.panel.prototype.close = function(data) {
 M.panel.prototype.show = function(cb) {
     var app = M.gE(this.appID);
     if( app == null ) {
-        alert('not created');
+        M.alert('not created');
         return false;
     }
 
@@ -1106,7 +1106,7 @@ M.panel.prototype.createMetricsGraphics = function(s) {
 
         script.onerror = function() {
 //            M.stopLoad();
-            alert("Unable to load, please report this bug.");
+            M.alert("Unable to load, please report this bug.");
         };
 
         // Attach handlers for all browsers
@@ -1207,7 +1207,7 @@ M.panel.prototype.createChart = function(s) {
 
         script.onerror = function() {
             M.stopLoad();
-            alert("Unable to load, please report this bug.");
+            M.alert("Unable to load, please report this bug.");
         };
 
         // Attach handlers for all browsers
@@ -7289,7 +7289,7 @@ M.panel.prototype.uploadDropImages = function(e, p, s) {
 //                && files[i].fileName.match(/.JPG$/) == null
 //                && files[i].fileName.match(/.jpg$/) == null
                 ) {
-                alert("I'm sorry, we only allow jpeg and png images to be uploaded.");
+                M.alert("I'm sorry, we only allow jpeg and png images to be uploaded.");
                 M.stopLoad();
                 return false;
             }
@@ -7299,11 +7299,11 @@ M.panel.prototype.uploadDropImages = function(e, p, s) {
         if( p._uploadCount > 0 ) {
             p.uploadDropImagesNext();
         } else {
-            alert("I'm sorry, we couldn't add that photo, please use the Add Photo button."); 
+            M.alert("I'm sorry, we couldn't add that photo, please use the Add Photo button."); 
             M.stopLoad();
         }
     } else {
-        alert("I'm sorry, we couldn't add that image, please use the Add Photo button."); 
+        M.alert("I'm sorry, we couldn't add that image, please use the Add Photo button."); 
         M.stopLoad();
     }
 };
@@ -7351,7 +7351,7 @@ M.panel.prototype.uploadDropImagesNext = function() {
             p.uploadDropImagesNext();
         });
     if( rsp == null ) {
-        alert('Unknown error occured, please try again');
+        M.alert('Unknown error occured, please try again');
         M.stopLoad();
         return false;
     }
@@ -7423,7 +7423,7 @@ M.panel.prototype.uploadDropFiles = function(e, p, s) {
                 && files[i].type != 'audio/vnd.wave'
                 && files[i].type != 'audio/wav'
                 ) {
-                alert("I'm sorry, we only do not currently allow that format.");
+                M.alert("I'm sorry, we only do not currently allow that format.");
                 M.stopLoad();
                 return false;
             }
@@ -7477,7 +7477,7 @@ M.panel.prototype.uploadDropFilesNext = function() {
             p.uploadDropFilesNext();
         });
     if( rsp == null ) {
-        alert('Unknown error occured, please try again');
+        M.alert('Unknown error occured, please try again');
         M.stopLoad();
         return false;
     }

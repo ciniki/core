@@ -614,7 +614,7 @@ M.reauth = function() {
             return false;
         }
         if( M.api.version != r.version ) {
-            alert("We've updated Ciniki!  Please logout and sign in again to ensure you are using the current version.");
+            M.alert("We've updated Ciniki!  Please logout and sign in again to ensure you are using the current version.");
 //            alert('Please login again to ensure you are using the current version of Ciniki');
         }
         M.api.token = r.auth.token;
@@ -640,7 +640,7 @@ M.reauthToken = function(s, t) {
             return false;
         }
         if( M.api.version != r.version ) {
-            alert("We've updated Ciniki!  Please logout and sign in again to ensure you are using the current version.");
+            M.alert("We've updated Ciniki!  Please logout and sign in again to ensure you are using the current version.");
         }
         M.api.token = r.auth.token;
         M.expired = 'no';
@@ -801,9 +801,9 @@ M.submitErrBug = function() {
         {'tnid':M.masterTenantID, 'status':'1', 'source':'ciniki-manage', 'source_link':M.curHelpUID},
         'subject=' + encodeURIComponent(subject) + '&followup=' + encodeURIComponent(followup), function(rsp) {
             if( rsp.stat != 'ok' ) {
-                alert("Now we had an error submitting the bug, please contact support.  " + "Error #" + rsp.err.code + ' -- ' + rsp.err.msg);
+                M.alert("Now we had an error submitting the bug, please contact support.  " + "Error #" + rsp.err.code + ' -- ' + rsp.err.msg);
             } else {
-                alert('The bug has been submitted');
+                M.alert('The bug has been submitted');
             }
 
             M.hide('m_error');
@@ -1456,7 +1456,7 @@ M.pwdReset = function() {
             M.api.err_alert(r);
             return false;
         }
-        alert("An email has been sent to you with a new password.");
+        M.alert("An email has been sent to you with a new password.");
         M.hide('m_forgot');
         M.show('m_login');
     });
@@ -1470,11 +1470,11 @@ M.tempPassReset = function() {
     var newpwd2 = encodeURIComponent(M.gE('new_password_again').value);
 
     if( newpwd1 != newpwd2 ) { 
-        alert("The password's do not match.  Please enter them again");
+        M.alert("The password's do not match.  Please enter them again");
         return false;
     }   
     if( newpwd1.length < 8 ) { 
-        alert("Passwords must be at least 8 characters long");
+        M.alert("Passwords must be at least 8 characters long");
         return false;
     }   
     var c = 'temppassword=' + temppwd + '&newpassword=' + newpwd1;
@@ -1483,7 +1483,7 @@ M.tempPassReset = function() {
             M.api.err_alert(rsp);
             return false;
         }   
-        alert("Your password was changed, you can now login.");
+        M.alert("Your password was changed, you can now login.");
         // Redirect    to the main login page
         var newHref = window.location.href.split("?")[0];
         window.location.href = newHref;

@@ -382,6 +382,113 @@ table.list td div.calendar {
 
 /* media queries to adjust screen based on width */
 @media screen and (min-width: 84em) {
+    div.help-on.guided-on div.guided-disabled div.mediumaside,
+    div.help-on.guided-off div.mediumaside,
+    div.help-on.guided-off div.large.narrowaside, 
+    div.help-on.guided-off div.xlarge.narrowaside,
+    div.help-on.guided-off div.large.mediumaside, 
+    div.help-on.guided-off div.xlarge.mediumaside {
+        max-width: 80em;
+    }
+
+    div.help-on.guided-on div.guided-disabled div.mediumaside div.panelsection,
+    div.help-on.guided-off div.mediumaside div.panelsection {
+        width: 35em;
+        margin-left: 35em;
+    }
+
+    div.help-on.guided-off div.medium.mediumaside div.columns,
+    div.help-on.guided-off div.medium.mediumaside div.panelcolumn,
+    div.help-on.guided-off div.medium.mediumaside div.panelsection,
+    div.help-on.guided-off div.medium.narrowaside div.columns,
+    div.help-on.guided-off div.medium.narrowaside div.panelcolumn,
+    div.help-on.guided-off div.medium.narrowaside div.panelsection,
+    div.help-on.guided-off div.large.mediumaside div.columns,
+    div.help-on.guided-off div.large.mediumaside div.panelcolumn,
+    div.help-on.guided-off div.large.mediumaside div.panelsection,
+    div.help-on.guided-off div.large.narrowaside div.columns,
+    div.help-on.guided-off div.large.narrowaside div.panelcolumn,
+    div.help-on.guided-off div.large.narrowaside div.panelsection,
+    div.help-on.guided-off div.xlarge.mediumaside div.columns,
+    div.help-on.guided-off div.xlarge.mediumaside div.panelcolumn,
+    div.help-on.guided-off div.xlarge.mediumaside div.panelsection,
+    div.help-on.guided-off div.xlarge.narrowaside div.columns,
+    div.help-on.guided-off div.xlarge.narrowaside div.panelcolumn,
+    div.help-on.guided-off div.xlarge.narrowaside div.panelsection {
+        width: 65%;
+        box-sizing: border-box;
+        margin-left: 35%;
+    }
+
+    div.help-on.guided-on div.guided-disabled div.mediumaside div.formtabs,
+    div.help-on.guided-off div.narrowaside div.formtabs,
+    div.help-on.guided-off div.mediumaside div.formtabs {
+        margin-left: 0px;
+    }
+
+    div.help-on.guided-on div.guided-disabled div.mediumaside div.asideleft,
+    div.help-on.guided-off div.mediumaside div.asideleft {
+        float: left;
+        clear: left;
+/*        width: 34em;
+        max-width: 34em; */
+        width: 33%;
+        max-width: 33%;
+        /* FIXME: needs to be 38 for date picker */
+        /* max-width: 38em; */
+        margin-left: 0px;
+        height: auto;
+        margin-top: 0px;
+    }
+
+    div.help-on.guided-on div.guided-disabled div.aside,
+    div.help-on.guided-off div.aside {
+        float: right;
+        clear: right;
+        width: 20em;
+        max-width: 29em;
+        height: auto;
+        margin-top: 0px;
+    }
+
+    div.help-on.guided-on div.guided-disabled div.mediumaside div.fullwidth,
+    div.help-on.guided-on div.guided-disabled div.mediumaside div.formtabs,
+    div.help-on.guided-off div.narrowaside div.fullwidth,
+    div.help-on.guided-off div.narrowaside div.formtabs,
+    div.help-on.guided-off div.mediumaside div.fullwidth,
+    div.help-on.guided-off div.mediumaside div.formtabs {
+        width: 100%;
+    }
+    div.help-on.guided-off div.medium.narrowaside div.asideleft,
+    div.help-on.guided-off div.medium.mediumaside div.asideleft,
+    div.help-on.guided-off div.large.narrowaside div.asideleft,
+    div.help-on.guided-off div.large.mediumaside div.asideleft,
+    div.help-on.guided-off div.xlarge.narrowaside div.asideleft,
+    div.help-on.guided-off div.xlarge.mediumaside div.asideleft {
+        float: left;
+        clear: left;
+        width: 20em;
+        max-width: 20em;
+        width: 33%;
+        max-width: 33%;
+        /* FIXME: needs to be 38 for date picker */
+        /* max-width: 38em; */
+        margin-left: 0px;
+        height: auto;
+        margin-top: 0px;
+    }
+    div.help-on.guided-off div.xlarge.mediumaside,
+    div.help-on.guided-off div.xlarge.narrowaside {
+/*         max-width: 98%; */
+    }
+    div.help-on.guided-off div.xlarge.mediumaside div.asideleft,
+    div.help-on.guided-off div.xlarge.narrowaside div.asideleft {
+/*        width: 28%;
+        max-width: 28%;
+        box-sizing: border-box;
+        margin-left: 0; */
+    }
+    /* Help off */
     div.help-off.guided-on div.guided-disabled div.mediumaside,
     div.help-off.guided-off div.mediumaside {
         max-width: 80em;

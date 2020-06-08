@@ -29,11 +29,17 @@ function ciniki_core_help() {
         };
         this.bug.subject = '';
         this.bug.noData = function() { return 'Not yet implemented'; }
+        this.bug.sectionData = function(s) {
+            if( s == 'thread' ) {
+                return this.data;
+            }
+            return this.data[s];
+        }
         this.bug.fieldValue = function(s, i, d) { return ''; }
         this.bug.threadSubject = function() { return this.subject; }
-        this.bug.threadFollowupUser = function(s, i, d) { return d['followup']['user_display_name']; }
-        this.bug.threadFollowupAge = function(s, i, d) { return d['followup']['age']; }
-        this.bug.threadFollowupContent = function(s, i, d) { return d['followup']['content']; }
+        this.bug.threadFollowupUser = function(s, i, d) { return d.followup.user_display_name; }
+        this.bug.threadFollowupAge = function(s, i, d) { return d.followup.age; }
+        this.bug.threadFollowupContent = function(s, i, d) { return d.followup.content; }
         this.bug.addClose('Back');
 
         //
@@ -287,6 +293,7 @@ function ciniki_core_help() {
                         M.api.err(rsp);
                         this.bug.data = null;
                     }   
+                    console.log(rsp);
                     var p = M.ciniki_core_help.bug;
                     p.bug_id = M.ciniki_core_help.list.data.bugs[bNUM].bug.id;
                     p.data = rsp.followups;

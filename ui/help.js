@@ -39,7 +39,7 @@ function ciniki_core_help() {
         this.bug.threadSubject = function() { return this.subject; }
         this.bug.threadFollowupUser = function(s, i, d) { return d.followup.user_display_name; }
         this.bug.threadFollowupAge = function(s, i, d) { return d.followup.age; }
-        this.bug.threadFollowupContent = function(s, i, d) { return d.followup.content; }
+        this.bug.threadFollowupContent = function(s, i, d) { return d.followup.html_content; }
         this.bug.addClose('Back');
 
         //

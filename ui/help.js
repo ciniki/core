@@ -57,10 +57,14 @@ function ciniki_core_help() {
             '_ui_options_':{'label':'', 'type':'html', 'html':'The following extended help settings are currently experimental.'
                 + ' They do not work everywhere in the Ciniki Manager, we are currenlty in the process of adding more support.'
                 + ' If you have any problems, please ask a question above. '
-                + ' You can change these settings anytime by opening help.'},
-            '_ui_options':{'label':'Extended Help', 'visible':'no', 'fields':{
-                'ui-mode-guided':{'label':'Guided Mode', 'type':'toggle', 'fn':'M.ciniki_core_help.updateModeGuided', 'toggles':this.toggles},
-                'ui-mode-xhelp':{'label':'Field Descriptions', 'type':'toggle', 'fn':'M.ciniki_core_help.updateModeXHelp', 'toggles':this.toggles},
+                + ' You can change these settings anytime by opening help.',
+                'visible':function() { return ((M.uiModeGuided != null && M.uiModeGuided == 'yes') || (M.uiModeXHelp != null && M.uiModeXHelp == 'yes') ) ? 'yes' : 'no' ; },
+                },
+            '_ui_options':{'label':'Extended Help', 
+                'visible':function() { return ((M.uiModeGuided != null && M.uiModeGuided == 'yes') || (M.uiModeXHelp != null && M.uiModeXHelp == 'yes') ) ? 'yes' : 'no' ; },
+                'fields':{
+                    'ui-mode-guided':{'label':'Guided Mode', 'type':'toggle', 'fn':'M.ciniki_core_help.updateModeGuided', 'toggles':this.toggles},
+                    'ui-mode-xhelp':{'label':'Field Descriptions', 'type':'toggle', 'fn':'M.ciniki_core_help.updateModeXHelp', 'toggles':this.toggles},
                 }},
         };
         this.list.sectionData = function(s) { 
@@ -153,7 +157,7 @@ function ciniki_core_help() {
             this.curHelpUID = args['helpUID'];
         }
 
-        this.list.sections._ui_options.visible = 'yes';
+//        this.list.sections._ui_options.visible = 'yes';
         this.list.data['ui-mode-guided'] = M.uiModeGuided;
         this.list.data['ui-mode-xhelp'] = M.uiModeXHelp;
        

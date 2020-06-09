@@ -2358,6 +2358,9 @@ M.panel.prototype.createSectionGridHeaders = function(s, sc, data) {
     } else {
         cl = 'simplegrid border';
     }
+    if( sc.scrollHeight != null ) {
+        cl += ' scrolling';
+    }
     if( this.headerValue(s, 0, sc) == null ) {
         if( sc.fields != null ) {
             return M.addTable(this.panelUID + '_' + s + '_grid', 'form list ' + cl + ' noheader');
@@ -2514,6 +2517,9 @@ M.panel.prototype.createSectionGrid = function(s) {
     for(i in data) {
         if( sc.limit != null && sc.limit != '' ) {
             if( ct >= sc.limit ) { break; }
+        }
+        if( sc.scrollHeight != null ) {
+            tb.style.maxHeight = sc.scrollHeight;
         }
 
         var tr = this.createSectionGridRow(s, i, sc, num_cols, data[i], tb);

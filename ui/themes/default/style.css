@@ -1623,6 +1623,20 @@ table.svg svg tspan.xlabel {
     }
 } */
 
+/* Scrolling styles */
+table.scrolling {
+    display: block;
+}
+table.scrolling tbody {
+    display: block;
+    overflow-y: auto;
+    width: 100%;
+}
+table.scrolling tfoot > tr > td,
+table.scrolling tbody > tr > td {
+    width: 100%;
+}
+
 /* MetricsGraphics styles */
 table.metricsgraphics svg {
 }

@@ -1632,6 +1632,7 @@ table.scrolling tbody {
     overflow-y: auto;
     width: 100%;
 }
+table.scrolling thead > tr > th,
 table.scrolling tfoot > tr > td,
 table.scrolling tbody > tr > td {
     width: 100%;

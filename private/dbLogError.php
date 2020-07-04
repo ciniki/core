@@ -8,6 +8,8 @@
 //
 function ciniki_core_dbLogError(&$ciniki, $err) {
 
+    ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQuote');
+
     //
     // Don't log if password passed
     //

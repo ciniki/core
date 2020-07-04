@@ -1947,6 +1947,29 @@ M.panel.prototype.createDatePicker = function(s, sd) {
     c2.className = 'date clickable';
     tr.appendChild(c2);
 
+    // Check for second date field (eg: start and end)
+    if( sd.date2 != null && sd.date2 == 'yes' && this.datePickerValue2 != null && sd.fn2 != null) {
+        var v = this.datePickerValue2(s, sd);
+        if( v != null && v != '' && v != 'today' ) {
+            if( v instanceof Date ) {
+                var dt2 = new Date(v.getTime());
+            } else {
+                var dtpieces = v.split('-');
+                var dt2 = new Date(dtpieces[0], Number(dtpieces[1])-1, dtpieces[2]);
+            }
+        } else {
+            var dt2 = new Date();
+        }
+        var dt2s = dt2.toISOString().substring(0,10);
+        // var dtfs = this.dateFormat(dts).date;
+        var dt2fs = M.dateFormatWD(dt2);
+
+        var c3 = M.aE('td',this.panelUID + '_datepicker_field_2','date', dt2fs);
+        c3.setAttribute('onclick', 'M.' + this.appID + '.' + this.name + '.toggleDatePickerCalendar(\'' + dt2s + '\',\'' + sd.fn2 + '\');');
+        c3.className = 'date clickable';
+        tr.appendChild(c3);
+    }
+
     // Search field
     if( sd.livesearch != null && sd.livesearch == 'yes' ) {
         var c4 = M.aE('td',this.panelUID + '_datepicker_search','search');

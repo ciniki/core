@@ -1971,5 +1971,20 @@ M.formatRain = function(v) {
     return v + (v != '' ? '&nbsp;mm' : '');
 }
 M.multiline = function(m,s) {
-    return '<span class="maintext">' + m + '</span><span class="subtext">' + s + '</span>';
+    if( s != null && s != '' ) {
+        return '<span class="maintext">' + m + '</span><span class="subtext">' + s + '</span>';
+    } else {
+        return m;
+    }
+}
+M.appointment = function(sc,s,st) {
+    var t = '';
+    if( sc != null && sc != '' ) {
+        t+='<span class="colourswatch" style="background-color:' + sc + '">&nbsp;</span> ';
+    }
+    t+=s;
+    if( st != null && st != '' ) {
+        t+=' <span class="secondary">' + st + '</span>';
+    }
+    return t;
 }

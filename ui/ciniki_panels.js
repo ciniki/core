@@ -5920,7 +5920,7 @@ M.panel.prototype.generateAppointmentScheduleTable = function(f, field, cl, appo
         var pev = null;
         var pc = null;
         for(i in appointments) {
-            var ev = appointments[i]['appointment'];
+            var ev = appointments[i];
             // Check for all day events
             if( (ev['allday'] != null && ev['allday'] == 'yes') || i == 0 ) {
                 var tr = M.aE('tr');
@@ -6170,7 +6170,7 @@ M.panel.prototype.generateMultiWeekScheduleTable = function(s, cl, data, sdate, 
             // Create a div to contain each appointment
             for(var i in data[cds]) {
                 var e = M.aE('div',null,'appointment');
-                var ev = data[cds][i]['appointment'];
+                var ev = data[cds][i];
                 // Check if there is a specific colour for this appointment
                 if( this.appointmentColour != null ) {
                     e.style.background = this.appointmentColour(ev);

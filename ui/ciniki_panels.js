@@ -6185,8 +6185,11 @@ M.panel.prototype.generateMultiWeekScheduleTable = function(s, cl, data, sdate, 
                 }
                 var su = M.aE('span',null,'subject', this.appointmentAbbrSubject(ev));
                 e.appendChild(su);
-                var se = M.aE('span',null,'secondary', this.appointmentAbbrSecondary(ev));
-                e.appendChild(se);
+                var st = this.appointmentAbbrSecondary(ev);
+                if( st != null && st != '' ) {
+                    var se = M.aE('span',null,'secondary', this.appointmentAbbrSecondary(ev));
+                    e.appendChild(se);
+                }
                 d.appendChild(e);
             }
         }

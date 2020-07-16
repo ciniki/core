@@ -2751,8 +2751,8 @@ table.mwschedule div span.day {
 table.mwschedule div.schedule_appointment {
     overflow: hidden;
     text-overflow: ellipsis;
-    padding: 0.2em;
-    margin: 0.1em;
+    padding: 0.3em 0.4em;
+    margin: 0.15em;
     font-size: 0.85em;
     border-radius: 4px;
 }

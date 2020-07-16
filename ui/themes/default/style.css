@@ -2583,8 +2583,7 @@ table.dayschedule {
     /* margin: 1px; */
     padding: 0px;
     font-size: 1.0em;
-    border-top: 1px solid #bbb;
-    border-left: 1px solid #bbb;
+    border: 1px solid #bbb;
 }
 
 table.dayschedule td {
@@ -2626,7 +2625,8 @@ table.dayschedule td.schedule_interval_allday {
     border-bottom: 0px;
 }
 
-table.dayschedule td.schedule_appointment {
+table.dayschedule td.schedule_appointment,
+table.dayschedule > tbody > tr > td.schedule_appointment:last-child {
     text-align: left;
     vertical-align: top;
     overflow: hidden;
@@ -2634,7 +2634,11 @@ table.dayschedule td.schedule_appointment {
     padding: 0.5em;
     margin: 0.5em;
     font-size: 0.85em;
-    border-radius: 3px;
+    border: 0px;
+    border-top: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+    border-left: 2px solid #fff;
+    border-right: 2px solid #fff;
 }
 
 table.dayschedule td span.secondary {
@@ -2646,7 +2650,7 @@ table.dayschedule td.schedule_appointment div.schedule_appointment {
     text-align: left;
     overflow: hidden;
     padding: 0.5em;
-    margin: 0px;
+/*    margin: 0px; */
 }
 
 table.dayschedule td.schedule_appointment p {
@@ -2668,11 +2672,14 @@ table.dayschedule span.colourswatch {
     font-family: CinikiRegular;
     vertical-align: top;
     border-radius: 4px;
+    line-height: 1.15em;
 }
 
-table.dayschedule td.empty {
+table.dayschedule td.empty,
+table.dayschedule > tbody > tr > td.empty:last-child {
     background: #fff;
     cursor: default;
+    border-right: 0px;
 }
 table.dayschedule td.allday {
     font-size: 0.9em;
@@ -2754,7 +2761,6 @@ table.mwschedule div.schedule_appointment {
     padding: 0.3em 0.4em;
     margin: 0.15em;
     font-size: 0.85em;
-    border-radius: 4px;
 }
 
 table.mwschedule span.time {
@@ -2764,7 +2770,7 @@ table.mwschedule span.time {
 }
 
 table.mwschedule span.colourswatch {
-    display: inline-block;
+    display: inline;
     margin: 0.0em;
     padding: 0.05em 0.05em 0.05em 0.05em;
     width: 1.05em !important;
@@ -2774,6 +2780,7 @@ table.mwschedule span.colourswatch {
     font-family: CinikiRegular;
     vertical-align: top;
     border-radius: 4px;
+    border: 1px solid #777;
 }
 
 table.mwschedule span.subject,

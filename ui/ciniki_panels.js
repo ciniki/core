@@ -524,7 +524,32 @@ M.panel.prototype.createSections = function() {
     for(var i in this.sections) {
         var r = this.createSection(i, this.sections[i]);
         if( r != null ) {
-            if( this.sections[i].panelcolumn != null ) {
+            if( this.sections[i].flexcolumn != null ) {
+                if( panelcol == 0 ) {
+                    var columns = M.aE('div',null,'flexcolumns');            
+                    f.appendChild(columns);
+                }
+                if( this.sections[i].flexcolumn != panelcol ) {
+                    var column = M.aE('div',null,'flexcolumn');
+                    if( this.sections[i].flexgrow != null ) {
+                        column.style.flexGrow = parseInt(this.sections[i].flexgrow);
+                    }
+                    if( this.sections[i].minwidth != null ) {
+                        column.style.minWidth = this.sections[i].minwidth;
+                    }
+                    if( this.sections[i].width != null ) {
+                        column.style.width = this.sections[i].width;
+                    }
+                    if( this.sections[i].maxwidth != null ) {
+                        column.style.maxWidth = this.sections[i].maxwidth;
+                    }
+                    columns.appendChild(column);
+                }
+
+                panelcol = this.sections[i].flexcolumn;
+                var r = this.createSection(i, this.sections[i]);
+                column.appendChild(r);
+            } else if( this.sections[i].panelcolumn != null ) {
                 if( panelcol == 0 ) {
                     var columns = M.aE('div',null,'panelcolumns');            
                     f.appendChild(columns);
@@ -778,7 +803,9 @@ M.panel.prototype.createSection = function(i, s) {
         
     var type = this.sectionType(i, s);
    
-    if( s.panelcolumn != null ) {
+    if( s.flexcolumn != null ) {
+        var f = M.aE('div', this.panelUID + '_section_' + i, 'flexsection');
+    } else if( s.panelcolumn != null ) {
         var f = M.aE('div', this.panelUID + '_section_' + i, 'columnsection');
         
     } else if( s.aside != null ) {

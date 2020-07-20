@@ -3169,6 +3169,7 @@ div.xhelp-on tr.xhelp-text td p {
     background-color: rgba(255,253,213,1.0);
 }
 
+div.flexcolumn span.addlink,
 div.panelcolumn span.addlink,
 div.panelsection span.addlink {
     float: right;

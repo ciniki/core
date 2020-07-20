@@ -1970,6 +1970,12 @@ M.formatWind = function(s,d) {
 M.formatRain = function(v) {
     return v + (v != '' ? '&nbsp;mm' : '');
 }
+M.subdue = function(pre,m,post) {
+    if( m != '' ) {
+        return '<span class="subdue">' + pre + m + post + '</span>';
+    }
+    return '';
+}
 M.multiline = function(m,s) {
     if( s != null && s != '' ) {
         return '<span class="maintext">' + m + '</span><span class="subtext">' + s + '</span>';

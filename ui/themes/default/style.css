@@ -1412,6 +1412,12 @@ table.list table.fieldhistory td.fieldnotes {
 table.list td.searchresults {
     text-align: left;
     padding: 0em;
+    padding-left: 0.25em;
+    padding-right: 0.25em;
+    padding-bottom: 0.5em;
+}
+table.list td.searchresults > table {
+    background: #eee;
 }
 
 table.list td.nosearchresults {

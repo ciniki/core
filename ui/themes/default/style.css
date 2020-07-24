@@ -2565,6 +2565,7 @@ table.simplegrid tr.highlight {
     font-size: 1em;
     font-weight: normal;
 }
+table.datepicker tr.statusgreen,
 table.simplegrid tr.statusgreen,
 table.simplegrid td.statusgreen {
     background: #ddffdd;

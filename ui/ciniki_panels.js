@@ -1953,6 +1953,12 @@ M.panel.prototype.createDatePicker = function(s, sd) {
     }
     var th = M.aE('tbody');
     var tr = M.aE('tr');
+    if( this.rowClass != null ) {
+        var cl = this.rowClass(s, 0, sd);
+        if( cl != '' && cl != null ) {  
+            tr.className = cl;
+        }
+    }
 
     // Previous
     //var c1 = M.aE('td',null,'prev', '<img src=\'' + M.themes_root_url + '/default/img/arrowleft.png\'>');

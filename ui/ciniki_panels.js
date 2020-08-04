@@ -2668,7 +2668,7 @@ M.panel.prototype.createSectionGrid = function(s) {
     }
 
     //
-    // Add a row for the add button
+    // Add a row for the change button
     //
     if( sc.changeFn != null && sc.changeFn != '' && sc.changeTxt != '' ) {
         var tr = M.aE('tr');

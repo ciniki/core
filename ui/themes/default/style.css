@@ -475,10 +475,9 @@ div.flexcolumn {
     flex-grow: 1;
 }
 @media screen and (max-width: 30em) {
-    div.flexcolumns,
-    div.flexcolumn {
+    div.flexcolumns {
         padding-left: 0em;
-        padding-right: 0em;
+        padding-right: 0em; 
     }
 }
 div.flexcolumn div.flexsection {

@@ -3364,6 +3364,10 @@ M.panel.prototype.createHtml = function(s, sc) {
     } else {
         c.innerHTML = sc.html;
     }
+    if( sc.scrollHeight != null ) {
+        t.classList.add('scrolling');
+        tb.style.maxHeight = sc.scrollHeight;
+    }
     tr.appendChild(c);
     tb.appendChild(tr);
     t.appendChild(tb);
@@ -4036,6 +4040,10 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
         }
         if( field.hint != null && field.hint != '' ) {
             f.setAttribute('placeholder', field.hint);
+        }
+        if( field.editable != null && field.editable == 'no' ) {
+            f.setAttribute('readonly', 'yes');
+            f.className = f.className + ' readonly';
         }
         var v = this.fieldValue(s, i, field, mN);
         if( v != null ) {

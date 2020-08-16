@@ -112,6 +112,9 @@ function ciniki_core_help() {
         this.online.addButton('exit', 'Close', 'M.toggleHelp(null);'); 
     }
 
+    //
+    // The panel to display the internal embedded help
+    //
     this.internal = new M.panel('Help', 'ciniki_core_help', 'internal', 'mh', 'medium', 'sectioned', 'ciniki.core.help.internal');
     this.internal.data = {};
     this.internal.sections = {
@@ -136,6 +139,92 @@ function ciniki_core_help() {
         this.show();
     }
     this.internal.addButton('exit', 'Close', 'M.toggleHelp(null);'); 
+
+    //
+    // The panel to display the custom tenant specific help
+    //
+    this.custom = new M.panel('Help', 'ciniki_core_help', 'internal', 'mh', 'medium', 'sectioned', 'ciniki.core.help.custom');
+    this.custom.data = {};
+    this.custom.sections = {
+//        '_content':{'label':'', 'scrollHeight':'80vh', 'fields':{   
+//            'content':{'label':'', 'hidelabel':'yes', 'type':'textarea', 'editable':'yes', 'size':'large'},
+//            }},
+        'content_display':{'label':'', 'scrollHeight':'80vh', 'type':'html'},
+    };
+    this.custom.open = function(cb) {
+        //
+        // Clear existing help
+        //
+        this.data.content = 'Loading...';
+        this.refresh();
+        this.show(cb);
+
+        //
+        // Load the custom help for this panel
+        //
+        M.api.getJSONBgCb('ciniki.tenants.uihelpGet', {'tnid':M.curTenantID, 'helpUID':M.ciniki_core_help.curHelpUID}, function(rsp) {
+            if( rsp.stat != 'ok' ) {
+                M.api.err(rsp);
+                return false;
+            }
+            var p = M.ciniki_core_help.custom;
+            p.data = rsp.content;
+            p.delButton('edit');
+            if( M.curTenant.permissions.owners != null && M.curTenant.permissions.owners == 'yes' ) {
+                p.addLeftButton('edit', 'Edit', 'M.ciniki_core_help.customedit.open(\'M.ciniki_core_help.custom.open();\',\'' + M.ciniki_core_help.curHelpUID + '\');'); 
+            }
+            p.refresh();
+            p.show();
+        });
+    }
+    this.custom.addButton('exit', 'Close', 'M.toggleHelp(null);'); 
+
+    //
+    // The panel to edit UI Help
+    //
+    this.customedit = new M.panel('Edit Help', 'ciniki_core_help', 'customedit', 'mh', 'medium', 'sectioned', 'ciniki.core.help.customedit');
+    this.customedit.data = null;
+    this.customedit.helpuid = '';
+    this.customedit.sections = {
+        'general':{'label':'', 'fields':{
+            'content':{'label':'Content', 'hidelabel':'yes', 'required':'yes', 'type':'textarea', 'size':'xlarge', 'history':'no'},
+            }},
+        '_buttons':{'label':'', 'buttons':{
+            'save':{'label':'Save', 'fn':'M.ciniki_core_help.customedit.save();'},
+            }},
+        };
+    this.customedit.fieldValue = function(s, i, d) { return this.data[i]; }
+    this.customedit.open = function(cb, hid) {
+        if( hid != null ) { this.helpuid = hid; }
+        M.api.getJSONCb('ciniki.tenants.uihelpGet', {'tnid':M.curTenantID, 'helpUID':this.helpuid}, function(rsp) {
+            if( rsp.stat != 'ok' ) {
+                M.api.err(rsp);
+                return false;
+            }
+            var p = M.ciniki_core_help.customedit;
+            p.data = rsp.content;
+            p.refresh();
+            p.show(cb);
+        });
+    }
+    this.customedit.save = function(cb) {
+        if( cb == null ) { cb = 'M.ciniki_core_help.customedit.close();'; }
+        if( !this.checkForm() ) { return false; }
+        var c = this.serializeForm('yes');
+        if( c != '' ) {
+            M.api.postJSONCb('ciniki.tenants.uihelpUpdate', {'tnid':M.curTenantID, 'helpUID':this.helpuid}, c, function(rsp) {
+                if( rsp.stat != 'ok' ) {
+                    M.api.err(rsp);
+                    return false;
+                }
+                eval(cb);
+            });
+        } else {
+            eval(cb);
+        }
+    }
+    this.customedit.addButton('save', 'Save', 'M.ciniki_core_help.customedit.save();');
+    this.customedit.addClose('Cancel');
 
     
     //
@@ -166,8 +255,9 @@ function ciniki_core_help() {
 //        this.list.sections._ui_options.visible = 'yes';
         this.list.data['ui-mode-guided'] = M.uiModeGuided;
         this.list.data['ui-mode-xhelp'] = M.uiModeXHelp;
-       
-        if( M.helpMode != null && M.helpMode == 'internal' ) {
+        if( M.curHelpUID != 'ciniki.core.menu.tenants' && M.modFlagOn('ciniki.tenants', 0x0200) ) {
+            this.custom.open(cb);
+        } else if( M.helpMode != null && M.helpMode == 'internal' ) {
             this.internal.open(cb);
         } else if( M.helpMode != null && M.helpMode == 'online' && M.helpURL != null ) {
             this.online.open(cb);
@@ -182,7 +272,20 @@ function ciniki_core_help() {
     }
 
 
+    //
+    // The showHelp is called each time the panel is changed
+    //
     this.showHelp = function(helpUID) {
+        //
+        // Check if edit is open
+        //
+        if( M.curHelpUID != 'ciniki.core.menu.tenants' && M.modFlagOn('ciniki.tenants', 0x0200) ) {
+            var e = M.gE(M.ciniki_core_help.customedit.panelUID);
+            if( e != null && e.style.display != 'none' ) {
+                M.ciniki_core_help.customedit.save('');
+            }
+        }
+
         //
         // Set the helpUID which is to be shown.  This variable is used
         // by the bugs and features apps
@@ -202,7 +305,9 @@ function ciniki_core_help() {
         // if feature, display feature requests
         // if menu, ask, report or request, leave along
         //
-        if( M.helpMode != null && M.helpMode == 'internal' ) {
+        if( M.curHelpUID != 'ciniki.core.menu.tenants' && M.modFlagOn('ciniki.tenants', 0x0200) ) {
+            this.custom.open();
+        } else if( M.helpMode != null && M.helpMode == 'internal' ) {
             this.internal.open();
         } else if( M.helpMode != null && M.helpMode == 'online' && M.helpURL != null ) {
             this.online.open();
@@ -286,21 +391,19 @@ function ciniki_core_help() {
         //  
         // Setup the details for the question
         //  
-        var r = M.api.getJSONCb('ciniki.bugs.bugGetFollowups', 
-            {'tnid':M.masterTenantID, 
-                'bug_id':this.list.data.bugs[bNUM].bug.id}, function(rsp) {
-                    if( rsp.stat != 'ok' ) { 
-                        M.api.err(rsp);
-                        this.bug.data = null;
-                    }   
-                    console.log(rsp);
-                    var p = M.ciniki_core_help.bug;
-                    p.bug_id = M.ciniki_core_help.list.data.bugs[bNUM].bug.id;
-                    p.data = rsp.followups;
-                    p.users = rsp.users;
-                    p.refresh();
-                    p.show('M.ciniki_core_help.list.show();');
-                });
+        M.api.getJSONCb('ciniki.bugs.bugGetFollowups', {'tnid':M.masterTenantID, 
+            'bug_id':this.list.data.bugs[bNUM].bug.id}, function(rsp) {
+                if( rsp.stat != 'ok' ) { 
+                    M.api.err(rsp);
+                    this.bug.data = null;
+                }   
+                var p = M.ciniki_core_help.bug;
+                p.bug_id = M.ciniki_core_help.list.data.bugs[bNUM].bug.id;
+                p.data = rsp.followups;
+                p.users = rsp.users;
+                p.refresh();
+                p.show('M.ciniki_core_help.list.show();');
+            });
     }
 
     this.addFollowup = function() {

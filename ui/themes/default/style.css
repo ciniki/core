@@ -3381,6 +3381,16 @@ div.panelsection span.addlink {
 #m_help .internal {
     background: #fff;
 }
+#m_help.leftborder.noscroll {
+    right: 0px;
+    top: 0px;
+    position: fixed; 
+}
+#m_help.leftborder.noscroll table.list tr,
+#m_help.leftborder.noscroll table.list tr td {
+    display: block;
+    box-sizing: border-box;
+}
 
 #m_help.leftborder {
     border-left: 1px dotted #777;

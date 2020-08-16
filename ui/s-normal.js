@@ -111,6 +111,9 @@ M.toggleHelp = function(helpUID) {
             M.setWidth('m_help', '24%');
             document.getElementById('m_help').className = 'leftborder guided-off ' + M.helpMode;
         }
+        if( M.curHelpUID != 'ciniki.core.menu.tenants' && M.modFlagOn('ciniki.tenants', 0x0200) ) {
+            document.getElementById('m_help').classList.add('noscroll');
+        }
         M.show('m_help');
         M.resize();
     }

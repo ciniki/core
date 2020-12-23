@@ -5248,7 +5248,11 @@ M.panel.prototype.clearLiveSearches = function(s, f) {
     for(i in this.liveSearchTables) {
         if( this.liveSearchTables[i] == 'on' && i != sid ) {
             var h = M.gE(i);
-            if( h != null && h.parentNode != null && h.parentNode.parentNode != null ) { 
+            // Make sure the parent node is a searchresults class
+            // Otherwise search results outside of form break the clearing
+            if( h != null && h.parentNode != null && h.parentNode.parentNode != null 
+                && h.parentNode.parentNode.className != null && h.parentNode.parentNode.className == 'searchresults' 
+                ) { 
                 h = h.parentNode.parentNode;
                 h.parentNode.removeChild(h); 
             }

@@ -23,6 +23,7 @@ function ciniki_core_init($ciniki_root, $output_format) {
     //
     // Load the function required and used most frequently
     //
+    require_once($ciniki_root . '/ciniki-mods/core/private/syncQueueProcess.php');
     require_once($ciniki_root . '/ciniki-mods/core/private/checkModuleFlags.php');
     require_once($ciniki_root . '/ciniki-mods/core/private/checkModuleActive.php');
 

@@ -4240,7 +4240,7 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
             f.setAttribute('onfocus', this.panelRef + '.clearLiveSearches(\''+s+'\',\''+i+sFN+'\');');
 //            var bit_value = (v&Math.pow(2,j-1))==Math.pow(2,j-1)?1:0;
             var bit_value = j > 32 ? (vhi>>(j-33)&0x01) : (vlo>>(j-1)&0x01);
-            if( bit_value == 1 ) {
+            if( bit_value == 1 || (j == 0 && (vlo&field.mask) == 0 && (vhi&(field.mask>>32)) == 0 ) ) {
                 f.className = 'flag_on';
             } else {
                 f.className = 'flag_off';

@@ -1994,3 +1994,14 @@ M.appointment = function(sc,s,st) {
     }
     return t;
 }
+M.modSettingSet = function(m,s) {
+    if( M.curTenant.modules != null
+        && M.curTenant.modules[m] != null
+        && M.curTenant.modules[m].settings != null
+        && M.curTenant.modules[m].settings[s] != null
+        && M.curTenant.modules[m].settings[s] == 'yes'
+        ) {
+        return 'yes';
+    }
+    return 'no';
+}

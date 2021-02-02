@@ -1954,6 +1954,12 @@ M.eU = function(s) {
 M.dU = function(s) {
     return decodeURIComponent(s);
 }
+M.formatDollar = function(s) {
+    if( s != null && s != '' ) {
+        return '$' + parseFloat(s).toFixed(2);
+    }
+    return '';
+}
 // Weather functions
 M.formatTemp = function(t) {
     return t + (t != '' ? '&deg;' : '');

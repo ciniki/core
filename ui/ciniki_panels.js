@@ -4085,6 +4085,10 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
             var v = j;
             // If option_name is specified, then option is a complex object  
             // These are the result of an object sent back through cinikiAPI
+            if( field.idnames != null && field.idnames == 'yes' ) {
+                n = o[j].name;
+                v = o[j].id;
+            }
             if( field.complex_options != null ) { 
                 if( field.complex_options.subname != null ) {
                     n = o[j][field.complex_options.subname][field.complex_options.name];

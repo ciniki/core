@@ -1976,6 +1976,9 @@ M.formatWind = function(s,d) {
 M.formatRain = function(v) {
     return v + (v != '' ? '&nbsp;mm' : '');
 }
+M.textCount = function(t, c) {
+    return t + (c != null ? '<span class="count">' + c + '</span>' : '');
+}
 M.subdue = function(pre,m,post) {
     if( m != '' ) {
         return '<span class="subdue">' + pre + m + post + '</span>';

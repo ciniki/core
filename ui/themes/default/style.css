@@ -1611,12 +1611,17 @@ table.simplegrid td.lightborderright {
 }
 
 table.simplegrid td.thumbnail {
-    padding: 0.5em;
+    padding: 0.25em;
     width: 2em;
     line-height: 0px;
 }
+table.simplegrid td.thumbnails {
+    width: auto;
+}
 
-table.simplegrid td.thumbnail img {
+table.simplegrid td.thumbnail img,
+table.simplegrid td.thumbnails img {
+    padding: 0.25em;
 }
 
 table.form td.input div.image_preview {

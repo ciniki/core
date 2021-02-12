@@ -59,7 +59,12 @@ function ciniki_core_storageFileAdd(&$ciniki, $tnid, $obj_name, $args) {
             return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.171', 'msg'=>'Unable to add file'));
         }
     }
-    if( !rename($_FILES['uploadfile']['tmp_name'], $storage_filename) ) {
+    if( isset($args['binary_content']) && $args['binary_content'] != '' ) {
+        if( !file_put_contents($storage_filename, $args['binary_content']) ) {
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.403', 'msg'=>'Unable to add file'));
+        }
+    }
+    elseif( !rename($_FILES['uploadfile']['tmp_name'], $storage_filename) ) {
         return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.172', 'msg'=>'Unable to add file'));
     }
 

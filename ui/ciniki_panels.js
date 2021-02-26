@@ -180,7 +180,11 @@ M.panel.prototype.show = function(cb) {
         this.gstepGoto(this.gstep);
 //    }
 
-    M.setHTML(this.titleID, this.title);
+    if( M.multiTenant != null && M.multiTenant == 'yes' && this.title != 'Tenants' && this.title != M.curTenant.name ) {
+        M.setHTML(this.titleID, M.curTenant.name + ' - ' + this.title);
+    } else {
+        M.setHTML(this.titleID, this.title);
+    }
 
     this.showButtons('leftbuttons', this.leftbuttons);
     this.showButtons('rightbuttons', this.rightbuttons);

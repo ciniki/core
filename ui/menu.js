@@ -31,11 +31,13 @@ function ciniki_core_menu() {
             // If only 1 tenant, then go direct to that menu
             //
             M.startApp(M.tenantMenu,null,null,'mc',{'id':r.tenants[0].tenant.id});
+            M.multiTenant = 'no';
         } else {
             //
             // Create the app container if it doesn't exist, and clear it out
             // if it does exist.
             //
+            M.multiTenant = 'yes';
             var appContainer = M.createContainer('mc', 'ciniki_core_menu', 'yes');
             if( appContainer == null ) {
                 M.alert('App Error');

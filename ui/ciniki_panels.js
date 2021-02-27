@@ -3729,7 +3729,12 @@ M.panel.prototype.refreshFormField = function(s, fid) {
     if( l != null && l.innerHTML != null && l.innerHTML != this.sections[s].fields[fid].label ) {
         l.innerHTML = this.sections[s].fields[fid].label;
     }
-    if( this.sections[s].fields[fid].visible != null && this.sections[s].fields[fid].visible == 'no' ) {
+    if( this.sections[s].fields[fid].visible != null 
+        && typeof this.sections[s].fields[fid].visible == 'function' 
+        && this.sections[s].fields[fid].visible() == 'no' 
+        ) {
+        o.parentNode.style.display = 'none';
+    } else if( this.sections[s].fields[fid].visible != null && this.sections[s].fields[fid].visible == 'no' ) {
         o.parentNode.style.display = 'none';
     } else {
         o.parentNode.style.display = '';

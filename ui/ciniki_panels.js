@@ -1485,7 +1485,7 @@ M.panel.prototype.createSimpleThumbnails = function(s) {
         data = sc.data;
     }
 //    var f = document.createDocumentFragment();
-    var f = M.aE('div', null, 'media');
+    var f = M.aE('div', null, 'media' + (sc.imgsize != null ? ' ' + sc.imgsize + 'img': ''));
     if( data == null ) { return f; }
 
     for(i in data) {

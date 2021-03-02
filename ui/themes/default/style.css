@@ -499,6 +499,9 @@ table.outline {
 table.outline tr.separator > td {
     border-top: 1px solid #ccc;
 }
+table.outline tr.separator:first-child > td {
+    border-top: 0px;
+}
 
 a.website,
 a.website:hover,

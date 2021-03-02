@@ -496,7 +496,7 @@ table.outline {
     background: #fff;
 /*    border-collapse: collapse; */
 }
-table.outline tr.separator {
+table.outline tr.separator > td {
     border-top: 1px solid #ccc;
 }
 

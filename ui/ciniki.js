@@ -2003,6 +2003,9 @@ M.appointment = function(sc,s,st) {
     }
     return t;
 }
+M.btn = function(t,f) {
+    return '<button onclick="event.stopPropagation();' + f + 'return false;">' + t + '</button>';
+}
 M.modSettingSet = function(m,s) {
     if( M.curTenant.modules != null
         && M.curTenant.modules[m] != null
@@ -2013,4 +2016,10 @@ M.modSettingSet = function(m,s) {
         return 'yes';
     }
     return 'no';
+}
+M.emWidth = function() {
+    return window.innerWidth/parseFloat(getComputedStyle(document.querySelector('body'))['font-size']);
+}
+M.colourSwatch = function(c) {
+    return "<span class='colourswatch' style='background-color: " + (c != null && c != '' ? c : '#ffffff') + ";'>&nbsp;</span>";
 }

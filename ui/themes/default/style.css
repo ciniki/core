@@ -2578,6 +2578,9 @@ input.submit {
     font-size: 1.2em;
     padding: 0.1em 0.2em;
 }
+table.list tr td.highlightcell {
+    background: #ff7;
+}
 table.list tr.highlight,
 table.simplegrid tr.highlight {
     background: #ffa;

@@ -191,11 +191,19 @@ if( preg_match('/Mozilla\/5.*iPad.*AppleWebKit\/(5|6).*KHTML, like Gecko.*Mobile
     $browser = 'safari';
     $engine = 'webkit';
 }
-elseif( preg_match('/Mozilla\/5.*Android.*AppleWebKit\/5.*KHTML, like Gecko.*SamsungBrowswer.*Safari\/5.*/', $_SERVER['HTTP_USER_AGENT']) == 1 ) {
-    $device = 'android';
+elseif( preg_match('/Mozilla\/5.*Android.*AppleWebKit\/5.*SamsungBrowser.*Safari\/5.*/', $_SERVER['HTTP_USER_AGENT']) == 1 ) {
+    $device = 'samsung';
     $touch = 'yes';
-    $browser = 'safari';
+    $browser = 'samsung';
     $engine = 'webkit';
+    $size = 'compact';
+}
+elseif( preg_match('/Mozilla\/5.*Android.*Chrome.*Safari\/5.*/', $_SERVER['HTTP_USER_AGENT']) == 1 ) {
+    $device = 'samsung';
+    $touch = 'yes';
+    $browser = 'chrome';
+    $engine = 'webkit';
+    $size = 'compact';
 }
 elseif( preg_match('/Mozilla\/5.*Android.*Xoom .*AppleWebKit\/5.*KHTML, like Gecko.*Safari\/5.*/', $_SERVER['HTTP_USER_AGENT']) == 1 ) {
     $device = 'zoom';
@@ -327,7 +335,6 @@ elseif( preg_match('/Mozilla\/5.* .* AppleWebKit\/.* CinikiApp\/.*/', $_SERVER['
     $browser = 'safari';
     $engine = 'webkit';
 }
-
 // print '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">';
 print '<!DOCTYPE html>';
 if( file_exists("$manage_root/$device-$engine.manifest") ) {
@@ -419,6 +426,10 @@ if( $device == 'ipad' && $engine == 'webkit' ) { ?>
     <?php print "<link rel='apple-touch-icon' href='$manage_themes/default/img/icon.png'/>\n"; ?>
 <?php } elseif( $device == 'bb10' && $engine == 'webkit' ) { ?>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+<?php } elseif( $device == 'samsung' ) { ?>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0" />
+    <?php print "<link rel='icon' sizes='192x192' href='$manage_themes/default/img/icon192.png'/>\n"; ?>
+    <?php print "<link rel='icon' sizes='128x128' href='$manage_themes/default/img/icon128.png'/>\n"; ?>
 <?php } elseif( ($device == 'blackberry' || $device == 'android') && $engine == 'webkit' ) { ?>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0, target-densitydpi=medium-dpi" />
     <?php // <script src='/ciniki-manage/core/ui/iscroll.js' type='text/javascript'></script> ?>

@@ -6534,10 +6534,16 @@ M.panel.prototype.checkForm = function() {
     // FIXME: Add check for required formtabs field_id
 
     // FIXME: Add checks for required GridSection
+    // FIXME: Skip multi sections, they need to be serialized another way
 
     for(i in this.sections) {
         var s = this.sections[i];
-        // Skip multi sections, they need to be serialized another way
+        // Skip inactive sections
+        if( s.active != null && typeof s.active == 'function' ) {
+            if( s.active() != 'yes' ) {
+                continue;
+            }
+        }
         for(j in s.fields) {
             var f = s.fields[j];
             if( f.required != null && f.required == 'yes' ) {

@@ -2248,6 +2248,10 @@ div.media.mediumimg div div.imgwrap {
     width: 9em;
     height: 9em;
 }
+div.media.largeimg div div.imgwrap {
+    width: 12em;
+    height: 12em;
+}
 
 div.media div.media_image div.imgwrap {
     border: 1px solid #ddd;
@@ -2275,6 +2279,10 @@ div.media.mediumimg div.imgwrap img {
     width: 8.6em;
     height: 8.6em;
 }
+div.media.largeimg div.imgwrap img {
+    width: 11.6em;
+    height: 11.6em;
+}
 
 div.media div.titlewrap {
     width: 8.0em;
@@ -2287,6 +2295,9 @@ div.media div.titlewrap {
 }
 div.media.mediumimg div.titlewrap {
     width: 11em;
+}
+div.media.largeimg div.titlewrap {
+    width: 14em;
 }
 
 div.media div.media_album div.titlewrap {

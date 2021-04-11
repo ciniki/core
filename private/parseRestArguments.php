@@ -33,6 +33,8 @@ function ciniki_core_parseRestArguments(&$ciniki) {
             // Check for the required keys
             $arg_key = rawurldecode($arg_key);
             $arg_value = rawurldecode($arg_value);
+            // Convert smart quotes to regular quotes
+            $arg_value = preg_replace("/(\x{201C}|\x{201D})/u", '"', $arg_value);
             if( in_array($arg_key, $request_keys) ) {
                 $ciniki['request'][$arg_key] = $arg_value;
             } elseif( in_array($arg_key, $response_keys) ) {
@@ -53,6 +55,8 @@ function ciniki_core_parseRestArguments(&$ciniki) {
             foreach($_POST as $arg_key => $arg_value) {
                 $arg_key = urldecode($arg_key);
                 $arg_value = urldecode($arg_value);
+                // Convert smart quotes to regular quotes
+                $arg_value = preg_replace("/(\x{201C}|\x{201D})/u", '"', $arg_value);
                 if( in_array($arg_key, $request_keys) ) {
                     $ciniki['request'][$arg_key] = $arg_value;
                 } elseif( in_array($arg_key, $response_keys) ) {
@@ -70,6 +74,8 @@ function ciniki_core_parseRestArguments(&$ciniki) {
                 $nv = explode("=", $pair);
                 $arg_key = urldecode($nv[0]);
                 $arg_value = (isset($nv[1]) ? urldecode($nv[1]) : '');
+                // Convert smart quotes to regular quotes
+                $arg_value = preg_replace("/(\x{201C}|\x{201D})/u", '"', $arg_value);
                 if( in_array($arg_key, $request_keys) ) {
                     $ciniki['request'][$arg_key] = $arg_value;
                 } elseif( in_array($arg_key, $response_keys) ) {

@@ -428,12 +428,6 @@ M.panel.prototype.showHideSection = function(s) {
 };
 
 M.panel.prototype.showHideSections = function(s) {
-    for(var i in s) {
-        this.showHideSection(s[i]);
-    }
-};
-
-M.panel.prototype.showHideSections = function(s) {
     if( s == null ) {
         for(var i in this.sections) {
             this.showHideSection(i);
@@ -4581,7 +4575,11 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
 //        }
     }
     else if( field.type == 'image_id' ) {
-        var d = M.aE('div', this.panelUID + '_' + i + sFN + '_preview', 'image_preview');
+        if( field.size != null && field.size != '' ) {
+            var d = M.aE('div', this.panelUID + '_' + i + sFN + '_preview', 'image_preview ' + field.size);
+        } else {
+            var d = M.aE('div', this.panelUID + '_' + i + sFN + '_preview', 'image_preview');
+        }
         var img_id = this.fieldValue(s, i, field);
         var onclick = '';
         if( field.onclick != null && field.onclick != '' ) {

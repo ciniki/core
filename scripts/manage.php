@@ -191,6 +191,13 @@ if( preg_match('/Mozilla\/5.*iPad.*AppleWebKit\/(5|6).*KHTML, like Gecko.*Mobile
     $browser = 'safari';
     $engine = 'webkit';
 }
+elseif( preg_match('/Dalvik\/2.*Android 9.*/', $_SERVER['HTTP_USER_AGENT']) == 1 ) {
+    $device = 'samsung';
+    $touch = 'yes';
+    $browser = 'samsung';
+    $engine = 'webkit';
+    $size = 'compact';
+}
 elseif( preg_match('/Mozilla\/5.*Android.*AppleWebKit\/5.*SamsungBrowser.*Safari\/5.*/', $_SERVER['HTTP_USER_AGENT']) == 1 ) {
     $device = 'samsung';
     $touch = 'yes';

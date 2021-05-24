@@ -191,10 +191,19 @@ function ciniki_core_emailQueueProcess(&$ciniki) {
                     $mail->FromName = $ciniki['config']['ciniki.core']['system.email.name'];
                 }
 
-                if( isset($email['to_name']) && $email['to_name'] != '' ) {
-                    $mail->AddAddress($email['to'], $email['to_name']);
+                if( isset($ciniki['config']['ciniki.mail']['force.mailto']) ) {
+                    if( isset($email['to_name']) && $email['to_name'] != '' ) {
+                        $mail->AddAddress($ciniki['config']['ciniki.mail']['force.mailto'], $email['to_name']);
+                    } else {
+                        $mail->AddAddress($ciniki['config']['ciniki.mail']['force.mailto']);
+                    }
+                    $email['subject'] .= ' [' . $email['to'] . ']';
                 } else {
-                    $mail->AddAddress($email['to']);
+                    if( isset($email['to_name']) && $email['to_name'] != '' ) {
+                        $mail->AddAddress($email['to'], $email['to_name']);
+                    } else {
+                        $mail->AddAddress($email['to']);
+                    }
                 }
                 
                 // Add reply to if specified

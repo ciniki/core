@@ -4801,7 +4801,7 @@ M.panel.prototype.updateImgPreview = function(fid, img_id) {
         } else {
             var url = M.api.getBinaryURL('ciniki.images.get', {'tnid':M.curTenantID, 
                 'image_id':img_id, 
-                'version':(field.version != null ? field.version : 'original'), 'maxwidth':'0', 'maxheight':'600'});
+                'version':(f.version != null ? f.version : 'original'), 'maxwidth':'0', 'maxheight':'600'});
         }
         if( f != null && f.size == 'large' ) {
             d.innerHTML = '<img src=\'' + url + '&ts=' + new Date().getTime() + '\' />';

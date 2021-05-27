@@ -672,7 +672,6 @@ M.api.postFormData = function(m, p, f, c) {
 // This function will alert the user with the error returned from the api call.
 //
 M.api.err = function(r) {
-    console.log(r);
     if( r.err != null ) {
         //
         // Check if session has expired

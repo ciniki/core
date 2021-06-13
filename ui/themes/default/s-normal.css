@@ -96,6 +96,8 @@ div.large {
     max-width: 95%;
     margin: 0 auto;
 }
+div.xlarge.largeaside,
+div.large.largeaside,
 div.xlarge.mediumaside,
 div.large.mediumaside,
 div.xlarge.narrowaside,
@@ -395,6 +397,16 @@ table.list td div.calendar {
     div.help-on.guided-off div.mediumaside div.panelsection {
         width: 35em;
         margin-left: 35em;
+    }
+    div.help-off.guided-off div.xlarge.columns {
+        width: 95%;
+        max-width: 95%;
+    }
+    div.help-off div.xlarge.columns div.panelcolumns div.panelcolumn {
+        display: inline-block;
+        width: 49%;
+        margin-right: 1%;
+        vertical-align: top;
     }
 
     div.help-on.guided-off div.medium.mediumaside div.columns,

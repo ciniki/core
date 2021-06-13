@@ -1654,6 +1654,8 @@ table.form td.input div.image_preview.medium img {
 }
 table.form td.input div.image_preview.large {
     max-width: 100%;
+    padding-top: 0px;
+    padding-bottom: 0px;
 }
 
 /* Charting styles */

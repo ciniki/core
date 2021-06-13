@@ -1652,6 +1652,9 @@ table.form td.input div.image_preview.small img {
 table.form td.input div.image_preview.medium img {
     max-width: 25em;
 }
+table.form td.input div.image_preview.large {
+    max-width: 100%;
+}
 
 /* Charting styles */
 table.chart td canvas {

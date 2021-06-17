@@ -154,6 +154,18 @@ function ciniki_core_dbHashQueryArrayTree(&$ciniki, $strsql, $module, $tree) {
                             $data[$tree[$i]['container']][$num_elements[$i]][$field_id] = '$' . number_format($row[$field], 2);
                         }
                         //
+                        // Check if a date should be formatted
+                        //
+                        elseif( isset($tree[$i]['dtformat']) && isset($tree[$i]['dtformat'][$field_id]) ) {
+                            if( $row[$field] == '0000-00-00 00:00:00' || $row[$field] == '0000-00-00' || $row[$field] == '' ) {
+                                $data[$tree[$i]['container']][$num_elements[$i]][$field_id] = '';
+                            } else {
+                                $date = new DateTime($row[$field], new DateTimeZone('UTC'));
+                                $data[$tree[$i]['container']][$num_elements[$i]][$field_id] = 
+                                    $date->format($tree[$i]['dtformat'][$field_id]);
+                            }
+                        }
+                        //
                         // Check if utc dates should be converted to local timezone
                         //
                         elseif( isset($tree[$i]['utctotz']) && isset($tree[$i]['utctotz'][$field_id]) ) {

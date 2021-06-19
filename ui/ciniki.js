@@ -1490,20 +1490,28 @@ M.tempPassReset = function() {
     });
     return false;
 }
+/*
+// Old, moved to panel - Removed Jun 2021
 
-M.toggleSection = function(e, s) {
-    var f = M.gE(s);
+M.toggleSection = function(e, t) {
+    var f = M.gE(t);
     if( f == null ) {return false; }
     var b = null;
     if( e.childNodes[0].className == 'icon' ) { b = e.childNodes[0]; }
-    if( f.style.display == 'none' ) {
-        f.style.display = 'block';
-        if( b != null ) { b.innerHTML = '-'; }
+    if( f.classList.toggle('highlightonly') ) { 
+//    if( f.style.display == 'none' ) {
+//        f.style.display = 'block';
+//        if( b != null ) { b.innerHTML = '+'; }
+
+//        this.sections[i].collapse = 'compact';
     } else {
-        f.style.display = 'none';
-        if( b != null ) { b.innerHTML = '+'; }
+//        f.style.display = 'none';
+//        if( b != null ) { b.innerHTML = '-'; }
+//        this.sections[i].collapse = 'compact';
+        console.log(this.sections);
     }
 }
+*/
 
 M.gE = function(i) {
     return document.getElementById(i);

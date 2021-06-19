@@ -982,11 +982,13 @@ M.panel.prototype.createSection = function(i, s) {
     //
     if( tid != null && tid != '' && lE != null && s.collapsable != null && s.collapsable == 'yes' ) {
         lE.className = 'clickable';
-        lE.setAttribute('onclick', 'M.toggleSection(this, \'' + tid + '\');');
-        if( s.collapse != null && ((M.size == 'compact' && s.collapse == 'compact') || s.collapse == 'all') ) {
-            lE.innerHTML = '<span class="icon">+</span> ' + lE.innerHTML;
+        lE.setAttribute('onclick', this.panelRef + '.toggleSection(this, \'' + i + '\',\'' + tid + '\');');
+        f.classList.add('collapsable');
+        if( s.collapse != null && ((M.size == 'compact' && s.collapse == 'compact') || s.collapse == 'all') && (s.collapsed == null || s.collapsed == 'yes') ) {
+            f.classList.add('highlightonly');
+//            lE.innerHTML = '<span class="icon">+</span> ' + lE.innerHTML;
         } else {
-            lE.innerHTML = '<span class="icon">-</span> ' + lE.innerHTML;
+//            lE.innerHTML = '<span class="icon">-</span> ' + lE.innerHTML;
         }
     }
     // Add the section table
@@ -1003,6 +1005,20 @@ M.panel.prototype.createSection = function(i, s) {
     if( gt != null ) { f.appendChild(M.aE('p', null, 'guided-text guided-show', gt)); }
     return f;
 };
+
+M.panel.prototype.toggleSection = function(e, s, t) {
+    var sc = this.sections[s];
+    var f = M.gE(this.panelUID + '_section_' + s);
+    if( sc.collapsable != null && sc.collapsable == 'yes' ) {
+        if( f.classList.contains('highlightonly') ) {
+            f.classList.remove('highlightonly');
+            sc.collapsed = 'no';
+        } else {
+            f.classList.add('highlightonly');
+            sc.collapsed = 'yes';
+        }
+    }
+}
 
 M.panel.prototype.createHeatmap = function(s) {
     var f = document.createDocumentFragment();
@@ -2559,9 +2575,10 @@ M.panel.prototype.createSectionGrid = function(s) {
     //
     var num_cols = sc.num_cols;
     var t = this.createSectionGridHeaders(s, sc, data);
-    if( sc.collapsable == 'yes' && sc.collapse == 'all' ) {
-        t.style.display = 'none';
-    }
+// Old - Moved to panel - Removed Jun 2021
+//    if( sc.collapsable == 'yes' && sc.collapse == 'all' && (sc.collapsed == null || sc.collapsed == 'yes') ) {
+//        t.style.display = 'none';
+//    }
 
     //
     // Table body
@@ -4033,6 +4050,9 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
         if( field.size != null && field.size == 'small' ) {
             f.setAttribute('rows', 2);
             f.setAttribute('class', 'small');
+        } else if( field.size != null && field.size == 'smallmedium' ) {
+            f.setAttribute('rows', 5);
+            f.setAttribute('class', 'smallmedium');
         } else if( field.size != null && field.size == 'large' ) {
             f.setAttribute('rows', 12);
             f.setAttribute('class', 'large');

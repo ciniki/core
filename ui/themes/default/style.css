@@ -430,6 +430,15 @@ table.simplegrid {
     margin-right: auto; */
     width: 100%;
 }
+div.collapsable > h2:before {
+    content: '- ';
+}
+div.highlightonly > h2:before {
+    content: '+ ';
+}
+div.highlightonly > table tr:not(.highlight) {
+    display: none;
+}
 
 table.simplegrid th.sortable {
     cursor: pointer;
@@ -954,7 +963,11 @@ table.list tr.textfield > td.htmlarea > div.htmlarea-toolbar {
 }
 
 table.list tr.textfield > td > textarea.small {
-    height: 3em;
+    height: 4.0em;
+}
+
+table.list tr.textfield > td > textarea.smallmedium {
+    height: 6.0em;
 }
 
 table.list tr.textfield > td.medium > div.htmlarea {

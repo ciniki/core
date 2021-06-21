@@ -982,15 +982,18 @@ M.panel.prototype.createSection = function(i, s) {
     //
     if( tid != null && tid != '' && lE != null && s.collapsable != null && s.collapsable == 'yes' ) {
         lE.className = 'clickable';
-        lE.setAttribute('onclick', this.panelRef + '.toggleSection(this, \'' + i + '\',\'' + tid + '\');');
+        lE.setAttribute('onclick', this.panelRef + '.toggleSection(this, \'' + i + '\');');
         f.classList.add('collapsable');
         if( s.collapse != null && ((M.size == 'compact' && s.collapse == 'compact') || s.collapse == 'all') && (s.collapsed == null || s.collapsed == 'yes') ) {
             f.classList.add('highlightonly');
+            if( s.collapsed == null ) { s.collapsed = 'yes'; }
 //            lE.innerHTML = '<span class="icon">+</span> ' + lE.innerHTML;
         } else {
+            if( s.collapsed == null ) { s.collapsed = 'no'; }
 //            lE.innerHTML = '<span class="icon">-</span> ' + lE.innerHTML;
         }
     }
+
     // Add the section table
     f.appendChild(st);
 
@@ -1006,7 +1009,7 @@ M.panel.prototype.createSection = function(i, s) {
     return f;
 };
 
-M.panel.prototype.toggleSection = function(e, s, t) {
+M.panel.prototype.toggleSection = function(e, s) {
     var sc = this.sections[s];
     var f = M.gE(this.panelUID + '_section_' + s);
     if( sc.collapsable != null && sc.collapsable == 'yes' ) {
@@ -3114,7 +3117,12 @@ M.panel.prototype.createSimpleList = function(si, l, as) {
 // as - autosplit flag
 //
 M.panel.prototype.createSimpleButtons = function(si, l, as) {
-    var f = document.createDocumentFragment();
+//    var f = document.createDocumentFragment();
+    if( this.sections[si].size != null && this.sections[si].size == 'half' ) {
+        var f = M.aE('div', null, 'simplebuttons halfsize');
+    } else {
+        var f = M.aE('div', null, 'simplebuttons');
+    }
     for(i in l) {
         if( typeof l[i].visible == 'function' && l[i].visible() == 'no' ) {
             continue;

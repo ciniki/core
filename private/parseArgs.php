@@ -192,7 +192,9 @@ function ciniki_core_parseArgs(&$ciniki, $tnid, $raw_args, $arg_info) {
                 $args[$arg] = $raw_args[$arg];
             }
 
-            if( isset($options['trimblanks']) && $options['trimblanks'] == 'yes' ) {
+            if( isset($options['trim']) && $options['trim'] == 'yes' ) {
+                $args[$arg] = trim($args[$arg]);
+            } elseif( isset($options['trimblanks']) && $options['trimblanks'] == 'yes' ) {
                 $args[$arg] = trim($args[$arg]);
             }
             

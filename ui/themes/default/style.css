@@ -773,6 +773,18 @@ table.simplebuttons td.delete {
     color: #eee;
 }
 
+div.simplebuttons.halfsize {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+div.simplebuttons.halfsize table.list.simplebuttons {
+    width: 49%;
+    flex-basis: 49%;
+    margin-bottom: 2%;
+}
+
 table.border tr.textfield > td.hidelabel {
     border-left: 1px solid #bbb;    
     border-right: 0px;

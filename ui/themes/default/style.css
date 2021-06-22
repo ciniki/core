@@ -691,6 +691,7 @@ table.stepnav > tbody > tr > td.nexttext {
 }
 
 p.guided-text span.icon,
+table.form .select-placeholder span.faicon,
 table.stepnav > tbody > tr > td.prev span.icon,
 table.stepnav > tbody > tr > td.next span.icon,
 table.datepicker > tbody > tr > td.prev span.icon,
@@ -839,6 +840,7 @@ table.simplelist tr > td.input {
     border-left: 0px;
 }
 
+table.form span.select-placeholder,
 table.list tr > td input {
     width: 100%;
     padding: 0.4em;
@@ -885,6 +887,15 @@ table.form td.select > select {
     text-overflow: ellipsis;
     white-space: nowrap;
     border: 1px solid #ccc;
+}
+table.form td.input span.select-placeholder {
+    padding-top: 0.4em;
+    padding-bottom: 0.4em;
+}
+table.form span.select-placeholder .faicon {
+    float: right;
+    padding-right: 0.5em;
+    padding-top: 0.1em;
 }
 
 table.form td.input > select {

@@ -6,6 +6,7 @@ table.form td.textarea,
 table.form td.search input,
 table.form td.multiselect input,
 table.form td.audiocontrols span.audio_filename,
+table.form span.select-placeholder,
 table.form td.input input {
     border-radius: 3px;
 /*  box-shadow: #555 0px 0px 2px inset; */

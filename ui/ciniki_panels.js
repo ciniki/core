@@ -4112,6 +4112,7 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
         }
         var o = field.options;
         var fv = this.fieldValue(s, i, field, mN);
+        var text = '';
         if( fv == null && field.default != null ) {
             fv = field.default
         }
@@ -4141,6 +4142,7 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
             //
             if( v == fv ) {
                 var op = new Option(n, v, 0, 1);
+                text = n;
             } else {
                 var op = new Option(n, v);
             }
@@ -4152,6 +4154,18 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
             sel.appendChild(op);
         }
         c.appendChild(sel);
+        //
+        // If field should be more difficult to edit
+        //
+        if( field.editable != null && field.editable == 'afterclick' ) {
+            sel.style.display = 'none';
+            var e = M.aE('span', this.panelUID + '_' + fid + '_text', 'select-placeholder', text);
+            e.style.display = 'inline-block';
+            f = M.aE('span', null, 'faicon clickable', '&#xf040;');
+            f.setAttribute('onclick', 'event.stopPropagation();' + this.panelRef + '.editSelect(\'' + s + '\',\'' + fid + '\');');
+            e.appendChild(f);
+            c.appendChild(e);
+        }
     }
     else if( field.type == 'colourswatches' ) {
         var d = M.aE('div', this.panelUID + '_' + i + sFN, 'colourswatches');    
@@ -4726,6 +4740,20 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
 
     return c;
 };
+M.panel.prototype.editSelect = function(s, fid, c) {
+    var e = M.gE(this.panelUID + '_' + fid);
+    var f = M.gE(this.panelUID + '_' + fid + '_text');
+    if( e != null ) {
+        if( this.sections[s].fields[fid].confirmMsg != null && c != null && c == 'yes' ) {
+            e.style.display = 'inline-block';
+            f.style.display = 'none';
+        } else {
+            M.confirm(this.sections[s].fields[fid].confirmMsg, 
+                this.sections[s].fields[fid].confirmButton, 
+                this.sections[s].fields[fid].confirmFn);
+        }
+    }
+}
 
 M.panel.prototype.updateFlagToggleFields = function(fid) {
     var f = this.formField(fid);

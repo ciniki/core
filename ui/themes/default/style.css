@@ -891,6 +891,7 @@ table.form td.select > select {
 table.form td.input span.select-placeholder {
     padding-top: 0.4em;
     padding-bottom: 0.4em;
+    white-space: pre-wrap;
 }
 table.form span.select-placeholder .faicon {
     float: right;

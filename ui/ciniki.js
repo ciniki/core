@@ -2025,6 +2025,16 @@ M.modSettingSet = function(m,s) {
     }
     return 'no';
 }
+M.modSetting = function(m,s) {
+    if( M.curTenant.modules != null
+        && M.curTenant.modules[m] != null
+        && M.curTenant.modules[m].settings != null
+        && M.curTenant.modules[m].settings[s] != null
+        ) {
+        return M.curTenant.modules[m].settings[s];
+    }
+    return '';
+}
 M.emWidth = function() {
     return window.innerWidth/parseFloat(getComputedStyle(document.querySelector('body'))['font-size']);
 }

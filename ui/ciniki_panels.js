@@ -4757,7 +4757,6 @@ M.panel.prototype.editSelect = function(s, fid, c) {
 
 M.panel.prototype.updateFlagToggleFields = function(fid) {
     var f = this.formField(fid);
-
     var v = this.formValue(fid);
     if( f.on_fields != null && f.on_fields.length > 0 ) {
         for(var i in f.on_fields) {

@@ -605,14 +605,18 @@ Javscript must be enabled for this application to work.
                     <table class="list noheader form" cellspacing='0' cellpadding='0'>
                         <tr class="textfield"><td class="input"><label style="display:none;" for="password">Password</label><input id="password" type="password" maxlength="50" name="password"></td></tr>
                     </table>
-
+                    <table class="loginoptions list noheader form" cellspacing='0' cellpadding='0'>
+                    <tr class=''>
+                        <td class='aligncenter checkbox'><input type="checkbox" id='rm' name='rm' value='yes' class='checkbox'/><label for='rm'>Remember me</label></td>
+                        </td>
+                    </tr>
+                </table>
                 </div>
                 <input type="submit" value="Sign In" class="button"/>
                 <table class="loginoptions list noheader form" cellspacing='0' cellpadding='0'>
-                    <tr class='checkbox'>
-                        <td class='checkbox'><input type="checkbox" id='rm' name='rm' value='yes' class='checkbox'/><label for='rm'>Remember me</label></td>
-                        <td>
-                            <p class="right link"><a href="" onClick="M.hide('m_login'); M.show('m_forgot'); return false;">Forgot Password</a></p>
+                    <tr class=''>
+                        <td class='aligncenter'>
+                            <p class="aligncenter link"><a href="" onClick="M.hide('m_login'); M.show('m_forgot'); return false;">Forgot Password</a></p>
                         </td>
                     </tr>
                 </table>

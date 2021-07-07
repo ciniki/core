@@ -674,6 +674,13 @@ table.list > tfoot > tr > td.buttons {
     padding-right: 0.0em;
     padding-left: 0.0em;
 }
+table.list > tbody > tr > td.buttonicons {
+    text-align: center;
+    vertical-align: middle;
+    line-height: 1.0em;
+    width: 1.5em;
+    min-width: 1.5em;
+}
 
 table.stepnav > tbody > tr > td.prev,
 table.datepicker > tbody > tr > td.prev {
@@ -1571,14 +1578,16 @@ table.list > tbody > tr > td.multiline span.maintext {
     width: 100%;
     display: block;
 }
-
 table.list > tbody > tr > td span.subdue {
     font-size: 0.9em;
     text-decoration: none;
     font-weight: normal;
     color: #999;
 }
-
+table.list > tbody > tr > td.buttonicons span.faicon {
+    font-size: 1.0em;
+    color: #aaa;
+}
 table.list > tbody > tr > td span.faicon.edit {
     font-size: 0.9em;
     text-decoration: none;

@@ -2921,7 +2921,7 @@ M.panel.prototype.createSectionGridRow = function(s, i, sc, num_cols, rowdata, t
 
     // Add the edit button to click on
     if( sc.editFn != null && sc.editFn(s, i, rowdata) != null ) {
-        c = M.aE('td', null, 'buttons noprint');
+        c = M.aE('td', null, 'buttonicons noprint');
         var fn = sc.editFn(s, i, rowdata);
         if( fn != '' ) {
             c.setAttribute('onclick', 'event.stopPropagation();' + sc.editFn(s, i, rowdata));

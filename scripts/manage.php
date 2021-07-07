@@ -606,11 +606,11 @@ Javscript must be enabled for this application to work.
                         <tr class="textfield"><td class="input"><label style="display:none;" for="password">Password</label><input id="password" type="password" maxlength="50" name="password"></td></tr>
                     </table>
                     <table class="loginoptions list noheader form" cellspacing='0' cellpadding='0'>
-                    <tr class=''>
-                        <td class='aligncenter checkbox'><input type="checkbox" id='rm' name='rm' value='yes' class='checkbox'/><label for='rm'>Remember me</label></td>
-                        </td>
-                    </tr>
-                </table>
+                        <tr class=''>
+                            <td class='aligncenter checkbox'><input type="checkbox" id='rm' name='rm' value='yes' class='checkbox'/><label for='rm'>Remember me</label></td>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
                 <input type="submit" value="Sign In" class="button"/>
                 <table class="loginoptions list noheader form" cellspacing='0' cellpadding='0'>

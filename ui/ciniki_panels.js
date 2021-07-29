@@ -3724,7 +3724,7 @@ M.panel.prototype.createImageControls = function(i, field, img_id) {
         // Show download button
         if( field.controls == 'all' ) {
             var btn = M.aE('span', null, 'toggle_off', '<span class="icon">G</span>');
-            btn.setAttribute('onclick', 'M.api.openFile(\'ciniki.images.get\', {\'tnid\':M.curTenantID, \'image_id\':\'' + img_id + '\', \'version\':\'original\', \'attachment\':\'yes\'});');
+            btn.setAttribute('onclick', 'M.api.openFile(\'ciniki.images.download\', {\'tnid\':M.curTenantID, \'image_id\':\'' + img_id + '\', \'version\':\'original\', \'attachment\':\'yes\'});');
             btns.appendChild(btn);
         }
     }

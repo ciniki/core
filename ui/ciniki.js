@@ -1766,7 +1766,7 @@ M.hyperlink = function(v) {
 }
 
 M.formatHtml = function(c) {
-    return c.replace(/\n/, '<br/>');
+    return c.replace(/\n/g, '<br/>');
 }
 
 M.length = function(o) {

@@ -2754,6 +2754,11 @@ M.panel.prototype.createSectionGridRow = function(s, i, sc, num_cols, rowdata, t
         // Check if the table is split
         //
         if( M.size == 'compact' && sc.compact_split_at != null && j >= sc.compact_split_at  ) {
+            if( sc.compact_hide_empty != null && sc.compact_hide_empty == 'yes' 
+                && this.cellValue(s, i, j, rowdata) == '' 
+                ) {
+                continue; 
+            }
             if( sc.compact_split_at == j ) {
                 rcl += ' split';
                 tr.className = rcl;

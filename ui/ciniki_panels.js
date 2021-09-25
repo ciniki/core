@@ -3889,6 +3889,61 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
         var f = M.aE('span', this.panelUID + '_' + i + sFN, field.type, v);
         c.appendChild(f);
     }
+    else if( field.type == 'datetime' ) {
+        var v = this.fieldValue(s, i, field, mN);
+        var v1 = '';
+        var v2 = '';
+        if( v != null && v != '' ) {
+            var words = v.match(/^(.*) ([0-9]?[0-9]:[0-9][0-9] .*)/);
+            v1 = words[1];
+            v2 = words[2];
+        }
+        var f = M.aE('input', this.panelUID + '_' + i + sFN, field.type + '-date');
+        f.value = v1;
+        f.setAttribute('type', 'text');
+//        f.value = v1;
+        if( field.editable != null && field.editable == 'no' ) {
+            f.setAttribute('readonly', 'yes');
+            f.className = f.className + ' readonly';
+        }
+        if( field.enterFn != null && field.enterFn != '' ) {
+            f.setAttribute('onkeyup', 'if( event.keyCode == 13 ) { ' + field.enterFn + ' };');
+        }
+        if( field.onchangeFn != null && field.onchangeFn != '' ) {
+            f.setAttribute('onchange', field.onchangeFn + '(\'' + s + '\',\'' + i+sFN+'\');');
+        }
+        if( field.onkeyupFn != null && field.onkeyupFn != '' ) {
+            f.setAttribute('onkeyup', field.onkeyupFn + '(\'' + s + '\',\'' + i+sFN+'\');');
+        }
+        if( field.onkeyup != null && field.onkeyup != '' ) {
+            f.setAttribute('onkeyup', field.onkeyup + '(event,\'' + s + '\',\'' + i+sFN+'\');');
+        }
+        c.appendChild(f);
+
+        // Add date button
+        c.appendChild(M.aE('span',null,'rbutton_off','D','M.' + this.appID + '.' + this.name + '.toggleFormFieldCalendar(\'' + fid + sFN + '\');'));
+
+        var f = M.aE('input', this.panelUID + '_' + i + sFN + '_time', field.type + '-time');
+        f.value = v2;
+        f.setAttribute('type', 'text');
+        if( field.editable != null && field.editable == 'no' ) {
+            f.setAttribute('readonly', 'yes');
+            f.className = f.className + ' readonly';
+        }
+        if( field.enterFn != null && field.enterFn != '' ) {
+            f.setAttribute('onkeyup', 'if( event.keyCode == 13 ) { ' + field.enterFn + ' };');
+        }
+        if( field.onchangeFn != null && field.onchangeFn != '' ) {
+            f.setAttribute('onchange', field.onchangeFn + '(\'' + s + '\',\'' + i+sFN+'\');');
+        }
+        if( field.onkeyupFn != null && field.onkeyupFn != '' ) {
+            f.setAttribute('onkeyup', field.onkeyupFn + '(\'' + s + '\',\'' + i+sFN+'\');');
+        }
+        if( field.onkeyup != null && field.onkeyup != '' ) {
+            f.setAttribute('onkeyup', field.onkeyup + '(event,\'' + s + '\',\'' + i+sFN+'\');');
+        }
+        c.appendChild(f);
+    }
     else if( field.type == 'text' || field.type == 'email' 
         || field.type == 'integer'
         || field.type == 'number'
@@ -5645,13 +5700,13 @@ M.panel.prototype.toggleFormFieldCalendar = function(field) {
         }
         var f = this.formField(field);
         if( f.type == 'date' ) {
-            v = M.parseDate(v); // this.parseDate(v);
+            v = M.parseDate(v);
         } else if( f.type == 'datetime' || f.type == 'appointment' ) {
-            v = M.parseDate(v); // this.parseDate(v);
+            v = M.parseDate(v);
         } else {
             return false;
         }
-        if( v == null || v.year == null || v.month == null ) {
+        if( v == null || v.year == null || v.month == null || v == '' ) {
             v = M.parseDate('now'); // this.parseDate('now');
         }
         //
@@ -6946,7 +7001,9 @@ M.panel.prototype.formFieldValue = function(f,fid) {
     } else if( f.type == 'date' ) {
         n = M.gE(this.panelUID + '_' + fid).value;
     } else if( f.type == 'datetime' ) {
-        n = M.gE(this.panelUID + '_' + fid + '').value + ' ' + M.gE(this.panelUID + '_' + fid + '_time').value;
+        n = M.gE(this.panelUID + '_' + fid + '').value;
+        n += n != '' ? ' ' : '';
+        n += M.gE(this.panelUID + '_' + fid + '_time').value;
     } else if( f.type == 'colour' ) {
         n = M.rgbToHex(M.gE(this.panelUID + '_' + fid).style.backgroundColor);
     } else if( f.type == 'flags' ) {

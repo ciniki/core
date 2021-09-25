@@ -741,6 +741,29 @@ table.form tr.textfield > td.label > label {
     white-space: nowrap;
     text-overflow: ellipsis;
 }
+table.form tr.datetime input.datetime-date {
+    display: inline-block;
+    min-width: 7em;
+    width: 7em;
+    max-width: 9em;
+}
+table.form tr.datetime td.input .rbutton_off {
+    margin-right: 1rem;
+}
+table.form tr.datetime input.datetime-time {
+    display: inline-block;
+    min-width: 5em;
+    width: 5em;
+    max-width: 7em;
+}
+@media screen and (min-width:65em) {
+    table.form tr.datetime input.datetime-date {
+        width: 8em;
+    }
+    table.form tr.datetime input.datetime-time {
+        width: 6em;
+    }
+}
 
 table.simplegrid td.label,
 table.simplelist td.label {

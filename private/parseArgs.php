@@ -138,11 +138,24 @@ function ciniki_core_parseArgs(&$ciniki, $tnid, $raw_args, $arg_info) {
 //              $utc_offset = ciniki_tenants_timezoneOffset($ciniki, 'seconds');
 //              date_default_timezone_set('America/Toronto');
                 $raw_args[$arg] = preg_replace('/Janurary/', 'January', $raw_args[$arg]);
-                if( $raw_args[$arg] == 'now' ) {
+                if( isset($options['trim']) && $options['trim'] == 'yes' ) {
+                    $raw_args[$arg] = trim($raw_args[$arg]);
+                }
+                if( $raw_args[$arg] == '' && isset($options['blank']) && $options['blank'] == 'yes' ) {
+                    $args[$arg] = '';
+                }
+                elseif( $raw_args[$arg] == 'now' ) {
                     $dt = new DateTime('now', new DateTimeZone('UTC'));
                     $args[$arg] = $dt->format('Y-m-d H:i:s');
 //                  $args[$arg] = strftime("%Y-%m-%d %H:%M:%S");
                 } else {
+                    if( $raw_args[$arg] != '' 
+                        && isset($options['defaulttime']) 
+                        && !preg_match("/[0-9]?[0-9]:[0-9][0-9]/", $raw_args[$arg]) 
+                        && !preg_match("/(pm|Pm|PM|am|Am|AM)/", $raw_args[$arg]) 
+                        ) {
+                        $raw_args[$arg] .= ' ' . $options['defaulttime'];
+                    }
                     $ts = strtotime($raw_args[$arg]);
                     if( $ts === FALSE || $ts < 1 ) {
                         return array('stat'=>'warn', 'err'=>array('code'=>'ciniki.core.126', 'msg'=>"$invalid_msg", 'pmsg'=>"Argument: $arg invalid datetime format"));

@@ -69,7 +69,7 @@ span.count {
 
 button, input.button {
     -webkit-border-radius: 3px;
-    border: 1px solid #ccc;
+    border: 1px solid #999;
     background: -webkit-gradient(linear, left top, left bottom, from(#eee), to(#bbb));
     padding: 5px 15px 5px 15px;
 }
@@ -141,20 +141,22 @@ div.guided-on .guided-selected table.formtabs div.buttons span:last-child {
 span.button_on,
 span.rbutton_on,
 table.form td div span.toggle_on,
-table.form span.flag_on {
+table.form td.flags span.flag_on {
     background: -webkit-gradient(linear, left top, left bottom, from(#555), to(#999));
-    -webkit-box-shadow: inset 1px 1px 0px 0px #555;
+    background: -webkit-gradient(linear, left top, left bottom, from(#026b28), to(#18a023));
+    /* -webkit-box-shadow: inset 1px 1px 0px 0px #555; */
     color: #ddd;
-    border: 1px solid #777;
+    color: #fff;
+    border: 1px solid #999;
 }
 
 span.button_off,
 span.rbutton_off,
 table.form td div span.toggle_off,
-table.form span.flag_off {
+table.form td.flags span.flag_off {
     background: -webkit-gradient(linear, left top, left bottom, from(#eee), to(#bbb));
-    color: #777;
-    border: 1px solid #777;
+    color: #555;
+    border: 1px solid #999;
 }
 
 table.list td > button {

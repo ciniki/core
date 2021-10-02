@@ -2602,6 +2602,12 @@ M.panel.prototype.createSectionGrid = function(s) {
             tr.setAttribute('draggable', true);
             tr.setAttribute('ondragstart', this.panelRef + '.seqDragStart(event,"' + s + '","' + i + '")');
             tr.setAttribute('ondrop', this.panelRef + '.seqDrop(event,"' + s + '","' + i + '")');
+            tr.addEventListener('dragenter', function(e) {
+                this.classList.add('drophighlight');
+                }, false);
+            tr.addEventListener('dragleave', function(e) {
+                this.classList.remove('drophighlight');
+                }, false);
         }
 
         tb.appendChild(tr);
@@ -2745,6 +2751,9 @@ M.panel.prototype.createSectionGridRow = function(s, i, sc, num_cols, rowdata, t
     if( this.rowClass != null ) {
         rcl = ' ' + this.rowClass(s, i, rowdata);
         tr.className = rcl;
+    }
+    if( sc.seqDrop != null ) {
+        rcl += ' ' + 'draggable';
     }
 
     for(var j=0;j<num_cols;j++) {

@@ -174,7 +174,7 @@ function ciniki_core_backupTenant(&$ciniki, $tenant) {
         }
         if( preg_match("/backup-([0-9]+)-([0-9]+)/", $file, $matches) ) {
             $file_date = strtotime($matches[1]);
-            if( ($today_datetime - $file_date) > 604800 ) {
+            if( ($today_datetime - $file_date) > 86000 ) {
                 unlink($zip_backup_dir . '/' . $file);
             }
         }

@@ -111,24 +111,28 @@ function ciniki_core_emailQueueProcess(&$ciniki) {
                 //
                 // Send to mailgun api
                 //
-                $ch = curl_init();
-                curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-                curl_setopt($ch, CURLOPT_USERPWD, 'api:' . $settings['mailgun-key']);
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
-                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-                curl_setopt($ch, CURLOPT_HEADER, false);
-                curl_setopt($ch, CURLOPT_ENCODING, 'UTF-8');
-                curl_setopt($ch, CURLOPT_URL, 'https://api.mailgun.net/v3/' . $settings['mailgun-domain'] . '/messages');
-                curl_setopt($ch, CURLOPT_POSTFIELDS, $msg);
+                if( isset($ciniki['config']['ciniki.mail']['block.outgoing']) ) {
+                    error_log('EMAIL BLOCK BY CONFIG: ' . $msg['to'] . ' - ' . $msg['subject']);
+                } else {
+                    $ch = curl_init();
+                    curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+                    curl_setopt($ch, CURLOPT_USERPWD, 'api:' . $settings['mailgun-key']);
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+                    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                    curl_setopt($ch, CURLOPT_HEADER, false);
+                    curl_setopt($ch, CURLOPT_ENCODING, 'UTF-8');
+                    curl_setopt($ch, CURLOPT_URL, 'https://api.mailgun.net/v3/' . $settings['mailgun-domain'] . '/messages');
+                    curl_setopt($ch, CURLOPT_POSTFIELDS, $msg);
 
-                $rsp = json_decode(curl_exec($ch));
+                    $rsp = json_decode(curl_exec($ch));
 
-                $info = curl_getinfo($ch);
-                if( $info['http_code'] != 200 ) {
-                    error_log("MAIL-ERR: [" . $email['to'] . "] " . $rsp->message);
+                    $info = curl_getinfo($ch);
+                    if( $info['http_code'] != 200 ) {
+                        error_log("MAIL-ERR: [" . $email['to'] . "] " . $rsp->message);
+                    }
+                    curl_close($ch);
                 }
-                curl_close($ch);
             } 
             //
             // Otherwise use SMTP mailer
@@ -236,7 +240,9 @@ function ciniki_core_emailQueueProcess(&$ciniki) {
                     }
                 }
 
-                if( !$mail->Send() ) {
+                if( isset($ciniki['config']['ciniki.mail']['block.outgoing']) ) {
+                    error_log('EMAIL BLOCK BY CONFIG: ' . $email['to'] . ' - ' . $email['subject']);
+                } elseif( !$mail->Send() ) {
                     error_log("MAIL-ERR: [" . $email['to'] . "] " . $mail->ErrorInfo . " (trying again)");
                     if( !$mail->Send() ) {
                         error_log("MAIL-ERR: [" . $email['to'] . "] " . $mail->ErrorInfo);

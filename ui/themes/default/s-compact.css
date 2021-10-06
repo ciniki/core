@@ -223,7 +223,7 @@ table.list td div.calendar {
 }
 
 table.list td.label {
-    font-size: 0.9em;
+/*    font-size: 0.9em; */
     white-space: nowrap;
 }
 

@@ -329,7 +329,7 @@ h2 {
     overflow: hidden;
     text-overflow: ellipsis;
 /*    white-space: nowrap;  --screws up addFn */
-    color: #555;
+    color: #000;
 }
 
 h2 span.count {
@@ -768,20 +768,25 @@ table.form tr.datetime input.datetime-time {
 table.simplegrid td.label,
 table.simplelist td.label {
     text-align: right;
-    color: #bbb;
-    font-size: 0.9em;
+    color: #555;
+    background: #f5f5f5;
+/*    font-size: 0.9em; */
     width: 20%;
     min-width: 6em;
     padding: 0.9em 0.55em 0.8em 0.55em;
+    padding: 0.7em 0.5em 0.7em 0.5em;
 }
 
 table.simplegrid td.flexlabel {
     text-align: right;
     color: #bbb;
-    font-size: 0.9em;
+    color: #555;
+    background: #f5f5f5;
+/*    font-size: 0.9em; */
     width: 20%;
     min-width: 4em;
     padding: 0.9em 0.55em 0.8em 0.55em;
+    padding: 0.7em 0.5em 0.7em 0.5em;
     white-space: nowrap;
 }
 
@@ -876,7 +881,7 @@ table.simplelist tr > td.input {
 table.form span.select-placeholder,
 table.list tr > td input {
     width: 100%;
-    padding: 0.4em;
+    padding: 0.5em;
     padding-right: 0;
     font-size: 1.0em;
     color: #555;
@@ -922,8 +927,8 @@ table.form td.select > select {
     border: 1px solid #ccc;
 }
 table.form td.input span.select-placeholder {
-    padding-top: 0.4em;
-    padding-bottom: 0.4em;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
     white-space: pre-wrap;
 }
 table.form span.select-placeholder .faicon {
@@ -1448,7 +1453,7 @@ table.form table.fieldhistory {
 }
 
 table.list table.fieldhistory tr td {
-    padding: 0.5em;
+    padding: 0.7em 0.5em;
     color: #555;
     text-align: left;
     font-size: 1em;
@@ -2511,6 +2516,19 @@ table.form > tbody > tr > td.joinedflags,
 table.form > tbody > tr > td.flags {
     padding: 0.1em 0.25em 0.1em 0.2em;
 }
+/*
+table.form:not(paneltabs) > tbody > tr:first-child > td.multiselect,
+table.form:not(paneltabs) > tbody > tr:first-child > td.multitoggle,
+table.form:not(paneltabs) > tbody > tr:first-child > td.joinedflags,
+table.form:not(paneltabs) > tbody > tr:first-child > td.flags {
+    padding-top: 0.5em;
+}
+table.form:not(paneltabs) > tbody > tr:last-child > td.multiselect,
+table.form:not(paneltabs) > tbody > tr:last-child > td.multitoggle,
+table.form:not(paneltabs) > tbody > tr:last-child > td.joinedflags,
+table.form:not(paneltabs) > tbody > tr:last-child > td.flags {
+    padding-bottom: 0.5em;
+} */
 
 table.form > tbody > tr > td div.buttons {
     display: inline-block;
@@ -2561,6 +2579,7 @@ table.form td div span.toggle_off {
     border: 1px solid #999;
     padding: 0.4em 0.5em 0.4em 0.5em;
     margin: 0.3em 0 0.3em 0;
+    padding: 0.5em 0.6em;
     cursor: pointer;
     font-size: 0.9em;
 }
@@ -2659,6 +2678,19 @@ table.form tr td input.file_uploader {
     overflow: hidden;
     visibility: hidden;
 }
+/*
+table.outline:not(paneltabs) > tbody > tr:first-child > td {
+    padding-top: 0.75em;
+}
+table.outline:not(paneltabs) > tbody > tr.toggle:first-child > td.label {
+    padding-top: 1.25em;
+}
+table.outline:not(paneltabs) > tbody > tr:last-child > td {
+    padding-bottom: 0.75em;
+}
+table.outline:not(paneltabs) > tbody > tr.searchresults:last-child > td {
+    padding-bottom: 0.4em;
+} */
 
 span.username {
 }

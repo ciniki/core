@@ -2678,6 +2678,9 @@ table.form tr td input.file_uploader {
     overflow: hidden;
     visibility: hidden;
 }
+table.outline:not(paneltabs) {
+    padding: 0.3em;
+}
 /*
 table.outline:not(paneltabs) > tbody > tr:first-child > td {
     padding-top: 0.75em;

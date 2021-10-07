@@ -72,8 +72,8 @@ html {
     background: #0d3dae;
     background: #778;
     padding: 0.2em 0.2em 0.2em 0.2em;
-    border-left: 1px solid #889;
-    border-right: 1px solid #667;
+/*    border-left: 1px solid #889;
+    border-right: 1px solid #667; */
 }
 
 .headerbar td.leftbuttons {

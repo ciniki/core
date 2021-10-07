@@ -7479,6 +7479,9 @@ M.panel.prototype.reset = function() {
 // Handle drag/drop images into simplethumbs gallery
 //
 M.panel.prototype.uploadDropImages = function(e, p, s) {
+    if( e.target == null || e.target.localName == null || e.target.localName != 'form' ) {
+        return true;
+    }
     if( p == null ) {
         p = this;
     }
@@ -7501,7 +7504,7 @@ M.panel.prototype.uploadDropImages = function(e, p, s) {
                 p._uploadAddDropImage = field.addDropImage;
             }
         }
-    } else if( e.dataTransfer != null ) {
+    } else if( e.dataTransfer != null && e.dataTransfer.files != null && e.dataTransfer.files.length > 0 ) {
         // Photos dropped on browser
         e.stopPropagation();
         files = e.dataTransfer.files;

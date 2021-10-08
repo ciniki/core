@@ -7479,9 +7479,6 @@ M.panel.prototype.reset = function() {
 // Handle drag/drop images into simplethumbs gallery
 //
 M.panel.prototype.uploadDropImages = function(e, p, s) {
-    if( e.target == null || e.target.localName == null || e.target.localName != 'form' ) {
-        return true;
-    }
     if( p == null ) {
         p = this;
     }

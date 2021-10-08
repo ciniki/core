@@ -7479,6 +7479,12 @@ M.panel.prototype.reset = function() {
 // Handle drag/drop images into simplethumbs gallery
 //
 M.panel.prototype.uploadDropImages = function(e, p, s) {
+    //
+    // Ignore if the section dropped to is a seqDrop enabled
+    //
+    if( p != null && s != null && p.sections[s].seqDrop != null ) {
+        return true;
+    }
     if( p == null ) {
         p = this;
     }

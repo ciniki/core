@@ -310,7 +310,7 @@ div.fullwidth table.list > tfoot:first-child > tr:first-child > th:last-child,
 div.fullwidth table.list > tfoot > tr:last-child > td:last-child {
     border-radius: 0px;
 }
-
+/*
 table.fieldhistory,
 table.fieldhistory tr,
 table.fieldhistory td,
@@ -324,4 +324,4 @@ table  > tbody:first-child > tr table.fieldhistory tbody tr:last-child > td:firs
 table  > tbody:first-child > tr table.fieldhistory thead tr:last-child > td:last-child,
 table  > tbody:first-child > tr table.fieldhistory tbody tr:last-child > td:last-child {
     border-radius: 0px;
-}
+} */

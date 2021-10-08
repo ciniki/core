@@ -290,8 +290,9 @@ div.fullwidth table.list > tfoot:first-child > tr:first-child > th:last-child,
 div.fullwidth table.list > tfoot > tr:last-child > td:last-child {
     -webkit-border-radius: 0px;
 }
-
+/*
 table.fieldhistory,
+table.fieldhistory tbody,
 table.fieldhistory tr,
 table.fieldhistory td,
 table.simplegrid table.fieldhistory.noheader > tbody:first-child > tr:first-child > td:first-child,
@@ -306,4 +307,4 @@ table  > tbody:first-child > tr table.fieldhistory tbody tr:last-child > td:firs
 table  > tbody:first-child > tr table.fieldhistory thead tr:last-child > td:last-child,
 table  > tbody:first-child > tr table.fieldhistory tbody tr:last-child > td:last-child {
     border-radius: 0px;
-}
+} */

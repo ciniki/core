@@ -3205,7 +3205,7 @@ M.panel.prototype.createSimpleButtons = function(si, l, as) {
         f.appendChild(t);
         count++;
     }
-    if( this.sections[si].size != null && this.sections[si].size == 'half' && count > 1 ) {
+    if( this.sections[si] != null && this.sections[si].size != null && this.sections[si].size == 'half' && count > 1 ) {
         f.classList.add('halfsize');
     }
 
@@ -3621,6 +3621,9 @@ M.panel.prototype.createFormFields = function(s, nF, fI, fields, mN) {
             if( M.size == 'compact' ) {
                 nF.appendChild(r);
                 r = M.aE('tr');
+                if( visible == 'no' ) {
+                    r.style.display = 'none';
+                }
             }
         } 
         if( fields[i].type != 'noedit' ) {

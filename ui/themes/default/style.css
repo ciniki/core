@@ -750,7 +750,7 @@ table.form tr.datetime input.datetime-date {
     max-width: 9em;
 }
 table.form tr.datetime td.input .rbutton_off {
-    margin-right: 1rem;
+    margin-right: 0.5rem;
 }
 table.form tr.datetime input.datetime-time {
     display: inline-block;
@@ -823,7 +823,7 @@ div.simplebuttons.halfsize {
 div.simplebuttons.halfsize table.list.simplebuttons {
     width: 49%;
     flex-basis: 49%;
-    margin-bottom: 2%;
+    margin-bottom: 0.5em;
 }
 
 table.border tr.textfield > td.hidelabel {
@@ -1145,13 +1145,22 @@ span.rbutton_off {
     border: 1px solid #aaa;
     padding: 0.25em 0.05em 0.25em 0.05em;
     padding: 0.25em 0.25em 0.25em 0.25em;
-    margin: 0em 0.25em 0em 0.5em;
+    margin: 0em 0.25em 0em 0em;
     cursor: pointer;
     text-align: center;
     font-size: 1em;
     width: 1.0em;
     height: 1.0em;
+    font-size: 1.10em;
+    padding: 0.35em;
     vertical-align: top;
+}
+td.historybutton span.rbutton_on,
+td.historybutton span.rbutton_off {
+    font-size: 1em;
+    padding: 0.25em;
+    margin-left: 0.25em;
+    color: #777;
 }
 
 span.rbutton_on,
@@ -1178,12 +1187,14 @@ h2 span.rbutton_off {
     position: relative;
     /* margin-top: -0.3em; */
     /* top: -0.2em; */
-    margin-left: 0.5em;
+/*    margin-left: 0.5em; */
+    font-size: 1.25em;
 }
 
 td.multiselect div span.rbutton_off {
     margin-top: 0.4em;
-    margin-bottom: 0.4em;
+    margin-top: 0.2em;
+    margin-bottom: 0.25em;
 }
 
 td.tags span.rbutton_off,
@@ -1462,18 +1473,18 @@ table.list table.fieldhistory tr td {
     background: #eee;
 }
 table.list table.fieldhistory tr td:first-child {
-    border-left: 1px solid #aaa;
+    border-left: 1px solid #ccc;
 }
 table.list table.fieldhistory tr td:last-child {
-    border-right: 1px solid #aaa;
+    border-right: 1px solid #ccc;
 }
 
 table.list table.fieldhistory tr:last-child td {
-    border-bottom: 1px solid #aaa;
+    border-bottom: 1px solid #ccc;
 }
 
 table.list table.fieldhistory td {
-    border-top: 1px solid #aaa;
+    border-top: 1px solid #ccc;
 }
 
 table.grid table.fieldhistory td {
@@ -2522,7 +2533,7 @@ table.form > tbody > tr > td.multiselect,
 table.form > tbody > tr > td.multitoggle,
 table.form > tbody > tr > td.joinedflags,
 table.form > tbody > tr > td.flags {
-    padding: 0.1em 0.25em 0.1em 0.2em;
+    padding: 0.2em 0.25em 0.1em 0.2em;
 }
 /*
 table.form:not(paneltabs) > tbody > tr:first-child > td.multiselect,
@@ -2586,7 +2597,7 @@ table.form td div span.toggle_off {
     display: inline-block;
     border: 1px solid #aaa;
     padding: 0.4em 0.5em 0.4em 0.5em;
-    margin: 0.3em 0 0.3em 0;
+    margin: 0.25em 0 0.25em 0;
     padding: 0.5em 0.6em;
     cursor: pointer;
     font-size: 0.9em;

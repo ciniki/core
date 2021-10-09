@@ -159,11 +159,14 @@ div.xlarge {
 
 
 table.list table.fieldhistory tr td.user {
-    border-bottom: 1px dashed #bbb;
+    border-bottom: 1px dashed #ccc;
     padding-left: 0.5em;
 }
+table.list table.fieldhistory tr td.fieldvalue {
+    border-top: 0px;
+}
 table.list table.questionanswers tr td.user {
-    border-bottom: 1px dashed #bbb;
+    border-bottom: 1px dashed #ccc;
 }
 
 button, input.button {
@@ -306,4 +309,10 @@ table.simplegrid tr.split_last td {
 table.dayschedule td.schedule_time {
     width: 3em;
     max-width: 8em;
+}
+td.multiselect div span.rbutton_off {
+    margin-top: 0.2em;
+}
+table.simplelist td.label {
+    width: 30%;
 }

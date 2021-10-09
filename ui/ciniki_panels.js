@@ -2738,6 +2738,51 @@ M.panel.prototype.createSectionGrid = function(s) {
 
     f.appendChild(t);
 
+    //
+    // Check if add or change function defined
+    //
+/***** Working on changing the buttons from tfoot to buttons **** Didn't look good in all places
+/*    if( (sc.addFn != null && sc.addFn != '' && sc.addTxt != null && sc.addTxt != '')
+        || (sc.changeFn != null && sc.changeFn != '' && sc.changeTxt != '')
+        ) {
+        //
+        // Check of both add and change function
+        //
+        if( (sc.addFn != null && sc.addFn != '' && sc.addTxt != null && sc.addTxt != '')
+            && (sc.changeFn != null && sc.changeFn != '' && sc.changeTxt != '')
+            ) {
+            var b = M.aE('div', null, 'simplebuttons halfsize');
+        } else {
+            var b = M.aE('div', null, 'simplebuttons');
+        }
+        if( sc.addFn != null && sc.addFn != '' && sc.addTxt != null && sc.addTxt != '' ) {
+            var t = M.addTable(null, 'list simplebuttons noheader border');
+            var tb = M.aE('tbody');
+            var tr = M.aE('tr');
+            tr.appendChild(M.aE('td', null, 'button', sc.addTxt));
+            tr.setAttribute('onclick', sc.addFn);
+            tb.appendChild(tr);
+            t.appendChild(tb);
+            b.appendChild(t);
+        }
+
+        //
+        // Add a row for the change button
+        //
+        if( sc.changeFn != null && sc.changeFn != '' && sc.changeTxt != '' ) {
+            var t = M.addTable(null, 'list simplebuttons noheader border');
+            var tb = M.aE('tbody');
+            var tr = M.aE('tr');
+            tr.appendChild(M.aE('td', null, 'button', sc.changeTxt));
+            tr.setAttribute('onclick', sc.changeFn);
+            tb.appendChild(tr);
+            t.appendChild(tb);
+            b.appendChild(t);
+        }
+        f.appendChild(b);
+    } 
+*/
+
     return f;
 };
 

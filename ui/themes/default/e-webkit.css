@@ -162,6 +162,12 @@ table.form td.flags span.flag_off {
     color: #555;
     border: 1px solid #aaa;
 }
+/*
+table td.historybutton span.rbutton_off {
+    border: 0px;
+    background: transparent;
+    color: #999;
+} */
 
 table.list td > button {
     -webkit-border-radius: 3px;

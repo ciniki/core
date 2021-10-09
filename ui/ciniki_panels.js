@@ -3618,6 +3618,10 @@ M.panel.prototype.createFormFields = function(s, nF, fI, fields, mN) {
             }
             c.appendChild(l);
             r.appendChild(c);
+            if( M.size == 'compact' ) {
+                nF.appendChild(r);
+                r = M.aE('tr');
+            }
         } 
         if( fields[i].type != 'noedit' ) {
             ef++;

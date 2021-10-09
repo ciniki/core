@@ -316,3 +316,6 @@ td.multiselect div span.rbutton_off {
 table.simplelist td.label {
     width: 30%;
 }
+table.form > tbody > tr > td.label {
+    padding: 0.5em 0.5em 0em 0.5em;
+}

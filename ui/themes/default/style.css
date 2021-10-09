@@ -819,6 +819,7 @@ div.simplebuttons.halfsize {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-between;
+    margin-bottom: 0.5em;
 }
 div.simplebuttons.halfsize table.list.simplebuttons {
     width: 49%;

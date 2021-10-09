@@ -3176,12 +3176,8 @@ M.panel.prototype.createSimpleList = function(si, l, as) {
 // as - autosplit flag
 //
 M.panel.prototype.createSimpleButtons = function(si, l, as) {
-//    var f = document.createDocumentFragment();
-    if( this.sections[si].size != null && this.sections[si].size == 'half' ) {
-        var f = M.aE('div', null, 'simplebuttons halfsize');
-    } else {
-        var f = M.aE('div', null, 'simplebuttons');
-    }
+    var f = M.aE('div', null, 'simplebuttons');
+    var count = 0;
     for(i in l) {
         if( typeof l[i].visible == 'function' && l[i].visible() == 'no' ) {
             continue;
@@ -3207,6 +3203,10 @@ M.panel.prototype.createSimpleButtons = function(si, l, as) {
         tb.appendChild(tr);
         t.appendChild(tb);
         f.appendChild(t);
+        count++;
+    }
+    if( this.sections[si].size != null && this.sections[si].size == 'half' && count > 1 ) {
+        f.classList.add('halfsize');
     }
 
     return f;

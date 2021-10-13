@@ -3406,6 +3406,10 @@ div.panelsection span.addlink {
     border: 1px solid;
     box-sizing: border-box;
 }
+#m_error table.list pre {
+    max-height: 50vh;
+    overflow: scroll;
+}
 @media screen and (min-width: 40em) {
     #me_content #mc_content_wrap,
     #m_confirm_content #mc_content_wrap,

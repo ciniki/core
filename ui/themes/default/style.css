@@ -418,9 +418,12 @@ button.faicon {
     padding: 5px 10px;
     cursor: pointer;
 }
+table.list > tbody > tr > td.fabuttons,
 td.fabuttons {
     text-align: right;
     vertical-align: middle;
+    padding-top: 0px;
+    padding-bottom: 0px;
 }
 td.fabuttons button.faicon {
     margin: 0.25rem 0rem 0.25rem 0.5rem;

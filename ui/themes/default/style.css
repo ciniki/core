@@ -411,11 +411,19 @@ span.faicon {
 button.faicon {
     font-family: 'FontAwesome';
     font-size: 1.0em;
-    padding: 0px 7px;
+/*    padding: 0px 7px;
     border: 0px;
-    background: transparent;
-    color: #777;
+    background: transparent; 
+    color: #777; */
+    padding: 5px 10px;
     cursor: pointer;
+}
+td.fabuttons {
+    text-align: right;
+    vertical-align: middle;
+}
+td.fabuttons button.faicon {
+    margin: 0.25rem 0rem 0.25rem 0.5rem;
 }
 
 table.form {

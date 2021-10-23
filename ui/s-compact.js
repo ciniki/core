@@ -23,6 +23,7 @@ M.resize = function(e) {
     }
 }
 
+// Deprecated
 M.toggleGuidedMode = function() {
     var mc = M.gE('m_container'); 
     if( M.uiModeGuided == 'yes' ) {
@@ -34,6 +35,7 @@ M.toggleGuidedMode = function() {
     }
 };
 
+// Deprecated
 M.toggleXHelpMode = function() {
     var mc = M.gE('m_container'); 
     if( M.uiModeXHelp == 'yes' ) {

@@ -180,7 +180,7 @@ M.panel.prototype.show = function(cb) {
         this.gstepGoto(this.gstep);
 //    }
 
-    if( M.multiTenant != null && M.multiTenant == 'yes' && this.title != 'Tenants' && this.title != M.curTenant.name ) {
+    if( this.appPrefix != 'mh' && M.multiTenant != null && M.multiTenant == 'yes' && this.title != 'Tenants' && this.title != M.curTenant.name ) {
         M.setHTML(this.titleID, M.curTenant.name + ' - ' + this.title);
     } else {
         M.setHTML(this.titleID, this.title);

@@ -79,13 +79,17 @@ table.list > tbody > tr > td.label {
     padding: 0.7em 0.45em 0.6em 0.45em;
 }
 
-button, input.button {
+a.fabutton, button, input.button {
     border: 1px solid #ddd;
     border-radius: 3px;
     background: -moz-linear-gradient(top, #eee, #bbb);
     padding: 5px 15px 5px 15px;
     border: 1px solid #aaa;
     color: #555;
+}
+a.fabutton {
+    display: inline-block;
+    padding: 5px 10px 5px 10px;
 }
 
 table.form > tbody > tr > td.button,

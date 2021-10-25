@@ -2015,7 +2015,7 @@ M.btn = function(t,f) {
     return '<button onclick="event.stopPropagation();' + f + 'return false;">' + t + '</button>';
 }
 M.faBtn = function(i,l,f) {
-    return '<button class="faicon" alt="' + l + '" onclick="event.stopPropagation();' + f + 'return false;">' + i + '</button>';
+    return '<a class="fabutton" title="' + l + '" onclick="event.stopPropagation();' + f + 'return false;">' + i + '<span class="screen-reader">' + l + '</span></a>';
 }
 M.modSettingSet = function(m,s) {
     if( M.curTenant.modules != null

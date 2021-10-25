@@ -22,6 +22,25 @@ html {
     box-sizing: border-box;
     -webkit-text-size-adjust: 100%; /* Prevent font scaling in landscape while allowing user zoom */
 }
+.screen-reader {
+    display: inline-block;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    height: 0px;
+    width: 0px;
+    white-space: nowrap;
+}
+.screen-reader:active,
+.screen-reader:focus {
+    display: inline-block;
+    clip: auto;
+    overflow: visible;
+    white-space: normal;
+    width: auto;
+    height: auto;
+}
 
 /******* Login panel ******/
 #mc_login table.loginoptions {
@@ -408,6 +427,7 @@ table.list {
 span.faicon {
     font-family: 'FontAwesome';
 }
+a.fabutton,
 button.faicon {
     font-family: 'FontAwesome';
     font-size: 1.0em;
@@ -425,6 +445,7 @@ td.fabuttons {
     padding-top: 0px;
     padding-bottom: 0px;
 }
+td.fabuttons a.fabutton,
 td.fabuttons button.faicon {
     margin: 0.25rem 0rem 0.25rem 0.5rem;
 }
@@ -1755,6 +1776,13 @@ table.form td.input div.image_preview img {
     padding: 8px;
     border: 1px solid #ddd;
     max-width: 95%;
+}
+table.simplegrid div.image_preview {
+    text-align: center;
+}
+table.simplegrid div.image_preview img {
+    max-width: 95%;
+    margin: 0 auto;
 }
 table.imageform td.input div.image_preview img {
     max-width: 100%;

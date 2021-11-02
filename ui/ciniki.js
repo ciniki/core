@@ -1532,7 +1532,8 @@ M.aE = function(t, i, c, h, f) {
     if( i != null ) { e.setAttribute('id', i); }
     if( c != null ) { e.className = c; }
     if( h != null ) { e.innerHTML = h; }
-    if( f != null && f != '' ) { e.setAttribute('onclick', f); }
+    if( f != null && f != '' && typeof(f) == 'function' ) { e.onclick = f; }
+    else if( f != null && f != '' ) { e.setAttribute('onclick', f); }
     return e;
 }
 
@@ -1905,6 +1906,29 @@ M.confirmFn = function() {
     M.hide('m_confirm');
     var e = M.gE('m_confirm_btn');
     e.confirmFn();
+}
+M.processingShow = function(msg, confirmTxt, confirmFn, cancelTxt, cancelFn) {
+    confirmTxt = confirmTxt != null ? confirmTxt : 'Complete';
+    cancelTxt = cancelTxt != null ? cancelTxt : 'Cancel';
+    var e = M.gE('m_proc_confirm_msg');
+    e.innerHTML = '<tr><td>' + msg + '</td></tr>';
+    var e = M.gE('m_proc_confirm_btn');
+    e.innerHTML = '';
+    if( confirmTxt != '' ) {
+        var td = M.aE('td', null, 'button', confirmtxt);
+        var tr = M.aE('tr',null,null,null,confirmFn);
+        tr.appendChild(td);
+        e.appendChild(tr);
+    }
+    var e = M.gE('m_proc_cancel_btn');
+    e.innerHTML = '';
+    if( cancelTxt != '' ) {
+        var td = M.aE('td', null, 'button delete', cancelTxt);
+        var tr = M.aE('tr',null,null,null,cancelFn);
+        tr.appendChild(td);
+        e.appendChild(tr);
+    }
+    M.show('m_processing');
 }
 
 M.modFlags = function(m) {

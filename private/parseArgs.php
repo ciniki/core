@@ -217,7 +217,7 @@ function ciniki_core_parseArgs(&$ciniki, $tnid, $raw_args, $arg_info) {
             }
 
             // Check if there is a list of valid options to accept
-            if( isset($options['validlist']) && !in_array($args[$arg], $options['validlist']) ) {
+            if( isset($options['validlist']) && isset($args[$arg]) && !in_array($args[$arg], $options['validlist']) ) {
                 return array('stat'=>'warn', 'err'=>array('code'=>'ciniki.core.128', 'msg'=>"$invalid_msg", 'pmsg'=>"Argument: $arg not an acceptable input"));
             }
         } 

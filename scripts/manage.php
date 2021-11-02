@@ -785,6 +785,26 @@ Javscript must be enabled for this application to work.
         </div>
     </div>
 </div>
+<div id="m_processing" style="display:none;">
+    <div id="m_processing_content">
+        <div id="mc_content_wrap" class="medium">
+            <table class="list noheader border" cellspacing='0' cellpadding='0'>
+                <tbody id="m_proc_confirm_msg">
+                </tbody>
+            </table>
+            <p><br/></p>
+            <table class="list simplebuttons noheader border" cellpadding="0" cellspacing="0">
+                <tbody id="m_proc_confirm_btn">
+                </tbody>
+            </table>
+            <table class="list simplebuttons noheader border" cellpadding="0" cellspacing="0">
+                <tbody id="m_proc_cancel_btn">
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 <?php if( $start_container == 'm_help' ) { ?>
 <div id="m_help" class="guided-off">
 <?php } else { ?>

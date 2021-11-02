@@ -3417,6 +3417,7 @@ div.panelsection span.addlink {
 /********** Error screen ********/
 #m_error,
 #m_confirm,
+#m_processing,
 #m_alert {
     position: fixed;
     top: 0;
@@ -3431,6 +3432,7 @@ div.panelsection span.addlink {
 }
 #me_content,
 #m_confirm_content,
+#m_processing_content,
 #m_alert_content {
     display: flex;
     justify-content: center;
@@ -3439,6 +3441,7 @@ div.panelsection span.addlink {
 }
 #me_content #mc_content_wrap,
 #m_confirm_content #mc_content_wrap,
+#m_processing_content #mc_content_wrap,
 #m_alert_content #mc_content_wrap {
     background: #f0f0f0;
     padding: 1em 1em 0em 1em;
@@ -3452,11 +3455,13 @@ div.panelsection span.addlink {
 @media screen and (min-width: 40em) {
     #me_content #mc_content_wrap,
     #m_confirm_content #mc_content_wrap,
+    #m_processing_content #mc_content_wrap,
     #m_alert_content #mc_content_wrap {
         padding: 2em 2em 1em 2em;
     }
 }
 #m_confirm_content #m_alert_msg td,
+#m_processing_content #m_alert_msg td,
 #m_alert_content #m_alert_msg td {
     padding: 1.0em 0.5em;
 }

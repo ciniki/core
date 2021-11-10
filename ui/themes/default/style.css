@@ -1006,7 +1006,7 @@ table.list tr.textfield > td.textarea {
     background: #fff;
     padding: 0 0em 0 0em;
     margin: 0px;
-    padding: 0.4em 0.2em 0.2em 0.4em;
+    padding: 0.4em 0.2em 0.2em 0.2em;
 }
 table.list tr.textfield > td:nth-child(2) {
     border-left: 0px;
@@ -3286,6 +3286,21 @@ table.heatmap td.data-7 { background: #f9f; }
 table.heatmap td.data-8 { background: #f8f; }
 table.heatmap td.data-9 { background: #f7f; }
 table.heatmap td.data-10 { background: #f6f; }
+
+/* Video */
+table.video {
+    border: 0px;
+    background: transparent;
+    padding: 0px;
+    width: 100%;
+}
+table.video td.video {
+    padding: 0px;
+}
+table.video video {
+    width: 100%;
+    box-shadow: 1px 1px 5px #555;
+}
 
 
 /******** Guided mode settings *******/

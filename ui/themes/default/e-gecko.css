@@ -69,11 +69,11 @@ h2 {
 }
 
 span.count {
-    border-radius: 3px;
+    border-radius: 5px;
 }
 
 table.list td span.count {
-    padding: 0.1em 0.6em 0.1em 0.6em;
+/*    padding: 0.1em 0.6em 0.1em 0.6em; */
 }
 table.list > tbody > tr > td.label {
     padding: 0.7em 0.45em 0.6em 0.45em;

@@ -148,11 +148,18 @@ M.preLoad = function(s) {
 }
 
 M.home = function() {
+    // Clear last positions and stop any videos
     for(var i in M) {
         if( M[i] != null && M[i].start != null ) {
             for(var j in M[i]) {
                 if( M[i][j] != null && M[i][j].panelRef != null && M[i][j].lastY != null ) {
                     M[i][j].lastY = 0;
+                }
+                if( M[i][j] != null && M[i][j].panelRef != null && M[i][j].videoPlayer != null && M[i][j].videoPlayer != '' ) {
+                    var e = M.gE(M[i][j].videoPlayer);
+                    if( e != null ) {
+                        e.pause();
+                    }
                 }
             }
         }

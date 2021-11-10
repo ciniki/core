@@ -98,6 +98,12 @@ M.panel.prototype.close = function(data) {
     if( this.refreshTimer != null ) {
         clearTimeout(this.refreshTimer);
     }
+    if( this.videoPlayer != null && this.videoPlayer != '' ) {
+        var e = M.gE(this.videoPlayer);
+        if( e != null ) {
+            e.pause();
+        }
+    }
     //
     // Remove the panel
     //
@@ -970,6 +976,8 @@ M.panel.prototype.createSection = function(i, s) {
         st = this.createMetricsGraphics(i);
     } else if( type == 'svg' ) {
         st = this.createSectionSVG(i);
+    } else if( type == 'video' ) {
+        st = this.createSectionVideo(i);
     } else if( type == 'heatmap' ) {
         st = this.createHeatmap(i);
     } else {
@@ -1091,6 +1099,40 @@ M.panel.prototype.createHeatmap = function(s) {
     t.appendChild(tb);
 
     f.appendChild(t);
+    return f;
+}
+
+M.panel.prototype.createSectionVideo = function(s) {
+    var sc = this.sections[s];
+
+    var f = document.createDocumentFragment();
+    
+    var t = M.addTable(this.panelUID + '_' + s, 'video');
+    var tb = M.aE('tbody');
+    var tr = M.aE('tr');
+    var c = M.aE('td',null,'video');
+    c.innerHTML = '<div>'
+        + '<video' 
+        + ' id="' + this.panelUID + '_' + s + '_video"'
+        + (sc.autoplay != null && sc.autoplay == 'yes' ? ' autoplay':'') 
+        + (sc.controls != null && sc.controls == 'yes' ? ' controls':'') 
+        + '>'
+        + '<source id="' + this.panelUID + '_' + '_videosrc"' + ' src="' + sc.src + '" type="video/mp4">'
+        + '</video>'
+        + '</div>';
+    this.videoPlayer = this.panelUID + '_' + s + '_video';
+
+    tr.appendChild(c);
+    tb.appendChild(tr);
+    t.appendChild(tb);
+    f.appendChild(t);
+
+//    if( sc.loadData != null && typeof(sc.loadData) == 'function' ) {
+//        sc.loadData();
+//    } else if( this.loadVideo != null ) {
+//        this.loadVideo(s);
+//    }
+   
     return f;
 }
 

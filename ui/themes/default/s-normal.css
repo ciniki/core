@@ -111,10 +111,11 @@ div.xlarge {
     margin: 0 auto;
 }
 
-div.full {
-    max-width: 96%;
+/*div.full {
+    padding-left: 1rem;
+    padding-right: 1rem;
     margin: 0 auto;
-}
+} */
 
 div.narrowmulticol {
     width: 100%;

@@ -266,6 +266,21 @@ div.full {
     padding-top: 1em;
     padding-bottom: 1em;
 }
+div.full {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+@media screen and (min-width: 59em) {
+    div.full.narrowaside div.panelsection {
+        margin-left: 22rem;
+    }
+    div.full.narrowaside div.panelsection.asideleft {
+        width: 20rem;
+        margin-left: 0;
+        float: left;
+    }
+}
 
 div.wide {
     padding-top: 1em;

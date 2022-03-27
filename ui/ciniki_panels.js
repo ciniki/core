@@ -7595,6 +7595,7 @@ M.panel.prototype.uploadDropImages = function(e, p, s) {
         // Add Photo button used
         var f = M.gE(this.panelUID + '_' + e + '_upload');
         files = f.files;
+        files[0].field_id = e;
         var field = p.formField(e);
         if( field != null ) {
             if( field.addDropImage != null ) {
@@ -7670,6 +7671,10 @@ M.panel.prototype.uploadDropImagesNext = function() {
     if( p.addDropImageAPI == null ) {
         p.addDropImageAPI = 'ciniki.images.add';
     }
+    var fid = null;
+    if( p._uploadFiles[p._uploadCurrent].field_id != null ) {
+        fid = p._uploadFiles[p._uploadCurrent].field_id;
+    }
     var rsp = M.api.postJSONFile(p.addDropImageAPI, 
         {'tnid':M.curTenantID}, 
         p._uploadFiles[p._uploadCurrent],  // File
@@ -7680,11 +7685,11 @@ M.panel.prototype.uploadDropImagesNext = function() {
                 return false;
             } // else {
             if( p._uploadAddDropImage != null ) {
-                if( !p._uploadAddDropImage(rsp.id) ) {
+                if( !p._uploadAddDropImage(rsp.id,fid) ) {
                     M.stopLoad();
                     return false;
                 }
-            } else if( !p.addDropImage(rsp.id) ) {
+            } else if( !p.addDropImage(rsp.id,fid) ) {
                 M.stopLoad();
                 return false;
             }

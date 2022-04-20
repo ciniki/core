@@ -60,7 +60,7 @@ function ciniki_core_help() {
             '_buttons':{'label':'', 'buttons':{
                 'add':{'label':'Submit Question', 'fn':'M.ciniki_core_help.submitBug();'},
             }},
-            '_ui_options_':{'label':'', 'type':'html', 'html':'The following extended help settings are currently experimental.'
+/*            '_ui_options_':{'label':'', 'type':'html', 'html':'The following extended help settings are currently experimental.'
                 + ' They do not work everywhere in the Ciniki Manager, we are currenlty in the process of adding more support.'
                 + ' If you have any problems, please ask a question above. '
                 + ' You can change these settings anytime by opening help.',
@@ -71,10 +71,13 @@ function ciniki_core_help() {
                 'fields':{
                     'ui-mode-guided':{'label':'Guided Mode', 'type':'toggle', 'fn':'M.ciniki_core_help.updateModeGuided', 'toggles':this.toggles},
                     'ui-mode-xhelp':{'label':'Field Descriptions', 'type':'toggle', 'fn':'M.ciniki_core_help.updateModeXHelp', 'toggles':this.toggles},
-                }},
+                }}, */
         };
         this.list.sectionData = function(s) { 
             if( s == '_ui_options_' ) {
+                return this.sections[s].html;
+            }
+            if( this.sections[s].type == 'htmlcontent' ) {
                 return this.sections[s].html;
             }
             return this.data[s]; 
@@ -86,7 +89,51 @@ function ciniki_core_help() {
             if( s == '_ui_options' && i == 'ui-mode-xhelp' ) {
                 return M.uiModeXHelp;
             }
-            return ''; }
+            return ''; 
+        }
+        this.list.open = function() {
+            this.sections = {};
+
+            var pieces = M.curHelpUID.split('.');
+            var p = M[pieces[0] + '_' + pieces[1] + '_' + pieces[2]];
+            if( p != null && p[pieces[3]] != null ) {
+                p = p[pieces[3]];
+            }
+            if( p != null && p.helpSections != null ) {
+                if( typeof p.helpSections == 'function' ) {
+                    this.sections = p.helpSections();
+                } else {
+                    this.sections = p.helpSections;
+                }
+            }
+            this.sections['bugs'] = {'label':'', 'visible':'yes', 'type':'simplelist'};
+            this.sections['main'] = {'label':'Ask a question', 'fields':{
+                'subject':{'label':'Subject', 'hidelabel':'yes', 'type':'text'},
+                }};
+            this.sections['_followup'] = {'label':'Details', 'fields':{
+                'followup':{'label':'Details', 'hidelabel':'yes', 'type':'textarea'},
+                }};
+            this.sections['_buttons'] = {'label':'', 'buttons':{
+                'add':{'label':'Submit Question', 'fn':'M.ciniki_core_help.submitBug();'},
+                }};
+            M.api.getJSONCb('ciniki.bugs.bugList', {'tnid':M.masterTenantID, 'status':'1',
+                'source':'ciniki-manage', 'source_link':M.ciniki_core_help.curHelpUID}, function(rsp) {
+                    if( rsp.stat != 'ok' ) { 
+                        M.api.err(rsp);
+                        return false;
+                    }
+                    var p = M.ciniki_core_help.list;
+                    if( rsp.bugs != null && rsp.bugs.length > 0 ) {
+                        p.sections.bugs.visible = 'yes';
+                    } else {
+                        p.sections.bugs.visible = 'no';
+                    }
+                    p.data = rsp;
+
+                    p.refresh();
+                    p.show();
+                });
+        }   
         this.list.listValue = function(s, i, d) { return d.bug.subject; }
         this.list.listFn = function(s, i, d) { return 'M.ciniki_core_help.showBug(\'' + i + '\');'; }
         this.list.addButton('exit', 'Close', 'M.toggleHelp(null);'); 
@@ -262,7 +309,7 @@ function ciniki_core_help() {
         } else if( M.helpMode != null && M.helpMode == 'online' && M.helpURL != null ) {
             this.online.open(cb);
         } else {
-            this.loadBugs();
+            this.list.open();
         }
     }
 
@@ -312,7 +359,7 @@ function ciniki_core_help() {
         } else if( M.helpMode != null && M.helpMode == 'online' && M.helpURL != null ) {
             this.online.open();
         } else if( this.bug.isVisible() == true || this.list.isVisible() == true ) {
-            this.loadBugs(helpUID);    
+            this.list.open(helpUID);    
             if( M.ciniki_help_bugs != null ) { M.ciniki_help_bugs.reset(); }
             if( M.ciniki_help_features != null ) { M.ciniki_help_features.reset(); }
         } else if( M.ciniki_help_bugs != null 
@@ -348,33 +395,15 @@ function ciniki_core_help() {
                     M.api.err(rsp);
                     return false;
                 }
-                M.ciniki_core_help.loadBugs();
+                M.ciniki_core_help.list.open();
             });
     };
 
     this.showBugs = function() {
         this.bug.reset();
-        this.loadBugs();
+        this.list.open();
     }
 
-    this.loadBugs = function() {
-        M.api.getJSONCb('ciniki.bugs.bugList', {'tnid':M.masterTenantID, 'status':'1',
-            'source':'ciniki-manage', 'source_link':M.ciniki_core_help.curHelpUID}, function(rsp) {
-                if( rsp.stat != 'ok' ) { 
-                    M.api.err(rsp);
-                    return false;
-                }
-                var p = M.ciniki_core_help.list;
-                if( rsp.bugs != null && rsp.bugs.length > 0 ) {
-                    p.sections.bugs.visible = 'yes';
-                } else {
-                    p.sections.bugs.visible = 'no';
-                }
-                p.data = rsp;
-                p.refresh();
-                p.show();
-            });
-    }   
 
     this.showBug = function(bNUM) {
         //  

@@ -70,7 +70,7 @@ function ciniki_core_dbGetModuleHistoryFlagBit(&$ciniki, $module, $history_table
 //      . "DATE_FORMAT(log_date, '" . ciniki_core_dbQuote($ciniki, $datetime_format) . "') AS date, "
         . "log_date as date, "
         . "CAST(UNIX_TIMESTAMP(UTC_TIMESTAMP())-UNIX_TIMESTAMP(log_date) as DECIMAL(12,0)) AS age, "
-        . "IF( (new_value&" . $bit . "), '" . ciniki_core_dbQuote($ciniki, $on) . "', '" . ciniki_core_dbQuote($ciniki, $off) . "') AS value ";
+        . "IF( (new_value&" . $bit . ")=$bit, '" . ciniki_core_dbQuote($ciniki, $on) . "', '" . ciniki_core_dbQuote($ciniki, $off) . "') AS value ";
     $strsql .= " FROM $history_table "
         . " WHERE tnid ='" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
         . " AND table_name = '" . ciniki_core_dbQuote($ciniki, $table_name) . "' "
@@ -93,7 +93,11 @@ function ciniki_core_dbGetModuleHistoryFlagBit(&$ciniki, $module, $history_table
     $rsp = array('stat'=>'ok', 'history'=>array(), 'users'=>array());
     $user_ids = array();
     $num_history = 0;
+    $prev = null;
     while( $row = mysqli_fetch_assoc($result) ) {
+        if( $prev != null && $prev == $row['value'] ) {
+            continue;
+        }
         $rsp['history'][$num_history] = array('action'=>array('user_id'=>$row['user_id'], 'date'=>$row['date'], 'value'=>$row['value']));
         // Format the date
         $date = new DateTime($row['date'], new DateTimeZone('UTC'));
@@ -105,6 +109,7 @@ function ciniki_core_dbGetModuleHistoryFlagBit(&$ciniki, $module, $history_table
 //      }
         $rsp['history'][$num_history]['action']['age'] = ciniki_core_dbParseAge($ciniki, $row['age']);
         $num_history++;
+        $prev = $row['value'];
     }
 
     mysqli_free_result($result);

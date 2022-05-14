@@ -86,7 +86,7 @@ function ciniki_core_objectUpdate(&$ciniki, $tnid, $obj_name, $oid, $args, $tmsu
         if( ($tmsupdate&0x01) == 1 ) { ciniki_core_dbTransactionRollback($ciniki, $m); }
         return $rc;
     }
-    if( !isset($rc['num_affected_rows']) || $rc['num_affected_rows'] != 1 ) {
+    if( !isset($rc['num_affected_rows']) || ($rc['num_affected_rows'] != 1 && $rc['num_affected_rows'] != 0) ) {
         if( ($tmsupdate&0x01) == 1 ) { 
             ciniki_core_dbTransactionRollback($ciniki, $m); 
         }

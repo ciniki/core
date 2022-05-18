@@ -7038,7 +7038,8 @@ M.panel.prototype.serializeFormData = function(fs) {
                 } else {
                     var n = this.formFieldValue(f, fid);
                     if( n != o || fs == 'yes' ) {
-                        c.append(fid, n);
+                        // May 18, 2022 - Added encodeURIComponent as + sign not getting passed properly
+                        c.append(fid, encodeURIComponent(n));
                         count++;
                     }
                     // Check if secondary field

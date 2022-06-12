@@ -1774,6 +1774,8 @@ table.simplegrid td.thumbnail {
 }
 table.simplegrid td.thumbnails {
     width: auto;
+    padding: 0.25em;
+    line-height: 0px;
 }
 
 table.simplegrid td.thumbnail img,

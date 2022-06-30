@@ -3997,7 +3997,7 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
         var v1 = '';
         var v2 = '';
         if( v != null && v != '' ) {
-            var words = v.match(/^(.*) ([0-9]?[0-9]:[0-9][0-9] .*)/);
+            var words = v.match(/^(.*) ([0-9]?[0-9]:[0-9][0-9].*)/);
             v1 = words[1];
             v2 = words[2];
         }

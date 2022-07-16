@@ -1914,6 +1914,33 @@ M.confirmFn = function() {
     var e = M.gE('m_confirm_btn');
     e.confirmFn();
 }
+M.prompt = function(msg, v, btntxt, fn) {
+    if( btntxt == null || btntxt == '' ) {
+        btntxt = 'Ok';
+    }
+    var e = M.gE('m_prompt_msg');
+    e.innerHTML = '<tr><td>' + msg + '</td></tr>'
+        + '<tr><td><input onKeyUp="M.promptKeyUp(event);" type="text" id="m_prompt_input" value="' + v + '" /></td></tr>';
+    var e = M.gE('m_prompt_btn');
+    e.innerHTML = '';
+    e.promptFn = fn;
+    var td = M.aE('td', null, 'button delete', btntxt);
+    var tr = M.aE('tr',null,null,null,'M.promptFn();');
+    tr.appendChild(td);
+    e.appendChild(tr);
+    M.show('m_prompt');
+}
+M.promptKeyUp = function(e) {
+    if( e.keyCode == 13 ) {
+        M.promptFn();
+    }
+}
+M.promptFn = function() {
+    M.hide('m_prompt');
+    var e = M.gE('m_prompt_btn');
+    var a = M.gE('m_prompt_input');
+    e.promptFn(a.value);
+}
 M.processingShow = function(msg, confirmTxt, confirmFn, cancelTxt, cancelFn) {
     confirmTxt = confirmTxt != null ? confirmTxt : 'Complete';
     cancelTxt = cancelTxt != null ? cancelTxt : 'Cancel';

@@ -3449,6 +3449,7 @@ div.panelsection span.addlink {
 /********** Error screen ********/
 #m_error,
 #m_confirm,
+#m_prompt,
 #m_processing,
 #m_alert {
     position: fixed;
@@ -3464,6 +3465,7 @@ div.panelsection span.addlink {
 }
 #me_content,
 #m_confirm_content,
+#m_prompt_content,
 #m_processing_content,
 #m_alert_content {
     display: flex;
@@ -3473,6 +3475,7 @@ div.panelsection span.addlink {
 }
 #me_content #mc_content_wrap,
 #m_confirm_content #mc_content_wrap,
+#m_prompt_content #mc_content_wrap,
 #m_processing_content #mc_content_wrap,
 #m_alert_content #mc_content_wrap {
     background: #f0f0f0;
@@ -3487,15 +3490,19 @@ div.panelsection span.addlink {
 @media screen and (min-width: 40em) {
     #me_content #mc_content_wrap,
     #m_confirm_content #mc_content_wrap,
+    #m_prompt_content #mc_content_wrap,
     #m_processing_content #mc_content_wrap,
     #m_alert_content #mc_content_wrap {
         padding: 2em 2em 1em 2em;
     }
 }
-#m_confirm_content #m_alert_msg td,
+#m_confirm_content #m_confirm_msg td,
 #m_processing_content #m_alert_msg td,
 #m_alert_content #m_alert_msg td {
     padding: 1.0em 0.5em;
+}
+#m_prompt_content #m_prompt_msg td {
+    padding: 1.0em 1em;
 }
 
 #m_error input.button,
@@ -3507,6 +3514,10 @@ div.panelsection span.addlink {
     font-size: 1em;
     color: #333;
     cursor: pointer;
+}
+#m_prompt #m_prompt_msg tr:first-child td {
+    border-bottom: 0px;
+    padding-bottom: 0px;
 }
 
 

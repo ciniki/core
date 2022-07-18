@@ -785,6 +785,26 @@ Javscript must be enabled for this application to work.
         </div>
     </div>
 </div>
+<div id="m_prompt" style="display:none;">
+    <div id="m_prompt_content">
+        <div id="mc_content_wrap" class="medium">
+            <table class="list noheader border" cellspacing='0' cellpadding='0'>
+                <tbody id="m_prompt_msg">
+                </tbody>
+            </table>
+            <p><br/></p>
+            <table class="list simplebuttons noheader border" cellpadding="0" cellspacing="0">
+                <tbody id="m_prompt_btn">
+                </tbody>
+            </table>
+            <table class="list simplebuttons noheader border" cellpadding="0" cellspacing="0">
+                <tbody>
+                <tr onclick="M.hide('m_prompt');"><td class="button">Cancel</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 <div id="m_processing" style="display:none;">
     <div id="m_processing_content">
         <div id="mc_content_wrap" class="medium">

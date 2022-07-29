@@ -3479,7 +3479,7 @@ M.panel.prototype.createPanelTabs = function(s, sc) {
 };
 
 M.panel.prototype.createHtml = function(s, sc) {
-    var t = M.addTable(this.panelUID + '_' + s, 'list form noheader border');
+    var t = M.addTable(this.panelUID + '_' + s, 'list form noheader border' + (sc.class != null ? ' ' + sc.class : ''));
     var tb = M.aE('tbody');
     var tr = M.aE('tr');
     var c = M.aE('td',null,'');

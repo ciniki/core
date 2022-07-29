@@ -1827,6 +1827,12 @@ table.chart td canvas {
     height: 300px;
 }
 
+/* Open Street Maps embed */
+table.border.osm > tbody > tr > td {
+    padding: 0px;
+    line-height: 0px;
+}
+
 /* SVG Graphing styles */
 table.svg td > div {
     width: 100%;

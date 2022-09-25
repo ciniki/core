@@ -202,7 +202,11 @@ function ciniki_core_parseArgs(&$ciniki, $tnid, $raw_args, $arg_info) {
                 }
             } 
             else {
-                $args[$arg] = $raw_args[$arg];
+                if( !isset($options['trim']) ) {
+                    $args[$arg] = trim($raw_args[$arg]);
+                } else {
+                    $args[$arg] = $raw_args[$arg];
+                }
             }
 
             if( isset($options['trim']) && $options['trim'] == 'yes' ) {

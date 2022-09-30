@@ -28,6 +28,7 @@ function ciniki_core_tagsByType($ciniki, $module, $tnid, $table, $typelist) {
 
     // Required functions
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQuote');
+    ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQuoteIDs');
 
     $strsql = "SELECT DISTINCT CONCAT_WS('-', tag_type, tag_name) AS fname, tag_type, tag_name, permalink "
         . "FROM $table "

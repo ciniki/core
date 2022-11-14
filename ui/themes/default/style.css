@@ -41,6 +41,9 @@ html {
     width: auto;
     height: auto;
 }
+.hidden {
+    display: none;
+}
 
 /******* Login panel ******/
 #mc_login table.loginoptions {
@@ -799,11 +802,15 @@ table.form tr.datetime input.datetime-date {
 table.form tr.datetime td.input .rbutton_off {
     margin-right: 0.5rem;
 }
+table.form tr.date input.date {
+    margin-right: 0.25em;
+}
 table.form tr.datetime input.datetime-time {
     display: inline-block;
     min-width: 5em;
     width: 5em;
     max-width: 7em;
+    margin-right: 0.25em;
 }
 @media screen and (min-width:65em) {
     table.form tr.datetime input.datetime-date {
@@ -812,6 +819,10 @@ table.form tr.datetime input.datetime-time {
     table.form tr.datetime input.datetime-time {
         width: 6em;
     }
+}
+table.form tr.file input {
+    width: auto;
+    margin-right: 0.25em;
 }
 
 table.simplegrid td.label,
@@ -955,6 +966,13 @@ table.livesearch tr > td.search {
 table.list tr.textfield > td > input.file {
     box-sizing: border-box;
     border: 0px;
+}
+table.list tr.textfield.file td.input {
+    display: flex;
+    flex-flow: row;
+}
+table.list tr.textfield.file td.input input {
+    flex-grow: 1;
 }
 
 table.list tr.textfield > td.select {
@@ -1203,6 +1221,9 @@ span.rbutton_off {
     padding: 0.35em;
     vertical-align: top;
 }
+span.rbutton_off.hidden {
+    display: none;
+}
 td.historybutton span.rbutton_on,
 td.historybutton span.rbutton_off {
     font-size: 1em;
@@ -1237,6 +1258,10 @@ h2 span.rbutton_off {
     /* top: -0.2em; */
 /*    margin-left: 0.5em; */
     font-size: 1.25em;
+    font-size: 1em;
+    padding: 0.25em;
+    color: #777;
+    margin-top: 0.35em;
 }
 
 td.multiselect div span.rbutton_off {
@@ -2759,6 +2784,7 @@ table.form tr td input.file_uploader {
     margin: 0px;
     overflow: hidden;
     visibility: hidden;
+    display: none;
 }
 table.outline:not(paneltabs) {
     padding: 0.3em;

@@ -4770,15 +4770,46 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
 //        }
     }
     else if( field.type == 'file' ) {
-        // File upload doesn't work on ios and will break the field history button. :(
-//        if( M.device != 'ipad' && M.device != 'iphone' ) {
-            var f = M.aE('input', this.panelUID + '_' + i + sFN, 'file');
-            f.setAttribute('onfocus', this.panelRef + '.clearLiveSearches(\''+s+'\',\''+i+sFN+'\');');
-            f.setAttribute('name', i + sFN);
-            f.setAttribute('type', 'file');
+        var v = this.fieldValue(s, i, field, mN);
+        if( v == null ) {
+            v = '';
+        }
+        var f = M.aE('input', this.panelUID + '_' + i + sFN + '_filename', 'text');
+        f.value = v;
+        f.setAttribute('readonly', 'yes');
+        c.appendChild(f);
+        // Add button
+        var f = M.aE('span', this.panelUID + '_' + fid + sFN + '_addBtn', 'rbutton_off');
+        f.innerHTML = 'a';
+        f.setAttribute('onclick', this.panelUID + '_' + i + sFN + '.click();');
+        c.appendChild(f);
+        // Delete button
+        var f = M.aE('span', this.panelUID + '_' + fid + sFN + '_deleteBtn', 'rbutton_off' + (v != null && v != '' ? '' : ' hidden'));
+        f.innerHTML = 'V';
+        f.setAttribute('onclick', this.panelRef + '.clearFileName(\''+i+'\');');
+        c.appendChild(f);
+        // Download button
+        if( field.deleteFn != null ) {
+            var f = M.aE('span', this.panelUID + '_' + fid + sFN + '_downloadBtn', 'rbutton_off' + (v != null && v != '' ? '' : ' hidden'));
+            f.innerHTML = 'G';
+            f.setAttribute('onclick', field.deleteFn);
             c.appendChild(f);
-//        }
-    }
+        }
+        // Hidden file input
+        var f = M.aE('input', this.panelUID + '_' + i + sFN, 'file_uploader');
+        f.setAttribute('name', i + sFN);
+        f.setAttribute('type', 'file');
+        f.setAttribute('onchange', this.panelRef + '.setFileName(\''+i+'\');');
+        c.appendChild(f);
+    } 
+/* Old file uploader, new is nicer */
+/*    else if( field.type == 'file' ) {
+        var f = M.aE('input', this.panelUID + '_' + i + sFN, 'file');
+        f.setAttribute('onfocus', this.panelRef + '.clearLiveSearches(\''+s+'\',\''+i+sFN+'\');');
+        f.setAttribute('name', i + sFN);
+        f.setAttribute('type', 'file');
+        c.appendChild(f);
+    } */
     else if( field.type == 'image_id' ) {
         if( field.size != null && field.size != '' ) {
             var d = M.aE('div', this.panelUID + '_' + i + sFN + '_preview', 'image_preview ' + field.size);
@@ -5172,7 +5203,23 @@ M.panel.prototype.setFromButton = function(e, field, v) {
         }
     }
 };
-
+M.panel.prototype.clearFileName = function(field) {
+    this.setFieldValue(field, '');
+    var e = document.getElementById(this.panelUID + '_' + field + '_deleteBtn');
+    if( e != null ) {
+        e.classList.add('hidden');
+    }
+    var e = document.getElementById(this.panelUID + '_' + field + '_downloadBtn');
+    if( e != null ) {
+        e.classList.add('hidden');
+    }
+};
+M.panel.prototype.setFileName = function(field) {
+    var file = document.getElementById(this.panelUID + '_' + field);
+    if( file != null && file.files != null && file.files[0].name != null ) {
+        this.setFieldValue(field, file.files[0].name);
+    }
+};
 M.panel.prototype.setFieldValue = function(field, v, vnum, hide, nM, action) {
     var f = this.formField(field);
 
@@ -5192,6 +5239,8 @@ M.panel.prototype.setFieldValue = function(field, v, vnum, hide, nM, action) {
                 s.selectedIndex = i;
             }
         }
+    } else if( f.type == 'file' ) {
+        M.gE(this.panelUID + '_' + field + sFN + '_filename').value = v;
     } else if( f.type == 'flags' ) {
         if( typeof v == 'string' ) { 
             v = parseInt(v, 10);
@@ -7015,7 +7064,19 @@ M.panel.prototype.serializeFormData = function(fs) {
                 }
                 // Set to blank if not defined
                 if( o == undefined ) { o = ''; }
-                if( f.type == 'image' || f.type == 'file' ) {
+                if( f.type == 'file' ) {
+                    var file = document.getElementById(this.panelUID + '_' + fid);
+                    if( file != null && file.files != null && file.files[0] != null ) {
+                        c.append(fid, file.files[0]);
+                        count++;
+                    } else {
+                        var file = document.getElementById(this.panelUID + '_' + fid + '_filename');
+                        if( file != null && file.value == '' ) {
+                            c.append(fid, '');
+                            count++;
+                        }
+                    }
+                } else if( f.type == 'image' || f.type == 'file' ) {
                     var file = document.getElementById(this.panelUID + '_' + fid);
                     if( file != null && file.files != null && file.files[0] != null ) {
                         c.append(fid, file.files[0]);

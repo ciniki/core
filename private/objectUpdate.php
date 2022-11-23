@@ -18,6 +18,7 @@
 //              0x01 - run in a transaction
 //              0x02 - update the module last change date
 //              0x04 - Insert into sync queue
+//              0x08 - Insert temporary history to be removed later
 //
 // Returns
 // -------
@@ -94,6 +95,14 @@ function ciniki_core_objectUpdate(&$ciniki, $tnid, $obj_name, $oid, $args, $tmsu
     }
 
     //
+    // Setup the action
+    //
+    $action = 2;
+    if( ($tmsupdate&0x08) == 0x08 ) {
+        $action = 8;
+    }
+
+    //
     // Add the history
     //
     if( isset($o['history_table']) ) {
@@ -101,12 +110,29 @@ function ciniki_core_objectUpdate(&$ciniki, $tnid, $obj_name, $oid, $args, $tmsu
         ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'objectRefClear');
         foreach($o['fields'] as $field => $options) {
             if( isset($args[$field]) && (!isset($options['history']) || $options['history'] == 'yes') ) {
+                //
+                // Delete old autosave so we don't fill history up with auto save rows, just keep last one.
+                //
+                if( ($tmsupdate&0x08) == 0x08 ) {
+                    $strsql = "DELETE FROM " . $o['history_table'] . " "
+                        . "WHERE tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
+                        . "AND table_name = '" . ciniki_core_dbQuote($ciniki, $o['table']) . "' "
+                        . "AND table_key = '" . ciniki_core_dbQuote($ciniki, $oid) . "' "
+                        . "AND table_field = '" . ciniki_core_dbQuote($ciniki, $field) . "' "
+                        . "AND action = 8 "
+                        . "";
+                    $rc = ciniki_core_dbUpdate($ciniki, $strsql, $m);
+                    if( $rc['stat'] != 'ok' ) {
+                        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.404', 'msg'=>'Unable to remove auto save history', 'err'=>$rc['err']));
+                    }
+                }
                 if( isset($o['history_notes']) && $o['history_notes'] == 'yes' ) {
-                    ciniki_core_dbAddModuleHistoryNotes($ciniki, $m, $o['history_table'], $tnid, 2, $o['table'], $oid, $field, $args[$field], $history_notes);
+                    ciniki_core_dbAddModuleHistoryNotes($ciniki, $m, $o['history_table'], $tnid, $action, $o['table'], $oid, $field, $args[$field], $history_notes);
                 } else {
-                    ciniki_core_dbAddModuleHistory($ciniki, $m, $o['history_table'], $tnid, 2, $o['table'], $oid, $field, $args[$field]);
+                    ciniki_core_dbAddModuleHistory($ciniki, $m, $o['history_table'], $tnid, $action, $o['table'], $oid, $field, $args[$field]);
                 }
             }
+
             //
             // Check if this column is a reference to another modules object, 
             // and see if there should be a reference updated

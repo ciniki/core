@@ -87,6 +87,7 @@ if( (isset($ciniki['syncqueue']) && count($ciniki['syncqueue']) > 0)
     || (isset($ciniki['fbrefreshqueue']) && count($ciniki['fbrefreshqueue']) > 0) 
     || (isset($ciniki['smsqueue']) && count($ciniki['smsqueue']) > 0) 
     || (isset($ciniki['emailqueue']) && count($ciniki['emailqueue']) > 0) 
+    || (isset($ciniki['wngindexer']) && $ciniki['wngindexer'] == 'yes') 
     ) {
     if( $rc['stat'] != 'exit' ) {
         ob_start();
@@ -133,6 +134,13 @@ if( (isset($ciniki['syncqueue']) && count($ciniki['syncqueue']) > 0)
         } elseif( isset($ciniki['request']['args']['tnid']) ) {
             ciniki_core_syncQueueProcess($ciniki, $ciniki['request']['args']['tnid']);
         } 
+    }
+    //
+    // Run the indexer for wng
+    //
+    if( isset($ciniki['wngindexer']) && $ciniki['wngindexer'] == 'yes' && isset($ciniki['request']['args']['tnid']) ) {
+        ciniki_core_loadMethod($ciniki, 'ciniki', 'wng', 'private', 'sitesIndexUpdate');
+        ciniki_wng_sitesIndexUpdate($ciniki, $ciniki['request']['args']['tnid']);
     }
 } else {
     //

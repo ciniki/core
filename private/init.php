@@ -75,6 +75,7 @@ function ciniki_core_init($ciniki_root, $output_format) {
     } else {
         $ciniki['syncloglvl'] = 0;
     }
+    $ciniki['wngindexer'] = 'no';
     $ciniki['synclogfile'] = '';
 
     //

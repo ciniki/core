@@ -96,8 +96,10 @@ function ciniki_core_objectDelete(&$ciniki, $tnid, $obj_name, $oid, $ouuid, $tms
         return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.105', 'msg'=>'Unable to delete object'));
     }
 
-    ciniki_core_dbAddModuleHistory($ciniki, $m, $o['history_table'], $tnid,
-        3, $o['table'], $oid, '*', ''); 
+    if( isset($o['history_table']) && $o['history_table'] != '' ) {
+        ciniki_core_dbAddModuleHistory($ciniki, $m, $o['history_table'], $tnid,
+            3, $o['table'], $oid, '*', ''); 
+    }
 
     //
     // Check if any fields are references to other modules

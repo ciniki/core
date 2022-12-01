@@ -15,9 +15,9 @@ function ciniki_core_makeKeywords($ciniki, $str, $arr=false) {
     $common_words = array(
         'a', 'i',
         'an', 'on', 'in',
-        'and', 'the', 'for', 'any', 'are', 'but', 'not', 'was', 'our', 
+        'and', 'the', 'for', 'any', 'are', 'but', 'not', 'was', 'our', "we're",
         'all', 'has', 'use', 'too', 'put', 'let', 'its', "it's", 
-        'they', "they're", 'there', 'their');
+        'they', "they're", 'there', 'their', 'this');
 
 
     $str = preg_replace('/[^a-zA-Z0-9]/', ' ', $str);

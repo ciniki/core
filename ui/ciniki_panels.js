@@ -5113,7 +5113,6 @@ M.panel.prototype.setSelectField = function(e, i, noval, fn) {
     }
 };
 
-// M.panel.prototype.setFieldValue = function(field, v, vnum, hide, nM, action) {
 M.panel.prototype.addSelectField = function(i, nM, txt) {
     var tag = prompt(((txt!=null&&txt!='')?txt:'Add'));
     if( tag != null && tag != '' ) {

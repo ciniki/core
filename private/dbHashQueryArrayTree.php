@@ -56,6 +56,8 @@ function ciniki_core_dbHashQueryArrayTree(&$ciniki, $strsql, $module, $tree) {
     // Build array of rows
     //
     $prev = array();
+    $lists = array();
+    $dlists = array();
     $prev_row = null;
     $num_elements = array();
     for($i=0;$i<count($tree);$i++) {
@@ -213,10 +215,41 @@ function ciniki_core_dbHashQueryArrayTree(&$ciniki, $strsql, $module, $tree) {
                             }
                             $data[$tree[$i]['container']][$num_elements[$i]][$field_id] = $text;
                         }
+                        elseif( isset($tree[$i]['lists']) && in_array($field_id, $tree[$i]['lists']) ) {
+                            //
+                            // Deal with lists same as if prev row is same as current row
+                            //
+                            if( !isset($lists[$field]) ) {
+                                $lists[$field] = array();
+                            }
+                            if( $row[$field] != null && !in_array($row[$field], $lists[$field]) ) {
+                                $lists[$field][] = $row[$field];
+                                if( isset($data[$tree[$i]['container']][$num_elements[$i]][$field_id]) ) {
+                                    $data[$tree[$i]['container']][$num_elements[$i]][$field_id] .= ',' . $row[$field];
+                                } else {
+                                    $data[$tree[$i]['container']][$num_elements[$i]][$field_id] = $row[$field];
+                                }
+                            }
+                        }
+                        elseif( isset($tree[$i]['dlists'][$field_id]) ) {
+                            //
+                            // Deal with lists same as if prev row is same as current row
+                            //
+                            if( !isset($dlists[$field]) ) {
+                                $dlists[$field] = array();
+                            }
+                            if( $row[$field] != null && !in_array($row[$field], $dlists[$field]) ) {
+                                $dlists[$field][] = $row[$field];
+                                if( isset($data[$tree[$i]['container']][$num_elements[$i]][$field_id]) ) {
+                                    $data[$tree[$i]['container']][$num_elements[$i]][$field_id] .= $tree[$i]['dlists'][$field] . $row[$field];
+                                } else {
+                                    $data[$tree[$i]['container']][$num_elements[$i]][$field_id] = $row[$field];
+                                }
+                            }
+                        }
                         
                         // Normal item
                         else {
-//                          error_log("$field_id(" . $field . ") = '" . $row[$field] . "'");
                             $data[$tree[$i]['container']][$num_elements[$i]][$field_id] = $row[$field];
                         }
                     }
@@ -262,12 +295,16 @@ function ciniki_core_dbHashQueryArrayTree(&$ciniki, $strsql, $module, $tree) {
                         }
                     }
 
-                    if( isset($tree[$i]['lists']) && in_array($field, $tree[$i]['lists']) 
-                        && $prev_row != null && $prev_row[$field] != $row[$field] ) {
+                    if( isset($tree[$i]['lists']) && in_array($field, $tree[$i]['lists']) ) {
+//                        && $prev_row != null && $prev_row[$field] != $row[$field] ) {
                         //
                         // Check if field was declared in fields array, if not it can be added now
                         //
-                        if( $row[$field] != null ) {
+                        if( !isset($lists[$field]) ) {
+                            $lists[$field] = array();
+                        }
+                        if( $row[$field] != null && !in_array($row[$field], $lists[$field]) ) {
+                            $lists[$field][] = $row[$field];
                             if( isset($data[$tree[$i]['container']][$num_elements[$i]-1][$field]) ) {
                                 $data[$tree[$i]['container']][$num_elements[$i]-1][$field] .= ',' . $row[$field];
                             } else {
@@ -278,15 +315,21 @@ function ciniki_core_dbHashQueryArrayTree(&$ciniki, $strsql, $module, $tree) {
                     //
                     // Lists which have delimiters specified
                     //
-                    if( isset($tree[$i]['dlists']) && array_key_exists($field, $tree[$i]['dlists']) 
-                        && $prev_row != null && $prev_row[$field] != $row[$field] ) {
+                    if( isset($tree[$i]['dlists']) && array_key_exists($field, $tree[$i]['dlists'])  ) {
+//                        && $prev_row != null && $prev_row[$field] != $row[$field] ) {
                         //
                         // Check if field was declared in fields array, if not it can be added now
                         //
-                        if( isset($data[$tree[$i]['container']][$num_elements[$i]-1][$field]) ) {
-                            $data[$tree[$i]['container']][$num_elements[$i]-1][$field] .= $tree[$i]['dlists'][$field] . $row[$field];
-                        } else {
-                            $data[$tree[$i]['container']][$num_elements[$i]-1][$field] = $row[$field];
+                        if( !isset($dlists[$field]) ) {
+                            $dlists[$field] = array();
+                        }
+                        if( $row[$field] != null && !in_array($row[$field], $dlists[$field]) ) {
+                            $dlists[$field][] = $row[$field];
+                            if( isset($data[$tree[$i]['container']][$num_elements[$i]-1][$field]) ) {
+                                $data[$tree[$i]['container']][$num_elements[$i]-1][$field] .= $tree[$i]['dlists'][$field] . $row[$field];
+                            } else {
+                                $data[$tree[$i]['container']][$num_elements[$i]-1][$field] = $row[$field];
+                            }
                         }
                     }
                     // 

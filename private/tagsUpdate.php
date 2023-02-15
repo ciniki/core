@@ -36,6 +36,7 @@ function ciniki_core_tagsUpdate(&$ciniki, $module, $object, $tnid, $table, $hist
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbDelete');
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbInsert');
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbUUID');
+    ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbAddModuleHistory');
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'objectLoad');
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'makePermalink');
 

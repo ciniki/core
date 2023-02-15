@@ -82,6 +82,8 @@ function ciniki_core_dbHashQueryArrayTree(&$ciniki, $strsql, $module, $tree) {
                 break;
             }
             if( $prev[$i] !== $row[$tree[$i]['fname']] ) {
+                $lists[$i] = array();
+                $dlists[$i] = array();
                 // Reset all num_element this depth and below
                 for($j=$i+1;$j<count($tree);$j++) {
                     $num_elements[$j] = 0;
@@ -219,11 +221,11 @@ function ciniki_core_dbHashQueryArrayTree(&$ciniki, $strsql, $module, $tree) {
                             //
                             // Deal with lists same as if prev row is same as current row
                             //
-                            if( !isset($lists[$field]) ) {
-                                $lists[$field] = array();
+                            if( !isset($lists[$i][$field]) ) {
+                                $lists[$i][$field] = array();
                             }
-                            if( $row[$field] != null && !in_array($row[$field], $lists[$field]) ) {
-                                $lists[$field][] = $row[$field];
+                            if( $row[$field] != null && !in_array($row[$field], $lists[$i][$field]) ) {
+                                $lists[$i][$field][] = $row[$field];
                                 if( isset($data[$tree[$i]['container']][$num_elements[$i]][$field_id]) ) {
                                     $data[$tree[$i]['container']][$num_elements[$i]][$field_id] .= ',' . $row[$field];
                                 } else {
@@ -235,11 +237,11 @@ function ciniki_core_dbHashQueryArrayTree(&$ciniki, $strsql, $module, $tree) {
                             //
                             // Deal with lists same as if prev row is same as current row
                             //
-                            if( !isset($dlists[$field]) ) {
-                                $dlists[$field] = array();
+                            if( !isset($dlists[$i][$field]) ) {
+                                $dlists[$i][$field] = array();
                             }
-                            if( $row[$field] != null && !in_array($row[$field], $dlists[$field]) ) {
-                                $dlists[$field][] = $row[$field];
+                            if( $row[$field] != null && !in_array($row[$field], $dlists[$i][$field]) ) {
+                                $dlists[$i][$field][] = $row[$field];
                                 if( isset($data[$tree[$i]['container']][$num_elements[$i]][$field_id]) ) {
                                     $data[$tree[$i]['container']][$num_elements[$i]][$field_id] .= $tree[$i]['dlists'][$field] . $row[$field];
                                 } else {
@@ -300,11 +302,11 @@ function ciniki_core_dbHashQueryArrayTree(&$ciniki, $strsql, $module, $tree) {
                         //
                         // Check if field was declared in fields array, if not it can be added now
                         //
-                        if( !isset($lists[$field]) ) {
-                            $lists[$field] = array();
+                        if( !isset($lists[$i][$field]) ) {
+                            $lists[$i][$field] = array();
                         }
-                        if( $row[$field] != null && !in_array($row[$field], $lists[$field]) ) {
-                            $lists[$field][] = $row[$field];
+                        if( $row[$field] != null && !in_array($row[$field], $lists[$i][$field]) ) {
+                            $lists[$i][$field][] = $row[$field];
                             if( isset($data[$tree[$i]['container']][$num_elements[$i]-1][$field]) ) {
                                 $data[$tree[$i]['container']][$num_elements[$i]-1][$field] .= ',' . $row[$field];
                             } else {
@@ -320,11 +322,11 @@ function ciniki_core_dbHashQueryArrayTree(&$ciniki, $strsql, $module, $tree) {
                         //
                         // Check if field was declared in fields array, if not it can be added now
                         //
-                        if( !isset($dlists[$field]) ) {
-                            $dlists[$field] = array();
+                        if( !isset($dlists[$i][$field]) ) {
+                            $dlists[$i][$field] = array();
                         }
-                        if( $row[$field] != null && !in_array($row[$field], $dlists[$field]) ) {
-                            $dlists[$field][] = $row[$field];
+                        if( $row[$field] != null && !in_array($row[$field], $dlists[$i][$field]) ) {
+                            $dlists[$i][$field][] = $row[$field];
                             if( isset($data[$tree[$i]['container']][$num_elements[$i]-1][$field]) ) {
                                 $data[$tree[$i]['container']][$num_elements[$i]-1][$field] .= $tree[$i]['dlists'][$field] . $row[$field];
                             } else {

@@ -3998,8 +3998,13 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
         var v2 = '';
         if( v != null && v != '' ) {
             var words = v.match(/^(.*) ([0-9]?[0-9]:[0-9][0-9].*)/);
-            v1 = words[1];
-            v2 = words[2];
+            if( words != null ) {
+                v1 = words[1];
+                v2 = words[2];
+            } else {
+                v1 = v;
+                v2 = '';
+            }
         }
         var f = M.aE('input', this.panelUID + '_' + i + sFN, field.type + '-date');
         f.value = v1;
@@ -4739,10 +4744,13 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
         //
         // Add the add button
         //
-        var f = M.aE('span', this.panelUID + '_' + fid + sFN + '_addBtn', 'rbutton_off');
-        f.innerHTML = 'a';
-        f.setAttribute('onclick', this.panelRef + '.addSelectField(\''+i+'\',\''+(mN!=null?mN:'')+'\',\''+(field.hint!=null?field.hint:'Add')+'\');');
-        div.appendChild(f);
+        if( field.add == null || field.add == 'yes' ) {
+            var f = M.aE('span', this.panelUID + '_' + fid + sFN + '_addBtn', 'rbutton_off');
+            f.innerHTML = 'a';
+            f.setAttribute('onclick', this.panelRef + '.addSelectField(\''+i+'\',\''+(mN!=null?mN:'')+'\',\''+(field.hint!=null?field.hint:'Add')+'\');');
+            div.appendChild(f);
+        }
+
         c.appendChild(div);
 
         // Create a small text field for adding new tags

@@ -1683,6 +1683,15 @@ table.list tr.draggable > td:first-child:before {
     width: 1rem;
     color: #bbb;
     padding-right: 0.5em;
+    vertical-align: middle;
+}
+table.list tr.draggable > td.thumbnail:first-child:before {
+    position: relative;
+    top: -38px;
+}
+table.list tr.draggable > td.thumbnail:first-child {
+    width: 100px;
+    padding-left: 0.5em;
 }
 /*table.list tr.draggable.drophighlight td {
     border-top: 2px solid #000;

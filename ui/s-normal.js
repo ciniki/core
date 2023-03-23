@@ -201,8 +201,12 @@ M.panel.setupFormFieldHistory = function(fieldID, field) {
                     // Find the label for the history through a complex_options mapping information
                     //
                     for(j in field.options) {
-                        if( field.options[j][field.complex_options.subname][field.complex_options.value] == history[i].action.value ) {
+                        if( field.complex_options.subname != null && field.options[j][field.complex_options.subname][field.complex_options.value] == history[i].action.value ) {
                             c3.innerHTML = field.options[j][field.complex_options.subname][field.complex_options.name];
+                            break;
+                        }
+                        else if( field.options[j][field.complex_options.value] == history[i].action.value ) {
+                            c3.innerHTML = field.options[j][field.complex_options.name];
                             break;
                         }
                     }

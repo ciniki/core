@@ -68,9 +68,9 @@ function ciniki_core_dbGetModuleHistoryFkId(&$ciniki, $module, $history_table, $
     while( $row = mysqli_fetch_assoc($result) ) {
         $rsp['history'][$num_history] = array('action'=>array('user_id'=>$row['user_id'], 'date'=>$row['date'], 'value'=>$row['value']));
         $rsp['history'][$num_history]['action']['fkidstr_value'] = $row['fkidstr_value'];
-        if( $row['user_id'] > 0 ) {
+//        if( $row['user_id'] > 0 ) {
             array_push($user_ids, $row['user_id']);
-        }
+//        }
         $rsp['history'][$num_history]['action']['age'] = ciniki_core_dbParseAge($ciniki, $row['age']);
         $num_history++;
     }
@@ -98,7 +98,7 @@ function ciniki_core_dbGetModuleHistoryFkId(&$ciniki, $module, $history_table, $
     // Merge user list information into array
     //
     foreach($rsp['history'] as $k => $v) {
-        if( isset($v['action']) && isset($v['action']['user_id']) && $v['action']['user_id'] > 0 
+        if( isset($v['action']) && isset($v['action']['user_id']) && $v['action']['user_id'] != 0 
             && isset($users[$v['action']['user_id']]) && isset($users[$v['action']['user_id']]['display_name']) ) {
             $rsp['history'][$k]['action']['user_display_name'] = $users[$v['action']['user_id']]['display_name'];
         }

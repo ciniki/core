@@ -1825,8 +1825,10 @@ table.form td.input div.image_preview {
 table.form td.input div.image_preview img {
     background-color: #fff;
     padding: 8px;
-    border: 1px solid #ddd;
     max-width: 95%;
+}
+table.form.imageform td.input div.image_preview img {
+    border: 1px solid #ddd; 
 }
 table.simplegrid div.image_preview {
     text-align: center;
@@ -2650,6 +2652,9 @@ table.form > tbody > tr > td div.buttons {
     display: inline-block;
     padding-left: 0.6em;
     margin: 0px;
+}
+table.form > tbody > tr > td div.imagebuttons {
+    text-align: center;
 }
 
 table.form > tbody > tr > td div.nopadbuttons {

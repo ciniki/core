@@ -3711,7 +3711,7 @@ M.panel.prototype.createFormFields = function(s, nF, fI, fields, mN) {
         //
         // If the field added was of type image_id, then extra buttons are required
         //
-        if( fields[i].type == 'image_id' ) {
+/*        if( fields[i].type == 'image_id' ) {
             var img_id = this.fieldValue(s, i, fields[i], mN);
             //
             // Create the form upload field, but hide it
@@ -3745,7 +3745,7 @@ M.panel.prototype.createFormFields = function(s, nF, fI, fields, mN) {
                 r.appendChild(td);
                 nF.appendChild(r);
             }
-        }
+        } */
         //
         // Check if there is guided text for this field
         //
@@ -4850,6 +4850,12 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
             d.innerHTML = '<img src=\'/ciniki-mods/core/ui/themes/default/img/noimage_200.jpg\' />';
         }
         c.appendChild(d);
+        var btns = this.createImageControls(i, field, img_id);
+        if( btns != null && btns.childNodes != null && btns.childNodes.length > 0 ) {
+            var d = M.aE('div', this.panelUID + '_' + i + '_controls', 'imagebuttons');
+            d.appendChild(btns);
+            c.appendChild(d);
+        }
         // File upload doesn't work on ios and will break the field history button. :(
 //        if( M.device != 'ipad' && M.device != 'iphone' ) {
             var f = M.aE('input', this.panelUID + '_' + i + sFN, 'text');
@@ -4858,6 +4864,22 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
             f.value = img_id;
             c.appendChild(f);
 //        }
+        //
+        // Create the form upload field, but hide it
+        //
+        var f = null;
+        if( this.uploadImage != null || ((this.addDropImage != null || field.addDropImage != null) && field.controls == 'all') ) {
+            f = M.aE('input', this.panelUID + '_' + i + '_upload', 'image_uploader');
+            f.setAttribute('name', i);
+            f.setAttribute('type', 'file');
+            if( this.uploadImage != null ) {
+                f.setAttribute('onchange', this.uploadImage(i));
+            } else {
+                f.setAttribute('onchange', this.panelRef + '.uploadDropImages(\'' + i + '\');');
+            }
+            f.setAttribute('onfocus', this.panelRef + '.clearLiveSearches(\''+s+'\',\''+i+'\');');
+            c.appendChild(f);
+        }
     }
     else if( field.type == 'audio_id' ) {
         var aid = this.fieldValue(s, i, field, mN);

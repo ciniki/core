@@ -4486,7 +4486,7 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
                             this.parentNode.children[k].className = 'flag_off';
                         }
                         this.className = 'flag_on';
-                    } else if( field.none != null && field.none == 'yes' && e.className == 'flag_on' ) {
+                    } else if( field.none != null && field.none == 'yes' && this.className == 'flag_on' ) {
                         this.className = 'flag_off';
                     }
                     if( this.onChangeCb != null ) {
@@ -5270,7 +5270,7 @@ M.panel.prototype.setFieldValue = function(field, v, vnum, hide, nM, action) {
         }
     } else if( f.type == 'file' ) {
         M.gE(this.panelUID + '_' + field + sFN + '_filename').value = v;
-    } else if( f.type == 'flags' ) {
+    } else if( f.type == 'flags' || f.type == 'flagspiece' ) {
         if( typeof v == 'string' ) { 
             v = parseInt(v, 10);
         }

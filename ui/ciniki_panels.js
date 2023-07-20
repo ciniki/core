@@ -1777,7 +1777,7 @@ M.panel.prototype.liveSearchResultsTable = function(s, f, sd) {
     if( sd.livesearchtype == 'appointments' ) {
         var t = M.addTable(n + '_livesearch_grid', 'list dayschedule noheader noborder');
     } else if( sd.fields != null && sd.fields[f] != null && sd.fields[f].headerValues != null ) {
-        var t = M.addTable(n + '_livesearch_grid', 'list simplegrid header border');
+        var t = M.addTable(n + '_livesearch_grid', 'list simplegrid header border searchresults');
         var th = M.aE('thead');
         var tr = M.aE('tr');
         for(var i=0;i<sd.fields[f].headerValues.length;i++) {
@@ -1793,7 +1793,7 @@ M.panel.prototype.liveSearchResultsTable = function(s, f, sd) {
         th.appendChild(tr);
         t.appendChild(th);
     } else if( sd.headerValues != null ) {
-        var t = M.addTable(n + '_livesearch_grid', 'list simplegrid header border');
+        var t = M.addTable(n + '_livesearch_grid', 'list simplegrid header border searchresults');
         var th = M.aE('thead');
         var tr = M.aE('tr');
         for(var i=0;i<sd.headerValues.length;i++) {
@@ -1813,7 +1813,7 @@ M.panel.prototype.liveSearchResultsTable = function(s, f, sd) {
         th.appendChild(tr);
         t.appendChild(th);
     } else {
-        var t = M.addTable(n + '_livesearch_grid', 'list simplegrid noheader border');
+        var t = M.addTable(n + '_livesearch_grid', 'list simplegrid noheader border searchresults');
     }
     var tb = M.aE('tbody', n + '_livesearchresultsgrid');
     

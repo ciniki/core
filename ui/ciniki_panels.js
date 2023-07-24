@@ -2496,6 +2496,9 @@ M.panel.prototype.createSectionGridHeaders = function(s, sc, data) {
         }
         tr.appendChild(this.createSectionGridHeader(s, i, sc));
     }
+    if( sc.mailFn != null && sc.mailFn(s,0,null) != null ) {
+        tr.appendChild(M.aE('th', null, 'noprint'));
+    }
     if( sc.editFn != null ) {
         tr.appendChild(M.aE('th', null, 'noprint'));
     }
@@ -2669,7 +2672,9 @@ M.panel.prototype.createSectionGrid = function(s) {
             if( M.size == 'compact' && sc.compact_split_at != null ) {
                 td.colSpan = sc.compact_split_at + 1;
             } else {
-                if( sc.editFn != null ) {
+                if( sc.editFn != null && sc.mailFn != null && sc.mailFn(s,0,null) != null ) {
+                    td.colSpan = num_cols + 3;
+                } else if( sc.editFn != null ) {
                     td.colSpan = num_cols + 2;
                 } else {
                     td.colSpan = num_cols + 1;
@@ -2720,6 +2725,10 @@ M.panel.prototype.createSectionGrid = function(s) {
         }
         tr.appendChild(td);
         // Add blank for edit
+        if( sc.mailFn != null && sc.mailFn(s,0,null) != null ) {
+            c = M.aE('td', null, 'buttons noprint');
+            tr.appendChild(c);
+        }
         if( sc.editFn != null ) {
             c = M.aE('td', null, 'buttons noprint');
             tr.appendChild(c);
@@ -2746,6 +2755,10 @@ M.panel.prototype.createSectionGrid = function(s) {
         }
         tr.appendChild(td);
         // Add blank for edit
+        if( sc.mailFn != null && sc.mailFn(s,0,null) != null ) {
+            c = M.aE('td', null, 'buttons noprint');
+            tr.appendChild(c);
+        }
         if( sc.editFn != null ) {
             c = M.aE('td', null, 'buttons noprint');
             tr.appendChild(c);
@@ -3020,6 +3033,17 @@ M.panel.prototype.createSectionGridRow = function(s, i, sc, num_cols, rowdata, t
         }
     }
 
+    // Add the mail button to click on
+    if( sc.mailFn != null && sc.mailFn(s, i, rowdata) != null ) {
+        c = M.aE('td', null, 'buttonicons noprint');
+        var fn = sc.mailFn(s, i, rowdata);
+        if( fn != '' ) {
+            c.setAttribute('onclick', 'event.stopPropagation();' + sc.mailFn(s, i, rowdata));
+            c.innerHTML = '<span class="faicon">&#xf003;</span>';
+            ptr.className = 'clickable' + rcl;
+        }
+        ptr.appendChild(c);
+    }
     // Add the edit button to click on
     if( sc.editFn != null && sc.editFn(s, i, rowdata) != null ) {
         c = M.aE('td', null, 'buttonicons noprint');

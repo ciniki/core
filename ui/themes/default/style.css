@@ -1645,9 +1645,13 @@ table.list table.searchresults {
     margin-bottom: 0em;
 }
 
+table.list table.searchresults tr td:first-child {
+    border-left: 1px solid #777; 
+}
+table.list table.searchresults tr td:last-child {
+    border-right: 1px solid #777; 
+}
 table.list table.searchresults tr td {
-    border-left: 1px solid #bbb;    
-    border-right: 1px solid #bbb;   
     border-bottom: 1px solid #bbb; 
 }
 

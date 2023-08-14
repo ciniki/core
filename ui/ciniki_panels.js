@@ -4673,7 +4673,6 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
             minutes = Math.floor(v/60);
             seconds = v%60;
         }
-        console.log(v);
         var s = M.aE('select', this.panelUID + '_' + fid + sFN + '_min');
         var max = field.max_minutes != null ? field.max_minutes : 60;
         for(var k = 0; k < max; k+=1) {

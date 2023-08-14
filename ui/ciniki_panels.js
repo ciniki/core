@@ -4214,18 +4214,6 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
         var f = M.aE('div', this.panelUID + '_' + i + sFN, (field.type=='textarea'?null:field.type) + (field.size!=null?' ' + field.size:''));
         f.setAttribute('name', i + sFN);
         f.setAttribute('onfocus', this.panelRef + '.clearLiveSearches(\''+s+'\',\''+i+sFN+'\');');
-//        if( field.size != null && field.size == 'small' ) {
-//            f.setAttribute('rows', 2);
-//            f.setAttribute('class', 'small');
-//        } else if( field.size != null && field.size == 'large' ) {
-//            f.setAttribute('rows', 12);
-//            f.setAttribute('class', 'large');
-//        } else {
-//            f.setAttribute('rows', 6);
-//        }
-//        if( field.hint != null && field.hint != '' ) {
-//            f.setAttribute('placeholder', field.hint);
-//        }
         var v = this.fieldValue(s, i, field, mN);
         if( v != null ) {
             f.innerHTML = v.replace(/\n/g,"<br />");
@@ -4675,6 +4663,108 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
         if( field.hint != null && field.hint != '' ) {
             c.appendChild(M.aE('span', this.panelUID + '_' + fid + sFN + '_hint', 'hint', field.hint));
         }
+    }
+    else if( field.type == 'minsec' ) {
+        c.classname = 'minsec';
+        var v = this.fieldValue(s, i, field, mN);
+        var minutes = 0;
+        var seconds = 0;
+        if( v != '' && v > 0 ) {
+            minutes = Math.floor(v/60);
+            seconds = v%60;
+        }
+        console.log(v);
+        var s = M.aE('select', this.panelUID + '_' + fid + sFN + '_min');
+        var max = field.max_minutes != null ? field.max_minutes : 60;
+        for(var k = 0; k < max; k+=1) {
+            if( k == minutes ) {
+                var op = new Option(k, k, 0, 1);
+            } else {
+                var op = new Option(k, k);
+            }
+            s.appendChild(op);
+        }
+        c.appendChild(s);
+        c.appendChild(M.aE('span', null, 'minsec_label', 'minute(s)'));
+
+        var s = M.aE('select', this.panelUID + '_' + fid + sFN);
+        var si = field.second_interval != null ? field.second_interval : 1;
+        for(var k = 0; k < 60; k+=si) {
+            if( k == seconds ) {
+                var op = new Option(k, k, 0, 1);
+            } else {
+                var op = new Option(k, k);
+            }
+            s.appendChild(op);
+        }
+        c.appendChild(s);
+        c.appendChild(M.aE('span', null, 'minsec_label', 'second(s)'));
+
+/*        var sel = M.aE('select', this.panelUID + '_' + fid + sFN);
+        sel.setAttribute('name', fid + sFN);
+        sel.setAttribute('onfocus', this.panelRef + '.clearLiveSearches(\''+s+'\',\''+fid+sFN+'\');');
+        if( field.onchangeFn != null && field.onchangeFn != '' ) {
+            sel.setAttribute('onchange', field.onchangeFn + '(\'' + s + '\',\'' + i+sFN+'\');');
+        } else if( field.onchange != null && field.onchange != '' ) {
+            sel.setAttribute('onchange', field.onchange + '(\'' + s + '\',\'' + i+sFN+'\');');
+        }
+        var o = field.options;
+        var fv = this.fieldValue(s, i, field, mN);
+        var text = '';
+        if( fv == null && field.default != null ) {
+            fv = field.default
+        }
+        for(j in o) {
+            var n = o[j];
+            var v = j;
+            // If option_name is specified, then option is a complex object  
+            // These are the result of an object sent back through cinikiAPI
+            if( field.idnames != null && field.idnames == 'yes' ) {
+                n = o[j].name;
+                v = o[j].id;
+            }
+            if( field.complex_options != null ) { 
+                if( field.complex_options.subname != null ) {
+                    n = o[j][field.complex_options.subname][field.complex_options.name];
+                    v = o[j][field.complex_options.subname][field.complex_options.value];
+                } else {
+                    n = o[j][field.complex_options.name];
+                    if( field.complex_options.value != null ) {
+                        v = o[j][field.complex_options.value];
+                    }
+                }
+            }
+
+            //
+            // Add the options to the select, and choose which one to have selected
+            //
+            if( v == fv ) {
+                var op = new Option(n, v, 0, 1);
+                text = n;
+            } else {
+                var op = new Option(n, v);
+            }
+// Code which can display a background colour behind select option, but does not work in all browsers.
+//                    if( field['complex_options'] != null && field['complex_options']['bgcolor'] != null ) { 
+//                        //op.setAttribute('background','#' + field['complex_options']['bgcolor']);
+//                        op.style.background = '#' + o[j][field['complex_options']['subname']][field['complex_options']['bgcolor']];
+//                    }
+            sel.appendChild(op);
+        }
+        c.appendChild(sel);
+        //
+        // If field should be more difficult to edit
+        //
+        if( field.editable != null && field.editable == 'afterclick' ) {
+            sel.style.display = 'none';
+            var e = M.aE('span', this.panelUID + '_' + fid + '_text', 'select-placeholder', text);
+            e.style.display = 'inline-block';
+            f = M.aE('span', null, 'faicon clickable', '&#xf040;');
+            f.setAttribute('onclick', 'event.stopPropagation();' + this.panelRef + '.editSelect(\'' + s + '\',\'' + fid + '\');');
+            e.appendChild(f);
+            c.appendChild(e);
+        } */
+
     }
     else if( field.type == 'idlist' ) {
         c.className = 'multiselect';
@@ -5474,6 +5564,25 @@ M.panel.prototype.setFieldValue = function(field, v, vnum, hide, nM, action) {
                         e.className = 'toggle_off';
                     }
                 }
+            }
+        }
+    } else if( f.type == 'minsec' ) {
+        var minutes = 0;
+        var seconds = 0;
+        if( v != '' && v > 0 ) {
+            minutes = Math.floor(v/60);
+            seconds = v%60;
+        }
+        var s = M.gE(this.panelUID + '_' + field + sFN + '_min');
+        for(var i=0;i<s.options.length;i++) {
+            if( s.options[i].value == minutes) {
+                s.selectedIndex = i;
+            }
+        }
+        var s = M.gE(this.panelUID + '_' + field + sFN);
+        for(var i=0;i<s.options.length;i++) {
+            if( s.options[i].value == seconds) {
+                s.selectedIndex = i;
             }
         }
     } else if( f.type == 'colourswatches' ) {
@@ -7224,6 +7333,9 @@ M.panel.prototype.formFieldValue = function(f,fid) {
         n += M.gE(this.panelUID + '_' + fid + '_time').value;
     } else if( f.type == 'colour' ) {
         n = M.rgbToHex(M.gE(this.panelUID + '_' + fid).style.backgroundColor);
+    } else if( f.type == 'minsec' ) {
+        n = parseInt(M.gE(this.panelUID + '_' + fid).value);
+        n += parseInt(M.gE(this.panelUID + '_' + fid + '_min').value * 60);
     } else if( f.type == 'flags' ) {
         n = 0;
         // By starting with the existing value, not all bits have to be specified in each form.

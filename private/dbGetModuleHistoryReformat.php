@@ -138,6 +138,14 @@ function ciniki_core_dbGetModuleHistoryReformat(&$ciniki, $module, $history_tabl
         elseif( $format == 'percent' ) {
             $rsp['history'][$num_history]['action']['value'] = ($row['value'] * 100) . '%';
         }
+        elseif( $format == 'minsec' ) {
+            $rsp['history'][$num_history]['action']['value'] = $row['value'];
+            if( is_numeric($row['value']) ) {
+                $m = intval($row['value']/60);
+                $s = $row['value'] % 60;
+                $rsp['history'][$num_history]['action']['formatted_value'] = $m . ':' . str_pad($s,2, '0', STR_PAD_LEFT);
+            }
+        }
         // Format the date
         $date = new DateTime($row['date'], new DateTimeZone('UTC'));
         $date->setTimezone(new DateTimeZone($intl_timezone));

@@ -2688,6 +2688,14 @@ table.form:not(paneltabs) > tbody > tr:last-child > td.flags {
     padding-bottom: 0.5em;
 } */
 
+table.form .minsec select {
+    max-width: 3.5em;
+}
+table.form .minsec .minsec_label {
+    padding-left: 0.5rem;
+    padding-right: 1rem;
+}
+
 table.form > tbody > tr > td div.buttons {
     display: inline-block;
     padding-left: 0.6em;

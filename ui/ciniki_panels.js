@@ -3487,7 +3487,9 @@ M.panel.prototype.createPanelTabs = function(s, sc) {
             }
         }
         var e= null;
-        if( i == sc.selected ) {
+        if( sc.tabs[i].id != null && sc.tabs[i].id == sc.selected ) {
+            e = M.aE('span', null, 'toggle_on', lt);
+        } else if( sc.tabs[i].id == null && i == sc.selected ) {
             e = M.aE('span', null, 'toggle_on', lt);
         } else {
             e = M.aE('span', null, 'toggle_off', lt, this.panelRef + '.savePos(\'' + s + '\');' + sc.tabs[i].fn);

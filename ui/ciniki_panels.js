@@ -4844,7 +4844,9 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
         } else if( field.tags != null ) {
             tags = field.tags;
         }
-        tags.sort();
+        if( tags.sort == null || tags.sort == 'yes' ) {
+            tags.sort();
+        }
         for(j in tags) {
             var f = M.aE('span', this.panelUID + '_' + fid + sFN + '_' + j);
             f.setAttribute('onfocus', this.panelRef + '.clearLiveSearches(\''+s+'\',\''+fid+sFN+'\');');

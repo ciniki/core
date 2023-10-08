@@ -4935,6 +4935,48 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
         f.setAttribute('type', 'file');
         c.appendChild(f);
     } */
+    else if( field.type == 'file_id' ) {
+        var file_id = this.fieldValue(s, i, field, mN);
+        if( file_id == null ) {
+            file_id = '';
+        }
+        var fn = this.fieldValue(s, i + '_filename', field, mN);
+        var f = M.aE('input', this.panelUID + '_' + i + sFN + '_filename', 'text');
+        f.value = (fn != null ? fn : '');
+        f.setAttribute('readonly', 'yes');
+        c.appendChild(f);
+        // Add button
+        if( file_id == '' || file_id == 0 ) {
+            var f = M.aE('span', this.panelUID + '_' + fid + sFN + '_addBtn', 'rbutton_off');
+            f.innerHTML = 'a';
+            f.setAttribute('onclick', this.panelRef + '.uploadFile(\'' + i + '\');');
+            c.appendChild(f);
+        } else {
+            // Download button
+            var f = M.aE('span', this.panelUID + '_' + fid + sFN + '_downloadBtn', 'rbutton_off' + (file_id != null && file_id != '' && file_id > 0 ? '' : ' hidden'));
+            f.innerHTML = 'G';
+            f.setAttribute('onclick', this.panelRef + '.downloadFile(\'' + i + '\');');
+            c.appendChild(f); 
+        }
+/*        // Delete button
+        var f = M.aE('span', this.panelUID + '_' + fid + sFN + '_deleteBtn', 'rbutton_off' + (file_id != null && file_id != '' && file_id > 0 ? '' : ' hidden'));
+        f.innerHTML = 'V';
+        f.setAttribute('onclick', this.panelRef + '.clearFileIDName(\''+i+'\');');
+        c.appendChild(f); */
+        // Add input field used to store file id
+        var f = M.aE('input', this.panelUID + '_' + i + sFN, 'text');
+        f.setAttribute('name', i + sFN);
+        f.setAttribute('type', 'hidden');
+        f.value = file_id;
+        c.appendChild(f);
+        // Hidden file input
+        var f = M.aE('input', this.panelUID + '_' + i + '_upload', 'file_uploader');
+        f.setAttribute('name', i + sFN);
+        f.setAttribute('type', 'file');
+//        f.setAttribute('onchange', this.panelRef + '.setFileName(\''+i+'\');');
+        f.setAttribute('onchange', this.panelRef + '.uploadDropFile(\'' + i + '\');');
+        c.appendChild(f);
+    } 
     else if( field.type == 'image_id' ) {
         if( field.size != null && field.size != '' ) {
             var d = M.aE('div', this.panelUID + '_' + i + sFN + '_preview', 'image_preview ' + field.size);
@@ -5360,6 +5402,21 @@ M.panel.prototype.clearFileName = function(field) {
         e.classList.add('hidden');
     }
 };
+M.panel.prototype.clearFileIDName = function(field) {
+    this.setFieldValue(field, '');
+    var e = M.gE(this.panelUID + '_' + field);
+    e.value = '';
+    var e = M.gE(this.panelUID + '_' + field + '_filename');
+    e.value = '';
+    var e = document.getElementById(this.panelUID + '_' + field + '_deleteBtn');
+    if( e != null ) {
+        e.classList.add('hidden');
+    }
+    var e = document.getElementById(this.panelUID + '_' + field + '_downloadBtn');
+    if( e != null ) {
+        e.classList.add('hidden');
+    }
+};
 M.panel.prototype.setFileName = function(field) {
     var file = document.getElementById(this.panelUID + '_' + field);
     if( file != null && file.files != null && file.files[0].name != null ) {
@@ -5606,6 +5663,9 @@ M.panel.prototype.setFieldValue = function(field, v, vnum, hide, nM, action) {
     } else if( f.type == 'image_id' ) {
         M.gE(this.panelUID + '_' + field + sFN).value = v;
         this.updateImgPreview(field + sFN, v);
+    } else if( f.type == 'file_id' ) {
+        console.log('set file value: ' + v);
+        M.gE(this.panelUID + '_' + field + sFN).value = v;
     } else if( f.type == 'audio_id' ) {
         M.gE(this.panelUID + '_' + field + sFN).value = v;
         this.updateAudioPreview(field + sFN, v);
@@ -7939,6 +7999,32 @@ M.panel.prototype.uploadDropImagesNext = function() {
 //        return false;
 //    }
 };
+
+//
+// Handle uploading of files to ciniki.files
+//
+M.panel.prototype.uploadDropFile = function(i) {
+    M.startLoad();
+    var f = M.gE(this.panelUID + '_' + i + '_upload');
+    var files = f.files;
+    var p = this;
+    M.api.postJSONFile('ciniki.files.fileAdd', 
+        {'tnid':M.curTenantID}, 
+        files[0],
+        function(rsp) {
+            if( rsp.stat != 'ok' ) {
+                M.stopLoad();
+                M.api.err(rsp);
+                return false;
+            } 
+            var e = M.gE(p.panelUID + '_' + i + '_filename');
+            e.value = rsp.filename;
+            var e = M.gE(p.panelUID + '_' + i);
+            e.value = rsp.id;
+            M.stopLoad();
+            return true;
+        });
+}
 
 //
 // Handle drag/drop images into simplethumbs gallery

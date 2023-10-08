@@ -850,6 +850,7 @@ table.form tr.datetime input.datetime-time {
         width: 6em;
     }
 }
+table.form tr.file_id input,
 table.form tr.file input {
     width: auto;
     margin-right: 0.25em;
@@ -1003,10 +1004,12 @@ table.list tr.textfield > td > input.file {
     box-sizing: border-box;
     border: 0px;
 }
+table.list tr.textfield.file_id td.input,
 table.list tr.textfield.file td.input {
     display: flex;
     flex-flow: row;
 }
+table.list tr.textfield.file_id td.input input,
 table.list tr.textfield.file td.input input {
     flex-grow: 1;
 }

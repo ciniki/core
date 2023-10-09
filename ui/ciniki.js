@@ -417,6 +417,8 @@ M.authUserToken = function(e, s, t) {
                 M.avatarID = r.auth.avatar_id;
                 M.userPerms = r.auth.perms;
                 M.userSettings = r.auth.settings;
+
+/*               -- Deprecated features
                 if( r.auth.settings['ui-mode-guided'] != null 
                     && r.auth.settings['ui-mode-guided'] == 'yes' ) {
                     // Set to off, so toggle can switch on
@@ -437,7 +439,7 @@ M.authUserToken = function(e, s, t) {
                     M.uiModeXHelp = 'yes';
                     M.toggleXHelpMode();
                 }
-
+*/
                 if( M.oldUserId == M.userID ) {
                     M.hide('m_login');
                     return true;
@@ -474,6 +476,7 @@ M.authToken = function(e, t) {
                 M.avatarID = r.auth.avatar_id;
                 M.userPerms = r.auth.perms;
                 M.userSettings = r.auth.settings;
+/*              -- Deprecated features
                 if( r.auth.settings['ui-mode-guided'] != null 
                     && r.auth.settings['ui-mode-guided'] == 'yes' ) {
                     // Set to off, so toggle can switch on
@@ -494,7 +497,7 @@ M.authToken = function(e, t) {
                     M.uiModeXHelp = 'yes';
                     M.toggleXHelpMode();
                 }
-
+*/
                 if( M.oldUserId == M.userID ) {
                     M.hide('m_login');
                     return true;
@@ -566,6 +569,7 @@ M.auth = function(e, t) {
         M.avatarID = r.auth.avatar_id;
         M.userPerms = r.auth.perms;
         M.userSettings = r.auth.settings;
+/*      -- deprecated features
         if( r.auth.settings['ui-mode-guided'] != null 
             && r.auth.settings['ui-mode-guided'] == 'yes' ) {
             // Set to off, so toggle can switch on
@@ -586,7 +590,7 @@ M.auth = function(e, t) {
             M.uiModeXHelp = 'yes';
             M.toggleXHelpMode();
         }
-
+*/
         if( M.oldUserId == M.userID ) {
             M.hide('m_login');
             return true;

@@ -82,7 +82,7 @@ function ciniki_core_help() {
             }
             return this.data[s]; 
         };
-        this.list.fieldValue = function(s, i, d) { 
+/*        this.list.fieldValue = function(s, i, d) { 
             if( s == '_ui_options' && i == 'ui-mode-guided' ) {
                 return M.uiModeGuided;
             }
@@ -90,7 +90,7 @@ function ciniki_core_help() {
                 return M.uiModeXHelp;
             }
             return ''; 
-        }
+        } */
         this.list.open = function() {
             this.sections = {};
 
@@ -300,8 +300,8 @@ function ciniki_core_help() {
         }
 
 //        this.list.sections._ui_options.visible = 'yes';
-        this.list.data['ui-mode-guided'] = M.uiModeGuided;
-        this.list.data['ui-mode-xhelp'] = M.uiModeXHelp;
+//        this.list.data['ui-mode-guided'] = M.uiModeGuided;
+//        this.list.data['ui-mode-xhelp'] = M.uiModeXHelp;
         if( M.curHelpUID != 'ciniki.core.menu.tenants' && M.modFlagOn('ciniki.tenants', 0x0200) ) {
             this.custom.open(cb);
         } else if( M.helpMode != null && M.helpMode == 'internal' ) {
@@ -452,7 +452,7 @@ function ciniki_core_help() {
         }
     }
 
-    this.updateModeGuided = function(f, a, b) {
+/*    this.updateModeGuided = function(f, a, b) {
         if( b == 'toggle_on' && M.uiModeGuided != 'yes' ) {
             M.api.getJSONBg('ciniki.users.updateDetails', {'user_id':M.userID, 'ui-mode-guided':'yes'});
             M.toggleGuidedMode();
@@ -469,5 +469,5 @@ function ciniki_core_help() {
             M.api.getJSONBg('ciniki.users.updateDetails', {'user_id':M.userID, 'ui-mode-xhelp':'no'});
             M.toggleXHelpMode();
         }
-    }
+    } */
 }

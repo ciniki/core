@@ -53,30 +53,6 @@ M.resize = function(e) {
     }
 }
 
-M.toggleGuidedMode = function() {
-    var mc = M.gE('m_container'); 
-    if( M.uiModeGuided == 'yes' ) {
-        M.uiModeGuided = 'no';
-        mc.className = mc.className.replace(/guided-on/, 'guided-off');
-    } else {
-        M.uiModeGuided = 'yes';
-        mc.className = mc.className.replace(/guided-off/, 'guided-on');
-    }
-    M.resize();
-};
-
-M.toggleXHelpMode = function() {
-    var mc = M.gE('m_container'); 
-    if( M.uiModeXHelp == 'yes' ) {
-        M.uiModeXHelp = 'no';
-        mc.className = mc.className.replace(/xhelp-on/, 'xhelp-off');
-    } else {
-        M.uiModeXHelp = 'yes';
-        mc.className = mc.className.replace(/xhelp-off/, 'xhelp-on');
-    }
-    M.resize();
-};
-
 M.toggleHelp = function(helpUID) {
     //
     // Check if help is loaded
@@ -103,13 +79,13 @@ M.toggleHelp = function(helpUID) {
             M.setWidth('mc_header', '66%');
             M.setWidth('mh_header', '34%');
             M.setWidth('m_help', '34%');
-            document.getElementById('m_help').className = 'leftborder guided-off ' + M.helpMode;
+            document.getElementById('m_help').className = 'leftborder' + M.helpMode;
         } else {
             M.setWidth('m_container', '76%');
             M.setWidth('mc_header', '76%');
             M.setWidth('mh_header', '24%');
             M.setWidth('m_help', '24%');
-            document.getElementById('m_help').className = 'leftborder guided-off ' + M.helpMode;
+            document.getElementById('m_help').className = 'leftborder' + M.helpMode;
         }
         if( M.curHelpUID != 'ciniki.core.menu.tenants' && M.modFlagOn('ciniki.tenants', 0x0200) ) {
             document.getElementById('m_help').classList.add('noscroll');

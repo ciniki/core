@@ -60,18 +60,6 @@ function ciniki_core_help() {
             '_buttons':{'label':'', 'buttons':{
                 'add':{'label':'Submit Question', 'fn':'M.ciniki_core_help.submitBug();'},
             }},
-/*            '_ui_options_':{'label':'', 'type':'html', 'html':'The following extended help settings are currently experimental.'
-                + ' They do not work everywhere in the Ciniki Manager, we are currenlty in the process of adding more support.'
-                + ' If you have any problems, please ask a question above. '
-                + ' You can change these settings anytime by opening help.',
-                'visible':function() { return ((M.uiModeGuided != null && M.uiModeGuided == 'yes') || (M.uiModeXHelp != null && M.uiModeXHelp == 'yes') ) ? 'yes' : 'no' ; },
-                },
-            '_ui_options':{'label':'Extended Help', 
-                'visible':function() { return ((M.uiModeGuided != null && M.uiModeGuided == 'yes') || (M.uiModeXHelp != null && M.uiModeXHelp == 'yes') ) ? 'yes' : 'no' ; },
-                'fields':{
-                    'ui-mode-guided':{'label':'Guided Mode', 'type':'toggle', 'fn':'M.ciniki_core_help.updateModeGuided', 'toggles':this.toggles},
-                    'ui-mode-xhelp':{'label':'Field Descriptions', 'type':'toggle', 'fn':'M.ciniki_core_help.updateModeXHelp', 'toggles':this.toggles},
-                }}, */
         };
         this.list.sectionData = function(s) { 
             if( s == '_ui_options_' ) {
@@ -82,15 +70,6 @@ function ciniki_core_help() {
             }
             return this.data[s]; 
         };
-/*        this.list.fieldValue = function(s, i, d) { 
-            if( s == '_ui_options' && i == 'ui-mode-guided' ) {
-                return M.uiModeGuided;
-            }
-            if( s == '_ui_options' && i == 'ui-mode-xhelp' ) {
-                return M.uiModeXHelp;
-            }
-            return ''; 
-        } */
         this.list.open = function() {
             this.sections = {};
 
@@ -299,9 +278,6 @@ function ciniki_core_help() {
             this.curHelpUID = args['helpUID'];
         }
 
-//        this.list.sections._ui_options.visible = 'yes';
-//        this.list.data['ui-mode-guided'] = M.uiModeGuided;
-//        this.list.data['ui-mode-xhelp'] = M.uiModeXHelp;
         if( M.curHelpUID != 'ciniki.core.menu.tenants' && M.modFlagOn('ciniki.tenants', 0x0200) ) {
             this.custom.open(cb);
         } else if( M.helpMode != null && M.helpMode == 'internal' ) {
@@ -451,23 +427,4 @@ function ciniki_core_help() {
             M.ciniki_core_help.showBug();
         }
     }
-
-/*    this.updateModeGuided = function(f, a, b) {
-        if( b == 'toggle_on' && M.uiModeGuided != 'yes' ) {
-            M.api.getJSONBg('ciniki.users.updateDetails', {'user_id':M.userID, 'ui-mode-guided':'yes'});
-            M.toggleGuidedMode();
-        } else {
-            M.api.getJSONBg('ciniki.users.updateDetails', {'user_id':M.userID, 'ui-mode-guided':'no'});
-            M.toggleGuidedMode();
-        }
-    }
-    this.updateModeXHelp = function(f, a, b) {
-        if( b == 'toggle_on' && M.uiModeXHelp != 'yes' ) {
-            M.api.getJSONBg('ciniki.users.updateDetails', {'user_id':M.userID, 'ui-mode-xhelp':'yes'});
-            M.toggleXHelpMode();
-        } else {
-            M.api.getJSONBg('ciniki.users.updateDetails', {'user_id':M.userID, 'ui-mode-xhelp':'no'});
-            M.toggleXHelpMode();
-        }
-    } */
 }

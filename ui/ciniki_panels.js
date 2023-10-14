@@ -35,9 +35,6 @@ M.panel = function(title, appID, panelID, appPrefix, size, type, helpUID) {
     this.autofocus = '';
     this.tinymce = [];
     this.lastY = 0;
-    this.gstep = 0;
-    this.gstep_number = 0;
-    this.gsteps = [];
     this.onShowCbs = [];
 
     //
@@ -182,10 +179,6 @@ M.panel.prototype.show = function(cb) {
     // Make sure app container
     M.show(app.parentNode.parentNode.parentNode.parentNode);
 
-//    if( M.uiModeGuided == 'yes' ) {
-        this.gstepGoto(this.gstep);
-//    }
-
     if( this.appPrefix != 'mh' && M.multiTenant != null && M.multiTenant == 'yes' && this.title != 'Tenants' && this.title != M.curTenant.name ) {
         M.setHTML(this.titleID, M.curTenant.name + ' - ' + this.title);
     } else {
@@ -283,7 +276,7 @@ M.panel.prototype.show = function(cb) {
 //
 M.panel.prototype.addPanel = function() {
     this.tinymce = [];
-    var p = M.aE('div', this.panelUID, 'panel guided-disabled');
+    var p = M.aE('div', this.panelUID, 'panel');
     if( this.sidePanel != null ) {
         var w = M.aE('div', '', this.size + ' leftpanel');
     } else {
@@ -330,13 +323,6 @@ M.panel.prototype.addPanel = function() {
 
     else if( this.type == 'simplemedia' ) {
         w.appendChild(this.createSimpleMedia('', this.data, 'yes'));
-    }
-
-    //
-    // Check if guided steps
-    //
-    if( this.gstep_number > 0 ) {
-        p.className = p.className.replace(/guided-disabled/, 'guided-enabled');
     }
 
     p.appendChild(w);
@@ -457,12 +443,6 @@ M.panel.prototype.createSections = function() {
     f.setAttribute('autocomplete', 'off');
     f.setAttribute('target', '_blank');
 
-    var gstepfound = 'no';
-    var gprev = 0;
-    var glast = 0;
-    var gnext = 0;
-    this.gsteps = [];
-
     if( this.formtabs != null ) {
         // Decide which form to display
         var fv = 0;
@@ -486,34 +466,9 @@ M.panel.prototype.createSections = function() {
         }
         if( this.formtabs.visible == null || this.formtabs.visible == 'yes' ) {
             var ps = M.aE('div', this.panelUID + '_section_formtabs', 'panelsection formtabs');
-            if( this.formtabs.gstep != null && this.formtabs.gtitle != null && this.formtabs.gtitle != '' ) {
-                var gt = M.aE('h2', null, 'guided-title guided-show', this.formtabs.gtitle);
-                ps.appendChild(gt);
-            }
-            if( this.formtabs.gstep != null && this.formtabs.gtext != null && this.formtabs.gtext != '' ) {
-                ps.appendChild(M.aE('p', null, 'guided-text guided-show', this.formtabs.gtext));
-            }
             st = this.createFormTabs(this.formtabs, this.formtab, fv);
             ps.appendChild(st);
-            if( this.formtabs.gstep != null && this.formtabs.gmore != null && this.formtabs.gmore != '' ) {
-                ps.appendChild(M.aE('p', null, 'guided-text guided-show', this.formtabs.gmore));
-            }
             f.appendChild(ps);
-            if( this.formtabs.gstep != null && this.formtabs.gstep != 'hide' ) {
-                gprev = this.formtabs.gstep;
-                ps.className += ' guided-hide';
-            }
-            if( this.formtabs.gstep != null && this.formtabs.gstep != 'hide' ) {
-                if( this.gsteps[this.formtabs.gstep] == null ) {
-                    this.gsteps[this.formtabs.gstep] = {'elements':[]};
-                }
-                this.gsteps[this.formtabs.gstep].elements.push({'e':this.panelUID + '_section_formtabs'});
-            }
-            if( this.gstep > 0 ) {
-                if( this.gstep == this.formtabs.gstep ) {
-                    gstepfound = 'yes';
-                }
-            }
         }
 
         //
@@ -567,107 +522,10 @@ M.panel.prototype.createSections = function() {
                 var r = this.createSection(i, this.sections[i]);
                 column.appendChild(r);
             } else {
-                // Guided access mode - determine visibility of section
-                if( this.sections[i].gstep != null && this.sections[i].gstep != 'hide' ) {
-                    if( this.gsteps[this.sections[i].gstep] == null ) {
-                        this.gsteps[this.sections[i].gstep] = {'elements':[]};
-                    }
-                    this.gsteps[this.sections[i].gstep].elements.push({'e':this.panelUID + '_section_' + i});
-                }
-                if( this.gstep > 0 ) {
-                    glast = this.sections[i].gstep;
-                    if( (gstepfound == 'yes' && this.gstep == this.sections[i].gstep)
-                        || (gstepfound == 'no' && this.gstep <= this.sections[i].gstep) ) {
-                        gstepfound = 'yes';
-                    }
-                }
                 // Add the panel
                 f.appendChild(r);
             }
         }
-    }
-
-    //
-    // Build the list of gstep buttons, but hide it until needed
-    //
-    this.gstep_number = Object.keys(this.gsteps).length;
-    if( this.gstep_number > 1 ) {
-        //
-        // Setup nav bar
-        //
-        var t = M.addTable(this.panelUID + '_gstepnav_top', 'list stepnav stepnav-top noheader border guided-show');
-        var th = M.aE('tbody');
-        var tr = M.aE('tr');
-
-        // Previous
-        var c1 = M.aE('td',null,'prev clickable', '<span class="icon">l</span>');
-        c1.setAttribute('onclick', this.panelRef + '.gstepPrev();');
-        tr.appendChild(c1);
-        var c1 = M.aE('td',null,'prev prevtext clickable', 'prev');
-        c1.setAttribute('onclick', this.panelRef + '.gstepPrev();');
-        tr.appendChild(c1);
-
-        // Current Step
-        var c2 = M.aE('td',this.panelUID + '_gstepnav_top_position','position', '');
-        tr.appendChild(c2);
-
-        // Next
-        c3 = M.aE('td',null,'next nexttext clickable', 'next');
-        c3.setAttribute('onclick', this.panelRef + '.gstepNext();');
-        tr.appendChild(c3);
-        c3 = M.aE('td',null,'next clickable', '<span class="icon">r</span>');
-        c3.setAttribute('onclick', this.panelRef + '.gstepNext();');
-        tr.appendChild(c3);
-        th.appendChild(tr);
-        t.appendChild(th);
-        f.insertBefore(t, f.children[0]);
-
-        var bts = {};
-        if( this.gsaveBtn != null ) {
-            bts._save = this.gsaveBtn;
-        }
-        var r = this.createSection('gstepbuttons', {'label':'', 'buttons':bts});
-        r.className += ' guided-show';
-        f.appendChild(r);
-
-        //
-        // Setup nav bar
-        //
-        var t = M.addTable(this.panelUID + '_gstepnav_bottom', 'list stepnav stepnav-bottom noheader border guided-show');
-        var th = M.aE('tbody');
-        var tr = M.aE('tr');
-
-        // Previous
-        var c1 = M.aE('td',null,'prev clickable', '<span class="icon">l</span>');
-        c1.setAttribute('onclick', this.panelRef + '.gstepPrev();');
-        tr.appendChild(c1);
-        var c1 = M.aE('td',null,'prev prevtext clickable', 'back');
-        c1.setAttribute('onclick', this.panelRef + '.gstepPrev();');
-        tr.appendChild(c1);
-
-        // Current Step
-        var c2 = M.aE('td',this.panelUID + '_gstepnav_bottom_position','position', '');
-        c3.setAttribute('onclick', this.panelRef + '.gstepNext();');
-        tr.appendChild(c2);
-
-        // Next
-        c3 = M.aE('td',null,'next nexttext clickable', 'next');
-        c3.setAttribute('onclick', this.panelRef + '.gstepNext();');
-        tr.appendChild(c3);
-        c3 = M.aE('td',null,'next clickable', '<span class="icon">r</span>');
-        c3.setAttribute('onclick', this.panelRef + '.gstepNext();');
-        tr.appendChild(c3);
-        th.appendChild(tr);
-        t.appendChild(th);
-        f.appendChild(t);
-
-        var bts = {};
-        if( this.gsaveBtn != null ) {
-            bts._save = this.gsaveBtn;
-        }
-        var r = this.createSection('gstepbuttons', {'label':'', 'buttons':bts});
-        r.className += ' guided-show';
-        f.appendChild(r);
     }
 
     return f;
@@ -677,98 +535,6 @@ M.panel.prototype.menutabSwitch = function(t) {
     this.menutabs.selected = t;
     eval(this.menutabs.tabs[t].fn);
 }
-
-M.panel.prototype.gstepPrev = function() {
-    this.gstep--;
-    while(this.gstep > 1 && this.gsteps[this.gstep] == null ) { this.gstep--; }
-    this.gstepGoto(this.gstep);
-};
-
-M.panel.prototype.gstepNext = function() {
-    var prev = 0;
-    var next = 0;
-    for(i in this.gsteps) {
-        if( prev == this.gstep ) {
-            this.gstep = i;
-            break;
-        }
-        prev = i;
-    }
-    this.gstepGoto(this.gstep);
-};
-
-M.panel.prototype.gstepGoto = function(gstep) {
-    var prev = 0;
-    var next = 0;
-    var gstepfound = 'no';
-    this.gstep = gstep;
-    var step_num = 1;
-    var num_steps = 0;
-    for(var i in this.gsteps) {
-        i = parseInt(i);
-        if( this.gstep > i ) {
-            prev = i;
-        } else if( this.gstep < i && next == 0 ) {
-            next = i;
-        }
-        if( gstepfound == 'no' ) {
-            if( this.gstep == i ) {
-                gstepfound = 'yes';
-            } else if( this.gstep < i ) {
-                this.gstep = i;
-                gstepfound = 'yes';
-                next = 0;
-            }
-        }
-        if( this.gstep == i ) {
-            // Show the elements for this step
-            for(var j in this.gsteps[i].elements) {
-                var e = M.gE(this.gsteps[i].elements[j].e);
-                e.className = e.className.replace(/guided-hide/, 'guided-selected');
-            }
-        } else {
-            // Hide the other elements
-            for(var j in this.gsteps[i].elements) {
-                var e = M.gE(this.gsteps[i].elements[j].e);
-                e.className = e.className.replace(/guided-selected/, 'guided-hide');
-            }
-        }
-        if( i < this.gstep ) {
-            step_num++;
-        }
-        num_steps++;
-    }
-
-    if( num_steps > 1 ) {
-        var et = M.gE(this.panelUID + '_gstepnav_top_position');
-        if( et != null ) { et.innerHTML = 'Step ' + step_num + ' of ' + num_steps; }
-        var eb = M.gE(this.panelUID + '_gstepnav_bottom_position');
-        if( eb != null ) { eb.innerHTML = 'Step ' + step_num + ' of ' + num_steps; }
-        if( prev == 0 ) {
-            et.previousSibling.innerHTML = '';
-            eb.previousSibling.innerHTML = '';
-            et.previousSibling.previousSibling.innerHTML = '<span class="icon"></span>';
-            eb.previousSibling.previousSibling.innerHTML = '<span class="icon"></span>';
-        } else {
-            et.previousSibling.innerHTML = 'back';
-            eb.previousSibling.innerHTML = 'back';
-            et.previousSibling.previousSibling.innerHTML = '<span class="icon">l</span>';
-            eb.previousSibling.previousSibling.innerHTML = '<span class="icon">l</span>';
-        }
-        if( next == 0 ) {
-            et.nextSibling.innerHTML = '';
-            eb.nextSibling.innerHTML = '';
-            et.nextSibling.nextSibling.innerHTML = '<span class="icon"></span>';
-            eb.nextSibling.nextSibling.innerHTML = '<span class="icon"></span>';
-        } else {
-            et.nextSibling.innerHTML = 'next';
-            eb.nextSibling.innerHTML = 'next';
-            et.nextSibling.nextSibling.innerHTML = '<span class="icon">r</span>';
-            eb.nextSibling.nextSibling.innerHTML = '<span class="icon">r</span>';
-        }
-    }
-    window.scrollTo(0, 0);
-};
 
 //
 // Default section label, can be overriden in panel
@@ -834,10 +600,6 @@ M.panel.prototype.createSection = function(i, s) {
         var f = M.aE('div', this.panelUID + '_section_' + i, 'panelsection');
     }
 
-    if( s.gstep != null ) {
-        f.className += ' guided-hide';
-    }
-
     if( typeof s.visible == 'function' && s.visible() == 'hidden' ) {
         f.style.display = 'none';
     } else if( s.visible != null && s.visible == 'hidden' ) {
@@ -848,14 +610,6 @@ M.panel.prototype.createSection = function(i, s) {
     // Check if there should be label
     //
     var lE = null;
-    gt = null;
-    if( s.gtitle != null && typeof s.gtitle == 'function' ) {
-        gt = s.gtitle(this);
-    } else if( this.sectionGuidedTitle != null ) {
-        gt = this.sectionGuidedTitle(i);
-    } else if( s.gtitle != null && s.gtitle != '' ) {
-        gt = s.gtitle;
-    }
     var t = this.sectionLabel(i, s);
     if( t != null && t != '' ) {
         if( s.multi != null && s.multi == 'yes' ) {
@@ -867,11 +621,7 @@ M.panel.prototype.createSection = function(i, s) {
             // -1 means don't display count
             lE = M.addSectionLabel(t, -1);
         }
-        lE.className += ' guided-hide';
-        f.appendChild(M.aE('h2', null, 'guided-title guided-show', (gt!=null&&gt!=''?gt:t)));
         f.appendChild(lE);
-    } else if( gt != null ) {
-        f.appendChild(M.aE('h2', null, 'guided-title guided-show', (gt!=null&&gt!=''?gt:t)));
     }
 
     // Check if addFn exists and display link to right of header
@@ -897,16 +647,6 @@ M.panel.prototype.createSection = function(i, s) {
             lE.appendChild(c);
         }
     }
-
-    var gt = null;
-    if( s.gtext != null && typeof s.gtext == 'function' ) {
-        gt = s.gtext(this);    
-    } else if( this.sectionGuidedText != null ) {
-        gt = this.sectionGuidedText(i);
-    } else if( s.gtext != null && s.gtext != '' ) {
-        gt = s.gtext;
-    }
-    if( gt != null ) { f.appendChild(M.aE('p', null, 'guided-text guided-show', gt)); }
 
     //
     // Get the section 
@@ -1005,15 +745,6 @@ M.panel.prototype.createSection = function(i, s) {
     // Add the section table
     f.appendChild(st);
 
-    var gt = null;
-    if( s.gmore != null && typeof s.gmore == 'function' ) {
-        gt = s.gmore(this);
-    } else if( this.sectionGuidedMore != null ) {
-        gt = this.sectionGuidedMore(i);
-    } else if( s.gmore != null && s.gmore != '' ) {
-        gt = s.gmore;
-    }
-    if( gt != null ) { f.appendChild(M.aE('p', null, 'guided-text guided-show', gt)); }
     return f;
 };
 
@@ -3653,26 +3384,15 @@ M.panel.prototype.createFormFields = function(s, nF, fI, fields, mN) {
             }
         }
 
-        // Check for guided mode title
-        if( fields[i].gtitle != null && fields[i].gtitle != '' ) {
-            var rgt = M.aE('tr', null, 'guided-title guided-show');
-            var c = M.aE('td', null, null, '<p>' + fields[i].gtitle + '</p>');
-            c.colSpan = 2;
-            rgt.appendChild(c);
-            nF.appendChild(rgt);
-        }
-
         // Create the new row element
         var r = M.aE('tr');
         var visible = 'yes';
         if( typeof fields[i].visible == 'function' && fields[i].visible() == 'no' ) {
             visible = 'no';
             r.style.display = 'none';
-            if( rgt != null ) { rgt.style.display = 'none'; }
         } else if( fields[i].visible != null && fields[i].visible == 'no' ) {
             visible = 'no';
             r.style.display = 'none';
-            if( rgt != null ) { rgt.style.display = 'none'; }
         }
         if( fields[i].hidelabel == null || fields[i].hidelabel != 'yes' ) {
             var l = M.aE('label');
@@ -3724,69 +3444,15 @@ M.panel.prototype.createFormFields = function(s, nF, fI, fields, mN) {
 
         // Check if there should be a history button displayed
         if( this.fieldHistory != null && this.fieldHistory != '' && (fields[i].history == null || fields[i].history == 'yes') ) {
-            r.appendChild(M.aE('td',null,'historybutton guided-hide','<span class="rbutton_off">H</span>','M.' + this.appID + '.' + this.name + '.toggleFormFieldHistory(event, \'' + s + '\',\'' + fid + '\');'));
+            r.appendChild(M.aE('td',null,'historybutton','<span class="rbutton_off">H</span>','M.' + this.appID + '.' + this.name + '.toggleFormFieldHistory(event, \'' + s + '\',\'' + fid + '\');'));
         } else if( this.fieldHistoryArgs != null && this.fieldHistoryArgs != '' && (fields[i].history == null || fields[i].history == 'yes') ) {
-            r.appendChild(M.aE('td',null,'historybutton guided-hide','<span class="rbutton_off">H</span>','event.stopPropagation(); M.' + this.appID + '.' + this.name + '.toggleFormFieldHistory(event, \'' + s + '\',\'' + fid + '\');'));
+            r.appendChild(M.aE('td',null,'historybutton','<span class="rbutton_off">H</span>','event.stopPropagation(); M.' + this.appID + '.' + this.name + '.toggleFormFieldHistory(event, \'' + s + '\',\'' + fid + '\');'));
         }
         if( fields[i].editFn != null && fields[i].editFn != '' ) {
             r.appendChild(M.aE('td', null, 'buttons noprint','<span class="icon">r</span>',fields[i].editFn));
         }
 
         ct++;
-
-        //
-        // If the field added was of type image_id, then extra buttons are required
-        //
-/*        if( fields[i].type == 'image_id' ) {
-            var img_id = this.fieldValue(s, i, fields[i], mN);
-            //
-            // Create the form upload field, but hide it
-            //
-            var f = null;
-            if( this.uploadImage != null || ((this.addDropImage != null || fields[i].addDropImage != null) && fields[i].controls == 'all') ) {
-                f = M.aE('input', this.panelUID + '_' + i + '_upload', 'image_uploader');
-                f.setAttribute('name', i);
-                f.setAttribute('type', 'file');
-                if( this.uploadImage != null ) {
-                    f.setAttribute('onchange', this.uploadImage(i));
-                } else {
-                    f.setAttribute('onchange', this.panelRef + '.uploadDropImages(\'' + i + '\');');
-                }
-                f.setAttribute('onfocus', this.panelRef + '.clearLiveSearches(\''+s+'\',\''+i+'\');');
-            }
-            var btns = this.createImageControls(i, fields[i], img_id);
-            if( btns != null && btns.childNodes != null && btns.childNodes.length > 0 ) {
-                var r = M.aE('tr',null,'imagebuttons');
-                if( fields[i].hidelabel == null || fields[i].hidelabel != 'yes' ) {
-                    var td = M.aE('td',null,'');
-                    r.appendChild(td);
-                }
-                var td = M.aE('td',null,'aligncenter');
-                var d = M.aE('div', this.panelUID + '_' + i + '_controls', 'buttons');
-                d.appendChild(btns);
-                td.appendChild(d);
-                if( f != null ) {
-                    td.appendChild(f);
-                }
-                r.appendChild(td);
-                nF.appendChild(r);
-            }
-        } */
-        //
-        // Check if there is guided text for this field
-        //
-        if( fields[i].htext != null && fields[i].htext != '' ) {
-            var r = M.aE('tr', null, 'xhelp-text');
-            if( fields[i].hidelabel == null || fields[i].hidelabel != 'yes' ) {
-                r.appendChild(M.aE('td',null,null,''));
-            }
-            if( visible == 'no' ) {
-                r.style.display = 'none';
-            }
-            var c = M.aE('td', null, null, '<p>' + fields[i].htext + '</p>');
-            r.appendChild(c);
-            nF.appendChild(r);
-        }
     }
 
     if( ct == 0 && this.noData != null ) {
@@ -5152,23 +4818,11 @@ M.panel.prototype.updateFlagToggleFields = function(fid) {
                     field.visible = 'yes';
                 }
                 e.style.display = 'table-row';
-                if( e.previousSibling != null && e.previousSibling.className.match(/guided-title/) ) {
-                    e.previousSibling.style.display = '';
-                }
-                if( e.nextSibling != null && e.nextSibling.className.match(/guided-text/) ) {
-                    e.nextSibling.style.display = '';
-                }
             } else {
                 if( field != null ) {
                     field.visible = 'no';
                 }
                 e.style.display = 'none';
-                if( e.previousSibling != null && e.previousSibling.className.match(/guided-title/) ) {
-                    e.previousSibling.style.display = 'none';
-                }
-                if( e.nextSibling != null && e.nextSibling.className.match(/guided-text/) ) {
-                    e.nextSibling.style.display = 'none';
-                }
             }
         }
     }
@@ -5184,23 +4838,11 @@ M.panel.prototype.updateFlagToggleFields = function(fid) {
                     field.visible = 'yes';
                 }
                 e.style.display = 'table-row';
-                if( e.previousSibling != null && e.previousSibling.className.match(/guided-title/) ) {
-                    e.previousSibling.style.display = '';
-                }
-                if( e.nextSibling != null && e.nextSibling.className.match(/guided-text/) ) {
-                    e.nextSibling.style.display = '';
-                }
             } else {
                 if( field != null ) {
                     field.visible = 'no';
                 }
                 e.style.display = 'none';
-                if( e.previousSibling != null && e.previousSibling.className.match(/guided-title/) ) {
-                    e.previousSibling.style.display = 'none';
-                }
-                if( e.nextSibling != null && e.nextSibling.className.match(/guided-text/) ) {
-                    e.nextSibling.style.display = 'none';
-                }
             }
         }
     }
@@ -7848,7 +7490,6 @@ M.panel.prototype.destroy = function() {
 // remove all the data.
 //
 M.panel.prototype.reset = function() {
-    this.gstep = 0;
     if( this.formtab_field_id != null ) {
         this.formtab_field_id = null;
     }

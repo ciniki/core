@@ -23,30 +23,6 @@ M.resize = function(e) {
     }
 }
 
-// Deprecated
-M.toggleGuidedMode = function() {
-    var mc = M.gE('m_container'); 
-    if( M.uiModeGuided == 'yes' ) {
-        M.uiModeGuided = 'no';
-        mc.className = mc.className.replace(/guided-on/, 'guided-off');
-    } else {
-        M.uiModeGuided = 'yes';
-        mc.className = mc.className.replace(/guided-off/, 'guided-on');
-    }
-};
-
-// Deprecated
-M.toggleXHelpMode = function() {
-    var mc = M.gE('m_container'); 
-    if( M.uiModeXHelp == 'yes' ) {
-        M.uiModeXHelp = 'no';
-        mc.className = mc.className.replace(/xhelp-on/, 'xhelp-off');
-    } else {
-        M.uiModeXHelp = 'yes';
-        mc.className = mc.className.replace(/xhelp-off/, 'xhelp-on');
-    }
-};
-
 M.toggleHelp = function(helpUID) {
     if( helpUID == null || (M.ciniki_core_help != null && document.getElementById('m_help').style.display != 'none' && M.ciniki_core_help.curHelpUID == helpUID) ) {
         M.hideChildren('m_body', 'm_container');

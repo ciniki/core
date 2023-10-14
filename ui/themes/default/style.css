@@ -3804,3 +3804,243 @@ div.panelsection span.addlink {
     padding-left: 0px;
     padding-right: 0px;
 }
+/*
+@media (prefers-color-scheme: dark) {
+    body {
+        background: #000 !important;
+        color: #fff !important;
+    }
+    .headerbar {
+        border-color: #333 !important;
+    }
+    .headerbar td {
+        background: #222;
+        border-color: #222;
+    }
+    table.dayschedule,
+    table.outline,
+    table.border {
+        background: #222;
+    }
+    table.dayschedule td.schedule_time {
+        background: #222;
+    }
+    table.list table.fieldhistory tr td {
+        background: #333;
+        color: #fff;
+    }
+    table.list table.fieldhistory tr td span.age {
+        color: #ddd;
+    }
+    table.list table.fieldhistory td,
+    table.list table.fieldhistory tr:first-child td,
+    table.list table.fieldhistory tr:last-child td {
+        border-color: #444 !important;
+        border-radius: 0px !important;
+    }
+    table.list td.searchresults > table {
+        background: #333;
+    }
+    table.list tr.textfield > td.textarea, 
+    table.calendar,
+    table.dayschedule td.empty,
+    table.calendar td.empty,
+    table.calendar td {
+        background: #222 !important;
+    }
+    table.calendar td {
+        border-right: 1px solid #444;
+        border-bottom: 1px solid #444;
+    }
+    table.calendar td.today {
+        background: #555 !important;
+        color: #fff;
+    }
+    table.mwschedule > tbody > tr > td {
+        background: #222;
+    }
+    table.dayschedule td.schedule_appointment, 
+    table.dayschedule > tbody > tr > td.schedule_appointment:last-child {
+        border-color: #222;
+        color: #333;
+    }
+    table.list > tbody > tr > td.multiline span.subtext,
+    table.list > tbody > tr > td.multiline span.subsubtext {
+        color: #bbb;
+    }
+    table.mwschedule span.subject {
+        color: #000;
+    }
+   
+    table.mwschedule > tbody > tr > td.monthlabel,
+    table.list > thead > tr > th,
+    table.border > tfoot > tr > th,
+    table.border > tfoot > tr > td {
+        background: #333;
+    }
+
+    table.outline,
+    table.border > thead:first-child > tr:first-child > th,
+    table.border > thead:first-child > tr:first-child > td,
+    table.border > thead > tr > th,
+    table.border > thead > tr > td,
+    table.border > tbody:first-child > tr > th,
+    table.border > tbody:first-child > tr > td,
+    table.border > tbody > tr > th,
+    table.border > tbody > tr > td,
+    table.border > tbody:last-child > tr > th,
+    table.border > tbody:last-child > tr > td,
+    table.border > tfoot > tr > th,
+    table.border > tfoot > tr > td,
+    table.border > tfoot:last-child > tr:last-child > th,
+    table.border > tfoot:last-child > tr:last-child > td {
+        border-color: #444 !important;
+    }
+    input,
+    table.list tr.textfield > td > textarea,
+    table.list span.pmbutton,
+    table.list span.pmbutton span.pm-down,
+    table.list span.pmbutton span.pm-up,
+    table.list tr > td input,
+    table.form td.input > select,
+    table.simplelist > tbody > tr > td.search input,
+    table.datepickersearch > tbody > tr > td.search input {
+        background: #000;
+        color: #fff;
+        border-color: #555;
+        box-shadow: none;
+    }
+    table.form td.input > select {
+        background: #444;
+    }
+    table.list td > button {
+        background: #555;
+        border: 1px solid #777;
+        color: #fff;
+    }
+
+    table.form td.tags span.rbutton_on,
+    table.form td.tags span.rbutton_off,
+    table.form td.flags span.flag_on,
+    table.form td.flags span.flag_off, 
+    table.form td.joinedflags span.flag_on,
+    table.form td.joinedflags span.flag_off, 
+    table.menutabs td.joinedtabs div span.toggle_on,
+    table.menutabs td.joinedtabs div span.toggle_off,
+    table.paneltabs td.joinedtabs div span.toggle_on,
+    table.paneltabs td.joinedtabs div span.toggle_off,
+    table.form td div span.toggle_on,
+    table.form td div span.toggle_off {
+        border: 1px solid #555 !important;
+        border-collapse: collapse !important;
+        border-right: 0px !important;
+    }
+    table.form td.tags span.rbutton_on:last-child,
+    table.form td.tags span.rbutton_off:last-child,
+    table.form td.flags span.flag_on:last-child,
+    table.form td.flags span.flag_off:last-child, 
+    table.form td.joinedflags span.flag_on:last-child,
+    table.form td.joinedflags span.flag_off:last-child, 
+    table.menutabs td.joinedtabs div span.toggle_on:last-child,
+    table.menutabs td.joinedtabs div span.toggle_off:last-child,
+    table.paneltabs td.joinedtabs div span.toggle_on:last-child,
+    table.paneltabs td.joinedtabs div span.toggle_off:last-child,
+    table.form td div span.toggle_on:last-child,
+    table.form td div span.toggle_off:last-child {
+        border-right: 1px solid #555 !important;
+    }
+    body span.button_off,
+    body span.rbutton_off,
+    body table.form td div span.toggle_off,
+    body table.form span.flag_off {
+        background: #333;
+        color: #ddd;
+    }
+    body span.button_on,
+    body span.rbutton_on,
+    body table.form td div span.toggle_on,
+    body table.form span.flag_on {
+        background: #111; 
+        color: #fff;
+        background: #23552e;
+    }
+    p.guided-text span.icon,
+    table.stepnav > tbody > tr > td.prev span.icon,
+    table.stepnav > tbody > tr > td.next span.icon,
+    table.datepicker > tbody > tr > td.prev span.icon,
+    table.datepicker > tbody > tr > td.next span.icon,
+    table.list > thead > tr > td.buttons span.icon,
+    table.list > tbody > tr > td.buttons span.icon,
+    table.list > tbody > tr > td.buttons span.faicon,
+    table.list > tbody > tr > td.buttons span.icon,
+    table.list > tfoot > tr > td.buttons span.icon,
+    table.list > tbody > tr > td.addbutton span.icon {
+        color: #777; 
+    }
+    body span.count {
+        background: #111;
+        color: #fff;
+        text-shadow: none;
+    }
+    table.simplebuttons > tbody > tr > td.button {
+        background: #555 !important;
+    }
+    table.simplebuttons > tbody > tr > td.button.delete {
+        background: #890000 !important;
+    }
+    table.datepicker tr.statusred,
+    table.simplegrid tr.statusred {
+        background: #890000;
+    }
+    table.datepicker tr.statusorange,
+    table.simplegrid tr.statusorange {
+        background: #924b01;
+    }
+    table.datepicker tr.statusgreen,
+    table.simplegrid tr.statusgreen {
+        background: #016d01;
+    }
+    table.datepicker tr.statusyellow,
+    table.simplegrid tr.statusyellow,
+    table.list tr.highlight,
+    table.simplegrid tr.highlight,
+    .highlight {
+        background: #beb804;
+        color: #000;
+    }
+    table.simplegrid tr.statusgrey,
+    table.simplegrid td.statusgrey {
+        background: #333;
+    }
+
+    table.list > tbody > tr.statusyellow > td.multiline span.subtext,
+    table.list > tbody > tr.statusyellow > td.multiline span.subsubtext {
+        color: #333;
+    }
+    #m_error,
+    #m_confirm,
+    #m_alert {
+        background: rgba(70,70,70,0.75);
+    }
+    #me_content #mc_content_wrap,
+    #m_confirm_content #mc_content_wrap,
+    #m_alert_content #mc_content_wrap {
+        background: #222;
+        border: 1px solid #777;
+    }
+    #m_error table.list {
+        background: #000;
+    }
+    body,
+    span.count,
+    table.list table.fieldhistory tr td {
+    }
+    #m_loading {
+        background: #000;
+        opacity: 0.75;
+    }
+    #m_loading img {
+        filter: invert(1);
+    }
+}
+*/

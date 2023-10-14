@@ -418,28 +418,6 @@ M.authUserToken = function(e, s, t) {
                 M.userPerms = r.auth.perms;
                 M.userSettings = r.auth.settings;
 
-/*               -- Deprecated features
-                if( r.auth.settings['ui-mode-guided'] != null 
-                    && r.auth.settings['ui-mode-guided'] == 'yes' ) {
-                    // Set to off, so toggle can switch on
-                    M.uiModeGuided = 'no';
-                    M.toggleGuidedMode();
-                } else {
-                    // Set to on, so toggle can switch off
-                    M.uiModeGuided = 'yes';
-                    M.toggleGuidedMode();
-                }
-                if( r.auth.settings['ui-mode-xhelp'] != null 
-                    && r.auth.settings['ui-mode-xhelp'] == 'yes' ) {
-                    // Set to off, so toggle can switch on
-                    M.uiModeXHelp = 'no';
-                    M.toggleXHelpMode();
-                } else {
-                    // Set to on, so toggle can switch off
-                    M.uiModeXHelp = 'yes';
-                    M.toggleXHelpMode();
-                }
-*/
                 if( M.oldUserId == M.userID ) {
                     M.hide('m_login');
                     return true;
@@ -476,28 +454,6 @@ M.authToken = function(e, t) {
                 M.avatarID = r.auth.avatar_id;
                 M.userPerms = r.auth.perms;
                 M.userSettings = r.auth.settings;
-/*              -- Deprecated features
-                if( r.auth.settings['ui-mode-guided'] != null 
-                    && r.auth.settings['ui-mode-guided'] == 'yes' ) {
-                    // Set to off, so toggle can switch on
-                    M.uiModeGuided = 'no';
-                    M.toggleGuidedMode();
-                } else {
-                    // Set to on, so toggle can switch off
-                    M.uiModeGuided = 'yes';
-                    M.toggleGuidedMode();
-                }
-                if( r.auth.settings['ui-mode-xhelp'] != null 
-                    && r.auth.settings['ui-mode-xhelp'] == 'yes' ) {
-                    // Set to off, so toggle can switch on
-                    M.uiModeXHelp = 'no';
-                    M.toggleXHelpMode();
-                } else {
-                    // Set to on, so toggle can switch off
-                    M.uiModeXHelp = 'yes';
-                    M.toggleXHelpMode();
-                }
-*/
                 if( M.oldUserId == M.userID ) {
                     M.hide('m_login');
                     return true;
@@ -522,13 +478,8 @@ M.authToken = function(e, t) {
 // This function will authenticate the user against the cinikiAPI and get an auth_token
 //
 M.auth = function(e, t) {
-//    if( u != null && p != null ) {
-//        var c = 'username=' + encodeURIComponent(u)
-//            + '&password=' + encodeURIComponent(p);
-//    } else {
     if( t != null ) {
         M.api.token = t;
-//        var c = 'auth_token=' + encodeURIComponent(t);
         var c= '';
         M.username = '';
     } else {
@@ -569,28 +520,6 @@ M.auth = function(e, t) {
         M.avatarID = r.auth.avatar_id;
         M.userPerms = r.auth.perms;
         M.userSettings = r.auth.settings;
-/*      -- deprecated features
-        if( r.auth.settings['ui-mode-guided'] != null 
-            && r.auth.settings['ui-mode-guided'] == 'yes' ) {
-            // Set to off, so toggle can switch on
-            M.uiModeGuided = 'no';
-            M.toggleGuidedMode();
-        } else {
-            // Set to on, so toggle can switch off
-            M.uiModeGuided = 'yes';
-            M.toggleGuidedMode();
-        }
-        if( r.auth.settings['ui-mode-xhelp'] != null 
-            && r.auth.settings['ui-mode-xhelp'] == 'yes' ) {
-            // Set to off, so toggle can switch on
-            M.uiModeXHelp = 'no';
-            M.toggleXHelpMode();
-        } else {
-            // Set to on, so toggle can switch off
-            M.uiModeXHelp = 'yes';
-            M.toggleXHelpMode();
-        }
-*/
         if( M.oldUserId == M.userID ) {
             M.hide('m_login');
             return true;

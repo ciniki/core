@@ -90,6 +90,8 @@ function ciniki_core_parseArgs(&$ciniki, $tnid, $raw_args, $arg_info) {
                 }
             } elseif( isset($options['type']) && $options['type'] == 'json' ) {
                 $args[$arg] = json_decode($raw_args[$arg], true);
+            } elseif( isset($options['type']) && $options['type'] == 'date' && $raw_args[$arg] == 'null' ) {
+                $args[$arg] = '';
             } elseif( isset($options['type']) && $options['type'] == 'date' && $raw_args[$arg] != '' ) {
                 $raw_args[$arg] = preg_replace('/Janurary/', 'January', $raw_args[$arg]);
                 $raw_args[$arg] = preg_replace('/(Sun|Mon|Tue|Wed|Thu|Fri|Sat) /', '', $raw_args[$arg]);

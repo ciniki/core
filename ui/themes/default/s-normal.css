@@ -304,7 +304,7 @@ table.list td div.calendar {
         margin-left: 35em;
     }
 
-    div.help-off.guided-off div.large.narrowaside div.panelsection,
+    div.help-off div.large.narrowaside div.panelsection,
     div.help-off div.xlarge.narrowaside div.panelsection {
         width: 47em;
         margin-left: 22em;

@@ -3418,7 +3418,7 @@ table.video video {
 
 
 /******** Guided mode settings *******/
-div.guided-off .guided-show,
+/*div.guided-off .guided-show,
 div.guided-on .guided-hide {
     display: none;
 }
@@ -3495,7 +3495,7 @@ div.guided-on tr.guided-text td p {
     padding: 0.5em;
     background-color: rgba(255,253,213,1.0);
 }
-/*
+
 div.guided-on table.form.outline {
     border: 0px;
     background: transparent;

@@ -154,7 +154,7 @@ function ciniki_core_dbHashQueryArrayTree(&$ciniki, $strsql, $module, $tree) {
                         //
                         // Check if North American price format
                         //
-                        elseif( isset($tree[$i]['naprices']) && in_array($field_id, $tree[$i]['naprices']) ) {
+                        elseif( isset($tree[$i]['naprices']) && in_array($field_id, $tree[$i]['naprices']) && $row[$field] != '' ) {
                             $data[$tree[$i]['container']][$num_elements[$i]][$field_id] = '$' . number_format($row[$field], 2);
                         }
                         //

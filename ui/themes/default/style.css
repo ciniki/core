@@ -1712,7 +1712,7 @@ table.simplegrid td.center {
 
 table.dayschedule td.addlink,
 table.simplegrid td.addlink {
-    color: #bbb;
+    color: #555;
     padding-left: 1.9em;
 }
 
@@ -2513,6 +2513,10 @@ div.media.largeimg div div.imgwrap {
     width: 12em;
     height: 12em;
 }
+div.media.xlargeimg div div.imgwrap {
+    width: 16em;
+    height: 16em;
+}
 
 div.media div.media_image div.imgwrap {
     border: 1px solid #ddd;
@@ -2520,7 +2524,6 @@ div.media div.media_image div.imgwrap {
 
 div.media div.media_album div.imgwrap {
     border: 3px double #ddd;
-
 }
 
 div.media div.media_trash div.imgwrap {
@@ -2544,6 +2547,10 @@ div.media.largeimg div.imgwrap img {
     width: 11.6em;
     height: 11.6em;
 }
+div.media.xlargeimg div.imgwrap img {
+    width: 15.6em;
+    height: 15.6em;
+}
 
 div.media div.titlewrap {
     width: 8.0em;
@@ -2559,6 +2566,9 @@ div.media.mediumimg div.titlewrap {
 }
 div.media.largeimg div.titlewrap {
     width: 14em;
+}
+div.media.xlargeimg div.titlewrap {
+    width: 18em;
 }
 
 div.media div.media_album div.titlewrap {

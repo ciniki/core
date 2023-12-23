@@ -2233,6 +2233,9 @@ M.panel.prototype.createSectionGridHeaders = function(s, sc, data) {
     if( sc.editFn != null ) {
         tr.appendChild(M.aE('th', null, 'noprint'));
     }
+    if( sc.deleteFn != null ) {
+        tr.appendChild(M.aE('th', null, 'noprint'));
+    }
     if( sc.history != null && sc.history == 'yes' ) {
         tr.appendChild(M.aE('th', null, 'noprint'));
     }
@@ -2405,10 +2408,15 @@ M.panel.prototype.createSectionGrid = function(s) {
             } else {
                 if( sc.editFn != null && sc.mailFn != null && sc.mailFn(s,0,null) != null ) {
                     td.colSpan = num_cols + 3;
+                } else if( sc.editFn != null && sc.mailFn != null && sc.mailFn(s,0,null) != null ) {
+                    td.colSpan = num_cols + 3;
                 } else if( sc.editFn != null ) {
                     td.colSpan = num_cols + 2;
                 } else {
                     td.colSpan = num_cols + 1;
+                }
+                if( sc.deleteFn != null ) {
+                    td.colSpan++;
                 }
             }
             tr.appendChild(td);
@@ -2464,6 +2472,10 @@ M.panel.prototype.createSectionGrid = function(s) {
             c = M.aE('td', null, 'buttons noprint');
             tr.appendChild(c);
         }
+        if( sc.deleteFn != null ) {
+            c = M.aE('td', null, 'buttons noprint');
+            tr.appendChild(c);
+        }
         // Add arrow
         c = M.aE('td', null, 'buttons noprint');
         tr.setAttribute('onclick', sc.addFn);
@@ -2491,6 +2503,10 @@ M.panel.prototype.createSectionGrid = function(s) {
             tr.appendChild(c);
         }
         if( sc.editFn != null ) {
+            c = M.aE('td', null, 'buttons noprint');
+            tr.appendChild(c);
+        }
+        if( sc.deleteFn != null ) {
             c = M.aE('td', null, 'buttons noprint');
             tr.appendChild(c);
         }
@@ -2782,6 +2798,17 @@ M.panel.prototype.createSectionGridRow = function(s, i, sc, num_cols, rowdata, t
         if( fn != '' ) {
             c.setAttribute('onclick', 'event.stopPropagation();' + sc.editFn(s, i, rowdata));
             c.innerHTML = '<span class="faicon">&#xf040;</span>';
+            ptr.className = 'clickable' + rcl;
+        }
+        ptr.appendChild(c);
+    }
+    // Add the delete button to click on
+    if( sc.deleteFn != null && sc.deleteFn(s, i, rowdata) != null ) {
+        c = M.aE('td', null, 'buttonicons noprint');
+        var fn = sc.deleteFn(s, i, rowdata);
+        if( fn != '' ) {
+            c.setAttribute('onclick', 'event.stopPropagation();' + sc.deleteFn(s, i, rowdata));
+            c.innerHTML = '<span class="faicon">&#xf1f8;</span>';
             ptr.className = 'clickable' + rcl;
         }
         ptr.appendChild(c);

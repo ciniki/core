@@ -40,7 +40,7 @@ function ciniki_core_processTemplateTags($ciniki, $args) {
     // Search the template and when a key is found, then lookup value in args
     //
     //print "Searching: $search_str\n";
-    $do_sub = create_function('$matches', '
+/*    $do_sub = create_function('$matches', '
             $fargs = func_get_args();
             return $fargs[0][1];
 //          print "Matches:"; print_r($matches);
@@ -50,9 +50,12 @@ function ciniki_core_processTemplateTags($ciniki, $args) {
 //          } else {
 //              return "???";
 //          }
-            ');
+            '); */
 
-    return preg_replace_callback($search_str, $do_sub, $args['template']);
+    return preg_replace_callback($search_str, function($matches) {
+            $fargs = func_get_args();
+            return $fargs[0][1];
+        }, $args['template']);
 
 //      create_function('$matches', '
 //          return "n" . $args["substitutions"][$matches[1]];

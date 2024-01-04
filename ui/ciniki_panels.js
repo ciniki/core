@@ -681,7 +681,7 @@ M.panel.prototype.createSection = function(i, s) {
         }
     } else if( type != null && type == 'gridform' ) {
         st = this.createFormGridFields(this.panelUID, i, s);
-    } else if( type == 'simpleform' || type == 'imageform' || type == 'copytext' || (type == null && s.fields != null) ) {
+    } else if( type == 'simpleform' || type == 'imageform' || type == 'select' || type == 'copytext' || (type == null && s.fields != null) ) {
         st = this.createSectionForm(i, s.fields);        
 //        tb = M.aE('tbody');
 //        var ct = this.createFormFields(i, tb, this.panelUID, s.fields);
@@ -3368,6 +3368,8 @@ M.panel.prototype.createSectionForm = function(s, fields) {
         tid = this.panelUID + '_' + s;
         if( this.sections[s].type != null && this.sections[s].type == 'imageform' ) {
             st = M.addTable(tid, 'list imageform noheader form');
+        } else if( this.sections[s].type != null && this.sections[s].type == 'select' ) {
+            st = M.addTable(tid, 'list noheader form select');
         } else if( ct == 0 || ct > 1 ) {
             st = M.addTable(tid, 'list noheader form outline');
         } else {

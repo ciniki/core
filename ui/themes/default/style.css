@@ -551,6 +551,24 @@ div.flexcolumn div.flexsection > table {
     max-width: 100%;
 }
 
+table.form.select td.input {
+    padding: 0;
+}
+table.form.select td.input select {
+    display: block;
+    padding: 0.7rem 0.5rem;
+    height: auto;
+    box-sizing: border-box;
+    -webkit-appearance: none!important;
+    width: 100%;
+    max-width: 100%;
+    background: #fff; 
+    background-image: url('data:image/svg+xml,<%3Fxml version="1.0" %3F><svg fill="none" height="24" stroke="rgb(187,187,187)" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" width="32" xmlns="http://www.w3.org/2000/svg"><polyline points="6 9 12 15 18 9"/></svg>');
+    background-repeat: no-repeat;
+    background-position-x: 100%;
+    background-position-y: center;
+}
+
 table.outline {
     border: 1px solid #ccc;
     padding: 0.1em 0.1em 0.1em 0.1em;

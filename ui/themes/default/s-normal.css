@@ -290,6 +290,26 @@ table.list td div.calendar {
         margin-left: 0px;
         width: 100%;
     }
+    div.help-off div.xlarge.narrowaside {
+        width: 100%;
+        max-width: 100%;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        box-sizing: border-box;
+    }
+    div.help-off div.xlarge.narrowaside div.columns,
+    div.help-off div.xlarge.narrowaside div.panelcolumn,
+    div.help-off div.xlarge.narrowaside div.panelsection {
+        width: 70%;
+        box-sizing: border-box;
+        margin-left: 30%;
+    }
+    div.help-off div.xlarge.narrowaside div.asideleft {
+        width: 28%;
+        max-width: 28%;
+        box-sizing: border-box;
+        margin-left: 0;
+    }
 }
 
 @media screen and (min-width: 73em) {
@@ -355,6 +375,10 @@ table.list td div.calendar {
     }
     div.help-off div.xlarge.narrowaside {
         max-width: 98%;
+        width: 100%;
+        max-width: 100%;
+        padding-left: 1rem;
+        padding-right: 1rem;
     }
     div.help-off div.xlarge.narrowaside div.columns,
     div.help-off div.xlarge.narrowaside div.panelcolumn,

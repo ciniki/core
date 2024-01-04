@@ -293,12 +293,16 @@ M.panel.prototype.addPanel = function() {
         var tr = M.aE('tr');
         var c = M.aE('td',null,'textfield aligncenter joinedtabs');
         var div = M.aE('div', null, 'buttons');
-        for(i in this.menutabs.tabs) {
-            if( this.menutabs.tabs[i].visible != null && this.menutabs.tabs[i].visible == 'no' ) {
+        var tabs = this.menutabs.tabs;
+        for(i in tabs) {
+            if( tabs[i].visible != null && typeof tabs[i].visible == 'function' && tabs[i].visible() == 'no') {
+                continue;
+            }
+            if( tabs[i].visible != null && tabs[i].visible == 'no' ) {
                 continue;
             }
             var e = null;
-            var lt = this.menutabs.tabs[i].label;
+            var lt = tabs[i].label;
             if( i == this.menutabs.selected ) {
                 e = M.aE('span', null, 'toggle_on', lt);
             } else {

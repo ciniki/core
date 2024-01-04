@@ -560,6 +560,7 @@ table.form.select td.input select {
     height: auto;
     box-sizing: border-box;
     -webkit-appearance: none!important;
+    -moz-appearance: none!important;
     width: 100%;
     max-width: 100%;
     background: #fff; 
@@ -584,9 +585,6 @@ table.outline tr.separator:first-child > td {
 }
 table.select {
     border: 0px;
-}
-table.form.select td.input select {
-    padding: 0.7rem 0.5rem;
 }
 
 a.website,
@@ -1047,15 +1045,23 @@ table.form td.input > select,
 table.form td.select > select {
     width: 100%;
     height: 100%;
-    padding: 0.4em;
+    padding: 0.5em 2em 0.5em 0.5em;
     font-size: 1.0em;
     color: #555;
+    background: #fff;
     text-align: left;
     margin: 0.4em 0em 0.4em 0em;
     border: 0px;
     text-overflow: ellipsis;
     white-space: nowrap;
     border: 1px solid #ccc;
+    -webkit-appearance: none!important;
+    -moz-appearance: none!important;
+    background: #fff; 
+    background-image: url('data:image/svg+xml,<%3Fxml version="1.0" %3F><svg fill="none" height="24" stroke="rgb(187,187,187)" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" width="32" xmlns="http://www.w3.org/2000/svg"><polyline points="6 9 12 15 18 9"/></svg>');
+    background-repeat: no-repeat;
+    background-position-x: 100%;
+    background-position-y: center;
 }
 table.form td.input span.select-placeholder {
     padding-top: 0.5em;
@@ -1069,7 +1075,7 @@ table.form span.select-placeholder .faicon {
 }
 
 table.form td.input > select {
-    height: 2em;
+/*    height: 2em; */
     margin: 0em; 
     border-radius: initial;
 /*  width: auto; */

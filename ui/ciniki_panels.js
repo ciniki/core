@@ -4998,8 +4998,6 @@ M.panel.prototype.setFromFieldHistory = function(field, history_field, value) {
     // Set the value selected by the user from the field history
     //
     var v = this.fieldHistories[history_field]['history'][value]['action']['value'];
-    console.log(value);
-    console.log(v);
     if( this.fieldHistories[history_field].history[value].action.action != null ) {
         this.setFieldValue(field, v, value, 0, null, this.fieldHistories[history_field].history[value].action.action);
     } else {
@@ -5136,7 +5134,7 @@ M.panel.prototype.setFieldValue = function(field, v, vnum, hide, nM, action) {
             var e = M.gE(this.panelUID + '_' + field + sFN + '_' + j);
 //            if( (v&Math.pow(2, j-1)) == Math.pow(2,j-1) ) {
             var bit_value = j > 32 ? (vhi>>(j-33)&0x01) : (vlo>>(j-1)&0x01);
-            if( bit_value == 1 ) {
+            if( bit_value == 1 || (bit_value == 0 && j == 0)) {
                 // Turn off all other options
                 if( f.toggle == 'yes' ) {
                     for(k in e.parentNode.children) {

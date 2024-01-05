@@ -4998,6 +4998,8 @@ M.panel.prototype.setFromFieldHistory = function(field, history_field, value) {
     // Set the value selected by the user from the field history
     //
     var v = this.fieldHistories[history_field]['history'][value]['action']['value'];
+    console.log(value);
+    console.log(v);
     if( this.fieldHistories[history_field].history[value].action.action != null ) {
         this.setFieldValue(field, v, value, 0, null, this.fieldHistories[history_field].history[value].action.action);
     } else {
@@ -5156,7 +5158,7 @@ M.panel.prototype.setFieldValue = function(field, v, vnum, hide, nM, action) {
             }
         }
     } else if( f.type == 'flagtoggle' ) {
-        if( (v&f.bit) == f.bit ) {
+        if( v == 'Yes' || (v&f.bit) == f.bit ) {
             M.gE(this.panelUID + '_' + field + sFN + '_off').className = 'toggle_off';
             M.gE(this.panelUID + '_' + field + sFN + '_on').className = 'toggle_on';
         } else {

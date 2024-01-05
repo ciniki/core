@@ -196,6 +196,14 @@ M.panel.setupFormFieldHistory = function(fieldID, field) {
                         c3.innerHTML += field.flags[j].name;
                     }
                 }
+            } else if( field != null && field.type == 'flagspiece' && field.flags != null && field.toggle != null && field.toggle == 'yes' ) {
+                for(j in field.flags) {
+                    if( j == '0' && j == history[i].action.value ) {
+                        c3.innerHTML = field.flags[j].name;
+                    } else if( (history[i].action.value&Math.pow(2, j-1)) == Math.pow(2,j-1) ) {
+                        c3.innerHTML = (c3.innerHTML != '' ? ', ' : '' ) + field.flags[j].name;
+                    }
+                }
             } else if( field != null && field.type == 'toggle' && field.toggles != null ) {
                 for(j in field.toggles) {
                     if( j == history[i].action.value ) {

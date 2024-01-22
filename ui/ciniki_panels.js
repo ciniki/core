@@ -2335,6 +2335,9 @@ M.panel.prototype.seqDragStart = function(e, s, i) {
 M.panel.prototype.seqDrop = function(e, s, i) {
     this.sections[s].seqDrop(e,M.curdragging,i);
 };
+M.panel.prototype.seqDropAdd = function(e, s, i) {
+    this.sections[s].seqDropAdd(e,M.curdragging,i);
+};
 
 M.panel.prototype.createSectionGrid = function(s) {
     //
@@ -2486,6 +2489,15 @@ M.panel.prototype.createSectionGrid = function(s) {
         c.innerHTML = '<span class="icon">r</span>';
         tr.className = 'clickable';
         tr.appendChild(c);
+        if( sc.seqDropAdd != null ) {
+            tr.setAttribute('ondrop', this.panelRef + '.seqDropAdd(event,"' + s + '","' + i + '")');
+            tr.addEventListener('dragenter', function(e) {
+                this.classList.add('dropaddhighlight');
+                }, false);
+            tr.addEventListener('dragleave', function(e) {
+                this.classList.remove('dropaddhighlight');
+                }, false);
+        }
         tf.appendChild(tr);
     }
 

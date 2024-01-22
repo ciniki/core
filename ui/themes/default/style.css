@@ -1766,9 +1766,13 @@ table.list tr.draggable > td.thumbnail:first-child {
     width: 100px;
     padding-left: 0.5em;
 }
-/*table.list tr.draggable.drophighlight td {
+/* table.list tr.draggable.drophighlight td {
     border-top: 2px solid #000;
 } */
+table.list tfoot tr.dropaddhighlight {
+    background: #ffa;
+    font-weight: bold;
+}
 table.list td div.dragdrop_cell {
     width: 100%;
     height: 1em;

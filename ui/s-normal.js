@@ -65,6 +65,9 @@ M.toggleHelp = function(helpUID) {
         M.setWidth('m_container', '100%');
         M.setWidth('mc_header', '100%');
         M.show('m_container');
+        if( typeof startChatWoot === 'function' && M.modFlagOn('ciniki.tenants', 0x80) ) {
+            window.$chatwoot.toggleBubbleVisibility("hide");
+        }
     } else {
         // M.curHelpUID = helpUID;
         mc.className = mc.className.replace(/help-off/, 'help-on');
@@ -94,7 +97,11 @@ M.toggleHelp = function(helpUID) {
         M.resize();
        
         if( typeof startChatWoot === 'function' && M.modFlagOn('ciniki.tenants', 0x80) ) {
-            startChatWoot('script');
+            if( window.$chatwoot != null ) {
+                window.$chatwoot.toggleBubbleVisibility("show");
+            } else {
+                startChatWoot('script');
+            }
         }
     }
 }

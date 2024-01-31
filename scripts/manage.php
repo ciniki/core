@@ -923,6 +923,33 @@ Javscript must be enabled for this application to work.
         <div id="mc_apps"></div>
     </div></div>
 </div>
+<?php
+if( isset($config['chatwoot']['websiteToken']) && $config['chatwoot']['websiteToken'] != '' ) {
+    print '<script>'
+        . 'function startChatWoot(t){'
+        . 'window.chatwootSettings = {"position":"right","type":"expanded_bubble","launcherTitle":"Chat with Andrew"};'
+        . 'var BASE_URL="https://app.chatwoot.com";'
+        . 'var g=document.createElement("script"),s=document.getElementsByTagName("script")[0];'
+        . 'g.src=BASE_URL+"/packs/js/sdk.js";'
+        . 'g.defer = true;'
+        . 'g.async = true;'
+        . 's.parentNode.insertBefore(g,s);'
+        . 'g.onload=function(){'
+            . 'window.chatwootSDK.run({'
+                . "hideMessageBubble: true,"
+                . "websiteToken: 'PjD6J3aCcKnnWcS9tXVmrvVd',"
+                . "baseUrl: BASE_URL"
+            . '});'
+            . 'window.addEventListener("chatwoot:ready", function(){'
+                . 'window.$chatwoot.setUser(M.userID, {'
+                    . 'name: M.curTenant.employees[M.userID] + " - " + M.curTenant.name'
+                    . '});'
+                . '});'
+            . '}'
+        . '};'
+        . '</script>';
+}
+?>
 </body>
 </html>
 <?php

@@ -92,6 +92,10 @@ M.toggleHelp = function(helpUID) {
         }
         M.show('m_help');
         M.resize();
+       
+        if( typeof startChatWoot === 'function' && M.modFlagOn('ciniki.tenants', 0x80) ) {
+            startChatWoot('script');
+        }
     }
 }
 

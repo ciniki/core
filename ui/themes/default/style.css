@@ -1758,6 +1758,12 @@ table.list tr.draggable > td:first-child:before {
     padding-right: 0.5em;
     vertical-align: middle;
 }
+table.list tr.draggable > td.multiline:first-child:before {
+    float: left;
+}
+table.list tr.draggable > td.multiline:first-child span {
+    margin-left: 1.5rem;
+}
 table.list tr.draggable > td.thumbnail:first-child:before {
     position: relative;
     top: -38px;

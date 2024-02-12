@@ -2742,7 +2742,7 @@ table.form:not(paneltabs) > tbody > tr:last-child > td.flags {
 } */
 
 table.form .minsec select {
-    max-width: 3.5em;
+    max-width: 4em;
 }
 table.form .minsec .minsec_label {
     padding-left: 0.5rem;

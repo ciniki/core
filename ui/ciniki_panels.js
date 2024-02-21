@@ -2338,6 +2338,38 @@ M.panel.prototype.seqDrop = function(e, s, i) {
 M.panel.prototype.seqDropAdd = function(e, s, i) {
     this.sections[s].seqDropAdd(e,M.curdragging,i);
 };
+M.panel.prototype.imageRowDrop = function(e, s, row) {
+    e.preventDefault();
+    e.stopPropagation();
+    files = e.dataTransfer.files;
+    this._uploadAddDropImage = this.sections[s].addDropImage;
+    if( e.dataTransfer.files != null ) {
+        this._uploadCount = 0;
+        this._uploadCurrent = 0;
+        this._uploadFiles = [];
+        for(i in e.dataTransfer.files) {
+            if( e.dataTransfer.files[i].type == null ) { continue; }
+            if( e.dataTransfer.files[i].type != 'image/jpeg' 
+                && e.dataTransfer.files[i].type != 'image/png'
+                && e.dataTransfer.files[i].type != 'image/svg+xml'
+                ) {
+                M.alert("I'm sorry, we only allow jpeg and png images to be uploaded.");
+                M.stopLoad();
+                return false;
+            }
+            e.dataTransfer.files[i].field_id = row;
+            this._uploadFiles[this._uploadCount] = e.dataTransfer.files[i];
+            this._uploadCount++;
+        }
+        if( this._uploadCount > 0 ) {
+            this.uploadDropImagesNext();
+        } else {
+            M.alert("I'm sorry, we couldn't add that photo, please use the Add Photo button."); 
+            M.stopLoad();
+        }
+    }
+    return false;
+};
 
 M.panel.prototype.createSectionGrid = function(s) {
     //
@@ -2394,6 +2426,9 @@ M.panel.prototype.createSectionGrid = function(s) {
             tr.addEventListener('dragleave', function(e) {
                 this.classList.remove('drophighlight');
                 }, false);
+        }
+        if( sc.addDropImage != null ) {
+            tr.setAttribute('ondrop', this.panelRef + '.imageRowDrop(event,"' + s + '","' + i + '")');
         }
 
         tb.appendChild(tr);

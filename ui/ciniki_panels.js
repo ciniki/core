@@ -4537,7 +4537,9 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
                 }
                 f.innerHTML = idlist[j][iname].name;
             } else {
-                if( vs.indexOf(idlist[j].id) >= 0 ) {
+                if( (typeof idlist[j].id == 'string' && vs.indexOf(parseInt(idlist[j].id)) >= 0)
+                    || vs.indexOf(idlist[j].id) >= 0 
+                    ) {
                     f.className = 'toggle_on';
                 }
                 f.innerHTML = idlist[j].name;

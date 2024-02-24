@@ -75,6 +75,16 @@ function ciniki_core_objectAdd(&$ciniki, $tnid, $obj_name, $args, $tmsupdate=0x0
         $strsql .= $field . ', ';
         if( isset($args[$field]) ) {
             $values .= "'" . ciniki_core_dbQuote($ciniki, $args[$field]) . "', ";
+        } elseif( isset($options['sfields']) ) {
+            $s_values = array();
+            foreach($options['sfields'] as $s_field => $s_options) {
+                if( isset($args[$s_field]) ) {
+                    $s_values[$s_field] = $args[$s_field];
+                } elseif( isset($s_options['default']) ) {
+                    $s_values[$s_field] = $s_options['default'];
+                }
+            }
+            $values .= "'" . serialize($s_values) . "', ";
         } elseif( isset($options['default']) ) {
             $args[$field] = $options['default'];
             $values .= "'" . ciniki_core_dbQuote($ciniki, $options['default']) . "', ";

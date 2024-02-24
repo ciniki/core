@@ -52,6 +52,31 @@ function ciniki_core_objectUpdate(&$ciniki, $tnid, $obj_name, $oid, $args, $tmsu
             return $rc;
         }
     }
+    
+    //
+    // Check for serialized fields
+    //
+    $fields = '';
+    foreach($o['fields'] as $field => $options) {
+        if( isset($options['sfields']) ) {
+            $fields .= ($fields != '' ? ', ' : '') . $field;
+        }
+    }
+    if( $fields != '' ) {
+        $strsql = "SELECT $fields "
+            . "FROM " . $o['table'] . " "
+            . "WHERE id = '" . ciniki_core_dbQuote($ciniki, $oid) . "' "
+            . "AND tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
+            . "";
+        $rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.core', 'item');
+        if( $rc['stat'] != 'ok' ) {
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.405', 'msg'=>'Unable to load item', 'err'=>$rc['err']));
+        }
+        if( !isset($rc['item']) ) {
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.406', 'msg'=>'Unable to find requested item'));
+        }
+        $item = $rc['item'];
+    }
 
     //
     // Build the SQL string to update object
@@ -65,6 +90,21 @@ function ciniki_core_objectUpdate(&$ciniki, $tnid, $obj_name, $oid, $args, $tmsu
         if( isset($args[$field]) ) {
             $num_fields++;
             $strsql .= ", $field = '" . ciniki_core_dbQuote($ciniki, $args[$field]) . "' ";
+        }
+        elseif( isset($options['sfields']) ) {  
+            $s_values = array();
+            if( isset($item[$field]) && $item[$field] != '' ) {
+                $s_values = unserialize($item[$field]);
+            }
+            foreach($options['sfields'] as $s_field => $s_options) {
+                if( isset($args[$s_field]) && (!isset($s_values[$s_field]) || $s_values[$s_field] != $args[$s_field]) ) {
+                    $s_values[$s_field] = $args[$s_field];
+                }
+            }
+            $serialized_values = serialize($s_values);
+            if( !isset($item[$field]) || $serialized_values != $item[$field] ) {
+                $strsql .= ", $field = '" . ciniki_core_dbQuote($ciniki, $serialized_values) . "' ";
+            }
         }
     }
     $strsql .= " WHERE tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "

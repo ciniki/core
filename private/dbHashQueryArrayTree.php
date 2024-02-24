@@ -249,9 +249,22 @@ function ciniki_core_dbHashQueryArrayTree(&$ciniki, $strsql, $module, $tree) {
                                 }
                             }
                         }
+                        elseif( isset($tree[$i]['unserialize']) && in_array($field_id, $tree[$i]['unserialize']) ) {
+                            $data[$tree[$i]['container']][$num_elements[$i]][$field_id] = $row[$field];
+                            if( $row[$field] != '' ) {
+                                $values = unserialize($row[$field]);
+                                foreach($values as $k => $v) {
+                                    $data[$tree[$i]['container']][$num_elements[$i]][$k] = $v;
+                                }
+                            }
+                        }
                         
                         // Normal item
                         else {
+                            if( $field_id == 'provincial_settings' ) {
+                                error_log('normal: ' . $field_id);
+                                error_log(print_r($tree[$i],true));
+                            }
                             $data[$tree[$i]['container']][$num_elements[$i]][$field_id] = $row[$field];
                         }
                     }

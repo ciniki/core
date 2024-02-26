@@ -261,10 +261,6 @@ function ciniki_core_dbHashQueryArrayTree(&$ciniki, $strsql, $module, $tree) {
                         
                         // Normal item
                         else {
-                            if( $field_id == 'provincial_settings' ) {
-                                error_log('normal: ' . $field_id);
-                                error_log(print_r($tree[$i],true));
-                            }
                             $data[$tree[$i]['container']][$num_elements[$i]][$field_id] = $row[$field];
                         }
                     }

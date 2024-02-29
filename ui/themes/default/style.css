@@ -834,6 +834,11 @@ table.list tr.textfield > td.label {
     padding: 0.5em;
     text-align: right;
 }
+div.large table.list tr.textfield > td.label {
+    max-width: 40em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 
 table.imageform {
     width: 100%;

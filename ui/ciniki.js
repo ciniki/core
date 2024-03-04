@@ -1862,6 +1862,7 @@ M.prompt = function(msg, v, btntxt, fn) {
     tr.appendChild(td);
     e.appendChild(tr);
     M.show('m_prompt');
+    M.gE('m_prompt_input').focus();
 }
 M.promptKeyUp = function(e) {
     if( e.keyCode == 13 ) {

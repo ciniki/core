@@ -463,6 +463,9 @@ td.fabuttons {
     padding-top: 0px;
     padding-bottom: 0px;
 }
+table.list > tbody > tr > td.fabuttons.alignleft {
+    text-align: left;
+}
 td.fabuttons a.fabutton,
 td.fabuttons button.faicon {
     margin: 0.25rem 0rem 0.25rem 0.5rem;
@@ -1110,6 +1113,7 @@ div.wide table.list tr.textfield > td.textarea {
 }
 
 table.list tr.textfield > td.textarea {
+    width: 100%;
     background: #fff;
     padding: 0 0em 0 0em;
     margin: 0px;

@@ -1956,7 +1956,9 @@ M.dU = function(s) {
 }
 M.formatDollar = function(s) {
     if( s != null && s != '' ) {
-        return '$' + parseFloat(s).toFixed(2);
+        const f = new Intl.NumberFormat('en-US', {'style':'currency', 'currency':'USD'});
+        return f.format(parseFloat(s));
+//        return '$' + parseFloat(s).toFixed(2);
     }
     return '';
 }

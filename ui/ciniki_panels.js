@@ -641,7 +641,11 @@ M.panel.prototype.createSection = function(i, s) {
         }
         // If addTopFn is specified, then no bottom row is display, so it must show up at the top
         if( s.addTopFn != null || (data != null && (data.length > 0 || M.length(data) > 0) || M.length(this.sections[i].fields)) ) {
-            var c = M.aE('span', null, 'addlink alignright clickable', '+ ' + s.addTxt);
+            if( s.addTopTxt != null ) {
+                var c = M.aE('span', null, 'addlink alignright clickable', s.addTopTxt);
+            } else {
+                var c = M.aE('span', null, 'addlink alignright clickable', '+ ' + s.addTxt);
+            }
             // Add arrow
             if( s.addTopFn != null ) {
                 c.setAttribute('onclick', s.addTopFn);

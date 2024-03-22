@@ -944,12 +944,46 @@ div.simplebuttons.halfsize {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-between;
+    gap: 0.5rem;
     margin-bottom: 0.5em;
 }
 div.simplebuttons.halfsize table.list.simplebuttons {
     width: 49%;
     flex-basis: 49%;
+    margin-bottom: 0em;
+    flex-grow: 1;
+    min-width: 15rem;
+}
+div.simplebuttons.thirdsize {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
     margin-bottom: 0.5em;
+    gap: 0.5rem;
+}
+div.simplebuttons.thirdsize table.list.simplebuttons {
+    width: 30%;
+    flex-basis: 30%;
+    flex-grow: 1;
+    margin-bottom: 0;
+    min-width: 15rem;
+}
+div.simplebuttons.flexsize {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-bottom: 0.5em;
+}
+div.simplebuttons.flexsize table.list.simplebuttons {
+    flex-basis: auto;
+    width: auto;
+    max-width: none;
+    flex-grow: 1;
+    flex-shrink: 1;
+    margin-bottom: 0;
+    white-space: nowrap;
 }
 
 table.border tr.textfield > td.hidelabel {

@@ -3084,8 +3084,8 @@ M.panel.prototype.createSimpleButtons = function(si, l, as) {
         f.appendChild(t);
         count++;
     }
-    if( this.sections[si] != null && this.sections[si].size != null && this.sections[si].size == 'half' && count > 1 ) {
-        f.classList.add('halfsize');
+    if( this.sections[si] != null && this.sections[si].size != null && this.sections[si].size != '' && count > 1 ) {
+        f.classList.add(this.sections[si].size + 'size');
     }
 
     return f;

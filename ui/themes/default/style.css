@@ -3019,6 +3019,10 @@ table.simplegrid tr.statuspurple,
 table.simplegrid td.statuspurple {
     background: #f0ddff;
 }
+table.simplegrid tr.statusteal,
+table.simplegrid td.statusteal {
+    background: #cefff8;
+}
 /* Alert styles */
 table.list tr.severity50 {
     background: #ffdddd;

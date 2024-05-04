@@ -506,6 +506,9 @@ M.panel.prototype.createSections = function() {
                     if( this.sections[i].maxwidth != null ) {
                         column.style.maxWidth = this.sections[i].maxwidth;
                     }
+                    if( this.sections[i].flexBasis != null ) {
+                        column.style['flex-basis'] = this.sections[i].flexBasis;
+                    }
                     columns.appendChild(column);
                 }
 

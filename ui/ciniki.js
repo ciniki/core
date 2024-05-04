@@ -1987,8 +1987,10 @@ M.subdue = function(pre,m,post) {
     }
     return '';
 }
-M.multiline = function(m,s) {
-    if( s != null && s != '' ) {
+M.multiline = function(m,s,ss) {
+    if( ss != null && ss != '' ) {
+        return '<span class="maintext">' + m + '</span><span class="subtext">' + s + '</span><span class="subsubtext">' + ss + '</span>';
+    } else if( s != null && s != '' ) {
         return '<span class="maintext">' + m + '</span><span class="subtext">' + s + '</span>';
     } else {
         return m;

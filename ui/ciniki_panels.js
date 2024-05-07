@@ -2452,6 +2452,12 @@ M.panel.prototype.createSectionGrid = function(s) {
         if( nd != null && nd != '' ) {
             var tr = M.aE('tr');
             var td = M.aE('td', null, null, nd);
+            if( this.noDataDrop != null ) {
+                var fn = this.noDataDrop(s);
+                if( fn != null ) {
+                    tr.setAttribute('ondrop', fn);
+                }
+            }
             if( M.size == 'compact' && sc.compact_split_at != null ) {
                 td.colSpan = sc.compact_split_at + 1;
             } else {

@@ -2339,6 +2339,9 @@ M.panel.prototype.cellClass = function(s, i, j, d) {
 M.panel.prototype.seqDragStart = function(e, s, i) {
     M.curdragging = i;
 };
+M.panel.prototype.seqDrag = function(e, s, i) {
+    console.log('drag');
+}
 M.panel.prototype.seqDrop = function(e, s, i) {
     this.sections[s].seqDrop(e,M.curdragging,i);
 };
@@ -2426,6 +2429,7 @@ M.panel.prototype.createSectionGrid = function(s) {
         if( sc.seqDrop != null ) {
             tr.setAttribute('draggable', true);
             tr.setAttribute('ondragstart', this.panelRef + '.seqDragStart(event,"' + s + '","' + i + '")');
+            tr.setAttribute('ondrag', this.panelRef + '.seqDrag(event,"' + s + '","' + i + '")');
             tr.setAttribute('ondrop', this.panelRef + '.seqDrop(event,"' + s + '","' + i + '")');
             tr.addEventListener('dragenter', function(e) {
                 this.classList.add('drophighlight');
@@ -2757,6 +2761,12 @@ M.panel.prototype.createSectionGridRow = function(s, i, sc, num_cols, rowdata, t
                 if( fn != null ) {
                     c.setAttribute('draggable', true);
                     tr.setAttribute('ondragstart', fn);
+                }
+            }
+            if( this.cellDrag != null ) {
+                var fn = this.cellDrag(s, i, j, rowdata);
+                if( fn != null ) {
+                    tr.setAttribute('ondrag', fn);
                 }
             }
             if( this.cellDragStop != null ) {

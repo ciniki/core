@@ -16,6 +16,6 @@
 //
 //
 function ciniki_core_printHashToJSON($hash) {
-    print json_encode($hash);   
+    print json_encode($hash, JSON_INVALID_UTF8_IGNORE);   
 }
 ?>

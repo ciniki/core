@@ -85,6 +85,8 @@ a.fabutton {
 }
 
 div.guided-on table.paneltabs .guided-selected div.buttons span,
+span.fabutton_on,
+span.fabutton_off,
 span.button_on,
 span.button_off,
 span.rbutton_on,
@@ -148,6 +150,7 @@ div.guided-on .guided-selected table.formtabs div.buttons span:last-child {
     -webkit-border-bottom-right-radius: 3px;
 }
 
+span.fabutton_on,
 span.button_on,
 span.rbutton_on,
 table.form td div span.toggle_on,
@@ -161,6 +164,7 @@ table.form td.flags span.flag_on {
     border: 1px solid #aaa;
 }
 
+span.fabutton_off,
 span.button_off,
 span.rbutton_off,
 table.form td div span.toggle_off,

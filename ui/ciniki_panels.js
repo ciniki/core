@@ -3954,6 +3954,56 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
 //                f.setAttribute('name', i + '_time');
 //            }
     }
+    else if( field.type == 'url' ) {
+        var f = M.aE('input', this.panelUID + '_' + i + sFN, field.type);
+        if( field.autofocus != null && field.autofocus == 'yes' ) {
+            this.autofocus = this.panelUID + '_' + i + sFN;
+        }
+        f.setAttribute('onfocus', this.panelRef + '.clearLiveSearches(\''+s+'\',\''+i+sFN+'\');');
+        f.setAttribute('type', 'text');
+        if( field.size != null && field.size != '' ) {
+            f.setAttribute('class', field.type + ' ' + field.size);
+        }
+        if( field.editable != null && field.editable == 'no' ) {
+            f.setAttribute('readonly', 'yes');
+            f.className = f.className + ' readonly';
+        }
+        if( field.maxlength != null && field.maxlength > 0 ) {
+            f.setAttribute('maxlength', field.maxlength);
+        }
+        if( field.hint != null && field.hint != '' ) {
+            f.setAttribute('placeholder', field.hint);
+        }
+        var v = this.fieldValue(s, i, field, mN);
+        if( v != null ) {
+            f.value = v;
+        }
+        f.setAttribute('autocomplete', 'off');
+        if( field.livesearch != null && field.livesearch == 'yes' ) {
+            f.setAttribute('onfocus', this.panelRef + '.liveSearchSection(\'' + s + '\',\'' + i + sFN + '\',this,event);');
+            f.setAttribute('onkeyup', this.panelRef + '.liveSearchSection(\'' + s + '\',\'' + i + sFN + '\',this,event);');
+            this.lastSearches[i] = '';
+        }
+        if( field.enterFn != null && field.enterFn != '' ) {
+            f.setAttribute('onkeyup', 'if( event.keyCode == 13 ) { ' + field.enterFn + ' };');
+        }
+        if( field.onchangeFn != null && field.onchangeFn != '' ) {
+            f.setAttribute('onchange', field.onchangeFn + '(\'' + s + '\',\'' + i+sFN+'\');');
+        }
+        if( field.onkeyupFn != null && field.onkeyupFn != '' ) {
+            f.setAttribute('onkeyup', field.onkeyupFn + '(\'' + s + '\',\'' + i+sFN+'\');');
+        }
+        if( field.onkeyup != null && field.onkeyup != '' ) {
+            f.setAttribute('onkeyup', field.onkeyup + '(event,\'' + s + '\',\'' + i+sFN+'\');');
+        }
+        c.appendChild(f);
+        // Open Link Button
+        var f = M.aE('span', this.panelUID + '_' + fid + sFN + '_openBtn', 'fabutton_off');
+        f.innerHTML = '&#xf08e;';
+        f.innerHTML = '&#xf14c;';
+        f.setAttribute('onclick', this.panelRef + '.openURL(\''+i+'\');');
+        c.appendChild(f);
+    }
     else if( field.type == 'appointment' ) {
         var f = M.aE('input', this.panelUID + '_' + i + sFN + '', 'datetime');
         f.setAttribute('name', i + sFN + '');
@@ -5138,6 +5188,12 @@ M.panel.prototype.setFromButton = function(e, field, v) {
         }
     }
 };
+M.panel.prototype.openURL = function(field) {
+    var u=this.formValue(field);
+    if( u != '' ) {
+        window.open(u, '_blank');
+    }
+}
 M.panel.prototype.clearFileName = function(field) {
     this.setFieldValue(field, '');
     var e = document.getElementById(this.panelUID + '_' + field + '_deleteBtn');

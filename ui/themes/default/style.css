@@ -441,6 +441,8 @@ table.list {
 span.faicon {
     font-family: 'FontAwesome';
 }
+span.fabutton_on,
+span.fabutton_off,
 a.fabutton,
 button.faicon {
     font-family: 'FontAwesome';
@@ -877,6 +879,7 @@ table.form tr.datetime input.datetime-time {
     }
 }
 table.form tr.file_id input,
+table.form tr.url input,
 table.form tr.file input {
     width: auto;
     margin-right: 0.25em;
@@ -1065,11 +1068,13 @@ table.list tr.textfield > td > input.file {
     border: 0px;
 }
 table.list tr.textfield.file_id td.input,
+table.list tr.textfield.url td.input,
 table.list tr.textfield.file td.input {
     display: flex;
     flex-flow: row;
 }
 table.list tr.textfield.file_id td.input input,
+table.list tr.textfield.url td.input input,
 table.list tr.textfield.file td.input input {
     flex-grow: 1;
 }
@@ -1311,6 +1316,8 @@ span.rating_on {
     color: inherit;
 }
 
+span.fabutton_on,
+span.fabutton_off,
 span.button_on,
 span.button_off,
 span.rbutton_on,
@@ -1328,6 +1335,12 @@ span.rbutton_off {
     font-size: 1.10em;
     padding: 0.35em;
     vertical-align: top;
+}
+table.form span.fabutton_on,
+table.form span.fabutton_off {
+    padding: 0.17em;
+    margin-top: 0.3em;
+    color: #777;
 }
 span.rbutton_off.hidden {
     display: none;

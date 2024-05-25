@@ -39,11 +39,13 @@ function ciniki_core_dbHashQueryArrayTree(&$ciniki, $strsql, $module, $tree) {
     //
     // Prepare and Execute Query
     //
+    $start_time = microtime(true);
     $result = mysqli_query($dh, $strsql);
     if( $result == false ) {
         error_log("SQLERR: [" . mysqli_errno($dh) . "] " . mysqli_error($dh) . " -- '$strsql'");
         return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.61', 'msg'=>'Database Error', 'pmsg'=>mysqli_error($dh)));
     }
+    $mid_time = microtime(true);
 
     //
     // Check if any rows returned from the query
@@ -375,6 +377,13 @@ function ciniki_core_dbHashQueryArrayTree(&$ciniki, $strsql, $module, $tree) {
     }
 
     mysqli_free_result($result);
+    $end_time = microtime(true);
+
+    if( isset($ciniki['config']['ciniki.core']['database.log.querytimes'])
+        && $ciniki['config']['ciniki.core']['database.log.querytimes']
+        ) {
+        error_log('[' . round($mid_time-$start_time, 2) . ':' . round($end_time-$mid_time, 2) . '] ' . $strsql);
+    }
 
     return $rsp;
 }

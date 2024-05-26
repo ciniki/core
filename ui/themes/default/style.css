@@ -1338,8 +1338,9 @@ span.rbutton_off {
 }
 table.form span.fabutton_on,
 table.form span.fabutton_off {
-    padding: 0.17em;
+    padding: 0.25em;
     margin-top: 0.3em;
+    font-size: 1em;
     color: #777;
 }
 span.rbutton_off.hidden {

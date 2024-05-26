@@ -191,6 +191,11 @@ table.form span.flag_off {
     color: #555;
     border: 1px solid #aaa;
 }
+table.form span.fabutton_on,
+table.form span.fabutton_off {
+    padding: 4px;
+    margin-top: 6px;
+}
 
 table.form td.joinedflags span.flag_on:first-child,
 table.form td.joinedflags span.flag_off:first-child,

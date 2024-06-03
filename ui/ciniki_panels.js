@@ -2340,7 +2340,6 @@ M.panel.prototype.seqDragStart = function(e, s, i) {
     M.curdragging = i;
 };
 M.panel.prototype.seqDrag = function(e, s, i) {
-    console.log('drag');
 }
 M.panel.prototype.seqDrop = function(e, s, i) {
     this.sections[s].seqDrop(e,M.curdragging,i);

@@ -110,6 +110,11 @@ div.xlarge {
     max-width: 95%;
     margin: 0 auto;
 }
+div.xxlarge {
+    width: 80em;
+    max-width: 95%;
+    margin: 0 auto;
+}
 
 /*div.full {
     padding-left: 1rem;

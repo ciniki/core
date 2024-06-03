@@ -7117,6 +7117,8 @@ M.panel.prototype.serializeFormData = function(fs) {
                     var n = this.formFieldValue(f, fid);
                     if( n == 'on' || (f.reverse != null && f.reverse == 'yes' && n == 'off') ) {
                         flags[f.field].v |= f.bit;
+                    } else if( (flags[f.field].v&f.bit) > 0 ) {
+                        flags[f.field].v ^= f.bit;
                     }
                 } else if( f.type == 'flagspiece' && f.field != null ) {
                     if( flags[f.field] == null ) {

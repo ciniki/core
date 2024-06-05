@@ -1084,8 +1084,8 @@ table.list tr.textfield > td.select {
     height: 100%;
 }
 
-table.form td.input > select,
-table.form td.select > select {
+table td.input > select,
+table td.select > select {
     width: 100%;
     height: 100%;
     padding: 0.5em 2em 0.5em 0.5em;

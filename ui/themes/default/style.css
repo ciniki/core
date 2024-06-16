@@ -3221,6 +3221,7 @@ table.dayschedule p.size_24 { height: 6.0em; }
 table.mwschedule {
     border-left: 1px solid #bbb;
     border-top: 1px solid #bbb;
+    border-bottom: 1px solid #bbb;
 }
 
 table.mwschedule > thead > tr > th {
@@ -3249,7 +3250,11 @@ table.mwschedule div span.day {
     padding: 0.25em;
     width: 1.2em;
     text-align: center;
-    border-bottom-right-radius: 7px;
+    border-bottom-right-radius: 3px;
+}
+table.mwschedule > tbody > tr > td.prevmonth span.day,
+table.mwschedule > tbody > tr > td.nextmonth span.day {
+    color: #999;
 }
 
 table.mwschedule div.schedule_appointment {
@@ -3299,6 +3304,8 @@ table.mwschedule > thead > tr > th.monthlabel {
     width: 1.1em;
 }
 
+table.mwschedule > tbody > tr > td.prevmonth,
+table.mwschedule > tbody > tr > td.nextmonth,
 table.mwschedule > tbody > tr > td.monthlabel {
     background: #efefef;
 }

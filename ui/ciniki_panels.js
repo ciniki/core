@@ -703,14 +703,14 @@ M.panel.prototype.createSection = function(i, s) {
 //            st = M.addTable(tid, 'list noheader form outline');
 //        }
 //        st.appendChild(tb);
-    } else if( type == 'datepicker' ) {
-        st = this.createDatePicker(i, s);
-    } else if( type == 'weekpicker' ) {
+    } else if( type == 'datepicker' || type == 'weekpicker' || type == 'monthpicker' ) {
         st = this.createDatePicker(i, s);
     } else if( type == 'dayschedule' ) {
         st = this.createDailySchedule(i, s);
     } else if( type == 'mwschedule' ) {
         st = this.createMultiWeekSchedule(i, s);
+    } else if( type == 'monthschedule' ) {
+        st = this.createMonthSchedule(i, s);
     } else if( type == 'paneltabs' || type == 'menutabs' ) {
         st = this.createPanelTabs(i, this.sections[i]);
     } else if( type == 'html' ) {
@@ -1351,7 +1351,26 @@ M.panel.prototype.createMultiWeekSchedule = function(s, d) {
     } else if( this.data[s] != null ) {
         data = this.data[s];
     }
-    var t = this.generateMultiWeekScheduleTable(s, 'list header mwschedule', data, this.start_date, this.end_date);
+    var t = this.generateMultiWeekScheduleTable(s, 'list header mwschedule', data, this.start_date, this.end_date, null);
+    return t;
+};
+
+M.panel.prototype.createMonthSchedule = function(s, d) {
+    if( this.sectionData != null ) {
+        data = this.sectionData(s);
+    } else if( this.data[s] != null ) {
+        data = this.data[s];
+    }
+    // Set the start and end dates so the calendar starts on a sunday and ends on a saturday
+    var sd = new Date(this.start_date.getTime());
+    if( sd.getDay() < 7 ) {
+        sd.setDate(sd.getDate() - sd.getDay());
+    }
+    var ed = new Date(this.end_date.getTime());
+    if( ed.getDay() < 6 ) {
+        ed.setTime(ed.getTime() + ((6-ed.getDay())*86400*1000));
+    }
+    var t = this.generateMultiWeekScheduleTable(s, 'list header mwschedule', data, sd, ed, this.start_date.getMonth());
     return t;
 };
 
@@ -1739,13 +1758,19 @@ M.panel.prototype.createDatePicker = function(s, sd) {
     } else {
         var dt = new Date();
     }
+
+    if( sd.type == 'monthpicker' ) {
+        dt.setDate(1);
+    }
     var dtm = (dt.getTime())/1000;
 
     // format display date
-//    var dts = dt.getFullYear() + '-' + (dt.getMonth()+1) + '-' + dt.getDate();
     var dts = dt.toISOString().substring(0,10);
-    // var dtfs = this.dateFormat(dts).date;
-    var dtfs = M.dateFormatWD(dt);
+    if( sd.type == 'monthpicker' ) {
+        var dtfs = M.monthOfYear(dt) + ' ' + dt.getFullYear();
+    } else {
+        var dtfs = M.dateFormatWD(dt);
+    }
     
     if( sd.livesearch != null && sd.livesearch == 'yes' ) {
         var t = M.addTable(this.panelUID + '_datepicker', 'list datepicker datepickersearch noheader border');
@@ -1765,11 +1790,19 @@ M.panel.prototype.createDatePicker = function(s, sd) {
     //var c1 = M.aE('td',null,'prev', '<img src=\'' + M.themes_root_url + '/default/img/arrowleft.png\'>');
     var c1 = M.aE('td',null,'prev', '<span class="icon">l</span>');
     c1.className = 'prev clickable';
-    if( sd.type == 'weekpicker' ) {
+    if( sd.type == 'monthpicker' ) {
+        if( dt.getMonth() == 0 ) {
+            dt.setYear(dt.getFullYear()-1);
+            dt.setMonth(11);
+        } else {
+            dt.setMonth(dt.getMonth()-1);
+        }
+    } else if( sd.type == 'weekpicker' ) {
         dt.setTime((dtm-604800)*1000);
     } else {
         dt.setTime((dtm-86400)*1000);
     }
+
 //    var dtprevs = dt.getFullYear() + '-' + (dt.getMonth()+1) + '-' + dt.getDate();
     var dtprevs = dt.toISOString().substring(0,10);
     c1.setAttribute('onclick', sd.fn + '(null, \'' + dtprevs + '\');');
@@ -1832,7 +1865,15 @@ M.panel.prototype.createDatePicker = function(s, sd) {
     // c3 = M.aE('td',null,'next', '<img src=\'' + M.themes_root_url + '/default/img/arrow.png\'>');
     c3 = M.aE('td',null,'next', '<span class="icon">r</span>');
     c3.className = 'next clickable';
-    if( sd.type == 'weekpicker' ) {
+    if( sd.type == 'monthpicker' ) {
+        dt.setTime(dtm*1000);
+        if( dt.getMonth() == 11 ) {
+            dt.setFullYear(dt.getFullYear()+1);
+            dt.setMonth(0);
+        } else {
+            dt.setMonth(dt.getMonth()+1);
+        }
+    } else if( sd.type == 'weekpicker' ) {
         dt.setTime((dtm+604800)*1000);
     } else {
         dt.setTime((dtm+86400)*1000);
@@ -6457,7 +6498,7 @@ M.panel.prototype.generateAppointmentScheduleTable = function(f, field, cl, appo
     return t;
 };
 
-M.panel.prototype.generateMultiWeekScheduleTable = function(s, cl, data, sdate, edate) {
+M.panel.prototype.generateMultiWeekScheduleTable = function(s, cl, data, sdate, edate, month) {
     var t = M.aE('table', null, cl);
     t.setAttribute('cellspacing', '0');
     t.setAttribute('cellpadding', '0');
@@ -6467,7 +6508,9 @@ M.panel.prototype.generateMultiWeekScheduleTable = function(s, cl, data, sdate, 
     var th = M.aE('thead');
     var tr = M.aE('tr',null,'days');
     if( M.size == 'compact' ) {
-        tr.appendChild(M.aE('th',null,'monthlabel',''));
+        if( month == null ) {
+            tr.appendChild(M.aE('th',null,'monthlabel',''));
+        }
         tr.appendChild(M.aE('th',null,null,'Sun'));
         tr.appendChild(M.aE('th',null,null,'Mon'));
         tr.appendChild(M.aE('th',null,null,'Tue'));
@@ -6476,7 +6519,9 @@ M.panel.prototype.generateMultiWeekScheduleTable = function(s, cl, data, sdate, 
         tr.appendChild(M.aE('th',null,null,'Fri'));
         tr.appendChild(M.aE('th',null,null,'Sat'));
     } else {
-        tr.appendChild(M.aE('th',null,'monthlabel',''));
+        if( month == null ) {
+            tr.appendChild(M.aE('th',null,'monthlabel',''));
+        }
         tr.appendChild(M.aE('th',null,null,'Sunday'));
         tr.appendChild(M.aE('th',null,null,'Monday'));
         tr.appendChild(M.aE('th',null,null,'Tuesday'));
@@ -6494,20 +6539,33 @@ M.panel.prototype.generateMultiWeekScheduleTable = function(s, cl, data, sdate, 
     var tb = M.aE('tbody');
     col = 0;
     var tr = M.aE('tr');
-    tr.appendChild(M.aE('td',null,'monthlabel','<span>' + M.monthOfYear(cur_date) + '</span>'));
+    if( month == null ) {
+        tr.appendChild(M.aE('td',null,'monthlabel','<span>' + M.monthOfYear(cur_date) + '</span>'));
+    }
+
     while(cur_date <= edate) {
         var cds = cur_date.toISOString().substring(0,10);
         if( col >= 7 ) { 
             col = 0; 
             tb.appendChild(tr);
             tr = M.aE('tr');
-            tr.appendChild(M.aE('td',null,'monthlabel','<span>' + M.monthOfYear(cur_date) + '</span>'));
+            if( month == null ) {
+                tr.appendChild(M.aE('td',null,'monthlabel','<span>' + M.monthOfYear(cur_date) + '</span>'));
+            }
         }
         
         var c = M.aE('td');
         if( this.newFn != null ) {
             c.setAttribute('onclick', 'event.stopPropagation(); ' + this.newFn(cds));
             c.className += ' clickable';
+        }
+
+        if( month != null ) {
+            if( (month == 0 && cur_date.getMonth() == 11) || (month > 0 && (cur_date.getMonth()+1) == month) ) {
+                c.className += ' prevmonth';
+            } else if( (month == 11 && cur_date.getMonth() == 0) || (month < 11 && cur_date.getMonth()-1) == month ) {
+                c.className += ' nextmonth';
+            }
         }
 
         //

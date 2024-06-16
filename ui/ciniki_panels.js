@@ -5507,7 +5507,6 @@ M.panel.prototype.setFieldValue = function(field, v, vnum, hide, nM, action) {
         M.gE(this.panelUID + '_' + field + sFN).value = v;
         this.updateImgPreview(field + sFN, v);
     } else if( f.type == 'file_id' ) {
-        console.log('set file value: ' + v);
         M.gE(this.panelUID + '_' + field + sFN).value = v;
     } else if( f.type == 'audio_id' ) {
         M.gE(this.panelUID + '_' + field + sFN).value = v;

@@ -655,8 +655,62 @@ M.panel.prototype.createSection = function(i, s) {
             } else {
                 c.setAttribute('onclick', s.addFn);
             }
-            lE.appendChild(c);
+            var e = M.aE('div',null,'textbuttons');
+            e.appendChild(c);
+                
+            lE.appendChild(e);
         }
+    }
+
+    //
+    // Add the text buttons
+    //
+    if( lE != null && s.topbuttons != null ) {
+        var btns = M.aE('div', null, 'textbuttons');
+        for(var j in s.topbuttons) {
+            if( s.topbuttons[j].visible != null && typeof s.topbuttons[j].visible == 'function' 
+                && s.topbuttons[j].visible() != 'yes'
+                ) {
+                continue; 
+            }
+            var btn = M.aE('span',null, 'button', s.topbuttons[j].label, s.topbuttons[j].fn);
+            if( s.topbuttons[j].alt != null ) {
+                btn.setAttribute('title', s.topbuttons[j].alt);
+            }
+            btns.appendChild(btn);
+        }
+        lE.appendChild(btns);
+    }
+
+    //
+    // Add the icon buttons
+    //
+    if( lE != null && s.topicons != null ) {
+        var btns = M.aE('div', null, 'fabuttons');
+        for(var j in s.topicons) {
+            if( s.topicons[j].visible != null && typeof s.topicons[j].visible == 'function' 
+                && s.topicons[j].visible() != 'yes'
+                ) {
+                continue; 
+            }
+            var icn = '';
+            var lbl = '';
+            switch(j) {
+                case 'add': icn = '&#xf067;'; lbl = 'Add'; break;
+                case 'edit': icn = '&#xf040;'; lbl = 'Edit'; break;
+                case 'delete': icn = '&#xf1f8;'; lbl = 'Delete'; break;
+                case 'remove': icn = '&#xf068;'; lbl = 'Remove'; break;
+            }
+            if( s.topicons[j].icon != null ) {
+                icn = s.topicons[j].icon;
+            }
+            if( s.topicons[j].label != null ) {
+                lbl = s.topicons[j].label;
+            }
+            var btn = M.aE('span',null, 'faicon', icn, s.topicons[j].fn);
+            btns.appendChild(btn);
+        }
+        lE.appendChild(btns);
     }
 
     //

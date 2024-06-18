@@ -645,7 +645,10 @@ M.addSectionLabel = function(t, c, j) {
     if( j != null && j != '' ) {
         h.setAttribute('onclick', j);
     }
-    return h;
+    var d = M.aE('div',null,'sectionlabel');
+    d.appendChild(h);
+
+    return d;
 }
 
 //

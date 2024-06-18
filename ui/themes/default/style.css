@@ -387,6 +387,66 @@ span.count {
     text-align: center;
 }
 
+div.sectionlabel {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+div.sectionlabel h2 {
+    margin: 0;
+    padding: 0.2rem 0.5rem;
+}
+div.sectionlabel .textbuttons {
+    padding: 0.3rem 0.5rem;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    gap: 0.4rem;
+    padding-right: 0.6rem;
+}
+div.sectionlabel .textbuttons .button {
+    display: inline-block;
+    padding: 0.4rem 0.75rem;
+    color: #555;
+    cursor: pointer;
+    font-size: 0.9rem;
+    border: 1px solid #bbb;
+    border-radius: 3px;
+    background: linear-gradient(0deg, #ddd, #eee);
+}
+div.sectionlabel .fabuttons {
+    display: flex;
+    flex-flow: row nowrap;
+    gap: 0.25rem;
+    justify-content: right;
+    padding: 0.25rem 0.6rem 0.25rem 0.5rem;
+    border-left: 1px solid #ddd;
+    border-top: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-radius: 3px;
+    background: #fff;
+    margin-right: 0.5rem;
+}
+div.sectionlabel .fabuttons .faicon {
+    display: inline-block;
+    padding: 0.2rem 0.3rem;
+    cursor: pointer;
+    color: #999;
+/*    border: 1px solid #bbb;
+    border-radius: 3px;
+    background: linear-gradient(0deg, #bbb, #eee); 
+    background: linear-gradient(0deg, #e0e0e0, #f0f0f0);  */
+}
+
+div.sectionlabel span.addlink {
+    display: block;
+    font-size: 0.8em;
+    color: #555;
+    text-align: right;
+    padding-bottom: 0.15rem;
+}
+
 table.list th span.count,
 table.list td span.count {
     font-size: 0.7em;
@@ -2810,6 +2870,16 @@ table.form > tbody > tr > td div.buttons {
 table.form > tbody > tr > td div.imagebuttons {
     text-align: center;
 }
+table.form td.multitoggle div span.toggle_on,
+table.form td.multitoggle div span.toggle_off,
+table.form > tbody > tr > td div.imagebuttons span {
+    border-right: 0px;
+}
+table.form td.multitoggle div span.toggle_on:last-child,
+table.form td.multitoggle div span.toggle_off:last-child,
+table.form > tbody > tr > td div.imagebuttons span.toggle_off:last-child {
+    border-right: 1px solid #bbb;
+}
 
 table.form > tbody > tr > td div.nopadbuttons {
     padding-left: 0em;
@@ -2851,12 +2921,27 @@ table.paneltabs td.joinedtabs div span.toggle_off,
 table.form td div span.toggle_on,
 table.form td div span.toggle_off {
     display: inline-block;
-    border: 1px solid #aaa;
+    border: 1px solid #bbb;
     padding: 0.4em 0.5em 0.4em 0.5em;
     margin: 0.25em 0 0.25em 0;
     padding: 0.5em 0.6em;
     cursor: pointer;
     font-size: 0.9em;
+    border-right: 0px;
+}
+table.form td.tags span.rbutton_on:last-child,
+table.form td.tags span.rbutton_off:last-child,
+table.form td.flags span.flag_on:last-child,
+table.form td.flags span.flag_off:last-child, 
+table.form td.joinedflags span.flag_on:last-child,
+table.form td.joinedflags span.flag_off:last-child, 
+table.menutabs td.joinedtabs div span.toggle_on:last-child,
+table.menutabs td.joinedtabs div span.toggle_off:last-child,
+table.paneltabs td.joinedtabs div span.toggle_on:last-child,
+table.paneltabs td.joinedtabs div span.toggle_off:last-child,
+table.form td div span.toggle_on:last-child,
+table.form td div span.toggle_off:last-child {
+    border-right: 1px solid #bbb;
 }
 
 table td.tags span.rbutton_on,
@@ -3648,16 +3733,6 @@ div.xhelp-on tr.xhelp-text td p {
     padding: 0.5em;
     background-color: rgba(255,253,213,1.0);
 }
-
-div.flexcolumn span.addlink,
-div.panelcolumn span.addlink,
-div.panelsection span.addlink {
-    float: right;
-    padding: 0.2em 0.5em 0em 0.5em;
-    font-size: 0.8em;
-    color: #777;
-}
-
 
 /**************  MOSSi App Styles **************/
 #mc_apps {

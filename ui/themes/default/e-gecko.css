@@ -80,11 +80,10 @@ table.list > tbody > tr > td.label {
 }
 
 a.fabutton, button, input.button {
-    border: 1px solid #ddd;
     border-radius: 3px;
-    background: -moz-linear-gradient(top, #eee, #bbb);
+    background: -moz-linear-gradient(top, #eee, #ccc);
     padding: 5px 15px 5px 15px;
-    border: 1px solid #aaa;
+    border: 1px solid #bbb;
     color: #555;
 }
 a.fabutton {
@@ -96,9 +95,9 @@ table.form > tbody > tr > td.button,
 table.simplebuttons > tbody > tr > td.button {
     background: #eee;
     background: -moz-linear-gradient(top, #999, #555); 
-    background: -moz-linear-gradient(top, #eee, #bbb); 
+    background: -moz-linear-gradient(top, #eee, #ccc); 
     text-decoration: none; 
-    border-color: #aaa !important;
+    border-color: #bbb !important;
 /*    border: 1px solid #999 !important; */
     color: #555;
     padding: 0.5em;
@@ -168,7 +167,7 @@ table.form span.flag_on {
     background: -moz-linear-gradient(top, #026b28, #18a023);
     /* box-shadow: inset 1px 1px 0px 0px #555; */
     color: #fff;
-    border: 1px solid #aaa;
+    border: 1px solid #bbb;
 }
 
 table.paneltabs td.joinedtabs div span.toggle_on,
@@ -187,9 +186,9 @@ span.button_off,
 span.rbutton_off,
 table.form td div span.toggle_off,
 table.form span.flag_off {
-    background: -moz-linear-gradient(top, #eee, #bbb);
+    background: -moz-linear-gradient(top, #eee, #ccc);
     color: #555;
-    border: 1px solid #aaa;
+    border: 1px solid #bbb;
 }
 table.form span.fabutton_on,
 table.form span.fabutton_off {

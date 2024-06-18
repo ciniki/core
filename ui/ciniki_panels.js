@@ -681,6 +681,27 @@ M.panel.prototype.createSection = function(i, s) {
         }
         lE.appendChild(btns);
     }
+    //
+    // Add the customer buttons
+    //
+    if( lE != null && (s.customer_buttons == null || s.customer_buttons == 'yes') && s.customer_id != null ) {
+        var btns = M.aE('div', null, 'textbuttons');
+        var ctype = s.customer_type != null ? s.customer_type : 'customer';
+        if( s.customer_id == 0 ) {
+            var btn = M.aE('span',null, 'button', 'Add', this.panelRef + '.customerOpen(\'' + i + '\');');
+            btn.setAttribute('title', 'Add new ' + ctype + ' or attach an existing ' + ctype);
+            btns.appendChild(btn);
+        }
+        if( s.customer_id > 0 ) {
+            var btn = M.aE('span',null, 'button', 'Edit', this.panelRef + '.customerOpen(\'' + i + '\');');
+            btn.setAttribute('title', 'Fix any typos or update contact information');
+            btns.appendChild(btn);
+            var btn = M.aE('span',null, 'button', 'Remove', this.panelRef + '.customerRemove(\'' + i + '\');');
+            btn.setAttribute('title', 'Detach the ' + ctype + ', this will not delete the ' + ctype + ' record');
+            btns.appendChild(btn);
+        }
+        lE.appendChild(btns);
+    }
 
     //
     // Add the icon buttons
@@ -734,7 +755,7 @@ M.panel.prototype.createSection = function(i, s) {
         st = this.createSimpleButtons(i, s.buttons, 'no');
     } else if( type == 'livesearchgrid' ) {
         st = this.createLiveSearchGrid(i, s);
-    } else if( type == 'simplegrid' ) {
+    } else if( type == 'simplegrid' || type == 'customer' ) {
         if( s.visible == null || (s.visible != null && s.visible != 'no') ) {
             st = this.createSectionGrid(i);
             tid = st.childNodes[0].id;
@@ -6871,6 +6892,15 @@ M.panel.prototype.serializeForm = function(fs) {
             }
         }
         //
+        // Check if customer details section
+        //
+        else if( s.type == 'customer' && s.customer_id != null && s.customer_field != null ) {
+            var o = this.fieldValue(i, s.customer_field);
+            if( o != s.customer_id || fs == 'yes' ) {
+                c += encodeURIComponent(s.customer_field) + '=' + encodeURIComponent(s.customer_id) + '&';
+            }
+        }
+        //
         // All non-grid elements
         //
         else {
@@ -7009,6 +7039,15 @@ M.panel.prototype.serializeFormSection = function(fs, i, nM) {
         var n = s.selected;
         if( o != n || fs == 'yes' ) {
             c += encodeURIComponent(s.field_id) + '=' + encodeURIComponent(s.selected) + '&';
+        }
+    }
+    //
+    // Check if customer details section
+    //
+    else if( s.type == 'customer' && s.customer_id != null && s.customer_field != null ) {
+        var o = this.fieldValue(i, s.customer_field);
+        if( o != s.customer_id || fs == 'yes' ) {
+            c += encodeURIComponent(s.customer_field) + '=' + encodeURIComponent(s.customer_id) + '&';
         }
     }
     //
@@ -7185,6 +7224,16 @@ M.panel.prototype.serializeFormData = function(fs) {
 //      if( s.type != null && s.type == 'paneltabs' && s.field_id != null && s.selected != null ) {
 //          c += encodeURIComponent(s.field_id) + '=' + encodeURIComponent(s.selected) + '&';
 //      }
+        //
+        // Check if customer details section
+        //
+        else if( s.type == 'customer' && s.customer_id != null && s.customer_field != null ) {
+            var o = this.fieldValue(i, s.customer_field);
+            if( o != s.customer_id || fs == 'yes' ) {
+                c.append(s.customer_field, s.customer_id);
+                count++;
+            }
+        }
     
         //
         // All non-grid elements
@@ -8074,3 +8123,48 @@ M.panel.prototype.rotateImg = function(fid, dir) {
             p.updateImgPreview(fid, iid);
         });
 };
+
+M.panel.prototype.customerOpen = function(s) {
+    this._customerSection = s;
+    if( this.sections[s].customer_id > 0 ) {
+        M.startApp('ciniki.customers.edit',null,this.panelRef + '.customerUpdate();','mc',{
+            'customer_id':this.sections[s].customer_id,
+            });
+    } else {
+        M.startApp('ciniki.customers.edit',null,this.panelRef + '.customerUpdate();','mc',{
+            'customer_id':this.sections[s].customer_id,
+            'next':this.panelRef + '.customerUpdate',
+            });
+    }
+}
+M.panel.prototype.customerUpdate = function(cid) {
+    if( cid != null ) { 
+        this.sections[this._customerSection].customer_id = cid; 
+    }
+    if( this.sections[this._customerSection].customer_args != null ) {
+        var args = this.sections[this._customerSection].customer_args;
+    } else {
+        var args = {'emails':'yes', 'phones':'yes', 'addresses':'yes', 'membership':'yes'};
+    }
+    args['tnid'] = M.curTenantID;
+    args['customer_id'] = this.sections[this._customerSection].customer_id;
+    var p = this;
+    if( args['customer_id'] > 0 ) {
+        M.api.getJSONCb('ciniki.customers.details', args, function(rsp) {
+            if( rsp.stat != 'ok' ) {
+                M.api.err(rsp);
+                return false;
+            }
+            p.data[p._customerSection] = rsp.details;
+            p.refreshSection(p._customerSection);
+            p.show();
+            });
+    } else {
+        p.show();
+    }
+}
+M.panel.prototype.customerRemove = function(s) {
+    this.sections[s].customer_id = 0;
+    this.data[s] = {};
+    this.refreshSection(s);
+}

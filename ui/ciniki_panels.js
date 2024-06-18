@@ -794,7 +794,8 @@ M.panel.prototype.createSection = function(i, s) {
     // Check if section is collapsable
     //
     if( tid != null && tid != '' && lE != null && s.collapsable != null && s.collapsable == 'yes' ) {
-        lE.className = 'clickable';
+//        lE.className = 'clickable';
+        lE.classList.add('clickable');
         lE.setAttribute('onclick', this.panelRef + '.toggleSection(this, \'' + i + '\');');
         f.classList.add('collapsable');
         if( s.collapse != null && ((M.size == 'compact' && s.collapse == 'compact') || s.collapse == 'all') && (s.collapsed == null || s.collapsed == 'yes') ) {

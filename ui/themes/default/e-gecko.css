@@ -178,7 +178,7 @@ table.form td div span.toggle_on,
 table.form td div span.toggle_off {
 /*    padding: 0.4em 0.5em 0.4em 0.5em; */
     /* Em was giving weird border issues */
-    padding: 6px 7px;
+/*    padding: 6px 7px; */
 }
 
 span.fabutton_off,

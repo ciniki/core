@@ -411,7 +411,7 @@ div.sectionlabel.buttons {
 }
 div.sectionlabel h2 {
     margin: 0;
-    padding: 0.6rem 0.5rem 0.5rem 0.5rem;
+    padding: 0.7rem 0.5rem 0.6rem 0.5rem;
     color: #222;
 }
 div.sectionlabel.buttons h2 {
@@ -427,7 +427,7 @@ div.sectionlabel .textbuttons {
 }
 div.sectionlabel .textbuttons .button {
     display: inline-block;
-    padding: 0.25rem 0.75rem;
+    padding: 0.4rem 0.75rem;
     color: #333;
     cursor: pointer;
     font-size: 0.9rem;
@@ -468,7 +468,7 @@ div.sectionlabel span.addlink {
 /*    border: 1px solid #bbb;
     border-radius: 3px;
     background: linear-gradient(0deg, #aaa, #ccc);  */
-    padding: 0.25rem 0.75rem;
+    padding: 0.4rem 0.75rem;
 }
 
 table.list th span.count,

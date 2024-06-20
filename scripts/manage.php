@@ -478,6 +478,9 @@ if( $minimized == 'yes' && file_exists("$themes_root/default/$device-$engine.min
     if( file_exists("$themes_root/default/d-$device-$engine.css") ) { 
         print "<link rel='stylesheet' type='text/css' href='$manage_themes/default/d-$device-$engine.css?ts=$ts' />\n";
     }
+    if( file_exists("$themes_root/default/new.css") ) { 
+        print "<link rel='stylesheet' type='text/css' href='$manage_themes/default/new.css?ts=$ts' />\n";
+    }
 }
 //
 // Check for default tenant colours

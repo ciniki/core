@@ -354,6 +354,7 @@ h2 {
     box-sizing: border-box;
     display: block;
     font-size: 1.1em;
+    font-size: 1em;
     font-weight: normal;
     text-align: left;
     padding: 0.5em 0em 0.2em 0.5em;
@@ -380,7 +381,7 @@ span.count {
     color: #777;
     background: #eee;
     display: inline-block;
-    border: 1px solid #bbb;
+    border: 1px solid #ccc;
     padding: 0.2em 0.4em 0.2em 0.4em;
     margin: 0px;
     min-width: 1em;
@@ -391,24 +392,43 @@ div.sectionlabel {
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
-    align-items: flex-end;
+    align-items: center;
+    background: #e0e0e0;
+    background: #ccc;
+    border-left: 1px solid #ccc;
+    border-top: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    border-top-left-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
+    margin-left: 0.25rem;
+    margin-right: 0.25rem;
+}
+div.sectionlabel.buttons {
+/*    background: #595d75;
+    color: #fff;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px; */
 }
 div.sectionlabel h2 {
     margin: 0;
-    padding: 0.2rem 0.5rem;
+    padding: 0.5rem 0.5rem 0.4rem 0.5rem;
+    color: #222;
+}
+div.sectionlabel.buttons h2 {
+/*    color: #fff; */
+/*    padding-bottom: 0.4rem; */
 }
 div.sectionlabel .textbuttons {
-    padding: 0.3rem 0.5rem;
+    padding: 0.25rem 0.6rem 0.25rem 0.5rem;
     display: flex;
     flex-flow: row nowrap;
     align-items: center;
     gap: 0.4rem;
-    padding-right: 0.6rem;
 }
 div.sectionlabel .textbuttons .button {
     display: inline-block;
-    padding: 0.4rem 0.75rem;
-    color: #555;
+    padding: 0.25rem 0.75rem;
+    color: #333;
     cursor: pointer;
     font-size: 0.9rem;
     border: 1px solid #bbb;
@@ -421,18 +441,18 @@ div.sectionlabel .fabuttons {
     gap: 0.25rem;
     justify-content: right;
     padding: 0.25rem 0.6rem 0.25rem 0.5rem;
-    border-left: 1px solid #ddd;
+/*    border-left: 1px solid #ddd;
     border-top: 1px solid #ddd;
     border-right: 1px solid #ddd;
     border-radius: 3px;
     background: #fff;
-    margin-right: 0.5rem;
+    margin-right: 0.5rem; */
 }
-div.sectionlabel .fabuttons .faicon {
+div.sectionlabel .faicon {
     display: inline-block;
     padding: 0.2rem 0.3rem;
     cursor: pointer;
-    color: #999;
+    color: #777;
 /*    border: 1px solid #bbb;
     border-radius: 3px;
     background: linear-gradient(0deg, #bbb, #eee); 
@@ -441,10 +461,14 @@ div.sectionlabel .fabuttons .faicon {
 
 div.sectionlabel span.addlink {
     display: block;
-    font-size: 0.8em;
-    color: #555;
+    font-size: 0.9em;
+    color: #111;
     text-align: right;
     padding-bottom: 0.15rem;
+/*    border: 1px solid #bbb;
+    border-radius: 3px;
+    background: linear-gradient(0deg, #aaa, #ccc);  */
+    padding: 0.25rem 0.75rem;
 }
 
 table.list th span.count,
@@ -631,6 +655,7 @@ table.form.select td.input select {
     background-position-y: center;
 }
 
+table.imageform,
 table.outline {
     border: 1px solid #ccc;
     padding: 0.1em 0.1em 0.1em 0.1em;
@@ -715,7 +740,7 @@ table.border.searchresults > thead:first-child > tr:first-child > td,
 table.border.searchresults > tbody:first-child > tr:first-child > td,
 table.border.searchresults > tfoot:first-child > tr:first-child > th,
 table.border.searchresults > tfoot:first-child > tr:first-child > td {
-    border-top: 1px solid #777;
+    border-top: 1px solid #bbb;
 }
 
 table.border.searchresults > thead:last-child > tr:last-child > th,
@@ -723,14 +748,14 @@ table.border.searchresults > thead:last-child > tr:last-child > td,
 table.border.searchresults > tbody:last-child > tr:last-child > td,
 table.border.searchresults > tfoot:last-child > tr:last-child > th,
 table.border.searchresults > tfoot:last-child > tr:last-child > td {
-    border-bottom: 1px solid #777;
+    border-bottom: 1px solid #bbb;
 }
 table.border.searchresults > thead > tr > th:first-child,
 table.border.searchresults > thead > tr > td:first-child,
 table.border.searchresults > tfoot > tr > th:first-child,
 table.border.searchresults > tfoot > tr > td:first-child,
 table.border.searchresults > tbody > tr > td:first-child {
-    border-left: 1px solid #777;
+    border-left: 1px solid #bbb;
 }
 
 table.border.searchresults > thead > tr > th:last-child,
@@ -738,15 +763,8 @@ table.border.searchresults > thead > tr > td:last-child,
 table.border.searchresults > tfoot > tr > th:last-child,
 table.border.searchresults > tfoot > tr > td:last-child,
 table.border.searchresults > tbody > tr > td:last-child {
-    border-right: 1px solid #777;
+    border-right: 1px solid #bbb;
 }
-/* --remove nov 14, 2013
-table.border > thead > tr > th:last-child,
-table.border > tfoot > tr > td:last-child,
-table.border > tbody > tr > td:last-child {
-    border-right: 1px solid #bbb; 
-    border-right: 0px; 
-} */
 
 table.list > thead > tr > td,
 table.list > tbody > tr > td,
@@ -787,12 +805,12 @@ table.list > tfoot > tr > th,
 table.list > thead > tr > th {
     padding: 0.7em 0.5em;
     background: #eee;
-    color: #555;
+    color: #111;
     font-weight: normal;
 }
 
 table.border > thead > tr > th {
-    border-bottom: 1px solid #bbb;
+    border-bottom: 1px solid #ccc;
 }
 
 table.list > tbody > tr > td.noborder,
@@ -886,8 +904,8 @@ table.list > tbody > tr > td.buttons span.faicon {
 }
 
 table.border tr > td.label {
-    border-left: 1px solid #bbb;    
-    border-right: 0px solid #bbb;   
+    border-left: 1px solid #ccc;    
+    border-right: 0px solid #ccc;   
     vertical-align: top;
 }
 
@@ -903,8 +921,9 @@ div.large table.list tr.textfield > td.label {
 
 table.imageform {
     width: 100%;
-    border: 0px;
-    padding: 0px;
+/*    border: 0px;
+    padding: 0px; */
+    border: 1px solid #ccc;
 }
 
 table.form tr.textfield > td.label > label {
@@ -976,6 +995,15 @@ table.simplegrid td.flexlabel {
     white-space: nowrap;
 }
 
+div.simplebuttons {
+    margin-bottom: 1rem;
+}
+div.panel-simplebuttons.panel-sectionlabel div.simplebuttons {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
 table.form td.button,
 table.simplebuttons td.button {
     text-align: center; 
@@ -1004,21 +1032,19 @@ div.simplebuttons.halfsize {
     flex-wrap: wrap;
     justify-content: space-between;
     gap: 0.5rem;
-    margin-bottom: 0.5em;
 }
 div.simplebuttons.halfsize table.list.simplebuttons {
-    width: 49%;
-    flex-basis: 49%;
+    width: 45%;
+    flex-basis: 45%;
     margin-bottom: 0em;
     flex-grow: 1;
-    min-width: 15rem;
+    min-width: 10rem;
 }
 div.simplebuttons.thirdsize {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-between;
-    margin-bottom: 0.5em;
     gap: 0.5rem;
 }
 div.simplebuttons.thirdsize table.list.simplebuttons {
@@ -1033,7 +1059,6 @@ div.simplebuttons.flexsize {
     flex-flow: row wrap;
     justify-content: space-between;
     gap: 0.5rem;
-    margin-bottom: 0.5em;
 }
 div.simplebuttons.flexsize table.list.simplebuttons {
     flex-basis: auto;
@@ -1046,7 +1071,7 @@ div.simplebuttons.flexsize table.list.simplebuttons {
 }
 
 table.border tr.textfield > td.hidelabel {
-    border-left: 1px solid #bbb;    
+    border-left: 1px solid #ccc;    
     border-right: 0px;
 }
 
@@ -1073,6 +1098,7 @@ table.list tr > td.input {
     margin: 0px;
     vertical-align: middle;
 }
+table.imageform tr > td.input,
 table.outline tr > td.input {
     font-size: 1em;
     width: 100%;
@@ -1089,10 +1115,10 @@ table.form.simplegrid tr > td.input input.alignright {
     padding-right: 0.4em;
 }
 
-table.imageform tr > td.input {
+/*table.imageform tr > td.input {
     padding: 0;
     width: 100%;
-}
+} */
 
 table.simplelist tr > td.input {
     width: 50%;
@@ -1792,10 +1818,10 @@ table.list table.searchresults {
 }
 
 table.list table.searchresults tr td:first-child {
-    border-left: 1px solid #777; 
+    border-left: 1px solid #bbb; 
 }
 table.list table.searchresults tr td:last-child {
-    border-right: 1px solid #777; 
+    border-right: 1px solid #bbb; 
 }
 table.list table.searchresults tr td {
     border-bottom: 1px solid #bbb; 
@@ -2024,7 +2050,7 @@ table.form td.input div.image_preview img {
     max-width: 95%;
 }
 table.form.imageform td.input div.image_preview img {
-    border: 1px solid #ddd; 
+/*    border: 1px solid #ddd;  */
 }
 table.simplegrid div.image_preview {
     text-align: center;
@@ -2642,13 +2668,22 @@ table.metricsgraphics .mg-year-marker-small text {
 div.media {
     display: block;
     text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    background: #fff;
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    gap: 0.5rem;
 }
 
 div.media div.media_thumb {
     border: 0px solid red;
     display: inline-block;
-    margin: 0.1em;
-    padding: 0.3em;
+/*    margin: 0.1em;
+    padding: 0.3em; */
 }
 
 div.media div div.imgwrap {
@@ -2838,7 +2873,7 @@ table.form > tbody > tr > td.multiselect,
 table.form > tbody > tr > td.multitoggle,
 table.form > tbody > tr > td.joinedflags,
 table.form > tbody > tr > td.flags {
-    padding: 0.2em 0.25em 0.1em 0.2em;
+    padding: 0em 0.25em 0em 0.25em;
 }
 /*
 table.form:not(paneltabs) > tbody > tr:first-child > td.multiselect,
@@ -2889,6 +2924,12 @@ table.form > tbody > tr > td.multiselect div,
 table.form > tbody > tr > td.multitoggle div {
     display: inline-block;
 }
+table.form > tbody > tr > td.multiselect div {
+    display: flex;
+    flex-flow: row wrap;
+    gap: 0.5rem;
+    padding: 0.25rem 0rem;
+}
 
 table.form > tbody > tr > td.multiselect span.hint,
 table.form > tbody > tr > td.multitoggle span.hint {
@@ -2929,6 +2970,12 @@ table.form td div span.toggle_off {
     font-size: 0.9em;
     border-right: 0px;
 }
+table.form tr.tags td.multiselect div span.rbutton_on,
+table.form tr.tags td.multiselect div span.rbutton_off,
+table.form tr.tags td.multiselect div span.toggle_on,
+table.form tr.tags td.multiselect div span.toggle_off {
+    margin: 0 0 0 0;
+}
 table.form td.tags span.rbutton_on:last-child,
 table.form td.tags span.rbutton_off:last-child,
 table.form td.flags span.flag_on:last-child,
@@ -2963,9 +3010,7 @@ table.form tr.toggle td.multiselect div span.toggle_off,
 table.form tr.multiselect div span.toggle_on,
 table.form tr.multiselect div span.toggle_off,
 table.form tr.collection div span.toggle_on,
-table.form tr.collection div span.toggle_off,
-table.form tr.tags div span.toggle_on,
-table.form tr.tags div span.toggle_off {
+table.form tr.collection div span.toggle_off {
     margin-right: 0.5em;
 }
 
@@ -3026,6 +3071,8 @@ table.form tr td input.image_uploader {
     margin: 0px;
     overflow: hidden;
     visibility: hidden;
+    position: absolute;
+    opacity: 0;
 }
 
 table.form tr td input.file_uploader {
@@ -3039,6 +3086,7 @@ table.form tr td input.file_uploader {
     visibility: hidden;
     display: none;
 }
+table.imageform:not(paneltabs),
 table.outline:not(paneltabs) {
     padding: 0.3em;
 }
@@ -3304,9 +3352,9 @@ table.dayschedule p.size_16 { height: 5.0em; }
 table.dayschedule p.size_24 { height: 6.0em; }
 
 table.mwschedule {
-    border-left: 1px solid #bbb;
-    border-top: 1px solid #bbb;
-    border-bottom: 1px solid #bbb;
+    border-left: 1px solid #ccc;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
 }
 
 table.mwschedule > thead > tr > th {
@@ -3314,15 +3362,15 @@ table.mwschedule > thead > tr > th {
     text-align: center;
     overflow: hidden;
     padding: 0.2em;
-    border-right: 1px solid #bbb;
-    border-bottom: 1px solid #bbb;
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
 }
 
 table.mwschedule > tbody > tr > td {
     background: #ffffff;
     vertical-align: top;
-    border-right: 1px solid #bbb;
-    border-bottom: 1px solid #bbb;
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
     padding: 0px;
     margin: 0px;
     height: 8em;
@@ -3330,8 +3378,8 @@ table.mwschedule > tbody > tr > td {
 
 table.mwschedule div span.day {
     display: inline-block;
-    border-bottom: 1px solid #bbb;
-    border-right: 1px solid #bbb;
+    border-bottom: 1px solid #ccc;
+    border-right: 1px solid #ccc;
     padding: 0.25em;
     width: 1.2em;
     text-align: center;
@@ -4001,6 +4049,44 @@ div.xhelp-on tr.xhelp-text td p {
     padding-left: 0px;
     padding-right: 0px;
 }
+#m_popupmenu {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+/*    height: 100%; */
+    background: rgba(0,0,0,0.1); 
+/*    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center; */
+}
+#m_popupmenu .wrap {
+    display: inline-block;
+    position: absolute;
+    background: #fff;
+    border: 1px solid #ddd;
+    padding: 1rem;
+    border-radius: 0.25rem;
+    box-shadow: 1px 1px 5px #555;
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 1rem;
+}
+#m_popupmenu .button {
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+    background: linear-gradient(0deg, #ccc, #eee);
+    border: 1px solid #bbb;
+    border-radius: 3px;
+    min-width: 15rem;
+}
+#m_popupmenu .button:last-child {
+    border-bottom: 0px;
+    margin-bottom: 0px;
+}
+
 /*
 @media (prefers-color-scheme: dark) {
     body {

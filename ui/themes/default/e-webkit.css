@@ -137,19 +137,6 @@ table.form td.flags span.flag_off {
     -webkit-border-radius: 3px;
 }
 
-div.guided-on .guided-selected table.formtabs div.buttons span {
-    -webkit-border-radius: 0px;
-}
-div.guided-on .guided-selected table.formtabs div.buttons span:first-child {
-    -webkit-border-top-left-radius: 3px;
-    -webkit-border-top-right-radius: 3px;
-}
-
-div.guided-on .guided-selected table.formtabs div.buttons span:last-child {
-    -webkit-border-bottom-left-radius: 3px;
-    -webkit-border-bottom-right-radius: 3px;
-}
-
 span.fabutton_on,
 span.button_on,
 span.rbutton_on,

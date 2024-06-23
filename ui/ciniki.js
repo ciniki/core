@@ -1829,7 +1829,6 @@ M.alert = function(msg) {
     M.show('m_alert');
     /* M.hide('m_container'); */
 }
-
 M.confirm = function(msg, btntxt, fn) {
     if( btntxt == null || btntxt == '' ) {
         btntxt = 'Ok';
@@ -1849,6 +1848,36 @@ M.confirmFn = function() {
     M.hide('m_confirm');
     var e = M.gE('m_confirm_btn');
     e.confirmFn();
+}
+M.simpleAsk = function(msg, yestxt, notxt, fn) {
+    if( yestxt == null || yestxt == '' ) {
+        yestxt = 'Yes';
+    }
+    if( notxt == null || notxt == '' ) {
+        notxt = 'No';
+    }
+    var e = M.gE('m_ask');
+    e.askFn = fn;
+    var e = M.gE('m_ask_msg');
+    e.innerHTML = '<tr><td>' + msg + '</td></tr>';
+    var e = M.gE('m_ask_yesbtn');
+    e.innerHTML = '';
+    var td = M.aE('td', null, 'button', yestxt);
+    var tr = M.aE('tr',null,null,null,'M.simpleAskFn("yes");');
+    tr.appendChild(td);
+    e.appendChild(tr);
+    var e = M.gE('m_ask_nobtn');
+    e.innerHTML = '';
+    var td = M.aE('td', null, 'button', notxt);
+    var tr = M.aE('tr',null,null,null,'M.simpleAskFn("no");');
+    tr.appendChild(td);
+    e.appendChild(tr);
+    M.show('m_ask');
+}
+M.simpleAskFn = function(yn) {
+    M.hide('m_ask');
+    var e = M.gE('m_ask');
+    e.askFn(yn);
 }
 M.prompt = function(msg, v, btntxt, fn) {
     if( btntxt == null || btntxt == '' ) {

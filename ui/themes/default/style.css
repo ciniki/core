@@ -22,6 +22,9 @@ html {
     box-sizing: border-box;
     -webkit-text-size-adjust: 100%; /* Prevent font scaling in landscape while allowing user zoom */
 }
+body {
+    font-family: arial, helvetica, sans-serif;
+}
 .screen-reader {
     display: inline-block;
     border: 0;
@@ -457,6 +460,10 @@ div.sectionlabel .faicon {
     border-radius: 3px;
     background: linear-gradient(0deg, #bbb, #eee); 
     background: linear-gradient(0deg, #e0e0e0, #f0f0f0);  */
+}
+div.sectionlabel .faicon.menu-icon {
+    width: 1.5rem;
+    padding-right: 0rem;
 }
 
 div.sectionlabel span.addlink {
@@ -1002,6 +1009,13 @@ div.panel-simplebuttons.panel-sectionlabel div.simplebuttons {
     padding: 0.5rem;
     border: 1px solid #ccc;
     border-radius: 3px;
+    background: #fff;
+}
+div.panel-simplebuttons.panel-sectionlabel div.simplebuttons table.simplebuttons {
+    margin-bottom: 0.5rem;
+}
+div.panel-simplebuttons.panel-sectionlabel div.simplebuttons table.simplebuttons:last-child {
+    margin-bottom: 0px;
 }
 
 table.form td.button,
@@ -3791,6 +3805,7 @@ div.xhelp-on tr.xhelp-text td p {
 /********** Error screen ********/
 #m_error,
 #m_confirm,
+#m_ask,
 #m_prompt,
 #m_processing,
 #m_alert {
@@ -3807,6 +3822,7 @@ div.xhelp-on tr.xhelp-text td p {
 }
 #me_content,
 #m_confirm_content,
+#m_ask_content,
 #m_prompt_content,
 #m_processing_content,
 #m_alert_content {
@@ -3817,6 +3833,7 @@ div.xhelp-on tr.xhelp-text td p {
 }
 #me_content #mc_content_wrap,
 #m_confirm_content #mc_content_wrap,
+#m_ask_content #mc_content_wrap,
 #m_prompt_content #mc_content_wrap,
 #m_processing_content #mc_content_wrap,
 #m_alert_content #mc_content_wrap {
@@ -3832,6 +3849,7 @@ div.xhelp-on tr.xhelp-text td p {
 @media screen and (min-width: 40em) {
     #me_content #mc_content_wrap,
     #m_confirm_content #mc_content_wrap,
+    #m_ask_content #mc_content_wrap,
     #m_prompt_content #mc_content_wrap,
     #m_processing_content #mc_content_wrap,
     #m_alert_content #mc_content_wrap {
@@ -3839,6 +3857,7 @@ div.xhelp-on tr.xhelp-text td p {
     }
 }
 #m_confirm_content #m_confirm_msg td,
+#m_ask_content #m_ask_msg td,
 #m_processing_content #m_alert_msg td,
 #m_alert_content #m_alert_msg td {
     padding: 1.0em 0.5em;
@@ -4049,7 +4068,7 @@ div.xhelp-on tr.xhelp-text td p {
     padding-left: 0px;
     padding-right: 0px;
 }
-#m_popupmenu {
+.popupmenu {
     position: absolute;
     top: 0;
     left: 0;
@@ -4061,7 +4080,7 @@ div.xhelp-on tr.xhelp-text td p {
     justify-content: center;
     align-items: center; */
 }
-#m_popupmenu .wrap {
+.popupmenu .wrap {
     display: inline-block;
     position: absolute;
     background: #fff;
@@ -4073,7 +4092,7 @@ div.xhelp-on tr.xhelp-text td p {
     flex-flow: column nowrap;
     gap: 1rem;
 }
-#m_popupmenu .button {
+.popupmenu .button {
     padding: 0.5rem 1rem;
     border-bottom: 1px solid #ddd;
     cursor: pointer;
@@ -4082,7 +4101,7 @@ div.xhelp-on tr.xhelp-text td p {
     border-radius: 3px;
     min-width: 15rem;
 }
-#m_popupmenu .button:last-child {
+.popupmenu .button:last-child {
     border-bottom: 0px;
     margin-bottom: 0px;
 }
@@ -4302,11 +4321,13 @@ div.xhelp-on tr.xhelp-text td p {
     }
     #m_error,
     #m_confirm,
+    #m_ask,
     #m_alert {
         background: rgba(70,70,70,0.75);
     }
     #me_content #mc_content_wrap,
     #m_confirm_content #mc_content_wrap,
+    #m_ask_content #mc_content_wrap,
     #m_alert_content #mc_content_wrap {
         background: #222;
         border: 1px solid #777;

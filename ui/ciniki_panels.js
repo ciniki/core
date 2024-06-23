@@ -689,26 +689,23 @@ M.panel.prototype.createSection = function(i, s) {
     //
     if( lE != null && (s.customer_buttons == null || s.customer_buttons == 'yes') && s.customer_id != null ) {
         var ctype = s.customer_type != null ? s.customer_type : 'customer';
-//        var btns = M.aE('div', null, 'textbuttons');
         var btns = M.aE('div', null, 'fabuttons');
-//        if( s.customer_id == 0 ) {
-//            var btn = M.aE('span',null, 'button', 'Add', this.panelRef + '.customerOpen(\'' + i + '\');');
-//            var btn = M.aE('span', null, 'faicon', '&#xf067;', this.panelRef + '.customerOpen(\'' + i + '\');');
-//            btn.setAttribute('title', 'Add new ' + ctype + ' or attach an existing ' + ctype);
-//            btns.appendChild(btn);
-//        }
-//        if( s.customer_id > 0 ) {
-//            var btn = M.aE('span',null, 'button', 'Edit', 'event.stopPropagation();' + this.panelRef + '.customerEditMenu(event,\'' + i + '\');');
-//            var btn = M.aE('span',null, 'faicon', '&#xf0c9;', 'event.stopPropagation();' + this.panelRef + '.customerEditMenu(event,\'' + i + '\');');
-            var btn = M.aE('span',null, 'faicon', '&#xf142;', 'event.stopPropagation();' + this.panelRef + '.customerEditMenu(event,\'' + i + '\');');
-            btn.setAttribute('title', 'Fix any typos or update contact information');
-            btns.appendChild(btn);
-//            var btn = M.aE('span',null, 'button', 'Remove', this.panelRef + '.customerRemove(\'' + i + '\');');
-//            btn.setAttribute('title', 'Detach the ' + ctype + ', this will not delete the ' + ctype + ' record');
-//            btns.appendChild(btn);
-//        }
+        var btn = M.aE('span', this.panelUID + '_' + i + '_menu_icon', 'faicon menu-icon', '&#xf142;', 'event.stopPropagation();' + this.panelRef + '.customerEditMenu(event,\'' + i + '\');');
+        btns.appendChild(btn);
         lE.classList.add('buttons');
         lE.appendChild(btns);
+    }
+    //
+    // Add menu 
+    //
+    if( lE != null && s.menu != null ) {
+        if( s.menu.visible == null || s.menu.visible() == 'yes' ) {
+            var btns = M.aE('div', null, 'fabuttons');
+            var btn = M.aE('span', this.panelUID + '_' + i + '_menu_icon', 'faicon menu-icon', '&#xf142;', 'event.stopPropagation();' + this.panelRef + '.sectionMenu(event,\'' + i + '\');');
+            btns.appendChild(btn);
+            lE.classList.add('buttons');
+            lE.appendChild(btns);
+        }
     }
 
     //
@@ -8141,29 +8138,12 @@ M.panel.prototype.customerEditMenu = function(event, s) {
     if( this.sections[s].customer_id > 0 ) {
         var o = M.aE('div', null, 'button', 'Different ' + this.sections[s].label, 'event.stopPropagation();' + this.panelRef + '.customerChange(\'' + s + '\');');
         wrap.appendChild(o);
-        var o = M.aE('div', null, 'button', 'Edit ' + this.sections[s].label + ' Details', 'event.stopPropagation();' + this.panelRef + '.customerOpen(\'' + s + '\');');
-        wrap.appendChild(o);
-        var o = M.aE('div', null, 'button', 'No ' + this.sections[s].label, 'event.stopPropagation();' + this.panelRef + '.customerRemove(\'' + s + '\');');
-        wrap.appendChild(o);
+        var o = M.aE('div', null, 'button', 'Edit ' + this.sections[s].label + ' Details', 'event.stopPropagation();' + this.panelRef + '.customerOpen(\'' + s + '\');'); wrap.appendChild(o); var o = M.aE('div', null, 'button', 'No ' + this.sections[s].label, 'event.stopPropagation();' + this.panelRef + '.customerRemove(\'' + s + '\');'); wrap.appendChild(o);
     } else {
         var o = M.aE('div', null, 'button', 'Add ' + this.sections[s].label, 'event.stopPropagation();' + this.panelRef + '.customerOpen(\'' + s + '\');');
         wrap.appendChild(o);
     }
-
-    var menu = M.aE('div', 'm_popupmenu', '');
-    menu.setAttribute('onclick', 'M.gE("m_popupmenu").remove();');
-    menu.appendChild(wrap);
-    var e = M.gE(this.panelUID + '_section_' + s);
-    wrap.style.right = (document.documentElement.clientWidth - e.offsetWidth - e.offsetLeft + 2) + 'px';
-    wrap.style.top = event.srcElement.offsetTop + event.srcElement.offsetHeight + 'px';
-    // Calc full height of document
-    var body = document.body,
-        html = document.documentElement;
-    var height = Math.max( body.scrollHeight, body.offsetHeight, 
-                           html.clientHeight, html.scrollHeight, html.offsetHeight );
-    menu.style.height = height + 'px';
-
-    e.appendChild(menu);
+    this.popupMenu(wrap, s);
 }
 M.panel.prototype.customerChange = function(s) {
     this._customerSection = s;
@@ -8215,4 +8195,46 @@ M.panel.prototype.customerRemove = function(s) {
     this.sections[s].customer_id = 0;
     this.data[s] = {};
     this.refreshSection(s);
+}
+M.panel.prototype.sectionMenu = function(event, s) {  
+    var wrap = M.aE('div',null,'wrap');
+    for(var i in this.sections[s].menu) {
+        if( i == 'visible' ) {
+            continue;
+        }
+        if( this.sections[s].menu[i].visible == null || this.sections[s].menu[i].visible() == 'yes' ) {
+            var o = M.aE('div', null, 'button', this.sections[s].menu[i].label, 'event.stopPropagation();' + this.sections[s].menu[i].fn);
+            wrap.appendChild(o);
+        }
+    }
+    this.popupMenu(wrap, s);
+}
+M.panel.prototype.popupMenu = function(wrap, s) {
+    var i = M.gE(this.panelUID + '_' + s + '_menu_icon');
+    console.log(i);
+    i.innerHTML = '&#xf00d;';
+    var menu = M.aE('div', this.panelUID + '_' + s + '_popupmenu', 'popupmenu');
+    menu.setAttribute('onclick', this.panelRef + '.popupMenuClose(\'' + s + '\');');
+    menu.appendChild(wrap);
+    var e = M.gE(this.panelUID + '_section_' + s);
+    wrap.style.right = (document.documentElement.clientWidth - e.offsetWidth - e.offsetLeft + 2) + 'px';
+    wrap.style.top = event.srcElement.offsetTop + event.srcElement.offsetHeight + 'px';
+    // Calc full height of document
+    var body = document.body,
+        html = document.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight, 
+                           html.clientHeight, html.scrollHeight, html.offsetHeight );
+    menu.style.height = height + 'px';
+
+    e.appendChild(menu);
+}
+M.panel.prototype.popupMenuClose = function(s) {
+    var i = M.gE(this.panelUID + '_' + s + '_menu_icon');
+    if( i != null ) {
+        i.innerHTML = '&#xf142;';
+    }
+    var e = M.gE(this.panelUID + '_' + s + '_popupmenu');
+    if( i != null ) {
+        e.remove();
+    }
 }

@@ -37,10 +37,11 @@ table.list tr.textfield > td > input.readonly {
     border: 0px;
     background: inherit;
 }
-table.form.outline tr.textfield > td > input.readonly,
+table.form.outline tr.textfield > td > input.readonly {
+    padding: 0.5em 0;
+}
 table.form.outline tr.textarea > td > textarea.readonly {
     border: 0px;
-    padding: 0px;
 }
 
 table.form tr.textfield > td > input.search {

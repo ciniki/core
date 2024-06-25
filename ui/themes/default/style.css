@@ -4085,13 +4085,36 @@ div.xhelp-on tr.xhelp-text td p {
     position: absolute;
     background: #fff;
     border: 1px solid #ddd;
-    padding: 1rem;
+    padding: 0rem;
     border-radius: 0.25rem;
     box-shadow: 1px 1px 5px #555;
     display: flex;
     flex-flow: column nowrap;
-    gap: 1rem;
 }
+.popupmenu .menuitem {
+    border-bottom: 1px solid #bbb;
+    cursor: pointer;
+    min-width: 12rem;
+    padding: 0.75rem 0.75rem;
+    text-align: left;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+}
+.popupmenu .menuitem .label {
+    padding-right: 1.5rem;
+}
+.popupmenu .menuitem .faicon {
+    font-size: 0.9em;
+    color: #bbb;
+    stroke: #bbb;
+    fill: #bbb;
+    padding-top: 0.1rem;
+}
+.popupmenu .menuitem:last-child {
+    border-bottom: 0px;
+}
+/*
 .popupmenu .button {
     padding: 0.5rem 1rem;
     border-bottom: 1px solid #ddd;
@@ -4105,7 +4128,7 @@ div.xhelp-on tr.xhelp-text td p {
     border-bottom: 0px;
     margin-bottom: 0px;
 }
-
+*/
 /*
 @media (prefers-color-scheme: dark) {
     body {

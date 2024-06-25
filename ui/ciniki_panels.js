@@ -8136,11 +8136,14 @@ M.panel.prototype.rotateImg = function(fid, dir) {
 M.panel.prototype.customerEditMenu = function(event, s) {  
     var wrap = M.aE('div',null,'wrap');
     if( this.sections[s].customer_id > 0 ) {
-        var o = M.aE('div', null, 'button', 'Different ' + this.sections[s].label, 'event.stopPropagation();' + this.panelRef + '.customerChange(\'' + s + '\');');
+        var o = M.aE('a', null, 'menuitem', '<span class="label">Different ' + this.sections[s].label + '</span><span class="faicon">&#xf054;</span>', 'event.stopPropagation();' + this.panelRef + '.customerChange(\'' + s + '\');');
         wrap.appendChild(o);
-        var o = M.aE('div', null, 'button', 'Edit ' + this.sections[s].label + ' Details', 'event.stopPropagation();' + this.panelRef + '.customerOpen(\'' + s + '\');'); wrap.appendChild(o); var o = M.aE('div', null, 'button', 'No ' + this.sections[s].label, 'event.stopPropagation();' + this.panelRef + '.customerRemove(\'' + s + '\');'); wrap.appendChild(o);
+        var o = M.aE('a', null, 'menuitem', '<span class="label">Edit ' + this.sections[s].label + ' Details' + '</span><span class="faicon">&#xf054;</span>', 'event.stopPropagation();' + this.panelRef + '.customerOpen(\'' + s + '\');'); 
+        wrap.appendChild(o); 
+        var o = M.aE('a', null, 'menuitem', '<span class="label">No ' + this.sections[s].label + '</span><span class="faicon">&#xf054;</span>', 'event.stopPropagation();' + this.panelRef + '.customerRemove(\'' + s + '\');'); 
+        wrap.appendChild(o);
     } else {
-        var o = M.aE('div', null, 'button', 'Add ' + this.sections[s].label, 'event.stopPropagation();' + this.panelRef + '.customerOpen(\'' + s + '\');');
+        var o = M.aE('a', null, 'menuitem', '<span class="label">Add ' + this.sections[s].label + '</span><span class="faicon">&#xf054;</span>', 'event.stopPropagation();' + this.panelRef + '.customerOpen(\'' + s + '\');');
         wrap.appendChild(o);
     }
     this.popupMenu(wrap, s);
@@ -8203,7 +8206,8 @@ M.panel.prototype.sectionMenu = function(event, s) {
             continue;
         }
         if( this.sections[s].menu[i].visible == null || this.sections[s].menu[i].visible() == 'yes' ) {
-            var o = M.aE('div', null, 'button', this.sections[s].menu[i].label, 'event.stopPropagation();' + this.sections[s].menu[i].fn);
+//            var o = M.aE('div', null, 'button', this.sections[s].menu[i].label, 'event.stopPropagation();' + this.sections[s].menu[i].fn);
+            var o = M.aE('a', null, 'menuitem', '<span class="label">' + this.sections[s].menu[i].label + '</span><span class="faicon">&#xf054;</span>', 'event.stopPropagation();' + this.sections[s].menu[i].fn);
             wrap.appendChild(o);
         }
     }
@@ -8211,7 +8215,6 @@ M.panel.prototype.sectionMenu = function(event, s) {
 }
 M.panel.prototype.popupMenu = function(wrap, s) {
     var i = M.gE(this.panelUID + '_' + s + '_menu_icon');
-    console.log(i);
     i.innerHTML = '&#xf00d;';
     var menu = M.aE('div', this.panelUID + '_' + s + '_popupmenu', 'popupmenu');
     menu.setAttribute('onclick', this.panelRef + '.popupMenuClose(\'' + s + '\');');

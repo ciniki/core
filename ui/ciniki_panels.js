@@ -2992,7 +2992,7 @@ M.panel.prototype.createSectionGridRow = function(s, i, sc, num_cols, rowdata, t
         c = M.aE('td', null, 'buttonicons noprint');
         var fn = sc.editFn(s, i, rowdata);
         if( fn != '' ) {
-            c.setAttribute('onclick', 'event.stopPropagation();' + sc.editFn(s, i, rowdata));
+            c.setAttribute('onclick', 'event.stopPropagation();' + this.panelRef + '.savePos(\'' + s + '\');' + sc.editFn(s, i, rowdata));
             c.innerHTML = '<span class="faicon">&#xf040;</span>';
             ptr.className = 'clickable' + rcl;
         }

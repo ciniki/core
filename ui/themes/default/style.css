@@ -1014,6 +1014,9 @@ div.panel-simplebuttons.panel-sectionlabel div.simplebuttons {
 div.panel-simplebuttons.panel-sectionlabel div.simplebuttons table.simplebuttons {
     margin-bottom: 0.5rem;
 }
+div.panel-simplebuttons.panel-sectionlabel div.simplebuttons.flexsize table.simplebuttons {
+    margin-bottom: 0rem;
+}
 div.panel-simplebuttons.panel-sectionlabel div.simplebuttons table.simplebuttons:last-child {
     margin-bottom: 0px;
 }

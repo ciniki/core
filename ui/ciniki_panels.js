@@ -4357,6 +4357,9 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
             var f = M.aE('span', this.panelUID + '_' + fid + sFN + '_' + j);
             f.setAttribute('onfocus', this.panelRef + '.clearLiveSearches(\''+s+'\',\''+i+sFN+'\');');
 //            var bit_value = (v&Math.pow(2,j-1))==Math.pow(2,j-1)?1:0;
+            if( field.onchange != null && field.onchange != '' ) {
+                f.onChangeCb = field.onchange + '(null,\'' + s + '\',\'' + fid + '\');';
+            }
             var bit_value = j > 32 ? (vhi>>(j-33)&0x01) : (vlo>>(j-1)&0x01);
             if( bit_value == 1 ) {
                 f.className = 'flag_on';
@@ -4383,12 +4386,18 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
                     } else if( field.none != null && field.none == 'yes' && e.className == 'flag_on' ) {
                         this.className = 'flag_off';
                     }
+                    if( this.onChangeCb != null ) {
+                        eval(this.onChangeCb);
+                    }
                 };
             } else {
                 f.onclick = function(event) { 
                     event.stopPropagation();
                     if( this.className == 'flag_on' ) { this.className = 'flag_off'; } 
                     else { this.className = 'flag_on'; }
+                    if( this.onChangeCb != null ) {
+                        eval(this.onChangeCb);
+                    }
                 };
             }
             div.appendChild(f);

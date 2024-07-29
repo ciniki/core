@@ -8149,6 +8149,8 @@ M.panel.prototype.customerEditMenu = function(event, s) {
         wrap.appendChild(o);
         var o = M.aE('a', null, 'menuitem', '<span class="label">Edit ' + this.sections[s].label + ' Details' + '</span><span class="faicon">&#xf054;</span>', 'event.stopPropagation();' + this.panelRef + '.customerOpen(\'' + s + '\');'); 
         wrap.appendChild(o); 
+        var o = M.aE('a', null, 'menuitem', '<span class="label">View ' + this.sections[s].label + ' Details' + '</span><span class="faicon">&#xf054;</span>', 'event.stopPropagation();' + this.panelRef + '.customerView(\'' + s + '\');'); 
+        wrap.appendChild(o); 
         var o = M.aE('a', null, 'menuitem', '<span class="label">No ' + this.sections[s].label + '</span><span class="faicon">&#xf054;</span>', 'event.stopPropagation();' + this.panelRef + '.customerRemove(\'' + s + '\');'); 
         wrap.appendChild(o);
     } else {
@@ -8172,6 +8174,19 @@ M.panel.prototype.customerOpen = function(s) {
             });
     } else {
         M.startApp('ciniki.customers.edit',null,this.panelRef + '.customerUpdate();','mc',{
+            'customer_id':this.sections[s].customer_id,
+            'next':this.panelRef + '.customerUpdate',
+            });
+    }
+}
+M.panel.prototype.customerView = function(s) {
+    this._customerSection = s;
+    if( this.sections[s].customer_id > 0 ) {
+        M.startApp('ciniki.customers.main',null,this.panelRef + '.customerUpdate();','mc',{
+            'customer_id':this.sections[s].customer_id,
+            });
+    } else {
+        M.startApp('ciniki.customers.main',null,this.panelRef + '.customerUpdate();','mc',{
             'customer_id':this.sections[s].customer_id,
             'next':this.panelRef + '.customerUpdate',
             });

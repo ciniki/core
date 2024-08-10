@@ -618,14 +618,15 @@ div.flexcolumns {
     flex-flow: row wrap;
     justify-content: space-evenly;
     justify-content: center;
-    padding-left: 0.5em;
-    padding-right: 0.5em;
+    padding-top: 1rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
 }
 div.flexcolumn {
     min-width: 10em;
     max-width: 100%;
-    padding-left: 0.5em;
-    padding-right: 0.5em;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
     flex-grow: 1;
 }
 @media screen and (max-width: 30em) {
@@ -1981,9 +1982,15 @@ table.list > tbody > tr > td.multiline {
 table.list > tbody > tr > td.multiline span.subtext {
     width: 100%;
     font-size: 0.8em;
-    color: #888;
+    color: #707070;
 /*  padding-top: 0.1em; */
     display: block;
+}
+table.list > tbody > tr.colored {
+    color: #000;
+}
+table.list > tbody > tr.colored > td.multiline span.subtext {
+    color: #606060;
 }
 table.list > tbody > tr > td.multiline > span.singleline {
     overflow: hidden;

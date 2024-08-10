@@ -6,6 +6,9 @@
 //    Native support:  Firefox 2+, Safari 3+, Opera 9+, Google Chrome, IE9+
 //    ChromeFrame supprt:  IE7+
 //
+//    Modified: Aug 10, 2024 by Andrew Rivett
+//    - Added hex props to allow passing of '#01abcd' hex color code to start picker
+//
 if(window.Color == undefined) Color = {};
 
 Color.Picker = function (props) {
@@ -16,6 +19,53 @@ Color.Picker = function (props) {
     this.hue = props.hue || 0; // 0-360
     this.sat = props.sat || 0; // 0-100
     this.val = props.val || 100; // 0-100
+    if( props.hex != null ) {
+        // Convert hex to RGB first
+        let r = 0, g = 0, b = 0;
+        if (props.hex.length == 4) {
+            r = Number("0x" + props.hex[1] + props.hex[1])/255;
+            g = Number("0x" + props.hex[2] + props.hex[2])/255;
+            b = Number("0x" + props.hex[3] + props.hex[3])/255;
+        } else if (props.hex.length == 7) {
+            r = Number("0x" + props.hex[1] + props.hex[2])/255;
+            g = Number("0x" + props.hex[3] + props.hex[4])/255;
+            b = Number("0x" + props.hex[5] + props.hex[6])/255;
+        }
+
+        const v = Math.max(r, g, b);
+        const diff = v - Math.min(r, g, b);
+        const diffc = function (c) {
+            return (v - c) / 6 / diff + 1 / 2;
+        };
+
+        if (diff === 0) {
+            h = 0;
+            s = 0;
+        } else {
+            s = diff / v;
+            rdif = diffc(r);
+            gdif = diffc(g);
+            bdif = diffc(b);
+
+            if (r === v) {
+                h = bdif - gdif;
+            } else if (g === v) {
+                h = (1 / 3) + rdif - bdif;
+            } else if (b === v) {
+                h = (2 / 3) + gdif - rdif;
+            }
+
+            if (h < 0) {
+                h += 1;
+            } else if (h > 1) {
+                h -= 1;
+            }
+        } 
+
+        this.hue = h*360;
+        this.sat = s*100;
+        this.val = v*100;
+    }
     this.element = props.element || document.body;
     this.size = 165; // size of colorpicker
     this.margin = props.margin || 10; // margins on colorpicker
@@ -395,6 +445,7 @@ Color.HSV_RGB = function (o) {
 Color.HSV_HEX = function (o) {
     return Color.HEX_STRING(Color.RGB_HEX(Color.HSV_RGB(o)));
 };
+
 
 //
 //var swatch = document.getElementById("testSwatch");

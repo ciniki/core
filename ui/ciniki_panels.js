@@ -5967,14 +5967,13 @@ M.panel.prototype.toggleFormColourPicker = function(field) {
         var tr = M.aE('tr');
         var td = M.aE('td');
         var s = M.aE('span', this.panelUID + '_' + field + '_pickedcolour', 'colourswatch', '&nbsp;');
-        s.style.background = v;
-        s.style.background = '#000055';
         s.setAttribute('onclick', this.panelRef + '.setColourField(\'' + field + '\',M.rgbToHex(this.style.backgroundColor));');
         td.appendChild(s);
         tr.appendChild(td);
 
         td = M.aE('td');
-        var colourpicker = new Color.Picker({element: td, hexBox: s, margin: 10,
+        console.log(v);
+        var colourpicker = new Color.Picker({element: td, hexBox: s, hex:v, margin: 10,
             callback: function(hex) {
                 // this.element.parentNode.children[0].style.background = '#' + hex;
                 // M.gE(this.panelUID + '_' + field + '_pickedcolour').style.background = hex;

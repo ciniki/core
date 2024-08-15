@@ -5972,7 +5972,6 @@ M.panel.prototype.toggleFormColourPicker = function(field) {
         tr.appendChild(td);
 
         td = M.aE('td');
-        console.log(v);
         var colourpicker = new Color.Picker({element: td, hexBox: s, hex:v, margin: 10,
             callback: function(hex) {
                 // this.element.parentNode.children[0].style.background = '#' + hex;

@@ -131,7 +131,7 @@ function ciniki_core_objectAdd(&$ciniki, $tnid, $obj_name, $args, $tmsupdate=0x0
             // Check if this column is a reference to another modules object, 
             // and see if there should be a reference added
             //
-            if( isset($options['ref']) && $options['ref'] != '' && $args[$field] != '' && $args[$field] > 0 ) {
+            if( isset($options['ref']) && $options['ref'] != '' && $args[$field] != '' && $args[$field] > 0 && $args[$field] != 'undefined' ) {
                 $rc = ciniki_core_objectRefAdd($ciniki, $tnid, $options['ref'], array(
                     'ref_id'=>$args[$field],        // The remote ID (other modules object id)
                     'object'=>$obj_name,            // The local object ref (this objects ref)

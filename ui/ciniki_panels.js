@@ -5393,7 +5393,7 @@ M.panel.prototype.setFieldValue = function(field, v, vnum, hide, nM, action) {
             var e = M.gE(this.panelUID + '_' + field + sFN + '_' + j);
 //            if( (v&Math.pow(2, j-1)) == Math.pow(2,j-1) ) {
             var bit_value = j > 32 ? (vhi>>(j-33)&0x01) : (vlo>>(j-1)&0x01);
-            if( bit_value == 1 || (bit_value == 0 && j == 0)) {
+            if( bit_value == 1 || (bit_value == 0 && j == 0 && v == 0)) {
                 // Turn off all other options
                 if( f.toggle == 'yes' ) {
                     for(k in e.parentNode.children) {
@@ -5563,6 +5563,9 @@ M.panel.prototype.setFieldValue = function(field, v, vnum, hide, nM, action) {
     } else if( f.type == 'minsec' ) {
         var minutes = 0;
         var seconds = 0;
+        if( typeof v == 'string' ) {
+            v = parseInt(v);
+        }
         if( v != '' && v > 0 ) {
             minutes = Math.floor(v/60);
             seconds = v%60;

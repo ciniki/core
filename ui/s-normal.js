@@ -209,11 +209,32 @@ M.panel.setupFormFieldHistory = function(fieldID, field) {
                 }
             } else if( field != null && field.type == 'flagspiece' && field.flags != null && field.toggle != null && field.toggle == 'yes' ) {
                 for(j in field.flags) {
-                    if( j == '0' && j == history[i].action.value ) {
+                    if( j == 0 && history[i].action.value == '0' ) {
+                        c3.innerHTML = field.flags[j].name;
+                    } else if( j == '0' && j == history[i].action.value ) {
                         c3.innerHTML = field.flags[j].name;
                     } else if( (history[i].action.value&Math.pow(2, j-1)) == Math.pow(2,j-1) ) {
                         c3.innerHTML = (c3.innerHTML != '' ? ', ' : '' ) + field.flags[j].name;
                     }
+                }
+            } else if( field != null && field.type == 'flagspiece' && field.flags != null && (field.toggle == null || field.toggle == 'no') ) {
+                c3.innerHTML = '';
+                for(j in field.flags) {
+                    if( j == '0' && j == history[i].action.value ) {
+                        c3.innerHTML += (c3.innerHTML != '' ? ', ' : '' ) + field.flags[j].name;
+                    } else if( (history[i].action.value&Math.pow(2, j-1)) == Math.pow(2,j-1) ) {
+                        c3.innerHTML += (c3.innerHTML != '' ? ', ' : '' ) + field.flags[j].name;
+                    }
+                }
+            } else if( field != null && field.type == 'minsec' ) {
+                var v = parseInt(history[i].action.value);
+                var minutes = Math.floor(v/60);
+                var seconds = v%60;
+                if( minutes > 0 ) {
+                    c3.innerHTML = minutes + ' min';
+                }
+                if( seconds > 0 ) {
+                    c3.innerHTML += ' ' + seconds + ' sec';
                 }
             } else if( field != null && field.type == 'toggle' && field.toggles != null ) {
                 for(j in field.toggles) {

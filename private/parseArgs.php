@@ -159,19 +159,24 @@ function ciniki_core_parseArgs(&$ciniki, $tnid, $raw_args, $arg_info) {
                         $raw_args[$arg] .= ' ' . $options['defaulttime'];
                     }
 // 2024-08-23: Converted date time parsing, problems with strtotime and dates before 1973
-//                    $ts = strtotime($raw_args[$arg]);
-//                    if( $ts === FALSE || $ts < 1 ) {
+                    $ts = strtotime($raw_args[$arg]);
+                    if( $ts === FALSE || $ts < 1 ) {
 //                        error_log($raw_args[$arg]);
 //                        return array('stat'=>'warn', 'err'=>array('code'=>'ciniki.core.126', 'msg'=>"$invalid_msg", 'pmsg'=>"Argument: $arg invalid datetime format"));
-//                    } else {
-                    try {
-                        $dt = new DateTime($raw_args[$arg], new DateTimeZone($intl_timezone));
-                    } catch(Exception $e) {
-                        return array('stat'=>'warn', 'err'=>array('code'=>'ciniki.core.126', 'msg'=>"$invalid_msg", 'pmsg'=>"Argument: $arg invalid datetime format"));
-                    }
-                    $args[$arg] = $dt->format('Y-m-d H:i:s');
+                        try {
+                            $dt = new DateTime($raw_args[$arg], new DateTimeZone($intl_timezone));
+                        } catch(Exception $e) {
+                            return array('stat'=>'warn', 'err'=>array('code'=>'ciniki.core.126', 'msg'=>"$invalid_msg", 'pmsg'=>"Argument: $arg invalid datetime format"));
+                        }
+                    } else {
+                        try {
+                            $dt = new DateTime('@'.$ts, new DateTimeZone($intl_timezone));
+                        } catch(Exception $e) {
+                            return array('stat'=>'warn', 'err'=>array('code'=>'ciniki.core.126', 'msg'=>"$invalid_msg", 'pmsg'=>"Argument: $arg invalid datetime format"));
+                        }
+                        $args[$arg] = $dt->format('Y-m-d H:i:s');
 //                      $args[$arg] = strftime("%Y-%m-%d %H:%M:%S", $ts - $utc_offset);
-//                    }
+                    }
                 }
             } 
             elseif( isset($options['type']) && $options['type'] == 'currency' && $raw_args[$arg] != '' ) {

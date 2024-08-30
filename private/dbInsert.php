@@ -31,17 +31,15 @@ function ciniki_core_dbInsert(&$ciniki, $strsql, $module) {
     //
     // Prepare and Execute Query
     //
-    $result = mysqli_query($dh, $strsql);
-    if( $result == false ) {
-        //
-        // Error a different code if a duplicate key problem
-        //
-        if( mysqli_errno($dh) == 1062 || mysqli_errno($dh) == 1022 ) {
-            return array('stat'=>'exists', 'err'=>array('code'=>'ciniki.core.73', 'msg'=>'Database Error', 'pmsg'=>mysqli_error($dh), 'dberrno'=>mysqli_errno($dh), 'sql'=>$strsql));
+    try {
+        $result = mysqli_query($dh, $strsql);
+    } catch(mysqli_sql_exception $e) {
+        if( $e->getCode() == 1062 || $e->getCode() == 1022 ) {
+            return array('stat'=>'exists', 'err'=>array('code'=>'ciniki.core.73', 'msg'=>'Database Error - Duplicate', 'pmsg'=>$e->getMessage(), 'dberrno'=>$e->getCode(), 'sql'=>$strsql));
         } else {
-            error_log("SQLERR: [" . mysqli_errno($dh) . "] " . mysqli_error($dh) . " -- '$strsql'");
+            error_log("SQLERR: [" . $e->getCode() . "] " . $e->getMessage() . " -- '$strsql'");
         }
-        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.66', 'msg'=>'Database Error', 'pmsg'=>mysqli_error($dh), 'dberrno'=>mysqli_errno($dh), 'sql'=>$strsql));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.66', 'msg'=>'Database Error', 'pmsg'=>$e->getMessage(), 'dberrno'=>$e->getCode(), 'sql'=>$strsql));
     }
 
     //

@@ -47,8 +47,6 @@ function ciniki_core_dbGetModuleHistoryFlagBit(&$ciniki, $module, $history_table
         return $rc;
     }
     $intl_timezone = $rc['settings']['intl-default-timezone'];
-    $intl_currency_fmt = numfmt_create($rc['settings']['intl-default-locale'], NumberFormatter::CURRENCY);
-    $intl_currency = $rc['settings']['intl-default-currency'];
     $date_format = ciniki_users_dateFormat($ciniki);
     $time_format = ciniki_users_timeFormat($ciniki);
     $php_date_format = ciniki_users_dateFormat($ciniki, 'php');

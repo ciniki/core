@@ -35,6 +35,7 @@ function ciniki_core_parseArgs(&$ciniki, $tnid, $raw_args, $arg_info) {
         $intl_timezone = $rc['settings']['intl-default-timezone'];
         date_default_timezone_set($intl_timezone);
         $intl_currency_fmt = numfmt_create($rc['settings']['intl-default-locale'], NumberFormatter::CURRENCY);
+        numfmt_set_attribute($intl_currency_fmt, NumberFormatter::ROUNDING_MODE, NumberFormatter::ROUND_HALFUP);
         $intl_currency = $rc['settings']['intl-default-currency'];
     } else {
         $intl_timezone = 'America/Toronto';

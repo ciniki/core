@@ -133,8 +133,10 @@ function ciniki_core_dbGetModuleHistoryReformat(&$ciniki, $module, $history_tabl
             if( isset($row['value'][0]) && $row['value'][0] == '$' ) {
                 $row['value'] = substr($row['value'], 1, strlen($row['value']));
             }
-            $rsp['history'][$num_history]['action']['value'] = numfmt_format_currency(
-                $intl_currency_fmt, $row['value'], $intl_currency);
+            if( is_numeric($row['value']) ) {
+                $rsp['history'][$num_history]['action']['value'] = numfmt_format_currency(
+                    $intl_currency_fmt, $row['value'], $intl_currency);
+            }
         }
         elseif( $format == 'percent' ) {
             $rsp['history'][$num_history]['action']['value'] = ($row['value'] * 100) . '%';

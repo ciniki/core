@@ -734,7 +734,6 @@ table.border > tfoot > tr > td:first-child,
 table.border > tbody > tr > td:first-child {
     border-left: 1px solid #ccc;
 }
-
 table.border > thead > tr > th:last-child,
 table.border > thead > tr > td:last-child,
 table.border > tfoot > tr > th:last-child,
@@ -772,6 +771,50 @@ table.border.searchresults > tfoot > tr > th:last-child,
 table.border.searchresults > tfoot > tr > td:last-child,
 table.border.searchresults > tbody > tr > td:last-child {
     border-right: 1px solid #bbb;
+}
+
+/*table.border > tbody > tr.indent-1 > td:first-child { border-left-width: 5px; }
+table.border > tbody > tr.indent-2 > td:first-child { border-left-width: 10px; }
+table.border > tbody > tr.indent-3 > td:first-child { border-left-width: 15px; }
+table.border > tbody > tr.indent-4 > td:first-child { border-left-width: 25px; }
+table.border > tbody > tr.indent-5 > td:first-child { border-left-width: 30px; }
+table.border > tbody > tr.indent-1 > td:last-child { border-right-width: 5px; }
+table.border > tbody > tr.indent-2 > td:last-child { border-right-width: 10px; }
+table.border > tbody > tr.indent-3 > td:last-child { border-right-width: 15px; }
+table.border > tbody > tr.indent-4 > td:last-child { border-right-width: 25px; }
+table.border > tbody > tr.indent-5 > td:last-child { border-right-width: 30px; } */
+
+table.border > tbody > tr.indent-1 > td,
+table.border > tbody > tr.indent-2 > td,
+table.border > tbody > tr.indent-3 > td,
+table.border > tbody > tr.indent-4 > td,
+table.border > tbody > tr.indent-5 > td {
+    border-color: #aaa;
+}
+table.border > tbody > tr.indent-1 > td:first-child { padding-left: 1.25rem; }
+table.border > tbody > tr.indent-2 > td:first-child { padding-left: 2rem; }
+/*.indent-1 ~ .indent-2 > td {
+    border-top: 2px solid #000;
+} */
+/*.indent-0:has(+ .indent-1) td {
+    border-width: 2px;
+    border-color: #999;
+}
+.indent-1:has(+ .indent-2) td {
+    border-width: 2px;
+    border-bottom-color: #999;
+    border-left-color: #999;
+} */
+.indent-0:has(+ :not(.indent-0)) td,
+.indent-1:has(+ :not(.indent-1)) td,
+.indent-2:has(+ :not(.indent-2)) td,
+.indent-3:has(+ :not(.indent-3)) td,
+.indent-4:has(+ :not(.indent-4)) td,
+.indent-5:has(+ :not(.indent-5)) td {
+    border-width: 5px;
+    border-bottom-color: #aaa;
+    border-left-color: #aaa;
+    border-right-color: #aaa;
 }
 
 table.list > thead > tr > td,

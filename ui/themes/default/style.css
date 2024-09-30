@@ -2100,10 +2100,13 @@ table.simplegrid td.thumbnails {
     padding: 0.25em;
     line-height: 0px;
 }
+table.simplegrid td.thumbnails .thumbtext {
+    line-height: 1.4em;
+}
 
 table.simplegrid td.thumbnail img,
 table.simplegrid td.thumbnails img {
-    padding: 0.25em;
+    padding: 0.25em 0.5em 0.25em 0em;
 }
 
 table.form td.input div.image_preview {

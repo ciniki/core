@@ -99,6 +99,12 @@ function ciniki_core_excelGenerate(&$ciniki, $tnid, $args) {
         $xlsxWriter->save('php://output');
         return array('stat'=>'exit');
     }
+    if( isset($args['save']) && $args['save'] == 'yes' && isset($args['filename']) ) {
+        $xlsxWriter = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($excel);
+
+        $xlsxWriter->save($args['filename']);
+        return array('stat'=>'exit');
+    }
     return array('stat'=>'ok', 'excel'=>$excel);
 }
 ?>

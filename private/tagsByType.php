@@ -30,7 +30,7 @@ function ciniki_core_tagsByType($ciniki, $module, $tnid, $table, $typelist) {
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQuote');
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQuoteIDs');
 
-    $strsql = "SELECT DISTINCT CONCAT_WS('-', tag_type, tag_name) AS fname, tag_type, tag_name, permalink "
+    $strsql = "SELECT DISTINCT CONCAT_WS('-', tag_type, permalink) AS fname, tag_type, tag_name, permalink "
         . "FROM $table "
         . "WHERE tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' ";
     if( is_array($typelist) && count($typelist) > 0 ) {

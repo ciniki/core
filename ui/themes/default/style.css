@@ -286,6 +286,19 @@ div.full {
         margin-left: 0;
         float: left;
     }
+    div.help-off div.full.mediumaside {
+        max-width: 100%;
+    }
+    div.help-off div.full.mediumaside div.panelsection {
+        margin-left: 29rem;
+        width: auto;
+        max-width: 100%;
+    }
+    div.help-off div.full.mediumaside div.panelsection.asideleft {
+        width: 28rem;
+        margin-left: 0;
+        float: left;
+    }
 }
 
 div.wide {

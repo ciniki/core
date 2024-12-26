@@ -527,6 +527,7 @@ div.fullwidth table.list tr > td {
 
 div.large table.list,
 div.xlarge table.list,
+div.flexsection table.list,
 div.full table.list {
     width: 100%;
 }

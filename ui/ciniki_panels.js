@@ -8230,8 +8230,10 @@ M.panel.prototype.sectionMenu = function(event, s) {
         if( i == 'visible' ) {
             continue;
         }
-        if( this.sections[s].menu[i].visible == null || this.sections[s].menu[i].visible() == 'yes' ) {
-//            var o = M.aE('div', null, 'button', this.sections[s].menu[i].label, 'event.stopPropagation();' + this.sections[s].menu[i].fn);
+        if( this.sections[s].menu[i].visible == null 
+            || this.sections[s].menu[i].visible == 'yes'
+            || (typeof this.sections[s].menu[i].visible == 'function' && this.sections[s].menu[i].visible() == 'yes')
+            ) {
             var o = M.aE('a', null, 'menuitem', '<span class="label">' + this.sections[s].menu[i].label + '</span><span class="faicon">&#xf054;</span>', 'event.stopPropagation();' + this.sections[s].menu[i].fn);
             wrap.appendChild(o);
         }

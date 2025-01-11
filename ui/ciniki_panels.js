@@ -4636,7 +4636,7 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
             s.appendChild(op);
         }
         c.appendChild(s);
-        c.appendChild(M.aE('span', null, 'minsec_label', 'minute(s)'));
+        c.appendChild(M.aE('span', null, 'minsec_label', 'min(s)'));
 
         var s = M.aE('select', this.panelUID + '_' + fid + sFN);
         var si = field.second_interval != null ? field.second_interval : 1;
@@ -4649,7 +4649,7 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
             s.appendChild(op);
         }
         c.appendChild(s);
-        c.appendChild(M.aE('span', null, 'minsec_label', 'second(s)'));
+        c.appendChild(M.aE('span', null, 'minsec_label', 'sec(s)'));
 
 /*        var sel = M.aE('select', this.panelUID + '_' + fid + sFN);
         sel.setAttribute('name', fid + sFN);

@@ -33,11 +33,19 @@ function ciniki_core_dbHashQuery(&$ciniki, $strsql, $module, $container_name) {
     //
     // Prepare and Execute Query
     //
-    $result = mysqli_query($dh, $strsql);
+    $start_time = microtime(true);
+    try {
+        $result = mysqli_query($dh, $strsql);
+    } catch(mysqli_sql_exception $e) {
+        error_log("SQLERR: [" . $e->getCode() . "] " . $e->getMessage() . " -- '$strsql'");
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.60', 'msg'=>'Database Error', 'pmsg'=>$e->getMessage()));
+    }
+    $mid_time = microtime(true);
+/*    $result = mysqli_query($dh, $strsql);
     if( $result == false ) {
         error_log("SQLERR: [" . mysqli_errno($dh) . "] " . mysqli_error($dh) . " -- '$strsql'");
         return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.60', 'msg'=>'Database Error', 'pmsg'=>mysqli_error($dh)));
-    }
+    } */
 
     //
     // Check if any rows returned from the query
@@ -54,6 +62,13 @@ function ciniki_core_dbHashQuery(&$ciniki, $strsql, $module, $container_name) {
     }
 
     mysqli_free_result($result);
+    $end_time = microtime(true);
+
+    if( isset($ciniki['config']['ciniki.core']['database.log.querytimes'])
+        && $ciniki['config']['ciniki.core']['database.log.querytimes']
+        ) {
+        error_log('[' . round($mid_time-$start_time, 2) . ':' . round($end_time-$mid_time, 2) . '] ' . $strsql);
+    }
 
     //
     // Setup the container name if specified

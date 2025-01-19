@@ -2980,6 +2980,13 @@ table.form .minsec .minsec_label {
     padding-left: 0.5rem;
     padding-right: 1rem;
 }
+table.form .hourmin select {
+    max-width: 4em;
+}
+table.form .hourmin .hourmin_label {
+    padding-left: 0.5rem;
+    padding-right: 1rem;
+}
 
 table.form > tbody > tr > td div.buttons {
     display: inline-block;

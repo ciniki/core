@@ -4650,72 +4650,41 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
         }
         c.appendChild(s);
         c.appendChild(M.aE('span', null, 'minsec_label', 'sec(s)'));
-
-/*        var sel = M.aE('select', this.panelUID + '_' + fid + sFN);
-        sel.setAttribute('name', fid + sFN);
-        sel.setAttribute('onfocus', this.panelRef + '.clearLiveSearches(\''+s+'\',\''+fid+sFN+'\');');
-        if( field.onchangeFn != null && field.onchangeFn != '' ) {
-            sel.setAttribute('onchange', field.onchangeFn + '(\'' + s + '\',\'' + i+sFN+'\');');
-        } else if( field.onchange != null && field.onchange != '' ) {
-            sel.setAttribute('onchange', field.onchange + '(\'' + s + '\',\'' + i+sFN+'\');');
+    }
+    else if( field.type == 'hourmin' ) {
+        c.classname = 'hourmin';
+        var v = this.fieldValue(s, i, field, mN);
+        var minutes = 0;
+        var hours = 0;
+        if( v != '' && v > 0 ) {
+            hours = Math.floor(v/3600);
+            minutes = Math.floor((v%3600)/60);
         }
-        var o = field.options;
-        var fv = this.fieldValue(s, i, field, mN);
-        var text = '';
-        if( fv == null && field.default != null ) {
-            fv = field.default
-        }
-        for(j in o) {
-            var n = o[j];
-            var v = j;
-            // If option_name is specified, then option is a complex object  
-            // These are the result of an object sent back through cinikiAPI
-            if( field.idnames != null && field.idnames == 'yes' ) {
-                n = o[j].name;
-                v = o[j].id;
-            }
-            if( field.complex_options != null ) { 
-                if( field.complex_options.subname != null ) {
-                    n = o[j][field.complex_options.subname][field.complex_options.name];
-                    v = o[j][field.complex_options.subname][field.complex_options.value];
-                } else {
-                    n = o[j][field.complex_options.name];
-                    if( field.complex_options.value != null ) {
-                        v = o[j][field.complex_options.value];
-                    }
-                }
-            }
-
-            //
-            // Add the options to the select, and choose which one to have selected
-            //
-            if( v == fv ) {
-                var op = new Option(n, v, 0, 1);
-                text = n;
+        var s = M.aE('select', this.panelUID + '_' + fid + sFN + '_hour');
+        var max = field.max_hours != null ? field.max_hours : 24;
+        for(var k = 0; k < max; k+=1) {
+            if( k == hours ) {
+                var op = new Option(k, k, 0, 1);
             } else {
-                var op = new Option(n, v);
+                var op = new Option(k, k);
             }
-// Code which can display a background colour behind select option, but does not work in all browsers.
-//                    if( field['complex_options'] != null && field['complex_options']['bgcolor'] != null ) { 
-//                        //op.setAttribute('background','#' + field['complex_options']['bgcolor']);
-//                        op.style.background = '#' + o[j][field['complex_options']['subname']][field['complex_options']['bgcolor']];
-//                    }
-            sel.appendChild(op);
+            s.appendChild(op);
         }
-        c.appendChild(sel);
-        //
-        // If field should be more difficult to edit
-        //
-        if( field.editable != null && field.editable == 'afterclick' ) {
-            sel.style.display = 'none';
-            var e = M.aE('span', this.panelUID + '_' + fid + '_text', 'select-placeholder', text);
-            e.style.display = 'inline-block';
-            f = M.aE('span', null, 'faicon clickable', '&#xf040;');
-            f.setAttribute('onclick', 'event.stopPropagation();' + this.panelRef + '.editSelect(\'' + s + '\',\'' + fid + '\');');
-            e.appendChild(f);
-            c.appendChild(e);
-        } */
+        c.appendChild(s);
+        c.appendChild(M.aE('span', null, 'hourmin_label', 'hour(s)'));
 
+        var s = M.aE('select', this.panelUID + '_' + fid + sFN);
+        var si = field.minute_interval != null ? field.minute_interval : 1;
+        for(var k = 0; k < 60; k+=si) {
+            if( k == minutes ) {
+                var op = new Option(k, k, 0, 1);
+            } else {
+                var op = new Option(k, k);
+            }
+            s.appendChild(op);
+        }
+        c.appendChild(s);
+        c.appendChild(M.aE('span', null, 'hourmin_label', 'min(s)'));
     }
     else if( field.type == 'idlist' ) {
         c.className = 'multiselect';
@@ -5579,6 +5548,28 @@ M.panel.prototype.setFieldValue = function(field, v, vnum, hide, nM, action) {
         var s = M.gE(this.panelUID + '_' + field + sFN);
         for(var i=0;i<s.options.length;i++) {
             if( s.options[i].value == seconds) {
+                s.selectedIndex = i;
+            }
+        }
+    } else if( f.type == 'hourmin' ) {
+        var hours = 0;
+        var minutes = 0;
+        if( typeof v == 'string' ) {
+            v = parseInt(v);
+        }
+        if( v != '' && v > 0 ) {
+            hours = Math.floor(v/3600);
+            minutes = v%3600;
+        }
+        var s = M.gE(this.panelUID + '_' + field + sFN + '_hour');
+        for(var i=0;i<s.options.length;i++) {
+            if( s.options[i].value == hours) {
+                s.selectedIndex = i;
+            }
+        }
+        var s = M.gE(this.panelUID + '_' + field + sFN);
+        for(var i=0;i<s.options.length;i++) {
+            if( s.options[i].value == minutes) {
                 s.selectedIndex = i;
             }
         }
@@ -7383,6 +7374,9 @@ M.panel.prototype.formFieldValue = function(f,fid) {
     } else if( f.type == 'minsec' ) {
         n = parseInt(M.gE(this.panelUID + '_' + fid).value);
         n += parseInt(M.gE(this.panelUID + '_' + fid + '_min').value * 60);
+    } else if( f.type == 'hourmin' ) {
+        n = parseInt(M.gE(this.panelUID + '_' + fid).value) * 60;
+        n += parseInt(M.gE(this.panelUID + '_' + fid + '_hour').value) * 3600;
     } else if( f.type == 'flags' ) {
         n = 0;
         // By starting with the existing value, not all bits have to be specified in each form.

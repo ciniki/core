@@ -52,6 +52,10 @@ function ciniki_core_objectDelete(&$ciniki, $tnid, $obj_name, $oid, $ouuid, $tms
         if( $rc['stat'] != 'ok' ) { 
             return $rc;
         }
+        // Object does not exist
+        if( $rc['stat'] == 'ok' && $rc['num_rows'] == 0 ) {
+            return array('stat'=>'noexist');
+        }
         if( !isset($rc['object']) || !isset($rc['object']['uuid']) ) {
             return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.104', 'msg'=>'Unable to lookup UUID for ' . $obj_name));
         }

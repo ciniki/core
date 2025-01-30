@@ -261,6 +261,15 @@ function ciniki_core_dbHashQueryArrayTree(&$ciniki, $strsql, $module, $tree) {
                                 }
                             }
                         }
+                        elseif( isset($tree[$i]['json']) && in_array($field_id, $tree[$i]['json']) ) {
+                            $data[$tree[$i]['container']][$num_elements[$i]][$field_id] = $row[$field];
+                            if( $row[$field] != '' ) {
+                                $values = json_decode($row[$field], true);
+                                foreach($values as $k => $v) {
+                                    $data[$tree[$i]['container']][$num_elements[$i]][$k] = $v;
+                                }
+                            }
+                        }
                         
                         // Normal item
                         else {

@@ -94,14 +94,14 @@ function ciniki_core_objectUpdate(&$ciniki, $tnid, $obj_name, $oid, $args, $tmsu
         elseif( isset($options['sfields']) ) {  
             $s_values = array();
             if( isset($item[$field]) && $item[$field] != '' ) {
-                $s_values = unserialize($item[$field]);
+                $s_values = json_decode($item[$field], true);
             }
             foreach($options['sfields'] as $s_field => $s_options) {
                 if( isset($args[$s_field]) && (!isset($s_values[$s_field]) || $s_values[$s_field] != $args[$s_field]) ) {
                     $s_values[$s_field] = $args[$s_field];
                 }
             }
-            $serialized_values = serialize($s_values);
+            $serialized_values = json_encode($s_values);
             if( !isset($item[$field]) || $serialized_values != $item[$field] ) {
                 $strsql .= ", $field = '" . ciniki_core_dbQuote($ciniki, $serialized_values) . "' ";
             }

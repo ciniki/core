@@ -138,6 +138,8 @@ table.form tr.toggle td.multiselect span.toggle_on,
 table.form tr.toggle td.multiselect span.toggle_off,
 table.form tr.multiselect td span.toggle_on,
 table.form tr.multiselect td span.toggle_off,
+table.simplegrid tr td div span.toggle_on,
+table.simplegrid td div span.toggle_off,
 table.form tr.tags td span.toggle_on,
 table.form tr.tags td span.toggle_off,
 table.form td.flags span.flag_on,
@@ -162,6 +164,7 @@ span.fabutton_on,
 span.button_on,
 span.rbutton_on,
 table.form td div span.toggle_on,
+table.simplegrid td div span.toggle_on,
 table.form span.flag_on {
     background: -moz-linear-gradient(top, #555, #999);
     background: -moz-linear-gradient(top, #026b28, #18a023);

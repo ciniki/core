@@ -248,6 +248,7 @@ div.narrow {
 
 div.fiftyfifty,
 div.mediumflex,
+div.xxlarge,
 div.medium {
     padding-top: 1em;
     padding-bottom: 1em;
@@ -3051,7 +3052,9 @@ table.menutabs td.joinedtabs div span.toggle_off,
 table.paneltabs td.joinedtabs div span.toggle_on,
 table.paneltabs td.joinedtabs div span.toggle_off,
 table.form td div span.toggle_on,
-table.form td div span.toggle_off {
+table.form td div span.toggle_off,
+table.simplegrid td div span.toggle_on,
+table.simplegrid td div span.toggle_off {
     display: inline-block;
     border: 1px solid #bbb;
     padding: 0.4em 0.5em 0.4em 0.5em;
@@ -3067,6 +3070,8 @@ table.form tr.tags td.multiselect div span.toggle_on,
 table.form tr.tags td.multiselect div span.toggle_off {
     margin: 0 0 0 0;
 }
+table.simplegrid td.tags span.toggle_on,
+table.simplegrid td.tags span.toggle_off,
 table.form td.tags span.rbutton_on:last-child,
 table.form td.tags span.rbutton_off:last-child,
 table.form td.flags span.flag_on:last-child,
@@ -3106,11 +3111,13 @@ table.form tr.collection div span.toggle_off {
 }
 
 
-table.form td div span.toggle_on {
+table.form td div span.toggle_on,
+table.simplegrid td div span.toggle_on {
     color: #000;
 }
 
-table.form td div span.toggle_off {
+table.form td div span.toggle_off,
+table.simplegrid td div span.toggle_off {
     color: #bbb;
 }
 

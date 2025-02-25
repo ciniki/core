@@ -8258,7 +8258,7 @@ M.panel.prototype.popupMenuClose = function(s) {
         i.innerHTML = '&#xf142;';
     }
     var e = M.gE(this.panelUID + '_' + s + '_popupmenu');
-    if( i != null ) {
+    if( e != null ) {
         e.remove();
     }
 }

@@ -6948,11 +6948,20 @@ M.panel.prototype.serializeForm = function(fs) {
                     if( flags[f.field] == null ) {
                         flags[f.field] = {'f':f, 'v':this.fieldValue('', f.field, f)};
                     }
-                    if( n == 'on' || (f.reverse != null && f.reverse == 'yes' && n == 'off') ) {
-                        flags[f.field].v |= f.bit;
-                    } else if( (flags[f.field].v&f.bit) > 0 ) {
-                        flags[f.field].v ^= f.bit;
-                    }
+                    // Removed code as it wasn't working for turning on/off
+/*                    if( f.reverse != null && f.reverse == 'yes' ) {
+                        if( n == 'on' ) {
+                            flags[f.field].v |= f.bit;
+                        } else if( (flags[f.field].v&f.bit) > 0 ) {
+                            flags[f.field].v ^= f.bit;
+                        }
+                    } else { */
+                        if( n == 'on' ) {
+                            flags[f.field].v |= f.bit;
+                        } else if( (flags[f.field].v&f.bit) > 0 ) {
+                            flags[f.field].v ^= f.bit;
+                        }
+//                    }
                 } else if( f.type == 'flagspiece' && f.field != null ) {
                     if( flags[f.field] == null ) {
                         flags[f.field] = {'f':f, 'v':this.fieldValue('', f.field, f)};

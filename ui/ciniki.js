@@ -1258,14 +1258,18 @@ M.sortGrid = function(tid, col, type, o, save, d) {
     if( type == 'text' || type == 'alttext' || type == 'undefined' ) {
         if( o == 'asc' ) {
             var sorter_fn = function(a, b) {
-                if( a == b ) return 0;
-                if( a < b ) return -1;
-                return 1;
+                return a.localeCompare(b, undefined, {numeric: true, sensitivity: 'base'});
+//                if( a == b ) return 0;
+//                if( a < b ) return -1;
+//                return 1;
             }
         } else {
             var sorter_fn = function(a, b) {
                 if( a == b ) return 0;
-                if( a < b ) return 1;
+                if( a.localeCompare(b, undefined, {numeric: true, sensitivity: 'base'}) < 0 ) {
+                    return 1;
+                }
+//                if( a < b ) return 1;
                 return -1;
             }
         }

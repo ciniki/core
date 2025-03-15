@@ -7904,6 +7904,7 @@ M.panel.prototype.uploadDropImages = function(e, p, s) {
             if( files[i].type == null ) { continue; }
             if( files[i].type != 'image/jpeg' 
                 && files[i].type != 'image/png'
+                && files[i].type != 'image/webp'
                 && files[i].type != 'image/svg+xml'
 // Remove following lines as causing crashes
 //                && files[i].fileName.match(/.JPG$/) == null

@@ -574,6 +574,9 @@ td.fabuttons a.fabutton,
 td.fabuttons button.faicon {
     margin: 0.25rem 0rem 0.25rem 0.5rem;
 }
+table.list td > button {
+    cursor: pointer;
+}
 
 table.form {
     table-layout: auto;

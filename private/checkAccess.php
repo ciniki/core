@@ -45,6 +45,7 @@ function ciniki_core_checkAccess($ciniki, $tnid, $method) {
         'ciniki.core.getAddressCountryCodes',
         'ciniki.core.parseDatetime',
         'ciniki.core.parseDate',
+        'ciniki.core.streetAddressLookup',
         );
     if( in_array($method, $public_methods) ) {
         return array('stat'=>'ok');

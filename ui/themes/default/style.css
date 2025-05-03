@@ -3257,7 +3257,7 @@ table.simplegrid td.statusred {
 }
 table.simplegrid tr.statusgrey,
 table.simplegrid td.statusgrey {
-    background: #eeeeee;
+    background: #dddddd;
 }
 table.simplegrid tr.statusblue,
 table.simplegrid td.statusblue {

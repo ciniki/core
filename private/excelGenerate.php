@@ -20,11 +20,15 @@ function ciniki_core_excelGenerate(&$ciniki, $tnid, $args) {
     $excel = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
 //    $cell = new \PhpOffice\PhpSpreadsheet\Cell\Coordinate();
 
+    $sheet_num = 0;
     foreach($args['sheets'] as $sid => $sheet) {
-        if( $sid > 0 ) {
+        if( $sheet_num == 0 ) {
             $spreadsheet = $excel->getActiveSheet();
         } else {
-            $spreadsheet = $excel->getActiveSheet();
+            $spreadsheet = $excel->createSheet();
+        }
+        if( isset($sheet['label']) && $sheet['label'] != '' ) {
+            $spreadsheet->setTitle($sheet['label']);
         }
 
         //
@@ -86,8 +90,10 @@ function ciniki_core_excelGenerate(&$ciniki, $tnid, $args) {
             $spreadsheet->getColumnDimension($ltr)->setAutoSize(true);
             $cur_col++;
         }
+        $sheet_num++;
     }
 
+    $excel->setActiveSheetIndex(0);
 
     if( isset($args['download']) && $args['download'] == 'yes' && isset($args['filename']) ) {
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');

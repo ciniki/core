@@ -1810,10 +1810,12 @@ M.panel.prototype.liveSearchShow = function(s, f, inputElement, searchData) {
                 tr.appendChild(c);
             }
         }
-        tb.appendChild(tr);    
-        ct++;
+        if( tb != null ) {
+            tb.appendChild(tr);    
+            ct++;
+        }
     }
-    if( ct == 0 && sc.noData != null ) {
+    if( tb != null && ct == 0 && sc.noData != null ) {
         tb.innerHTML = '<tr><td colspan="' + sc.num_cols + '">' + sc.noData + '</td></tr>';
         this.lastSearches[s] = inputElement.value;
     }

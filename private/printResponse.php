@@ -28,7 +28,8 @@ function ciniki_core_printResponse($ciniki, $hash) {
     //
     if( !is_array($ciniki) || !is_array($ciniki['response']) || !isset($ciniki['response']['format']) ) {
         header("Content-Type: text/plain; charset=utf-8");
-        header("Cache-Control: no-cache, must-revalidate");
+//        header("Cache-Control: no-cache, must-revalidate");
+        header("Cache-Control: no-store");
         ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'printHashToJSON');
         ciniki_core_printHashToJSON($hash);
     } 
@@ -51,7 +52,8 @@ function ciniki_core_printResponse($ciniki, $hash) {
     //
     else {
         header("Content-Type: text/plain; charset=utf-8");
-        header("Cache-Control: no-cache, must-revalidate");
+//        header("Cache-Control: no-cache, must-revalidate");
+        header("Cache-Control: no-store");
         ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'printHashToJSON');
         ciniki_core_printHashToJSON($hash);
     }

@@ -470,6 +470,7 @@ div.sectionlabel .faicon {
     padding: 0.2rem 0.3rem;
     cursor: pointer;
     color: #777;
+    text-align: center;
 /*    border: 1px solid #bbb;
     border-radius: 3px;
     background: linear-gradient(0deg, #bbb, #eee); 

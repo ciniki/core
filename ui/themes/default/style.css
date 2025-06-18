@@ -635,10 +635,10 @@ div.flexcolumns {
     display: flex;
     flex-flow: row wrap;
     justify-content: space-evenly;
-    justify-content: center;
-    padding-top: 1rem;
+    justify-content: left;
+/*    padding-top: 1rem;
     padding-left: 0.5rem;
-    padding-right: 0.5rem;
+    padding-right: 0.5rem; */
 }
 div.flexcolumn {
     min-width: 10em;

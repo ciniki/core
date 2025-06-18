@@ -236,12 +236,15 @@ table.list td div.calendar {
     div.help-off div.full.mediumaside {
         max-width: 100%;
     }
-/*    div.help-off div.narrow.narrowaside div.panelsection {
+    div.help-off div.narrow.narrowaside div.panelsection {
         width: 22em;
         margin-left: 22em;
-    } */
+    } 
     div.panelcolumns {
         text-align: left;
+    }
+    div.panelcolumns.aligncenter {
+        text-align: center;
     }
     div.help-off div.narrowaside div.panelcolumns {
         width: 35em;

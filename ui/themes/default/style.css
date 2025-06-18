@@ -641,6 +641,9 @@ div.flexcolumns {
     padding-left: 0.5rem;
     padding-right: 0.5rem; */
 }
+div.flexible div.flexcolumns {
+    justify-content: center;
+}
 div.flexcolumn {
     min-width: 10em;
     max-width: 100%;

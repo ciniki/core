@@ -8241,7 +8241,13 @@ M.panel.prototype.sectionMenu = function(event, s) {
             || this.sections[s].menu[i].visible == 'yes'
             || (typeof this.sections[s].menu[i].visible == 'function' && this.sections[s].menu[i].visible() == 'yes')
             ) {
-            var o = M.aE('a', null, 'menuitem', '<span class="label">' + this.sections[s].menu[i].label + '</span><span class="faicon">&#xf054;</span>', 'event.stopPropagation();' + this.sections[s].menu[i].fn);
+            var label = '';
+            if( typeof this.sections[s].menu[i].label == 'function' ) {
+                label = this.sections[s].menu[i].label(s);
+            } else {
+                label = this.sections[s].menu[i].label;
+            }
+            var o = M.aE('a', null, 'menuitem', '<span class="label">' + label + '</span><span class="faicon">&#xf054;</span>', 'event.stopPropagation();' + this.sections[s].menu[i].fn);
             wrap.appendChild(o);
         }
     }

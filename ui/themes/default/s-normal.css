@@ -329,24 +329,30 @@ table.list td div.calendar {
         margin-left: 0;
         padding-left: 0;
     }
-    div.help-off div.narrow.narrowaside div.panelsection.menutabs,
-    div.help-off div.medium.narrowaside div.panelsection.menutabs,
-    div.help-off div.medium.mediumaside div.panelsection.menutabs,
-    div.help-off div.large.narrowaside div.panelsection.menutabs,
-    div.help-off div.large.mediumaside div.panelsection.menutabs,
-    div.help-off div.xlarge.narrowaside div.panelsection.menutabs,
-    div.help-off div.xlarge.mediumaside div.panelsection.menutabs,
-    div.help-off div.full.narrowaside div.panelsection.menutabs,
-    div.help-off div.full.mediumaside div.panelsection.menutabs,
-    div.help-off div.narrow.narrowaside.columns div.panelsection.menutabs,
-    div.help-off div.medium.narrowaside.columns div.panelsection.menutabs,
-    div.help-off div.medium.mediumaside.columns div.panelsection.menutabs,
-    div.help-off div.large.narrowaside.columns div.panelsection.menutabs,
-    div.help-off div.large.mediumaside.columns div.panelsection.menutabs,
-    div.help-off div.xlarge.narrowaside.columns div.panelsection.menutabs,
-    div.help-off div.xlarge.mediumaside.columns div.panelsection.menutabs,
-    div.help-off div.full.narrowaside.columns div.panelsection.menutabs,
-    div.help-off div.full.mediumaside.columns div.panelsection.menutabs {
+    div.help-on div.full.narrowaside div.panelsection,
+    div.help-on div.full.narrowaside div.asideleft {
+        width: 100%;
+        max-width: 100%;
+        float: none;
+    }
+    div.panel div.narrow.narrowaside div.panelsection.menutabs,
+    div.panel div.medium.narrowaside div.panelsection.menutabs,
+    div.panel div.medium.mediumaside div.panelsection.menutabs,
+    div.panel div.large.narrowaside div.panelsection.menutabs,
+    div.panel div.large.mediumaside div.panelsection.menutabs,
+    div.panel div.xlarge.narrowaside div.panelsection.menutabs,
+    div.panel div.xlarge.mediumaside div.panelsection.menutabs,
+    div.panel div.full.narrowaside div.panelsection.menutabs,
+    div.panel div.full.mediumaside div.panelsection.menutabs,
+    div.panel div.narrow.narrowaside.columns div.panelsection.menutabs,
+    div.panel div.medium.narrowaside.columns div.panelsection.menutabs,
+    div.panel div.medium.mediumaside.columns div.panelsection.menutabs,
+    div.panel div.large.narrowaside.columns div.panelsection.menutabs,
+    div.panel div.large.mediumaside.columns div.panelsection.menutabs,
+    div.panel div.xlarge.narrowaside.columns div.panelsection.menutabs,
+    div.panel div.xlarge.mediumaside.columns div.panelsection.menutabs,
+    div.panel div.full.narrowaside.columns div.panelsection.menutabs,
+    div.panel div.full.mediumaside.columns div.panelsection.menutabs {
         margin-left: 0px;
         width: 100%;
         max-width: 100%;
@@ -454,20 +460,20 @@ table.list td div.calendar {
         width: 100%;
         max-width: 100%;
     }
-    div.help-off div.xlarge.columns div.panelcolumns div.panelcolumn {
+    div.xlarge.columns div.panelcolumns div.panelcolumn {
         display: inline-block;
         width: 49%;
         margin-right: 1rem;
         vertical-align: top;
     }
-    div.help-off div.full.columns div.panelcolumns {
+    div.full.columns div.panelcolumns {
         display: flex;
         flex-flow: row wrap;
         gap: 1rem;
         padding: 0;
         padding-left: 1rem;
     }
-    div.help-off div.full.columns div.panelcolumns div.panelcolumn {
+    div.full.columns div.panelcolumns div.panelcolumn {
         flex-grow: 1;
         flex-basis: 49%;
     }

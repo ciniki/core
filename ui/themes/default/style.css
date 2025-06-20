@@ -265,7 +265,6 @@ div.rightpanel {
     width: 45% !important;
     padding-left: 1em;
 }
-
 div.fullwidth,
 div.large,
 div.xlarge,
@@ -276,6 +275,9 @@ div.full {
 div.full {
     padding-left: 1rem;
     padding-right: 1rem;
+}
+div.flex {
+    padding: 1em 0.5em 1em 0.5em;
 }
 
 @media screen and (min-width: 59em) {
@@ -4107,6 +4109,7 @@ div.xhelp-on tr.xhelp-text td p {
     box-sizing: border-box;
 }
 
+#m_help.leftborderlocal,
 #m_help.leftborder {
     border-left: 1px dotted #777;
 }

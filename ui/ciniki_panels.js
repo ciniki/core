@@ -6112,8 +6112,11 @@ M.panel.prototype.showFieldCalendars = function(field, start_year, start_month, 
         }
     }
 
-    if( field != 'datepicker' ) {
-        num_months = 1; 
+    var f = this.formField(field);
+    if( f != null && f.months != null ) {
+        num_months = f.months;
+    } else if( field != 'datepicker' ) {
+        num_months = 1;
     }
 
     if( M.size == 'compact' ) {

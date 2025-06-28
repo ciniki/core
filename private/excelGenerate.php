@@ -90,12 +90,24 @@ function ciniki_core_excelGenerate(&$ciniki, $tnid, $args) {
             $spreadsheet->getColumnDimension($ltr)->setAutoSize(true);
             $cur_col++;
         }
+        $spreadsheet->freezePane("A" . $first_data_row);
         $sheet_num++;
     }
 
     $excel->setActiveSheetIndex(0);
 
-    if( isset($args['download']) && $args['download'] == 'yes' && isset($args['filename']) ) {
+    if( isset($args['download']) && $args['download'] == 'yes' && isset($args['filename']) 
+        && isset($args['format']) && $args['format'] == 'xls' 
+        ) {
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment;filename="' . $args['filename'] . '"');
+        header('Cache-Control: max-age=0');
+
+        $xlsWriter = new \PhpOffice\PhpSpreadsheet\Writer\Xls($excel);
+
+        $xlsWriter->save('php://output');
+        return array('stat'=>'exit');
+    } elseif( isset($args['download']) && $args['download'] == 'yes' && isset($args['filename']) ) {
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header('Content-Disposition: attachment;filename="' . $args['filename'] . '"');
         header('Cache-Control: max-age=0');

@@ -6112,9 +6112,13 @@ M.panel.prototype.showFieldCalendars = function(field, start_year, start_month, 
         }
     }
 
-/*    if( M.size == 'compact' ) {
+    if( field != 'datepicker' ) {
+        num_months = 1; 
+    }
+
+    if( M.size == 'compact' ) {
         num_months = 1;
-    } else {
+    } else if( num_months == 3 ) {
         if(f != null && f.caloffset != null ) {
             cur_month += f.caloffset;
         } else {
@@ -6127,8 +6131,7 @@ M.panel.prototype.showFieldCalendars = function(field, start_year, start_month, 
             cur_year+=parseInt((cur_month/12), 10);
             cur_month = parseInt((cur_month%12), 10);
         }
-    } */
-    num_months = 1;
+    } 
 
     for(i=0;i<num_months;i++) {
         var d = M.aE('div', null, 'calendar');

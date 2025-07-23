@@ -107,7 +107,10 @@ M.panel.prototype.close = function(data) {
 //    this.destroy();
     if( this.tinymce.length > 0 ) {
         for(i in this.tinymce) {
-            tinymce.execCommand("mceRemoveEditor", false, this.tinymce[i]);
+            var e = tinymce.get(this.tinymce[i]);
+            if( e != null ) {
+                e.remove();
+            }
         }
     }
 
@@ -235,20 +238,41 @@ M.panel.prototype.show = function(cb) {
         }
     }
 
-    // Setup TinyMCE Editor
-    // Moved to ciniki init
-//    tinyMCE.init({
-//        mode:'textareas',
-//        theme:'modern',
-//        schema:'html5',
-//        toolbar:["bold italic underline strikethrough | link unlink | bulllist numlist"],
-//        menubar:'false',
-//        statusbar:'false',
-//        });
-
     if( this.tinymce.length > 0 ) {
         for(i in this.tinymce) {
-            tinymce.execCommand("mceAddEditor", false, this.tinymce[i]);
+            tinymce.init({
+                license_key: 'gpl',
+//                forced_root_block: 'p',
+//                newline_behaviour: 'invert',
+                menubar: false,
+                plugins: 'lists advlist',
+                statusbar: false,
+                selector: '#' + this.tinymce[i],
+                toolbar: 'bold italic underline strikethrough | forecolor | bullist numlist outdent indent',
+/*                toolbar: 'bold italic underline | bullist numlist continueListButton outdent indent',
+                setup: function (editor) {
+                    editor.ui.registry.addButton('continueListButton', {
+                      text: 'Continue List',
+                      tooltip: 'Continue numbering from previous list',
+                      onAction: function () {
+                        const selectedNode = editor.selection.getNode();
+                        console.log(selectedNode);
+                        const list = editor.dom.getParent(selectedNode, 'ol');
+                        console.log(list);
+                        if (list) {
+//                          const previous = list.previousElementSibling;
+                          const previous = editor.dom.getPrev(list, 'ol');
+//                          if (previous && previous.tagName === 'ol') {
+                          if( previous != null ) {
+                            const prevLength = previous.children.length;
+                            editor.dom.setAttrib(list, 'start', prevLength + 1);
+                          } else {
+                            // Default start from 1 if no previous list
+                            editor.dom.setAttrib(list, 'start', 1);
+                          }
+                        }
+                      }})}, */
+                });
         }
     }
 
@@ -368,7 +392,10 @@ M.panel.prototype.refresh = function() {
         this.onShowCbs = [];
         if( this.tinymce.length > 0 ) {
             for(i in this.tinymce) {
-                tinymce.execCommand("mceRemoveEditor", false, this.tinymce[i]);
+                var e = tinymce.get(this.tinymce[i]);
+                if( e != null ) {
+                    e.remove();
+                }
             }
         }
         var s = c.style.display;
@@ -508,6 +535,8 @@ M.panel.prototype.createSections = function() {
                     }
                     if( this.sections[i].flexBasis != null ) {
                         column.style['flex-basis'] = this.sections[i].flexBasis;
+                    } else if( this.sections[i].flexbasis != null ) {
+                        column.style['flex-basis'] = this.sections[i].flexbasis;
                     }
                     columns.appendChild(column);
                 }
@@ -4155,7 +4184,7 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
         c.appendChild(f);
         c.appendChild(M.aE('span',null,'rbutton_off','D','M.' + this.appID + '.' + this.name + '.toggleFormFieldAppointment(\'' + i + sFN + '\');'));
     }
-    else if( field.type == 'htmlarea' ) {
+/*    else if( field.type == 'htmlarea' ) {
         var f = M.aE('div', this.panelUID + '_' + i + sFN, (field.type=='textarea'?null:field.type) + (field.size!=null?' ' + field.size:''));
         f.setAttribute('name', i + sFN);
         f.setAttribute('onfocus', this.panelRef + '.clearLiveSearches(\''+s+'\',\''+i+sFN+'\');');
@@ -4164,7 +4193,7 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
             f.innerHTML = v.replace(/\n/g,"<br />");
         }
         c.className = field.type + (field.size!=null?' ' + field.size:'');
-        this.tinymce.push(this.panelUID + '_' + i + sFN);
+//        this.tinymce.push(this.panelUID + '_' + i + sFN);
         c.appendChild(f);
         // Create the toolbar
         var f = M.aE('div', this.panelUID + '_' + i + sFN + '_htmlarea_toolbar', 'htmlarea-toolbar');
@@ -4175,7 +4204,10 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
             + '<span class="button_off" onmousedown="tinymce.get(\'' + this.panelUID + '_' + i + sFN + '\').execCommand(\'Strikethrough\'); return false;"><strike>S</strike></span>'
             + '';
         c.appendChild(f);
-    }
+        tinymce.init({
+            selector: this.panelUID + '_' + i + sFN + '_htmlarea',
+            });
+    } */
     else if( field.type == 'textarea' || field.type == 'htmlarea' ) {
         var f = M.aE('textarea', this.panelUID + '_' + i + sFN, (field.type=='textarea'?null:field.type));
         f.setAttribute('name', i + sFN);
@@ -4207,7 +4239,11 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
         }
         var v = this.fieldValue(s, i, field, mN);
         if( v != null ) {
-            f.value = v; 
+            if( field.type == 'htmlarea' && v != '' && !v.match(/^<(p|ol|ul)>/) ) {
+                f.value = '<p>' + v.replace(/\n\n/g,"</p><p>").replace(/\n/g, '<br>') + '</p>';
+            } else {
+                f.value = v; 
+            }
         }
         if( field.livesearch != null && field.livesearch == 'yes' ) {
             f.setAttribute('onkeyup', this.panelRef + '.liveSearchSection(\'' + s + '\',\'' + i + sFN + '\',this, event);');
@@ -5599,7 +5635,11 @@ M.panel.prototype.setFieldValue = function(field, v, vnum, hide, nM, action) {
         M.gE(this.panelUID + '_' + field + sFN).value = v;
         this.updateAudioPreview(field + sFN, v);
     } else if( f.type == 'htmlarea' ) {
-        tinymce.get(this.panelUID + '_' + field + sFN).setContent(v.replace(/\n/g,"<br />"));
+        if( v != '' && !v.match(/^<(p|ol|ul)>/) ) {
+            tinymce.get(this.panelUID + '_' + field + sFN).setContent('<p>' + v.replace(/\n\n/g,"</p><p>").replace(/\n/g, '<br>') + '</p>');
+        } else {
+            tinymce.get(this.panelUID + '_' + field + sFN).setContent(v);
+        }
     } else {
         //
         // If not a special type, then set the input field value to the
@@ -7558,7 +7598,10 @@ M.panel.prototype.formFieldValue = function(f,fid) {
         }
     } else if( f.type == 'htmlarea' ) {
         n = tinymce.get(this.panelUID + '_' + fid).getContent();
-        n = n.replace(/<br \/>/g, "\n");
+/*        n = n.replace(/<div>&nbsp;<\/div>/g, "");
+        n = n.replace(/<div>/g, "");
+        n = n.replace(/<\/div>/g, "");
+        n = n.replace(/<br>/g, "\n"); */
     } else {
         var e = M.gE(this.panelUID + '_' + fid);
         if( e != null && e.value != null && e.value != undefined ) {

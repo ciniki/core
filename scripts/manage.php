@@ -447,7 +447,10 @@ print "<link rel='icon' href='$manage_themes/default/img/favicon.png' type='imag
 // Load the tinymce editor
 //
 print "<script type='text/javascript' src='$manage_js/tinymce/tinymce.min.js'></script>\n";
-//print "<script type='text/javascript'>tinymce.init({selector: 'textarea'});</script>\n";
+print "<script type='text/javascript'>tinymce.init({"
+    . "license_key: 'gpl', "
+    . "});"
+    . "</script>\n";
 
 //
 // Check to see if a compile, minimized version exists

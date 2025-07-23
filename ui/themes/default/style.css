@@ -3031,7 +3031,6 @@ table.form > tbody > tr > td.multiselect div {
     gap: 0.5rem;
     padding: 0.25rem 0rem;
 }
-
 table.form > tbody > tr > td.multiselect span.hint,
 table.form > tbody > tr > td.multitoggle span.hint {
     color: #aaa;
@@ -3110,15 +3109,18 @@ table.paneltabs td.tabs div span.toggle_on,
 table.paneltabs td.tabs div span.toggle_off,
 table.form tr.idlist td.multiselect div span.toggle_on,
 table.form tr.idlist td.multiselect div span.toggle_off,
-table.form tr.toggle td.multiselect div span.toggle_on,
-table.form tr.toggle td.multiselect div span.toggle_off,
+/*table.form tr.toggle td.multiselect div span.toggle_on,
+table.form tr.toggle td.multiselect div span.toggle_off, */
 table.form tr.multiselect div span.toggle_on,
 table.form tr.multiselect div span.toggle_off,
 table.form tr.collection div span.toggle_on,
 table.form tr.collection div span.toggle_off {
     margin-right: 0.5em;
 }
-
+table.form > tbody > tr > td.multiselect div span.toggle_on, 
+table.form > tbody > tr > td.multiselect div span.toggle_off {
+    margin: 0;
+}
 
 table.form td div span.toggle_on,
 table.simplegrid td div span.toggle_on {

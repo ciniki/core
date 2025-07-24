@@ -105,14 +105,15 @@ M.panel.prototype.close = function(data) {
     // Remove the panel
     //
 //    this.destroy();
-    if( this.tinymce.length > 0 ) {
+    tinymce.remove();
+/*    if( this.tinymce.length > 0 ) {
         for(i in this.tinymce) {
             var e = tinymce.get(this.tinymce[i]);
             if( e != null ) {
                 e.remove();
             }
         }
-    }
+    } */
 
     // Reset position
     this.lastY = 0;
@@ -238,17 +239,27 @@ M.panel.prototype.show = function(cb) {
         }
     }
 
+    // Remove all existing editors
+    tinymce.remove();
     if( this.tinymce.length > 0 ) {
         for(i in this.tinymce) {
+//            var e = tinymce.get('#' + this.tinymce[i].selector);
+//            if( e != null ) {
+//                e.remove();
+//            }
             tinymce.init({
                 license_key: 'gpl',
 //                forced_root_block: 'p',
 //                newline_behaviour: 'invert',
                 menubar: false,
-                plugins: 'lists advlist',
-                statusbar: false,
-                selector: '#' + this.tinymce[i],
-                toolbar: 'bold italic underline strikethrough | forecolor | bullist numlist outdent indent',
+                plugins: 'lists advlist code',
+                statusbar: true,
+                selector: this.tinymce[i].selector,
+                toolbar: (this.tinymce[i].toolbar != null ? this.tinymce[i].toolbar : 'bold italic underline strikethrough | forecolor | bullist numlist outdent indent | code'),
+                branding: false,
+                elementpath: false,
+                resize: 'both',
+                height: (this.tinymce[i].height != null ? this.tinymce[i].height : ''),
 /*                toolbar: 'bold italic underline | bullist numlist continueListButton outdent indent',
                 setup: function (editor) {
                     editor.ui.registry.addButton('continueListButton', {
@@ -390,14 +401,15 @@ M.panel.prototype.refresh = function() {
     var c = M.gE(this.panelUID);
     if( c != null ) {
         this.onShowCbs = [];
-        if( this.tinymce.length > 0 ) {
+        tinymce.remove();
+/*        if( this.tinymce.length > 0 ) {
             for(i in this.tinymce) {
                 var e = tinymce.get(this.tinymce[i]);
                 if( e != null ) {
                     e.remove();
                 }
             }
-        }
+        } */
         var s = c.style.display;
         var p = c.parentNode;
         p.removeChild(c);
@@ -4259,7 +4271,24 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
         c.className = field.type; // 'textarea';
         c.appendChild(f);
         if( field.type == 'htmlarea' ) {
-            this.tinymce.push(this.panelUID + '_' + i + sFN);
+            var tinymce = {
+                'selector':'#' + this.panelUID + '_' + i + sFN,
+                'toolbar':'bold italic underline strikethrough | forecolor | bullist numlist outdent indent',
+                'height':250,
+                };
+            if( field.tinymce != null && field.tinymce == 'basic' ) {
+                tinymce.toolbar = 'bold italic underline strikethrough';
+            }
+            if( field.size != null && field.size == 'small' ) {
+                tinymce.height = 175;
+            } else if( field.size != null && field.size == 'medium' ) {
+                tinymce.height = 300;
+            } else if( field.size != null && field.size == 'large' ) {
+                tinymce.height = 500;
+            } else if( field.size != null && field.size == 'xlarge' ) {
+                tinymce.height = 700;
+            }
+            this.tinymce.push(tinymce);
         }
     }
     else if( field.type == 'select' ) {

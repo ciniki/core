@@ -243,19 +243,13 @@ M.panel.prototype.show = function(cb) {
     tinymce.remove();
     if( this.tinymce.length > 0 ) {
         for(i in this.tinymce) {
-//            var e = tinymce.get('#' + this.tinymce[i].selector);
-//            if( e != null ) {
-//                e.remove();
-//            }
             tinymce.init({
                 license_key: 'gpl',
-//                forced_root_block: 'p',
-//                newline_behaviour: 'invert',
                 menubar: false,
-                plugins: 'lists advlist code',
+                plugins: ['link', 'code', 'lists', 'advlist'],
                 statusbar: true,
                 selector: this.tinymce[i].selector,
-                toolbar: (this.tinymce[i].toolbar != null ? this.tinymce[i].toolbar : 'bold italic underline strikethrough | forecolor | bullist numlist outdent indent | code'),
+                toolbar: this.tinymce[i].toolbar,
                 branding: false,
                 elementpath: false,
                 resize: 'both',
@@ -4251,7 +4245,7 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
         }
         var v = this.fieldValue(s, i, field, mN);
         if( v != null ) {
-            if( field.type == 'htmlarea' && v != '' && !v.match(/^<(p|ol|ul)>/) ) {
+            if( field.type == 'htmlarea' && v != '' && !v.match(/^<(p|ol|ul)/) ) {
                 f.value = '<p>' + v.replace(/\n\n/g,"</p><p>").replace(/\n/g, '<br>') + '</p>';
             } else {
                 f.value = v; 
@@ -4273,9 +4267,25 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
         if( field.type == 'htmlarea' ) {
             var tinymce = {
                 'selector':'#' + this.panelUID + '_' + i + sFN,
-                'toolbar':'bold italic underline strikethrough | forecolor | bullist numlist outdent indent',
+//                'toolbar':'bold italic underline strikethrough | forecolor | bullist numlist outdent indent',
+                'toolbar': [
+                    { name: 'formatting', items: [ 'bold', 'italic', 'underline', 'strikethrough' ] },
+                    { name: 'fonts', items: [ 'forecolor'] },
+                    { name: 'alignment', items: [ 'alignleft', 'aligncenter', 'alignright', 'alignjustify' ] },
+                    { name: 'indentation', items: [ 'bullist', 'numlist', 'outdent', 'indent' ] },
+                    { name: 'other', items: [ 'link'] }
+                    ],
                 'height':250,
                 };
+            if( (M.userPerms&0x01) == 0x01 ) { //sys admin toolbar
+                tinymce.toolbar = [
+                    { name: 'formatting', items: [ 'bold', 'italic', 'underline', 'strikethrough' ] },
+                    { name: 'fonts', items: [ 'forecolor'] },
+                    { name: 'alignment', items: [ 'alignleft', 'aligncenter', 'alignright', 'alignjustify' ] },
+                    { name: 'indentation', items: [ 'bullist', 'numlist', 'outdent', 'indent' ] },
+                    { name: 'other', items: [ 'link', 'code'] }
+                    ];
+            }
             if( field.tinymce != null && field.tinymce == 'basic' ) {
                 tinymce.toolbar = 'bold italic underline strikethrough';
             }
@@ -5664,7 +5674,7 @@ M.panel.prototype.setFieldValue = function(field, v, vnum, hide, nM, action) {
         M.gE(this.panelUID + '_' + field + sFN).value = v;
         this.updateAudioPreview(field + sFN, v);
     } else if( f.type == 'htmlarea' ) {
-        if( v != '' && !v.match(/^<(p|ol|ul)>/) ) {
+        if( v != '' && !v.match(/^<(p|ol|ul)/) ) {
             tinymce.get(this.panelUID + '_' + field + sFN).setContent('<p>' + v.replace(/\n\n/g,"</p><p>").replace(/\n/g, '<br>') + '</p>');
         } else {
             tinymce.get(this.panelUID + '_' + field + sFN).setContent(v);
@@ -7627,10 +7637,9 @@ M.panel.prototype.formFieldValue = function(f,fid) {
         }
     } else if( f.type == 'htmlarea' ) {
         n = tinymce.get(this.panelUID + '_' + fid).getContent();
-        n = n.replace(/<p>&nbsp;<\/p>/g, "");
-/*        n = n.replace(/<div>/g, "");
-        n = n.replace(/<\/div>/g, "");
-        n = n.replace(/<br>/g, "\n"); */
+        n = n.replace(/<p>&nbsp;<\/p>$/g, "");
+        n = n.replace(/<p>&nbsp;<\/p>$/g, "");
+        n = n.replace(/<p>&nbsp;<\/p>$/g, "");
     } else {
         var e = M.gE(this.panelUID + '_' + fid);
         if( e != null && e.value != null && e.value != undefined ) {

@@ -7627,8 +7627,8 @@ M.panel.prototype.formFieldValue = function(f,fid) {
         }
     } else if( f.type == 'htmlarea' ) {
         n = tinymce.get(this.panelUID + '_' + fid).getContent();
-/*        n = n.replace(/<div>&nbsp;<\/div>/g, "");
-        n = n.replace(/<div>/g, "");
+        n = n.replace(/<p>&nbsp;<\/p>/g, "");
+/*        n = n.replace(/<div>/g, "");
         n = n.replace(/<\/div>/g, "");
         n = n.replace(/<br>/g, "\n"); */
     } else {

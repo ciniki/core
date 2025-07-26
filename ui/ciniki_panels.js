@@ -239,48 +239,6 @@ M.panel.prototype.show = function(cb) {
         }
     }
 
-    // Remove all existing editors
-    tinymce.remove();
-    if( this.tinymce.length > 0 ) {
-        for(i in this.tinymce) {
-            tinymce.init({
-                license_key: 'gpl',
-                menubar: false,
-                plugins: ['link', 'code', 'lists', 'advlist'],
-                statusbar: true,
-                selector: this.tinymce[i].selector,
-                toolbar: this.tinymce[i].toolbar,
-                branding: false,
-                elementpath: false,
-                resize: 'both',
-                height: (this.tinymce[i].height != null ? this.tinymce[i].height : ''),
-/*                toolbar: 'bold italic underline | bullist numlist continueListButton outdent indent',
-                setup: function (editor) {
-                    editor.ui.registry.addButton('continueListButton', {
-                      text: 'Continue List',
-                      tooltip: 'Continue numbering from previous list',
-                      onAction: function () {
-                        const selectedNode = editor.selection.getNode();
-                        console.log(selectedNode);
-                        const list = editor.dom.getParent(selectedNode, 'ol');
-                        console.log(list);
-                        if (list) {
-//                          const previous = list.previousElementSibling;
-                          const previous = editor.dom.getPrev(list, 'ol');
-//                          if (previous && previous.tagName === 'ol') {
-                          if( previous != null ) {
-                            const prevLength = previous.children.length;
-                            editor.dom.setAttrib(list, 'start', prevLength + 1);
-                          } else {
-                            // Default start from 1 if no previous list
-                            editor.dom.setAttrib(list, 'start', 1);
-                          }
-                        }
-                      }})}, */
-                });
-        }
-    }
-
     if( this.autofocus != '' && M.device != 'ipad' ) {
         var e = M.gE(this.autofocus);
         if( e != null ) { e.focus(); }
@@ -297,7 +255,36 @@ M.panel.prototype.show = function(cb) {
     if( this.lastY > 0 ) {
         window.scrollTo(0,this.lastY);
     }
+
+    if( this.tinymce.length > 0 ) {
+        this.refreshHTMLEditor();
+    }
 };
+
+//
+// Init tinymce
+//
+M.panel.prototype.refreshHTMLEditor = function() {
+    // Remove all existing editors
+    tinymce.remove();
+    if( this.tinymce.length > 0 ) {
+        for(i in this.tinymce) {
+            tinymce.init({
+                license_key: 'gpl',
+                menubar: false,
+                plugins: ['link', 'code', 'lists', 'advlist'],
+                statusbar: true,
+                selector: this.tinymce[i].selector,
+                toolbar: this.tinymce[i].toolbar,
+                branding: false,
+                elementpath: false,
+                resize: 'both',
+                height: (this.tinymce[i].height != null ? this.tinymce[i].height : ''),
+                });
+        }
+    }
+}
+
 
 //
 // This function will build a new div with the panel data inside.  This function

@@ -159,8 +159,12 @@ function ciniki_core_parseArgs(&$ciniki, $tnid, $raw_args, $arg_info) {
                         ) {
                         $raw_args[$arg] .= ' ' . $options['defaulttime'];
                     }
-                    $dt = new DateTime($raw_args[$arg], new DateTimeZone($intl_timezone));
-                    $dt->setTimezone(new DateTimeZone('UTC'));
+                    try {
+                        $dt = new DateTime($raw_args[$arg], new DateTimeZone($intl_timezone));
+                        $dt->setTimezone(new DateTimeZone('UTC'));
+                    } catch(Exception $e) {
+                        return array('stat'=>'warn', 'err'=>array('code'=>'ciniki.core.409', 'msg'=>"$invalid_msg", 'pmsg'=>"Argument: $arg invalid datetime format"));
+                    }
                     $args[$arg] = $dt->format('Y-m-d H:i:s');
 // 2024-08-23: Converted date time parsing, problems with strtotime and dates before 1973
 /*                    $ts = strtotime($raw_args[$arg]);

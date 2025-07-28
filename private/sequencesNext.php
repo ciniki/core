@@ -33,9 +33,10 @@ function ciniki_core_sequencesNext($ciniki, $tnid, $obj_name, $id_field, $id_val
     //
     $strsql = "SELECT MAX(sequence) AS max_sequence "
         . "FROM " . $object['table'] . " "
-        . "WHERE tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
-        . "AND $id_field = '" . ciniki_core_dbQuote($ciniki, $id_value) . "' "
-        . "";
+        . "WHERE tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' ";
+    if( $id_field != null && $id_field != '' ) {
+        $strsql .= "AND $id_field = '" . ciniki_core_dbQuote($ciniki, $id_value) . "' ";
+    }
     $rc = ciniki_core_dbHashQuery($ciniki, $strsql, $m, 'seq');
     if( $rc['stat'] != 'ok' ) { 
         return $rc;

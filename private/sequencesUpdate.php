@@ -33,9 +33,10 @@ function ciniki_core_sequencesUpdate($ciniki, $tnid, $obj_name, $id_field, $id_v
     //
     $strsql = "SELECT id, sequence AS number "
         . "FROM " . $object['table'] . " "
-        . "WHERE $id_field = '" . ciniki_core_dbQuote($ciniki, $id_value) . "' "
-        . "AND tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
-        . "";
+        . "WHERE tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' ";
+    if( $id_field != null && $id_field != '' ) {
+        $strsql .= "AND $id_field = '" . ciniki_core_dbQuote($ciniki, $id_value) . "' ";
+    }
     // Use the last_updated to determine which is in the proper position for duplicate numbers
     if( $new_seq < $old_seq || $old_seq == -1) {
         $strsql .= "ORDER BY sequence, last_updated DESC";

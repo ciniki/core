@@ -104,16 +104,7 @@ M.panel.prototype.close = function(data) {
     //
     // Remove the panel
     //
-//    this.destroy();
     tinymce.remove();
-/*    if( this.tinymce.length > 0 ) {
-        for(i in this.tinymce) {
-            var e = tinymce.get(this.tinymce[i]);
-            if( e != null ) {
-                e.remove();
-            }
-        }
-    } */
 
     // Reset position
     this.lastY = 0;
@@ -279,6 +270,7 @@ M.panel.prototype.refreshHTMLEditor = function() {
                 branding: false,
                 elementpath: false,
                 resize: 'both',
+                theme: 'silver',
                 height: (this.tinymce[i].height != null ? this.tinymce[i].height : ''),
                 });
         }
@@ -383,14 +375,6 @@ M.panel.prototype.refresh = function() {
     if( c != null ) {
         this.onShowCbs = [];
         tinymce.remove();
-/*        if( this.tinymce.length > 0 ) {
-            for(i in this.tinymce) {
-                var e = tinymce.get(this.tinymce[i]);
-                if( e != null ) {
-                    e.remove();
-                }
-            }
-        } */
         var s = c.style.display;
         var p = c.parentNode;
         p.removeChild(c);

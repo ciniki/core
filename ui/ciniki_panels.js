@@ -265,6 +265,7 @@ M.panel.prototype.refreshHTMLEditor = function() {
                 menubar: false,
                 plugins: ['link', 'code', 'lists', 'advlist'],
                 statusbar: true,
+                paste_data_images: false,
                 selector: this.tinymce[i].selector,
                 toolbar: this.tinymce[i].toolbar,
                 branding: false,

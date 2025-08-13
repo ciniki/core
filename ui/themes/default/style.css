@@ -1353,7 +1353,6 @@ table.list tr.textfield > td > textarea {
 table.list tr.textfield > td.htmlarea {
     border: 0px;
     padding: 0px;
-    padding-right: 0.5em;
 }
 
 table.list tr.textfield > td > div.htmlarea {

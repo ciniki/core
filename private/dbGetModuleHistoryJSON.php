@@ -101,7 +101,7 @@ function ciniki_core_dbGetModuleHistoryJSON(&$ciniki, $module, $history_table, $
                 array_unshift($rsp['history'], [
                     'action' => [
                     'user_id' => $row['user_id'], 
-                    'date' => $row['date'], 
+                    'date'=>$date->format($datetime_format), 
                     'value' => $json[$json_field], 
                     'age' => $age,
                     ]]);

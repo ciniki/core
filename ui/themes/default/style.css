@@ -87,7 +87,7 @@ body {
     margin: 0px;
     padding: 0px;
     table-layout: auto;
-    z-index: 2;
+    z-index: 10;
 }
 
 .headerbar td {

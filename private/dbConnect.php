@@ -64,14 +64,15 @@ function ciniki_core_dbConnect(&$ciniki, $module) {
     // Open connection to the database requested,
     // and ensure a new connection is opened (TRUE).
     //
-    $ciniki['databases'][$database_name]['connection'] = mysqli_connect(
-        $ciniki['config']['ciniki.core']['database.' . $database_name . '.hostname'],
-        $ciniki['config']['ciniki.core']['database.' . $database_name . '.username'],
-        $ciniki['config']['ciniki.core']['database.' . $database_name . '.password'], 
-        $ciniki['config']['ciniki.core']['database.' . $database_name . '.database']);
-
-    if( $ciniki['databases'][$database_name]['connection'] == false ) {
-        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.33', 'msg'=>'Database error', 'pmsg'=>"Unable to connect to database '$database_name' for '$module'"));
+    try {
+        $ciniki['databases'][$database_name]['connection'] = mysqli_connect(
+            $ciniki['config']['ciniki.core']['database.' . $database_name . '.hostname'],
+            $ciniki['config']['ciniki.core']['database.' . $database_name . '.username'],
+            $ciniki['config']['ciniki.core']['database.' . $database_name . '.password'], 
+            $ciniki['config']['ciniki.core']['database.' . $database_name . '.database']);
+    } catch(mysqli_sql_exception $e) {
+        error_log('dbConnect: ' . $e->getMessage());
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.33', 'msg'=>'Internal Error, Please try again.', 'pmsg'=>"Unable to connect to database '$database_name' for '$module' - " . $e->getMessage()));
     }
 
 //  if( mysql_select_db($ciniki['config']['ciniki.core']['database.' . $database_name . '.database'], $ciniki['databases'][$database_name]['connection']) == false ) {

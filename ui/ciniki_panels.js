@@ -258,6 +258,12 @@ M.panel.prototype.show = function(cb) {
 M.panel.prototype.refreshHTMLEditor = function() {
     // Remove all existing editors
     tinymce.remove();
+    var darkmode = 'no';
+    if( M.userSettings['ui-darkmode'] != null && M.userSettings['ui-darkmode'] == 'on' ) {
+        darkmode = 'yes';
+    } else if( M.userSettings['ui-darkmode'] != null && M.userSettings['ui-darkmode'] == 'auto' ) {
+        darkmode = (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'yes' : 'no');
+    }
     if( this.tinymce.length > 0 ) {
         for(i in this.tinymce) {
             tinymce.init({
@@ -273,6 +279,8 @@ M.panel.prototype.refreshHTMLEditor = function() {
                 resize: 'both',
                 theme: 'silver',
                 height: (this.tinymce[i].height != null ? this.tinymce[i].height : ''),
+                skin: (darkmode == 'yes' ? 'oxide-dark' : 'oxide'),
+                content_css: (darkmode == 'yes' ? 'dark' : 'default')
                 });
         }
     }

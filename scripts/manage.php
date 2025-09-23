@@ -503,6 +503,7 @@ if( file_exists(dirname($ciniki_root) . '/manage.css') ) {
     print "<style type='text/css'>" . file_get_contents(dirname($ciniki_root) . '/manage.css') . "</style>\n";
 }
 
+
 ?>
 </head>
 <?php 

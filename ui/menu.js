@@ -9,6 +9,23 @@ function ciniki_core_menu() {
 
     this.start = function(cb) {
         //
+        // Check if darkmode should be loaded
+        //
+        var darkmode = 'no';
+        if( M.userSettings['ui-darkmode'] != null && M.userSettings['ui-darkmode'] == 'on' ) {
+            darkmode = 'yes';
+        } else if( M.userSettings['ui-darkmode'] != null && M.userSettings['ui-darkmode'] == 'auto' ) {
+            darkmode = (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'yes' : 'no');
+        }
+        if( darkmode == 'yes' ) {
+            var e = document.createElement('link');
+            e.rel = 'stylesheet';
+            e.type = 'text/css';
+            e.href = '/ciniki-mods/core/ui/themes/default/darkmode.css';
+            document.head.appendChild(e);
+        }
+
+        //
         // Get the list of tenants the user has access to
         //
         M.api.getJSONCb('ciniki.tenants.getUserTenants', {}, function(r) {

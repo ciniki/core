@@ -1352,7 +1352,7 @@ table.list tr.textfield > td > textarea {
 
 table.list tr.textfield > td.htmlarea {
     border: 0px;
-    padding: 0px;
+    padding: 0.2em;
 }
 
 table.list tr.textfield > td > div.htmlarea {
@@ -2139,7 +2139,7 @@ table.form td.input div.image_preview {
 
 table.form td.input div.image_preview img {
     background-color: #fff;
-    padding: 8px;
+    padding: 0px;
     max-width: 95%;
 }
 table.form.imageform td.input div.image_preview img {
@@ -4226,11 +4226,15 @@ div.xhelp-on tr.xhelp-text td p {
     margin-bottom: 0px;
 }
 */
+/* Tinymce settings */
+div.tox-tinymce {
+    border-radius: 2px;
+}
 /*
 @media (prefers-color-scheme: dark) {
     body {
         background: #000 !important;
-        color: #fff !important;
+        color: #ddd !important;
     }
     .headerbar {
         border-color: #333 !important;
@@ -4238,6 +4242,15 @@ div.xhelp-on tr.xhelp-text td p {
     .headerbar td {
         background: #222;
         border-color: #222;
+    }
+    .headerbar td.title,
+    .headerbar td div.button {
+        color: #aaa;
+    }
+    div.panel-simplebuttons.panel-sectionlabel div.simplebuttons {
+        background: #222;
+        border-color: #555;
+        font-weight: normal;
     }
     table.dayschedule,
     table.outline,
@@ -4257,7 +4270,7 @@ div.xhelp-on tr.xhelp-text td p {
     table.list table.fieldhistory td,
     table.list table.fieldhistory tr:first-child td,
     table.list table.fieldhistory tr:last-child td {
-        border-color: #444 !important;
+        border-color: #555 !important;
         border-radius: 0px !important;
     }
     table.list td.searchresults > table {
@@ -4271,8 +4284,8 @@ div.xhelp-on tr.xhelp-text td p {
         background: #222 !important;
     }
     table.calendar td {
-        border-right: 1px solid #444;
-        border-bottom: 1px solid #444;
+        border-right: 1px solid #555;
+        border-bottom: 1px solid #555;
     }
     table.calendar td.today {
         background: #555 !important;
@@ -4293,15 +4306,25 @@ div.xhelp-on tr.xhelp-text td p {
     table.mwschedule span.subject {
         color: #000;
     }
-   
+  
+    table.imageform {
+        background: #222;
+        color: #ddd;
+    }
     table.mwschedule > tbody > tr > td.monthlabel,
     table.list > thead > tr > th,
+    table.simplegrid td.flexlabel,
+    table.simplegrid td.label,
     table.border > tfoot > tr > th,
     table.border > tfoot > tr > td {
         background: #333;
+        color: #ddd;
     }
 
     table.outline,
+    div.sectionlabel,
+    table.simplebuttons,
+    table.imageform,
     table.border > thead:first-child > tr:first-child > th,
     table.border > thead:first-child > tr:first-child > td,
     table.border > thead > tr > th,
@@ -4316,7 +4339,7 @@ div.xhelp-on tr.xhelp-text td p {
     table.border > tfoot > tr > td,
     table.border > tfoot:last-child > tr:last-child > th,
     table.border > tfoot:last-child > tr:last-child > td {
-        border-color: #444 !important;
+        border-color: #555 !important;
     }
     input,
     table.list tr.textfield > td > textarea,
@@ -4332,15 +4355,6 @@ div.xhelp-on tr.xhelp-text td p {
         border-color: #555;
         box-shadow: none;
     }
-    table.form td.input > select {
-        background: #444;
-    }
-    table.list td > button {
-        background: #555;
-        border: 1px solid #777;
-        color: #fff;
-    }
-
     table.form td.tags span.rbutton_on,
     table.form td.tags span.rbutton_off,
     table.form td.flags span.flag_on,
@@ -4353,9 +4367,7 @@ div.xhelp-on tr.xhelp-text td p {
     table.paneltabs td.joinedtabs div span.toggle_off,
     table.form td div span.toggle_on,
     table.form td div span.toggle_off {
-        border: 1px solid #555 !important;
-        border-collapse: collapse !important;
-        border-right: 0px !important;
+        border-color: #555 !important;
     }
     table.form td.tags span.rbutton_on:last-child,
     table.form td.tags span.rbutton_off:last-child,
@@ -4374,13 +4386,16 @@ div.xhelp-on tr.xhelp-text td p {
     body span.button_off,
     body span.rbutton_off,
     body table.form td div span.toggle_off,
-    body table.form span.flag_off {
+    body table.form td.flags span.flag_off, 
+    body table.form td span.flag_off {
         background: #333;
         color: #ddd;
+        border-color: #555;
     }
     body span.button_on,
     body span.rbutton_on,
     body table.form td div span.toggle_on,
+    body table.form td.flags span.flag_on, 
     body table.form span.flag_on {
         background: #111; 
         color: #fff;
@@ -4397,15 +4412,28 @@ div.xhelp-on tr.xhelp-text td p {
     table.list > tbody > tr > td.buttons span.icon,
     table.list > tfoot > tr > td.buttons span.icon,
     table.list > tbody > tr > td.addbutton span.icon {
-        color: #777; 
+        color: #aaa; 
     }
     body span.count {
         background: #111;
         color: #fff;
         text-shadow: none;
     }
-    table.simplebuttons > tbody > tr > td.button {
-        background: #555 !important;
+    div.sectionlabel {
+        background: #474747;
+    }
+    div.sectionlabel h2 {
+        color: #ddd;
+    }
+    div.sectionlabel .faicon {
+        color: #aaa;
+    }
+    table.simplebuttons > tbody > tr > td.button,
+    table.list td > button {
+        background: #222 !important;
+        border: 1px solid #555 !important;
+        color: #fff !important;
+        font-weight: normal;
     }
     table.simplebuttons > tbody > tr > td.button.delete {
         background: #890000 !important;
@@ -4428,7 +4456,8 @@ div.xhelp-on tr.xhelp-text td p {
     table.simplegrid tr.highlight,
     .highlight {
         background: #beb804;
-        color: #000;
+        background: #646100;
+        color: #fff;
     }
     table.simplegrid tr.statusgrey,
     table.simplegrid td.statusgrey {
@@ -4438,6 +4467,22 @@ div.xhelp-on tr.xhelp-text td p {
     table.list > tbody > tr.statusyellow > td.multiline span.subtext,
     table.list > tbody > tr.statusyellow > td.multiline span.subsubtext {
         color: #333;
+    }
+    table.form td.input select,
+    table td.input > select {
+        background: #000; 
+        background-image: url('data:image/svg+xml,<%3Fxml version="1.0" %3F><svg fill="none" height="24" stroke="rgb(187,187,187)" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" width="32" xmlns="http://www.w3.org/2000/svg"><polyline points="6 9 12 15 18 9"/></svg>');
+        background-repeat: no-repeat;
+        background-position-x: 100%;
+        background-position-y: center;
+    }
+    .popupmenu .wrap {
+        background: #222;
+        border-color: #777;
+        box-shadow: 1px 1px 5px 2px #000;
+    }
+    .popupmenu .menuitem {
+        border-color: #777;
     }
     #m_error,
     #m_confirm,
@@ -4466,5 +4511,4 @@ div.xhelp-on tr.xhelp-text td p {
     #m_loading img {
         filter: invert(1);
     }
-}
-*/
+}*/

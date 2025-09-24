@@ -21,7 +21,7 @@ function ciniki_core_menu() {
             var e = document.createElement('link');
             e.rel = 'stylesheet';
             e.type = 'text/css';
-            e.href = '/ciniki-mods/core/ui/themes/default/darkmode.css';
+            e.href = '/ciniki-mods/core/ui/themes/default/darkmode.css?ts=' + Date.now();
             document.head.appendChild(e);
         }
 

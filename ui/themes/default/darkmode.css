@@ -1,9 +1,9 @@
 body {
-    background: #111 !important;
-    color: #ddd !important;
+    background: #111;
+    color: #ddd;
 }
 .headerbar {
-    border-color: #333 !important;
+    border-color: #333;
 }
 .headerbar td {
     background: #222;
@@ -36,8 +36,8 @@ table.list table.fieldhistory tr td span.age {
 table.list table.fieldhistory td,
 table.list table.fieldhistory tr:first-child td,
 table.list table.fieldhistory tr:last-child td {
-    border-color: #555 !important;
-    border-radius: 0px !important;
+    border-color: #555;
+    border-radius: 0px;
 }
 table.list td.searchresults > table {
     background: #333;
@@ -47,14 +47,14 @@ table.calendar,
 table.dayschedule td.empty,
 table.calendar td.empty,
 table.calendar td {
-    background: #222 !important;
+    background: #222;
 }
 table.calendar td {
     border-right: 1px solid #555;
     border-bottom: 1px solid #555;
 }
 table.calendar td.today {
-    background: #555 !important;
+    background: #555;
     color: #fff;
 }
 table.mwschedule > tbody > tr > td {
@@ -77,14 +77,23 @@ table.imageform {
     background: #222;
     color: #ddd;
 }
+table.dayschedule td.addlink,
+table.simplegrid td.addlink {
+    color: #ddd;
+}
 table.mwschedule > tbody > tr > td.monthlabel,
 table.list > thead > tr > th,
 table.simplegrid td.flexlabel,
+table.list td.label,
+table.simplelist td.label,
 table.simplegrid td.label,
 table.border > tfoot > tr > th,
 table.border > tfoot > tr > td {
     background: #333;
     color: #ddd;
+}
+table.form td.label {
+    background: #222;
 }
 
 table.outline,
@@ -97,15 +106,25 @@ table.border > thead > tr > th,
 table.border > thead > tr > td,
 table.border > tbody:first-child > tr > th,
 table.border > tbody:first-child > tr > td,
+table.border > tbody:first-child > tr:first-child > th,
+table.border > tbody:first-child > tr:first-child > td,
 table.border > tbody > tr > th,
 table.border > tbody > tr > td,
+table.border > tbody > tr > th:first-child,
+table.border > tbody > tr > td:first-child,
+table.border > tbody > tr > th:last-child,
+table.border > tbody > tr > td:last-child,
 table.border > tbody:last-child > tr > th,
 table.border > tbody:last-child > tr > td,
+table.border > tbody:last-child > tr:last-child > th,
+table.border > tbody:last-child > tr:last-child > td,
 table.border > tfoot > tr > th,
 table.border > tfoot > tr > td,
+table.border > tfoot:last-child > tr:first-child > th,
+table.border > tfoot:last-child > tr:first-child > td,
 table.border > tfoot:last-child > tr:last-child > th,
 table.border > tfoot:last-child > tr:last-child > td {
-    border-color: #555 !important;
+    border-color: #555;
 }
 input,
 table.list tr.textfield > td > textarea,
@@ -117,7 +136,7 @@ table.form td.input > select,
 table.simplelist > tbody > tr > td.search input,
 table.datepickersearch > tbody > tr > td.search input {
     background: #000;
-    color: #fff;
+    color: #ddd;
     border-color: #555;
     box-shadow: none;
 }
@@ -133,7 +152,7 @@ table.paneltabs td.joinedtabs div span.toggle_on,
 table.paneltabs td.joinedtabs div span.toggle_off,
 table.form td div span.toggle_on,
 table.form td div span.toggle_off {
-    border-color: #555 !important;
+    border-color: #555;
 }
 table.form td.tags span.rbutton_on:last-child,
 table.form td.tags span.rbutton_off:last-child,
@@ -147,7 +166,7 @@ table.paneltabs td.joinedtabs div span.toggle_on:last-child,
 table.paneltabs td.joinedtabs div span.toggle_off:last-child,
 table.form td div span.toggle_on:last-child,
 table.form td div span.toggle_off:last-child {
-    border-right: 1px solid #555 !important;
+    border-right: 1px solid #555;
 }
 body span.button_off,
 body span.rbutton_off,
@@ -196,17 +215,18 @@ div.sectionlabel .faicon {
 }
 table.simplebuttons > tbody > tr > td.button,
 table.list td > button {
-    background: #222 !important;
-    border: 1px solid #555 !important;
-    color: #fff !important;
+    background: #333;
+    border: 1px solid #555;
+    color: #ddd;
     font-weight: normal;
 }
 table.simplebuttons > tbody > tr > td.button.delete {
-    background: #890000 !important;
+    background: #550000;
+    border-color: #330000;
 }
 table.datepicker tr.statusred,
 table.simplegrid tr.statusred {
-    background: #890000;
+    background: #550000;
 }
 table.datepicker tr.statusorange,
 table.simplegrid tr.statusorange {

@@ -97,6 +97,7 @@ table.form td.label {
 }
 
 table.outline,
+table.outline tr.separator > td,
 div.sectionlabel,
 table.simplebuttons,
 table.imageform,

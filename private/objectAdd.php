@@ -116,16 +116,27 @@ function ciniki_core_objectAdd(&$ciniki, $tnid, $obj_name, $args, $tmsupdate=0x0
     //
     if( isset($o['history_table']) ) {
         ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbAddModuleHistory');
+        ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbAddModuleHistoryCustomer');
         ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'objectRefAdd');
-        ciniki_core_dbAddModuleHistory($ciniki, $m, $o['history_table'], $tnid,
-            1, $o['table'], $insert_id, 'uuid', $args['uuid']);
+        if( isset($o['history_customer']) && $o['history_customer'] == 'yes' ) {
+            ciniki_core_dbAddModuleHistoryCustomer($ciniki, $m, $o['history_table'], $tnid,
+                1, $o['table'], $insert_id, 'uuid', $args['uuid']);
+        } else {
+            ciniki_core_dbAddModuleHistory($ciniki, $m, $o['history_table'], $tnid,
+                1, $o['table'], $insert_id, 'uuid', $args['uuid']);
+        }
         foreach($o['fields'] as $field => $options) {
             //
             // Some field we don't store the history for, like binary content of files
             //
             if( !isset($options['history']) || $options['history'] == 'yes' ) {
-                ciniki_core_dbAddModuleHistory($ciniki, $m, $o['history_table'], $tnid,
-                    1, $o['table'], $insert_id, $field, $args[$field]);
+                if( isset($o['history_customer']) && $o['history_customer'] == 'yes' ) {
+                    ciniki_core_dbAddModuleHistoryCustomer($ciniki, $m, $o['history_table'], $tnid,
+                        1, $o['table'], $insert_id, $field, $args[$field]);
+                } else {
+                    ciniki_core_dbAddModuleHistory($ciniki, $m, $o['history_table'], $tnid,
+                        1, $o['table'], $insert_id, $field, $args[$field]);
+                }
             }
             //
             // Check if this column is a reference to another modules object, 

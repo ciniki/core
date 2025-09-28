@@ -83,6 +83,7 @@ function ciniki_core_objectUpdate(&$ciniki, $tnid, $obj_name, $oid, $args, $tmsu
     //
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQuote');
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbAddModuleHistory');
+    ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbAddModuleHistoryCustomer');
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbAddModuleHistoryNotes');
     $strsql = "UPDATE " . $o['table'] . " SET last_updated = UTC_TIMESTAMP()";
     $num_fields = 0;
@@ -168,6 +169,8 @@ function ciniki_core_objectUpdate(&$ciniki, $tnid, $obj_name, $oid, $args, $tmsu
                 }
                 if( isset($o['history_notes']) && $o['history_notes'] == 'yes' ) {
                     ciniki_core_dbAddModuleHistoryNotes($ciniki, $m, $o['history_table'], $tnid, $action, $o['table'], $oid, $field, $args[$field], $history_notes);
+                } elseif( isset($o['history_customer']) && $o['history_customer'] == 'yes' ) {
+                    ciniki_core_dbAddModuleHistoryCustomer($ciniki, $m, $o['history_table'], $tnid, $action, $o['table'], $oid, $field, $args[$field]);
                 } else {
                     ciniki_core_dbAddModuleHistory($ciniki, $m, $o['history_table'], $tnid, $action, $o['table'], $oid, $field, $args[$field]);
                 }

@@ -45,7 +45,7 @@ function ciniki_core_objectDelete(&$ciniki, $tnid, $obj_name, $oid, $ouuid, $tms
     if( $ouuid == NULL ) {
         $strsql = "SELECT uuid "
             . "FROM " . $o['table'] . " "
-            . " WHERE tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
+            . "WHERE tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
             . "AND id = '" . ciniki_core_dbQuote($ciniki, $oid) . "' "
             . "";
         $rc = ciniki_core_dbHashQuery($ciniki, $strsql, $m, 'object');
@@ -54,7 +54,7 @@ function ciniki_core_objectDelete(&$ciniki, $tnid, $obj_name, $oid, $ouuid, $tms
         }
         // Object does not exist
         if( $rc['stat'] == 'ok' && $rc['num_rows'] == 0 ) {
-            return array('stat'=>'noexist');
+            return array('stat'=>'noexist', 'err'=>array('code'=>'ciniki.core.410', 'msg'=>'Item does not exist'));
         }
         if( !isset($rc['object']) || !isset($rc['object']['uuid']) ) {
             return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.core.104', 'msg'=>'Unable to lookup UUID for ' . $obj_name));

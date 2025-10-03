@@ -4225,7 +4225,7 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
         }
         var v = this.fieldValue(s, i, field, mN);
         if( v != null ) {
-            if( field.type == 'htmlarea' && v != '' && !v.match(/^<(p|ol|ul)/) ) {
+            if( field.type == 'htmlarea' && v != '' && !v.match(/^<([a-z])/) ) {
                 f.value = '<p>' + v.replace(/\n\n/g,"</p><p>").replace(/\n/g, '<br>') + '</p>';
             } else {
                 f.value = v; 
@@ -5654,7 +5654,7 @@ M.panel.prototype.setFieldValue = function(field, v, vnum, hide, nM, action) {
         M.gE(this.panelUID + '_' + field + sFN).value = v;
         this.updateAudioPreview(field + sFN, v);
     } else if( f.type == 'htmlarea' ) {
-        if( v != '' && !v.match(/^<(p|ol|ul)/) ) {
+        if( v != '' && !v.match(/^<([a-z])/) ) {
             tinymce.get(this.panelUID + '_' + field + sFN).setContent('<p>' + v.replace(/\n\n/g,"</p><p>").replace(/\n/g, '<br>') + '</p>');
         } else {
             tinymce.get(this.panelUID + '_' + field + sFN).setContent(v);

@@ -4267,7 +4267,10 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
                     ];
             }
             if( field.tinymce != null && field.tinymce == 'basic' ) {
-                tinymce.toolbar = 'bold italic underline strikethrough';
+                tinymce.toolbar = 'bold italic underline strikethrough link';
+                if( (M.userPerms&0x01) == 0x01 ) { //sys admin toolbar
+                    tinymce.toolbar = 'bold italic underline strikethrough link code';
+                }
             }
             if( field.size != null && field.size == 'small' ) {
                 tinymce.height = 175;

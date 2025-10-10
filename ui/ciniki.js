@@ -1911,6 +1911,32 @@ M.promptFn = function() {
     var a = M.gE('m_prompt_input');
     e.promptFn(a.value);
 }
+M.findreplace = function(btntxt, fn) {
+    if( btntxt == null || btntxt == '' ) {
+        btntxt = 'Find and Replace';
+    }
+    var e = M.gE('m_prompt_msg');
+    e.innerHTML = '<tr><td>Find:</td></tr>'
+        + '<tr><td><input onKeyUp="M.promptKeyUp(event);" type="text" id="m_prompt_find" value="" /></td></tr>'
+        + '<tr><td>Replace with:</td></tr>'
+        + '<tr><td><input onKeyUp="M.promptKeyUp(event);" type="text" id="m_prompt_replace" value="" /></td></tr>'
+    var e = M.gE('m_prompt_btn');
+    e.innerHTML = '';
+    e.promptFn = fn;
+    var td = M.aE('td', null, 'button delete', btntxt);
+    var tr = M.aE('tr',null,null,null,'M.findreplaceFn();');
+    tr.appendChild(td);
+    e.appendChild(tr);
+    M.show('m_prompt');
+    M.gE('m_prompt_find').focus();
+}
+M.findreplaceFn = function() {
+    M.hide('m_prompt');
+    var e = M.gE('m_prompt_btn');
+    var f = M.gE('m_prompt_find');
+    var r = M.gE('m_prompt_replace');
+    e.promptFn(f.value, r.value);
+}
 M.processingShow = function(msg, confirmTxt, confirmFn, cancelTxt, cancelFn) {
     confirmTxt = confirmTxt != null ? confirmTxt : 'Complete';
     cancelTxt = cancelTxt != null ? cancelTxt : 'Cancel';

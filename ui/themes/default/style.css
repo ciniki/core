@@ -3970,9 +3970,13 @@ div.xhelp-on tr.xhelp-text td p {
     color: #333;
     cursor: pointer;
 }
-#m_prompt #m_prompt_msg tr:first-child td {
-    border-bottom: 0px;
+#m_prompt #m_prompt_msg tr td {
+    border-bottom-width: 0px;
     padding-bottom: 0px;
+}
+#m_prompt #m_prompt_msg tr:last-child td {
+    border-bottom-width: 1px;
+    padding-bottom: 1em;
 }
 
 

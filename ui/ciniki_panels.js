@@ -2587,8 +2587,10 @@ M.panel.prototype.createSectionGrid = function(s) {
     if( ct == 0 && (this.noData != null || sc.noData != null) ) {
         // var t = M.addTable(null, 'list noheader border');
         // var tb = M.aE('tbody');
-        if( this.noData != null ) {
+        if( this.noData != null && typeof this.noData == 'function' ) {
             var nd = this.noData(s);
+        } else if( sc.noData != null && typeof sc.noData == 'function' ) {
+            var nd = sc.noData(s);
         } else {
             var nd = sc.noData;
         }

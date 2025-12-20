@@ -52,6 +52,7 @@ function ciniki_core_dbGetModuleHistoryReformat(&$ciniki, $module, $history_tabl
     $intl_currency = $rc['settings']['intl-default-currency'];
     $date_format = ciniki_users_dateFormat($ciniki);
     $time_format = ciniki_users_timeFormat($ciniki);
+    $datetime_format = ciniki_users_datetimeFormat($ciniki);
     $php_date_format = ciniki_users_dateFormat($ciniki, 'php');
     $php_time_format = ciniki_users_timeFormat($ciniki, 'php');
     $php_datetime_format = ciniki_users_datetimeFormat($ciniki, 'php');

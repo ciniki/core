@@ -1191,6 +1191,9 @@ table.outline tr > td.input {
     margin: 0px;
     vertical-align: middle;
 }
+table.form tr.textfield.select.toggle td.input {
+    width: auto;
+}
 table.form.simplegrid tr > td.input {
     border-left: 0px;
     width: auto;

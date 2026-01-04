@@ -104,7 +104,9 @@ M.panel.prototype.close = function(data) {
     //
     // Remove the panel
     //
-    tinymce.remove();
+    if( this.tinymce != null && this.tinymce.length != 0 ) {
+        tinymce.remove();
+    }
 
     // Reset position
     this.lastY = 0;

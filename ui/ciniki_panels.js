@@ -8355,3 +8355,20 @@ M.panel.prototype.popupMenuClose = function(s) {
         e.remove();
     }
 }
+M.panel.prototype.mouseHoverInfoShow = function(s,info) {
+    var popup = M.aE('div',this.panelUID + '_hoverinfo','hoverinfo');
+    var wrap = M.aE('div',null,'wrap');
+    wrap.innerHTML = info;
+    popup.appendChild(wrap);
+    wrap.style.left = event.clientX + 'px';
+    wrap.style.top = event.clientY + 'px';
+    wrap.style.padding = '0.5rem';
+    var e = M.gE(this.panelUID + '_section_' + s);
+    e.appendChild(popup);
+}
+M.panel.prototype.mouseHoverInfoHide = function() {
+     var e = M.gE(this.panelUID + '_hoverinfo');
+     if( e != null ) {
+         e.remove();
+     }
+}

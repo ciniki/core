@@ -4170,6 +4170,28 @@ div.xhelp-on tr.xhelp-text td p {
     padding-left: 0px;
     padding-right: 0px;
 }
+.hoverinfo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0,0,0,0.1); 
+    z-index: 9;
+}
+.hoverinfo .wrap {
+    display: inline-block;
+    position: absolute;
+    background: #fff;
+    border: 1px solid #ddd;
+    padding: 0rem;
+    border-radius: 0.25rem;
+    box-shadow: 1px 1px 5px #555;
+    display: flex;
+    flex-flow: column nowrap;
+    z-index: 10;
+    text-align: left;
+    line-height: 1.3em;
+}
 .popupmenu {
     position: absolute;
     top: 0;

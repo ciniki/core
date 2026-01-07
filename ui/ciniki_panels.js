@@ -8361,7 +8361,7 @@ M.panel.prototype.mouseHoverInfoShow = function(s,info) {
     wrap.innerHTML = info;
     popup.appendChild(wrap);
     wrap.style.left = event.clientX + 'px';
-    wrap.style.top = event.clientY + 'px';
+    wrap.style.top = window.scrollY + event.clientY + 'px';
     wrap.style.padding = '0.5rem';
     var e = M.gE(this.panelUID + '_section_' + s);
     e.appendChild(popup);

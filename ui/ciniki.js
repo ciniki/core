@@ -2041,7 +2041,7 @@ M.formatRain = function(v) {
     return v + (v != '' ? '&nbsp;mm' : '');
 }
 M.textCount = function(t, c) {
-    return t + (c != null ? '<span class="count">' + c + '</span>' : '');
+    return t + (c != null && c != '' ? '<span class="count">' + c + '</span>' : '');
 }
 M.subdue = function(pre,m,post) {
     if( m != '' ) {

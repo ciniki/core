@@ -3281,9 +3281,38 @@ table.simplegrid tr.statusteal,
 table.simplegrid td.statusteal {
     background: #cefff8;
 }
+table.simplegrid tr.statusgreenfade,
+table.simplegrid td.statusgreenfade {
+    background: linear-gradient(90deg, #ddffdd, #ffffff);
+}
+table.simplegrid tr.statusorangefade,
+table.simplegrid td.statusorangefade {
+    background: linear-gradient(90deg, #ffefdd, #ffffff);
+}
+table.simplegrid tr.statusyellowfade,
+table.simplegrid td.statusyellowfade {
+    background: linear-gradient(90deg, #fffdc5, #ffffff);
+}
+table.simplegrid tr.statusredfade,
+table.simplegrid td.statusredfade {
+    background: #ffdddd;
+    background: linear-gradient(90deg, #ffdddd, #ffffff);
+}
 table.simplegrid tr.statusgreyfade,
 table.simplegrid td.statusgreyfade {
     background: linear-gradient(90deg, #dddddd, #ffffff);
+}
+table.simplegrid tr.statusbluefade,
+table.simplegrid td.statusbluefade {
+    background: linear-gradient(90deg, #ddf1ff, #ffffff);
+}
+table.simplegrid tr.statuspurplefade,
+table.simplegrid td.statuspurplefade {
+    background: linear-gradient(90deg, #f0ddff, #ffffff);
+}
+table.simplegrid tr.statustealfade,
+table.simplegrid td.statustealfade {
+    background: linear-gradient(90deg, #cefff8, #ffffff);
 }
 table.simplegrid tr.statuslinethrough td,
 table.simplegrid td.statuslinethrough {

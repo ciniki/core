@@ -3281,6 +3281,18 @@ table.simplegrid tr.statusteal,
 table.simplegrid td.statusteal {
     background: #cefff8;
 }
+table.simplegrid tr.statusgreyfade,
+table.simplegrid td.statusgreyfade {
+    background: linear-gradient(90deg, #dddddd, #ffffff);
+}
+table.simplegrid tr.statuslinethrough td,
+table.simplegrid td.statuslinethrough {
+    text-decoration: line-through;
+}
+table.simplegrid tr.statuslinethrough td.buttons,
+table.simplegrid td.statuslinethrough.buttons {
+    text-decoration: none;
+}
 /* Alert styles */
 table.list tr.severity50 {
     background: #ffdddd;

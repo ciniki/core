@@ -1005,6 +1005,10 @@ table.form tr.textfield > td.label > label {
     white-space: nowrap;
     text-overflow: ellipsis;
 }
+table.form tr.textfield.htmlarea > td.label > label {
+    white-space: wrap;
+    line-height: 1.4em;
+}
 table.form tr.datetime input.datetime-date {
     display: inline-block;
     min-width: 7em;

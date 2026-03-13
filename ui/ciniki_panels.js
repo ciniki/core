@@ -280,6 +280,8 @@ M.panel.prototype.refreshHTMLEditor = function() {
                 elementpath: false,
                 resize: 'both',
                 theme: 'silver',
+                relative_urls: false,
+                remove_script_host: false,
                 height: (this.tinymce[i].height != null ? this.tinymce[i].height : ''),
                 skin: (darkmode == 'yes' ? 'oxide-dark' : 'oxide'),
                 content_css: (darkmode == 'yes' ? 'dark' : 'default')

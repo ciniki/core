@@ -6992,7 +6992,7 @@ M.panel.prototype.serializeForm = function(fs) {
             // Skip multi sections, they need to be serialized another way
             for(j in s.fields) {
                 var f = s.fields[j];
-                if( f.type == null || f.type == 'noedit' ) { continue; }
+                if( f.type == null || f.type == 'noedit' || f.type == 'info' ) { continue; }
                 if( f.active != null && ((typeof f.active == 'function' && f.active() == 'no') || f.active == 'no') ) { continue; }
                 var fid = j;
                 if( this.fieldID != null ) {

@@ -394,6 +394,12 @@ function ciniki_core_dbHashQueryArrayTree(&$ciniki, $strsql, $module, $tree) {
         ) {
         error_log('[' . round($mid_time-$start_time, 2) . ':' . round($end_time-$mid_time, 2) . '] ' . $strsql);
     }
+    elseif( isset($ciniki['config']['ciniki.core']['database.log.longquerytimes'])
+        && $ciniki['config']['ciniki.core']['database.log.longquerytimes']
+        && ($mid_time-$start_time) > 0.5 
+        ) {
+        error_log('LONGQUERY: [' . round($mid_time-$start_time, 2) . ':' . round($end_time-$mid_time, 2) . '] ' . $strsql);
+    }
 
     return $rsp;
 }

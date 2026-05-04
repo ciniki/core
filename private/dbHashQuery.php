@@ -73,7 +73,12 @@ function ciniki_core_dbHashQuery(&$ciniki, $strsql, $module, $container_name) {
         && $ciniki['config']['ciniki.core']['database.log.longquerytimes']
         && ($mid_time-$start_time) > 0.5 
         ) {
-        error_log('LONGQUERY: [' . round($mid_time-$start_time, 2) . ':' . round($end_time-$mid_time, 2) . '] ' . $strsql);
+        $bt = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+        $file = '';
+        if( isset($bt['0']['file']) ) {
+            $file = $bt['0']['file'] . ':' . $bt['0']['line'];
+        }
+        error_log("LONGQUERY ($file): [" . round($mid_time-$start_time, 2) . ':' . round($end_time-$mid_time, 2) . '] ' . $strsql);
     }
 
     //

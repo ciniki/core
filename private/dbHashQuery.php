@@ -70,8 +70,8 @@ function ciniki_core_dbHashQuery(&$ciniki, $strsql, $module, $container_name) {
         error_log('[' . round($mid_time-$start_time, 2) . ':' . round($end_time-$mid_time, 2) . '] ' . $strsql);
     }
     elseif( isset($ciniki['config']['ciniki.core']['database.log.longquerytimes'])
-        && $ciniki['config']['ciniki.core']['database.log.longquerytimes']
-        && ($mid_time-$start_time) > 0.5 
+        && is_numeric($ciniki['config']['ciniki.core']['database.log.longquerytimes'])
+        && ($mid_time-$start_time) > $ciniki['config']['ciniki.core']['database.log.longquerytimes'] 
         ) {
         $bt = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
         $file = '';

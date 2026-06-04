@@ -7369,10 +7369,10 @@ M.panel.prototype.serializeFormData = function(fs) {
                     }
                 } else if( f.type == 'flagtoggle' && f.field != null ) {
                     if( flags[f.field] == null ) {
-                        flags[f.field] = {'f':f, 'v':0};
+                        flags[f.field] = {'f':f, 'v':this.fieldValue('', f.field, f)};
                     }
                     var n = this.formFieldValue(f, fid);
-                    if( n == 'on' || (f.reverse != null && f.reverse == 'yes' && n == 'off') ) {
+                    if( n == 'on' ) {
                         flags[f.field].v |= f.bit;
                     } else if( (flags[f.field].v&f.bit) > 0 ) {
                         flags[f.field].v ^= f.bit;
@@ -7383,6 +7383,17 @@ M.panel.prototype.serializeFormData = function(fs) {
                     }
                     var n = this.formFieldValue(f, fid);
                     flags[f.field].v = flags[f.field].v ^ ((flags[f.field].v ^ n) & f.mask);
+                } else if( f.type == 'flags' ) {
+                    var n = this.formFieldValue(f, fid);
+                    if( f.field == null ) {
+                        f.field = fid;
+                    }
+                    if( flags[fid] == null ) {
+                        flags[fid] = {'f':f, 'v':this.formFieldValue(f, fid)};
+                    } else if( f.mask != null ) {
+                        var n = this.formFieldValue(f, fid);
+                        flags[fid].v = flags[fid].v ^ ((flags[fid].v ^ n) & f.mask);
+                    }
                 } else {
                     var n = this.formFieldValue(f, fid);
                     if( n != o || fs == 'yes' ) {

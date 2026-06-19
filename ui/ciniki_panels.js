@@ -1669,8 +1669,12 @@ M.panel.prototype.liveSearchResultsTable = function(s, f, sd) {
         }
         // If there's the possiblity of row being clickable, then add extra column to header for > (arrow).
         sd.num_cols = sd.headerValues.length;
-        if( this.liveSearchResultRowFn != null ) {
+        if( sd.editFn != null ) {
             sd.num_cols = sd.headerValues.length + 1;
+            tr.appendChild(M.aE('th', null, 'noprint'));
+        }
+        if( this.liveSearchResultRowFn != null ) {
+//            sd.num_cols = sd.headerValues.length + 1;
             tr.appendChild(M.aE('th', null, 'noprint'));
         }
         th.appendChild(tr);
@@ -1813,6 +1817,17 @@ M.panel.prototype.liveSearchShow = function(s, f, inputElement, searchData) {
                     c.className += ' clickable';
                     c.setAttribute('onclick', 'event.stopPropagation();' + fn);
                 }
+            }
+            tr.appendChild(c);
+        }
+
+        if( sc.editFn != null && sc.editFn(s, i, searchData[i]) != null ) {
+            c = M.aE('td', null, 'buttonicons noprint');
+            var fn = sc.editFn(s, i, searchData[i]);
+            if( fn != '' ) {
+                c.setAttribute('onclick', 'event.stopPropagation();' + this.panelRef + '.savePos(\'' + s + '\');' + sc.editFn(s, i, searchData[i]));
+                c.innerHTML = '<span class="faicon">&#xf040;</span>';
+                tr.className = 'clickable' + rcl;
             }
             tr.appendChild(c);
         }

@@ -747,6 +747,13 @@ table.border > tfoot:last-child > tr:last-child > td {
     border-bottom: 1px solid #ccc;
 }
 
+table.gridlines td {
+    border-right: 1px dashed #ddd;
+}
+table.gridlines th {
+    border-right: 1px dashed #ddd;
+}
+
 table.border {
     background: #fff;
 }

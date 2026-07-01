@@ -2375,6 +2375,9 @@ M.panel.prototype.createSectionGridHeaders = function(s, sc, data) {
     } else {
         cl = 'simplegrid border';
     }
+    if( sc.gridlines != null && sc.gridlines == 'all' ) {
+        cl += ' gridlines';
+    }
     if( sc.scrollHeight != null ) {
         cl += ' scrolling';
     }
@@ -2411,7 +2414,11 @@ M.panel.prototype.createSectionGridHeaders = function(s, sc, data) {
         tr.appendChild(M.aE('th', null, 'noprint'));
     }
     // If there's the possiblity of row being clickable, then add extra column to header for > (arrow).
-    if( sc.rowFn != null || this.rowFn != null || this.rowTreeFn != null ) {
+    if( sc.rowFn != null ) {
+        if( sc.rowFn() != null ) {
+            tr.appendChild(M.aE('th', null, 'noprint'));
+        }
+    } else if (this.rowFn != null || this.rowTreeFn != null ) {
         tr.appendChild(M.aE('th', null, 'noprint'));
     }
     th.appendChild(tr);
@@ -2467,7 +2474,11 @@ M.panel.prototype.createSectionGridFooters = function(s, sc) {
         tr.appendChild(this.createSectionGridFooter(s, i, sc));
     }
     // If there's the possiblity of row being clickable, then add extra column to header for > (arrow).
-    if( sc.rowFn != null || this.rowFn != null || this.rowTreeFn != null ) {
+    if( sc.rowFn != null ) {
+        if( sc.rowFn() != null ) {
+            tr.appendChild(M.aE('th', null, 'noprint'));
+        }
+    } else if( this.rowFn != null || this.rowTreeFn != null ) {
         tr.appendChild(M.aE('th', null, 'noprint'));
     }
 
@@ -2825,7 +2836,7 @@ M.panel.prototype.createSectionGridRow = function(s, i, sc, num_cols, rowdata, t
     }
     var rcl = '';
     if( this.rowClass != null ) {
-        rcl = ' ' + this.rowClass(s, i, rowdata);
+        rcl = this.rowClass(s, i, rowdata);
         tr.className = rcl;
     }
     if( sc.seqDrop != null ) {

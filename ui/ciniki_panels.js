@@ -2836,7 +2836,7 @@ M.panel.prototype.createSectionGridRow = function(s, i, sc, num_cols, rowdata, t
     }
     var rcl = '';
     if( this.rowClass != null ) {
-        rcl = this.rowClass(s, i, rowdata);
+        rcl = ' ' + this.rowClass(s, i, rowdata);
         tr.className = rcl;
     }
     if( sc.seqDrop != null ) {

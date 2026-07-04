@@ -1851,7 +1851,11 @@ M.panel.prototype.liveSearchShow = function(s, f, inputElement, searchData) {
         }
     }
     if( tb != null && ct == 0 && sc.noData != null ) {
-        tb.innerHTML = '<tr><td colspan="' + sc.num_cols + '">' + sc.noData + '</td></tr>';
+        if( this.liveSearchResultRowFn != null ) {
+            tb.innerHTML = '<tr><td colspan="' + (sc.num_cols+1) + '">' + sc.noData + '</td></tr>';
+        } else {
+            tb.innerHTML = '<tr><td colspan="' + sc.num_cols + '">' + sc.noData + '</td></tr>';
+        }
         this.lastSearches[s] = inputElement.value;
     }
 };

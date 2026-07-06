@@ -2398,6 +2398,11 @@ M.panel.prototype.createSectionGridHeaders = function(s, sc, data) {
     }
     var th = M.aE('thead');
     var tr = M.aE('tr');
+    // Check if selectable 
+    if( (sc.selectable != null && sc.selectable == 'yes') || sc.selectFn != null ) {
+        var c = M.aE('th',null,'buttonicons noprint', '');
+        tr.appendChild(c);
+    }
     for(var i=0;i<sc.num_cols;i++) {
         // Check for a split column in compact view
         if( M.size == 'compact' && sc.compact_split_at != null && sc.compact_split_at == i ) {
@@ -2847,6 +2852,16 @@ M.panel.prototype.createSectionGridRow = function(s, i, sc, num_cols, rowdata, t
         rcl += ' ' + 'draggable';
     }
 
+    // check if selectable is enabled
+    if( (sc.selectable != null && sc.selectable == 'yes') || sc.selectFn != null ) {
+        c = M.aE('td', null, 'buttonicons noprint');
+        c.setAttribute('onclick', 'event.stopPropagation();' + this.panelRef + '.rowSelect(event,this,\'' + s + '\',\'' + i + '\');');
+        c.innerHTML = '<span class="faicon">&#xf096;</span>';
+        tr.appendChild(c);
+        this.sections[s].selected = []; 
+        ptr.setAttribute('onclick', this.panelRef + '.rowClick(event,this,\'' + s + '\',\'' + i + '\');');
+    } 
+
     for(var j=0;j<num_cols;j++) {
         var cl = null;
         if( this.cellClass != null ) { cl = this.cellClass(s, i, j, rowdata); }
@@ -3072,11 +3087,6 @@ M.panel.prototype.createSectionGridRow = function(s, i, sc, num_cols, rowdata, t
         ptr.className = 'clickable' + rcl;
         ptr.appendChild(c);
     }
-    // check if selectable is enabled
-    if( (sc.selectable != null && sc.selectable == 'yes') || sc.selectFn != null ) {
-        this.sections[s].selected = []; 
-        ptr.setAttribute('onclick', this.panelRef + '.rowClick(event,this,\'' + s + '\',\'' + i + '\');');
-    } 
     // Add the arrow to click on
     if( sc.rowFn != null && sc.rowFn(i, rowdata) != null ) {
         c = M.aE('td', null, 'buttons noprint');
@@ -3111,6 +3121,20 @@ M.panel.prototype.createSectionGridRow = function(s, i, sc, num_cols, rowdata, t
 
     return tr;
 }
+M.panel.prototype.rowSelect = function(e, td, s, i) {
+    if( td.parentNode.classList.contains('highlight') ) {
+        td.parentNode.classList.remove('highlight');
+        td.innerHTML = '<span class="faicon">&#xf096;</span>';
+        this.sections[s].selected.splice(this.sections[s].selected.indexOf(i), 1);
+    } else {
+        td.innerHTML = '<span class="faicon">&#xf046;</span>';
+        td.parentNode.classList.add('highlight');
+        this.sections[s].selected.push(i);
+    }
+    if( this.sections[s].selectFn != null ) {
+        return this.sections[s].selectFn(e,i);
+    }
+}
 M.panel.prototype.rowClick = function(e, tr, s, i) {
     var data = null;
     if( this.sectionData != null ) {
@@ -3120,16 +3144,7 @@ M.panel.prototype.rowClick = function(e, tr, s, i) {
     }
     var fn = tr.getAttribute('singleclick');
     if( e.ctrlKey || e.metaKey ) {  
-        if( tr.classList.contains('highlight') ) {
-            tr.classList.remove('highlight');
-            this.sections[s].selected.splice(this.sections[s].selected.indexOf(i), 1);
-        } else {
-            tr.classList.add('highlight');
-            this.sections[s].selected.push(i);
-        }
-        if( this.sections[s].selectFn != null ) {
-            return this.sections[s].selectFn(e,i);
-        }
+        this.rowSelect(e,tr.firstChild,s,i);
     } else if( fn != null && fn != '' ) {
         this.savePos();
         eval(fn);

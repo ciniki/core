@@ -2599,7 +2599,7 @@ M.panel.prototype.createSectionGrid = function(s) {
         }
 
         var tr = this.createSectionGridRow(s, i, sc, num_cols, data[i], tb);
-    
+
         if( sc.seqDrop != null ) {
             tr.setAttribute('draggable', true);
             tr.setAttribute('ondragstart', this.panelRef + '.seqDragStart(event,"' + s + '","' + i + '")');
@@ -3072,12 +3072,21 @@ M.panel.prototype.createSectionGridRow = function(s, i, sc, num_cols, rowdata, t
         ptr.className = 'clickable' + rcl;
         ptr.appendChild(c);
     }
+    // check if selectable is enabled
+    if( (sc.selectable != null && sc.selectable == 'yes') || sc.selectFn != null ) {
+        this.sections[s].selected = []; 
+        ptr.setAttribute('onclick', this.panelRef + '.rowClick(event,this,\'' + s + '\',\'' + i + '\');');
+    } 
     // Add the arrow to click on
     if( sc.rowFn != null && sc.rowFn(i, rowdata) != null ) {
         c = M.aE('td', null, 'buttons noprint');
         var fn = sc.rowFn(i, rowdata);
         if( fn != '' ) {
-            ptr.setAttribute('onclick', this.panelRef + '.savePos(\'' + s + '\');' + fn);
+            if( sc.selectable == null && sc.selectFn == null ) {
+                ptr.setAttribute('onclick', this.panelRef + '.savePos(\'' + s + '\');' + fn);
+            } else {
+                ptr.setAttribute('singleclick', this.panelRef + '.savePos(\'' + s + '\');' + fn);
+            }
             c.innerHTML = '<span class="icon">r</span>';
             ptr.className = 'clickable' + rcl;
         }
@@ -3087,7 +3096,11 @@ M.panel.prototype.createSectionGridRow = function(s, i, sc, num_cols, rowdata, t
         c = M.aE('td', null, 'buttons noprint');
         var fn = this.rowFn(s, i, rowdata);
         if( fn != '' ) {
-            ptr.setAttribute('onclick', this.panelRef + '.savePos(\'' + s + '\');' + fn);//this.rowFn(s, i, rowdata));
+            if( sc.selectable == null && sc.selectFn == null ) {
+                ptr.setAttribute('onclick', this.panelRef + '.savePos(\'' + s + '\');' + fn);
+            } else {
+                ptr.setAttribute('singleclick', this.panelRef + '.savePos(\'' + s + '\');' + fn);
+            }
             c.innerHTML = '<span class="icon">r</span>';
             ptr.className = 'clickable' + rcl;
         }
@@ -3097,6 +3110,31 @@ M.panel.prototype.createSectionGridRow = function(s, i, sc, num_cols, rowdata, t
     }
 
     return tr;
+}
+M.panel.prototype.rowClick = function(e, tr, s, i) {
+    var data = null;
+    if( this.sectionData != null ) {
+        data = this.sectionData(s);
+    } else if( sc.data != null ) {
+        data = sc.data;
+    }
+    var fn = tr.getAttribute('singleclick');
+    if( e.ctrlKey || e.metaKey ) {  
+        if( tr.classList.contains('highlight') ) {
+            tr.classList.remove('highlight');
+            this.sections[s].selected.splice(this.sections[s].selected.indexOf(i), 1);
+        } else {
+            tr.classList.add('highlight');
+            this.sections[s].selected.push(i);
+        }
+        if( this.sections[s].selectFn != null ) {
+            return this.sections[s].selectFn(e,i);
+        }
+    } else if( fn != null && fn != '' ) {
+        this.savePos();
+        eval(fn);
+    }
+    return true;  
 }
 M.panel.prototype.savePos = function() {
     this.lastY = window.scrollY;

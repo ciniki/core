@@ -1643,6 +1643,11 @@ M.panel.prototype.liveSearchResultsTable = function(s, f, sd) {
         var t = M.addTable(n + '_livesearch_grid', 'list simplegrid header border searchresults');
         var th = M.aE('thead');
         var tr = M.aE('tr');
+        // Check if selectable 
+        if( (this.sections[s].selectable != null && this.sections[s].selectable == 'yes') || this.sections[s].selectFn != null ) {
+            var c = M.aE('th',null,'buttonicons noprint', '');
+            tr.appendChild(c);
+        }
         for(var i=0;i<sd.fields[f].headerValues.length;i++) {
             var c = M.aE('th',null,null,sd.fields[f].headerValues[i]);
             tr.appendChild(c);
@@ -1659,6 +1664,11 @@ M.panel.prototype.liveSearchResultsTable = function(s, f, sd) {
         var t = M.addTable(n + '_livesearch_grid', 'list simplegrid header border searchresults');
         var th = M.aE('thead');
         var tr = M.aE('tr');
+        // Check if selectable 
+        if( (this.sections[s].selectable != null && this.sections[s].selectable == 'yes') || this.sections[s].selectFn != null ) {
+            var c = M.aE('th',null,'buttonicons noprint', '');
+            tr.appendChild(c);
+        }
         for(var i=0;i<sd.headerValues.length;i++) {
             var cl = '';
             if( sd.headerClasses != null && sd.headerClasses[i] != null ) {
@@ -1800,6 +1810,15 @@ M.panel.prototype.liveSearchShow = function(s, f, inputElement, searchData) {
         if( f != null && sc.fields[f] != null && sc.fields[f].livesearchcols != null ) {
             nc = sc.fields[f].livesearchcols;
         }
+        // check if selectable is enabled
+        if( (sc.selectable != null && sc.selectable == 'yes') || sc.selectFn != null ) {
+            c = M.aE('td', null, 'buttonicons noprint');
+            c.setAttribute('onclick', 'event.stopPropagation();' + this.panelRef + '.rowSelect(event,this,\'' + s + '\',\'' + i + '\');');
+            c.innerHTML = '<span class="faicon">&#xf096;</span>';
+            tr.appendChild(c);
+            this.sections[s].selected = []; 
+            tr.setAttribute('onclick', this.panelRef + '.rowClick(event,this,\'' + s + '\',\'' + i + '\');');
+        } 
         // Reset null to 1 column
         nc=(nc==null)?1:nc;
         for(var j=0;j<nc;j++) {

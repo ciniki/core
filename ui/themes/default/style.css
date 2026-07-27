@@ -946,6 +946,11 @@ table.list > tbody > tr > td.buttonicons {
     width: 1.5em;
     min-width: 1.5em;
 }
+table.list > tbody > tr > td.buttonicons.dragbutton {
+    width: 0.5rem;
+    min-width: 0.5rem;
+    padding-right: 0;
+}
 
 table.stepnav > tbody > tr > td.prev,
 table.datepicker > tbody > tr > td.prev {
@@ -1986,15 +1991,14 @@ table.simplegrid td.addlink {
 table.dayschedule td.addlink {
     border-right: 0px;
 }
-
-table.list tr.draggable > td:first-child:before {
+/*table.list tr.draggable > td:first-child:before {
     font-family: FontAwesome;
     content: "\f07d";
     width: 1rem;
     color: #bbb;
     padding-right: 0.5em;
     vertical-align: middle;
-}
+} 
 table.list tr.draggable > td.multiline:first-child:before {
     float: left;
 }
@@ -2008,7 +2012,7 @@ table.list tr.draggable > td.thumbnail:first-child:before {
 table.list tr.draggable > td.thumbnail:first-child {
     width: 100px;
     padding-left: 0.5em;
-}
+}  */
 /* table.list tr.draggable.drophighlight td {
     border-top: 2px solid #000;
 } */

@@ -2417,6 +2417,11 @@ M.panel.prototype.createSectionGridHeaders = function(s, sc, data) {
     }
     var th = M.aE('thead');
     var tr = M.aE('tr');
+    // Check if dragable
+    if( sc.seqDrop != null ) {
+        var c = M.aE('th',null,'buttonicons noprint dragbutton', '');
+        tr.appendChild(c);
+    }
     // Check if selectable 
     if( (sc.selectable != null && sc.selectable == 'yes') || sc.selectFn != null ) {
         var c = M.aE('th',null,'buttonicons noprint', '');
@@ -2871,6 +2876,12 @@ M.panel.prototype.createSectionGridRow = function(s, i, sc, num_cols, rowdata, t
         rcl += ' ' + 'draggable';
     }
 
+    // check if draggable is enabled
+    if( sc.seqDrop != null ) {
+        c = M.aE('td', null, 'buttonicons noprint dragbutton');
+        c.innerHTML = '<span class="faicon">&#xf07d;</span>';
+        tr.appendChild(c);
+    } 
     // check if selectable is enabled
     if( (sc.selectable != null && sc.selectable == 'yes') || sc.selectFn != null ) {
         c = M.aE('td', null, 'buttonicons noprint');

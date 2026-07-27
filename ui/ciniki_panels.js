@@ -5004,10 +5004,10 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
         f.setAttribute('onclick', this.panelRef + '.clearFileName(\''+i+'\');');
         c.appendChild(f);
         // Download button
-        if( field.deleteFn != null ) {
+        if( field.downloadFn != null ) {
             var f = M.aE('span', this.panelUID + '_' + fid + sFN + '_downloadBtn', 'rbutton_off' + (v != null && v != '' ? '' : ' hidden'));
             f.innerHTML = 'G';
-            f.setAttribute('onclick', field.deleteFn);
+            f.setAttribute('onclick', field.downloadFn);
             c.appendChild(f);
         }
         // Hidden file input

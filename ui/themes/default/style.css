@@ -1085,7 +1085,9 @@ table.simplegrid td.flexlabel {
     padding: 0.7em 0.5em 0.7em 0.5em;
     white-space: nowrap;
 }
-
+table.simplegrid td.image img { 
+    display: block;
+}
 div.simplebuttons {
     margin-bottom: 1rem;
 }

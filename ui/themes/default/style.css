@@ -1017,6 +1017,7 @@ table.form tr.textfield > td.label > label {
     white-space: nowrap;
     text-overflow: ellipsis;
 }
+table.form tr.textfield.textarea > td.label > label,
 table.form tr.textfield.htmlarea > td.label > label {
     white-space: wrap;
     line-height: 1.4em;

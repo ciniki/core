@@ -2728,6 +2728,9 @@ M.panel.prototype.createSectionGrid = function(s) {
             td.colSpan = sc.compact_split_at;
         } else {
             td.colSpan = num_cols;
+            if( sc.seqDrop != null ) {
+                td.colSpan++;
+            }
         }
         tr.appendChild(td);
         // Add blank for edit
@@ -2771,6 +2774,9 @@ M.panel.prototype.createSectionGrid = function(s) {
             td.colSpan = sc.compact_split_at;
         } else {
             td.colSpan = num_cols;
+            if( sc.seqDrop != null ) {
+                td.colSpan++;
+            }
         }
         tr.appendChild(td);
         // Add blank for edit

@@ -271,11 +271,12 @@ M.panel.prototype.refreshHTMLEditor = function() {
             tinymce.init({
                 license_key: 'gpl',
                 menubar: false,
-                plugins: ['link', 'code', 'lists', 'advlist'],
+                plugins: ['link', 'code', 'lists', 'advlist', 'table'],
                 statusbar: true,
                 paste_data_images: false,
                 selector: this.tinymce[i].selector,
                 toolbar: this.tinymce[i].toolbar,
+                table_default_attributes: { class: 'user-table' },
                 branding: false,
                 elementpath: false,
                 resize: 'both',
@@ -4376,7 +4377,6 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
         if( field.type == 'htmlarea' ) {
             var tinymce = {
                 'selector':'#' + this.panelUID + '_' + i + sFN,
-//                'toolbar':'bold italic underline strikethrough | forecolor | bullist numlist outdent indent',
                 'toolbar': [
                     { name: 'formatting', items: [ 'bold', 'italic', 'underline', 'strikethrough' ] },
                     { name: 'fonts', items: [ 'forecolor'] },
@@ -4392,7 +4392,7 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
                     { name: 'fonts', items: [ 'forecolor'] },
                     { name: 'alignment', items: [ 'alignleft', 'aligncenter', 'alignright', 'alignjustify' ] },
                     { name: 'indentation', items: [ 'bullist', 'numlist', 'outdent', 'indent' ] },
-                    { name: 'other', items: [ 'link', 'code'] }
+                    { name: 'other', items: ['table', 'link', 'code'] }
                     ];
             }
             if( field.tinymce != null && field.tinymce == 'basic' ) {

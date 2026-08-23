@@ -1056,6 +1056,16 @@ table.form tr.file input {
     margin-right: 0.25em;
 }
 
+table.form table.simplegrid {
+    border-collapse: collapse;
+}
+table.form table.simplegrid td {
+    padding: 0.5rem 0.5rem;
+}
+table.form table.simplegrid td.faicons {
+    padding: 0.5rem 0.75rem;
+}
+
 table.simplegrid td.label,
 table.simplelist td.label {
     text-align: right;

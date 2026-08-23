@@ -4056,6 +4056,39 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
         var f = M.aE('span', this.panelUID + '_' + i + sFN, field.type, v);
         c.appendChild(f);
     }
+    else if( field.type == 'list' ) {
+        var v = this.fieldValue(s, i, field, mN);
+        var t = M.aE('table', this.panelUID + '_' + i + sFN, 'list simplegrid border', '');
+        if( typeof v == 'object' ) {
+            var tbody = M.aE('tbody');
+            for(var j in v) {
+                var tr = M.aE('tr');
+                for(var k in field.dataMaps) {
+                    var cell=M.aE('td',null,'',v[j][field.dataMaps[k]]);
+                    tr.appendChild(cell);
+                }
+                if( field.deleteFn != null ) {
+                    var cell = M.aE('td',null,'alignright faicons clickable','<span class="faicon">&#xf1f8;</span>');
+                    cell.setAttribute('onclick', field.deleteFn(j,v[j]));
+                    tr.appendChild(cell);
+                }
+                tbody.appendChild(tr);
+            }
+            if( field.addFn != null ) {
+                var tr = M.aE('tr');
+                var cell = M.aE('td',null,'aligncenter clickable',field.addTxt != '' ? field.addTxt : 'Add');
+                cell.setAttribute('onclick', field.addFn());
+                cell.colSpan = field.dataMaps.length;
+                if( field.deleteFn != null ) {
+                    cell.colSpan++;
+                }
+                tr.appendChild(cell);
+                tbody.appendChild(tr);
+            } 
+            t.appendChild(tbody);
+        }
+        c.appendChild(t);
+    }
     else if( field.type == 'datetime' ) {
         var v = this.fieldValue(s, i, field, mN);
         var v1 = '';

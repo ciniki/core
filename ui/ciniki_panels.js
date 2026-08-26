@@ -4059,8 +4059,8 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
     else if( field.type == 'list' ) {
         var v = this.fieldValue(s, i, field, mN);
         var t = M.aE('table', this.panelUID + '_' + i + sFN, 'list simplegrid border', '');
+        var tbody = M.aE('tbody');
         if( typeof v == 'object' ) {
-            var tbody = M.aE('tbody');
             for(var j in v) {
                 var tr = M.aE('tr');
                 for(var k in field.dataMaps) {
@@ -4068,25 +4068,33 @@ M.panel.prototype.createFormField = function(s, i, field, fid, mN) {
                     tr.appendChild(cell);
                 }
                 if( field.deleteFn != null ) {
-                    var cell = M.aE('td',null,'alignright faicons clickable','<span class="faicon">&#xf1f8;</span>');
+                    var cell = M.aE('td',null,'alignright buttonicons clickable','<span class="faicon">&#xf1f8;</span>');
                     cell.setAttribute('onclick', field.deleteFn(j,v[j]));
                     tr.appendChild(cell);
                 }
                 tbody.appendChild(tr);
             }
-            if( field.addFn != null ) {
-                var tr = M.aE('tr');
-                var cell = M.aE('td',null,'aligncenter clickable',field.addTxt != '' ? field.addTxt : 'Add');
-                cell.setAttribute('onclick', field.addFn());
-                cell.colSpan = field.dataMaps.length;
-                if( field.deleteFn != null ) {
-                    cell.colSpan++;
-                }
-                tr.appendChild(cell);
-                tbody.appendChild(tr);
-            } 
-            t.appendChild(tbody);
         }
+        // Add the Add button at bottom
+        if( field.addFn != null ) {
+            var tr = M.aE('tr');
+//            var cell = M.aE('td',null,'aligncenter clickable',field.addTxt != '' ? field.addTxt : 'Add');
+            var cell = M.aE('td',null,'addlink clickable',field.addTxt != '' ? field.addTxt : 'Add');
+            cell.setAttribute('onclick', field.addFn());
+            cell.colSpan = field.dataMaps.length;
+            if( field.deleteFn != null ) {
+                cell.colSpan++;
+            }
+            if( cell.colSpan > 1 ) {
+                cell.colSpan--;
+            }
+            tr.appendChild(cell);
+            var cell = M.aE('td',null,'alignright buttonicons clickable','<span class="faicon">&#xf067;</span>');
+            cell.setAttribute('onclick', field.addFn());
+            tr.appendChild(cell);
+            tbody.appendChild(tr);
+        } 
+        t.appendChild(tbody);
         c.appendChild(t);
     }
     else if( field.type == 'datetime' ) {

@@ -28,7 +28,11 @@ function ciniki_core_excelGenerate(&$ciniki, $tnid, $args) {
             $spreadsheet = $excel->createSheet();
         }
         if( isset($sheet['label']) && $sheet['label'] != '' ) {
-            $spreadsheet->setTitle($sheet['label']);
+            if( strlen($sheet['label']) > 31 ) {
+                $spreadsheet->setTitle(substr($sheet['label'], 0, 31));
+            } else {
+                $spreadsheet->setTitle($sheet['label']);
+            }
         }
 
         //

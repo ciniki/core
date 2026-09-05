@@ -37,7 +37,6 @@ function ciniki_core_dbConnect(&$ciniki, $module) {
     // Check if database connection is already open
     //
     if( isset($ciniki['databases'][$database_name]['connection']) && is_object($ciniki['databases'][$database_name]['connection']) ) {
-    //  error_log('dbConnect: ' . $module . ' - cached');
         return array('stat'=>'ok', 'dh'=>$ciniki['databases'][$database_name]['connection']);
     }
 

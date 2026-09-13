@@ -225,36 +225,82 @@ table.simplebuttons > tbody > tr > td.button.delete {
     background: #550000;
     border-color: #330000;
 }
-table.datepicker tr.statusred,
-table.simplegrid tr.statusred {
-    background: #550000;
-}
-table.datepicker tr.statusorange,
-table.simplegrid tr.statusorange {
-    background: #924b01;
-}
 table.datepicker tr.statusgreen,
-table.simplegrid tr.statusgreen {
+table.simplegrid tr.statusgreen,
+table.simplegrid td.statusgreen {
     background: #016d01;
 }
-table.datepicker tr.statusyellow,
+table.simplegrid tr.statusorange,
+table.simplegrid td.statusorange {
+    background: #924b01;
+}
 table.simplegrid tr.statusyellow,
+table.simplegrid td.statusyellow,
 table.list tr.highlight,
 table.simplegrid tr.highlight,
 .highlight {
-    background: #beb804;
     background: #646100;
     color: #fff;
+}
+table.simplegrid tr.statusred,
+table.simplegrid td.statusred {
+    background: #550000;
 }
 table.simplegrid tr.statusgrey,
 table.simplegrid td.statusgrey {
     background: #333;
+}
+table.simplegrid tr.statusblue,
+table.simplegrid td.statusblue {
+    background: #004677;
+}
+table.simplegrid tr.statuspurple,
+table.simplegrid td.statuspurple {
+    background: #2c004f;
+}
+table.simplegrid tr.statusteal,
+table.simplegrid td.statusteal {
+    background: #015347;
+}
+table.simplegrid tr.statusgreenfade,
+table.simplegrid td.statusgreenfade {
+    background: linear-gradient(90deg, #016d01, #000000);
+}
+table.simplegrid tr.statusorangefade,
+table.simplegrid td.statusorangefade {
+    background: linear-gradient(90deg, #924b01, #000000);
+}
+table.simplegrid tr.statusyellowfade,
+table.simplegrid td.statusyellowfade {
+    background: linear-gradient(90deg, #646100, #000000);
+}
+table.simplegrid tr.statusredfade,
+table.simplegrid td.statusredfade {
+    background: #ffdddd;
+    background: linear-gradient(90deg, #550000, #000000);
+}
+table.simplegrid tr.statusgreyfade,
+table.simplegrid td.statusgreyfade {
+    background: linear-gradient(90deg, #333, #000000);
+}
+table.simplegrid tr.statusbluefade,
+table.simplegrid td.statusbluefade {
+    background: linear-gradient(90deg, #004677, #000000);
+}
+table.simplegrid tr.statuspurplefade,
+table.simplegrid td.statuspurplefade {
+    background: linear-gradient(90deg, #2c004f, #000000);
+}
+table.simplegrid tr.statustealfade,
+table.simplegrid td.statustealfade {
+    background: linear-gradient(90deg, #015347, #000000);
 }
 
 table.list > tbody > tr.statusyellow > td.multiline span.subtext,
 table.list > tbody > tr.statusyellow > td.multiline span.subsubtext {
     color: #333;
 }
+table.form.select td.input select,
 table.form td.input select,
 table td.input > select {
     background: #000; 

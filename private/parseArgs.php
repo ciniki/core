@@ -73,7 +73,9 @@ function ciniki_core_parseArgs(&$ciniki, $tnid, $raw_args, $arg_info) {
                     }
                 }
             } elseif( isset($options['type']) && $options['type'] == 'list' ) {
-                if( isset($options['delimiter']) && $options['delimiter'] != '' ) {
+                if( $raw_args[$arg] == '' ) {
+                    $list = [];
+                } elseif( isset($options['delimiter']) && $options['delimiter'] != '' ) {
                     $list = explode($options['delimiter'], $raw_args[$arg]);
                 } else {
                     $list = explode(',', $raw_args[$arg]);

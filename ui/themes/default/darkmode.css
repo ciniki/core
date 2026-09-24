@@ -232,7 +232,7 @@ table.simplegrid td.statusgreen {
 }
 table.simplegrid tr.statusorange,
 table.simplegrid td.statusorange {
-    background: #924b01;
+    background: #7a3f00;
 }
 table.simplegrid tr.statusyellow,
 table.simplegrid td.statusyellow,
@@ -268,7 +268,7 @@ table.simplegrid td.statusgreenfade {
 }
 table.simplegrid tr.statusorangefade,
 table.simplegrid td.statusorangefade {
-    background: linear-gradient(90deg, #924b01, #000000);
+    background: linear-gradient(90deg, #7a3f00, #000000);
 }
 table.simplegrid tr.statusyellowfade,
 table.simplegrid td.statusyellowfade {

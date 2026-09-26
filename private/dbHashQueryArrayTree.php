@@ -389,6 +389,8 @@ function ciniki_core_dbHashQueryArrayTree(&$ciniki, $strsql, $module, $tree) {
     mysqli_free_result($result);
     $end_time = microtime(true);
 
+    $rsp['__duration'] = round($end_time-$start_time, 2);
+
     if( isset($ciniki['config']['ciniki.core']['database.log.querytimes'])
         && $ciniki['config']['ciniki.core']['database.log.querytimes']
         ) {

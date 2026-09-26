@@ -2685,6 +2685,9 @@ M.panel.prototype.createSectionGrid = function(s) {
                 if( sc.seqDrop != null ) {
                     td.colSpan++;
                 }
+                if( sc.selectable != null && sc.selectable == 'yes' ) {
+                    td.colSpan++;
+                }
                 if( sc.deleteFn != null ) {
                     td.colSpan++;
                 }

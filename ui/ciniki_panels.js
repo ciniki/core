@@ -286,7 +286,11 @@ M.panel.prototype.refreshHTMLEditor = function() {
                 remove_script_host: false,
                 height: (this.tinymce[i].height != null ? this.tinymce[i].height : ''),
                 skin: (darkmode == 'yes' ? 'oxide-dark' : 'oxide'),
-                content_css: (darkmode == 'yes' ? 'dark' : 'default')
+                content_css: (darkmode == 'yes' ? 'dark' : 'default'),
+                link_class_list: [
+                    {'title':'Link', 'value':'link'},
+                    {'title':'Button', 'value':'button'},
+                    ]
                 });
         }
     }

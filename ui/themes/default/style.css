@@ -939,12 +939,14 @@ table.list > tfoot > tr > td.buttons {
     padding-right: 0.0em;
     padding-left: 0.0em;
 }
+table.list > thead > tr > th.buttonicons,
 table.list > tbody > tr > td.buttonicons {
     text-align: center;
     vertical-align: middle;
     line-height: 1.0em;
     width: 1.5em;
     min-width: 1.5em;
+    cursor: pointer;
 }
 table.list > tbody > tr > td.buttonicons.dragbutton {
     width: 0.5rem;

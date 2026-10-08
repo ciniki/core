@@ -2432,6 +2432,10 @@ M.panel.prototype.createSectionGridHeaders = function(s, sc, data) {
     // Check if selectable 
     if( (sc.selectable != null && sc.selectable == 'yes') || sc.selectFn != null ) {
         var c = M.aE('th',null,'buttonicons noprint', '');
+        if( data.length > 0 ) {
+            c.innerHTML = '<span class="faicon">&#xf096;</span>';
+            c.setAttribute('onclick', 'event.stopPropagation();' + this.panelRef + '.allSelect(event,this,\'' + s + '\');');
+        }
         tr.appendChild(c);
     }
     for(var i=0;i<sc.num_cols;i++) {
@@ -3169,6 +3173,26 @@ M.panel.prototype.createSectionGridRow = function(s, i, sc, num_cols, rowdata, t
     }
 
     return tr;
+}
+M.panel.prototype.allSelect = function(e, td, s) {
+    let tbody = td.parentNode.parentNode.nextSibling;
+    if( td.parentNode.classList.contains('highlight') ) {
+        td.parentNode.classList.remove('highlight');
+        td.innerHTML = '<span class="faicon">&#xf096;</span>';
+        for(let i in tbody.children) {
+            if( tbody.children[i].children != null && tbody.children[i].classList.contains('highlight') ) {
+                this.rowSelect(null,tbody.children[i].children[0],s,i);
+            }
+        }
+    } else {
+        td.innerHTML = '<span class="faicon">&#xf046;</span>';
+        td.parentNode.classList.add('highlight');
+        for(let i in tbody.children) {
+            if( tbody.children[i].children != null && !tbody.children[i].classList.contains('highlight') ) {
+                this.rowSelect(null,tbody.children[i].children[0],s,i);
+            }
+        }
+    }
 }
 M.panel.prototype.rowSelect = function(e, td, s, i) {
     if( td.parentNode.classList.contains('highlight') ) {

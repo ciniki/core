@@ -3181,7 +3181,7 @@ M.panel.prototype.allSelect = function(e, td, s) {
         td.innerHTML = '<span class="faicon">&#xf096;</span>';
         for(let i in tbody.children) {
             if( tbody.children[i].children != null && tbody.children[i].classList.contains('highlight') ) {
-                this.rowSelect(null,tbody.children[i].children[0],s,i);
+                tbody.children[i].children[0].click();
             }
         }
     } else {
@@ -3189,7 +3189,7 @@ M.panel.prototype.allSelect = function(e, td, s) {
         td.parentNode.classList.add('highlight');
         for(let i in tbody.children) {
             if( tbody.children[i].children != null && !tbody.children[i].classList.contains('highlight') ) {
-                this.rowSelect(null,tbody.children[i].children[0],s,i);
+                tbody.children[i].children[0].click();
             }
         }
     }

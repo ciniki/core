@@ -18,11 +18,11 @@ ini_set('display_errors', 'off');
 // loadMethod is required by all function to ensure the functions are dynamically loaded
 require_once($ciniki_root . '/ciniki-mods/core/private/loadMethod.php');
 require_once($ciniki_root . '/ciniki-mods/core/private/init.php');
-require_once($ciniki_root . '/ciniki-mods/core/private/checkSecureConnection.php');
-require_once($ciniki_root . '/ciniki-mods/core/private/callPublicMethod.php');
-require_once($ciniki_root . '/ciniki-mods/core/private/printHashToJSON.php');
-require_once($ciniki_root . '/ciniki-mods/core/private/printResponse.php');
-require_once($ciniki_root . '/ciniki-mods/core/private/syncQueueProcess.php');
+//require_once($ciniki_root . '/ciniki-mods/core/private/checkSecureConnection.php');
+//require_once($ciniki_root . '/ciniki-mods/core/private/callPublicMethod.php');
+//require_once($ciniki_root . '/ciniki-mods/core/private/printHashToJSON.php');
+//require_once($ciniki_root . '/ciniki-mods/core/private/printResponse.php');
+//require_once($ciniki_root . '/ciniki-mods/core/private/syncQueueProcess.php');
 
 $rc = ciniki_core_init($ciniki_root, 'rest');
 if( $rc['stat'] != 'ok' ) {
@@ -36,9 +36,14 @@ if( $rc['stat'] != 'ok' ) {
 //
 $ciniki = $rc['ciniki'];
 
+ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'printHashToJSON');
+ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'printResponse');
+ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncQueueProcess');
+
 //
 // Ensure the connection is over SSL
 //
+ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'checkSecureConnection');
 $rc = ciniki_core_checkSecureConnection($ciniki);
 if( $rc['stat'] != 'ok' ) {
     ciniki_core_printResponse($ciniki, $rc);
@@ -48,7 +53,8 @@ if( $rc['stat'] != 'ok' ) {
 //
 // Parse arguments
 //
-require_once($ciniki_root . '/ciniki-mods/core/private/parseRestArguments.php');
+//require_once($ciniki_root . '/ciniki-mods/core/private/parseRestArguments.php');
+ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'parseRestArguments');
 $rc = ciniki_core_parseRestArguments($ciniki);
 if( $rc['stat'] != 'ok' ) {
     ciniki_core_printResponse($ciniki, $rc);
@@ -72,6 +78,7 @@ if( isset($ciniki['config']['ciniki.core']['maintenance']) && $ciniki['config'][
 // Once the REST specific stuff is done, pass the control to
 // ciniki.core.callPublicMethod()
 //
+ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'callPublicMethod');
 $rc = ciniki_core_callPublicMethod($ciniki);
 if( isset($ciniki['config']['ciniki.core']['api.log.errors']) 
     && $ciniki['config']['ciniki.core']['api.log.errors'] == 1

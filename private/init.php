@@ -23,9 +23,9 @@ function ciniki_core_init($ciniki_root, $output_format) {
     //
     // Load the function required and used most frequently
     //
-    require_once($ciniki_root . '/ciniki-mods/core/private/syncQueueProcess.php');
-    require_once($ciniki_root . '/ciniki-mods/core/private/checkModuleFlags.php');
-    require_once($ciniki_root . '/ciniki-mods/core/private/checkModuleActive.php');
+//    require_once($ciniki_root . '/ciniki-mods/core/private/syncQueueProcess.php');
+//    require_once($ciniki_root . '/ciniki-mods/core/private/checkModuleFlags.php');
+//    require_once($ciniki_root . '/ciniki-mods/core/private/checkModuleActive.php');
 
     //
     // Initialize the ciniki structure, and setup the return value
@@ -77,6 +77,10 @@ function ciniki_core_init($ciniki_root, $output_format) {
     }
     $ciniki['wngindexer'] = 'no';
     $ciniki['synclogfile'] = '';
+
+    ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'syncQueueProcess');
+    ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'checkModuleFlags');
+    ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'checkModuleActive');
 
     //
     // Initialize Database

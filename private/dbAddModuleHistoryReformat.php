@@ -34,6 +34,13 @@ function ciniki_core_dbAddModuleHistoryReformat(&$ciniki, $module, $history_tabl
 //
 //  $dh = $rc['dh'];
 
+    //
+    // Skip blank additions
+    //
+    if( $action == 1 && $value == '' ) {
+        return array('stat'=>'ok');
+    }
+
     ciniki_core_loadMethod($ciniki, 'ciniki', 'users', 'private', 'timezoneOffset');
     $utc_offset = ciniki_users_timezoneOffset($ciniki);
 

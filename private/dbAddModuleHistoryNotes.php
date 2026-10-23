@@ -34,6 +34,13 @@ function ciniki_core_dbAddModuleHistoryNotes(&$ciniki, $module, $history_table, 
 //
 //  $dh = $rc['dh'];
 
+    //
+    // Skip blank additions
+    //
+    if( $action == 1 && $value == '' ) {
+        return array('stat'=>'ok');
+    }
+
     $strsql = "INSERT INTO " . ciniki_core_dbQuote($ciniki, $history_table) . " "
         . "(uuid, tnid, user_id, session, action, "
         . "table_name, table_key, table_field, new_value, log_date, notes) VALUES ("

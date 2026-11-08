@@ -20,10 +20,11 @@ function ciniki_core_makeKeywords($ciniki, $str, $arr=false, $args=[]) {
         'they', "they're", 'there', 'their', 'this', '-');
 
 
+    $str = iconv('utf-8', 'ASCII//TRANSLIT', $str);
     if( isset($args['allow-dashes']) && $args['allow-dashes'] == 'yes' ) {
-        $str = preg_replace('/[^a-zA-Z0-9\-]/', ' ', $str);
+        $str = preg_replace('/[^a-zA-Z0-9\-]/u', ' ', $str);
     } else {
-        $str = preg_replace('/[^a-zA-Z0-9]/', ' ', $str);
+        $str = preg_replace('/[^a-zA-Z0-9]/u', ' ', $str);
     }
     $str = preg_replace('/\s\s/', ' ', $str);
     $str = strtolower($str);

@@ -44,9 +44,9 @@ table.form.outline tr.textarea > td > textarea.readonly {
     border: 0px;
 }
 
-table.form tr.textfield > td > input.search {
+/*table.form tr.textfield > td > input.search {
     height: 2.0em;
-}
+} */
 
 tr.xhelp-text td p,
 tr.guided-text td p,

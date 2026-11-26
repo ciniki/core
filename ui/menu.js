@@ -70,7 +70,7 @@ function ciniki_core_menu() {
             } else {
                 this.tenants = new M.panel('Tenants', 
                     'ciniki_core_menu', 'tenants',
-                    'mc', 'narrow', 'sectioned', 'ciniki.core.menu.tenants');
+                    'mc', 'medium', 'sectioned', 'ciniki.core.menu.tenants');
                 this.tenants.data = {};
             }
             this.tenants.curCategory = 0;
